@@ -1,0 +1,62 @@
+group 'scge.mcw.edu'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'// https://mvnrepository.com/artifact/org.springframework/spring-core
+    compile fileTree(dir: 'lib', include: '*.jar')
+    compile group: 'org.springframework', name: 'spring-core', version: '5.1.9.RELEASE'
+// https://mvnrepository.com/artifact/org.springframework/spring-context
+    compile group: 'org.springframework', name: 'spring-context', version: '5.1.9.RELEASE'
+// https://mvnrepository.com/artifact/org.springframework/spring-web
+    compile group: 'org.springframework', name: 'spring-web', version: '5.1.9.RELEASE'
+// https://mvnrepository.com/artifact/org.springframework/spring-beans
+    compile group: 'org.springframework', name: 'spring-beans', version: '5.1.9.RELEASE'
+
+// https://mvnrepository.com/artifact/org.springframework/spring-webmvc
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.1.9.RELEASE'
+// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.6.RELEASE'
+// https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.1.6.RELEASE'
+
+// https://mvnrepository.com/artifact/org.apache.tomcat/catalina
+    providedCompile group: 'org.apache.tomcat', name: 'catalina', version: '6.0.26'
+    compile 'com.google.api-client:google-api-client:1.30.2'
+// https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client
+    compile group: 'com.google.oauth-client', name: 'google-oauth-client', version: '1.30.1'
+
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    compile group: 'org.postgresql', name: 'postgresql', version: '9.3-1100-jdbc41'
+
+    // https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '5.1.9.RELEASE'
+// https://mvnrepository.com/artifact/javax.servlet/servlet-api
+    providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+// https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl-api
+    compile group: 'javax.servlet.jsp.jstl', name: 'jstl-api', version: '1.2'
+
+// https://mvnrepository.com/artifact/taglibs/standard
+    compile group: 'taglibs', name: 'standard', version: '1.1.2'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.0.pr1'
+// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.0.pr1'
+
+// https://mvnrepository.com/artifact/jexcelapi/jxl
+    compile group: 'jexcelapi', name: 'jxl', version: '2.4.2'
+
+}
+task update_scgecore(type:Copy){
+    from file("../scge-core/build/libs/scge-core-1.0.jar")
+    into file("lib/")
+
+}
