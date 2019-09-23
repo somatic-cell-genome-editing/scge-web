@@ -38,5 +38,21 @@ import java.util.*;
 
 public class LoginController{
 
+    DataAccessService service=new DataAccessService();
+    private static final Collection<String> SCOPES = Arrays.asList("email", "profile");
+    private static final JsonFactory JSON_FACTORY = new JacksonFactory();
+    private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+    private static final String USERINFO_ENDPOINT
+            //  = "https://www.googleapis.com/plus/v1/people/me/openIdConnect";
+            ="https://oauth2.googleapis.com/tokeninfo";
 
+
+    private GoogleAuthorizationCodeFlow flow;
+    @RequestMapping(value="/home", method= RequestMethod.GET)
+    public String home(HttpServletRequest req, Model model){
+        model.addAttribute("message", req.getParameter("message"));
+        return "home2";
+    }
+
+  
 }
