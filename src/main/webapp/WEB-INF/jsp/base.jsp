@@ -12,7 +12,10 @@
 
 
     <title>SCGE - Dashboard</title>
-
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
@@ -55,7 +58,7 @@
                 </c:choose>
             </p>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="success?destination=base">Dashboard</a></li>
+                <li><a href="/scge/secure/success?destination=base">Dashboard</a></li>
                 <!--li><a href="#">Settings</a></li-->
                 <li><a href="#">Profile</a></li>
                 <li><a href="#">Help</a></li>
@@ -69,15 +72,15 @@
 <c:if test="${destination!='create'}">
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-2 col-md-2 sidebar">
+        <!--div class="col-sm-2 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="success?destination=base">Overview <span class="sr-only">(current)</span></a></li>
-                <c:if test="${isGeneralAdmin}">
+                <!--c:if test="$-{isGeneralAdmin}">
                     <li><a href="unauthorizedUsers">New user requests</a></li>
                     <li><a href="memberProfile">Update member profile</a></li>
-                </c:if>
+                <!--/c:if>
             </ul>
-            <c:if test="${isGroupAdmin}">
+            <!--c:if test="$-{isGroupAdmin}">
             <ul class="nav nav-sidebar">
 
                 <li><a href="#">Create new group</a></li>
@@ -85,7 +88,7 @@
                 <li><a href="#">Delete Group</a></li>
 
             </ul>
-            </c:if>
+            <!--/c:if>
             <!--ul class="nav nav-sidebar">
                 <li><a href="joinGroup">Join the Group</a></li>
                 <li><a href="leaveGroup">Leave the Group</a></li>
@@ -93,27 +96,39 @@
                 <li><a href="members">List members</a></li>
 
             </ul-->
-            <ul class="nav nav-sidebar">
+            <!--ul class="nav nav-sidebar">
                 <li><a href="dataSubmission">Submit data</a></li>
                 <!--li><a href="#">Update data</a></li-->
-            </ul>
-        </div>
+            <!--/ul>
+        </div-->
+        <!--div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"-->
+        <c:choose>
+        <c:when test="${action=='Animal Reporter Models'}">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            </c:when>
+            <c:otherwise>
+                <div class="container">
+            </c:otherwise>
+        </c:choose>
+
             <!--h1 class="page-header">Dashboard</h1-->
 
                 <c:choose>
                     <c:when test="${action!=null}">
-            <h1 class="page-header" style="color:grey">${action}  </h1>
+            <h1 class="page-header" style="color:grey;">${action}  </h1>
                     </c:when>
                     <c:otherwise>
-            <h1 class="page-header" style="color:grey">Dashboard</h1>
-                        <p>Welcome to Somatic Cell Genome Editing</p>
+            <h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success">Submit Data</button></a></span></h1>
+                        <div style="text-align: center; ;height:50px" >
+                        <h4>Welcome to Somatic Cell Genome Editing</h4>
+                        </div>
                     </c:otherwise>
                 </c:choose>
 
-            <c:import url="/${page}.jsp" />
+                <c:import url="/${page}.jsp" />
 
         </div>
+
     </div>
 </div>
 </c:if>
@@ -127,7 +142,8 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script-->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 </body>

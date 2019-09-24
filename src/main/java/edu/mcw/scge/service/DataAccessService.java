@@ -121,7 +121,7 @@ public class DataAccessService {
         }
 
     }
-    public Map<String, List<String>> getGroups(String userName) {
+    public Map<String, List<String>> getGroupsByMemberName(String userName) {
         Map<String, List<String>> groupRoleMap=new HashMap<>();
         try {
             groupRoleMap=   gdao.getGroupsNRoles(userName);
@@ -145,7 +145,20 @@ public class DataAccessService {
         System.out.println("MEMBERS SIZE: "+ members.size());
         return sortedMembersList;
     }
+    public List<String> getSubGroupsByGroupName(String groupName) {
+        if(groupName.contains("Cell")){
+            groupName="Cell & Tissue Platform";
+        }
 
+        List<String> subgroups=new ArrayList<>();
+        try {
+            subgroups=   gdao.getSubGroupsByGroupName(groupName);
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return subgroups;
+    }
 
     public void logToDb(GoogleIdToken.Payload payload){
         String email=payload.getEmail();

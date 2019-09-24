@@ -75,13 +75,13 @@ public class ActionController {
             req.setAttribute("action", "Submit data");
             req.setAttribute("destination", "dataSubmission");
             req.setAttribute("page", "/WEB-INF/jsp/submissions/submission");
-
+            req.setAttribute("groupRoleMap",req.getSession().getAttribute("groupRoleMap"));
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         }else{
             req.setAttribute("message", "Please Login");
             res.sendRedirect("/scge/home?message="+"please login");
         }
-        return "submissions/submission";
+        return null;
     }
     @PostMapping(value="/dataSubmission")
     public String createOrUpdate(HttpServletRequest req,HttpServletResponse res, Model model) throws ServletException, IOException {
@@ -91,6 +91,23 @@ public class ActionController {
             req.setAttribute("destination", "dataSubmission");
             req.setAttribute("page", "/WEB-INF/jsp/submissions/newExperiment");
             req.setAttribute("experimentName", req.getParameter("createExperiment"));
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        }else{
+            req.setAttribute("message", "Please Login");
+            res.sendRedirect("/scge/home?message="+"please login");
+        }
+        return null;
+    }
+
+    @GetMapping(value="/form")
+    public String getForm(HttpServletRequest req,HttpServletResponse res, Model model) throws ServletException, IOException {
+        if(req.getSession().getAttribute("token")!=null) {
+
+            req.setAttribute("action", "Add Experiment Data");
+            req.setAttribute("destination", "submitForm");
+            req.setAttribute("page", "/WEB-INF/jsp/submissions/newExperiment");
+            req.setAttribute(req.getParameter("formType"), "/WEB-INF/jsp/submissions/"+req.getParameter("formType"));
+
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         }else{
             req.setAttribute("message", "Please Login");
@@ -186,7 +203,8 @@ public class ActionController {
             req.setAttribute("action", "Groups");
             req.setAttribute("destination", "groups");
             req.setAttribute("page", "/WEB-INF/jsp/groups");
-          //  req.setAttribute("groups",  service.getAllGroups());
+            req.setAttribute("groups",  service.getSubGroupsByGroupName(req.getParameter("group")));
+            req.setAttribute("groupName",  req.getParameter("group"));
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         }else{
             req.setAttribute("message", "Please Login");
