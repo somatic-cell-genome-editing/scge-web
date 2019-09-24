@@ -44,15 +44,37 @@ public class DataAccessService {
         return false;
     }
     public boolean existsInSCGE(GoogleIdToken.Payload payload) throws Exception {
-        String email=payload.getEmail();
-        List<Person> records=pdao.getPersonByEmail(email);
-        System.out.println(email + "\t records: " + records.size());
-       if(records.size()>0){
-            return true;
+       List<Person> p=pdao.getPersonByGoogleId(payload.getSubject());
+        if(p==null || p.size()==0){
+
+           int id= updateGoogleId(payload);
+            if(id!=0){
+                return true;
+            }
+        }else{
+            if(p.size()>0)
+           return true;
         }
+
 
         return false;
     }
+    public int updateGoogleId(GoogleIdToken.Payload payload) throws Exception {
+        String googleSub=payload.getSubject();
+        String familyName= (String) payload.get("family_name");
+        List<Person> personList= pdao.getPersonByGoogleId(googleSub);
+        if(personList!=null && personList.size()>0){
+            return personList.get(0).getId();
+        }else{
+         List<Person> pList= pdao.getPersonByLastName(familyName);
+            if(pList!=null && pList.size()>0){
+                pdao.updateGoogleId(googleSub,pList.get(0).getId() );
+             return    pList.get(0).getId();
+            }
+        }
+        return 0;
+    }
+
 /*    public boolean isGeneralAdmin(GoogleIdToken.Payload payload) throws Exception {
         String email=payload.getEmail();
         List<Person> records=pdao.getPersonByEmail(email);
@@ -87,7 +109,7 @@ public class DataAccessService {
     public String getUserStatus(GoogleIdToken.Payload payload) throws Exception {
           String status=new String();
        //   status=pdao.getPersonStatus(payload.getSubject());
-        status=pdao.getPersonStatus(payload.get("email").toString());
+        status=pdao.getPersonStatus(payload.getSubject());
 
         return status;
 
@@ -101,6 +123,13 @@ public class DataAccessService {
     public List<Person> getPersonById(String scgeMemberId) throws Exception {
         return   pdao.getPersonById(Integer.parseInt(scgeMemberId));
     }
+    public int getPersonByGoogleId(GoogleIdToken.Payload paylaod) throws Exception {
+        List<Person> pList=pdao.getPersonByGoogleId(paylaod.getSubject());
+        if(pList!=null && pList.size()>0){
+            return pList.get(0).getId();
+        }
+        return  0 ;
+    }
     public void updateUserStatus(HttpServletRequest req) throws Exception {
            Person person= new Person.Builder()
                 .name(req.getParameter("name"))
@@ -111,7 +140,7 @@ public class DataAccessService {
                 .build();
         pdao.updateStatus(person);
         List<Person> p=pdao.getPerson(person);
-        System.out.println(person.getName()+"\t"+ person.getEmail()+"\tPERSON SIZE: "+ p.size());
+      //  System.out.println(person.getName()+"\t"+ person.getEmail()+"\tPERSON SIZE: "+ p.size());
         if(p!=null && p.size()>0){
             Person person1=p.get(0);
             int personId=  person1.getId();
@@ -128,7 +157,17 @@ public class DataAccessService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("groupROLEMAP"+groupRoleMap.size());
+      //  System.out.println("groupROLEMAP"+groupRoleMap.size());
+        return groupRoleMap;
+    }
+    public Map<String, List<String>> getGroupsByMemberId(int id) {
+        Map<String, List<String>> groupRoleMap=new HashMap<>();
+        try {
+            groupRoleMap=   gdao.getGroupsNRolesByMemberId(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    //    System.out.println("groupROLEMAP"+groupRoleMap.size());
         return groupRoleMap;
     }
     public List<Person> getGroupMembers(String groupName) throws Exception {
@@ -142,7 +181,7 @@ public class DataAccessService {
                 sortedMembersList.add(p);
             }
         }
-        System.out.println("MEMBERS SIZE: "+ members.size());
+      //  System.out.println("MEMBERS SIZE: "+ members.size());
         return sortedMembersList;
     }
     public List<String> getSubGroupsByGroupName(String groupName) {
@@ -159,7 +198,24 @@ public class DataAccessService {
 
         return subgroups;
     }
+    public  Map<String, List<String>> getGroupsMapByGroupName(String groupName) {
+        if(groupName.contains("Cell")){
+            groupName="Cell & Tissue Platform";
+        }
+        Map<String, List<String>> map= new HashMap<>();
+        List<String> subgroups=new ArrayList<>();
+        try {
+            subgroups=   gdao.getSubGroupsByGroupName(groupName);
+            for(String sg:subgroups){
+                List<String> ssgroups=  gdao.getSubGroupsByGroupName(sg);
+                map.put(sg, ssgroups);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        return map;
+    }
     public void logToDb(GoogleIdToken.Payload payload){
         String email=payload.getEmail();
         String name = (String) payload.get("name");

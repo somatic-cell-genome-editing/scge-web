@@ -50,11 +50,12 @@
 
 <div  class="form-inline container">
 <div class="panel panel-default" >
-    <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">Group Associations</div>
+    <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">My Group Associations</div>
     <div class="panel panel-body">
         <table class="table">
             <tr><th>Group</th><th>Role</th></tr>
             <c:forEach items="${groupRoleMap}" var="g">
+                <c:if test="${g.key!='Dissemination and Coordinating Center'}">
                 <tr><td ><a href="members?group=${g.key}">${g.key}</a></td>
                     <td>
                         <c:set var="first" value="true"/>
@@ -71,12 +72,32 @@
 
                     </c:forEach>
                    </td></tr>
+                </c:if>
             </c:forEach>
 
         </table>
     </div>
 </div>
-<div class="panel panel-default" >
+    <div class="panel panel-default" >
+        <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">SCGE Groups</div>
+        <div class="panel panel-body">
+
+
+                <c:forEach items="${groupsMap}" var="m">
+                    <p><a href="members?group=${m.key}" style="font-weight:bold">${m.key}</a></p>
+                    <ul>
+                        <c:forEach items="${m.value}" var="sg">
+                            <li><a href="members?group=${sg}">${sg}</a></li>
+                        </c:forEach>
+                    </ul>
+
+                </c:forEach>
+
+
+
+        </div>
+    </div>
+<!--div class="panel panel-default" >
     <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">SCGE Groups</div>
     <div class="panel panel-body">
         <table class="table">
@@ -88,7 +109,7 @@
 
         </table>
     </div>
-</div>
+</div-->
 </div>
 
 

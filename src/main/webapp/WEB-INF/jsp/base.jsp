@@ -45,7 +45,7 @@
                 <c:choose>
                     <c:when test="${not empty token}">
                         <!-- using pageContext requires jsp-api artifact in pom.xml -->
-                        <a href="logout" title="Sign out">
+                        <a href="/scge/secure/logout" title="Sign out">
                             <c:if test="${not empty userImageUrl}">
                                 <img class="img-circle" src="${userImageUrl}" width="24">
                             </c:if>
@@ -53,7 +53,7 @@
                         </a>
                     </c:when>
                     <c:when test="${isAuthConfigured}">
-                        <a href="login">Login</a>
+                        <a href="/scge/secure/login">Login</a>
                     </c:when>
                 </c:choose>
             </p>
