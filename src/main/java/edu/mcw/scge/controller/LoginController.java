@@ -16,6 +16,7 @@ import edu.mcw.scge.service.DataAccessService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -70,7 +71,6 @@ public class LoginController{
                 JSON_FACTORY,
                 ClientService.CLIENT_ID,
                 ClientService.CLIENT_SECRET,
-
                 SCOPES).build();
         String url=flow.newAuthorizationUrl()
                 .setRedirectUri(ClientService.REDIRECT_URI)
@@ -169,10 +169,12 @@ public class LoginController{
             System.out.println(message);
             res.sendRedirect("/scge/home?message=" + message);*/
 
-                res.sendRedirect("secure/create");
+          res.sendRedirect("secure/create");
             }
         }
     }
+
+
 
     @RequestMapping(value="/secure/success")
     public String onLoginSuccess(HttpServletRequest req, Model model){

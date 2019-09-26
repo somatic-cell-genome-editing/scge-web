@@ -33,15 +33,15 @@
             <textarea name="address" id="address" class="form-control"></textarea>
         </div>
         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" name="email" id="email" value="${fn:escapeXml(userEmail)}" class="form-control" />
+            <label for="gemail">Email</label>
+            <input type="text" name="gemail" id="gemail" value="${fn:escapeXml(userEmail)}" class="form-control" />
         </div>
         <div class="form-group">
             <label for="phone">Phone</label>
             <input type="text" name="phone" id="phone" value="${fn:escapeXml(phone)}" class="form-control" />
         </div>
 
-        <div class="row form-group">
+        <!--div class="row form-group">
 
               <div class="col-md-6"><h4>Role</h4>
 
@@ -67,10 +67,10 @@
                 </div>
 
             </div>
-        </div>
+        </div-->
         <div class="form-group">
-            <label for="pi">If not principal investigator, then who is your PI</label>
-            <input type="text" name="pi" id="pi" value="${fn:escapeXml(pi)}" class="form-control" />
+            <label for="email">Organization email</label>
+            <input type="text" name="email" id="email" value="" class="form-control" />
         </div>
         <!--div class="form-group">
             <span>Add More Groups <button class="glyphicon glyphicon-plus"></button> </span>

@@ -24,6 +24,8 @@ import java.util.List;
 @RequestMapping(value="/secure")
 public class ActionController {
     DataAccessService service=new DataAccessService();
+
+
     @GetMapping(value="/create")
     public void createAddForm(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         if(req.getSession().getAttribute("token")!=null) {
@@ -47,14 +49,13 @@ public class ActionController {
                 .googleSub((String)req.getSession().getAttribute("userId"))
                 .address(req.getParameter("address"))
                 .phone(req.getParameter("phone"))
-                .pi(req.getParameter("pi"))
                 .status("processing")
                 .modifiedBy("")
                 .modifiedById("")
                 .build();
 
       try{
-          int id=service.insert(person);
+          service.insert(person);
           HttpSession session=req.getSession(false);
           session.invalidate();
           String message="Thank you for registering with SCGE. Your request is under processing. You will receive a confirmation email shortly.";
@@ -216,8 +217,7 @@ public class ActionController {
     @GetMapping(value="/members")
     public String getAllMembers(HttpServletRequest req,HttpServletResponse res, Model model) throws Exception {
         if(req.getSession().getAttribute("token")!=null) {
-
-            req.setAttribute("action", "Members");
+             req.setAttribute("action", "Members");
             req.setAttribute("destination", "members");
             req.setAttribute("page", "/WEB-INF/jsp/members");
              req.setAttribute("groupMembers",  service.getGroupMembers(req.getParameter("group")));

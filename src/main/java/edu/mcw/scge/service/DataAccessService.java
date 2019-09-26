@@ -27,13 +27,13 @@ public class DataAccessService {
         tdao.insert(name, symbol);
         return getData(name, symbol);
     }
-    public int insert(Person p) throws Exception{
+    public void insert(Person p) throws Exception{
         if(!existsPerson(p)){
             int key=pdao.generateNewPersonKey();
             p.setId(key);
             pdao.insert(p);
         }
-         return pdao.getPerson(p).get(0).getId();
+     //    return pdao.getPerson(p).get(0).getId();
 
     }
     public boolean existsPerson(Person p) throws Exception{
@@ -171,6 +171,9 @@ public class DataAccessService {
         return groupRoleMap;
     }
     public List<Person> getGroupMembers(String groupName) throws Exception {
+        if(groupName.contains("Cell")){
+            groupName="Cell & Tissue Platform";
+        }
       List<Person> members= gdao.getGroupMembers(groupName);
         Set<Integer> personIds=new HashSet<>();
         List<Person> sortedMembersList=new ArrayList<>();
