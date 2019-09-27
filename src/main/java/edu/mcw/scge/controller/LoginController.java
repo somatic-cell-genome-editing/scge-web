@@ -131,6 +131,8 @@ public class LoginController{
             HttpSession session = req.getSession(true);
 
             session.setAttribute("userName", name);
+            session.setAttribute("firstName", givenName);
+            session.setAttribute("lastName", familyName);
             session.setAttribute("userEmail", email);
             session.setAttribute("userId", sub);
             session.setAttribute("userImageUrl", payload.get("picture"));
@@ -145,32 +147,19 @@ public class LoginController{
                     model.addAttribute("givenName", givenName);
                     model.addAttribute("familyName", familyName);
                     model.addAttribute("userEmail", email);
-                    //  boolean isGroupAdmin=service.isGroupAdmin(payload);
-                    //   boolean isGeneralAdmin=service.isGeneralAdmin(payload);
-                    boolean isGroupAdmin=false;
-                    boolean isGeneralAdmin=false;
-                  //  System.out.println(isGroupAdmin +"\t"+ isGeneralAdmin);
-                    if(isGroupAdmin || isGeneralAdmin){
-                        session.setAttribute("isGeneralAdmin", "true");
-                        res.sendRedirect("secure/success?destination=base&isGeneralAdmin="+isGeneralAdmin+"&isGroupAdmin="+isGroupAdmin);
+                    model.addAttribute("status", userStatus);
+                    res.sendRedirect((String) req.getSession().getAttribute("destination") + "?status=" + userStatus + "&message=" + message+"&destination=base");
 
-                    }else {
-                        model.addAttribute("status", userStatus);
-                        res.sendRedirect((String) req.getSession().getAttribute("destination") + "?status=" + userStatus + "&message=" + message+"&destination=base");
-                    }
                 }else{
                     message = name+" Your request is under processing. You will receive a confirmation email shortly.";
                     res.sendRedirect("/scge/home"+ "?status=" + userStatus + "&message=" + message);
                 }
 
             }else {
-     /*       service.logToDb(payload);
-            String message = ", not authorized to access SCGE secure content.Please contact admin.";
-            System.out.println(message);
-            res.sendRedirect("/scge/home?message=" + message);*/
-
-          res.sendRedirect("secure/create");
+                 res.sendRedirect("secure/create");
             }
+        }else{
+            res.sendRedirect("scge/home");
         }
     }
 

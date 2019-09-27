@@ -27,17 +27,17 @@ public class DataAccessService {
         tdao.insert(name, symbol);
         return getData(name, symbol);
     }
-    public void insert(Person p) throws Exception{
-        if(!existsPerson(p)){
+    public void insertOrUpdate(Person p) throws Exception{
+
             int key=pdao.generateNewPersonKey();
             p.setId(key);
             pdao.insert(p);
-        }
+
      //    return pdao.getPerson(p).get(0).getId();
 
     }
     public boolean existsPerson(Person p) throws Exception{
-        List<Person> persons=pdao.getPerson(p);
+        List<Person> persons=pdao.getPersonByEmail(p.getEmail());
         if(persons.size()>0){
             return true;
         }
@@ -51,6 +51,7 @@ public class DataAccessService {
             if(id!=0){
                 return true;
             }
+
         }else{
             if(p.size()>0)
            return true;
@@ -61,17 +62,18 @@ public class DataAccessService {
     }
     public int updateGoogleId(GoogleIdToken.Payload payload) throws Exception {
         String googleSub=payload.getSubject();
-        String familyName= (String) payload.get("family_name");
-        List<Person> personList= pdao.getPersonByGoogleId(googleSub);
-        if(personList!=null && personList.size()>0){
-            return personList.get(0).getId();
-        }else{
-         List<Person> pList= pdao.getPersonByLastName(familyName);
-            if(pList!=null && pList.size()>0){
+           List<Person>  pList=pdao.getPersonByEmail(payload.getEmail());
+            if(pList!=null && pList.size()==1){
                 pdao.updateGoogleId(googleSub,pList.get(0).getId() );
-             return    pList.get(0).getId();
-            }
-        }
+                return  pList.get(0).getId();
+            }/*else{
+                pList= pdao.getPersonByLastName(familyName);
+                if(pList!=null && pList.size()==1){
+                    pdao.updateGoogleId(googleSub,pList.get(0).getId() );
+                    return  pList.get(0).getId();
+                }
+            }*/
+
         return 0;
     }
 

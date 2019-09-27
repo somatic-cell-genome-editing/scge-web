@@ -45,7 +45,10 @@ public class ActionController {
             Person person= new Person.Builder()
                 .name(req.getParameter("name"))
           //      .institution(req.getParameter("institution"))
+                    .firstName((String) req.getSession().getAttribute("givenName"))
+                    .lastName((String) req.getSession().getAttribute("familyName"))
                 .email((String)req.getSession().getAttribute("userEmail"))
+                .otherId(req.getParameter("workEmail"))
                 .googleSub((String)req.getSession().getAttribute("userId"))
                 .address(req.getParameter("address"))
                 .phone(req.getParameter("phone"))
@@ -55,10 +58,10 @@ public class ActionController {
                 .build();
 
       try{
-          service.insert(person);
+          service.insertOrUpdate(person);
           HttpSession session=req.getSession(false);
           session.invalidate();
-          String message="Thank you for registering with SCGE. Your request is under processing. You will receive a confirmation email shortly.";
+          String message="Thank you for registering with SCGE. You will receive a confirmation email shortly.";
            res.sendRedirect("/scge/home?message="+message);
         }catch (Exception e){
             e.printStackTrace();

@@ -28,13 +28,13 @@
             <label for="institution">Institution</label>
             <input type="text" name="institution" id="institution" value="${fn:escapeXml(institution)}" class="form-control" />
         </div>
-        <div class="form-group">
+        <!--div class="form-group">
             <label for="address">Address</label>
             <textarea name="address" id="address" class="form-control"></textarea>
-        </div>
+        </div-->
         <div class="form-group">
-            <label for="gemail">Email</label>
-            <input type="text" name="gemail" id="gemail" value="${fn:escapeXml(userEmail)}" class="form-control" />
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" value="${fn:escapeXml(userEmail)}" class="form-control" />
         </div>
         <div class="form-group">
             <label for="phone">Phone</label>
@@ -69,8 +69,8 @@
             </div>
         </div-->
         <div class="form-group">
-            <label for="email">Organization email</label>
-            <input type="text" name="email" id="email" value="" class="form-control" />
+            <label for="work-email">Organization email</label>
+            <input type="text" name="workEmail" id="work-email" value="" class="form-control" />
         </div>
         <!--div class="form-group">
             <span>Add More Groups <button class="glyphicon glyphicon-plus"></button> </span>
