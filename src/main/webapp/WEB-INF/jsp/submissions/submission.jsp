@@ -30,10 +30,10 @@
                   <form class="form form-inline">
 
                       <label for="update-experiment">Select Experiment:</label>&nbsp;<select class="form-control"  name="updateExperiment" id="update-experiment">
-                     <option>Expriment1</option>
-                      <option>Expriment4</option>
-                      <option>Expriment2</option>
-                      <option>Expriment7</option>
+                     <option>Experiment1</option>
+                      <option>Experiment4</option>
+                      <option>Experiment2</option>
+                      <option>Experiment7</option>
                       </select>
                       <button type="submit" class="btn btn-success">Update</button>
                   </form>
