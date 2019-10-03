@@ -61,7 +61,7 @@ Goals"/>
         .select-arrow{background-color:#ffffff}
     </style>
     <![endif]-->
-    <link rel='stylesheet' id='fusion-dynamic-css-css'  href='https://scge.mcw.edu/wp-content/uploads/fusion-styles/6e280ebaed3a0953496c51180dff31ea.min.css?ver=2.0.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='fusion-dynamic-css-css'  href='https://scge.mcw.edu/wp-content/uploads/fusion-styles/0ce9e4cb98fff8263ee7a9550ceffecb.min.css?ver=2.0.1' type='text/css' media='all' />
     <link rel='stylesheet' id='sccss_style-css'  href='https://scge.mcw.edu/?sccss=1&#038;ver=5.2.2' type='text/css' media='all' />
     <script type='text/javascript' src='https://scge.mcw.edu/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp'></script>
     <script type='text/javascript' src='https://scge.mcw.edu/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
