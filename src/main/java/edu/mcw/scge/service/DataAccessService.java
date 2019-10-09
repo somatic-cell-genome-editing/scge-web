@@ -7,9 +7,17 @@ import edu.mcw.scge.dao.implementation.GroupDAO;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.dao.implementation.TestDataDao;
 import edu.mcw.scge.datamodel.Person;
+import edu.mcw.scge.datamodel.PersonInfo;
 import edu.mcw.scge.datamodel.TestData;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.*;
 
 /**
@@ -43,7 +51,7 @@ public class DataAccessService {
         }
         return false;
     }
-    public boolean existsInSCGE(GoogleIdToken.Payload payload) throws Exception {
+   public boolean existsInSCGE(GoogleIdToken.Payload payload) throws Exception {
        List<Person> p=pdao.getPersonByGoogleId(payload.getSubject());
         if(p==null || p.size()==0){
 
@@ -59,6 +67,52 @@ public class DataAccessService {
 
 
         return false;
+    }
+ /*   public boolean existsInSCGE(GoogleIdToken.Payload payload) throws Exception {
+        List<Person> p=pdao.getPersonByGoogleId(payload.getSubject());
+        if(p==null || p.size()==0){
+            URI uri = new URI("https://groups.io/api/v1/login?", "email=jthota@mcw.edu&password=testingfb02&api_key=nonce", null);
+            String str = uri.toASCIIString();
+           String jsonObject=restGet(str,null);
+            System.out.println("jsonObject:"+jsonObject);
+
+        }else{
+            if(p.size()>0)
+                return true;
+        }
+
+
+        return false;
+    }*/
+    public static String restGet(String url, String contentType) throws Exception {
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpGet getRequest = new HttpGet(url);
+            if (contentType != null) getRequest.addHeader("accept", contentType);
+
+            HttpResponse response = httpClient.execute(getRequest);
+
+            if (response.getStatusLine().getStatusCode() != 200) {
+                if (response.getStatusLine().getStatusCode() == 404) return "";
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + response.getStatusLine().getStatusCode());
+            }
+
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader((response.getEntity().getContent())));
+
+            String outputLine = "", output = "";
+            while ((outputLine = br.readLine()) != null) {
+                output += outputLine;
+            }
+
+            httpClient.getConnectionManager().shutdown();
+            return output;
+
+        } catch (IOException e) {
+
+            throw e;
+        }
     }
     public int updateGoogleId(GoogleIdToken.Payload payload) throws Exception {
         String googleSub=payload.getSubject();
@@ -172,14 +226,40 @@ public class DataAccessService {
     //    System.out.println("groupROLEMAP"+groupRoleMap.size());
         return groupRoleMap;
     }
+    public Map<String,Map<String, List<String>>> getGroupsByPersonId(int id) {
+       Map<String, Map<String, List<String>>> groupSubgroupRoleMap=new HashMap<>();
+        try {
+            List<PersonInfo> associations=  gdao.getGroupsNRolesByPersonId(id);
+            for(PersonInfo i:associations){
+                Map<String, List<String>> map=groupSubgroupRoleMap.get(i.getGroup());
+                List<String> roles=new ArrayList<>();
+                if(map!=null && map.size()>0){
+
+                    if(map.get(i.getSubgroup())!=null){
+                        roles.addAll(map.get(i.getSubgroup()));
+                     }
+
+                }else map=new HashMap<>();
+                roles.add(i.getRole());
+                map.put(i.getSubgroup(), roles);
+                groupSubgroupRoleMap.put(i.getGroup(), map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //    System.out.println("groupROLEMAP"+groupRoleMap.size());
+        return groupSubgroupRoleMap;
+    }
     public List<Person> getGroupMembers(String groupName) throws Exception {
         if(groupName.contains("Cell")){
             groupName="Cell & Tissue Platform";
         }
       List<Person> members= gdao.getGroupMembers(groupName);
+
         Set<Integer> personIds=new HashSet<>();
         List<Person> sortedMembersList=new ArrayList<>();
         for(Person p:members){
+
             if(!personIds.contains(p.getId())){
                 personIds.add(p.getId());
                 p.setRoles(pdao.getRolesByPersonId(p.getId(), groupName));

@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <div class="panel panel-default" style="width:50%;">
-    <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">${groupName} members</div>
+    <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">${groupName} members (${groupMembersCount})</div>
     <div class="panel panel-body">
         <table class="table">
             <tr><th>Name</th><th>Institution</th><th>Role</th></tr>

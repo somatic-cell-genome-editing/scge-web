@@ -223,7 +223,9 @@ public class ActionController {
              req.setAttribute("action", "Members");
             req.setAttribute("destination", "members");
             req.setAttribute("page", "/WEB-INF/jsp/members");
-             req.setAttribute("groupMembers",  service.getGroupMembers(req.getParameter("group")));
+            List<Person> members=service.getGroupMembers(req.getParameter("group"));
+             req.setAttribute("groupMembers", members );
+            req.setAttribute("groupMembersCount",members.size() );
             req.setAttribute("groupName",  (req.getParameter("group")));
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         }else{

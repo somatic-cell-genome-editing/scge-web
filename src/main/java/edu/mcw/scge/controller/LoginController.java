@@ -58,6 +58,7 @@ public class LoginController{
 
     @RequestMapping(value="/login")
     public String login(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+
         String state= new BigInteger(130, new SecureRandom()).toString(32);
         req.getSession().setAttribute("state",state);
         if(req.getAttribute("destination")!=null){
@@ -97,10 +98,13 @@ public class LoginController{
                 SCOPES
         ).build();
 
-
+        System.out.println("CODE: "+ req.getParameter("code"));
+        System.out.println("STATE: "+ req.getParameter("state"));
         final GoogleTokenResponse tokenResponse = flow.newTokenRequest(req.getParameter("code"))
                 .setRedirectUri(ClientService.REDIRECT_URI).execute();
         req.getSession().setAttribute("token", tokenResponse.toString());
+
+  //      System.out.println("TOKEN RESPONSE:"+tokenResponse);
         /****************************************************************************
          PersonDao pdao=new PersonDao();
          int key=pdao.generateNewPersonKey();
@@ -119,6 +123,7 @@ public class LoginController{
        // System.out.println("Token Response:"+tokenResponse.toString());
        // System.out.println("ID TOKEN:"+idToken);
         GoogleIdToken.Payload payload = idToken.getPayload();
+  //      System.out.println("PAYLOAD:"+ payload.toString());
         String name = (String) payload.get("name");
         String givenName = (String) payload.get("given_name");
         String familyName = (String) payload.get("family_name");
@@ -178,8 +183,11 @@ public class LoginController{
         }
    //     Map<String, List<String>> groupRoleMap=service.getGroupsByMemberName(req.getSession().getAttribute("userName").toString());
         Map<String, List<String>> groupRoleMap=service.getGroupsByMemberId((Integer) req.getSession().getAttribute("personId"));
+        Map<String, Map<String, List<String>>> groupSubgroupRoleMap=service.getGroupsByPersonId((Integer) req.getSession().getAttribute("personId"));
         req.getSession().setAttribute("groupRoleMap", groupRoleMap);
+        req.getSession().setAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
         model.addAttribute("groupRoleMap", groupRoleMap);
+        model.addAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
       //  model.addAttribute("consortiumGroups", service.getSubGroupsByGroupName("consortium group"));
         model.addAttribute("groupsMap", service.getGroupsMapByGroupName("consortium group"));
 

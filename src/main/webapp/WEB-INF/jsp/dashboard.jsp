@@ -13,6 +13,7 @@
         color:grey;
     }
 </style>
+
 <div class="container" style="align-content: center;text-align: center">
     <div class="row">
         <div class="col-md-2" style="text-align: center">
@@ -51,27 +52,64 @@
 <div  class="form-inline container">
 <div class="panel panel-default" >
     <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">My Group Associations</div>
+
     <div class="panel panel-body">
         <table class="table">
             <tr><th>Group</th><th>Role</th></tr>
-            <c:forEach items="${groupRoleMap}" var="g">
-                <c:if test="${g.key!='Dissemination and Coordinating Center'}">
-                <tr><td ><a href="members?group=${g.key}">${g.key}</a></td>
-                    <td>
-                        <c:set var="first" value="true"/>
-                        <c:forEach items="${g.value}" var="r">
-                            <c:choose>
-                                <c:when test="${first=='true'}">
-                                    ${r}
-                                    <c:set var="first" value="false"/>
-                                </c:when>
-                                <c:otherwise>
-                                    ;${r}
-                                </c:otherwise>
-                            </c:choose>
+            <tr><td><a href="members?group=consortium group">Consortium Group</a></td><td>member</td></tr>
+            <c:forEach items="${groupSubgroupRoleMap}" var="sg">
 
+                <c:if test="${sg.key!='working group'}">
+                    <c:forEach items="${sg.value}" var="g1">
+                        <c:if test="${g1.key!='Dissemination and Coordinating Center'}">
+                    <tr><td ><a href="members?group=${g1.key}">${g1.key}</a></td>
+                        <td>
+                            <c:set var="first" value="true"/>
+                            <c:forEach items="${g1.value}" var="r1">
+                                <c:choose>
+                                    <c:when test="${first=='true'}">
+                                        ${r1}
+                                        <c:set var="first" value="false"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        ;${r1}
+                                    </c:otherwise>
+                                </c:choose>
+
+                            </c:forEach>
+                        </td></tr>
+                </c:if>
                     </c:forEach>
-                   </td></tr>
+                </c:if>
+            </c:forEach>
+
+        </table>
+    </div>
+    <div class="panel panel-body">
+        <table class="table">
+            <tr><th>Working Group</th><th>Role</th></tr>
+            <c:forEach items="${groupSubgroupRoleMap}" var="wg">
+                <c:if test="${wg.key=='working group'}">
+                    <c:forEach items="${wg.value}" var="g2">
+                        <c:if test="${g2.key!='Dissemination and Coordinating Center'}">
+                            <tr><td ><a href="members?group=${g2.key}">${g2.key}</a></td>
+                                <td>
+                                    <c:set var="first" value="true"/>
+                                    <c:forEach items="${g2.value}" var="r2">
+                                        <c:choose>
+                                            <c:when test="${first=='true'}">
+                                                ${r2}
+                                                <c:set var="first" value="false"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ;${r2}
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                    </c:forEach>
+                                </td></tr>
+                        </c:if>
+                    </c:forEach>
                 </c:if>
             </c:forEach>
 
