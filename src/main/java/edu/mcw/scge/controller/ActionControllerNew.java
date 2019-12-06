@@ -184,7 +184,6 @@ public class ActionControllerNew {
     }
     @RequestMapping(value="/members")
     public String getAllMembers(HttpServletRequest req,HttpServletResponse res, Model model) throws Exception {
-            System.out.println("SESSION ATTRIBUTES: "+req.getSession().getAttribute("userName"));
             req.setAttribute("action", "Members");
             req.setAttribute("destination", "members");
             req.setAttribute("page", "/WEB-INF/jsp/members");
@@ -220,7 +219,7 @@ public class ActionControllerNew {
             //  req.setAttribute("groups",  service.getAllGroups());
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
-        //   return "unauthorizedUsers";
+
         return null;
     }
 }
