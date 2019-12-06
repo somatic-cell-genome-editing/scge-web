@@ -74,7 +74,7 @@ dependencies {
 }
 task add_properties(type:Copy){
   //  from file("../../Apps/application.properties")
-    from file("/data/properties/application.properties")
+    from file("/home/rgdpub/data/properties/application.properties")
     into file("/src/main/resources/")
 }
 task update_scgecore(type:Copy){
