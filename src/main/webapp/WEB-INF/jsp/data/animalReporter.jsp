@@ -25,9 +25,9 @@
     });
 </script>
 <div class="row">
-    <div class="col-sm-2 col-md-2 sidebar">
+    <div class="col-sm-2 sidebar">
         <ul class="nav nav-sidebar">
-            <li class="active"><a href="success?destination=base" style="font-weight: bold">Filters <span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="" style="font-weight: bold">Filters <span class="sr-only">(current)</span></a></li>
 
         </ul>
 
@@ -63,11 +63,8 @@
 
 
 </div>
-    <div class="col-sm-12 ">
-
-
-
-            <table id="myTable" class="tablesorter">
+    <div class="col-sm-12">
+           <table id="myTable" class="tablesorter">
                 <thead>
                 <tr>
                     <th>Reporter Animal Id</th>
@@ -189,4 +186,3 @@
 
 </div>
  </div>
-

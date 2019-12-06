@@ -14,7 +14,7 @@
       <ul>
           <li>Add new experiment
               <div class="form-group">
-              <form class="form form-inline" method="post">
+              <form class="form form-inline"  action="submit">
               <label for="experiment-group">Select Group: </label>&nbsp;<select class="form-control" id="experiment-group">
                   <c:forEach items="${groupRoleMap}" var="g">
                       <option>${g.key}</option>
