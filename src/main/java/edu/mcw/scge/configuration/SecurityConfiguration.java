@@ -51,8 +51,8 @@ import java.util.stream.Collectors;
  */
 
 @EnableWebSecurity
-@PropertySource("/data/application.properties")
-//@PropertySource("C:/Apps/application.properties")
+@PropertySource("classpath:application.properties")
+
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    private static List<String> clients = Arrays.asList("google");
 
