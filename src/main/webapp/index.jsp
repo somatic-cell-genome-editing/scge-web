@@ -150,7 +150,7 @@ Goals"/>
     .select-arrow{background-color:#ffffff}
   </style>
   <![endif]-->
-  <link rel='stylesheet' id='fusion-dynamic-css-css'  href='https://scge.mcw.edu/wp-content/uploads/fusion-styles/fecdf2c77fcb36252c1c72a4e63b594c.min.css?ver=2.1.1' type='text/css' media='all' />
+  <link rel='stylesheet' id='fusion-dynamic-css-css'  href='common/css/fusion-styles.css' type='text/css' media='all' />
   <link rel='stylesheet' id='sccss_style-css'  href='https://scge.mcw.edu/?sccss=1&#038;ver=5.3' type='text/css' media='all' />
   <script type='text/javascript' src='https://scge.mcw.edu/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp'></script>
   <script type='text/javascript' src='https://scge.mcw.edu/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
@@ -217,7 +217,7 @@ Goals"/>
                                     Logged in as:<img class="img-circle" src="${userImageUrl}" width="24">
 
                                     ${userName}&nbsp;
-                                    <a href="/logout" title="Sign out"><button class="btn btn-primary">Logout</button></a>
+                                    <a href="logout" title="Sign out"><button class="btn btn-primary">Logout</button></a>
 
                                   </c:when>
                                   <c:otherwise>
