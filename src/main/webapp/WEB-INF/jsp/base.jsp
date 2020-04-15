@@ -126,7 +126,7 @@ Goals"/>
                                 </c:choose>
 
                             </span>
-                            <div class="form-group">
+                            <!--div-- class="form-group">
                                 <form role="search" class="searchform fusion-search-form fusion-live-search" method="get" action="https://scge.mcw.edu/">
                                     <div class="fusion-row">
                                         <div class="" style="margin-top: 10px">
@@ -140,7 +140,7 @@ Goals"/>
                                         </div>
                                     </div>
                                 </form>
-                            </div>
+                            </div-->
                             <!--ul class="nav navbar-text navbar-right">
                                 <li><a href="/loginSuccess?destination=base">Dashboard</a></li>
                                 <!--li><a href="#">Settings</a></li-->
