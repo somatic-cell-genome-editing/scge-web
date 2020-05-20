@@ -80,7 +80,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
 
           .authorizeRequests()
-                .antMatchers("/", "/logout", "/oauth_login", "/common/**").permitAll()
+                .antMatchers("/","/toolkit/**","/toolkit/delivery/**", "/logout", "/oauth_login", "/common/**").permitAll()
         //      .antMatchers("/admin/**").access("hasRole('ADMIN')")
         //      .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")
 

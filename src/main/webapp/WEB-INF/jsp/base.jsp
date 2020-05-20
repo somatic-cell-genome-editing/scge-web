@@ -121,7 +121,7 @@ Goals"/>
 
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="/login/google">Google Login</a>
+                                        <a href="/scgeweb/login/google">Google Login</a>
                                     </c:otherwise>
                                 </c:choose>
 
@@ -173,6 +173,7 @@ Goals"/>
                         <c:if test="${userName!=null}">
                             <li> <a href="/scgeweb/loginSuccess?destination=base" style="font-weight: bold;color:orangered">My Dashboard</a></li>
                         </c:if>
+                        <li> <a href="/scgeweb/toolkit/home?destination=base" style="font-weight: bold;color:orangered">Toolkit</a></li>
 
                         <li  id="menu-item-733"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-17 current_page_item menu-item-733"  data-item-id="733"><a  href="https://scge.mcw.edu/" class="fusion-flex-link fusion-bar-highlight"><span class="fusion-megamenu-icon"><i class="glyphicon fa-home fas"></i></span><span class="menu-text">Home</span></a></li><li  id="menu-item-320"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-320"  data-item-id="320"><a  href="https://scge.mcw.edu/about-us/" class="fusion-flex-link fusion-bar-highlight"><span class="fusion-megamenu-icon"><i class="glyphicon fa-qrcode fas"></i></span><span class="menu-text">About</span></a></li>
                         <li  id="menu-item-749"  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-749 fusion-megamenu-menu"  data-item-id="749"><a  href="#" class="fusion-flex-link fusion-bar-highlight"><span class="fusion-megamenu-icon"><i class="glyphicon fa-bezier-curve fas"></i></span><span class="menu-text">Goals by Initiatives</span></a><div class="fusion-megamenu-wrapper fusion-columns-5 columns-per-row-5 columns-5 col-span-10"><div class="row"><div class="fusion-megamenu-holder" style="width:999.996px;background-image: url(https://scge.mcw.edu/wp-content/uploads/2019/04/286-40-grey-blue-squares-HUD-gear-FULL.jpg);" data-width="999.996px"><ul role="menu" class="fusion-megamenu">
