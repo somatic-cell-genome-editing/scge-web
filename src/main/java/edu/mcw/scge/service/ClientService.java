@@ -15,8 +15,8 @@ public class ClientService {
         Properties props=new Properties();
         FileInputStream fis=null;
         try{
-       fis=new FileInputStream("C:/git/scge-web/data/properties/client.properties");
-       //    fis=new FileInputStream("/data/properties/client.properties");
+      // fis=new FileInputStream("C:/git/scge-web/data/properties/client.properties");
+          fis=new FileInputStream("/data/properties/client.properties");
             props.load(fis);
            // System.out.println("PROPERTIES: "+ props.size());
         }catch (Exception e){

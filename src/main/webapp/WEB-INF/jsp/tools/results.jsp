@@ -17,6 +17,8 @@
 
 <script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
 <script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
 <script>
     $(function() {
         $("#myTable").tablesorter({
@@ -28,6 +30,7 @@
 <style>
     td{
         font-size: 11px;
+
     }
     .list-group-item{
         padding: 2px;
@@ -35,7 +38,12 @@
         border: 1px solid white;
     }
     h4{
-        color:steelblue;
+        color:#2a6496;
+        font-weight: bold;
+    }
+    a{
+        color:darkgray;
+        text-decoration: underline;
     }
 </style>
 <div class="row">
@@ -44,7 +52,7 @@
         <ul class="list-group">
         <c:forEach items="${aggregations.deliveryAggs}" var="bkt">
 
-            <li class="list-group-item">${bkt.key} (${bkt.docCount})</li>
+            <li class="list-group-item"><a href="">${bkt.key}</a> (${bkt.docCount})</li>
 
         </c:forEach>
         </ul>
@@ -52,7 +60,7 @@
         <ul class="list-group">
             <c:forEach items="${aggregations.editorAggs}" var="bkt">
 
-                <li class="list-group-item">${bkt.key} (${bkt.docCount})</li>
+                <li class="list-group-item"><a href="">${bkt.key}</a> (${bkt.docCount})</li>
 
             </c:forEach>
         </ul>
@@ -60,7 +68,7 @@
         <ul class="list-group">
             <c:forEach items="${aggregations.tissueAggs}" var="bkt">
 
-                <li class="list-group-item">${bkt.key} (${bkt.docCount})</li>
+                <li class="list-group-item"><a href="">${bkt.key}</a> (${bkt.docCount})</li>
 
             </c:forEach>
         </ul>
@@ -68,7 +76,7 @@
         <ul class="list-group">
             <c:forEach items="${aggregations.organismAggs}" var="orgBkt">
 
-                <li class="list-group-item">${orgBkt.key} (${orgBkt.docCount})</li>
+                <li class="list-group-item"><a href="">${orgBkt.key}</a> (${orgBkt.docCount})</li>
 
             </c:forEach>
         </ul>
