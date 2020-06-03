@@ -26,12 +26,16 @@
             </a>
         </div>
         <div class="col-md-2" style="text-align: center">
+
             <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" width="75" height="75" alt="" />
             <div style="text-align: center;"><p>Biological Effects</p></div>
+
         </div>
         <div class="col-md-2" style="text-align: center">
+            <a href="toolkit/delivery/results">
             <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="75" height="75" alt="" />
             <div style="text-align: center;"><p>Delivery Systems Data</p></div>
+            </a>
         </div>
         <div class="col-md-2" style="text-align: center">
             <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="75" height="75" alt="" />

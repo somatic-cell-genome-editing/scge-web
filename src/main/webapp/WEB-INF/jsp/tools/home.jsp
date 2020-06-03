@@ -22,7 +22,7 @@
                     <table  class='borderless'>
                         <tr>
                     <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/mouse.png" width="50" height="50" alt="" /></td>
-                            <td><a><strong style="text-align: left">Find Animal Reporters Models</strong></a> to accelerate the translation of genome editing technologies into treatments for human diseases. The animal model systems are based on normal, non-diseased animals.</td>
+                            <td><a><strong style="text-align: left">Animal Reporters Models</strong></a> to accelerate the translation of genome editing technologies into treatments for human diseases. The animal model systems are based on normal, non-diseased animals.</td>
                         </tr>
                     </table>
             </div>
@@ -31,7 +31,7 @@
                         <tr>
                             <td>
                             <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" width="50" height="50" alt="" /></td>
-                            <td><a><strong>Find Bilogical Effects</strong></a> observed during the development, validation and testing of new and existing human cell- and tissue-based platforms. These models will be used for preclinical testing of editing, delivery and efficacy.</td>
+                            <td><a><strong>Bilogical Effects</strong></a> observed during the development, validation and testing of new and existing human cell- and tissue-based platforms. These models will be used for preclinical testing of editing, delivery and efficacy.</td>
                         </tr>
                     </table>
                 </div>
@@ -43,7 +43,7 @@
                 <table  class='borderless'>
                     <tr>
                         <td><a href="delivery/search"><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="50" height="50" alt="" /></a></td>
-                        <td><a href="delivery/search"><strong>Find Delivery Vehicles</strong></a>, innovative approaches to deliver genome editing machinery into somatic cells, with the ultimate goal of accelerating the development of genome editing therapeutics to treat human disease.</td>
+                        <td><a href="delivery/search"><strong>Delivery Vehicles</strong></a>, innovative approaches to deliver genome editing machinery into somatic cells, with the ultimate goal of accelerating the development of genome editing therapeutics to treat human disease.</td>
                     </tr>
                 </table>
             </div>
@@ -52,7 +52,7 @@
                 <tr>
             <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="50" height="50" alt="" />
             &nbsp;&nbsp;</td>
-           <td><a><strong>Find Genome Editors</strong></a>, innovative genome editing systems with improved specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.
+           <td><a><strong>Genome Editors</strong></a>, innovative genome editing systems with improved specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.
            </td>
                 </tr>
             </table>
