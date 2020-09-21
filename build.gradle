@@ -84,6 +84,10 @@ dependencies {
     //     compile group: 'org.apache.lucene', name: 'lucene-core', version: '7.4.0'
     // https://mvnrepository.com/artifact/org.apache.lucene/lucene-core
     compile group: 'org.apache.lucene', name: 'lucene-core', version: '8.2.0'
+
+    // https://mvnrepository.com/artifact/net.minidev/json-smart
+    compile group: 'net.minidev', name: 'json-smart', version: '2.3'
+
 }
 task add_properties(type:Copy){
  from file("../../Apps/application.properties")
