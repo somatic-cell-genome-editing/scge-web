@@ -46,6 +46,9 @@
         text-decoration: underline;
     }
 </style>
+<div >
+    <%@include file="search.jsp"%>
+</div>
 <div class="row">
     <div class="col-md-3" >
         <h4>Filter By Delivery Vehicle</h4>

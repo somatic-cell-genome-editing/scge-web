@@ -80,7 +80,6 @@ Goals"/>
             crossorigin="anonymous"></script>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <!-- Custom styles for this template -->
     <!--link href="css/dashboard.css" rel="stylesheet"-->
@@ -93,7 +92,6 @@ Goals"/>
 <div id="wrapper" class="fusion-wrapper">
     <div id="home" style="position:relative;top:-1px;"></div>
 
-    <header class="fusion-header-wrapper fusion-header-shadow">
         <div class="fusion-header-v3 fusion-logo-alignment fusion-logo-left fusion-sticky-menu- fusion-sticky-logo- fusion-mobile-logo-  fusion-mobile-menu-design-modern">
 
             <div class="fusion-secondary-header">
@@ -126,30 +124,7 @@ Goals"/>
                                 </c:choose>
 
                             </span>
-                            <!--div-- class="form-group">
-                                <form role="search" class="searchform fusion-search-form fusion-live-search" method="get" action="https://scge.mcw.edu/">
-                                    <div class="fusion-row">
-                                        <div class="" style="margin-top: 10px">
-                                            <label><span class="screen-reader-text">Search for:</span>
-                                                <input type="search" value="" name="s" class="form-control" placeholder="Search ..." required aria-required="true" aria-label="Search ..."/>
-                                            </label>
 
-                                        </div>
-                                        <div class="">
-                                            <button type="submit" class="btn btn-secondary form-control"><i class="fa fa-search"></i></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div-->
-                            <!--ul class="nav navbar-text navbar-right">
-                                <li><a href="/loginSuccess?destination=base">Dashboard</a></li>
-                                <!--li><a href="#">Settings</a></li-->
-                                <!--li><a href="#">Profile</a></li>
-                                <li><a href="#">Help</a></li-->
-                            <!--/ul>
-                            <!--form class="navbar-form navbar-right">
-                                <input type="text" class="form-control" placeholder="Search...">
-                            </form-->
                         </div>
 
                     </div>
@@ -157,12 +132,49 @@ Goals"/>
 
             </div>
             <div class="fusion-header-sticky-height"></div>
-            <div class="fusion-header">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand"  href="https://scge.mcw.edu/" >
+
+
+                    <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" />
+
+
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="https://scge.mcw.edu/" style="font-size: 16px;">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/scgeweb/toolkit/home?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
+                        </li>
+                        <li class="nav-item">
+                        <c:if test="${userName!=null}">
+
+
+                            <a class="nav-link" href="/scgeweb/loginSuccess?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">My Dashboard</a>
+                        </c:if>
+                        </li>
+
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </nav>
+
+            <!--div-- class="fusion-header">
                 <div class="fusion-row">
                     <div class="fusion-logo" data-margin-top="-0px" data-margin-bottom="-20px" data-margin-left="0px" data-margin-right="0px">
                         <a class="fusion-logo-link"  href="https://scge.mcw.edu/" >
 
-                            <!-- standard logo -->
+
                             <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" />
 
 
@@ -175,7 +187,7 @@ Goals"/>
                         </c:if>
                         <li> <a href="/scgeweb/toolkit/home?destination=base" style="font-weight: bold;color:orangered">Toolkit</a></li>
 
-                        <li  id="menu-item-733"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-17 current_page_item menu-item-733"  data-item-id="733"><a  href="https://scge.mcw.edu/" class="fusion-flex-link fusion-bar-highlight"><span class="fusion-megamenu-icon"><i class="glyphicon fa-home fas"></i></span><span class="menu-text">Home</span></a></li><li  id="menu-item-320"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-320"  data-item-id="320"><a  href="https://scge.mcw.edu/about-us/" class="fusion-flex-link fusion-bar-highlight"><span class="fusion-megamenu-icon"><i class="glyphicon fa-qrcode fas"></i></span><span class="menu-text">About</span></a></li>
+                        <!--li  id="menu-item-733"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-17 current_page_item menu-item-733"  data-item-id="733"><a  href="https://scge.mcw.edu/" class="fusion-flex-link fusion-bar-highlight"><span class="fusion-megamenu-icon"><i class="glyphicon fa-home fas"></i></span><span class="menu-text">Home</span></a></li><li  id="menu-item-320"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-320"  data-item-id="320"><a  href="https://scge.mcw.edu/about-us/" class="fusion-flex-link fusion-bar-highlight"><span class="fusion-megamenu-icon"><i class="glyphicon fa-qrcode fas"></i></span><span class="menu-text">About</span></a></li>
                         <li  id="menu-item-749"  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-749 fusion-megamenu-menu"  data-item-id="749"><a  href="#" class="fusion-flex-link fusion-bar-highlight"><span class="fusion-megamenu-icon"><i class="glyphicon fa-bezier-curve fas"></i></span><span class="menu-text">Goals by Initiatives</span></a><div class="fusion-megamenu-wrapper fusion-columns-5 columns-per-row-5 columns-5 col-span-10"><div class="row"><div class="fusion-megamenu-holder" style="width:999.996px;background-image: url(https://scge.mcw.edu/wp-content/uploads/2019/04/286-40-grey-blue-squares-HUD-gear-FULL.jpg);" data-width="999.996px"><ul role="menu" class="fusion-megamenu">
                             <li  id="menu-item-421"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-421 fusion-megamenu-submenu fusion-megamenu-columns-5 col-lg-2 col-md-2 col-sm-2"  style="width:20%;"><div class='fusion-megamenu-title'><a href="https://scge.mcw.edu/animal_reporter/">Animal Reporter and Testing Centers</a></div><div class="fusion-megamenu-widgets-container second-level-widget"><style type="text/css" data-id="media_image-2">@media (max-width: 800px){#media_image-2{text-align:center !important;}}</style><div id="media_image-2" class="fusion-widget-mobile-align-center fusion-widget-align-center widget widget_media_image" style="text-align: center;"><a href="https://scge.mcw.edu/animal_reporter/"><img width="100" height="100" src="https://scge.mcw.edu/wp-content/uploads/2019/03/mouse.png" class="image wp-image-106  attachment-100x100 size-100x100" alt="" style="max-width: 100%; height: auto;" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/mouse-27x27.png 27w, https://scge.mcw.edu/wp-content/uploads/2019/03/mouse-66x66.png 66w, https://scge.mcw.edu/wp-content/uploads/2019/03/mouse.png 134w" sizes="(max-width: 100px) 100vw, 100px" /></a></div></div></li><li  id="menu-item-420"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-420 fusion-megamenu-submenu fusion-megamenu-columns-5 col-lg-2 col-md-2 col-sm-2"  style="width:20%;"><div class='fusion-megamenu-title'><a href="https://scge.mcw.edu/biologicalsystems/">Biological Systems Projects</a></div><div class="fusion-megamenu-widgets-container second-level-widget"><div id="media_image-3" class="widget widget_media_image"><a href="https://scge.mcw.edu/biologicalsystems/"><img width="100" height="100" src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" class="image wp-image-1111  attachment-100x100 size-100x100" alt="" style="max-width: 100%; height: auto;" srcset="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev-66x66.png 66w, https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png 134w" sizes="(max-width: 100px) 100vw, 100px" /></a></div></div></li>
                             <li  id="menu-item-419"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-419 fusion-megamenu-submenu fusion-megamenu-columns-5 col-lg-2 col-md-2 col-sm-2"  style="width:20%;"><div class='fusion-megamenu-title'><a href="https://scge.mcw.edu/deliverysystems/">Delivery Systems Projects</a></div><div class="fusion-megamenu-widgets-container second-level-widget"><div id="media_image-4" class="widget widget_media_image"><a href="https://scge.mcw.edu/deliverysystems/"><img width="100" height="100" src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" class="image wp-image-158  attachment-100x100 size-100x100" alt="" style="max-width: 100%; height: auto;" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery-27x27.png 27w, https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery-66x66.png 66w, https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png 134w" sizes="(max-width: 100px) 100vw, 100px" /></a></div></div></li>
@@ -189,24 +201,16 @@ Goals"/>
                             <li  id="menu-item-1239"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1239 fusion-megamenu-submenu fusion-megamenu-columns-2 col-lg-6 col-md-6 col-sm-6"  style="width:50%;"><div class='fusion-megamenu-title'><a href="https://scge.mcw.edu/in-the-news-archive/">In The News Archive</a></div></li>
                             <li  id="menu-item-1251"  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1251 fusion-megamenu-submenu fusion-megamenu-columns-2 col-lg-6 col-md-6 col-sm-6"  style="width:50%;"><div class='fusion-megamenu-title'><a href="https://scge.mcw.edu/events/">Meetings</a></div></li></ul></div><div style="clear:both;"></div></div></div></li>
                         <li  id="menu-item-1212"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1212"  data-item-id="1212"><a  href="https://scge.mcw.edu/publications-3/" class="fusion-bar-highlight"><span class="menu-text">Publications</span></a></li>
-                        <li  id="menu-item-387"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-387"  data-item-id="387"><a  href="https://scge.mcw.edu/contact/" class="fusion-flex-link fusion-bar-highlight"><span class="fusion-megamenu-icon"><i class="glyphicon fa-address-book fas"></i></span><span class="menu-text">Contact Us</span></a></li>
+                        <li  id="menu-item-387"  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-387"  data-item-id="387"><a  href="https://scge.mcw.edu/contact/" class="fusion-flex-link fusion-bar-highlight"><span class="fusion-megamenu-icon"><i class="glyphicon fa-address-book fas"></i></span><span class="menu-text">Contact Us</span></a></li-->
 
                     </ul>
 
                 </nav>
-                    <div class="fusion-mobile-menu-icons">
-                    <a href="#" class="fusion-icon fusion-icon-bars" aria-label="Toggle mobile menu" aria-expanded="false"></a>
-
-                    <a href="#" class="fusion-icon fusion-icon-search" aria-label="Toggle mobile search"></a>
-
-
-               </div>
-
 
 
 
                 </div>
-            </div>
+            </div-->
         </div>
         <div class="fusion-clearfix"></div>
     </header>
@@ -215,38 +219,9 @@ Goals"/>
     </div>
 
 <c:if test="${destination!='create'}">
-<div class="container-fluid">
-    <div class="row">
-        <!--div class="col-sm-2 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li class="active"><a href="success?destination=base">Overview <span class="sr-only">(current)</span></a></li>
-                <!--c:if test="$-{isGeneralAdmin}">
-                    <li><a href="unauthorizedUsers">New user requests</a></li>
-                    <li><a href="memberProfile">Update member profile</a></li>
-                <!--/c:if>
-            </ul>
-            <!--c:if test="$-{isGroupAdmin}">
-            <ul class="nav nav-sidebar">
 
-                <li><a href="#">Create new group</a></li>
-                <li><a href="#">Add members to group</a></li>
-                <li><a href="#">Delete Group</a></li>
+    <div class="row" style="margin-top: 0;padding-top: 0">
 
-            </ul>
-            <!--/c:if>
-            <!--ul class="nav nav-sidebar">
-                <li><a href="joinGroup">Join the Group</a></li>
-                <li><a href="leaveGroup">Leave the Group</a></li>
-                <li><a href="groups">List groups</a></li>
-                <li><a href="members">List members</a></li>
-
-            </ul-->
-            <!--ul class="nav nav-sidebar">
-                <li><a href="dataSubmission">Submit data</a></li>
-                <!--li><a href="#">Update data</a></li-->
-            <!--/ul>
-        </div-->
-        <!--div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"-->
         <c:choose>
         <c:when test="${action=='Animal Reporter Models'}">
         <div class="container-fluid">
@@ -269,9 +244,9 @@ Goals"/>
                         </div>
                     </c:otherwise>
                 </c:choose>
-
+                <div style="margin-top: 0;padding-top:0">
                 <c:import url="/${page}.jsp" />
-
+                </div>
         </div>
 
     </div>

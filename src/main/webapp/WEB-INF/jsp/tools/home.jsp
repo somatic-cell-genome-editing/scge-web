@@ -5,7 +5,9 @@
   Time: 2:05 PM
   To change this template use File | Settings | File Templates.
 --%>
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 <style>
     .borderless tbody tr td {
         padding: 1%;
@@ -14,6 +16,9 @@
    .row{
        margin-top: 2%;
    }
+    td{
+        font-size: 16px;
+    }
 </style>
 <div class="container" >
     <div class="panel panel-default" style="border-color: white;"  >
@@ -22,7 +27,7 @@
                     <table  class='borderless'>
                         <tr>
                     <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/mouse.png" width="50" height="50" alt="" /></td>
-                            <td><a><strong style="text-align: left">Animal Reporters Models</strong></a> to accelerate the translation of genome editing technologies into treatments for human diseases. The animal model systems are based on normal, non-diseased animals.</td>
+                            <td><a href="animalReporter/search"><strong style="text-align: left">Animal Reporters Models</strong></a> to accelerate the translation of genome editing technologies into treatments for human diseases. The animal model systems are based on normal, non-diseased animals.</td>
                         </tr>
                     </table>
             </div>
@@ -31,7 +36,7 @@
                         <tr>
                             <td>
                             <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" width="50" height="50" alt="" /></td>
-                            <td><a><strong>Bilogical Effects</strong></a> observed during the development, validation and testing of new and existing human cell- and tissue-based platforms. These models will be used for preclinical testing of editing, delivery and efficacy.</td>
+                            <td><a  href="vitro/search"><strong>Bilogical Effects - In vitro</strong></a> observed during the development, validation and testing of new and existing human cell- and tissue-based platforms. These models will be used for preclinical testing of editing, delivery and efficacy.</td>
                         </tr>
                     </table>
                 </div>
@@ -60,7 +65,15 @@
         </div>
         <div class="row"  >
 
-
+            <div class="col-md-6">
+                <table  class='borderless'>
+                    <tr>
+                        <td>
+                            <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" width="50" height="50" alt="" /></td>
+                        <td><a><strong>Bilogical Effects - In vivo</strong></a> observed during the development, validation and testing of new and existing human cell- and tissue-based platforms. These models will be used for preclinical testing of editing, delivery and efficacy.</td>
+                    </tr>
+                </table>
+            </div>
         <div class="col-md-6">
             <table  class='borderless' >
                 <tr>
@@ -72,7 +85,7 @@
             </table>
         </div>
 
-        <div class="col-md-6">
+        <!--div class="col-md-6">
             <table  class='borderless'>
                 <tr>
                     <td><i class="fas fa-analytics" style="font-size: 50px;color:steelblue"></i>&nbsp;
@@ -80,7 +93,7 @@
                     <td><a><strong>Analytics</strong></a>, to analyse off-target and on-target effects of somatic cell genome editing.</td>
                 </tr>
             </table>
-        </div>
+        </div-->
 
         </div>
     </div>
