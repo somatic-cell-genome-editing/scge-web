@@ -1,5 +1,7 @@
 package edu.mcw.scge.controller;
 
+import edu.mcw.scge.dao.implementation.EditorDao;
+import edu.mcw.scge.datamodel.Editor;
 import edu.mcw.scge.datamodel.ExperimentRecord;
 import edu.mcw.scge.service.DataAccessService;
 import edu.mcw.scge.service.db.DBService;
@@ -71,6 +73,18 @@ public class ToolkitController {
      //   req.setAttribute("experimentRecords", records);
         req.setAttribute("action", "Animal Reporters");
         req.setAttribute("page", "/WEB-INF/jsp/tools/animalReporter");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }
+
+    @RequestMapping(value="editor/search")
+    public String getEditorHome(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        EditorDao dao = new EditorDao();
+        List<Editor> records= dao.getAllEditors();
+        req.setAttribute("editors", records);
+        req.setAttribute("action", "Editors");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
