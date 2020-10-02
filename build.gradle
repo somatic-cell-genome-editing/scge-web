@@ -27,19 +27,19 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-webmvc', version: '5.1.9.RELEASE'
 
     // https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
-    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.2.1.RELEASE'
-// https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
-    compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.2.1.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.4.0'
 
-/// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
-    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.4.0.RELEASE'
+// https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.4.0'
+
+// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.5.0.RELEASE'
 
     // https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-client
-    compile group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: '5.2.1.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: '5.4.0'
 
 // https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-jose
-    compile group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: '5.2.1.RELEASE'
-
+    compile group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: '5.4.0'
 
 
 // https://mvnrepository.com/artifact/org.apache.tomcat/catalina
@@ -87,7 +87,7 @@ dependencies {
     compile group: 'org.apache.lucene', name: 'lucene-core', version: '8.2.0'
 
     // https://mvnrepository.com/artifact/net.minidev/json-smart
-    compile group: 'net.minidev', name: 'json-smart', version: '2.3'
+ //   compile group: 'net.minidev', name: 'json-smart', version: '2.3'
 
 }
 
