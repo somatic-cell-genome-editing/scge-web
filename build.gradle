@@ -91,7 +91,7 @@ dependencies {
 
 }
 configurations {
-    runtime.exclude group: "com.nimbusds", module: "nimbus-jose-jwt-9.0.1"
+    runtime.exclude group: "com.nimbusds", module: "nimbus-jose-jwt"
 }
 task add_properties(type:Copy){
  from file("../../Apps/application.properties")
