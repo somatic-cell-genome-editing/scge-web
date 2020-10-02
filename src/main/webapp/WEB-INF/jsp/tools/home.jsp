@@ -57,7 +57,7 @@
                 <tr>
             <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="50" height="50" alt="" />
             &nbsp;&nbsp;</td>
-           <td><a><strong>Genome Editors</strong></a>, innovative genome editing systems with improved specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.
+           <td><a href="editor/search"><strong>Genome Editors</strong></a>, innovative genome editing systems with improved specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.
            </td>
                 </tr>
             </table>
