@@ -37,11 +37,11 @@
 <div>
 <div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Experiments: ${fn:length(experimentRecords)}</p></div>
 
-<div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div>
+<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
 </div>
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
-    <tr><th>Select</th>
+    <tr><!--th>Select</th-->
     <th>Experiment_Id</th>
     <th>Model</th>
         <th>Target_Locus</th>
@@ -56,7 +56,7 @@
     </thead>
 <c:forEach items="${experimentRecords}" var="rec">
     <tr>
-        <td><input class="form" type="checkbox"></td>
+        <!--td><input class="form" type="checkbox"></td-->
         <td>${rec.experimentId}</td>
         <td>${rec.model}</td>
         <td>${rec.targetLocus}</td>
@@ -71,4 +71,4 @@
     </tr>
 </c:forEach>
 </table>
-<div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div>
+<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
