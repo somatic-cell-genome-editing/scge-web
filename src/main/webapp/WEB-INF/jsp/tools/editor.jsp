@@ -31,37 +31,82 @@
 </script>
 
 
-<div>
-<div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Editors: ${fn:length(editors)}</p></div>
-
-</div>
-    <table id="myTable" class="table tablesorter table-striped">
-    <thead>
-    <th>Editor_Id</th>
-    <th>Type</th>
-    <th>Subtype</th>
-        <th>Species</th>
-        <th>PAM Preference</th>
-        <th>Variant</th>
-        <th>Fusion</th>
-        <th>Activity</th>
-        <th>DSB Cleavage Type</th>
-        <th>Protein Format</th>
-        <th>Source</th>
-    </tr>
-    </thead>
-<c:forEach items="${editors}" var="rec">
-    <tr>
-        <td>${rec.type}</td>
-        <td>${rec.subType}</td>
-        <td>${rec.species}</td>
-        <td>${rec.pamPreference}</td>
-        <td>${rec.editorVariant}</td>
-        <td>${rec.fusion}</td>
-        <td>${rec.activity}</td>
-        <td>${rec.dsbCleavageType}</td>
-        <td>${rec.proteinFormat}</td>
-        <td>${rec.source}</td>
-    </tr>
-</c:forEach>
+    <table id="myTable" class="table table-striped">
+        <tr>
+            <td><h4>Editor_Id</h4></td>
+            <td>${editor.id}</td>
+        </tr>
+        <tr>
+            <td><h4>Symbol</h4></td>
+            <td>${editor.symbol}</td>
+        </tr>
+        <tr>
+            <td><h4>Type</h4></td>
+            <td>${editor.type}</td>
+        </tr>
+        <tr>
+            <td><h4>Subtype</h4></td>
+            <td>${editor.subType}</td>
+        </tr>
+        <tr>
+            <td><h4>Alias</h4></td>
+            <td>${editor.alias}</td>
+        </tr>
+        <tr>
+            <td><h4>Species</h4></td>
+            <td>${editor.species}</td>
+        </tr>
+        <tr>
+        <td><h4>PAM Preference</h4></td>
+            <td>${editor.pamPreference}</td>
+        </tr>
+        <tr>
+            <td><h4>Accession</h4></td>
+            <td>${editor.accession}</td>
+        </tr>
+        <tr>
+        <td><h4>Variant</h4></td>
+            <td>${editor.editorVariant}</td>
+        </tr>
+        <tr>
+            <td><h4>Substrate Target</h4></td>
+            <td>${editor.substrateTarget}</td>
+        </tr>
+        <tr>
+            <td><h4>Overhang</h4></td>
+            <td>${editor.overhang}</td>
+        </tr>
+        <tr>
+        <td><h4>Fusion</h4></td>
+            <td>${editor.fusion}</td>
+        </tr>
+        <tr>
+        <td><h4>Activity</h4></td>
+            <td>${editor.activity}</td>
+        </tr>
+        <tr>
+        <td><h4>DSB Cleavage Type</h4></td>
+            <td>${editor.dsbCleavageType}</td>
+        </tr>
+        <tr>
+        <td><h4>Protein Format</h4></td>
+            <td>${editor.proteinFormat}</td>
+        </tr>
+        <tr>
+            <td><h4>Note</h4></td>
+            <td>${editor.note}</td>
+        </tr>
+        <tr>
+            <td><h4>Protein Format</h4></td>
+            <td>${editor.proteinFormat}</td>
+        </tr>
+        <tr>
+            <td><h4>Add Gene</h4></td>
+            <td><a href="${editor.addGeneLink}">${editor.addGeneLink}</a></td>
+        </tr>
+        <tr>
+            <td><h4>Source</h4></td>
+            <td>${editor.source}</td>
+        </tr>
+    
 </table>
