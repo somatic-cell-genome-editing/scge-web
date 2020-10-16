@@ -6,51 +6,30 @@
   Time: 2:53 PM
   To change this template use File | Settings | File Templates.
 --%>
+<div class="container">
+<h4>Study Details: </h4>
+<form>
+    <label>
+        Principal Investigator:
+        <input type="text" value="Mindy Dwinel">
+    </label>
+    <label>
+        Institution/Lab:
+        <input type="text" value="DCC"/>
+    </label>
 
+        Select Study:
+        <Select type="">
+            <option>New Study</option>
+            <option>Change Sequence Reads</option>
+            <option>Cre Control</option>
+            <option>TLR2 Characterization</option>
+        </Select>
 
-<div class="panel panel-default" >
+    <button type="submit">Next</button>
+</form>
 
-    <div class="panel panel-body">
-      <ul>
-          <li>Add new experiment
-              <div class="form-group">
-              <form class="form form-inline"  action="submit">
-              <label for="experiment-group">Select Group: </label>&nbsp;<select class="form-control" id="experiment-group">
-                  <c:forEach items="${groupRoleMap}" var="g">
-                      <option>${g.key}</option>
-                  </c:forEach>
-                  </select>
-              <label for="create-experiment">Experiment Name:</label>&nbsp;<input class="form-control" type="text" name="createExperiment" id="create-experiment" placeholder="Enter new experiment name">
-                  <button type="submit" class="btn btn-success">Create</button>
-              </form>
-              </div>
-          </li>
-          <li>Update existing experiment
-              <div class="form-group">
-                  <form class="form form-inline">
-
-                      <label for="update-experiment">Select Experiment:</label>&nbsp;<select class="form-control"  name="updateExperiment" id="update-experiment">
-                     <option>Experiment1</option>
-                      <option>Experiment4</option>
-                      <option>Experiment2</option>
-                      <option>Experiment7</option>
-                      </select>
-                      <button type="submit" class="btn btn-success">Update</button>
-                  </form>
-              </div>
-
-          </li>
-          <li>Upload data file ..
-              <div class="form-group" >
-                  <form class="form form-inline">
-
-
-                      <button type="submit" class="btn btn-classic">Choose file..</button> <button type="submit" class="btn btn-success">Upload</button>
-                  </form>
-              </div>
-
-          </li>
-      </ul>
-    </div>
 </div>
-
+<div class="container">
+    <%@include file="uploadForm.jsp"%>
+</div>
