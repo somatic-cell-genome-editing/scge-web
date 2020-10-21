@@ -88,12 +88,12 @@ public class ActionControllerNew {
 
         return null;
     }*/
-   @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+ /*  @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
    public String submit(@RequestParam("file") MultipartFile file, ModelMap modelMap) {
        System.out.println("in the controller");
        modelMap.addAttribute("file", file);
        return "submissions/fileUploadView";
-   }
+   }*/
     @RequestMapping(value="/submit")
     public String createOrUpdate(HttpServletRequest req,HttpServletResponse res, Model model) throws ServletException, IOException {
 
