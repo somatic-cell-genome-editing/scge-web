@@ -6,9 +6,9 @@ import edu.mcw.scge.service.DataAccessService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -69,7 +69,7 @@ public class ActionControllerNew {
     @RequestMapping(value="/dataSubmission")
     public String submission(HttpServletRequest req,HttpServletResponse res, Model model) throws ServletException, IOException {
 
-            req.setAttribute("action", "Submit data");
+            req.setAttribute("action", "Data Submission System");
             req.setAttribute("destination", "dataSubmission");
             req.setAttribute("page", "/WEB-INF/jsp/submissions/submission");
             req.setAttribute("groupRoleMap",req.getSession().getAttribute("groupRoleMap"));
@@ -77,6 +77,23 @@ public class ActionControllerNew {
 
         return null;
     }
+
+
+   /* @PostMapping(value="/datasubmission/upload")
+    public String upload(HttpServletRequest req,HttpServletResponse res, Model model) throws ServletException, IOException {
+
+        req.setAttribute("action", "Successfully submitted");
+
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }*/
+ /*  @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+   public String submit(@RequestParam("file") MultipartFile file, ModelMap modelMap) {
+       System.out.println("in the controller");
+       modelMap.addAttribute("file", file);
+       return "submissions/fileUploadView";
+   }*/
     @RequestMapping(value="/submit")
     public String createOrUpdate(HttpServletRequest req,HttpServletResponse res, Model model) throws ServletException, IOException {
 
