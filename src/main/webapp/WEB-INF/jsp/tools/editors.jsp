@@ -37,34 +37,34 @@
 </div>
     <table id="myTable" class="table tablesorter table-striped">
         <thead>
-        <th>Editor_Id</th>
         <th>Symbol</th>
         <th>Type</th>
         <th>Subtype</th>
+        <th>Variant</th>
+        <th>Substrate Target</th>
         <th>Species</th>
         <th>PAM Preference</th>
-        <th>Variant</th>
-        <th>Fusion</th>
         <th>Activity</th>
         <th>DSB Cleavage Type</th>
         <th>Protein Format</th>
         <th>Source</th>
+        <th>Editor_Id</th>
     </tr>
     </thead>
 <c:forEach items="${editors}" var="rec">
     <tr>
-        <td>${rec.id}</td>
         <td><a href="editor?id=${rec.id}">${rec.symbol}</a></td>
         <td>${rec.type}</td>
         <td>${rec.subType}</td>
+        <td>${rec.editorVariant}</td>
+        <td>${rec.substrateTarget}</td>
         <td>${rec.species}</td>
         <td>${rec.pamPreference}</td>
-        <td>${rec.editorVariant}</td>
-        <td>${rec.fusion}</td>
         <td>${rec.activity}</td>
         <td>${rec.dsbCleavageType}</td>
         <td>${rec.proteinFormat}</td>
         <td>${rec.source}</td>
+        <td>${rec.id}</td>
     </tr>
 </c:forEach>
 </table>
