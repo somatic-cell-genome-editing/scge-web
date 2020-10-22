@@ -77,16 +77,4 @@ public class ToolkitController {
 
         return null;
     }
-
-    @RequestMapping(value="editor/search")
-    public String getEditorHome(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        EditorDao dao = new EditorDao();
-        List<Editor> records= dao.getAllEditors();
-        req.setAttribute("editors", records);
-        req.setAttribute("action", "Editors");
-        req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-
-        return null;
-    }
 }
