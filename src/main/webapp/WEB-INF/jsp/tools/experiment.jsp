@@ -109,6 +109,11 @@
         font-weight: bold;
         font-size: 12px;
         color:steelblue;
+        width: 25%;
+        background-color: #ECECF9;
+    }
+    td{
+        padding-left:1%;
     }
 </style>
 
@@ -235,7 +240,7 @@
     <div >
         <c:forEach items="${results}" var="r">
         <div class="satcResults  card" id="${r.tissueTerm}" style="display: none">
-        <div  class="container">
+        <div  class="container" style="padding:1%">
            <table>
                <tr>
                 <td class="header">Parent Tissue</td>   <td><h3>${r.parentTissueTerm}</h3></td>
@@ -285,7 +290,7 @@
         </div>
             <hr>
             <div class="row">
-                <div class="col-lg-3" >
+                <div class="col-lg-6" >
         <table id="samplesTable" class="table tablesorter" >
             <thead>
             <tr><th>Sample</th><th>Sex</th><th>Signal</th></tr>
