@@ -90,6 +90,10 @@ public class ToolkitController {
           edu.mcw.scge.datamodel.Model m= dbService.getModelById( r.getModelId());
            List< ReporterElement> reporterElements=dbService.getReporterElementsByExpRecId(r.getExperimentRecId());
            List<AnimalTestingResultsSummary> results=dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecId());
+           for(AnimalTestingResultsSummary s: results){
+               List<Sample> samples= dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
+               s.setSamples(samples  );
+           }
            List<Delivery> deliveryList=dbService.getDeliveryVehicles(r.getDeliveryId());
            List<ApplicationMethod> applicationMethod=dbService.getApplicationMethodsById(r.getApplicationMethodId());
             req.setAttribute("applicationMethod", applicationMethod);
@@ -102,7 +106,7 @@ public class ToolkitController {
             StringBuilder json=new StringBuilder();
             json.append("[");
             for(AnimalTestingResultsSummary s:results){
-                regionList.add(s.getTissueTerm());
+                regionList.add(s.getTissueTerm().trim());
                int value= Integer.parseInt(s.getSignalPresent());
                 json.append("{\"sample\":\"");
                 json.append("A"+"\",");

@@ -22,6 +22,10 @@
             theme : 'blue'
 
         });
+        $("#samplesTable").tablesorter({
+            theme : 'blue'
+
+        });
     });
 </script>
 <script src="https://d3js.org/d3.v4.js"></script>
@@ -101,6 +105,11 @@
         font-size: 12px;
         line-height: 20px;
     }
+    .header{
+        font-weight: bold;
+        font-size: 12px;
+        color:steelblue;
+    }
 </style>
 
 <div>
@@ -108,7 +117,7 @@
         <table style="width:50%">
 
             <tbody>
-            <tr><td><strong>Experiment</strong></td><td>${experiment.experimentName}</td></tr>
+            <tr><td class="header"><strong>Experiment</strong></td><td>${experiment.experimentName}</td></tr>
 
             </tbody>
         </table>
@@ -119,14 +128,14 @@
 <table  style="width:50%">
 
     <tbody>
-    <tr><td><strong>Model</strong></td><td>${model.type}</td></tr>
-    <tr><td><strong>Name</strong></td><td>${model.name}</td></tr>
-    <tr><td><strong>Short Name</strong></td><td>${model.shortName}</td></tr>
-    <tr><td><strong>Organism</strong></td><td>${model.organism}</td></tr>
-    <tr><td><strong>GenoType</strong></td><td>${model.genotype}</td></tr>
-    <tr><td><strong>Stock Number</strong></td><td>${model.stockNumber}</td></tr>
-    <tr><td><strong>Age</strong></td><td>${model.age}</td></tr>
-    <tr><td><strong>Age Range</strong></td><td>${model.ageRange}</td></tr>
+    <tr><td class="header"><strong>Model</strong></td><td>${model.type}</td></tr>
+    <tr><td class="header"><strong>Name</strong></td><td>${model.name}</td></tr>
+    <tr><td class="header"><strong>Short Name</strong></td><td>${model.shortName}</td></tr>
+    <tr><td class="header"><strong>Organism</strong></td><td>${model.organism}</td></tr>
+    <tr><td class="header"><strong>GenoType</strong></td><td>${model.genotype}</td></tr>
+    <tr><td class="header"><strong>Stock Number</strong></td><td>${model.stockNumber}</td></tr>
+    <tr><td class="header"><strong>Age</strong></td><td>${model.age}</td></tr>
+    <tr><td class="header"><strong>Age Range</strong></td><td>${model.ageRange}</td></tr>
     </tbody>
 </table>
     </div>
@@ -136,10 +145,10 @@
 
             <tbody>
             <c:forEach items="${reporterElements}" var="reporter">
-            <tr><td><strong>Reporter Name</strong></td><td>${reporter.reporterName}</td></tr>
-            <tr><td><strong>Reporter Type</strong></td><td>${reporter.reporterType}</td></tr>
-            <tr><td><strong>Reporter Protein Id</strong></td><td>${reporter.reporterProteinId}</td></tr>
-            <tr><td><strong>Organism</strong></td><td>${reporter.organism}</td></tr>
+            <tr><td class="header"><strong>Reporter Name</strong></td><td>${reporter.reporterName}</td></tr>
+            <tr><td class="header"><strong>Reporter Type</strong></td><td>${reporter.reporterType}</td></tr>
+            <tr><td class="header"><strong>Reporter Protein Id</strong></td><td>${reporter.reporterProteinId}</td></tr>
+            <tr><td class="header"><strong>Organism</strong></td><td>${reporter.organism}</td></tr>
             </c:forEach>
             </tbody>
         </table>
@@ -150,8 +159,8 @@
 
             <tbody>
             <c:forEach items="${deliveryList}" var="d">
-                <tr><td><strong>Delivery System</strong></td><td>${d.deliverySystemType}</td></tr>
-                <tr><td><strong>Delivery System Subtype</strong></td><td>${d.deliverySystemSubtype}</td></tr>
+                <tr><td class="header"><strong>Delivery System</strong></td><td>${d.deliverySystemType}</td></tr>
+                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td>${d.deliverySystemSubtype}</td></tr>
 
             </c:forEach>
             </tbody>
@@ -163,11 +172,11 @@
 
             <tbody>
             <c:forEach items="${applicationMethod}" var="a">
-                <tr><td><strong>Application Method</strong></td><td>${a.applicationType}</td></tr>
-                <tr><td><strong>Application Site</strong></td><td>${a.siteOfApplication}</td></tr>
-                <tr><td><strong>Dosage</strong></td><td>${a.dosage}</td></tr>
-                <tr><td><strong>Time Course</strong></td><td>${a.timeCourse}</td></tr>
-                <tr><td><strong>Days post injection</strong></td><td>${a.daysPostInjection}</td></tr>
+                <tr><td class="header"><strong>Application Method</strong></td><td>${a.applicationType}</td></tr>
+                <tr><td class="header"><strong>Application Site</strong></td><td>${a.siteOfApplication}</td></tr>
+                <tr><td class="header"><strong>Dosage</strong></td><td>${a.dosage}</td></tr>
+                <tr><td class="header"><strong>Time Course</strong></td><td>${a.timeCourse}</td></tr>
+                <tr><td class="header"><strong>Days post injection</strong></td><td>${a.daysPostInjection}</td></tr>
 
             </c:forEach>
             </tbody>
@@ -176,7 +185,7 @@
     <hr>
     <div>
         <table style="width:50%">
-            <tr><td><strong>Sample Preparation</strong></td><td>${experiment.samplePrep}</td></tr>
+            <tr><td class="header"><strong>Sample Preparation</strong></td><td>${experiment.samplePrep}</td></tr>
         </table>
     </div>
     <hr>
@@ -221,5 +230,76 @@
     </div>
     <hr>
 
+    <%@include file="graph.jsp"%>
 
+    <div >
+        <c:forEach items="${results}" var="r">
+        <div class="satcResults  card" id="${r.tissueTerm}" style="display: none">
+        <div  class="container">
+           <table>
+               <tr>
+                <td class="header">Parent Tissue</td>   <td><h3>${r.parentTissueTerm}</h3></td>
+               </tr>
+               <tr>
+                   <td class="header">Tissue</td> <td>${r.tissueTerm}</td></tr>
+               <tr>
+                <td class="header">Number of samples</td>                    <td>${r.numberOfSamples}</td>
+
+               </tr>
+<tr>
+                <td class="header">Signal</td>                    <td>${r.signal}</td>
+
+</tr>
+               <tr>
+                <td class="header">Signal Present</td>                    <td>${r.signalPresent}</td>
+
+               </tr>
+               <tr>
+                <td class="header">Signal Description</td>                    <td>${r.signalDescription}</td>
+
+               </tr>
+               <tr>
+                <td class="header">Image Link</td>                    <td>${r.imageLink}</td>
+
+               </tr>
+               <tr>
+                <td class="header">Percent cells in ROI with sginal</td>                    <td>${r.percentCellsInROIWithSginal}</td>
+
+               </tr>
+               <tr>
+                <td class="header">ROI</td>                    <td>${r.roi}</td>
+
+               </tr>
+               <tr>
+                <td class="header">ROI Coordinates</td>                    <td>${r.ROICoordinates}</td>
+
+               </tr>
+
+
+
+
+
+
+
+           </table>
+        </div>
+            <hr>
+        <table id="samplesTable" class="table tablesorter">
+            <thead>
+            <tr><th>Sample</th><th>Sex</th><th>Signal</th></tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${r.samples}" var="s">
+            <tr>
+
+                <td>${s.sampleId}</td> <td>${s.sex}</td> <td>${s.signal}</td>
+
+            </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+
+        </div>
+        </c:forEach>
+    </div>
 </div>

@@ -40,4 +40,8 @@ public class DBService {
         ApplicationMethodDao dao=new ApplicationMethodDao();
         return dao.getApplicationMethod(applicationMethodId);
     }
+    public List<Sample> getSampleDetails(int resultId, int experimentRecId) throws Exception {
+        AnimalTestingResultsDAO dao=new AnimalTestingResultsDAO();
+        return dao.getSampleDetailsByResultId(resultId,experimentRecId);
+    }
 }
