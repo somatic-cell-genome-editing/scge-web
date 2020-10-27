@@ -30,41 +30,43 @@
     });
 </script>
 
-
 <div>
-<div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Editors: ${fn:length(editors)}</p></div>
+<div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Studies: ${fn:length(studies)}</p></div>
 
+<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
 </div>
     <table id="myTable" class="table tablesorter table-striped">
-        <thead>
-        <th>Symbol</th>
+    <thead>
+    <tr><!--th>Select</th-->
+        <th>Tier</th>
+        <th>Study Name</th>
         <th>Type</th>
-        <th>Subtype</th>
-        <th>Variant</th>
-        <th>Substrate Target</th>
-        <th>Species</th>
-        <th>PAM Preference</th>
-        <th>Activity</th>
-        <th>DSB Cleavage Type</th>
-        <th>Protein Format</th>
-        <th>Source</th>
-        <th>Editor_Id</th>
+        <th>Laboratory</th>
+        <th>PI</th>
+        <th>Submitter</th>
+        <th>Submission Date</th>
+        <th>Study ID</th>
     </tr>
     </thead>
-<c:forEach items="${editors}" var="rec">
+<c:forEach items="${studies}" var="rec">
     <tr>
-        <td><a href="editor?id=${rec.id}">${rec.symbol}</a></td>
+        <!--td><input class="form" type="checkbox"></td-->
+        <td>
+            <select name="tier" id="tiers">
+            <option style="font-weight:700;font-size:20px" value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+
+        <td><a href="/scgeweb/toolkit/experiments/search?sid=${rec.studyId}">${rec.study}</a></td>
         <td>${rec.type}</td>
-        <td>${rec.subType}</td>
-        <td>${rec.editorVariant}</td>
-        <td>${rec.substrateTarget}</td>
-        <td>${rec.species}</td>
-        <td>${rec.pamPreference}</td>
-        <td>${rec.activity}</td>
-        <td>${rec.dsbCleavageType}</td>
-        <td>${rec.proteinFormat}</td>
-        <td>${rec.source}</td>
-        <td>${rec.id}</td>
+        <td>${rec.labName}</td>
+        <td>${rec.pi}</td>
+        <td>${rec.submitter}</td>
+        <td>${rec.submissionDate}</td>
+        <td>${rec.studyId}</td>
     </tr>
 </c:forEach>
 </table>
+<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->

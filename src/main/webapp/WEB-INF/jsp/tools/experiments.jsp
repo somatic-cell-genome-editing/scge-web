@@ -29,42 +29,46 @@
         });
     });
 </script>
+<div >
+    <%@include file="search.jsp"%>
+</div>
 
 
 <div>
-<div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Editors: ${fn:length(editors)}</p></div>
+<div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Experiments: ${fn:length(experimentRecords)}</p></div>
 
+<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
 </div>
     <table id="myTable" class="table tablesorter table-striped">
-        <thead>
-        <th>Symbol</th>
-        <th>Type</th>
-        <th>Subtype</th>
-        <th>Variant</th>
-        <th>Substrate Target</th>
-        <th>Species</th>
-        <th>PAM Preference</th>
+    <thead>
+    <tr><!--th>Select</th-->
+    <th>Experiment_Id</th>
+    <th>Model</th>
+        <th>Target_Locus</th>
+        <th>Locus site</th>
+        <th>Editor</th>
+        <th>Guide</th>
+        <th>Dectection_Method</th>
+        <th>Measuring_Method</th>
         <th>Activity</th>
-        <th>DSB Cleavage Type</th>
-        <th>Protein Format</th>
-        <th>Source</th>
-        <th>Editor_Id</th>
+        <th>Specificity</th>
     </tr>
     </thead>
-<c:forEach items="${editors}" var="rec">
+<c:forEach items="${experimentRecords}" var="rec">
     <tr>
-        <td><a href="editor?id=${rec.id}">${rec.symbol}</a></td>
-        <td>${rec.type}</td>
-        <td>${rec.subType}</td>
-        <td>${rec.editorVariant}</td>
-        <td>${rec.substrateTarget}</td>
-        <td>${rec.species}</td>
-        <td>${rec.pamPreference}</td>
-        <td>${rec.activity}</td>
-        <td>${rec.dsbCleavageType}</td>
-        <td>${rec.proteinFormat}</td>
-        <td>${rec.source}</td>
-        <td>${rec.id}</td>
+        <!--td><input class="form" type="checkbox"></td-->
+        <td>${rec.experimentId}</td>
+        <td>${rec.model}</td>
+        <td>${rec.targetLocus}</td>
+        <td>${rec.targetLocusSymbol}</td>
+        <td>${rec.editorType}</td>
+        <td>${rec.guide}</td>
+
+        <td>${rec.guideDetectionMethod}</td>
+        <td>CHANGE-seq</td>
+        <td></td>
+        <td>${rec.specificity}</td>
     </tr>
 </c:forEach>
 </table>
+<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
