@@ -59,7 +59,7 @@
             <option value="4">4</option>
         </select>
 
-        <td><a href="/scgeweb/toolkit/experiments/search?sid=${rec.studyId}">${rec.study}</a></td>
+        <td><a href="/scgeweb/toolkit/animalReporter/search">${rec.study}</a></td>
         <td>${rec.type}</td>
         <td>${rec.labName}</td>
         <td>${rec.pi}</td>

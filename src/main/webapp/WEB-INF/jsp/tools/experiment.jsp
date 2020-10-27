@@ -284,7 +284,9 @@
            </table>
         </div>
             <hr>
-        <table id="samplesTable" class="table tablesorter">
+            <div class="row">
+                <div class="col-lg-3" >
+        <table id="samplesTable" class="table tablesorter" >
             <thead>
             <tr><th>Sample</th><th>Sex</th><th>Signal</th></tr>
             </thead>
@@ -298,6 +300,20 @@
             </c:forEach>
             </tbody>
         </table>
+                </div>
+                <div class="col-lg-6">
+                    <table>
+                        <tr>
+                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/heart.png" width="100px" height="100px" alt=""/></td>
+                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/heart_ch00.png" width="100px" height="100px" alt=""/></td>
+                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/heart_ch01.png" width="100px" height="100px" alt=""/></td></tr>
+                        <tr>
+                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/liver.png" width="100px" height="100px" alt=""/></td>
+                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/liver_ch00.png" width="100px" height="100px" alt=""/></td>
+                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/liver_ch01.png" width="100px" height="100px" alt=""/></td></tr>
+                    </table>
+                </div>
+            </div>
 
         </div>
         </c:forEach>
