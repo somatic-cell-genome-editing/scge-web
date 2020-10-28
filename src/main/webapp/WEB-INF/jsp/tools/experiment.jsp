@@ -27,6 +27,7 @@
 
         });
     });
+
 </script>
 <script src="https://d3js.org/d3.v4.js"></script>
 <style>
@@ -194,8 +195,16 @@
         </table>
     </div>
     <hr>
-    <h3>Results Summary:</h3>
-    <div>
+    <div class="row">
+        <div class="col-lg-3">
+            <h3>Results Summary:</h3>
+
+        </div>
+        <div class="col-lg-9">
+            <button class="btn" id="summaryResultsTableBtn" onclick="showTable()">Show Table</button>
+        </div>
+    </div>
+    <div id="summaryTable" style="display: none">
         <table id="myTable" class="table tablesorter table-striped" style="width:50%">
             <thead><tr>
                 <th>Parent_tissue_term</th>
@@ -236,7 +245,6 @@
     <hr>
 
     <%@include file="graph.jsp"%>
-
     <div >
         <c:forEach items="${results}" var="r">
         <div class="satcResults  card" id="${r.tissueTerm}" style="display: none">
@@ -324,3 +332,22 @@
         </c:forEach>
     </div>
 </div>
+<script>
+function showTable() {
+    var btn=$("#summaryResultsTableBtn");
+    var btnTxt=btn.text();
+    if(btnTxt==="Show Table"){
+        btn.text("Hide Table");
+    }else{
+        btn.text("Show Table")
+
+    }
+    var _div=document.getElementById('summaryTable');
+    if(_div.style.display === "none"){
+    _div.style.display="block";
+    }else{
+    _div.style.display="none";
+    }
+
+}
+</script>
