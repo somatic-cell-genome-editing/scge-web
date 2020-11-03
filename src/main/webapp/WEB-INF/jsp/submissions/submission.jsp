@@ -7,26 +7,26 @@
   To change this template use File | Settings | File Templates.
 --%>
 <div class="container">
-<h4>Study Details: </h4>
+<h4>Initiative Details: </h4>
 <form>
     <label>
         Principal Investigator:
-        <input type="text" value="Mindy Dwinel">
+        <input type="text" value="Mindy Dwinel" disabled name="pi">
     </label>
     <label>
         Institution/Lab:
-        <input type="text" value="DCC"/>
+        <input name="initiative" type="text" value="DCC" disabled/>
     </label>
 
         Select Study:
-        <Select type="">
-            <option>New Study</option>
-            <option>Change Sequence Reads</option>
-            <option>Cre Control</option>
-            <option>TLR2 Characterization</option>
+        <Select type="" id="study">
+            <option value="0">New Study</option>
+            <option value="1000">Change Sequence Reads</option>
+            <option value="1001">Cre Control</option>
+            <option value="1002">TLR2 Characterization</option>
         </Select>
 
-    <button type="submit">Next</button>
+    <!--button type="submit">Next</button-->
 </form>
 
 </div>

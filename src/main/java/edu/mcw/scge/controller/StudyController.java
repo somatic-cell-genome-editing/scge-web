@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping(value="/toolkit/studies")
 public class StudyController {
 
+
     @RequestMapping(value="search")
     public String getStudies(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         StudyDao sdao=new StudyDao();

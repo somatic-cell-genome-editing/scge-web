@@ -24,6 +24,7 @@ public class DataController {
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
     }
+
     @GetMapping(value="model/{id}")
     public void getAnimalModel(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
        // if(req.getSession().getAttribute("token")!=null) {

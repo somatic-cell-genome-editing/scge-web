@@ -2,7 +2,9 @@ package edu.mcw.scge.controller;
 
 
 import edu.mcw.scge.dao.implementation.PersonDao;
+import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Person;
+import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.DataAccessService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -34,7 +37,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-import java.io.IOException;
 import java.util.*;
 
 
@@ -74,10 +76,15 @@ public class LoginController{
     }
 
     @RequestMapping("/loginSuccess")
-    public String getLoginInfo(Model model, OAuth2AuthenticationToken authentication, HttpServletRequest req) throws Exception {
-
+    public String getLoginInfo(@RequestParam(required = false) String message ,
+                               @RequestParam(required = false) String tier,
+                               @RequestParam(required = false) String studyId,
+                               Model model, OAuth2AuthenticationToken authentication, HttpServletRequest req) throws Exception {
+        model.addAttribute("message", message);
+        model.addAttribute("tier", tier);
+        model.addAttribute("studyId",studyId);
      OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
-        System.out.println("Principal Name:"+client.getPrincipalName());
+    //    System.out.println("Principal Name:"+client.getPrincipalName());
         String userInfoEndpointUri = client.getClientRegistration()
                 .getProviderDetails()
                 .getUserInfoEndpoint()
@@ -97,10 +104,9 @@ public class LoginController{
             String name= (String) userAttributes.get("name");
 
         String userStatus = pdao.getPersonStatus(client.getPrincipalName());
-
-        String message= new String();
         if(userStatus.equalsIgnoreCase("approved")) {
          //   req.getSession().setAttribute("token",client.getAccessToken().getTokenValue());
+            System.out.println("APPROVED TIER:"+ tier+ "\tStudyId:"+ studyId+"\tMessage"+message);
             List<Person> persons = pdao.getPersonByGoogleId(client.getPrincipalName());
             int personId=0;
             if(persons.size()>0)
@@ -130,9 +136,11 @@ public class LoginController{
             req.setAttribute("givenName", userAttributes.get("givenName"));
             req.setAttribute("familyName", userAttributes.get("familyName"));
             req.setAttribute("userEmail", userAttributes.get("email"));
-            req.setAttribute("message", req.getParameter("message"));
+         //   req.setAttribute("message", message);
             req.setAttribute("status", req.getParameter("status"));
-
+            StudyDao sdao=new StudyDao();
+            List<Study> studies = sdao.getStudies();
+            req.setAttribute("studies", studies);
             return "base";
         }else{
             message = name+" Your request is under processing. You will receive a confirmation email shortly.";
@@ -179,5 +187,13 @@ public class LoginController{
        return "home2";
 
     }
-
+    @ModelAttribute("tiers")
+    public List<String> getTiers() {
+        List<String> tiers = new ArrayList<String>();
+        tiers.add("1");
+        tiers.add("2");
+        tiers.add("3");
+        tiers.add("4");
+        return tiers;
+    }
 }
