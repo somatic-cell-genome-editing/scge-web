@@ -1,3 +1,6 @@
+<%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.datamodel.AnimalTestingResultsSummary" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -194,6 +197,100 @@
             <tr><td class="header"><strong>Sample Preparation</strong></td><td>${experiment.samplePrep}</td></tr>
         </table>
     </div>
+
+<!-- JD NEW -->
+    <hr>
+    <div class="row">
+        <div class="col-lg-3">
+            <h3>Results Summary:</h3>
+
+        </div>
+    </div>
+    <div id="summaryTable2" style="">
+        <table id="myTable2" class="table tablesorter table-striped" style="width:50%" border="0">
+            <thead><tr>
+                <th>Biological&nbsp;System</th>
+                <th>Tissue</th>
+                <th>Signal</th>
+               <!--
+                <th>Samples</th>
+                <th>signal</th>
+                <th>Present</th>
+                <th>Signal Description</th>
+                <th>Image</th>
+                <th>Percent&nbsp;In&nbsp;RIO&nbsp;With&nbsp;Siginal</th>
+                <th>ROI</th>
+                <th>ROI&nbsp;Coordinates</th>
+                -->
+            </tr></thead>
+            <tbody>
+
+
+            <%
+                List<AnimalTestingResultsSummary> results= (List<AnimalTestingResultsSummary>)request.getAttribute("results");
+                for (AnimalTestingResultsSummary r: results) {
+            %>
+
+                <tr>
+                    <td><%=r.getParentTissueTerm()%></td>
+                    <td><%=r.getTissueTerm()%></td>
+                    <td>
+
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+
+                                <%
+                                   String color="white";
+                                    if ((Double.parseDouble(r.getSignalPresent()) / (double)r.getNumberOfSamples()) < .5) {
+                                    color="black";
+                                }
+
+                                %>
+
+                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("blue",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("green",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:0px;margin:0px;"><div style="border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("red",1,255)%>"></div></td>
+                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("rd",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                            </tr>
+                        </table>
+                        <!--
+                        <table border="1" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="padding:0px;margin:0px;">d</td>
+                                <td style="padding:0px;margin:0px;">d</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:0px;margin:0px;">f</td>
+                                <td style="padding:0px;margin:0px;">g</td>
+                            </tr>
+                        </table>
+-->
+                    </td>
+
+                    <!--
+                    <td><%=r.getNumberOfSamples()%></td>
+                    <td><%=r.getSignal()%></td>
+                    <td><%=r.getSignalPresent()%></td>
+                    <td><%=r.getSignalDescription()%></td>
+                    <td><%=r.getImageLink()%></td>
+                    <td><%=r.getPercentCellsInROIWithSginal()%></td>
+                    <td><%=r.getRoi()%></td>
+                    <td><%=r.getROICoordinates()%></td>
+                    -->
+                </tr>
+
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
     <hr>
     <div class="row">
         <div class="col-lg-3">
