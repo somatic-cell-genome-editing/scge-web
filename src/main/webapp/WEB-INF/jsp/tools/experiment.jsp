@@ -123,7 +123,7 @@
 
 <div>
     <div>
-        <table style="width:50%">
+        <table style="width:80%">
 
             <tbody>
             <tr><td class="header"><strong>Experiment</strong></td><td>${experiment.experimentName}</td></tr>
@@ -132,25 +132,37 @@
         </table>
 
     </div>
+
     <hr>
     <div>
-<table  style="width:50%">
+        <table style="width:80%">
+
+            <tbody>
+            <c:forEach items="${deliveryList}" var="d">
+                <tr><td class="header"><strong>Editor</strong></td><td><a href="/scgeweb/toolkit/editors/editor?id=3">SpCas9</a></td></tr>
+                <tr><td class="header"><strong>Delivery System</strong></td><td>${d.deliverySystemType}</td></tr>
+                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td>${d.deliverySystemSubtype}</td></tr>
+                <tr><td class="header"><strong>Guide</strong></td><td>26.52</td></tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+
+
+    <hr>
+    <div>
+<table  style="width:80%">
 
     <tbody>
-    <tr><td class="header"><strong>Model</strong></td><td>${model.type}</td></tr>
-    <tr><td class="header"><strong>Name</strong></td><td>${model.name}</td></tr>
-    <tr><td class="header"><strong>Short Name</strong></td><td>${model.shortName}</td></tr>
-    <tr><td class="header"><strong>Organism</strong></td><td>${model.organism}</td></tr>
-    <tr><td class="header"><strong>GenoType</strong></td><td>${model.genotype}</td></tr>
-    <tr><td class="header"><strong>Stock Number</strong></td><td>${model.stockNumber}</td></tr>
-    <tr><td class="header"><strong>Age</strong></td><td>${model.age}</td></tr>
-    <tr><td class="header"><strong>Age Range</strong></td><td>${model.ageRange}</td></tr>
+    <tr><td class="header"><strong>Model</strong></td><td>${model.organism}</td></tr>
+        <tr><td class="header"><strong>Model Name</strong></td><td><a href="/scgeweb/toolkit/models/model?id=${model.modelId}">${model.name}</a></td></tr>
     </tbody>
 </table>
     </div>
     <hr>
     <div>
-        <table style="width:50%">
+        <table style="width:80%">
 
             <tbody>
             <c:forEach items="${reporterElements}" var="reporter">
@@ -164,20 +176,7 @@
     </div>
     <hr>
     <div>
-        <table style="width:50%">
-
-            <tbody>
-            <c:forEach items="${deliveryList}" var="d">
-                <tr><td class="header"><strong>Delivery System</strong></td><td>${d.deliverySystemType}</td></tr>
-                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td>${d.deliverySystemSubtype}</td></tr>
-
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
-    <hr>
-    <div>
-        <table style="width:50%">
+        <table style="width:80%">
 
             <tbody>
             <c:forEach items="${applicationMethod}" var="a">
@@ -207,21 +206,11 @@
         </div>
     </div>
     <div id="summaryTable2" style="">
-        <table id="myTable2" class="table tablesorter table-striped" style="width:50%" border="0">
+        <table id="myTable2" class="able ablesorter table-striped" style="width:50%" border="0">
             <thead><tr>
                 <th>Biological&nbsp;System</th>
                 <th>Tissue</th>
                 <th>Signal</th>
-               <!--
-                <th>Samples</th>
-                <th>signal</th>
-                <th>Present</th>
-                <th>Signal Description</th>
-                <th>Image</th>
-                <th>Percent&nbsp;In&nbsp;RIO&nbsp;With&nbsp;Siginal</th>
-                <th>ROI</th>
-                <th>ROI&nbsp;Coordinates</th>
-                -->
             </tr></thead>
             <tbody>
 
@@ -247,12 +236,12 @@
 
                                 %>
 
-                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("blue",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
-                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("green",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:25px;height:25px;background-color:<%=UI.getRGBValue("blue",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:25px;height:25px;background-color:<%=UI.getRGBValue("green",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
                             </tr>
                             <tr>
-                                <td style="padding:0px;margin:0px;"><div style="border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("red",1,255)%>"></div></td>
-                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("rd",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                                <td style="padding:0px;margin:0px;"><div style="border:1px solid black;text-align:center;width:25px;height:25px;background-color:<%=UI.getRGBValue("red",1,255)%>"></div></td>
+                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:25px;height:25px;background-color:<%=UI.getRGBValue("rd",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
                             </tr>
                         </table>
                         <!--

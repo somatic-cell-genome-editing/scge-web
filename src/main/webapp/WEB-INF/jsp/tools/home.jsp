@@ -110,6 +110,30 @@
             </table>
         </div>
 
+            <div class="row"  >
+
+                <div class="col-md-6">
+                    <table  class='borderless' >
+                        <tr>
+                            <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="50" height="50" alt="" />
+                                &nbsp;&nbsp;</td>
+                            <td><a href="models/search"><strong>Genetic Models</strong></a>, innovative genome editing systems with improved specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="col-md-6">
+                    <table  class='borderless' >
+                        <tr>
+                            <td><i class="far fa-file-alt" style="font-size: 50px;color:steelblue"></i>&nbsp;
+                                &nbsp;&nbsp;</td>
+                            <td><a><strong>Protocols</strong></a> is a comprehensive source for protocols and reviews covering essential and advanced experimental design, methods and analyses in all areas including the preparation and analysis of genome editing and more.
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
         <!--div class="col-md-6">
             <table  class='borderless'>
                 <tr>
