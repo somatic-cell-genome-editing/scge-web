@@ -8,6 +8,7 @@ import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.dao.implementation.TestDataDao;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.PersonInfo;
+import edu.mcw.scge.datamodel.SCGEGroup;
 import edu.mcw.scge.datamodel.TestData;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -299,6 +300,63 @@ public class DataAccessService {
             e.printStackTrace();
         }
 
+        return map;
+    }
+    public  Map<Integer, List<SCGEGroup>> getGroupsMapByGroupId(int groupId) {
+
+        Map<Integer, List<SCGEGroup>> map= new HashMap<>();
+        List<SCGEGroup> subgroups=new ArrayList<>();
+        try {
+            subgroups=   gdao.getSubGroupsByGroupId(groupId);
+            for(SCGEGroup sg:subgroups){
+                List<SCGEGroup> ssgroups=  gdao.getSubGroupsByGroupId(sg.getGroupId());
+                map.put(sg.getGroupId(), ssgroups);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return map;
+    }
+    public  Map<SCGEGroup, List<SCGEGroup>> getGroupMapByGroupId(int groupId) {
+
+        Map<SCGEGroup, List<SCGEGroup>> map= new HashMap<>();
+        List<SCGEGroup> subgroups=new ArrayList<>();
+        try {
+            subgroups=   gdao.getSubGroupsByGroupId(groupId);
+            for(SCGEGroup sg:subgroups){
+                List<SCGEGroup> ssgroups=  gdao.getSubGroupsByGroupId(sg.getGroupId());
+                for(SCGEGroup g:ssgroups){
+                    List<Person> members=gdao.getGroupMembersByGroupId(g.getGroupId());
+                    g.setMembers(members);
+                }
+                map.put(sg, ssgroups);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return map;
+    }
+    public Map<Integer, List<Person>> getAllGroupsMembersMap( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
+        Map<Integer, List<Person>> map=new HashMap<>();
+        for(Map.Entry e: consortiumGroup.entrySet()){
+            List<SCGEGroup> groups= (List<SCGEGroup>) e.getValue();
+            for(SCGEGroup g:groups){
+                int groupId= g.getGroupId();
+                List<Person> sortedMembers=new ArrayList<>();
+                List<Integer> memberIds=new ArrayList<>();
+                List<Person> members=gdao.getGroupMembersByGroupId(groupId);
+                for(Person p:members){
+                    if(!memberIds.contains(p.getId())){
+                        sortedMembers.add(p);
+                        memberIds.add(p.getId());
+                    }
+                }
+                map.put(groupId, sortedMembers);
+
+            }
+        }
         return map;
     }
     public void logToDb(GoogleIdToken.Payload payload){

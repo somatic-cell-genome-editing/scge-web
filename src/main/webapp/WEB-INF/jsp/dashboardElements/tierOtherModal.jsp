@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <!-- The Modal -->
-<div class="modal" id="accessControlModal">
+<div class="modal" id="accessControlModal${rec.studyId}">
     <div class="modal-dialog">
         <div class="modal-content">
 
