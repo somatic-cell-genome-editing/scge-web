@@ -15,6 +15,16 @@ public class DBService {
        return   edao.getExperimentRecordsByLabId(labId);
       //  return   edao.getExperimentRecords();
     }
+    public List<ExperimentRecord> getAllExperimentRecordsByStudyId(int studyId) throws Exception {
+        ExperimentRecordDao edao=new ExperimentRecordDao();
+        return   edao.getExperimentRecordsByStudyId(studyId);
+        //  return   edao.getExperimentRecords();
+    }
+    public List<Experiment> getAllExperimentsByStudyId(int studyId) throws Exception {
+        ExperimentDao edao=new ExperimentDao();
+        return   edao.getExperimentsByStudy(studyId);
+        //  return   edao.getExperimentRecords();
+    }
     public List<ExperimentRecord> getExperimentRecordById(int expId) throws Exception {
         ExperimentRecordDao edao=new ExperimentRecordDao();
         return   edao.getExperimentRecordById(expId);
