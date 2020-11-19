@@ -30,6 +30,8 @@
         <th>Laboratory</th>
         <th>PI</th>
         <th>Submitter</th>
+        <th>Raw Data</th>
+        <td>Ref</td>
         <th>Submission_Date</th>
         <th>Study_ID</th>
     </tr>
@@ -94,6 +96,8 @@
         <td>${rec.labName}</td>
         <td>${rec.pi}</td>
         <td>${rec.submitter}</td>
+        <td><a href="${rec.rawData}">link</a></td>
+        <td><a href="${rec.reference}">ref</a></td>
         <td>${rec.submissionDate}</td>
         <td>${rec.studyId}</td>
     </tr>
