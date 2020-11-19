@@ -89,7 +89,7 @@
                 </c:choose>
 
             </form>
-        <td><a href="/scgeweb/toolkit/animalReporter/search">${rec.study}</a></td>
+        <td><a href="/scgeweb/toolkit/studies/search/${rec.studyId}">${rec.study}</a></td>
         <td>${rec.type}</td>
         <td>${rec.labName}</td>
         <td>${rec.pi}</td>
@@ -97,33 +97,17 @@
         <td>${rec.submissionDate}</td>
         <td>${rec.studyId}</td>
     </tr>
-</c:forEach>
-</table>
-<div>
-    <%@include file="../dashboardElements/confirmationModal.jsp"%>
-</div>
-<div class="modal" id="editAccessControlModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div>
+        <%@include file="../dashboardElements/tierOtherModal.jsp"%>
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-               <%@include file="../edit/access.jsp"%>
-            </div>
-
-            <!-- Modal footer -->
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id= "saveChanges">Save changes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-
-        </div>
     </div>
-</div>
+    <div>
+        <%@include file="../dashboardElements/tier2Modal.jsp"%>
+
+    </div>
+</c:forEach>
+
+</table>
+
+
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->

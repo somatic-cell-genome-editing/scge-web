@@ -4,6 +4,7 @@ package edu.mcw.scge.controller;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Person;
+import edu.mcw.scge.datamodel.SCGEGroup;
 import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.DataAccessService;
 
@@ -125,10 +126,15 @@ public class LoginController{
             req.getSession().setAttribute("groupRoleMap", groupRoleMap);
             req.getSession().setAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
 
-            model.addAttribute("groupRoleMap", groupRoleMap);
-            model.addAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
+           // model.addAttribute("groupRoleMap", groupRoleMap);
+           // model.addAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
             //  model.addAttribute("consortiumGroups", service.getSubGroupsByGroupName("consortium group"));
-            req.setAttribute("groupsMap", service.getGroupsMapByGroupName("consortium group"));
+            req.setAttribute("groupsMap", service.getGroupMapByGroupId(3));
+            Map<Integer, List<SCGEGroup>> consortiumGroups= service.getGroupsMapByGroupId(3);
+            Map<Integer, List<Person>> groupMembersMap=service.getAllGroupsMembersMap(consortiumGroups);
+          //  req.setAttribute("groupsMap", consortiumGroups);
+            req.setAttribute("groupsMap1", consortiumGroups);
+            req.setAttribute("groupMembersMap",groupMembersMap );
             session.setAttribute("userName", userAttributes.get("name"));
             session.setAttribute("userImageUrl", userAttributes.get("picture"));
             model.addAttribute("userName", userAttributes.get("name"));
