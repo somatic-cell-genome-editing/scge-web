@@ -12,20 +12,44 @@
         <tr><th>Consortium Groups</th></tr>
         <c:forEach items="${groupsMap}" var="m">
         <tr><td>
-            <a href="members?group=${m.key}">${m.key}</a>
-            <div id="${m.key}" style="display: none">
+            <button type="button" class="btn btn-secondary-outline btn-sm" style="padding:0;text-align: left"
+                    data-toggle="modal" data-target="#modal${m.key.groupId}"><span style="color:steelblue">${m.key.groupName}</span>
+            </button>
+
+            <!--a href="members?group=$-{m.key}">$-{m.key}</a-->
+            <div  class="modal" id="modal${m.key.groupId}" style="display: none">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"> ${m.key.groupName}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
                 <ul>
                     <c:forEach items="${m.value}" var="sg">
-                        <li><a href="members?group=${sg}">${sg}</a></li>
+                        <li><span style="color:#24609c;font-weight:bold ">${sg.groupName}</span>
+
+                            <ul>
+                                <c:forEach items="${sg.members}" var="mem">
+                                    <li>${mem.name}</li>
+                                </c:forEach>
+                            </ul>
+                        </li>
+
                     </c:forEach>
                 </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primart" data-dismiss="modal">Close</button>
+                        </div>
+            </div>
+                </div>
             </div>
         </td></tr>
         </c:forEach>
     </table>
 
-
-        </div>
+</div>
 
 
 
