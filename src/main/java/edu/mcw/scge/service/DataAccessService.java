@@ -359,6 +359,58 @@ public class DataAccessService {
         }
         return map;
     }
+    public Map<SCGEGroup, List<Person>> getGroupMembersMapExcludeDCCNIH( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
+        Map<SCGEGroup, List<Person>> map=new HashMap<>();
+        List<Integer> DCCNIHGroups=new ArrayList<>(Arrays.asList(
+                32,34, 35,36,37,38,39,40,41,42,43,45
+        ));
+        for(Map.Entry e: consortiumGroup.entrySet()){
+            List<SCGEGroup> groups= (List<SCGEGroup>) e.getValue();
+            for(SCGEGroup g:groups){
+                int groupId= g.getGroupId();
+                List<Person> sortedMembers=new ArrayList<>();
+                List<Integer> memberIds=new ArrayList<>();
+                List<Person> members=gdao.getGroupMembersByGroupId(groupId);
+                for(Person p:members){
+                    if(!memberIds.contains(p.getId())){
+                        sortedMembers.add(p);
+                        memberIds.add(p.getId());
+                    }
+                }
+              if(!DCCNIHGroups.contains(groupId))
+                map.put(g, sortedMembers);
+
+            }
+        }
+        return map;
+    }
+    public Map<SCGEGroup, List<Person>> getDCCNIHMembersMap( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
+        Map<SCGEGroup, List<Person>> map=new HashMap<>();
+        List<Integer> DCCNIHGroups=new ArrayList<>(Arrays.asList(
+                32,34, 35,36,37,38,39,40,41,42,43,45
+        ));
+        for(Map.Entry e: consortiumGroup.entrySet()){
+            List<SCGEGroup> groups= (List<SCGEGroup>) e.getValue();
+            for(SCGEGroup g:groups){
+                int groupId= g.getGroupId();
+                if(DCCNIHGroups.contains(groupId)) {
+                    List<Person> sortedMembers = new ArrayList<>();
+                    List<Integer> memberIds = new ArrayList<>();
+                    List<Person> members = gdao.getGroupMembersByGroupId(groupId);
+                    for (Person p : members) {
+                        if (!memberIds.contains(p.getId())) {
+                            sortedMembers.add(p);
+                            memberIds.add(p.getId());
+                        }
+                    }
+
+                    map.put(g, sortedMembers);
+                }
+
+            }
+        }
+        return map;
+    }
     public void logToDb(GoogleIdToken.Payload payload){
         String email=payload.getEmail();
         String name = (String) payload.get("name");
