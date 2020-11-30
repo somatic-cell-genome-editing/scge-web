@@ -1,5 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="edu.mcw.scge.datamodel.Experiment" %>
+<%@ page import="java.util.List" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -29,46 +30,36 @@
         });
     });
 </script>
-<div >
-    <%@include file="search.jsp"%>
-</div>
-
 
 <div>
-<div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Experiments: ${fn:length(experimentRecords)}</p></div>
+    <%
+        List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
+        out.println(experiments.size());
+    %>
 
-<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
-</div>
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
-    <tr><!--th>Select</th-->
+    <tr>
     <th>Experiment_Id</th>
-    <th>Model</th>
-        <th>Target_Locus</th>
-        <th>Locus site</th>
+    <th>Name</th>
         <th>Editor</th>
+        <th>Delivery System</th>
+        <th>Model</th>
         <th>Guide</th>
-        <th>Dectection_Method</th>
-        <th>Measuring_Method</th>
-        <th>Activity</th>
-        <th>Specificity</th>
     </tr>
     </thead>
-<c:forEach items="${experimentRecords}" var="rec">
+
+        <% for (Experiment exp: experiments) { %>
+
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
-        <td>${rec.experimentId}</td>
-        <td>${rec.model}</td>
-        <td>${rec.targetLocus}</td>
-        <td>${rec.targetLocusSymbol}</td>
-        <td>${rec.editorType}</td>
-        <td>${rec.guide}</td>
-
-        <td>${rec.guideDetectionMethod}</td>
-        <td>CHANGE-seq</td>
-        <td></td>
-        <td>${rec.specificity}</td>
+        <td><%=exp.getExperimentId()%></td>
+        <td><%=exp.getExperimentName()%></td>
+        <td><%=exp.getEditorSymbol()%></td>
+        <td><%=exp.getDeliverySystemType()%></td>
+        <td><%=exp.getModelName()%></td>
+        <td><%=exp.getGuide()%></td>
     </tr>
-</c:forEach>
+        <% } %>
 </table>
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
