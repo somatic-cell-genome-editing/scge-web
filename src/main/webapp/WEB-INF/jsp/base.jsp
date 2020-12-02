@@ -54,12 +54,12 @@ Goals"/>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Custom styles for this template -->
     <!--link href="css/dashboard.css" rel="stylesheet"-->
-    <link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-    <link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-    <link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+    <link href="common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+    <link href="common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+    <link href="common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
 
-    <script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
-    <script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
+    <script src="common/tableSorter/js/tablesorter.js"> </script>
+    <script src="common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
  <style>
     html, body {
