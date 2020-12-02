@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by jthota on 8/23/2019.
@@ -23,7 +25,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value="/secure")
 public class ActionController {
-    DataAccessService service=new DataAccessService();
+ /*   DataAccessService service=new DataAccessService();
 
 
     @GetMapping(value="/create")
@@ -266,5 +268,5 @@ public class ActionController {
         }
         //   return "unauthorizedUsers";
         return null;
-    }
+    }*/
 }

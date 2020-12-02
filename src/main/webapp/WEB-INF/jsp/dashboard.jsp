@@ -14,7 +14,7 @@
     }
 </style>
 
-<div class="container" style="align-content: center;text-align: center">
+<!--div class="container" style="align-content: center;text-align: center">
     <div class="row">
         <div class="col-md-2" style="text-align: center">
 
@@ -26,140 +26,58 @@
             </a>
         </div>
         <div class="col-md-2" style="text-align: center">
+
             <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" width="75" height="75" alt="" />
-            <div style="text-align: center;"><p>Biological Systems Data</p></div>
+            <div style="text-align: center;"><p>Biological Effects</p></div>
+
         </div>
         <div class="col-md-2" style="text-align: center">
+            <a href="toolkit/delivery/search">
             <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="75" height="75" alt="" />
             <div style="text-align: center;"><p>Delivery Systems Data</p></div>
+            </a>
         </div>
         <div class="col-md-2" style="text-align: center">
             <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="75" height="75" alt="" />
             <div style="text-align: center;"><p>Genome Editor Data</p></div>
         </div>
     </div>
+      </div-->
 
-<!--div class="fusion-column content-box-column content-box-column-1 col-lg-2 col-md-2 col-sm-2 fusion-content-box-hover content-box-column-first-in-row">
-    <div class="col content-box-wrapper content-wrapper-background content-wrapper-boxed link-area-box link-type-button-bar icon-hover-animation-pulsate fusion-animated" style="background-color:#1a80b6;" data-link="https://scge.mcw.edu/animal_reporter/" data-link-target="_self" data-animationType="fadeInLeft" data-animationDuration="1.0" data-animationOffset="100%">
-        <div class="heading heading-with-icon icon-left"><a class="heading-link" href="https://scge.mcw.edu/animal_reporter/" target="_self">
-            <div style="margin-left:-37.5px;top:-87.5px;text-align: center" class="image"><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/mouse.png" width="75" height="75" alt="" />
-            </div><h2 class="content-box-heading" style="font-size:18px;line-height:23px;color:white;text-align: center;">Animal Reporter and Testing Centers</h2></a></div>
-        <div class="fusion-clearfix"></div>
-        <a class="fusion-read-more fusion-read-more-button fusion-content-box-button fusion-button button-default button-large button-square button-flat" href="https://scge.mcw.edu/animal_reporter/" target="_self">Read More</a><div class="fusion-clearfix"></div></div></div><div class="fusion-column content-box-column content-box-column-2 col-lg-2 col-md-2 col-sm-2 fusion-content-box-hover "><div class="col content-box-wrapper content-wrapper-background content-wrapper-boxed link-area-box link-type-button-bar icon-hover-animation-pulsate fusion-animated" style="background-color:#1a80b6;" data-link="https://scge.mcw.edu/biologicalsystems/" data-link-target="_self" data-animationType="fadeInLeft" data-animationDuration="1.0" data-animationOffset="100%"><div class="heading heading-with-icon icon-left"><a class="heading-link" href="https://scge.mcw.edu/biologicalsystems/" target="_self"><div style="margin-left:-37.5px;top:-87.5px;" class="image"><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" width="75" height="75" alt="" /></div><h2 class="content-box-heading" style="font-size:18px;line-height:23px;">Biological Systems Projects</h2></a></div><div class="fusion-clearfix"></div><a class="fusion-read-more" class="fusion-read-more-button fusion-content-box-button fusion-button button-default button-large button-square button-flat" href="https://scge.mcw.edu/biologicalsystems/" target="_self">Read more</a><div class="fusion-clearfix"></div></div>
-</div-->
-      </div>
-
-<div  class="form-inline container">
+<!--div  class="form-inline container">
 <div class="panel panel-default" >
-    <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">My Group Associations</div>
-
-    <div class="panel panel-body">
-        <table class="table">
-            <tr><th>Group</th><th>Role</th></tr>
-            <tr><td><a href="members?group=consortium group">Consortium Group</a></td><td>member</td></tr>
-            <c:forEach items="${groupSubgroupRoleMap}" var="sg">
-
-                <c:if test="${sg.key!='working group'}">
-                    <c:forEach items="${sg.value}" var="g1">
-                        <c:if test="${g1.key!='Dissemination and Coordinating Center'}">
-                    <tr><td ><a href="members?group=${g1.key}">${g1.key}</a></td>
-                        <td>
-                            <c:set var="first" value="true"/>
-                            <c:forEach items="${g1.value}" var="r1">
-                                <c:choose>
-                                    <c:when test="${first=='true'}">
-                                        ${r1}
-                                        <c:set var="first" value="false"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        ;${r1}
-                                    </c:otherwise>
-                                </c:choose>
-
-                            </c:forEach>
-                        </td></tr>
-                </c:if>
-                    </c:forEach>
-                </c:if>
-            </c:forEach>
-
-        </table>
-    </div>
-    <div class="panel panel-body">
-        <table class="table">
-            <tr><th>Working Group</th><th>Role</th></tr>
-            <c:forEach items="${groupSubgroupRoleMap}" var="wg">
-                <c:if test="${wg.key=='working group'}">
-                    <c:forEach items="${wg.value}" var="g2">
-                        <c:if test="${g2.key!='Dissemination and Coordinating Center'}">
-                            <tr><td ><a href="members?group=${g2.key}">${g2.key}</a></td>
-                                <td>
-                                    <c:set var="first" value="true"/>
-                                    <c:forEach items="${g2.value}" var="r2">
-                                        <c:choose>
-                                            <c:when test="${first=='true'}">
-                                                ${r2}
-                                                <c:set var="first" value="false"/>
-                                            </c:when>
-                                            <c:otherwise>
-                                                ;${r2}
-                                            </c:otherwise>
-                                        </c:choose>
-
-                                    </c:forEach>
-                                </td></tr>
-                        </c:if>
-                    </c:forEach>
-                </c:if>
-            </c:forEach>
-
-        </table>
-    </div>
+    <%--@include file="dashboardElements/myGroupAssociations.jsp"--%>
+   <%--@include file="dashboardElements/workingGroups.jsp"--%>
 </div>
     <div class="panel panel-default" >
-        <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">SCGE Groups</div>
-        <div class="panel panel-body">
+        <%--@include file="dashboardElements/consortiumGroups.jsp"--%>
+    </div>
 
+</div-->
+<div class="container-fluid wrapper">
+    <div>
+        <c:if test="${tier!=null && tier!=''}">
+            <p style="color:green">Selected study tier changed to TIER ${tier}</p>
+        </c:if>
+        <!--p style="color:green;font-weight: bold">$-{message} </p-->
+        <div class="row">
 
-                <c:forEach items="${groupsMap}" var="m">
-                    <p><a href="members?group=${m.key}" style="font-weight:bold">${m.key}</a></p>
-                    <ul>
-                        <c:forEach items="${m.value}" var="sg">
-                            <li><a href="members?group=${sg}">${sg}</a></li>
-                        </c:forEach>
-                    </ul>
-
-                </c:forEach>
-
-
+            <div class="col-lg-10">
+               <%@include file="tools/studies.jsp"%>
+            </div>
+            <div class="card sidebar-wrapper col-lg-2" style="background-color:#ffffff">
+                <div class="sidebarItemDiv">
+            <%@include file="dashboardElements/myGroupAssociations.jsp"%>
+                </div>
+                <div class="sidebarItemDiv">
+            <%@include file="dashboardElements/workingGroups.jsp"%>
+                </div>
+                <div class="sidebarItemDiv">
+                <%@include file="dashboardElements/consortiumGroups.jsp"%>
+                </div>
+            </div>
 
         </div>
     </div>
-<!--div class="panel panel-default" >
-    <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">SCGE Groups</div>
-    <div class="panel panel-body">
-        <table class="table">
-            <tr><th>Group</th></tr>
-            <c:forEach items="${consortiumGroups}" var="sg">
-                <tr><td><a href="groups?group=${sg}">${sg}</a></td></tr>
-            </c:forEach>
-
-
-        </table>
-    </div>
-</div-->
 </div>
 
-
-<!--div class="panel panel-default" style="width:50%;">
-    <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">Experiments</div>
-    <div class="panel panel-body">
-        <table class="table">
-            <tr><th>Experiment</th><th>Owner</th></tr>
-            <tr><td><a href="#">Cancer cell line</a></td><td>animal_reporter_wg</td></tr>
-            <tr><td><a href="#">Conditionally immortalized cell line</a></td><td>editor_wg</td></tr>
-            <tr><td><a href="#">Embryonic stem cell</a></td><td>animal_reporter_wg</td></tr>
-            <tr><td><a href="#">Finite cell line</a></td><td>animal_reporter_wg</td></tr>
-        </table>
-    </div>
-</div-->

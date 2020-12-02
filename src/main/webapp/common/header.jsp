@@ -107,23 +107,23 @@ Goals"/>
                         </div>
                         <div class="fusion-alignright">
                             <div class="row">
-                             <div class="col">
+                                <div class="col">
 
-                                 <!--div class="g-signin2 col" data-onsuccess="onSignIn" data-theme="dark"></div-->
-                                 <c:if test="${userName!=null && userName!=''}">
-                                     <table>
-                                         <tr>
-                                             <td> ${userName} &nbsp;&nbsp; ${userEmail}</td>
-                                             <td>&nbsp;&nbsp;<a href="logout" style="text-decoration: underline;font-weight: bold">Sign out</a>
+                                    <!--div class="g-signin2 col" data-onsuccess="onSignIn" data-theme="dark"></div-->
+                                    <c:if test="${userName!=null && userName!=''}">
+                                        <table>
+                                            <tr>
+                                                <td> ${userName} &nbsp;&nbsp; ${userEmail}</td>
+                                                <td>&nbsp;&nbsp;<a href="logout" style="text-decoration: underline;font-weight: bold">Sign out</a>
 
-                                             </td>
-                                         </tr>
-                                     </table>
+                                                </td>
+                                            </tr>
+                                        </table>
 
 
-                                 </c:if>
-                             </div>
-                             </div>
+                                    </c:if>
+                                </div>
+                            </div>
 
 
                         </div>
