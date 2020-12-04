@@ -2,10 +2,8 @@ package edu.mcw.scge.service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.http.HttpRequest;
-import edu.mcw.scge.dao.implementation.AccessDao;
-import edu.mcw.scge.dao.implementation.GroupDAO;
-import edu.mcw.scge.dao.implementation.PersonDao;
-import edu.mcw.scge.dao.implementation.TestDataDao;
+import edu.mcw.scge.dao.AbstractDAO;
+import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.PersonInfo;
 import edu.mcw.scge.datamodel.SCGEGroup;
@@ -24,11 +22,12 @@ import java.util.*;
 /**
  * Created by jthota on 8/16/2019.
  */
-public class DataAccessService {
+public class DataAccessService extends AbstractDAO {
     TestDataDao tdao=new TestDataDao();
     PersonDao pdao=new PersonDao();
     GroupDAO gdao=new GroupDAO();
     AccessDao adao=new AccessDao();
+    StudyDao sdao=new StudyDao();
     public List<TestData> getData(String name, String symbol) throws Exception {
            return tdao.getTestData();
     }
@@ -327,7 +326,14 @@ public class DataAccessService {
             for(SCGEGroup sg:subgroups){
                 List<SCGEGroup> ssgroups=  gdao.getSubGroupsByGroupId(sg.getGroupId());
                 for(SCGEGroup g:ssgroups){
-                    List<Person> members=gdao.getGroupMembersByGroupId(g.getGroupId());
+                    List<Person> members=new ArrayList<>();
+                    Set<Integer> memberIds=new HashSet<>();
+                    for(Person p:gdao.getGroupMembersByGroupId(g.getGroupId())) {
+                      if(!memberIds.contains(p.getId())){
+                          memberIds.add(p.getId());
+                          members.add(p);
+                      }
+                    }
                     g.setMembers(members);
                 }
                 map.put(sg, ssgroups);
@@ -410,6 +416,11 @@ public class DataAccessService {
             }
         }
         return map;
+    }
+    public void updateStudyTier(int studyId, int tier, int groupId,
+                                String action, String status, int modifiedBypersonId) throws Exception {
+        int sequenceKey=getNextKey("study_tier_updates_seq");
+        sdao.insertStudyTier(studyId, tier,groupId,sequenceKey, action, status, modifiedBypersonId);
     }
     public void logToDb(GoogleIdToken.Payload payload){
         String email=payload.getEmail();

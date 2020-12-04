@@ -64,7 +64,18 @@
 
             <div class="col-lg-10">
                <%@include file="tools/studies.jsp"%>
+                <!--div class="card ">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h4 style="color:steelblue">Studies pending PI action</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <%--@include file="dashboardElements/pendingPIAction.jsp"--%>
+                    </div>
+                </div-->
             </div>
+
             <div class="card sidebar-wrapper col-lg-2" style="background-color:#ffffff">
                 <div class="sidebarItemDiv">
             <%@include file="dashboardElements/myGroupAssociations.jsp"%>
@@ -78,6 +89,7 @@
             </div>
 
         </div>
+
     </div>
 </div>
 

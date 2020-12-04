@@ -148,7 +148,7 @@ public class LoginController{
          //   req.setAttribute("message", message);
             req.setAttribute("status", req.getParameter("status"));
             StudyDao sdao=new StudyDao();
-            List<Study> studies = sdao.getStudies();
+            List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID.
             req.setAttribute("studies", studies);
             return "base";
         }else{

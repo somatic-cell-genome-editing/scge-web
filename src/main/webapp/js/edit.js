@@ -1,8 +1,15 @@
 $(function() {
+    studyId=0;
     $("#myTable").tablesorter({
         theme : 'blue'
 
     });
+    $('input[name=tier]').on('change', function () {
+     //   alert($(this).val() + "\tstudyID: "+studyId)
+        var tier=$(this).val();
+       enableSaveChanges(studyId, tier.trim());
+
+    })
   /*  $('#groupSelect').change(function(){
         var value= ($(this).val());
         var $div="#group"+value;
@@ -10,7 +17,8 @@ $(function() {
         $($div).show(2000);
     });*/
 });
-function changeAccess(_this, studyId) {
+
+function changeAccess1(_this, studyId) {
      selectObj=$("#select"+studyId);
   //  if(_this.val()==='2')
     if(selectObj.val()==='2')
@@ -20,6 +28,11 @@ function changeAccess(_this, studyId) {
 
 
 
+}
+function changeAccess(_this, studyId,tier) {
+    this.studyId=studyId;
+    enableGroupSelect(studyId, tier);
+    $("#tier2Modal" + studyId).modal('toggle');
 }
 
 function saveChanges(_this, studyId) {

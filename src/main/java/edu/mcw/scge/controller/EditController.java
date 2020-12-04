@@ -1,6 +1,10 @@
 package edu.mcw.scge.controller;
 
 import com.sun.mail.smtp.SMTPTransport;
+import edu.mcw.scge.dao.implementation.PersonDao;
+import edu.mcw.scge.datamodel.Person;
+import edu.mcw.scge.service.DataAccessService;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,19 +29,24 @@ import java.util.Properties;
 @Controller
 @RequestMapping(value="/edit")
 public class EditController {
+    DataAccessService service=new DataAccessService();
+    PersonDao pdao=new PersonDao();
     @RequestMapping(value = "access")
-    public String getEditAccess(@RequestParam String tier, @RequestParam String studyId , HttpServletRequest req, HttpServletResponse res,
+    public String getEditAccess(@RequestParam int tier, @RequestParam String studyId , HttpServletRequest req, HttpServletResponse res,
                                 RedirectAttributes redirectAttributes) throws Exception {
         System.out.println("TIER: "+ tier+"\tSTUDY ID: "+ studyId);
-        if(!tier.equals("2")){
-            updateDatabase();
+        req.getSession().getAttribute("personId");
+        int personId= (int) req.getSession().getAttribute("personId");;
+
+        if(tier!=2){
+            updateDatabase(Integer.parseInt(studyId), tier, personId);
             sendEmailNotification("jthota@mcw.edu", "SCGE","Your Study is updated");
 
             //  redirectAttributes.addFlashAttribute("message","Confirmation request sent to PI");
             String message="Confirmation request sent to PI";
             return "redirect:/loginSuccess?message="+message+"&studyId="+studyId+"&tier="+tier;
         }else {
-            updateDatabase();
+          //  updateDatabase();
             sendEmailNotification("jthota@mcw.edu", "SCGE","Your Study is updated");
 
           /*  req.setAttribute("action", "Edit Access");
@@ -71,8 +80,9 @@ public class EditController {
      * 2. update study_access table, add groups and members
      * 3. Add entry in study_log table with timestamp
      */
-    public void updateDatabase(){
+    public void updateDatabase(int studyId, int tier, int personId) throws Exception {
 
+       service.updateStudyTier(studyId, tier,0,null,null,personId);
     }
     public void sendEmailNotification(String recepientEmail, String title, String message) throws Exception {
         send(recepientEmail, title,message);
@@ -93,7 +103,7 @@ public class EditController {
         final MimeMessage msg = new MimeMessage(session);
 
         // -- Set the FROM and TO fields --
-        msg.setFrom(new InternetAddress("jthota@mcw.edu", "Rat Genome Database"));
+        msg.setFrom(new InternetAddress("jthota@mcw.edu", "SCGE Toolkit"));
 
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail, false));
 

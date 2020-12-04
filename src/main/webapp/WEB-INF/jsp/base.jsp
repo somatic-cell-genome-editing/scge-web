@@ -199,7 +199,7 @@ Goals"/>
                             </c:when>
                             <c:otherwise>
                                 <!--h4 class="page-header" style="color:grey;">Dashboard</h4-->
-                                <h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success btn-sm">Submit Data</button></a></span></h1>
+                                <h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success btn-sm">Submit Data</button></a>&nbsp;<a href="dataSubmission"><button class="btn btn btn-outline-secondary btn-sm">Upload Docs</button></a></span></h1>
 
                                 <!--div style="text-align: center; ;height:50px" >
                                 <h4>Welcome to Somatic Cell Genome Editing</h4>
