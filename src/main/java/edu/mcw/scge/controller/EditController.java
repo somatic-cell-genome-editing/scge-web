@@ -3,7 +3,10 @@ package edu.mcw.scge.controller;
 import com.sun.mail.smtp.SMTPTransport;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.datamodel.Person;
+import edu.mcw.scge.datamodel.StudyTierUpdate;
 import edu.mcw.scge.service.DataAccessService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,30 +35,19 @@ public class EditController {
     DataAccessService service=new DataAccessService();
     PersonDao pdao=new PersonDao();
     @RequestMapping(value = "access")
-    public String getEditAccess(@RequestParam int tier, @RequestParam String studyId , HttpServletRequest req, HttpServletResponse res,
+    public String getEditAccess(@RequestParam int tier, @RequestParam int studyId ,@RequestParam(required = false) String json, HttpServletRequest req, HttpServletResponse res,
                                 RedirectAttributes redirectAttributes) throws Exception {
-        System.out.println("TIER: "+ tier+"\tSTUDY ID: "+ studyId);
+       // System.out.println("TIER: "+ tier+"\tSTUDY ID: "+ studyId);
+        System.out.println("JSON:"+ json);
         req.getSession().getAttribute("personId");
-        int personId= (int) req.getSession().getAttribute("personId");;
-
-        if(tier!=2){
-            updateDatabase(Integer.parseInt(studyId), tier, personId);
-            sendEmailNotification("jthota@mcw.edu", "SCGE","Your Study is updated");
-
-            //  redirectAttributes.addFlashAttribute("message","Confirmation request sent to PI");
-            String message="Confirmation request sent to PI";
-            return "redirect:/loginSuccess?message="+message+"&studyId="+studyId+"&tier="+tier;
-        }else {
-          //  updateDatabase();
-            sendEmailNotification("jthota@mcw.edu", "SCGE","Your Study is updated");
-
-          /*  req.setAttribute("action", "Edit Access");
-            req.setAttribute("page", "/WEB-INF/jsp/edit/access");
-            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);*/
+        int userId= (int) req.getSession().getAttribute("personId");
+            service.insertOrUpdateTierUpdates(studyId, tier, userId, json );
+           // updateDatabase(Integer.parseInt(studyId), tier, userId, json);
+        //    sendEmailNotification("jthota@mcw.edu", "SCGE","Your Study is updated");
+            // redirectAttributes.addFlashAttribute("message","Confirmation request sent to PI");
             String message="Confirmation request sent to PI";
             return "redirect:/loginSuccess?message="+message+"&studyId="+studyId+"&tier="+tier;
 
-        }
 
       //  return null;
     }
@@ -80,10 +72,11 @@ public class EditController {
      * 2. update study_access table, add groups and members
      * 3. Add entry in study_log table with timestamp
      */
-    public void updateDatabase(int studyId, int tier, int personId) throws Exception {
+    public void updateDatabase(int studyId, int tier, int personId, String json) throws Exception {
 
        service.updateStudyTier(studyId, tier,0,null,null,personId);
     }
+
     public void sendEmailNotification(String recepientEmail, String title, String message) throws Exception {
         send(recepientEmail, title,message);
     }

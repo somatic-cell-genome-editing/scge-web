@@ -5,9 +5,9 @@ $(function() {
 
     });
     $('input[name=tier]').on('change', function () {
-     //   alert($(this).val() + "\tstudyID: "+studyId)
         var tier=$(this).val();
-       enableSaveChanges(studyId, tier.trim());
+        setParameters(studyId, tier)
+        enableSaveChanges(studyId, tier.trim());
 
     })
   /*  $('#groupSelect').change(function(){
@@ -20,14 +20,10 @@ $(function() {
 
 function changeAccess1(_this, studyId) {
      selectObj=$("#select"+studyId);
-  //  if(_this.val()==='2')
     if(selectObj.val()==='2')
         $("#tier2Modal"+studyId).modal('toggle');
     else
         $("#tierOtherModal"+studyId).modal('toggle');
-
-
-
 }
 function changeAccess(_this, studyId,tier) {
     this.studyId=studyId;
@@ -36,12 +32,12 @@ function changeAccess(_this, studyId,tier) {
 }
 
 function saveChanges(_this, studyId) {
+        appendGroups(studyId);
        var formId="#editStudy"+studyId;
        $(formId).submit();
 }
 function showMembers(_this, studyId){
     var value= (_this.val());
-    alert("VALUE: "+ value);
     var $div="#group"+value+"-study"+studyId;
     // alert($div);
     $($div).show(2000);
@@ -49,4 +45,9 @@ function showMembers(_this, studyId){
 function toggleDiv(recId){
     var $div="#collapse"+recId;
     $($div).toggle();
+}
+function toggleSelectedGroupMembers(groupId,studyId){
+    var _name='member-group'+groupId+'-study'+studyId;
+    var checkBoxes= $('input[name='+_name+']');
+    checkBoxes.prop("checked", !checkBoxes.prop("checked"));
 }

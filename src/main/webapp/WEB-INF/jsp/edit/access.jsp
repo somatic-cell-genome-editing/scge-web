@@ -161,13 +161,13 @@
                         <div class="group form-group" id="group${map.key.groupId}-study${rec.studyId}" style="display: none">
                             <div class="form-group">
                                 <span style="color:steelblue;">${map.key.groupName}:</span><div class="form-check form-check-inline">&nbsp;
-                                <input class="form-check-input" type="checkbox" id="all-group${map.key.groupId}-study${rec.studyId}" value="option7" checked>
+                                <input class="form-check-input" type="checkbox" id="all-group${map.key.groupId}-study${rec.studyId}" value="option7" checked onchange="toggleSelectedGroupMembers(${map.key.groupId},${rec.studyId})">
                                 <label class="form-check-label" for="all-group${map.key.groupId}-study${rec.studyId}" >All</label>
                             </div><br>
                             </div>
                             <c:forEach items="${map.value}" var="p">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="member${p.id}-group${map.key.groupId}-study${rec.studyId}" value="option3" checked>
+                                    <input class="form-check-input selectedGroupMember" name="member-group${map.key.groupId}-study${rec.studyId}" type="checkbox" id="member${p.id}-group${map.key.groupId}-study${rec.studyId}" value="${p.id}" checked>
                                     <label class="form-check-label" for="member${p.id}-group${map.key.groupId}-study${rec.studyId}">${p.name}</label>
                                 </div>
                             </c:forEach>

@@ -62,16 +62,14 @@
         <c:if test="${userName!=null}">
         <td>
             <form class="form-row" id="editStudy${rec.studyId}" action="edit/access">
+                <div class="col  tiers">
+                    <input type="hidden" name="tier" id="tier-study-${rec.studyId}"/>
+                    <input type="hidden" name="studyId" id="study-${rec.studyId}" value="${rec.studyId}"/>
+                    <input type="hidden" name="json" id="study-${rec.studyId}-json" value="${rec.studyId}"/>
 
-
-            <div class="col  tiers">
-            <input type="button" id="updateTier-study${rec.studyId}" class="form-control" onclick="changeAccess($(this),${rec.studyId} , ${rec.tier})" value="Update Tier">
-        </div>
-            </form></td>
-            <div>
-                <%@include file="../dashboardElements/tierOtherModal.jsp"%>
-
-            </div>
+                    <input type="button" id="updateTier-study${rec.studyId}" class="form-control" onclick="changeAccess($(this),${rec.studyId} , ${rec.tier})" value="Update Tier">
+                </div>
+            </form>
             <div>
                 <script>
                     $(document).ready(function () {
@@ -79,8 +77,9 @@
                             buttonWidth: '100%',
                             onChange: function(option, checked, select) {
                                 //      alert('Changed option ' + $(option).val() + '.');
+                                $('#SaveChangesTier2-study${rec.studyId}').prop('disabled', false)
                                 var value= ($(option).val());
-                                //     alert("VALUE: "+ value);
+                                //   alert("VALUE: "+ value);
                                 var $div="#group"+value+"-study${rec.studyId}";
                                 // alert($div)
 
@@ -97,7 +96,6 @@
                     }
                     function enableSaveChanges(studyId, tier){
                         $('#SaveChangesTier2-study'+studyId).prop('disabled', false)
-                        console.log("TIER: "+ tier);
                         if(tier==='2')
                         $('#groupSelect-study'+studyId).multiselect('enable')
                         else{
@@ -105,10 +103,47 @@
 
                         }
                     }
+                    function setParameters(studyId,tier){
+                        $('#tier-study-'+studyId).val(tier);
+                    }
+                    function appendGroups(studyId){
+                        var values=$('#groupSelect-study'+studyId).val() || [];
+                       // alert(values.join(","))
+                        var json="{\"selected\":[";
+                        var flag=true;
+                        $.each(values, function( index, value ) {
+                          //  alert( index + ": " + value );
+                            if(flag){
+                                flag=false;
+                                json=json+"{\"groupId\":\""+value+"\", \"members\":["
+                            }else{
+                                json=json+",{\"groupId\":\""+value+"\", \"members\":["
+                            }
+                            var first=true;
+                            var _name='member-group'+value+'-study'+studyId;
+                            $.each($('input[name='+_name+']:checked'), function() {
+                          //   console.log("GROUP-"+ value+":\t"+$(this).val());
+                                if(first) {
+                                    json = json + $(this).val() ;
+                                    first=false;
+                                }
+                                else
+                                    json=json+","+$(this).val();
+
+                            });
+
+                            json=json+"]}"
+                        });
+                        json=json+"]}"
+                        $('#study-'+studyId+'-json').val(json);
+                        console.log(json);
+                    }
                 </script>
                 <%@include file="../dashboardElements/tier2Modal.jsp"%>
 
             </div>
+
+        </td>
         </c:if>
         <td style="width: 10%">
             ${rec.tier}

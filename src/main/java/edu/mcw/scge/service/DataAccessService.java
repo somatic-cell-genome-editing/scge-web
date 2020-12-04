@@ -4,19 +4,22 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.http.HttpRequest;
 import edu.mcw.scge.dao.AbstractDAO;
 import edu.mcw.scge.dao.implementation.*;
-import edu.mcw.scge.datamodel.Person;
-import edu.mcw.scge.datamodel.PersonInfo;
-import edu.mcw.scge.datamodel.SCGEGroup;
-import edu.mcw.scge.datamodel.TestData;
+import edu.mcw.scge.datamodel.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -28,6 +31,7 @@ public class DataAccessService extends AbstractDAO {
     GroupDAO gdao=new GroupDAO();
     AccessDao adao=new AccessDao();
     StudyDao sdao=new StudyDao();
+    TierUpdateDao tierUpdateDao=new TierUpdateDao();
     public List<TestData> getData(String name, String symbol) throws Exception {
            return tdao.getTestData();
     }
@@ -421,6 +425,42 @@ public class DataAccessService extends AbstractDAO {
                                 String action, String status, int modifiedBypersonId) throws Exception {
         int sequenceKey=getNextKey("study_tier_updates_seq");
         sdao.insertStudyTier(studyId, tier,groupId,sequenceKey, action, status, modifiedBypersonId);
+    }
+    public void insertTierUpdates(List<StudyTierUpdate> updates) throws Exception {
+        tierUpdateDao.batchUpdate(updates);
+    }
+    public void insertOrUpdateTierUpdates(int studyId, int tier, int userId, String json) throws Exception {
+        List<StudyTierUpdate> updates= new ArrayList<>();
+        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Chicago" ) );
+        LocalTime time=LocalTime.now();
+        java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
+        if(json!=null) {
+            JSONObject jsonObject=new JSONObject(json);
+            JSONArray selectedArray= jsonObject.getJSONArray("selected");
+            for(int i=0;i<selectedArray.length();i++){
+                String groupId=selectedArray.getJSONObject(i).getString("groupId");
+                System.out.println("*******GROUP ID: "+ groupId+"*******");
+                JSONArray array=selectedArray.getJSONObject(i).getJSONArray("members");
+                for(int j=0; j<array.length();j++){
+                    int sequenceKey=getNextKey("study_tier_updates_seq");
+                    System.out.println("MEMBER ID: "+ array.get(j) +"\tSequenceKey:"+ sequenceKey);
+                    StudyTierUpdate rec= new StudyTierUpdate();
+                    rec.setStudyTierUpdateId(sequenceKey);
+                    rec.setStudyId(studyId);
+                    rec.setTier(tier);
+                    rec.setGroupId(Integer.parseInt(groupId));
+                    rec.setMemberId((Integer) array.get(j));
+                    rec.setModifiedBy(userId);
+                    rec.setStatus("submitted"); //initial status of update is "submitted", after processing status changes to "PROCESSED"
+                    rec.setAction("");
+                    rec.setModifiedTime(Time.valueOf(time));
+                   rec.setModifiedDate(sqlDate);
+                    updates.add(rec);
+                }
+
+            }
+        }
+        insertTierUpdates(updates);
     }
     public void logToDb(GoogleIdToken.Payload payload){
         String email=payload.getEmail();
