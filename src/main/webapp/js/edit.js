@@ -32,7 +32,8 @@ function changeAccess(_this, studyId,tier) {
 }
 
 function saveChanges(_this, studyId) {
-        appendGroups(studyId);
+      appendGroups(studyId);
+  //  appendGroupIds(studyId);
        var formId="#editStudy"+studyId;
        $(formId).submit();
 }

@@ -35,6 +35,23 @@ public class EditController {
     DataAccessService service=new DataAccessService();
     PersonDao pdao=new PersonDao();
     @RequestMapping(value = "access")
+    public String updateAccess(@RequestParam int tier, @RequestParam int studyId ,@RequestParam(required = false) String json, HttpServletRequest req, HttpServletResponse res,
+                                RedirectAttributes redirectAttributes) throws Exception {
+        // System.out.println("TIER: "+ tier+"\tSTUDY ID: "+ studyId);
+        System.out.println("JSON:"+ json);
+        req.getSession().getAttribute("personId");
+        int userId= (int) req.getSession().getAttribute("personId");
+        service.insertOrUpdateTierUpdates(studyId, tier, userId, json );
+        // updateDatabase(Integer.parseInt(studyId), tier, userId, json);
+        //    sendEmailNotification("jthota@mcw.edu", "SCGE","Your Study is updated");
+        // redirectAttributes.addFlashAttribute("message","Confirmation request sent to PI");
+        String message="Confirmation request sent to PI";
+        return "redirect:/loginSuccess?message="+message+"&studyId="+studyId+"&tier="+tier;
+
+
+        //  return null;
+    }
+   // @RequestMapping(value = "access")
     public String getEditAccess(@RequestParam int tier, @RequestParam int studyId ,@RequestParam(required = false) String json, HttpServletRequest req, HttpServletResponse res,
                                 RedirectAttributes redirectAttributes) throws Exception {
        // System.out.println("TIER: "+ tier+"\tSTUDY ID: "+ studyId);

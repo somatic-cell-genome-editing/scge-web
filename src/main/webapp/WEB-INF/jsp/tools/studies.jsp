@@ -65,7 +65,9 @@
                 <div class="col  tiers">
                     <input type="hidden" name="tier" id="tier-study-${rec.studyId}"/>
                     <input type="hidden" name="studyId" id="study-${rec.studyId}" value="${rec.studyId}"/>
-                    <input type="hidden" name="json" id="study-${rec.studyId}-json" value="${rec.studyId}"/>
+                    <input type="hidden" name="json" id="study-${rec.studyId}-json"/>
+                    <input type="hidden" name="groupIdsJson" id="study-${rec.studyId}-groupIdsJson"/>
+
 
                     <input type="button" id="updateTier-study${rec.studyId}" class="form-control" onclick="changeAccess($(this),${rec.studyId} , ${rec.tier})" value="Update Tier">
                 </div>
@@ -136,6 +138,25 @@
                         });
                         json=json+"]}"
                         $('#study-'+studyId+'-json').val(json);
+                        console.log(json);
+                    }
+                    function appendGroupIds(studyId){
+                        var values=$('#groupSelect-study'+studyId).val() || [];
+                        // alert(values.join(","))
+                        var json="{\"selected\":[";
+                        var flag=true;
+                        $.each(values, function( index, value ) {
+                            //  alert( index + ": " + value );
+                            if(flag){
+                                flag=false;
+                                json=json+value
+                            }else{
+                                json=json+","+value
+                            }
+
+                        });
+                        json=json+"]}"
+                        $('#study-'+studyId+'-groupIdsJson').val(json);
                         console.log(json);
                     }
                 </script>

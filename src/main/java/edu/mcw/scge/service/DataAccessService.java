@@ -427,6 +427,7 @@ public class DataAccessService extends AbstractDAO {
         sdao.insertStudyTier(studyId, tier,groupId,sequenceKey, action, status, modifiedBypersonId);
     }
     public void insertTierUpdates(List<StudyTierUpdate> updates) throws Exception {
+        System.out.println("UPDATE RECORDS SIZE: "+ updates.size());
         tierUpdateDao.batchUpdate(updates);
     }
     public void insertOrUpdateTierUpdates(int studyId, int tier, int userId, String json) throws Exception {
@@ -434,7 +435,7 @@ public class DataAccessService extends AbstractDAO {
         LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Chicago" ) );
         LocalTime time=LocalTime.now();
         java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
-        if(json!=null) {
+        if(json!=null && tier==2) {
             JSONObject jsonObject=new JSONObject(json);
             JSONArray selectedArray= jsonObject.getJSONArray("selected");
             for(int i=0;i<selectedArray.length();i++){
@@ -459,6 +460,18 @@ public class DataAccessService extends AbstractDAO {
                 }
 
             }
+        }else{
+            int sequenceKey=getNextKey("study_tier_updates_seq");
+            StudyTierUpdate rec= new StudyTierUpdate();
+            rec.setStudyTierUpdateId(sequenceKey);
+            rec.setStudyId(studyId);
+            rec.setTier(tier);
+            rec.setModifiedBy(userId);
+            rec.setStatus("submitted"); //initial status of update is "submitted", after processing status changes to "PROCESSED"
+            rec.setAction("");
+            rec.setModifiedTime(Time.valueOf(time));
+            rec.setModifiedDate(sqlDate);
+            updates.add(rec);
         }
         insertTierUpdates(updates);
     }

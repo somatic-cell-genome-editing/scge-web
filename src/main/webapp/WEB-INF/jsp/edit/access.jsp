@@ -6,11 +6,20 @@
   Time: 8:03 AM
   To change this template use File | Settings | File Templates.
 --%>
-
+<style>
+    ul li:before {
+        font-family: 'FontAwesome';
+        content: '\f067';
+        margin:0 5px 0 -15px;
+        color: #ff8000;
+    }
+    ul li{
+       padding-right: 10px;
+    }
+</style>
 <div class="wrapper card" >
     <div class="card-header" style="background-color: #00AA9E;text-align: center" >
         <h4 class="text-white">Change Access Teir</h4>
-
     </div>
     <div class="card-body" align="left">
     <form id="tier2Form${rec.studyId}">
@@ -160,17 +169,23 @@
 
                         <div class="group form-group" id="group${map.key.groupId}-study${rec.studyId}" style="display: none">
                             <div class="form-group">
-                                <span style="color:steelblue;">${map.key.groupName}:</span><div class="form-check form-check-inline">&nbsp;
-                                <input class="form-check-input" type="checkbox" id="all-group${map.key.groupId}-study${rec.studyId}" value="option7" checked onchange="toggleSelectedGroupMembers(${map.key.groupId},${rec.studyId})">
+                                <span style="color:steelblue;">${map.key.groupName}:</span>
+                                <!--div class="form-check form-check-inline">&nbsp;
+                                <input class="form-check-input" type="checkbox" id="all-group${map.key.groupId}-study${rec.studyId}" value="option7" checked onchange="toggleSelectedGroupMembers(${map.key.groupId},${rec.studyId})" >
                                 <label class="form-check-label" for="all-group${map.key.groupId}-study${rec.studyId}" >All</label>
-                            </div><br>
+                            </div-->
                             </div>
-                            <c:forEach items="${map.value}" var="p">
-                                <div class="form-check form-check-inline">
+                            <div class="form-group">
+                                <ul class="list-inline">
+                                    <c:forEach items="${map.value}" var="p">
+                                <div class="form-check form-check-inline" style="display: none">
                                     <input class="form-check-input selectedGroupMember" name="member-group${map.key.groupId}-study${rec.studyId}" type="checkbox" id="member${p.id}-group${map.key.groupId}-study${rec.studyId}" value="${p.id}" checked>
                                     <label class="form-check-label" for="member${p.id}-group${map.key.groupId}-study${rec.studyId}">${p.name}</label>
                                 </div>
-                            </c:forEach>
+                                <li class="list-inline-item" style="justify-content: right">${p.name}</li>
+                                </c:forEach>
+                                </ul>
+                            </div>
 
                         </div>
 
