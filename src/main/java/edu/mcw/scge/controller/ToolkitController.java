@@ -36,17 +36,8 @@ public class ToolkitController {
 
         return null;
     }
-    @RequestMapping(value="delivery/search")
-    public String getDeliveryHome(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
 
-     //   model.addAttribute("sr", services.getSearchResponse());
-     //   req.setAttribute("sr", services.getSearchResponse());
-        req.setAttribute("action", "Delivery Systems");
-        req.setAttribute("page", "/WEB-INF/jsp/tools/delivery");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
-        return null;
-    }
     @RequestMapping(value="delivery/results")
     public String getDeliveryResults(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
 

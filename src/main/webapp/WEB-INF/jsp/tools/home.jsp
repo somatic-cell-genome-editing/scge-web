@@ -104,7 +104,7 @@
                 <tr>
             <td><i class="far fa-file-alt" style="font-size: 50px;color:steelblue"></i>&nbsp;
             &nbsp;&nbsp;</td>
-                    <td><a><strong>Protocols</strong></a> is a comprehensive source for protocols and reviews covering essential and advanced experimental design, methods and analyses in all areas including the preparation and analysis of genome editing and more.
+                    <td><a><a href="guide/search">Guides</a> is a comprehensive source for protocols and reviews covering essential and advanced experimental design, methods and analyses in all areas including the preparation and analysis of genome editing and more.
                 </td>
                 </tr>
             </table>
