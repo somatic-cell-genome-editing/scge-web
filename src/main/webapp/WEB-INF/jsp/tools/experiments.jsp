@@ -34,7 +34,7 @@
 <div>
     <%
         List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
-        out.println(experiments.size());
+        //out.println(experiments.size());
     %>
 
     <table id="myTable" class="table tablesorter table-striped">
@@ -55,10 +55,10 @@
         <!--td><input class="form" type="checkbox"></td-->
         <td><%=exp.getExperimentId()%></td>
         <td><%=exp.getExperimentName()%></td>
-        <td><%=exp.getEditorSymbol()%></td>
-        <td><%=exp.getDeliverySystemType()%></td>
-        <td><%=exp.getModelName()%></td>
-        <td><%=exp.getGuide()%></td>
+        <td><a href="/scgeweb/toolkit/editors/editor?id=<%=exp.getEditorId()%>"><%=exp.getEditorSymbol()%></a></td>
+        <td><a href="/scgeweb/toolkit/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=exp.getDeliverySystemType()%></a></td>
+        <td><a href="/scgeweb/toolkit/models/model?id=<%=exp.getModelId()%>"><%=exp.getModelName()%></a></td>
+        <td><a href="/scgeweb/toolkit/guide/guide?id=<%=exp.getEditorId()%>"><%=exp.getGuide()%></a></td>
     </tr>
         <% } %>
 </table>

@@ -1,8 +1,10 @@
 package edu.mcw.scge.controller;
 
 import edu.mcw.scge.dao.implementation.EditorDao;
+import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Editor;
 import edu.mcw.scge.datamodel.ExperimentRecord;
+import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.service.es.IndexServices;
 import org.elasticsearch.action.search.SearchResponse;
@@ -38,8 +40,12 @@ public class EditorController {
         EditorDao dao = new EditorDao();
         Editor editor= dao.getEditorById(Integer.parseInt(req.getParameter("id"))).get(0);
         req.setAttribute("editor", editor);
-        req.setAttribute("action", editor.getSymbol());
+        req.setAttribute("action", "Editor: " + editor.getSymbol());
         req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
+
+        StudyDao sdao = new StudyDao();
+        List<Study> studies = sdao.getStudiesByEditor(editor.getId());
+        req.setAttribute("studies", studies);
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

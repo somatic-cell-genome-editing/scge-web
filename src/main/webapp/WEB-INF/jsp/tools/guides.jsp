@@ -1,5 +1,8 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="edu.mcw.scge.datamodel.Experiment" %>
+<%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.scge.datamodel.Delivery" %>
+<%@ page import="edu.mcw.scge.datamodel.Guide" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -31,22 +34,28 @@
 </script>
 
 <div>
-    <div>
-        <table  style="width:80%">
+    <%
+        List<Guide> guides = (List<Guide>) request.getAttribute("guides");
+    %>
 
-            <tbody>
-            <tr><td class="header"><strong>Model Type</strong></td><td>${model.type}</td></tr>
-            <tr><td class="header"><strong>Strain</strong></td><td>${model.name}</td></tr>
-            <tr><td class="header"><strong>Short Name</strong></td><td>${model.shortName}</td></tr>
-            <tr><td class="header"><strong>Organism</strong></td><td>${model.organism}</td></tr>
-            <tr><td class="header"><strong>GenoType</strong></td><td>${model.genotype}</td></tr>
-            <tr><td class="header"><strong>Stock Number/Stable ID</strong></td><td>${model.stockNumber}</td></tr>
-            <tr><td class="header"><strong>Age</strong></td><td>${model.age}</td></tr>
-            <tr><td class="header"><strong>Age Range</strong></td><td>${model.ageRange}</td></tr>
-            </tbody>
-        </table>
-    </div>
-    <hr>
-</div>
+    <table id="myTable" class="table tablesorter table-striped">
+    <thead>
+    <tr>
+    <th>ID</th>
+    <th>Guide</th>
+    <th>Detection Method</th>
+    <th>RNA Format</th>
+    </tr>
+    </thead>
 
-<%@include file="associatedStudies.jsp"%>
+        <% for (Guide g: guides) { %>
+
+    <tr>
+        <td><%=g.getGuide_id()%></td>
+        <td><a href="guide?id=<%=g.getGuide_id()%>"><%=g.getGuide()%></a></td>
+        <td><%=g.getDetectionMethod()%></td>
+        <td><%=g.getgRnaFormat()%></td>
+    </tr>
+        <% } %>
+</table>
+<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
