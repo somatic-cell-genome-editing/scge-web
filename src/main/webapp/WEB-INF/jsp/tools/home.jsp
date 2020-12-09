@@ -101,6 +101,17 @@
                 </table>
             </div>
         </div>
+        <div class="row"  >
+            <div class="col-md-6">
+                <table  class='borderless' >
+                    <tr>
+                        <td><img src="" width="50" height="50" alt="" />&nbsp;<a href="guide/search"><strong>Guides</strong></a> is a comprehensive source for protocols and reviews covering essential and advanced experimental design, methods and analyses in all areas including the preparation and analysis of genome editing and more.
+
+                    </tr>
+                </table>
+            </div>
+
+        </div>
 
     </div>
 </div>
