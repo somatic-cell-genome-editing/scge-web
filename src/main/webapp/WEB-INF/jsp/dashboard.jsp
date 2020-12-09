@@ -80,9 +80,9 @@
                 <div class="sidebarItemDiv">
             <%@include file="dashboardElements/myGroupAssociations.jsp"%>
                 </div>
-                <div class="sidebarItemDiv">
-            <%@include file="dashboardElements/workingGroups.jsp"%>
-                </div>
+                <!--div class="sidebarItemDiv">
+            <%--@include file="dashboardElements/workingGroups.jsp"--%>
+                </div-->
                 <div class="sidebarItemDiv">
                 <%@include file="dashboardElements/consortiumGroups.jsp"%>
                 </div>

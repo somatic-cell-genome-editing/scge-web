@@ -89,7 +89,7 @@
         <div class="col-md-6">
             <table  class='borderless' >
                 <tr>
-                    <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="guide/search">Guides</a> is a comprehensive source for protocols and reviews covering essential and advanced experimental design, methods and analyses in all areas including the preparation and analysis of genome editing and more.
+                    <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="guide/search"><strong>Guides</strong></a> is a comprehensive source for protocols and reviews covering essential and advanced experimental design, methods and analyses in all areas including the preparation and analysis of genome editing and more.
                 </td>
                 </tr>
             </table>
