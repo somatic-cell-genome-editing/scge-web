@@ -28,18 +28,19 @@
 <div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Editors: ${fn:length(editors)}</p></div>
 
 </div>
-    <table id="myTable" class="table tablesorter table-striped">
+    <table id="myTable" class="tablesorter">
         <thead>
+        <tr>
         <th>Symbol</th>
         <th>Type</th>
         <th>Subtype</th>
         <th>Variant</th>
-        <th>Substrate Target</th>
+        <th>Substrate_Target</th>
         <th>Species</th>
-        <th>PAM Preference</th>
+        <th>PAM_Preference</th>
         <th>Activity</th>
-        <th>DSB Cleavage Type</th>
-        <th>Protein Format</th>
+        <th>DSB_Cleavage_Type</th>
+        <th>Protein_Format</th>
         <th>Source</th>
         <th>Editor_Id</th>
     </tr>
