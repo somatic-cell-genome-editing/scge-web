@@ -63,7 +63,9 @@
         <div class="row">
 
             <div class="col-lg-10">
-               <%@include file="tools/studies.jsp"%>
+                <div><p style="color:steelblue;font-weight: bold;font-size: 20px">Submissions: ${fn:length(studies)}</p></div>
+
+                <%@include file="tools/studies.jsp"%>
                 <!--div class="card ">
                     <div class="card-header">
                         <div class="card-title">
