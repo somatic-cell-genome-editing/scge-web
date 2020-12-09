@@ -71,8 +71,6 @@ public class LoginController{
        model.addAttribute("urls", oauth2AuthenticationUrls);
 
        return "home2";
-      //  res.sendRedirect("/");
-     //   return null;
 
     }
 
@@ -131,10 +129,15 @@ public class LoginController{
             //  model.addAttribute("consortiumGroups", service.getSubGroupsByGroupName("consortium group"));
             req.setAttribute("groupsMap", service.getGroupMapByGroupId(3));
             Map<Integer, List<SCGEGroup>> consortiumGroups= service.getGroupsMapByGroupId(3);
-            Map<Integer, List<Person>> groupMembersMap=service.getAllGroupsMembersMap(consortiumGroups);
+            Map<SCGEGroup, List<Person>> groupMembersMap=service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
+            Map<SCGEGroup, List<Person>> DCCNIHMembersMap=service.getDCCNIHMembersMap(consortiumGroups);
+
+
+            //   Map<Integer, List<Person>> groupMembersMap=service.getAllGroupsMembersMap(consortiumGroups);
           //  req.setAttribute("groupsMap", consortiumGroups);
             req.setAttribute("groupsMap1", consortiumGroups);
             req.setAttribute("groupMembersMap",groupMembersMap );
+            req.setAttribute("DCCNIHMembersMap",DCCNIHMembersMap );
             session.setAttribute("userName", userAttributes.get("name"));
             session.setAttribute("userImageUrl", userAttributes.get("picture"));
             model.addAttribute("userName", userAttributes.get("name"));
@@ -145,7 +148,7 @@ public class LoginController{
          //   req.setAttribute("message", message);
             req.setAttribute("status", req.getParameter("status"));
             StudyDao sdao=new StudyDao();
-            List<Study> studies = sdao.getStudies();
+            List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID.
             req.setAttribute("studies", studies);
             return "base";
         }else{

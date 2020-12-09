@@ -54,12 +54,12 @@ Goals"/>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Custom styles for this template -->
     <!--link href="css/dashboard.css" rel="stylesheet"-->
-    <link href="common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-    <link href="common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-    <link href="common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+    <link href="/scgeweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+    <link href="/scgeweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+    <link href="/scgeweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
 
-    <script src="common/tableSorter/js/tablesorter.js"> </script>
-    <script src="common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
+    <script src="/scgeweb/common/tableSorter/js/tablesorter.js"> </script>
+    <script src="/scgeweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
  <style>
     html, body {
@@ -199,7 +199,7 @@ Goals"/>
                             </c:when>
                             <c:otherwise>
                                 <!--h4 class="page-header" style="color:grey;">Dashboard</h4-->
-                                <h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success btn-sm">Submit Data</button></a></span></h1>
+                                <h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success btn-sm">Submit Data</button></a>&nbsp;<a href="dataSubmission"><button class="btn btn btn-outline-secondary btn-sm">Upload Docs</button></a></span></h1>
 
                                 <!--div style="text-align: center; ;height:50px" >
                                 <h4>Welcome to Somatic Cell Genome Editing</h4>

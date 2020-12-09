@@ -2,33 +2,36 @@ package edu.mcw.scge.service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.http.HttpRequest;
-import edu.mcw.scge.dao.implementation.AccessDao;
-import edu.mcw.scge.dao.implementation.GroupDAO;
-import edu.mcw.scge.dao.implementation.PersonDao;
-import edu.mcw.scge.dao.implementation.TestDataDao;
-import edu.mcw.scge.datamodel.Person;
-import edu.mcw.scge.datamodel.PersonInfo;
-import edu.mcw.scge.datamodel.SCGEGroup;
-import edu.mcw.scge.datamodel.TestData;
+import edu.mcw.scge.dao.AbstractDAO;
+import edu.mcw.scge.dao.implementation.*;
+import edu.mcw.scge.datamodel.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.*;
 
 /**
  * Created by jthota on 8/16/2019.
  */
-public class DataAccessService {
+public class DataAccessService extends AbstractDAO {
     TestDataDao tdao=new TestDataDao();
     PersonDao pdao=new PersonDao();
     GroupDAO gdao=new GroupDAO();
     AccessDao adao=new AccessDao();
+    StudyDao sdao=new StudyDao();
+    TierUpdateDao tierUpdateDao=new TierUpdateDao();
     public List<TestData> getData(String name, String symbol) throws Exception {
            return tdao.getTestData();
     }
@@ -327,7 +330,14 @@ public class DataAccessService {
             for(SCGEGroup sg:subgroups){
                 List<SCGEGroup> ssgroups=  gdao.getSubGroupsByGroupId(sg.getGroupId());
                 for(SCGEGroup g:ssgroups){
-                    List<Person> members=gdao.getGroupMembersByGroupId(g.getGroupId());
+                    List<Person> members=new ArrayList<>();
+                    Set<Integer> memberIds=new HashSet<>();
+                    for(Person p:gdao.getGroupMembersByGroupId(g.getGroupId())) {
+                      if(!memberIds.contains(p.getId())){
+                          memberIds.add(p.getId());
+                          members.add(p);
+                      }
+                    }
                     g.setMembers(members);
                 }
                 map.put(sg, ssgroups);
@@ -358,6 +368,112 @@ public class DataAccessService {
             }
         }
         return map;
+    }
+    public Map<SCGEGroup, List<Person>> getGroupMembersMapExcludeDCCNIH( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
+        Map<SCGEGroup, List<Person>> map=new HashMap<>();
+        List<Integer> DCCNIHGroups=new ArrayList<>(Arrays.asList(
+                32,34, 35,36,37,38,39,40,41,42,43,45
+        ));
+        for(Map.Entry e: consortiumGroup.entrySet()){
+            List<SCGEGroup> groups= (List<SCGEGroup>) e.getValue();
+            for(SCGEGroup g:groups){
+                int groupId= g.getGroupId();
+                List<Person> sortedMembers=new ArrayList<>();
+                List<Integer> memberIds=new ArrayList<>();
+                List<Person> members=gdao.getGroupMembersByGroupId(groupId);
+                for(Person p:members){
+                    if(!memberIds.contains(p.getId())){
+                        sortedMembers.add(p);
+                        memberIds.add(p.getId());
+                    }
+                }
+              if(!DCCNIHGroups.contains(groupId))
+                map.put(g, sortedMembers);
+
+            }
+        }
+        return map;
+    }
+    public Map<SCGEGroup, List<Person>> getDCCNIHMembersMap( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
+        Map<SCGEGroup, List<Person>> map=new HashMap<>();
+        List<Integer> DCCNIHGroups=new ArrayList<>(Arrays.asList(
+                32,34, 35,36,37,38,39,40,41,42,43,45
+        ));
+        for(Map.Entry e: consortiumGroup.entrySet()){
+            List<SCGEGroup> groups= (List<SCGEGroup>) e.getValue();
+            for(SCGEGroup g:groups){
+                int groupId= g.getGroupId();
+                if(DCCNIHGroups.contains(groupId)) {
+                    List<Person> sortedMembers = new ArrayList<>();
+                    List<Integer> memberIds = new ArrayList<>();
+                    List<Person> members = gdao.getGroupMembersByGroupId(groupId);
+                    for (Person p : members) {
+                        if (!memberIds.contains(p.getId())) {
+                            sortedMembers.add(p);
+                            memberIds.add(p.getId());
+                        }
+                    }
+
+                    map.put(g, sortedMembers);
+                }
+
+            }
+        }
+        return map;
+    }
+    public void updateStudyTier(int studyId, int tier, int groupId,
+                                String action, String status, int modifiedBypersonId) throws Exception {
+        int sequenceKey=getNextKey("study_tier_updates_seq");
+        sdao.insertStudyTier(studyId, tier,groupId,sequenceKey, action, status, modifiedBypersonId);
+    }
+    public void insertTierUpdates(List<StudyTierUpdate> updates) throws Exception {
+        System.out.println("UPDATE RECORDS SIZE: "+ updates.size());
+        tierUpdateDao.batchUpdate(updates);
+    }
+    public void insertOrUpdateTierUpdates(int studyId, int tier, int userId, String json) throws Exception {
+        List<StudyTierUpdate> updates= new ArrayList<>();
+        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Chicago" ) );
+        LocalTime time=LocalTime.now();
+        java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
+        if(json!=null && tier==2) {
+            JSONObject jsonObject=new JSONObject(json);
+            JSONArray selectedArray= jsonObject.getJSONArray("selected");
+            for(int i=0;i<selectedArray.length();i++){
+                String groupId=selectedArray.getJSONObject(i).getString("groupId");
+                System.out.println("*******GROUP ID: "+ groupId+"*******");
+                JSONArray array=selectedArray.getJSONObject(i).getJSONArray("members");
+                for(int j=0; j<array.length();j++){
+                    int sequenceKey=getNextKey("study_tier_updates_seq");
+                    System.out.println("MEMBER ID: "+ array.get(j) +"\tSequenceKey:"+ sequenceKey);
+                    StudyTierUpdate rec= new StudyTierUpdate();
+                    rec.setStudyTierUpdateId(sequenceKey);
+                    rec.setStudyId(studyId);
+                    rec.setTier(tier);
+                    rec.setGroupId(Integer.parseInt(groupId));
+                    rec.setMemberId((Integer) array.get(j));
+                    rec.setModifiedBy(userId);
+                    rec.setStatus("submitted"); //initial status of update is "submitted", after processing status changes to "PROCESSED"
+                    rec.setAction("");
+                    rec.setModifiedTime(Time.valueOf(time));
+                   rec.setModifiedDate(sqlDate);
+                    updates.add(rec);
+                }
+
+            }
+        }else{
+            int sequenceKey=getNextKey("study_tier_updates_seq");
+            StudyTierUpdate rec= new StudyTierUpdate();
+            rec.setStudyTierUpdateId(sequenceKey);
+            rec.setStudyId(studyId);
+            rec.setTier(tier);
+            rec.setModifiedBy(userId);
+            rec.setStatus("submitted"); //initial status of update is "submitted", after processing status changes to "PROCESSED"
+            rec.setAction("");
+            rec.setModifiedTime(Time.valueOf(time));
+            rec.setModifiedDate(sqlDate);
+            updates.add(rec);
+        }
+        insertTierUpdates(updates);
     }
     public void logToDb(GoogleIdToken.Payload payload){
         String email=payload.getEmail();
