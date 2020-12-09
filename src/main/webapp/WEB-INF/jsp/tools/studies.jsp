@@ -16,7 +16,6 @@
 <script src="/scgeweb/js/edit.js"></script>
 
 <div>
-<div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Studies: ${fn:length(studies)}</p></div>
 
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
 </div>
@@ -31,7 +30,6 @@
         <th>PI</th>
         <th>Submitter</th>
         <th>Raw Data</th>
-        <td>Ref</td>
         <th>Submission_Date</th>
         <th>Study_ID</th>
     </tr>
@@ -97,7 +95,6 @@
         <td>${rec.pi}</td>
         <td>${rec.submitter}</td>
         <td><a href="${rec.rawData}">link</a></td>
-        <td><a href="${rec.reference}">ref</a></td>
         <td>${rec.submissionDate}</td>
         <td>${rec.studyId}</td>
     </tr>
