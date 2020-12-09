@@ -22,7 +22,7 @@ public class StudyController {
         StudyDao sdao=new StudyDao();
         List<Study> studies = sdao.getStudies();
         req.setAttribute("studies", studies);
-        req.setAttribute("action", "Studies");
+        req.setAttribute("action", "Submissions");
         req.setAttribute("page", "/WEB-INF/jsp/tools/studies");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
