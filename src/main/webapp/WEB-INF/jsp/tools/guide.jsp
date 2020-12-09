@@ -1,3 +1,4 @@
+<%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -24,41 +25,42 @@
     });
 </script>
 
+<% Guide g = (Guide) request.getAttribute("guide"); %>
 
 <div>
-<div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Editors: ${fn:length(editors)}</p></div>
+    <div>
+        <table  style="width:80%">
 
+            <tbody>
+            <tr><td class="header"><strong>ID</strong></td><td><%=g.getGuide_id()%></td></tr>
+            <tr><td class="header"><strong>Guide</strong></td><td><%=g.getGuide()%></td></tr>
+            <tr><td class="header"><strong>Species</strong></td><td><%=g.getSpecies()%></td></tr>
+            <tr><td class="header"><strong>Target Locus</strong></td><td><%=g.getTargetLocus()%></td></tr>
+            <tr><td class="header"><strong>Target Sequence</strong></td><td><%=g.getTargetSequence()%></td></tr>
+            <tr><td class="header"><strong>PAM</strong></td><td><%=g.getPam()%></td></tr>
+            <tr><td class="header"><strong>Assembly</strong></td><td><%=g.getAssembly()%></td></tr>
+            <tr><td class="header"><strong>Chr</strong></td><td><%=g.getChr()%></td></tr>
+            <tr><td class="header"><strong>Start</strong></td><td><%=g.getStart()%></td></tr>
+            <tr><td class="header"><strong>Stop</strong></td><td><%=g.getStop()%></td></tr>
+            <tr><td class="header"><strong>Strand</strong></td><td><%=g.getStrand()%></td></tr>
+            <tr><td class="header"><strong>GRna Lab ID</strong></td><td><%=g.getGrnaLabId()%></td></tr>
+            <tr><td class="header"><strong>GRna Format</strong></td><td><%=g.getgRnaFormat()%></td></tr>
+            <tr><td class="header"><strong>Spacer Sequence</strong></td><td><%=g.getSpacerSequence()%></td></tr>
+            <tr><td class="header"><strong>Spacer Length</strong></td><td><%=g.getSpacerLength()%></td></tr>
+            <tr><td class="header"><strong>Repeat Sequence</strong></td><td><%=g.getRepeatSequence()%></td></tr>
+            <tr><td class="header"><strong>Detection Method</strong></td><td><%=g.getDetectionMethod()%></td></tr>
+            <tr><td class="header"><strong>Forward Primer</strong></td><td><%=g.getForwardPrimer()%></td></tr>
+            <tr><td class="header"><strong>Linker Sequence</strong></td><td><%=g.getLinkerSequence()%></td></tr>
+            <tr><td class="header"><strong>Anti-Repeat Sequence</strong></td><td><%=g.getAntiRepeatSequence()%></td></tr>
+            <tr><td class="header"><strong>Stemloop 1 Sequence</strong></td><td><%=g.getStemloop1Sequence()%></td></tr>
+            <tr><td class="header"><strong>Stemloop 2 Sequence</strong></td><td><%=g.getStemloop2Sequence()%></td></tr>
+            <tr><td class="header"><strong>Stemloop 3 Sequence</strong></td><td><%=g.getStemloop3Sequence()%></td></tr>
+            <tr><td class="header"><strong>Source</strong></td><td><%=g.getSource()%></td></tr>
+
+            </tbody>
+        </table>
+    </div>
+    <hr>
 </div>
-    <table id="myTable" class="table tablesorter table-striped">
-    <thead>
-    <th>Editor_Id</th>
-    <td>Symbol</td>
-    <th>Type</th>
-    <th>Subtype</th>
-        <th>Species</th>
-        <th>PAM Preference</th>
-        <th>Variant</th>
-        <th>Fusion</th>
-        <th>Activity</th>
-        <th>DSB Cleavage Type</th>
-        <th>Protein Format</th>
-        <th>Source</th>
-    </tr>
-    </thead>
-<c:forEach items="${editors}" var="rec">
-    <tr>
-        <td>${rec.id}</td>
-        <td>${rec.symbol}</td>
-        <td>${rec.type}</td>
-        <td>${rec.subType}</td>
-        <td>${rec.species}</td>
-        <td>${rec.pamPreference}</td>
-        <td>${rec.editorVariant}</td>
-        <td>${rec.fusion}</td>
-        <td>${rec.activity}</td>
-        <td>${rec.dsbCleavageType}</td>
-        <td>${rec.proteinFormat}</td>
-        <td>${rec.source}</td>
-    </tr>
-</c:forEach>
-</table>
+
+<%@include file="associatedStudies.jsp"%>

@@ -3,6 +3,7 @@ package edu.mcw.scge.controller;
 import com.google.gson.Gson;
 import edu.mcw.scge.dao.implementation.AnimalTestingResultsDAO;
 import edu.mcw.scge.dao.implementation.EditorDao;
+import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.DataAccessService;
 import edu.mcw.scge.service.db.DBService;
@@ -35,17 +36,8 @@ public class ToolkitController {
 
         return null;
     }
-    @RequestMapping(value="delivery/search")
-    public String getDeliveryHome(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
 
-     //   model.addAttribute("sr", services.getSearchResponse());
-     //   req.setAttribute("sr", services.getSearchResponse());
-        req.setAttribute("action", "Delivery Systems");
-        req.setAttribute("page", "/WEB-INF/jsp/tools/delivery");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
-        return null;
-    }
     @RequestMapping(value="delivery/results")
     public String getDeliveryResults(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
 
@@ -96,21 +88,25 @@ public class ToolkitController {
     @GetMapping(value="studies/search/results/{id}")
     public void getResults(@PathVariable String id, HttpServletRequest req, HttpServletResponse res) throws Exception {
         int experimentId= Integer.parseInt(id);
+        ExperimentDao dao = new ExperimentDao();
+        Experiment e = dao.getExperiment(experimentId);
+
         List<ExperimentRecord> records=dbService.getExperimentRecordById(experimentId);
         if(records.size()>0){
             ExperimentRecord r=  records.get(0);
-            edu.mcw.scge.datamodel.Model m= dbService.getModelById( r.getModelId());
+            edu.mcw.scge.datamodel.Model m= dbService.getModelById( e.getModelId());
             List< ReporterElement> reporterElements=dbService.getReporterElementsByExpRecId(r.getExperimentRecId());
             List<AnimalTestingResultsSummary> results=dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecId());
             for(AnimalTestingResultsSummary s: results){
                 List<Sample> samples= dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
                 s.setSamples(samples  );
             }
-            List<Delivery> deliveryList=dbService.getDeliveryVehicles(r.getDeliveryId());
+            List<Delivery> deliveryList=dbService.getDeliveryVehicles(e.getDeliverySystemId());
             List<ApplicationMethod> applicationMethod=dbService.getApplicationMethodsById(r.getApplicationMethodId());
             req.setAttribute("applicationMethod", applicationMethod);
             req.setAttribute("deliveryList", deliveryList);
-            req.setAttribute("experiment",r);
+            req.setAttribute("experiment",e);
+            req.setAttribute("experimentRecords",r);
             req.setAttribute("model", m);
             req.setAttribute("reporterElements", reporterElements);
             req.setAttribute("results", results);

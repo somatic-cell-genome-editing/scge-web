@@ -1,12 +1,16 @@
 package edu.mcw.scge.controller;
 
 import edu.mcw.scge.dao.implementation.EditorDao;
+import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.ExperimentRecordDao;
 import edu.mcw.scge.datamodel.Editor;
+import edu.mcw.scge.datamodel.Experiment;
 import edu.mcw.scge.datamodel.ExperimentRecord;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +34,21 @@ public class ExperimentController {
 
     }
 
+    @RequestMapping(value="search/{studyId}")
+    public String getExperimentRecordsByStudy(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable(required = false) int studyId) throws Exception {
+        ExperimentDao edao = new ExperimentDao();
+
+        List<Experiment> records=edao.getExperimentsByStudy(studyId);
+
+        System.out.println("EXPERIMENTS: "+ records.size());
+        req.setAttribute("experiments", records);
+        req.setAttribute("action", "Experiments");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }
+
     @RequestMapping(value="experiment")
     public String getExperiment(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         /*
@@ -42,5 +61,4 @@ public class ExperimentController {
 */
         return null;
     }
-
 }

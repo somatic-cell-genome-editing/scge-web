@@ -2,7 +2,9 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.ModelDao;
+import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Editor;
+import edu.mcw.scge.datamodel.Study;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,12 @@ public class ModelController {
         req.setAttribute("model", mod);
         req.setAttribute("action","Model: " + mod.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/model");
+
+        StudyDao sdao = new StudyDao();
+        List<Study> studies = sdao.getStudiesByEditor(mod.getModelId());
+        req.setAttribute("studies", studies);
+
+
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

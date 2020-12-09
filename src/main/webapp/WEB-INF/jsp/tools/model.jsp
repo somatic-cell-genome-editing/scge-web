@@ -41,3 +41,5 @@
     </div>
     <hr>
 </div>
+
+<%@include file="associatedStudies.jsp"%>

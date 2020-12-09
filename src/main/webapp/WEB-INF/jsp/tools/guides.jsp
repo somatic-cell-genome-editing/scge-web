@@ -1,5 +1,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.scge.datamodel.Delivery" %>
+<%@ page import="edu.mcw.scge.datamodel.Guide" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -10,6 +12,12 @@
 --%>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+
+<script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
+<script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <style>
     td{
@@ -27,32 +35,26 @@
 
 <div>
     <%
-        List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
-        //out.println(experiments.size());
+        List<Guide> guides = (List<Guide>) request.getAttribute("guides");
     %>
 
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
-    <th>Experiment_Id</th>
-    <th>Name</th>
-        <th>Editor</th>
-        <th>Delivery System</th>
-        <th>Model</th>
-        <th>Guide</th>
+    <th>ID</th>
+    <th>Guide</th>
+    <th>Detection Method</th>
+    <th>RNA Format</th>
     </tr>
     </thead>
 
-        <% for (Experiment exp: experiments) { %>
+        <% for (Guide g: guides) { %>
 
     <tr>
-        <!--td><input class="form" type="checkbox"></td-->
-        <td><%=exp.getExperimentId()%></td>
-        <td><%=exp.getExperimentName()%></td>
-        <td><a href="/scgeweb/toolkit/editors/editor?id=<%=exp.getEditorId()%>"><%=exp.getEditorSymbol()%></a></td>
-        <td><a href="/scgeweb/toolkit/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=exp.getDeliverySystemType()%></a></td>
-        <td><a href="/scgeweb/toolkit/models/model?id=<%=exp.getModelId()%>"><%=exp.getModelName()%></a></td>
-        <td><a href="/scgeweb/toolkit/guide/guide?id=<%=exp.getEditorId()%>"><%=exp.getGuide()%></a></td>
+        <td><%=g.getGuide_id()%></td>
+        <td><a href="guide?id=<%=g.getGuide_id()%>"><%=g.getGuide()%></a></td>
+        <td><%=g.getDetectionMethod()%></td>
+        <td><%=g.getgRnaFormat()%></td>
     </tr>
         <% } %>
 </table>
