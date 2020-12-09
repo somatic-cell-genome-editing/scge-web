@@ -133,8 +133,8 @@
             <tbody>
             <c:forEach items="${deliveryList}" var="d">
                 <tr><td class="header"><strong>Editor</strong></td><td><a href="/scgeweb/toolkit/editors/editor?id=3">SpCas9</a></td></tr>
-                <tr><td class="header"><strong>Delivery System</strong></td><td>${d.deliverySystemType}</td></tr>
-                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td>${d.deliverySystemSubtype}</td></tr>
+                <tr><td class="header"><strong>Delivery System</strong></td><td>${d.type}</td></tr>
+                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td>${d.subtype}</td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td>26.52</td></tr>
             </c:forEach>
             </tbody>
