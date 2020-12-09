@@ -84,12 +84,7 @@
 
 
         <div class="row"  >
-
-
-
-
-
-                <div class="col-md-6">
+            <div class="col-md-6">
                     <table  class='borderless' >
                         <tr>
                             <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="models/search"><strong>Genetic Models</strong></a>, innovative genome editing systems with improved specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.
