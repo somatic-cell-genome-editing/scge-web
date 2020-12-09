@@ -34,7 +34,7 @@
                     <table  class='borderless'>
                         <tr>
 
-                            <td> <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a  href="vitro/search"><strong>Bilogical Effects - In vitro</strong></a> observed during the development, validation and testing of new and existing human cell- and tissue-based platforms. These models will be used for preclinical testing of editing, delivery and efficacy.</td>
+                            <td> <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a  href="vitro/search"><strong>Biological Effects - In vitro</strong></a> observed during the development, validation and testing of new and existing human cell- and tissue-based platforms. These models will be used for preclinical testing of editing, delivery and efficacy.</td>
                         </tr>
                     </table>
                 </div>
