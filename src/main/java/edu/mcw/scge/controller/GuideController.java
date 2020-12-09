@@ -39,7 +39,7 @@ public class GuideController {
         req.setAttribute("page", "/WEB-INF/jsp/tools/guide");
 
         StudyDao sdao = new StudyDao();
-        List<Study> studies = sdao.getStudiesByEditor(guide.getGuide_id());
+        List<Study> studies = sdao.getStudiesByGuide(guide.getGuide_id());
         req.setAttribute("studies", studies);
 
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);

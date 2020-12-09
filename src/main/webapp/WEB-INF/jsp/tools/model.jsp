@@ -48,3 +48,5 @@
     </div>
     <hr>
 </div>
+
+<jsp:include page="associatedStudies.jsp"/>
