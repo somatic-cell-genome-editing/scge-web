@@ -1,6 +1,7 @@
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.AnimalTestingResultsSummary" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.scge.datamodel.Delivery" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -138,12 +139,15 @@
         <table style="width:80%">
 
             <tbody>
-            <c:forEach items="${deliveryList}" var="d">
+
+            <% List<Delivery> dList = (List<Delivery>)request.getAttribute("deliveryList");
+                Delivery d = dList.get(0);
+            %>
+
                 <tr><td class="header"><strong>Editor</strong></td><td><a href="/scgeweb/toolkit/editors/editor?id=3">SpCas9</a></td></tr>
-                <tr><td class="header"><strong>Delivery System</strong></td><td>${d.deliverySystemType}</td></tr>
-                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td>${d.deliverySystemSubtype}</td></tr>
+                <tr><td class="header"><strong>Delivery System</strong></td><td><%=d.getType()%></td></tr>
+                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td>26.52</td></tr>
-            </c:forEach>
             </tbody>
         </table>
     </div>
