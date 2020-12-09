@@ -57,11 +57,11 @@
             <tr><td class="header"><strong>Detection Method</strong></td><td><%=g.getDetectionMethod()%></td></tr>
             <tr><td class="header"><strong>Forward Primer</strong></td><td><%=g.getForwardPrimer()%></td></tr>
             <tr><td class="header"><strong>Linker Sequence</strong></td><td><%=g.getLinkerSequence()%></td></tr>
-            <tr><td class="header"><strong>Anti-Repeat Sequence</strong></td><td><%=%>></td></tr>
-            <tr><td class="header"><strong>Stemloop 1 Sequence</strong></td><td><%=%>></td></tr>
-            <tr><td class="header"><strong>Stemloop 2 Sequence</strong></td><td><%=%>></td></tr>
-            <tr><td class="header"><strong>Stemloop 3 Sequence</strong></td><td><%=%>></td></tr>
-            <tr><td class="header"><strong>Source</strong></td><td><%=%>></td></tr>
+            <tr><td class="header"><strong>Anti-Repeat Sequence</strong></td><td></td></tr>
+            <tr><td class="header"><strong>Stemloop 1 Sequence</strong></td><td></td></tr>
+            <tr><td class="header"><strong>Stemloop 2 Sequence</strong></td><td></td></tr>
+            <tr><td class="header"><strong>Stemloop 3 Sequence</strong></td><td></td></tr>
+            <tr><td class="header"><strong>Source</strong></td><td></td></tr>
 
             </tbody>
         </table>
