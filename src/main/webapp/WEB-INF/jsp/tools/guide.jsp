@@ -10,6 +10,12 @@
 --%>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+
+<script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
+<script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <style>
     td{
@@ -51,11 +57,11 @@
             <tr><td class="header"><strong>Detection Method</strong></td><td><%=g.getDetectionMethod()%></td></tr>
             <tr><td class="header"><strong>Forward Primer</strong></td><td><%=g.getForwardPrimer()%></td></tr>
             <tr><td class="header"><strong>Linker Sequence</strong></td><td><%=g.getLinkerSequence()%></td></tr>
-            <tr><td class="header"><strong>Anti-Repeat Sequence</strong></td><td><%=g.getAntiRepeatSequence()%></td></tr>
-            <tr><td class="header"><strong>Stemloop 1 Sequence</strong></td><td><%=g.getStemloop1Sequence()%></td></tr>
-            <tr><td class="header"><strong>Stemloop 2 Sequence</strong></td><td><%=g.getStemloop2Sequence()%></td></tr>
-            <tr><td class="header"><strong>Stemloop 3 Sequence</strong></td><td><%=g.getStemloop3Sequence()%></td></tr>
-            <tr><td class="header"><strong>Source</strong></td><td><%=g.getSource()%></td></tr>
+            <tr><td class="header"><strong>Anti-Repeat Sequence</strong></td><td><%=%>></td></tr>
+            <tr><td class="header"><strong>Stemloop 1 Sequence</strong></td><td><%=%>></td></tr>
+            <tr><td class="header"><strong>Stemloop 2 Sequence</strong></td><td><%=%>></td></tr>
+            <tr><td class="header"><strong>Stemloop 3 Sequence</strong></td><td><%=%>></td></tr>
+            <tr><td class="header"><strong>Source</strong></td><td><%=%>></td></tr>
 
             </tbody>
         </table>

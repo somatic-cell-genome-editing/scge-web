@@ -10,7 +10,14 @@
   Time: 8:40 AM
   To change this template use File | Settings | File Templates.
 --%>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
 
+<script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
+<script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <script>
     $(function() {
@@ -133,8 +140,8 @@
             <tbody>
             <c:forEach items="${deliveryList}" var="d">
                 <tr><td class="header"><strong>Editor</strong></td><td><a href="/scgeweb/toolkit/editors/editor?id=3">SpCas9</a></td></tr>
-                <tr><td class="header"><strong>Delivery System</strong></td><td>${d.type}</td></tr>
-                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td>${d.subtype}</td></tr>
+                <tr><td class="header"><strong>Delivery System</strong></td><td>${d.deliverySystemType}</td></tr>
+                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td>${d.deliverySystemSubtype}</td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td>26.52</td></tr>
             </c:forEach>
             </tbody>
@@ -199,7 +206,7 @@
         </div>
     </div>
     <div id="summaryTable2" style="">
-        <table id="myTable2" class="tablesorter" style="width:50%">
+        <table id="myTable2" class="able ablesorter table-striped" style="width:50%" border="0">
             <thead><tr>
                 <th>Biological&nbsp;System</th>
                 <th>Tissue</th>
@@ -229,12 +236,12 @@
 
                                 %>
 
-                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:25px;height:25px;background-color:<%=UI.getRGBValue("blue",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
-                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:25px;height:25px;background-color:<%=UI.getRGBValue("green",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("blue",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("green",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
                             </tr>
                             <tr>
-                                <td style="padding:0px;margin:0px;"><div style="border:1px solid black;text-align:center;width:25px;height:25px;background-color:<%=UI.getRGBValue("red",1,255)%>"></div></td>
-                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:25px;height:25px;background-color:<%=UI.getRGBValue("rd",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                                <td style="padding:0px;margin:0px;"><div style="border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("red",1,255)%>"></div></td>
+                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("rd",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
                             </tr>
                         </table>
                         <!--
