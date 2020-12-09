@@ -7,6 +7,7 @@
   Time: 4:25 PM
   To change this template use File | Settings | File Templates.
 --%>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/css/bootstrap-multiselect.css" type="text/css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/js/bootstrap-multiselect.js"></script>
 
@@ -28,13 +29,21 @@
     }
 
 </style>
+<script>
+    $(function() {
+        $("#myTable").tablesorter({
+            theme : 'blue'
+
+        });
+    });
+</script>
 <script src="/scgeweb/js/edit.js"></script>
 
 <div>
-<div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Studies: ${fn:length(studies)}</p></div>
+<div><p style="color:steelblue;font-weight: bold;font-size: 20px">Studies: ${fn:length(studies)}</p></div>
 
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
-</div>
+
     <table id="myTable" class="tablesorter">
     <thead>
     <tr><!--th>Select</th-->
@@ -65,7 +74,7 @@
                 <div class="col  tiers">
                     <input type="hidden" name="tier" id="tier-study-${rec.studyId}"/>
                     <input type="hidden" name="studyId" id="study-${rec.studyId}" value="${rec.studyId}"/>
-                    <input type="hidden" name="json" id="study-${rec.studyId}-json"/>
+                    <input type="hidden" name="groupMembersjson" id="study-${rec.studyId}-json"/>
                     <input type="hidden" name="groupIdsJson" id="study-${rec.studyId}-groupIdsJson"/>
 
 
@@ -137,7 +146,7 @@
                             json=json+"]}"
                         });
                         json=json+"]}"
-                        $('#study-'+studyId+'-json').val(json);
+                        $('#study-'+studyId+'-memberJson').val(json);
                         console.log(json);
                     }
                     function appendGroupIds(studyId){
@@ -165,10 +174,11 @@
             </div>
 
         </td>
+            <td style="width: 10%">
+                    ${rec.tier}
+            </td>
         </c:if>
-        <td style="width: 10%">
-            ${rec.tier}
-        </td>
+
         <td><a href="/scgeweb/toolkit/studies/search/${rec.studyId}">${rec.study}</a></td>
         <td>${rec.type}</td>
         <td>${rec.labName}</td>
@@ -181,7 +191,7 @@
 </c:forEach>
 
 </table>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/css/bootstrap-multiselect.css" type="text/css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/js/bootstrap-multiselect.js"></script>
+</div>
+<!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/css/bootstrap-multiselect.css" type="text/css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/js/bootstrap-multiselect.js"></script-->
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->

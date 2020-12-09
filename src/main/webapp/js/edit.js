@@ -1,5 +1,5 @@
 $(function() {
-    studyId=0;
+
     $("#myTable").tablesorter({
         theme : 'blue'
 
@@ -10,14 +10,9 @@ $(function() {
         enableSaveChanges(studyId, tier.trim());
 
     })
-  /*  $('#groupSelect').change(function(){
-        var value= ($(this).val());
-        var $div="#group"+value;
-       // alert($div);
-        $($div).show(2000);
-    });*/
-});
 
+});
+var studyId=0;
 function changeAccess1(_this, studyId) {
      selectObj=$("#select"+studyId);
     if(selectObj.val()==='2')
