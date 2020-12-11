@@ -181,7 +181,7 @@ public class LoginController{
             Map userAttributes = response.getBody();
             model.addAttribute("name", userAttributes.get("name"));
             String name = (String) userAttributes.get("name");
-
+            verifyUserExists(client.getPrincipalName(), userAttributes.get("email").toString());
             String userStatus = pdao.getPersonStatus(client.getPrincipalName());
 
 
@@ -195,6 +195,16 @@ public class LoginController{
         }
        return "home2";
 
+    }
+    public boolean verifyUserExists( String principalName, String email) throws Exception {
+        System.out.println("EMAIL: "+ email);
+        List<Person> people= (pdao.getPersonByEmail(email));
+        if(people!=null && people.size()>0){
+            Person p= people.get(0);
+           pdao.updateGoogleId(principalName, p.getId());
+           return true;
+        }
+        return false;
     }
     @ModelAttribute("tiers")
     public List<String> getTiers() {
