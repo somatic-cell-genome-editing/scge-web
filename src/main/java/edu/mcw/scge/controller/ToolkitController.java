@@ -24,11 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping(value="/toolkit")
+//@RequestMapping(value="/toolkit")
+@RequestMapping(value="/data")
 public class ToolkitController {
    IndexServices services=new IndexServices();
     DBService dbService=new DBService();
-    @GetMapping(value="home")
+    @GetMapping(value="/")
     public String getToolKitHome(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
         req.setAttribute("action", "Toolkit");
         req.setAttribute("page", "/WEB-INF/jsp/tools/home");
@@ -36,7 +37,6 @@ public class ToolkitController {
 
         return null;
     }
-
 
     @RequestMapping(value="delivery/results")
     public String getDeliveryResults(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
@@ -51,7 +51,7 @@ public class ToolkitController {
 
         return null;
     }
-    @RequestMapping(value="vitro/search")
+    @RequestMapping(value="/vitro/search")
     public String getVitroHome(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         List<ExperimentRecord> records=dbService.getAllExperimentRecordsByLabId(15);
         System.out.println("EXPERIMENTS: "+ records.size());
@@ -92,6 +92,7 @@ public class ToolkitController {
         Experiment e = dao.getExperiment(experimentId);
 
         List<ExperimentRecord> records=dbService.getExperimentRecordById(experimentId);
+        System.out.println("RECORDS: " +records.size());
         if(records.size()>0){
             ExperimentRecord r=  records.get(0);
             edu.mcw.scge.datamodel.Model m= dbService.getModelById( e.getModelId());

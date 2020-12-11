@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
-@RequestMapping(value="/toolkit/experiments")
+@RequestMapping(value="/data/experiments")
 public class ExperimentController {
 
     @RequestMapping(value="search")

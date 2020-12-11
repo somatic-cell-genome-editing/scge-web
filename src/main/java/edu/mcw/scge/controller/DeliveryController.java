@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
-@RequestMapping(value="/toolkit/delivery")
+@RequestMapping(value="/data/delivery")
 public class DeliveryController {
 
     @RequestMapping(value="search")

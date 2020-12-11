@@ -35,7 +35,7 @@ Goals"/>
         .select-arrow{background-color:#ffffff}
     </style>
     <![endif]-->
-    <link rel='stylesheet' id='fusion-dynamic-css-css'  href='/scgeweb/common/css/scge_nav_header.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='fusion-dynamic-css-css'  href='/toolkit/common/css/scge_nav_header.css' type='text/css' media='all' />
 
     <!--style>
         .footer {
@@ -54,12 +54,12 @@ Goals"/>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Custom styles for this template -->
     <!--link href="css/dashboard.css" rel="stylesheet"-->
-    <link href="/scgeweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-    <link href="/scgeweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-    <link href="/scgeweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+    <link href="/toolkit/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
+    <link href="/toolkit/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+    <link href="/toolkit/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
 
-    <script src="/scgeweb/common/tableSorter/js/tablesorter.js"> </script>
-    <script src="/scgeweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
+    <script src="/toolkit/common/tableSorter/js/tablesorter.js"> </script>
+    <script src="/toolkit/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
  <style>
     html, body {
@@ -124,11 +124,11 @@ Goals"/>
                                         Logged in as:<img class="img-circle" src="${userImageUrl}" width="24">
 
                                         ${userName}&nbsp;
-                                        <a href="/scgeweb/logout" title="Sign out"><button class="btn btn-primary">Logout</button></a>
+                                        <a href="/toolkit/logout" title="Sign out"><button class="btn btn-primary">Logout</button></a>
 
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="/scgeweb/login/google">Google Login</a>
+                                        <a href="/toolkit/login/google">Google Login</a>
                                     </c:otherwise>
                                 </c:choose>
 
@@ -160,11 +160,11 @@ Goals"/>
                             <a class="nav-link" href="https://scge.mcw.edu/" style="font-size: 16px;">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/scgeweb/toolkit/home?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
+                            <a class="nav-link" href="/toolkit?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
                         </li>
 
                         <c:if test="${userName!=null}">
-                            <li class="nav-item">   <a class="nav-link" href="/scgeweb/loginSuccess?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">My Dashboard</a></li>
+                            <li class="nav-item">   <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">My Dashboard</a></li>
                         <!--li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
                         </li-->
                         </c:if>

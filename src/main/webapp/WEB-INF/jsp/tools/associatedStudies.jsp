@@ -24,7 +24,7 @@
     <% for (Study s: studies) { %>
     <tr>
         <td><%=s.getTier()%>
-        <td><a href="/scgeweb/toolkit/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
+        <td><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
         <td><%=s.getType()%></td>
         <td><%=s.getLabName()%></td>
         <td><%=s.getPi()%></td>

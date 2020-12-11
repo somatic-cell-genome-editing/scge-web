@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
-@RequestMapping(value="/toolkit/guide")
+@RequestMapping(value="/data/guide")
 public class GuideController {
 
     @RequestMapping(value="search")

@@ -54,11 +54,11 @@
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
         <td><%=exp.getExperimentId()%></td>
-        <td><a href="/scgeweb/toolkit/studies/search/results/<%=exp.getExperimentId()%>"><%=exp.getExperimentName()%></a></td>
-        <td><a href="/scgeweb/toolkit/editors/editor?id=<%=exp.getEditorId()%>"><%=exp.getEditorSymbol()%></a></td>
-        <td><a href="/scgeweb/toolkit/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=exp.getDeliverySystemType()%></a></td>
-        <td><a href="/scgeweb/toolkit/models/model?id=<%=exp.getModelId()%>"><%=exp.getModelName()%></a></td>
-        <td><a href="/scgeweb/toolkit/guide/guide?id=<%=exp.getEditorId()%>"><%=exp.getGuide()%></a></td>
+        <td><a href="/toolkit/data/studies/search/results/<%=exp.getExperimentId()%>"><%=exp.getExperimentName()%></a></td>
+        <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=exp.getEditorSymbol()%></a></td>
+        <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=exp.getDeliverySystemType()%></a></td>
+        <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=exp.getModelName()%></a></td>
+        <td><a href="/toolkit/data/guide/guide?id=<%=exp.getEditorId()%>"><%=exp.getGuide()%></a></td>
     </tr>
         <% } %>
 </table>

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
-@RequestMapping(value="/toolkit/studies")
+@RequestMapping(value="/data/studies")
 public class StudyController {
 
 

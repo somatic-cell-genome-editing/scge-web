@@ -37,7 +37,7 @@
         });
     });
 </script>
-<script src="/scgeweb/js/edit.js"></script>
+<script src="/toolkit/js/edit.js"></script>
 <div>
     <table id="myTable" class="tablesorter">
     <thead>
@@ -172,7 +172,7 @@
                     ${rec.tier}
             </td>
         </c:if>
-        <td><a href="/scgeweb/toolkit/experiments/search/${rec.studyId}">${rec.study}</a></td>
+        <td><a href="/toolkit/data/experiments/search/${rec.studyId}">${rec.study}</a></td>
         <td>${rec.type}</td>
         <td>${rec.labName}</td>
         <td>${rec.pi}</td>
@@ -186,6 +186,3 @@
     </tr>
 </table>
 </div>
-<!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/css/bootstrap-multiselect.css" type="text/css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/js/bootstrap-multiselect.js"></script-->
-<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->

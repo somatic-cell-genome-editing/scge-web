@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping(value="/toolkit/editors")
+@RequestMapping(value="/data/editors")
 public class EditorController {
 
     @RequestMapping(value="search")
