@@ -157,14 +157,14 @@ Goals"/>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="https://scge.mcw.edu/" style="font-size: 16px;">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/toolkit/?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400"><i class="fas fa-tools"></i>&nbsp;ToolKit <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/toolkit?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
-                        </li>
+                        <!--li class="nav-item">
+                            <a class="nav-link" href="/toolkit/?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
+                        </li-->
 
                         <c:if test="${userName!=null}">
-                            <li class="nav-item">   <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">My Dashboard</a></li>
+                            <li class="nav-item">   <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-weight: bold;font-family: Offside;color:orangered;font-size: 16px"><i class="fas fa-th"></i>&nbsp;My Dashboard</a></li>
                         <!--li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
                         </li-->
                         </c:if>

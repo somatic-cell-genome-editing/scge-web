@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping(value="/data/experiments")
 public class ExperimentController {
 
-    @RequestMapping(value="search")
+    @RequestMapping(value="/search")
     public String getExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentRecordDao edao=new ExperimentRecordDao();
         List<ExperimentRecord>  records = edao.getExperimentRecords();
@@ -34,7 +34,7 @@ public class ExperimentController {
 
     }
 
-    @RequestMapping(value="search/{studyId}")
+    @RequestMapping(value="/search/{studyId}")
     public String getExperimentRecordsByStudy(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable(required = false) int studyId) throws Exception {
         ExperimentDao edao = new ExperimentDao();
 
@@ -49,7 +49,7 @@ public class ExperimentController {
         return null;
     }
 
-    @RequestMapping(value="experiment")
+    @RequestMapping(value="/experiment")
     public String getExperiment(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         /*
         EditorDao dao = new EditorDao();

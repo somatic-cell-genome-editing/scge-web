@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping(value="/data/models")
 public class ModelController {
 
-    @RequestMapping(value="search")
+    @RequestMapping(value="/search")
     public String getModels(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ModelDao dao = new ModelDao();
         List<edu.mcw.scge.datamodel.Model> records= dao.getModels();
@@ -29,7 +29,7 @@ public class ModelController {
         return null;
     }
 
-    @RequestMapping(value="model")
+    @RequestMapping(value="/model")
     public String getModel(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ModelDao dao = new ModelDao();
         edu.mcw.scge.datamodel.Model mod= dao.getModelById(Integer.parseInt(req.getParameter("id")));

@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping(value="/data/delivery")
 public class DeliveryController {
 
-    @RequestMapping(value="search")
+    @RequestMapping(value="/search")
     public String getDeliverySystems(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         DeliveryDao dao = new DeliveryDao();
         List<Delivery> records= dao.getDeliverySystems();
@@ -30,7 +30,7 @@ public class DeliveryController {
         return null;
     }
 
-    @RequestMapping(value="system")
+    @RequestMapping(value="/system")
     public String getDeliverySystem(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         DeliveryDao dao = new DeliveryDao();
         Delivery system= dao.getDeliverySystemsById(Integer.parseInt(req.getParameter("id"))).get(0);

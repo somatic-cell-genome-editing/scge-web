@@ -145,34 +145,16 @@ Goals"/>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/toolkit/home?destination=base" style="font-size: 16px;">ToolKit <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Data
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="data/studies/search">Submissions</a>
-              <a class="dropdown-item" href="data/models/search">Genetic Models</a>
-              <a class="dropdown-item" href="data/editors/search"> Genome Editors</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="data/vitro/search">Biological Effects - In vitro</a>
-              <a class="dropdown-item" href="#">Biological Effects - In vivo</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="data/delivery/search">Delivery Vehicles</a>
-              <a class="dropdown-item" href="data/animalReporter/search">Animal Reporters Models</a>
-              <a class="dropdown-item" href="data/guide/search">Guides</a>
-
-            </div>
+           <a class="nav-link" href="/toolkit/?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400"><i class="fas fa-tools"></i>&nbsp;ToolKit <span class="sr-only">(current)</span></a>
           </li>
           <!--li class="nav-item">
-            <a class="nav-link" href="/toolkit/home?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
+            <a class="nav-link" href="/toolkit/?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
           </li-->
 
           <c:if test="${userName!=null}">
 
 
-            <li class="nav-item">   <a class="nav-link" href="/tookit/loginSuccess?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">My Dashboard</a></li>
+            <li class="nav-item">   <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">My Dashboard</a></li>
             <li><a href="dataSubmission"><button class="btn">Submit Data</button></a>
             </li>
           </c:if>
@@ -197,8 +179,8 @@ Goals"/>
 
 
             <!--h1 class="page-header">Dashboard</h1-->
+          <%@include file="WEB-INF/jsp/tools/home.jsp"%>
 
-        <%@include file="WEB-INF/jsp/tools/home.jsp"%>
           </div>
 
         </div>
