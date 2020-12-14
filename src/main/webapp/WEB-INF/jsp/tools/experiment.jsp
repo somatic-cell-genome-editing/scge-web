@@ -137,7 +137,7 @@
                 Delivery d = dList.get(0);
             %>
 
-                <tr><td class="header"><strong>Editor</strong></td><td><a href="/scgeweb/toolkit/editors/editor?id=3">SpCas9</a></td></tr>
+                <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=3">SpCas9</a></td></tr>
                 <tr><td class="header"><strong>Delivery System</strong></td><td><%=d.getType()%></td></tr>
                 <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td>26.52</td></tr>
@@ -153,7 +153,7 @@
 
     <tbody>
     <tr><td class="header"><strong>Model</strong></td><td>${model.organism}</td></tr>
-        <tr><td class="header"><strong>Model Name</strong></td><td><a href="/scgeweb/toolkit/models/model?id=${model.modelId}">${model.name}</a></td></tr>
+        <tr><td class="header"><strong>Model Name</strong></td><td><a href="/toolkit/data/models/model?id=${model.modelId}">${model.name}</a></td></tr>
     </tbody>
 </table>
     </div>
@@ -400,13 +400,13 @@
                 <div class="col-lg-6">
                     <table>
                         <tr>
-                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/heart.png" width="100px" height="100px" alt=""/></td>
-                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/heart_ch00.png" width="100px" height="100px" alt=""/></td>
-                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/heart_ch01.png" width="100px" height="100px" alt=""/></td></tr>
+                            <td style="padding:1px"><img src="/toolkit/common/ksnow/heart.png" width="100px" height="100px" alt=""/></td>
+                            <td style="padding:1px"><img src="/toolkit/common/ksnow/heart_ch00.png" width="100px" height="100px" alt=""/></td>
+                            <td style="padding:1px"><img src="/toolkit/common/ksnow/heart_ch01.png" width="100px" height="100px" alt=""/></td></tr>
                         <tr>
-                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/liver.png" width="100px" height="100px" alt=""/></td>
-                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/liver_ch00.png" width="100px" height="100px" alt=""/></td>
-                            <td style="padding:1px"><img src="/scgeweb/common/ksnow/liver_ch01.png" width="100px" height="100px" alt=""/></td></tr>
+                            <td style="padding:1px"><img src="/toolkit/common/ksnow/liver.png" width="100px" height="100px" alt=""/></td>
+                            <td style="padding:1px"><img src="/toolkit/common/ksnow/liver_ch00.png" width="100px" height="100px" alt=""/></td>
+                            <td style="padding:1px"><img src="/toolkit/common/ksnow/liver_ch01.png" width="100px" height="100px" alt=""/></td></tr>
                     </table>
                 </div>
             </div>

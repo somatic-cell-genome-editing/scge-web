@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
-@RequestMapping(value="/toolkit/guide")
+@RequestMapping(value="/data/guide")
 public class GuideController {
 
-    @RequestMapping(value="search")
+    @RequestMapping(value="/search")
     public String getGuides(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         GuideDao dao = new GuideDao();
         List<Guide> records= dao.getGuides();
@@ -30,7 +30,7 @@ public class GuideController {
         return null;
     }
 
-    @RequestMapping(value="guide")
+    @RequestMapping(value="/guide")
     public String getGuide(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         GuideDao dao = new GuideDao();
         Guide guide= dao.getGuideById(Integer.parseInt(req.getParameter("id"))).get(0);

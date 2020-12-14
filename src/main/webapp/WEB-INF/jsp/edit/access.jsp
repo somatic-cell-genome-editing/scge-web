@@ -146,7 +146,6 @@
         <div class="form-group group-dropdown-list card" >
             <label for="groupSelect-study${rec.studyId}">Select Group</label>
                 <select id="groupSelect-study${rec.studyId}" class="groupSelect form-control" multiple="multiple" disabled>
-                <option value="0">Choose...</option>
                 <c:forEach items="${groupsMap1}" var="m">
                     <!--p><a href="members?group=$-{m.key}" style="font-weight:bold">{m.key}</a></p-->
                         <c:choose>

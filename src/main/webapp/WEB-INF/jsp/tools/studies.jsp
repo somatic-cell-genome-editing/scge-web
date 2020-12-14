@@ -37,7 +37,7 @@
         });
     });
 </script>
-<script src="/scgeweb/js/edit.js"></script>
+<script src="/toolkit/js/edit.js"></script>
 <div>
     <table id="myTable" class="tablesorter">
     <thead>
@@ -172,7 +172,7 @@
                     ${rec.tier}
             </td>
         </c:if>
-        <td><a href="/scgeweb/toolkit/experiments/search/${rec.studyId}">${rec.study}</a></td>
+        <td><a href="/toolkit/data/experiments/search/${rec.studyId}">${rec.study}</a></td>
         <td>${rec.type}</td>
         <td>${rec.labName}</td>
         <td>${rec.pi}</td>

@@ -27,14 +27,14 @@
             <div class="col-md-6">
                 <table  class='borderless'>
                     <tr>
-                        <td><i class="far fa-file-alt" style="font-size: 50px;color:steelblue"></i>&nbsp;&nbsp;<a href="studies/search"><strong>Submissions</strong></a>, innovative approaches to deliver genome editing machinery into somatic cells, with the ultimate goal of accelerating the development of genome editing therapeutics to treat human disease.</td>
+                        <td><i class="far fa-file-alt" style="font-size: 50px;color:steelblue"></i>&nbsp;&nbsp;<a href="/toolkit/data/studies/search"><strong>Submissions</strong></a>, innovative approaches to deliver genome editing machinery into somatic cells, with the ultimate goal of accelerating the development of genome editing therapeutics to treat human disease.</td>
                     </tr>
                 </table>
             </div>
             <div class="col-md-6">
                 <table  class='borderless' >
                     <tr>
-                        <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="editors/search"><strong>Genome Editors</strong></a>, innovative genome editing systems with improved specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.
+                        <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="/toolkit/data/editors/search"><strong>Genome Editors</strong></a>, innovative genome editing systems with improved specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.
                         </td>
                     </tr>
                 </table>
@@ -46,14 +46,14 @@
             <div class="col-md-6">
                     <table  class='borderless'>
                         <tr>
-                            <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/mouse.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="animalReporter/search"><strong style="text-align: left">Animal Reporters Models</strong></a> to accelerate the translation of genome editing technologies into treatments for human diseases. The animal model systems are based on normal, non-diseased animals.</td>
+                            <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/mouse.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="/toolkit/data/animalReporter/search"><strong style="text-align: left">Animal Reporters Models</strong></a> to accelerate the translation of genome editing technologies into treatments for human diseases. The animal model systems are based on normal, non-diseased animals.</td>
                         </tr>
                     </table>
             </div>
             <div class="col-md-6">
                     <table  class='borderless'>
                         <tr>
-                            <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a  href="vitro/search"><strong>Biological Effects</strong></a> observed during the development, validation and testing of new and existing human cell- and tissue-based platforms. These models will be used for preclinical testing of editing, delivery and efficacy.</td>
+                            <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a  href="/toolkit/data/vitro/search"><strong>Biological Effects - In vitro</strong></a> observed during the development, validation and testing of new and existing human cell- and tissue-based platforms. These models will be used for preclinical testing of editing, delivery and efficacy.</td>
                         </tr>
                     </table>
                 </div>
@@ -63,14 +63,14 @@
             <div class="col-md-6">
                 <table  class='borderless'>
                     <tr>
-                        <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="delivery/search"><strong>Delivery Vehicles</strong></a>, innovative approaches to deliver genome editing machinery into somatic cells, with the ultimate goal of accelerating the development of genome editing therapeutics to treat human disease.</td>
+                        <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="/toolkit/data/delivery/search"><strong>Delivery Vehicles</strong></a>, innovative approaches to deliver genome editing machinery into somatic cells, with the ultimate goal of accelerating the development of genome editing therapeutics to treat human disease.</td>
                     </tr>
                 </table>
             </div>
             <div class="col-md-6">
                 <table  class='borderless' >
                     <tr>
-                        <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="models/search"><strong>Genetic Models</strong></a>, innovative genome editing systems with improved specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.
+                        <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="/toolkit/data/models/search"><strong>Genetic Models</strong></a>, innovative genome editing systems with improved specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.
                         </td>
                     </tr>
                 </table>
@@ -89,7 +89,7 @@
         <div class="col-md-6">
             <table  class='borderless' >
                 <tr>
-                    <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="guide/search"><strong>Guides</strong></a> is a comprehensive source for protocols and reviews covering essential and advanced experimental design, methods and analyses in all areas including the preparation and analysis of genome editing and more.
+                    <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="50" height="50" alt="" />&nbsp;&nbsp;<a href="/toolkit/data/guide/search"><strong>Guides</strong></a> is a comprehensive source for protocols and reviews covering essential and advanced experimental design, methods and analyses in all areas including the preparation and analysis of genome editing and more.
                 </td>
                 </tr>
             </table>

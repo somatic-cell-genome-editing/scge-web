@@ -20,10 +20,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping(value="/toolkit/editors")
+@RequestMapping(value="/data/editors")
 public class EditorController {
 
-    @RequestMapping(value="search")
+    @RequestMapping(value="/search")
     public String getEditors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         EditorDao dao = new EditorDao();
         List<Editor> records= dao.getAllEditors();
@@ -35,7 +35,7 @@ public class EditorController {
         return null;
     }
 
-    @RequestMapping(value="editor")
+    @RequestMapping(value="/editor")
     public String getEditor(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         EditorDao dao = new EditorDao();
         Editor editor= dao.getEditorById(Integer.parseInt(req.getParameter("id"))).get(0);

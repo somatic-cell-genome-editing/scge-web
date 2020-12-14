@@ -77,11 +77,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/","/home", "/logout", "/oauth_login", "/common/**", "/data/**").permitAll()
 
-        http
-
-          .authorizeRequests()
-                .antMatchers("/","/toolkit/**","/toolkit/delivery/**", "/logout", "/oauth_login", "/common/**").permitAll()
+                //      .antMatchers("/","/toolkit/**","/toolkit/delivery/**", "/logout", "/oauth_login", "/common/**", "/data/**").permitAll()
         //      .antMatchers("/admin/**").access("hasRole('ADMIN')")
         //      .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")
 
