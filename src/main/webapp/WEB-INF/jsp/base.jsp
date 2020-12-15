@@ -94,6 +94,9 @@ Goals"/>
      .sidebar-wrapper{
          border: 2px solid gainsboro ;
      }
+    .nav-link:hover{
+        background-color: #5aabd6;
+    }
  </style>
 </head>
 

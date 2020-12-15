@@ -82,6 +82,9 @@ Goals"/>
       clear:both;
       padding-top:20px;
     }
+    .nav-link:hover{
+      background-color: #5aabd6;
+    }
   </style>
 </head>
 
@@ -152,10 +155,8 @@ Goals"/>
           </li-->
 
           <c:if test="${userName!=null}">
-
-
-            <li class="nav-item">   <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">My Dashboard</a></li>
-            <li><a href="dataSubmission"><button class="btn">Submit Data</button></a>
+            <li class="nav-item">   <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-weight: bold;font-family: Offside;color:orangered;font-size: 16px"><i class="fas fa-th"></i>&nbsp;My Dashboard</a></li>
+            <!--li><a href="dataSubmission"><button class="btn">Submit Data</button></a-->
             </li>
           </c:if>
 

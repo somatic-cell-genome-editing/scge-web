@@ -13,7 +13,7 @@
         <c:forEach items="${groupsMap}" var="m">
         <tr><td>
             <button type="button" class="btn btn-secondary-outline btn-sm" style="padding:0;text-align: left"
-                    data-toggle="modal" data-target="#modal${m.key.groupId}"><span style="color:steelblue">${m.key.groupName}</span>
+                    data-toggle="modal" data-target="#modal${m.key.groupId}"><span style="color:#1a80b6;font-size: 12px">${m.key.groupName}</span>
             </button>
 
             <!--a href="members?group=$-{m.key}">$-{m.key}</a-->
@@ -27,7 +27,7 @@
                         <div class="modal-body">
                 <ul>
                     <c:forEach items="${m.value}" var="sg">
-                        <li><span style="color:#24609c;font-weight:bold ">${sg.groupName}</span>
+                        <li><span style="color:#1a80b6;font-weight:bold ">${sg.groupName}</span>
 
                             <ul>
                                 <c:forEach items="${sg.members}" var="mem">

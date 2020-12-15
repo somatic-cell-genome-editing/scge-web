@@ -8,7 +8,7 @@
 --%>
 <style>
     th{
-        color:#24609c;
+        color:#1a80b6;
     }
 </style>
 <div class="card">

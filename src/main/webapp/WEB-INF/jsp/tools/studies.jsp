@@ -53,7 +53,7 @@
         <th>Laboratory</th>
         <th>PI</th>
         <th>Submitter</th>
-        <th>Raw Data</th>
+        <th>Raw_Data</th>
         <th>Submission_Date</th>
         <th>Study_ID</th>
 
