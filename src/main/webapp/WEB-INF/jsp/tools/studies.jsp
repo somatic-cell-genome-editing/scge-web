@@ -52,10 +52,10 @@
         <th>Type</th>
         <th>Laboratory</th>
         <th>PI</th>
-        <th>Submitter</th>
-        <th>Raw_Data</th>
-        <th>Submission_Date</th>
-        <th>Study_ID</th>
+        <th>POC</th>
+        <th>Raw Data</th>
+        <th>Submission Date</th>
+        <th>Study ID</th>
 
     </tr>
     </thead>
@@ -177,7 +177,7 @@
         <td>${rec.labName}</td>
         <td>${rec.pi}</td>
         <td>${rec.submitter}</td>
-        <td><a href="${rec.rawData}">link</a></td>
+        <td><a href="${rec.rawData}">[Download]</a></td>
         <td>${rec.submissionDate}</td>
         <td>${rec.studyId}</td>
 

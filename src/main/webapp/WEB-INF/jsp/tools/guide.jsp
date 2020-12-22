@@ -1,4 +1,5 @@
 <%@ page import="edu.mcw.scge.datamodel.Guide" %>
+<%@ page import="edu.mcw.scge.web.StringForNull" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -38,30 +39,30 @@
         <table  style="width:80%">
 
             <tbody>
-            <tr><td class="header"><strong>ID</strong></td><td><%=g.getGuide_id()%></td></tr>
-            <tr><td class="header"><strong>Guide</strong></td><td><%=g.getGuide()%></td></tr>
-            <tr><td class="header"><strong>Species</strong></td><td><%=g.getSpecies()%></td></tr>
-            <tr><td class="header"><strong>Target Locus</strong></td><td><%=g.getTargetLocus()%></td></tr>
-            <tr><td class="header"><strong>Target Sequence</strong></td><td><%=g.getTargetSequence()%></td></tr>
-            <tr><td class="header"><strong>PAM</strong></td><td><%=g.getPam()%></td></tr>
-            <tr><td class="header"><strong>Assembly</strong></td><td><%=g.getAssembly()%></td></tr>
-            <tr><td class="header"><strong>Chr</strong></td><td><%=g.getChr()%></td></tr>
-            <tr><td class="header"><strong>Start</strong></td><td><%=g.getStart()%></td></tr>
-            <tr><td class="header"><strong>Stop</strong></td><td><%=g.getStop()%></td></tr>
-            <tr><td class="header"><strong>Strand</strong></td><td><%=g.getStrand()%></td></tr>
-            <tr><td class="header"><strong>GRna Lab ID</strong></td><td><%=g.getGrnaLabId()%></td></tr>
-            <tr><td class="header"><strong>GRna Format</strong></td><td><%=g.getgRnaFormat()%></td></tr>
-            <tr><td class="header"><strong>Spacer Sequence</strong></td><td><%=g.getSpacerSequence()%></td></tr>
-            <tr><td class="header"><strong>Spacer Length</strong></td><td><%=g.getSpacerLength()%></td></tr>
-            <tr><td class="header"><strong>Repeat Sequence</strong></td><td><%=g.getRepeatSequence()%></td></tr>
-            <tr><td class="header"><strong>Detection Method</strong></td><td><%=g.getDetectionMethod()%></td></tr>
-            <tr><td class="header"><strong>Forward Primer</strong></td><td><%=g.getForwardPrimer()%></td></tr>
-            <tr><td class="header"><strong>Linker Sequence</strong></td><td><%=g.getLinkerSequence()%></td></tr>
-            <tr><td class="header"><strong>Anti-Repeat Sequence</strong></td><td></td></tr>
-            <tr><td class="header"><strong>Stemloop 1 Sequence</strong></td><td></td></tr>
-            <tr><td class="header"><strong>Stemloop 2 Sequence</strong></td><td></td></tr>
-            <tr><td class="header"><strong>Stemloop 3 Sequence</strong></td><td></td></tr>
-            <tr><td class="header"><strong>Source</strong></td><td></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Guide</strong></td><td><%=g.getGuide()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Species</strong></td><td><%=g.getSpecies()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Target Locus</strong></td><td><%=g.getTargetLocus()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Target Sequence</strong></td><td><%=g.getTargetSequence()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>PAM</strong></td><td><%=g.getPam()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Assembly</strong></td><td><%=g.getAssembly()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Chr</strong></td><td><%=g.getChr()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Start</strong></td><td><%=StringForNull.parseLong(g.getStart())%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Stop</strong></td><td><%=StringForNull.parseLong(g.getStop())%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Strand</strong></td><td><%=g.getStrand()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>GRna Lab ID</strong></td><td><%=g.getGrnaLabId()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>GRna Format</strong></td><td><%=StringForNull.parse(g.getgRnaFormat())%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Spacer Sequence</strong></td><td><%=g.getSpacerSequence()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Spacer Length</strong></td><td><%=g.getSpacerLength()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Repeat Sequence</strong></td><td><%=g.getRepeatSequence()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Detection Method</strong></td><td><%=StringForNull.parse(g.getDetectionMethod())%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Forward Primer</strong></td><td><%=g.getForwardPrimer()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Linker Sequence</strong></td><td><%=g.getLinkerSequence()%></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Anti-Repeat Sequence</strong></td><td></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Stemloop 1 Sequence</strong></td><td></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Stemloop 2 Sequence</strong></td><td></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Stemloop 3 Sequence</strong></td><td></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Source</strong></td><td></td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Guide ID</strong></td><td><%=g.getGuide_id()%></td></tr>
 
             </tbody>
         </table>
@@ -69,4 +70,8 @@
     <hr>
 </div>
 
-<%@include file="associatedStudies.jsp"%>
+<br>
+<jsp:include page="associatedStudies.jsp"/>
+<br>
+<hr>
+<jsp:include page="associatedExperiments.jsp"/>

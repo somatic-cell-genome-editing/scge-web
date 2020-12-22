@@ -56,4 +56,8 @@ hello
     <hr>
 </div>
 
-<%@include file="associatedStudies.jsp"%>
+<br>
+<jsp:include page="associatedStudies.jsp"/>
+<br>
+<hr>
+<jsp:include page="associatedExperiments.jsp"/>

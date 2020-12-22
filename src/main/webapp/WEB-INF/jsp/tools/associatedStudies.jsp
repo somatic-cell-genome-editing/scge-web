@@ -7,15 +7,14 @@
     <tr><!--th>Select</th-->
         <!--th>Action</th-->
         <th>Tier</th>
-        <th>Study_Name</th>
+        <th>Study Name</th>
         <th>Type</th>
         <th>Laboratory</th>
         <th>PI</th>
         <th>Submitter</th>
         <th>Raw Data</th>
-        <td>Ref</td>
-        <th>Submission_Date</th>
-        <th>Study_ID</th>
+        <th>Submission Date</th>
+        <th>Study ID</th>
     </tr>
     </thead>
 
@@ -29,8 +28,7 @@
         <td><%=s.getLabName()%></td>
         <td><%=s.getPi()%></td>
         <td><%=s.getSubmitter()%></td>
-        <td><a href="<%=s.getRawData()%>">link</a></td>
-        <td><a href="<%=s.getReference()%>">ref</a></td>
+        <td><a href="<%=s.getRawData()%>">[Download]]</a></td>
         <td><%=s.getSubmissionDate()%></td>
         <td><%=s.getStudyId()%></td>
     </tr>

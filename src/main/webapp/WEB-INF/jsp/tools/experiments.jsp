@@ -1,5 +1,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.scge.web.StringForNull" %>
+<%@ page import="edu.mcw.scge.datamodel.Study" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -34,18 +36,33 @@
 <div>
     <%
         List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
+        Study study = (Study) request.getAttribute("study");
         //out.println(experiments.size());
     %>
+
+    <table>
+        <tr>
+            <td style="font-weight:700;"><%=study.getStudy()%>:</td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td  style="font-weight:700;">PI:</td>
+            <td><%=study.getPi()%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td style="font-weight:700;">Submission Date:</td>
+            <td><%=study.getSubmissionDate()%></td>
+        </tr>
+    </table>
+
+
 
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
-    <th>Experiment_Id</th>
     <th>Name</th>
         <th>Editor</th>
         <th>Delivery System</th>
         <th>Model</th>
         <th>Guide</th>
+        <th>Record ID</th>
     </tr>
     </thead>
 
@@ -53,12 +70,13 @@
 
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
+
+        <td><a href="/toolkit/data/studies/search/results/<%=exp.getExperimentId()%>"><%=StringForNull.parse(exp.getExperimentName())%></a></td>
+        <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=StringForNull.parse(exp.getEditorSymbol())%></a></td>
+        <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=StringForNull.parse(exp.getDeliverySystemType())%></a></td>
+        <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=StringForNull.parse(exp.getModelName())%></a></td>
+        <td><a href="/toolkit/data/guide/guide?id=<%=exp.getGuideId()%>"><%=StringForNull.parse(exp.getGuide())%></a></td>
         <td><%=exp.getExperimentId()%></td>
-        <td><a href="/toolkit/data/studies/search/results/<%=exp.getExperimentId()%>"><%=exp.getExperimentName()%></a></td>
-        <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=exp.getEditorSymbol()%></a></td>
-        <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=exp.getDeliverySystemType()%></a></td>
-        <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=exp.getModelName()%></a></td>
-        <td><a href="/toolkit/data/guide/guide?id=<%=exp.getEditorId()%>"><%=exp.getGuide()%></a></td>
     </tr>
         <% } %>
 </table>

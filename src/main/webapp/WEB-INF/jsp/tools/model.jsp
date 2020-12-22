@@ -35,18 +35,23 @@
         <table  style="width:80%">
 
             <tbody>
-            <tr><td class="header"><strong>Model Type</strong></td><td>${model.type}</td></tr>
-            <tr><td class="header"><strong>Strain</strong></td><td>${model.name}</td></tr>
-            <tr><td class="header"><strong>Short Name</strong></td><td>${model.shortName}</td></tr>
-            <tr><td class="header"><strong>Organism</strong></td><td>${model.organism}</td></tr>
-            <tr><td class="header"><strong>GenoType</strong></td><td>${model.genotype}</td></tr>
-            <tr><td class="header"><strong>Stock Number/Stable ID</strong></td><td>${model.stockNumber}</td></tr>
-            <tr><td class="header"><strong>Age</strong></td><td>${model.age}</td></tr>
-            <tr><td class="header"><strong>Age Range</strong></td><td>${model.ageRange}</td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Model Type</strong></td><td>${model.type}</td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Strain</strong></td><td>${model.name}</td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Short Name</strong></td><td>${model.shortName}</td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Organism</strong></td><td>${model.organism}</td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>GenoType</strong></td><td>${model.genotype}</td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Stock Number/Stable ID</strong></td><td>${model.stockNumber}</td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Age</strong></td><td>${model.age}</td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Age Range</strong></td><td>${model.ageRange}</td></tr>
+            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Modle ID</strong></td><td>${model.modelId}</td></tr>
             </tbody>
         </table>
     </div>
     <hr>
 </div>
 
+<br>
 <jsp:include page="associatedStudies.jsp"/>
+<br>
+<hr>
+<jsp:include page="associatedExperiments.jsp"/>

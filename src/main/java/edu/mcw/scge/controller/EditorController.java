@@ -1,8 +1,10 @@
 package edu.mcw.scge.controller;
 
 import edu.mcw.scge.dao.implementation.EditorDao;
+import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Editor;
+import edu.mcw.scge.datamodel.Experiment;
 import edu.mcw.scge.datamodel.ExperimentRecord;
 import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.db.DBService;
@@ -46,6 +48,11 @@ public class EditorController {
         StudyDao sdao = new StudyDao();
         List<Study> studies = sdao.getStudiesByEditor(editor.getId());
         req.setAttribute("studies", studies);
+
+        ExperimentDao experimentDao= new ExperimentDao();
+        List<Experiment> experiments = experimentDao.getExperimentsByEditor(editor.getId());
+        req.setAttribute("experiments",experiments);
+
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
