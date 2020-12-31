@@ -1,3 +1,6 @@
+<%@ page import="edu.mcw.scge.datamodel.Model" %>
+<%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -31,40 +34,45 @@
 </script>
 
 
-<div>
-<div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Genetic Models: ${fn:length(models)}</p></div>
+<table align="center">
+    <tr>
+        <td align="center"><img height="100" width="100" src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" border="0"/></td>
+        <td align="center">
+            <form class="form-inline my-2 my-lg-0">
+                <input size=60 class="form-control " type="search" placeholder="Search Genetic Models" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<br>
 
-</div>
-    <table id="myTable" class="table tablesorter table-striped">
+<% List<Model> models = (List<Model>) request.getAttribute("models"); %>
+
+
+<table id="myTable" class="table tablesorter table-striped">
         <thead>
         <th>Model Type</th>
-        <th>Name</th>
         <th>Short Name</th>
+        <th>Name</th>
         <th>Organism</th>
-        <th>GenoType</th>
-        <th>Stock Number/Stable ID</th>
-        <th>Age</th>
-        <th>Age Range</th>
+        <th>Transgene</th>
+        <th>Transgene Reporter</th>
+        <th>Genotype</th>
+        <!--<th>SCGE ID</th>-->
     </tr>
     </thead>
-<c:forEach items="${models}" var="model">
+<% for (Model model: models )  { %>
+
     <tr>
-        <td>${model.type}</td>
-        <td><a href="model/?id=${model.modelId}"${model.name}</td>
-        <td>${model.shortName}</td>
-        <td>${model.organism}</td>
-        <td>${model.genotype}</td>
-        <td>${model.stockNumber}</td>
-        <td>${model.age}</td>
-        <td>${model.ageRange}</td>
+        <td><%=model.getType()%></td>
+        <td><a href="model/?id=<%=model.getModelId()%>"><%=SFN.parse(model.getShortName())%></a></td>
+        <td><a href="model/?id=<%=model.getModelId()%>"><%=model.getName()%></a></td>
+        <td><%=model.getOrganism()%></td>
+        <td><%=SFN.parse(model.getTransgene())%></td>
+        <td><%=SFN.parse(model.getTransgeneReporter())%></td>
+        <td><%=SFN.parse(model.getGenotype())%></td>
+        <!--<td><%=model.getModelId()%></td>-->
     </tr>
-</c:forEach>
+<% } %>
 </table>
-            <tr><td class="header"><strong>Model Type</strong></td><td>${model.type}</td></tr>
-            <tr><td class="header"><strong>Strain</strong></td><td>${model.name}</td></tr>
-            <tr><td class="header"><strong>Short Name</strong></td><td>${model.shortName}</td></tr>
-            <tr><td class="header"><strong>Organism</strong></td><td>${model.organism}</td></tr>
-            <tr><td class="header"><strong>GenoType</strong></td><td>${model.genotype}</td></tr>
-            <tr><td class="header"><strong>Stock Number/Stable ID</strong></td><td>${model.stockNumber}</td></tr>
-            <tr><td class="header"><strong>Age</strong></td><td>${model.age}</td></tr>
-            <tr><td class="header"><strong>Age Range</strong></td><td>${model.ageRange}</td></tr>

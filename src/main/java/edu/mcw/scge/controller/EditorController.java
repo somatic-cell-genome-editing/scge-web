@@ -2,11 +2,9 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.ExperimentDao;
+import edu.mcw.scge.dao.implementation.GuideDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
-import edu.mcw.scge.datamodel.Editor;
-import edu.mcw.scge.datamodel.Experiment;
-import edu.mcw.scge.datamodel.ExperimentRecord;
-import edu.mcw.scge.datamodel.Study;
+import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.service.es.IndexServices;
 import org.elasticsearch.action.search.SearchResponse;
@@ -30,7 +28,7 @@ public class EditorController {
         EditorDao dao = new EditorDao();
         List<Editor> records= dao.getAllEditors();
         req.setAttribute("editors", records);
-        req.setAttribute("action", "Editors");
+        req.setAttribute("action", "Genome Editors");
         req.setAttribute("page", "/WEB-INF/jsp/tools/editors");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
@@ -42,7 +40,7 @@ public class EditorController {
         EditorDao dao = new EditorDao();
         Editor editor= dao.getEditorById(Integer.parseInt(req.getParameter("id"))).get(0);
         req.setAttribute("editor", editor);
-        req.setAttribute("action", "Editor: " + editor.getSymbol());
+        req.setAttribute("action", "Genome Editor: " + editor.getSymbol());
         req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
 
         StudyDao sdao = new StudyDao();
@@ -52,6 +50,10 @@ public class EditorController {
         ExperimentDao experimentDao= new ExperimentDao();
         List<Experiment> experiments = experimentDao.getExperimentsByEditor(editor.getId());
         req.setAttribute("experiments",experiments);
+
+        GuideDao guideDao = new GuideDao();
+        List<Guide> guides = guideDao.getGuidesByEditor(editor.getId());
+        req.setAttribute("guides", guides);
 
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 

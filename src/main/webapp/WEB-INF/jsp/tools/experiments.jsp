@@ -1,6 +1,6 @@
 <%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ page import="java.util.List" %>
-<%@ page import="edu.mcw.scge.web.StringForNull" %>
+<%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 
 <%--
@@ -23,6 +23,9 @@
     td{
         font-size: 12px;
     }
+    .desc {
+        font-size:14px;
+    }
 </style>
 <script>
     $(function() {
@@ -42,13 +45,13 @@
 
     <table>
         <tr>
-            <td style="font-weight:700;"><%=study.getStudy()%>:</td>
+            <td class="desc" style="font-weight:700;"><%=study.getStudy()%>:</td>
             <td>&nbsp;&nbsp;&nbsp;</td>
-            <td  style="font-weight:700;">PI:</td>
-            <td><%=study.getPi()%></td>
+            <td class="desc"   style="font-weight:700;">PI:</td>
+            <td class="desc" ><%=study.getPi()%></td>
             <td>&nbsp;&nbsp;&nbsp;</td>
-            <td style="font-weight:700;">Submission Date:</td>
-            <td><%=study.getSubmissionDate()%></td>
+            <td class="desc"  style="font-weight:700;">Submission Date:</td>
+            <td class="desc" ><%=study.getSubmissionDate()%></td>
         </tr>
     </table>
 
@@ -62,7 +65,6 @@
         <th>Delivery System</th>
         <th>Model</th>
         <th>Guide</th>
-        <th>Record ID</th>
     </tr>
     </thead>
 
@@ -71,12 +73,11 @@
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
 
-        <td><a href="/toolkit/data/studies/search/results/<%=exp.getExperimentId()%>"><%=StringForNull.parse(exp.getExperimentName())%></a></td>
-        <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=StringForNull.parse(exp.getEditorSymbol())%></a></td>
-        <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=StringForNull.parse(exp.getDeliverySystemType())%></a></td>
-        <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=StringForNull.parse(exp.getModelName())%></a></td>
-        <td><a href="/toolkit/data/guide/guide?id=<%=exp.getGuideId()%>"><%=StringForNull.parse(exp.getGuide())%></a></td>
-        <td><%=exp.getExperimentId()%></td>
+        <td><a href="/toolkit/data/studies/search/results/<%=exp.getExperimentId()%>"><%=SFN.parse(exp.getExperimentName())%></a></td>
+        <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=SFN.parse(exp.getEditorSymbol())%></a></td>
+        <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
+        <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
+        <td><a href="/toolkit/data/guide/guide?id=<%=exp.getGuideId()%>"><%=SFN.parse(exp.getGuide())%></a></td>
     </tr>
         <% } %>
 </table>

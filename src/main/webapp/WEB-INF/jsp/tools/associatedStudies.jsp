@@ -1,20 +1,20 @@
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="java.util.List" %>
-<h4 class="page-header" style="color:grey;">Associated SCGE Studies</h4>
+<%@ page import="java.text.SimpleDateFormat" %>
+<h4 class="page-header" style="color:grey;">Associated SCGE Submissions</h4>
 
 <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr><!--th>Select</th-->
         <!--th>Action</th-->
         <th>Tier</th>
-        <th>Study Name</th>
+        <th>Name</th>
         <th>Type</th>
         <th>Laboratory</th>
-        <th>PI</th>
-        <th>Submitter</th>
+        <th>Contact PI</th>
         <th>Raw Data</th>
         <th>Submission Date</th>
-        <th>Study ID</th>
+        <th>SCGE ID</th>
     </tr>
     </thead>
 
@@ -27,9 +27,12 @@
         <td><%=s.getType()%></td>
         <td><%=s.getLabName()%></td>
         <td><%=s.getPi()%></td>
-        <td><%=s.getSubmitter()%></td>
-        <td><a href="<%=s.getRawData()%>">[Download]]</a></td>
-        <td><%=s.getSubmissionDate()%></td>
+        <td><a href="<%=s.getRawData()%>">[Download]</a></td>
+        <%
+            String pattern = "dd/MM/yyyy";
+            SimpleDateFormat format = new SimpleDateFormat(pattern);
+        %>
+        <td><%=format.format(s.getSubmissionDate())%></td>
         <td><%=s.getStudyId()%></td>
     </tr>
     <% } %>

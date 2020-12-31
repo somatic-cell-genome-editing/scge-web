@@ -1,3 +1,8 @@
+<%@ page import="edu.mcw.scge.datamodel.Study" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -38,6 +43,10 @@
     });
 </script>
 <script src="/toolkit/js/edit.js"></script>
+
+<% List<Study> studies = (List<Study>) request.getAttribute("studies"); %>
+
+
 <div>
     <table id="myTable" class="tablesorter">
     <thead>
@@ -48,45 +57,45 @@
             <th>Tier</th>
         </c:if>
 
-        <th>Study_Name</th>
+        <th>Name</th>
         <th>Type</th>
         <th>Laboratory</th>
-        <th>PI</th>
-        <th>POC</th>
+        <th>Contact PI</th>
         <th>Raw Data</th>
         <th>Submission Date</th>
-        <th>Study ID</th>
+        <th>SCGE ID</th>
 
     </tr>
     </thead>
-    <c:forEach items="${studies}" var="rec">
+    <% for (Study s: studies) { %>
+
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
         <!--td><button class="btn btn-outline-secondary btn-sm">Edit</button></td-->
         <c:if test="${userName!=null}">
         <td>
-            <form class="form-row" id="editStudy${rec.studyId}" action="edit/access">
+            <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="edit/access">
                 <div class="col  tiers">
-                    <input type="hidden" name="tier" id="tier-study-${rec.studyId}"/>
-                    <input type="hidden" name="studyId" id="study-${rec.studyId}" value="${rec.studyId}"/>
-                    <input type="hidden" name="groupMembersjson" id="study-${rec.studyId}-json"/>
-                    <input type="hidden" name="groupIdsJson" id="study-${rec.studyId}-groupIdsJson"/>
+                    <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>"/>
+                    <input type="hidden" name="studyId" id="study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>
+                    <input type="hidden" name="groupMembersjson" id="study-<%=s.getStudyId()%>-json"/>
+                    <input type="hidden" name="groupIdsJson" id="study-<%=s.getStudyId()%>-groupIdsJson"/>
 
 
-                    <input type="button" id="updateTier-study${rec.studyId}" class="form-control" onclick="changeAccess($(this),${rec.studyId} , ${rec.tier})" value="Update Tier">
+                    <input type="button" id="updateTier-study<%=s.getStudyId()%>" class="form-control" onclick="changeAccess($(this),<%=s.getStudyId()%> , <%=s.getTier()%>)" value="Update Tier">
                 </div>
             </form>
             <div>
                 <script>
                     $(document).ready(function () {
-                        $("#groupSelect-study${rec.studyId}").multiselect({
+                        $("#groupSelect-study<%=s.getStudyId()%>").multiselect({
                             buttonWidth: '100%',
                             onChange: function(option, checked, select) {
                                 //      alert('Changed option ' + $(option).val() + '.');
-                                $('#SaveChangesTier2-study${rec.studyId}').prop('disabled', false)
+                                $('#SaveChangesTier2-study<%=s.getStudyId()%>').prop('disabled', false)
                                 var value= ($(option).val());
                                 //   alert("VALUE: "+ value);
-                                var $div="#group"+value+"-study${rec.studyId}";
+                                var $div="#group"+value+"-study<%=s.getStudyId()%>";
                                 // alert($div)
 
                                 //  $($div).show(2000);
@@ -172,17 +181,21 @@
                     ${rec.tier}
             </td>
         </c:if>
-        <td><a href="/toolkit/data/experiments/search/${rec.studyId}">${rec.study}</a></td>
-        <td>${rec.type}</td>
-        <td>${rec.labName}</td>
-        <td>${rec.pi}</td>
-        <td>${rec.submitter}</td>
-        <td><a href="${rec.rawData}">[Download]</a></td>
-        <td>${rec.submissionDate}</td>
-        <td>${rec.studyId}</td>
+        <td><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
+        <td><%=s.getType()%></td>
+        <td><%=s.getLabName()%></td>
+        <td><%=s.getPi()%></td>
+        <td><a href="<%=s.getRawData()%>">[Download]</a></td>
 
+        <%
+            String pattern = "dd/MM/yyyy";
+            SimpleDateFormat format = new SimpleDateFormat(pattern);
+        %>
+        <td><%=format.format(s.getSubmissionDate())%></td>
+        <td><%=s.getStudyId()%></td>
 
-</c:forEach>
+<% } %>
+
     </tr>
 </table>
 </div>

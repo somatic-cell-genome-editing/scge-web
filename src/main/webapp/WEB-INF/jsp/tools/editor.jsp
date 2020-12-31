@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -21,7 +22,16 @@
 <style>
     td{
         font-size: 12px;
+        padding-left:1%;
     }
+    .header{
+        font-weight: bold;
+        font-size: 12px;
+        color:steelblue;
+        width: 25%;
+        background-color: #ECECF9;
+    }
+
 </style>
 <script>
     $(function() {
@@ -32,33 +42,49 @@
     });
 </script>
 
+<% List<Guide> relatedGuides = (List<Guide>) request.getAttribute("guides"); %>
+
 
 <div>
     <div>
         <table  style="width:80%">
 
-            <tbody>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header" ><strong>Symbol</strong></td><td>${editor.symbol}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Type</strong></td><td>${editor.type}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Subtype</strong></td><td>${editor.subType}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Alias</strong></td><td>${editor.alias}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Species</strong></td><td>${editor.species}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>PAM Preference</strong></td><td>${editor.pamPreference}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Variant</strong></td><td>${editor.editorVariant}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Substrate Target</strong></td><td>${editor.substrateTarget}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Overhang</strong></td><td>${editor.overhang}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Fusion</strong></td><td>${editor.fusion}</td></tr>
+            <tr ><td class="header" ><strong>Symbol</strong></td><td>${editor.symbol}</td></tr>
+            <tr ><td class="header"><strong>Type</strong></td><td>${editor.type}</td></tr>
+            <tr ><td class="header"><strong>Subtype</strong></td><td>${editor.subType}</td></tr>
+            <tr ><td class="header"><strong>Alias</strong></td><td>${editor.alias}</td></tr>
+            <tr ><td class="header"><strong>Species</strong></td><td>${editor.species}</td></tr>
 
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Activity</strong></td><td>${editor.activity}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>DSB Cleavage Type</strong></td><td>${editor.dsbCleavageType}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Protein Format</strong></td><td>${editor.proteinFormat}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Note</strong></td><td>${editor.note}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Protein Format</strong></td><td>${editor.proteinFormat}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Add Gene</strong></td><td><a href="${editor.addGeneLink}">${editor.addGeneLink}</a></td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Source</strong></td><td>${editor.source}</td></tr>
-            <tr style="border-bottom:1px solid #E5E5E5;"><td class="header"><strong>Editor ID</strong></td><td>${editor.id}</td></tr>
+        </table>
+        <hr>
+        <table style="width:80%">
 
-            </tbody>
+        <tr ><td class="header"><strong>PAM Preference</strong></td><td>${editor.pamPreference}</td></tr>
+            <tr ><td class="header"><strong>Variant</strong></td><td>${editor.editorVariant}</td></tr>
+            <tr ><td class="header"><strong>Substrate Target</strong></td><td>${editor.substrateTarget}</td></tr>
+            <tr ><td class="header"><strong>Overhang</strong></td><td>${editor.overhang}</td></tr>
+            <tr ><td class="header"><strong>Fusion</strong></td><td>${editor.fusion}</td></tr>
+
+            <tr ><td class="header"><strong>Activity</strong></td><td>${editor.activity}</td></tr>
+            <tr ><td class="header"><strong>DSB Cleavage Type</strong></td><td>${editor.dsbCleavageType}</td></tr>
+            <tr ><td class="header"><strong>Protein Format</strong></td><td>${editor.proteinFormat}</td></tr>
+        </table>
+        <hr>
+        <table style="width:80%">
+            <tr><td class="header"><strong>Related Guides</strong></td>
+                <td>
+                    <%for (Guide relatedGuide: relatedGuides) { %>
+                    <a href="/toolkit/data/guide/guide?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getGuide()%></a><br>
+                    <% } %>
+                </td>
+            </tr>
+        </table>
+        <hr>
+        <table style="width:80%">
+            <tr ><td class="header"><strong>Note</strong></td><td>${editor.note}</td></tr>
+            <tr ><td class="header"><strong>Add Gene</strong></td><td><a href="${editor.addGeneLink}">${editor.addGeneLink}</a></td></tr>
+            <tr ><td class="header"><strong>Source</strong></td><td>${editor.source}</td></tr>
+            <tr ><td class="header"><strong>Editor ID</strong></td><td>${editor.id}</td></tr>
         </table>
     </div>
     <hr>

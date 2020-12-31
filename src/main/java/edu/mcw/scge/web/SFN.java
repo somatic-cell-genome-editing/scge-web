@@ -1,6 +1,6 @@
 package edu.mcw.scge.web;
 
-public class StringForNull {
+public class SFN {
 
     public static String parse(String val) {
         if (val==null || val.equals("")) {

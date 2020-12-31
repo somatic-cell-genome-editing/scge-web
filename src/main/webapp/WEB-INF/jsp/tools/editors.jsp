@@ -1,3 +1,6 @@
+<%@ page import="edu.mcw.scge.datamodel.Editor" %>
+<%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -31,20 +34,27 @@
 </script>
 
 
-<div>
-<div style="float:left;width:20%"><p style="color:steelblue;font-weight: bold;font-size: 20px">Editors: ${fn:length(editors)}</p></div>
+<table align="center">
+    <tr>
+        <td align="center"><img height="100" width="100" src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" border="0"/></td>
+        <td align="center">
+            <form class="form-inline my-2 my-lg-0">
+                <input size=60 class="form-control " type="search" placeholder="Search Genome Editors" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<br>
 
-</div>
-    <table id="myTable" class="table tablesorter table-striped">
+<% List<Editor> editors = (List<Editor>) request.getAttribute("editors"); %>
+
+<table id="myTable" class="table tablesorter table-striped">
         <thead>
         <th>Symbol</th>
         <th>Type</th>
         <th>Subtype</th>
         <th>Variant</th>
-
-
-
-
         <th>Species</th>
         <th>PAM Preference</th>
         <th>Fusion</th>
@@ -52,28 +62,24 @@
         <th>DSB Cleavage Type</th>
         <th>Protein Format</th>
         <th>Source</th>
-        <th>Editor_Id</th>
+
     </tr>
     </thead>
-<c:forEach items="${editors}" var="rec">
+
+<% for (Editor editor: editors) { %>
     <tr>
-        <td><a href="editor?id=${rec.id}">${rec.symbol}</a></td>
-        <td>${rec.type}</td>
-        <td>${rec.subType}</td>
-        <td>${rec.editorVariant}</td>
+        <td><a href="editor?id=<%=editor.getId()%>"><%=editor.getSymbol()%></a></td>
+        <td><%=editor.getType()%></td>
+        <td><%=editor.getSubType()%></td>
+        <td><%=editor.getEditorVariant()%></td>
+        <td><%=editor.getSpecies()%></td>
+        <td><%=editor.getPamPreference()%></td>
+        <td><%=editor.getFusion()%></td>
+        <td><%=editor.getActivity()%></td>
+        <td><%=editor.getDsbCleavageType()%></td>
+        <td><%=SFN.parse(editor.getProteinFormat())%></td>
+        <td><%=editor.getSource()%></td>
 
-
-
-
-
-        <td>${rec.species}</td>
-        <td>${rec.pamPreference}</td>
-        <td>${rec.fusion}</td>
-        <td>${rec.activity}</td>
-        <td>${rec.dsbCleavageType}</td>
-        <td>${rec.proteinFormat}</td>
-        <td>${rec.source}</td>
-        <td>${rec.id}</td>
     </tr>
-</c:forEach>
+<% } %>
 </table>

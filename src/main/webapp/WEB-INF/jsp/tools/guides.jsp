@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.Delivery" %>
 <%@ page import="edu.mcw.scge.datamodel.Guide" %>
+<%@ page import="edu.mcw.scge.web.SFN" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -26,6 +27,20 @@
     });
 </script>
 
+<table align="center">
+    <tr>
+        <td align="center"><img height="100" width="100" src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" border="0"/></td>
+        <td align="center">
+            <form class="form-inline my-2 my-lg-0">
+                <input size=60 class="form-control " type="search" placeholder="Search Guides" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<br>
+
+
 <div>
     <%
         List<Guide> guides = (List<Guide>) request.getAttribute("guides");
@@ -34,20 +49,22 @@
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
-    <th>ID</th>
     <th>Guide</th>
+        <th>Target Locus</th>
     <th>Detection Method</th>
-    <th>RNA Format</th>
+        <td>Species</td>
+    <th>Source</th>
     </tr>
     </thead>
 
         <% for (Guide g: guides) { %>
 
     <tr>
-        <td><%=g.getGuide_id()%></td>
         <td><a href="guide?id=<%=g.getGuide_id()%>"><%=g.getGuide()%></a></td>
-        <td><%=g.getDetectionMethod()%></td>
-        <td><%=g.getgRnaFormat()%></td>
+        <td><%=SFN.parse(g.getTargetLocus())%></td>
+        <td><%=SFN.parse(g.getDetectionMethod())%></td>
+        <td><%=SFN.parse(g.getSpecies())%></td>
+        <td><%=SFN.parse(g.getSource())%></td>
     </tr>
         <% } %>
 </table>

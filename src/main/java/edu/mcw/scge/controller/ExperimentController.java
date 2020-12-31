@@ -44,11 +44,6 @@ public class ExperimentController {
         Study study = sdao.getStudyById(studyId).get(0);
 
         List<Experiment> records=edao.getExperimentsByStudy(studyId);
-
-
-
-
-
         req.setAttribute("experiments", records);
         req.setAttribute("study", study);
         req.setAttribute("action", "Experiment Details");

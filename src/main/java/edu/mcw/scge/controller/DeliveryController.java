@@ -37,7 +37,7 @@ public class DeliveryController {
         DeliveryDao dao = new DeliveryDao();
         Delivery system= dao.getDeliverySystemsById(Integer.parseInt(req.getParameter("id"))).get(0);
         req.setAttribute("system", system);
-        req.setAttribute("action", system.getType());
+        req.setAttribute("action", "Delivery System: " + system.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/deliverySystem");
 
         StudyDao sdao = new StudyDao();
