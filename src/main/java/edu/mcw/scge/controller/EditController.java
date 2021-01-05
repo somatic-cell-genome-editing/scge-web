@@ -34,14 +34,18 @@ import java.util.Properties;
 public class EditController {
     DataAccessService service=new DataAccessService();
     PersonDao pdao=new PersonDao();
-    @RequestMapping(value = "access")
-    public String updateAccess(@RequestParam int tier, @RequestParam int studyId ,@RequestParam(required = false) String json, HttpServletRequest req, HttpServletResponse res,
+    @RequestMapping(value = "/access")
+    public String updateAccess(@RequestParam int tier, @RequestParam int studyId ,@RequestParam(required = false) String json,
+                               @RequestParam(required = false) String groupIdsJson,
+                               HttpServletRequest req, HttpServletResponse res,
                                 RedirectAttributes redirectAttributes) throws Exception {
         // System.out.println("TIER: "+ tier+"\tSTUDY ID: "+ studyId);
         System.out.println("JSON:"+ json);
+        System.out.println("GROUP IDS JSON: "+ groupIdsJson);
         req.getSession().getAttribute("personId");
         int userId= (int) req.getSession().getAttribute("personId");
-        service.insertOrUpdateTierUpdates(studyId, tier, userId, json );
+     //   service.insertOrUpdateTierUpdates(studyId, tier, userId, json );
+        service.insertTierUpdates(studyId, tier, userId, groupIdsJson );
         // updateDatabase(Integer.parseInt(studyId), tier, userId, json);
         //    sendEmailNotification("jthota@mcw.edu", "SCGE","Your Study is updated");
         // redirectAttributes.addFlashAttribute("message","Confirmation request sent to PI");
@@ -58,7 +62,7 @@ public class EditController {
         System.out.println("JSON:"+ json);
         req.getSession().getAttribute("personId");
         int userId= (int) req.getSession().getAttribute("personId");
-            service.insertOrUpdateTierUpdates(studyId, tier, userId, json );
+          //  service.insertOrUpdateTierUpdates(studyId, tier, userId, json );
            // updateDatabase(Integer.parseInt(studyId), tier, userId, json);
         //    sendEmailNotification("jthota@mcw.edu", "SCGE","Your Study is updated");
             // redirectAttributes.addFlashAttribute("message","Confirmation request sent to PI");

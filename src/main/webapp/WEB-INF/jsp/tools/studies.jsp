@@ -65,9 +65,9 @@
         <!--td><button class="btn btn-outline-secondary btn-sm">Edit</button></td-->
         <c:if test="${userName!=null}">
         <td>
-            <form class="form-row" id="editStudy${rec.studyId}" action="edit/access">
+            <form class="form-row" id="editStudy${rec.studyId}" action="/toolkit/edit/access" >
                 <div class="col  tiers">
-                    <input type="hidden" name="tier" id="tier-study-${rec.studyId}"/>
+                    <input type="hidden" name="tier" id="tier-study-${rec.studyId}" value="${rec.tier}"/>
                     <input type="hidden" name="studyId" id="study-${rec.studyId}" value="${rec.studyId}"/>
                     <input type="hidden" name="groupMembersjson" id="study-${rec.studyId}-json"/>
                     <input type="hidden" name="groupIdsJson" id="study-${rec.studyId}-groupIdsJson"/>
@@ -75,12 +75,16 @@
 
                     <input type="button" id="updateTier-study${rec.studyId}" class="form-control" onclick="changeAccess($(this),${rec.studyId} , ${rec.tier})" value="Update Tier">
                 </div>
+                <%@include file="../dashboardElements/tier2Modal.jsp"%>
+
             </form>
             <div>
                 <script>
                     $(document).ready(function () {
+
                         $("#groupSelect-study${rec.studyId}").multiselect({
                             buttonWidth: '100%',
+
                             onChange: function(option, checked, select) {
                                 //      alert('Changed option ' + $(option).val() + '.');
                                 $('#SaveChangesTier2-study${rec.studyId}').prop('disabled', false)
@@ -93,6 +97,16 @@
                                 $($div).toggle()
                             }
                         });
+                        var valArr=${rec.associatedGroups}
+                            console.log("PRE SELECTED GROUPS:"+ valArr);
+                        var i = 0, size = valArr.length;
+                        for(i; i < size; i++){
+                            $("#groupSelect-study${rec.studyId}").multiselect().find(":checkbox[value='"+valArr[i]+"']").attr("checked","checked");
+                            $("#groupSelect-study${rec.studyId} option[value='" + valArr[i] + "']").attr("selected", 1);
+                            $("#groupSelect-study${rec.studyId}").multiselect("refresh");
+                            var $div="#group"+valArr[i]+"-study${rec.studyId}";
+                            $($div).show();
+                        }
                     })
                     function enableGroupSelect(studyId, tier){
                         var selectBtn='#groupSelect-study'+studyId
@@ -110,6 +124,7 @@
                         }
                     }
                     function setParameters(studyId,tier){
+                        console.log("TIER: "+ tier);
                         $('#tier-study-'+studyId).val(tier);
                     }
                     function appendGroups(studyId){
@@ -141,7 +156,7 @@
                             json=json+"]}"
                         });
                         json=json+"]}"
-                        $('#study-'+studyId+'-memberJson').val(json);
+                        $('#study-'+studyId+'-json').val(json);
                         console.log(json);
                     }
                     function appendGroupIds(studyId){
@@ -164,7 +179,6 @@
                         console.log(json);
                     }
                 </script>
-                <%@include file="../dashboardElements/tier2Modal.jsp"%>
 
             </div>
         </td>

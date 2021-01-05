@@ -23,20 +23,20 @@
         <h4 class="text-white">Change Access Tier</h4>
     </div>
     <div class="card-body" align="left">
-    <form id="tier2Form${rec.studyId}">
+    <!--form id="tier2Form${rec.studyId}"-->
         <div class="card">
         Selected Experiment: <input type="text" value="${rec.study}" disabled/>
             <div class="row">
             <div class="col">
                 <label>
                     Lab:
-                    <input type="text" class="form-control" value="${rec.labName}">
+                    <input type="text" class="form-control" value="${rec.labName}" disabled>
                 </label>
             </div>
             <div class="col">
                 <label>
                     Principal Investigator:
-                    <input type="text" class="form-control" value="${rec.pi}">
+                    <input type="text" class="form-control" value="${rec.pi}" disabled>
                 </label>
             </div>
         </div>
@@ -60,7 +60,7 @@
         <label class="form-check-label" for="study${rec.studyId}-tier4">4 </label>
         </div>
         </c:if>
-<c:if test="${rec.tier==2}">
+        <c:if test="${rec.tier==2}">
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier1" value="1" >
             <label class="form-check-label" for="study${rec.studyId}-tier1">1</label>
@@ -169,7 +169,7 @@
 
                         <div class="group form-group" id="group${map.key.groupId}-study${rec.studyId}" style="display: none">
                             <div class="form-group">
-                                <span style="color:steelblue;font-weight: 100">${map.key.groupName}:</span>
+                                <span style="color:#007bff;font-weight: 400;font-size: 1rem">${map.key.groupName}:</span>
                                 <!--div class="form-check form-check-inline">&nbsp;
                                 <input class="form-check-input" type="checkbox" id="all-group${map.key.groupId}-study${rec.studyId}" value="option7" checked onchange="toggleSelectedGroupMembers(${map.key.groupId},${rec.studyId})" >
                                 <label class="form-check-label" for="all-group${map.key.groupId}-study${rec.studyId}" >All</label>
@@ -182,7 +182,7 @@
                                     <input class="form-check-input selectedGroupMember" name="member-group${map.key.groupId}-study${rec.studyId}" type="checkbox" id="member${p.id}-group${map.key.groupId}-study${rec.studyId}" value="${p.id}" checked>
                                     <label class="form-check-label" for="member${p.id}-group${map.key.groupId}-study${rec.studyId}">${p.name}</label>
                                 </div>
-                                <li class="list-inline-item" style="justify-content: right"><i class="fas fa-circle" style="color:#00AA9E"></i>&nbsp;&nbsp;${p.name}&nbsp;</li>
+                                <li class="list-inline-item" style="justify-content: right"><i class="fas fa-circle" style="color:#00AA9E;font-size: xx-small"></i>&nbsp;&nbsp;${p.name}&nbsp;</li>
                                 </c:forEach>
                                 </ul>
                             </div>
@@ -196,7 +196,8 @@
         <!--div class="form-group">
         <button>Submit</button>
         </div-->
-    </form>
+    <!--/form-->
     </div>
     </div>
+
 

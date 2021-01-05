@@ -148,7 +148,8 @@ public class LoginController{
          //   req.setAttribute("message", message);
             req.setAttribute("status", req.getParameter("status"));
             StudyDao sdao=new StudyDao();
-            List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID.
+            List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID/GroupId.
+            service.addTier2Associations(studies);
             req.setAttribute("studies", studies);
             return "base";
         }else{
@@ -183,7 +184,6 @@ public class LoginController{
             String name = (String) userAttributes.get("name");
             verifyUserExists(client.getPrincipalName(), userAttributes.get("email").toString());
             String userStatus = pdao.getPersonStatus(client.getPrincipalName());
-
 
             if (userStatus.equalsIgnoreCase("approved")) {
                 HttpSession session = req.getSession(true);

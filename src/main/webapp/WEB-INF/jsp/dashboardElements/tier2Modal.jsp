@@ -23,7 +23,7 @@
             <!-- Modal footer -->
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id= "SaveChangesTier2-study${rec.studyId}" onclick="saveChanges('', ${rec.studyId})" disabled>Save changes</button>
+                <button type="button" class="btn btn-primary" id= "SaveChangesTier2-study${rec.studyId}" onclick="saveChanges(${rec.studyId})" disabled>Save changes</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
 

@@ -12,7 +12,7 @@ $(function() {
     })
 
 });
-var studyId=0;
+var studyId;
 function changeAccess1(_this, studyId) {
      selectObj=$("#select"+studyId);
     if(selectObj.val()==='2')
@@ -26,9 +26,9 @@ function changeAccess(_this, studyId,tier) {
     $("#tier2Modal" + studyId).modal('toggle');
 }
 
-function saveChanges(_this, studyId) {
-      appendGroups(studyId);
-  //  appendGroupIds(studyId);
+function saveChanges(studyId) {
+      //appendGroups(studyId);
+    appendGroupIds(studyId);
        var formId="#editStudy"+studyId;
        $(formId).submit();
 }

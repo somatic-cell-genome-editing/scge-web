@@ -4,6 +4,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.http.HttpRequest;
 import edu.mcw.scge.dao.AbstractDAO;
 import edu.mcw.scge.dao.implementation.*;
+import edu.mcw.scge.dao.spring.StudyAssociationQuery;
 import edu.mcw.scge.datamodel.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -430,7 +431,75 @@ public class DataAccessService extends AbstractDAO {
         System.out.println("UPDATE RECORDS SIZE: "+ updates.size());
         tierUpdateDao.batchUpdate(updates);
     }
-    public void insertOrUpdateTierUpdates(int studyId, int tier, int userId, String json) throws Exception {
+    public void deleteTierUpdates(int studyId) throws Exception {
+        tierUpdateDao.delete(studyId);
+    }
+    public void addTier2Associations(List<Study> studies) throws Exception {
+        for(Study s:studies){
+            List<Integer> groups=new ArrayList<>();
+           for(StudyAssociation a: sdao.getStudyAssociations(s.getStudyId())){
+              // SCGEGroup g= new SCGEGroup();
+             //  g=gdao.getGroupById(a.getGroupId());
+              // g.setMembers( gdao.getGroupMembersByGroupId(a.getGroupId()));
+               groups.add(a.getGroupId());
+            }
+           for(StudyTierUpdate u: tierUpdateDao.getStudyTierUpdatesByStudyId(s.getStudyId())){
+            //   SCGEGroup g=new SCGEGroup();
+           //    g=gdao.getGroupById(u.getGroupId());
+             //  g.setMembers( gdao.getGroupMembersByGroupId(u.getGroupId()));
+               groups.add(u.getGroupId());
+           }
+           s.setAssociatedGroups(groups);
+        }
+
+    }
+    public void insertTierUpdates(int studyId, int tier, int userId, String json) throws Exception {
+        List<StudyTierUpdate> updates= new ArrayList<>();
+        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Chicago" ) );
+        LocalTime time=LocalTime.now();
+        java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
+        deleteOldRecords(studyId);
+        if(json!=null && tier==2) {
+            JSONObject jsonObject=new JSONObject(json);
+            JSONArray selectedArray= jsonObject.getJSONArray("selected");
+                for(int j=0; j<selectedArray.length();j++){
+                    int sequenceKey=getNextKey("study_tier_updates_seq");
+
+                    System.out.println("Group ID: "+ selectedArray.get(j) +"\tSequenceKey:"+ sequenceKey);
+                    StudyTierUpdate rec= new StudyTierUpdate();
+                    rec.setStudyTierUpdateId(sequenceKey);
+                    rec.setStudyId(studyId);
+                    rec.setTier(tier);
+                    rec.setGroupId((Integer) selectedArray.get(j));
+                 //   rec.setMemberId((Integer) selectedArray.get(j));
+                    rec.setModifiedBy(userId);
+                    rec.setStatus("submitted"); //initial status of update is "submitted", after processing status changes to "PROCESSED"
+                    rec.setAction("");
+                    rec.setModifiedTime(Time.valueOf(time));
+                    rec.setModifiedDate(sqlDate);
+                    updates.add(rec);
+                }
+
+
+        }else{
+            int sequenceKey=getNextKey("study_tier_updates_seq");
+            StudyTierUpdate rec= new StudyTierUpdate();
+            rec.setStudyTierUpdateId(sequenceKey);
+            rec.setStudyId(studyId);
+            rec.setTier(tier);
+            rec.setModifiedBy(userId);
+            rec.setStatus("submitted"); //initial status of update is "submitted", after processing status changes to "PROCESSED"
+            rec.setAction("");
+            rec.setModifiedTime(Time.valueOf(time));
+            rec.setModifiedDate(sqlDate);
+            updates.add(rec);
+        }
+        insertTierUpdates(updates);
+    }
+    public void deleteOldRecords(int studyId) throws Exception {
+        deleteTierUpdates(studyId);
+    }
+    public void insertOrUpdateTierUpdatesOLD(int studyId, int tier, int userId, String json) throws Exception {
         List<StudyTierUpdate> updates= new ArrayList<>();
         LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Chicago" ) );
         LocalTime time=LocalTime.now();
