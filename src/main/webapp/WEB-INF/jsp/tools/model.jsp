@@ -1,3 +1,5 @@
+<%@ page import="edu.mcw.scge.datamodel.Model" %>
+<%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -19,6 +21,14 @@
 <style>
     td{
         font-size: 12px;
+        padding-left:1%;
+    }
+    .header{
+        font-weight: bold;
+        font-size: 12px;
+        color:steelblue;
+        width: 25%;
+        background-color: #ECECF9;
     }
 </style>
 <script>
@@ -30,23 +40,49 @@
     });
 </script>
 
+<% Model m = (Model) request.getAttribute("model"); %>
+
+
 <div>
     <div>
         <table  style="width:80%">
 
-            <tbody>
-            <tr><td class="header"><strong>Model Type</strong></td><td>${model.type}</td></tr>
-            <tr><td class="header"><strong>Strain</strong></td><td>${model.name}</td></tr>
-            <tr><td class="header"><strong>Short Name</strong></td><td>${model.shortName}</td></tr>
-            <tr><td class="header"><strong>Organism</strong></td><td>${model.organism}</td></tr>
-            <tr><td class="header"><strong>GenoType</strong></td><td>${model.genotype}</td></tr>
-            <tr><td class="header"><strong>Stock Number/Stable ID</strong></td><td>${model.stockNumber}</td></tr>
-            <tr><td class="header"><strong>Age</strong></td><td>${model.age}</td></tr>
-            <tr><td class="header"><strong>Age Range</strong></td><td>${model.ageRange}</td></tr>
-            </tbody>
+
+            <tr><td class="header"><strong>Model Type</strong></td><td><%=m.getType()%></td></tr>
+            <tr><td class="header"><strong>Name</strong></td><td><%=m.getName()%></tr>
+            <tr><td class="header"><strong>Short Name</strong></td><td><%=SFN.parse(m.getShortName())%></td></tr>
+            <tr><td class="header"><strong>Subtype</strong></td><td><%=SFN.parse(m.getSubtype())%></td></tr>
+            <tr><td class="header"><strong>Organism</strong></td><td><%=m.getOrganism()%></td></tr>
+            <tr><td class="header"><strong>GenoType</strong></td><td><%=SFN.parse(m.getGenotype())%></td></tr>
+            <tr><td class="header"><strong>Stock Number/Stable ID</strong></td><td><%=SFN.parse(m.getStockNumber())%></td></tr>
+
+        </table>
+        <hr>
+        <table style="width:80%">
+
+        <tr><td class="header"><strong>Age</strong></td><td><%=SFN.parse(m.getAge())%></td></tr>
+            <tr><td class="header"><strong>Transgene</strong></td><td><%=SFN.parse(m.getTransgene())%></td></tr>
+            <tr><td class="header"><strong>Transgene Description</strong></td><td><%=SFN.parse(m.getTransgeneDescription())%></td></tr>
+            <tr><td class="header"><strong>Transgene Reporter</strong></td><td><%=SFN.parse(m.getTransgeneReporter())%></td></tr>
+            <tr><td class="header"><strong>Reporter DB IDs</strong></td><td><%=SFN.parse(m.getReporterDbIds())%></td></tr>
+
+        </table>
+        <hr>
+        <table style="width:80%">
+            <tr><td class="header"><strong>Age Range</strong></td><td><%=SFN.parse(m.getAgeRange())%></td></tr>
+            <tr><td class="header"><strong>Sex</strong></td><td><%=SFN.parse(m.getSex())%></td></tr>
+            <tr><td class="header"><strong>RRID</strong></td><td><%=SFN.parse(m.getRrid())%></td></tr>
+            <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(m.getSource())%></td></tr>
+            <tr><td class="header"><strong>Annotated Map</strong></td><td><%=SFN.parse(m.getAnnotatedMap())%></td></tr>
+            <tr ><td class="header"><strong>Modle ID</strong></td><td><%=m.getModelId()%></td></tr>
+
         </table>
     </div>
     <hr>
 </div>
 
+<br>
 <jsp:include page="associatedStudies.jsp"/>
+<br>
+<hr>
+<jsp:include page="associatedExperiments.jsp"/>

@@ -1,11 +1,7 @@
 package edu.mcw.scge.controller;
 
-import edu.mcw.scge.dao.implementation.DeliveryDao;
-import edu.mcw.scge.dao.implementation.GuideDao;
-import edu.mcw.scge.dao.implementation.StudyDao;
-import edu.mcw.scge.datamodel.Delivery;
-import edu.mcw.scge.datamodel.Guide;
-import edu.mcw.scge.datamodel.Study;
+import edu.mcw.scge.dao.implementation.*;
+import edu.mcw.scge.datamodel.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,12 +31,20 @@ public class GuideController {
         GuideDao dao = new GuideDao();
         Guide guide= dao.getGuideById(Integer.parseInt(req.getParameter("id"))).get(0);
         req.setAttribute("guide", guide);
-        req.setAttribute("action", "Guide");
+        req.setAttribute("action", "Guide: " + guide.getGuide());
         req.setAttribute("page", "/WEB-INF/jsp/tools/guide");
 
         StudyDao sdao = new StudyDao();
         List<Study> studies = sdao.getStudiesByGuide(guide.getGuide_id());
         req.setAttribute("studies", studies);
+
+        ExperimentDao experimentDao= new ExperimentDao();
+        List<Experiment> experiments = experimentDao.getExperimentsByGuide(guide.getGuide_id());
+        req.setAttribute("experiments",experiments);
+
+        EditorDao editorDao = new EditorDao();
+        List<Editor> editors = editorDao.getEditorByGuide(guide.getGuide_id());
+        req.setAttribute("editors", editors);
 
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 

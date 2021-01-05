@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ page import="edu.mcw.scge.datamodel.Delivery" %>
+<%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -14,7 +15,16 @@
 <style>
     td{
         font-size: 12px;
+        padding-left:1%;
     }
+    .header{
+        font-weight: bold;
+        font-size: 12px;
+        color:steelblue;
+        width: 25%;
+        background-color: #ECECF9;
+    }
+
 </style>
 <script>
     $(function() {
@@ -25,8 +35,6 @@
     });
 </script>
 
-hello
-
 <% Delivery d = (Delivery) request.getAttribute("system"); %>
 
 <div>
@@ -34,21 +42,34 @@ hello
         <table  style="width:80%">
 
             <tbody>
-            <tr><td class="header"><strong>ID</strong></td><td><%=d.getId()%></td></tr>
-            <tr><td class="header"><strong>Type</strong></td><td><%=d.getType()%></td></tr>
+            <tr><td class="header" width="150"><strong>Type</strong></td><td><%=d.getType()%></td></tr>
             <tr><td class="header"><strong>Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
             <tr><td class="header"><strong>Name</strong></td><td><%=d.getName()%></td></tr>
-            <tr><td class="header"><strong>Source</strong></td><td><%=d.getSource()%></td></tr>
-            <tr><td class="header"><strong>Description</strong></td><td><%=d.getDescription()%></td></tr>
-            <tr><td class="header"><strong>Genome Serotype</strong></td><td><%=d.getVvGenomeSerotype()%></td></tr>
-            <tr><td class="header"><strong>Capsid Serotype</strong></td><td><%=d.getVvCapsidSerotype()%></td></tr>
-            <tr><td class="header"><strong>Annotated Map</strong></td><td><%=d.getAnnotatedMap()%></td></tr>
-            <tr><td class="header"><strong>Lab ID</strong></td><td><%=d.getLabId()%></td></tr>
-            <tr><td class="header"><strong>Capsid Variant</strong></td><td><%=d.getVvCapsidVariant()%></td></tr>
-            <tr><td class="header"><strong>Titer Method</strong></td><td><%=d.getTiterMethod()%></td></tr>
-            <tr><td class="header"><strong>RRID</strong></td><td><%=d.getRrid()%></td></tr>
-            <tr><td class="header"><strong>NP Size</strong></td><td><%=d.getNpSize()%></td></tr>
-            <tr><td class="header"><strong>Mol Targeting Agent</strong></td><td><%=d.getMolTargetingAgent()%></td></tr>
+            <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(d.getSource())%></td></tr>
+            <tr><td class="header"><strong>Description</strong></td><td><%=SFN.parse(d.getDescription())%></td></tr>
+
+            <% if (d.getType().equals("Viral Vector")) { %>
+        </table>
+        <hr>
+        <table style="width:80%">
+
+
+                <tr><td class="header"><strong>Genome&nbsp;Serotype</strong></td><td><%=SFN.parse(d.getVvGenomeSerotype())%></td></tr>
+                <tr><td class="header"><strong>Capsid&nbsp;Serotype</strong></td><td><%=SFN.parse(d.getVvCapsidSerotype())%></td></tr>
+            <% } %>
+
+
+        </table>
+        <hr>
+        <table style="width:80%">
+            <tr><td class="header"><strong>Annotated&nbsp;Map</strong></td><td><%=SFN.parse(d.getAnnotatedMap())%></td></tr>
+            <tr><td class="header"><strong>Lab&nbsp;ID</strong></td><td><%=SFN.parse(d.getLabId())%></td></tr>
+            <tr><td class="header"><strong>Capsid&nbsp;Variant</strong></td><td><%=SFN.parse(d.getVvCapsidVariant())%></td></tr>
+            <tr><td class="header"><strong>Titer&nbsp;Method</strong></td><td><%=SFN.parse(d.getTiterMethod())%></td></tr>
+            <tr><td class="header"><strong>RRID</strong></td><td><%=SFN.parse(d.getRrid())%></td></tr>
+            <tr><td class="header"><strong>NP&nbsp;Size</strong></td><td><%=SFN.parse(d.getNpSize())%></td></tr>
+            <tr><td class="header"><strong>Mol&nbsp;Targeting&nbsp;Agent</strong></td><td><%=SFN.parse(d.getMolTargetingAgent())%></td></tr>
+            <tr><td class="header"><strong>ID</strong></td><td><%=d.getId()%></td></tr>
 
             </tbody>
         </table>
@@ -56,4 +77,8 @@ hello
     <hr>
 </div>
 
-<%@include file="associatedStudies.jsp"%>
+<br>
+<jsp:include page="associatedStudies.jsp"/>
+<br>
+<hr>
+<jsp:include page="associatedExperiments.jsp"/>

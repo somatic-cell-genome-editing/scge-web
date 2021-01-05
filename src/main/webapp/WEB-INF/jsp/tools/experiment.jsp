@@ -152,7 +152,7 @@
 <table  style="width:80%">
 
     <tbody>
-    <tr><td class="header"><strong>Model</strong></td><td>${model.organism}</td></tr>
+    <tr><td class="header"><strong>Model Species</strong></td><td>${model.organism}</td></tr>
         <tr><td class="header"><strong>Model Name</strong></td><td><a href="/toolkit/data/models/model?id=${model.modelId}">${model.name}</a></td></tr>
     </tbody>
 </table>

@@ -1,4 +1,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Guide" %>
+<%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="edu.mcw.scge.datamodel.Editor" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -20,7 +23,16 @@
 <style>
     td{
         font-size: 12px;
+        padding-left:1%;
     }
+    .header{
+        font-weight: bold;
+        font-size: 12px;
+        color:steelblue;
+        width: 25%;
+        background-color: #ECECF9;
+    }
+
 </style>
 <script>
     $(function() {
@@ -32,41 +44,66 @@
 </script>
 
 <% Guide g = (Guide) request.getAttribute("guide"); %>
+<% List<Editor> relatedEditors = (List<Editor>) request.getAttribute("editors"); %>
 
 <div>
     <div>
         <table  style="width:80%">
 
-            <tbody>
-            <tr><td class="header"><strong>ID</strong></td><td><%=g.getGuide_id()%></td></tr>
-            <tr><td class="header"><strong>Guide</strong></td><td><%=g.getGuide()%></td></tr>
-            <tr><td class="header"><strong>Species</strong></td><td><%=g.getSpecies()%></td></tr>
-            <tr><td class="header"><strong>Target Locus</strong></td><td><%=g.getTargetLocus()%></td></tr>
-            <tr><td class="header"><strong>Target Sequence</strong></td><td><%=g.getTargetSequence()%></td></tr>
-            <tr><td class="header"><strong>PAM</strong></td><td><%=g.getPam()%></td></tr>
-            <tr><td class="header"><strong>Assembly</strong></td><td><%=g.getAssembly()%></td></tr>
-            <tr><td class="header"><strong>Chr</strong></td><td><%=g.getChr()%></td></tr>
-            <tr><td class="header"><strong>Start</strong></td><td><%=g.getStart()%></td></tr>
-            <tr><td class="header"><strong>Stop</strong></td><td><%=g.getStop()%></td></tr>
-            <tr><td class="header"><strong>Strand</strong></td><td><%=g.getStrand()%></td></tr>
-            <tr><td class="header"><strong>GRna Lab ID</strong></td><td><%=g.getGrnaLabId()%></td></tr>
-            <tr><td class="header"><strong>GRna Format</strong></td><td><%=g.getgRnaFormat()%></td></tr>
-            <tr><td class="header"><strong>Spacer Sequence</strong></td><td><%=g.getSpacerSequence()%></td></tr>
-            <tr><td class="header"><strong>Spacer Length</strong></td><td><%=g.getSpacerLength()%></td></tr>
-            <tr><td class="header"><strong>Repeat Sequence</strong></td><td><%=g.getRepeatSequence()%></td></tr>
-            <tr><td class="header"><strong>Detection Method</strong></td><td><%=g.getDetectionMethod()%></td></tr>
-            <tr><td class="header"><strong>Forward Primer</strong></td><td><%=g.getForwardPrimer()%></td></tr>
-            <tr><td class="header"><strong>Linker Sequence</strong></td><td><%=g.getLinkerSequence()%></td></tr>
-            <tr><td class="header"><strong>Anti-Repeat Sequence</strong></td><td></td></tr>
-            <tr><td class="header"><strong>Stemloop 1 Sequence</strong></td><td></td></tr>
-            <tr><td class="header"><strong>Stemloop 2 Sequence</strong></td><td></td></tr>
-            <tr><td class="header"><strong>Stemloop 3 Sequence</strong></td><td></td></tr>
-            <tr><td class="header"><strong>Source</strong></td><td></td></tr>
 
-            </tbody>
+            <tr ><td class="header" width="150"><strong>Guide</strong></td><td><%=g.getGuide()%></td></tr>
+            <tr ><td class="header"><strong>Species</strong></td><td><%=SFN.parse(g.getSpecies())%></td></tr>
+        </table>
+        <hr>
+        <table style="width:80%">
+            <tr ><td class="header"><strong>Target Locus</strong></td><td><%=SFN.parse(g.getTargetLocus())%></td></tr>
+            <tr ><td class="header"><strong>Target Sequence</strong></td><td><%=SFN.parse(g.getTargetSequence())%></td></tr>
+            <tr ><td class="header"><strong>PAM</strong></td><td><%=SFN.parse(g.getPam())%></td></tr>
+            <tr ><td class="header"><strong>Assembly</strong></td><td><%=SFN.parse(g.getAssembly())%></td></tr>
+            <tr ><td class="header"><strong>Chr</strong></td><td><%=SFN.parse(g.getChr())%></td></tr>
+            <tr ><td class="header"><strong>Start</strong></td><td><%=SFN.parseLong(g.getStart())%></td></tr>
+            <tr ><td class="header"><strong>Stop</strong></td><td><%=SFN.parseLong(g.getStop())%></td></tr>
+            <tr ><td class="header"><strong>Strand</strong></td><td><%=SFN.parse(g.getStrand())%></td></tr>
+        </table>
+        <hr>
+        <table style="width:80%">
+
+
+        <tr ><td class="header"><strong>GRna Lab ID</strong></td><td><%=SFN.parse(g.getGrnaLabId())%></td></tr>
+            <tr ><td class="header"><strong>GRna Format</strong></td><td><%=SFN.parse(g.getgRnaFormat())%></td></tr>
+            <tr ><td class="header"><strong>Spacer Sequence</strong></td><td><%=SFN.parse(g.getSpacerSequence())%></td></tr>
+            <tr ><td class="header"><strong>Spacer Length</strong></td><td><%=SFN.parse(g.getSpacerLength())%></td></tr>
+            <tr ><td class="header"><strong>Repeat Sequence</strong></td><td><%=SFN.parse(g.getRepeatSequence())%></td></tr>
+            <tr ><td class="header"><strong>Detection Method</strong></td><td><%=SFN.parse(g.getDetectionMethod())%></td></tr>
+            <tr ><td class="header"><strong>Forward Primer</strong></td><td><%=SFN.parse(g.getForwardPrimer())%></td></tr>
+            <tr ><td class="header"><strong>Linker Sequence</strong></td><td><%=SFN.parse(g.getLinkerSequence())%></td></tr>
+            <tr ><td class="header"><strong>Anti-Repeat Sequence</strong></td><td><%=SFN.parse(g.getAntiRepeatSequence())%></td></tr>
+            <tr ><td class="header"><strong>Stemloop 1 Sequence</strong></td><td><%=SFN.parse(g.getStemloop1Sequence())%></td></tr>
+            <tr ><td class="header"><strong>Stemloop 2 Sequence</strong></td><td><%=SFN.parse(g.getStemloop2Sequence())%></td></tr>
+            <tr ><td class="header"><strong>Stemloop 3 Sequence</strong></td><td><%=SFN.parse(g.getStemloop3Sequence())%></td></tr>
+        </table>
+        <hr>
+        <table style="width:80%">
+            <tr><td class="header"><strong>Related Editors</strong></td>
+                <td>
+                    <%for (Editor relatedEditor: relatedEditors) { %>
+                    <a href="/toolkit/data/editors/editor?id=<%=relatedEditor.getId()%>" ><%=relatedEditor.getSymbol()%></a><br>
+                    <% } %>
+                </td>
+            </tr>
+        </table>
+        <hr>
+        <table style="width:80%">
+        <tr ><td class="header"><strong>Source</strong></td><td><%=SFN.parse(g.getSource())%></td></tr>
+            <tr ><td class="header"><strong>Guide ID</strong></td><td><%=g.getGuide_id()%></td></tr>
+
         </table>
     </div>
     <hr>
 </div>
 
-<%@include file="associatedStudies.jsp"%>
+<br>
+<jsp:include page="associatedStudies.jsp"/>
+<br>
+<hr>
+<jsp:include page="associatedExperiments.jsp"/>
