@@ -138,7 +138,7 @@
             %>
 
                 <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=3">SpCas9</a></td></tr>
-                <tr><td class="header"><strong>Delivery System</strong></td><td><%=d.getType()%></td></tr>
+                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=1"><%=d.getType()%></a></td></tr>
                 <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td>26.52</td></tr>
             </tbody>
