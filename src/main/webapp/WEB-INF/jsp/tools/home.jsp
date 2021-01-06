@@ -51,7 +51,7 @@
     <div class="row">
         <div class="col">
             <div class="row">
-                <div class="col-lg-3" > <i class="fas fa-arrow-to-right" style="font-size: 30px;color:steelblue"></i></div>
+                <div class="col-lg-3" > <i class="fas fa-arrow-to-right" style="font-size: 50px;color:steelblue"></i></div>
                 <div class="col-lg-9" style="text-align: left"> <a href="/toolkit/data/studies/search"><span class="object-count"><%=sdao.getStudyCount()%></span>&nbsp;<strong style="text-align: left">Study Submissions</strong></a></div>
             </div>
 
