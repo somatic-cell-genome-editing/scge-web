@@ -27,14 +27,7 @@
         font-size:30px;
         font-weight:700;
     }
-    .img-td{
-        text-align:left;
-        width: 50px;
-        height:50px;
-    }
-    .object-row{
-       padding-top:10%;
-    }
+
 
 </style>
 <div class="container" align="center">
@@ -54,84 +47,58 @@
 
 <% StatsDao sdao = new StatsDao(); %>
 
+<div class="container" style="width: 50%" align="center">
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col-lg-3" > <i class="fas fa-arrow-to-right" style="font-size: 30px;color:steelblue"></i></div>
+                <div class="col-lg-9" style="text-align: left"> <a href="/toolkit/data/studies/search"><span class="object-count"><%=sdao.getStudyCount()%></span>&nbsp;<strong style="text-align: left">Study Submissions</strong></a></div>
+            </div>
 
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col-lg-3" ><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="100%" height="auto" alt="" /></div>
+                <div class="col-lg-9" style="text-align: left"><a href="/toolkit/data/editors/search"><span class="object-count"><%=sdao.getEditorCount()%></span>&nbsp;<strong>Genome Editors</strong></a></div>
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col">
+            <div class="row">
+                <div class="col-lg-3" ><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/mouse.png" width="100%" height="auto" alt="" /></div>
+                <div class="col-lg-9" style="text-align: left"><a href="/toolkit/data/animalReporter/search"><span class="object-count "><%=sdao.getModelCount()%></span>&nbsp;<strong style="text-align: left">Model&nbsp;Systems</strong></a></div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col-lg-3" ><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png"  alt="" /></div>
+                <div class="col-lg-9" style="text-align: left"><a  href="/toolkit/data/vitro/search"><span class="object-count"><%=sdao.getExperimentCount()%></span>&nbsp;<strong>Experiment Records</strong></a> </div>
+            </div>
 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col-lg-3" ><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="auto" height="auto" alt="" /></div>
+                <div class="col-lg-9" style="text-align: left" ><a href="/toolkit/data/delivery/search"><span class="object-count"><%=sdao.getDeliveryCount()%></span>&nbsp;<strong>Delivery Vehicles</strong></a></div>
+            </div>
 
-<div class="container" align="center" style="width: 70%;">
-<div>
-    <table>
-            <tr class="object-row">
-                <td>
-                <table>
-                    <tr>
-                        <td ><i class="far fa-file-alt" style="font-size: 30px;color:steelblue"></i></td>
-                        <td ><a href="/toolkit/data/studies/search"><span class="object-count"><%=sdao.getStudyCount()%></span></a></td>
-                        <td style="font-weight:700;"><a href="/toolkit/data/studies/search">Study Submissions</a></td>
-                    </tr>
-                </table>
-                </td>
-                <td>&nbsp;</td>
-                <td >
-                    <table >
-                        <tr>
-                            <td  class="img-td"><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="auto" height="auto" alt="" /></td>
-                            <td ><a href="/toolkit/data/editors/search"><span class="object-count"><%=sdao.getEditorCount()%></span></a></td>
-                            <td><a href="/toolkit/data/editors/search"><strong>Genome&nbsp;Editors</strong></a></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        <tr class="object-row" >
-            <td >
-                <table  >
-                    <tr>
-                        <td class="img-td"><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="auto" height="auto" alt="" /></td>
-                        <td><a href="/toolkit/data/models/search"><span class="object-count "><%=sdao.getModelCount()%></span></a></td>
-                        <td><a href="/toolkit/data/models/search"><strong>Model&nbsp;Systems</strong></a></td>
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col-lg-3" ><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="auto" height="auto" alt="" /></div>
+                <div class="col-lg-9" style="text-align: left"><a href="/toolkit/data/guide/search"><span class="object-count"><%=sdao.getGuideCount()%></span>&nbsp;<strong>Guides</strong></a></div>
+            </div>
 
-                    </tr>
-                </table>
-            </td>
-            <td>&nbsp;</td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="img-td"><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" alt="" /></td>
-                        <td><a href="/toolkit/data/delivery/search"><span class="object-count"><%=sdao.getDeliveryCount()%></span></a></td>
-                        <td><a href="/toolkit/data/delivery/search"><strong>Delivery Systems</strong></a></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr class="object-row">
-            <td >
-                <table>
-                    <tr>
-                        <td class="img-td"><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" alt="" /></td>
-                        <td><a href="/toolkit/data/guide/search"><span class="object-count"><%=sdao.getGuideCount()%></span></a></td>
-                        <td><a href="/toolkit/data/guide/search"><strong>Guides</strong></a></td>
-                    </tr>
-                </table>
-            </td>
-            <td>&nbsp;</td>
-            <td >
-                <table>
-                    <tr>
-                        <td class="img-td"><img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" alt="" /></td>
-                        <td><a href="/toolkit/data/guide/search"><span class="object-count"><%=sdao.getExperimentCount()%></span></a></td>
-                        <td><a href="/toolkit/data/guide/search"><strong>Experiment Records</strong></a></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        </table>
-
-
+        </div>
+    </div>
 
 
 
 </div>
-</div>
+
 
 
 
