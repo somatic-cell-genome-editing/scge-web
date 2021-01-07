@@ -42,7 +42,7 @@ public class DataAccessService extends AbstractDAO {
     }
     public void insertOrUpdate(Person p) throws Exception{
 
-            int key=pdao.generateNewPersonKey();
+            int key=pdao.getNextKey("person_seq");
             p.setId(key);
             pdao.insert(p);
 
