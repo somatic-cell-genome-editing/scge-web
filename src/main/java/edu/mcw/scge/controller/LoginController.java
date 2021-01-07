@@ -103,7 +103,8 @@ public class LoginController{
             String name= (String) userAttributes.get("name");
 
         String userStatus = pdao.getPersonStatus(client.getPrincipalName());
-        if(userStatus.equalsIgnoreCase("approved")) {
+     //   if(userStatus.equalsIgnoreCase("approved"))
+            if(userStatus.equalsIgnoreCase("active")){
          //   req.getSession().setAttribute("token",client.getAccessToken().getTokenValue());
             System.out.println("APPROVED TIER:"+ tier+ "\tStudyId:"+ studyId+"\tMessage"+message);
             List<Person> persons = pdao.getPersonByGoogleId(client.getPrincipalName());
@@ -185,7 +186,8 @@ public class LoginController{
             verifyUserExists(client.getPrincipalName(), userAttributes.get("email").toString());
             String userStatus = pdao.getPersonStatus(client.getPrincipalName());
 
-            if (userStatus.equalsIgnoreCase("approved")) {
+         //   if (userStatus.equalsIgnoreCase("approved")) {
+            if (userStatus.equalsIgnoreCase("active")) {
                 HttpSession session = req.getSession(true);
                 session.setAttribute("userName", name);
                 session.setAttribute("userAttributes", userAttributes);

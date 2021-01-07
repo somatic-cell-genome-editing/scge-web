@@ -131,7 +131,8 @@ public class OldLoginController {
             String message=new String();
             if (service.existsInSCGE(payload)) {
                 String userStatus = service.getUserStatus(payload);
-                if(userStatus.equalsIgnoreCase("approved")){
+           //     if(userStatus.equalsIgnoreCase("approved")){
+                    if(userStatus.equalsIgnoreCase("active")){
                     int personId=service.getPersonByGoogleId(payload);
                     session.setAttribute("personId", personId);
                     model.addAttribute("userImageUrl", payload.get("picture"));
