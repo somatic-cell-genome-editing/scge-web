@@ -106,7 +106,6 @@ public class LoginController{
      //   if(userStatus.equalsIgnoreCase("approved"))
             if(userStatus.equalsIgnoreCase("active")){
          //   req.getSession().setAttribute("token",client.getAccessToken().getTokenValue());
-            System.out.println("APPROVED TIER:"+ tier+ "\tStudyId:"+ studyId+"\tMessage"+message);
             List<Person> persons = pdao.getPersonByGoogleId(client.getPrincipalName());
             int personId=0;
             if(persons.size()>0)
@@ -120,15 +119,12 @@ public class LoginController{
             model.addAttribute("status", req.getParameter("status"));
       //  return"redirect:/secure/success"+ "?status=" + userStatus + "&message=" + message+"&destination=base";
             /***************************************************************************************************/
-            Map<String, List<String>> groupRoleMap=service.getGroupsByMemberId(personId);
+            Map<String, List<String>> groupRoleMap=service.getGroupsNRolesByMemberId(personId);
             Map<String, Map<String, List<String>>> groupSubgroupRoleMap=service.getGroupsByPersonId(personId);
             req.getSession().setAttribute("groupRoleMap", groupRoleMap);
             req.getSession().setAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
 
-           // model.addAttribute("groupRoleMap", groupRoleMap);
-           // model.addAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
-            //  model.addAttribute("consortiumGroups", service.getSubGroupsByGroupName("consortium group"));
-            req.setAttribute("groupsMap", service.getGroupMapByGroupId(3));
+            req.setAttribute("groupsMap", service.getGroupMapByGroupName("consortium"));
             Map<Integer, List<SCGEGroup>> consortiumGroups= service.getGroupsMapByGroupId(3);
             Map<SCGEGroup, List<Person>> groupMembersMap=service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
             Map<SCGEGroup, List<Person>> DCCNIHMembersMap=service.getDCCNIHMembersMap(consortiumGroups);

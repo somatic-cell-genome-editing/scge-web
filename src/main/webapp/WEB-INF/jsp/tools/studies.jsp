@@ -178,7 +178,7 @@
             </div>
         </td>
             <td style="width: 10%">
-                    ${rec.tier}
+                   <%=s.getTier()%>
             </td>
         </c:if>
         <td><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>

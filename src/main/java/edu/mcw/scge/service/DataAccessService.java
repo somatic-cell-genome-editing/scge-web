@@ -221,7 +221,7 @@ public class DataAccessService extends AbstractDAO {
       //  System.out.println("groupROLEMAP"+groupRoleMap.size());
         return groupRoleMap;
     }
-    public Map<String, List<String>> getGroupsByMemberId(int id) {
+    public Map<String, List<String>> getGroupsNRolesByMemberId(int id) {
         Map<String, List<String>> groupRoleMap=new HashMap<>();
         try {
             groupRoleMap=   gdao.getGroupsNRolesByMemberId(id);
@@ -288,7 +288,7 @@ public class DataAccessService extends AbstractDAO {
 
         return subgroups;
     }
-    public  Map<String, List<String>> getGroupsMapByGroupName(String groupName) {
+    public  Map<String, List<String>> getGroupsNRolesMapByGroupName(String groupName) {
         if(groupName.contains("Cell")){
             groupName="Cell & Tissue Platform";
         }
@@ -338,6 +338,34 @@ public class DataAccessService extends AbstractDAO {
                           memberIds.add(p.getId());
                           members.add(p);
                       }
+                    }
+                    g.setMembers(members);
+                }
+                map.put(sg, ssgroups);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return map;
+    }
+    public  Map<SCGEGroup, List<SCGEGroup>> getGroupMapByGroupName(String groupName) throws Exception {
+
+        Map<SCGEGroup, List<SCGEGroup>> map= new HashMap<>();
+        List<SCGEGroup> subgroups=new ArrayList<>();
+        int groupId=gdao.getGroupId(groupName);
+        try {
+            subgroups=   gdao.getSubGroupsByGroupId(groupId);
+            for(SCGEGroup sg:subgroups){
+                List<SCGEGroup> ssgroups=  gdao.getSubGroupsByGroupId(sg.getGroupId());
+                for(SCGEGroup g:ssgroups){
+                    List<Person> members=new ArrayList<>();
+                    Set<Integer> memberIds=new HashSet<>();
+                    for(Person p:gdao.getGroupMembersByGroupId(g.getGroupId())) {
+                        if(!memberIds.contains(p.getId())){
+                            memberIds.add(p.getId());
+                            members.add(p);
+                        }
                     }
                     g.setMembers(members);
                 }
