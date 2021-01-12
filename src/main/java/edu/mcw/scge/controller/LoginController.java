@@ -125,7 +125,7 @@ public class LoginController{
             req.getSession().setAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
 
             req.setAttribute("groupsMap", service.getGroupMapByGroupName("consortium"));
-            Map<Integer, List<SCGEGroup>> consortiumGroups= service.getGroupsMapByGroupId(3);
+            Map<Integer, List<SCGEGroup>> consortiumGroups= service.getGroupsMapByGroupName("consortium");
             Map<SCGEGroup, List<Person>> groupMembersMap=service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
             Map<SCGEGroup, List<Person>> DCCNIHMembersMap=service.getDCCNIHMembersMap(consortiumGroups);
 

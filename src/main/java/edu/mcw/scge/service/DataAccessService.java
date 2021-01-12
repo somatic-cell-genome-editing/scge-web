@@ -306,10 +306,11 @@ public class DataAccessService extends AbstractDAO {
 
         return map;
     }
-    public  Map<Integer, List<SCGEGroup>> getGroupsMapByGroupId(int groupId) {
+    public  Map<Integer, List<SCGEGroup>> getGroupsMapByGroupName(String groupName) throws Exception {
 
         Map<Integer, List<SCGEGroup>> map= new HashMap<>();
         List<SCGEGroup> subgroups=new ArrayList<>();
+        int groupId=gdao.getGroupId(groupName);
         try {
             subgroups=   gdao.getSubGroupsByGroupId(groupId);
             for(SCGEGroup sg:subgroups){
@@ -400,9 +401,7 @@ public class DataAccessService extends AbstractDAO {
     }
     public Map<SCGEGroup, List<Person>> getGroupMembersMapExcludeDCCNIH( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
         Map<SCGEGroup, List<Person>> map=new HashMap<>();
-        List<Integer> DCCNIHGroups=new ArrayList<>(Arrays.asList(
-                32,34, 35,36,37,38,39,40,41,42,43,45
-        ));
+        List<Integer> DCCNIHGroups= gdao.getDCCNIHGroupIds();
         for(Map.Entry e: consortiumGroup.entrySet()){
             List<SCGEGroup> groups= (List<SCGEGroup>) e.getValue();
             for(SCGEGroup g:groups){
@@ -425,9 +424,7 @@ public class DataAccessService extends AbstractDAO {
     }
     public Map<SCGEGroup, List<Person>> getDCCNIHMembersMap( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
         Map<SCGEGroup, List<Person>> map=new HashMap<>();
-        List<Integer> DCCNIHGroups=new ArrayList<>(Arrays.asList(
-                32,34, 35,36,37,38,39,40,41,42,43,45
-        ));
+        List<Integer> DCCNIHGroups= gdao.getDCCNIHGroupIds();
         for(Map.Entry e: consortiumGroup.entrySet()){
             List<SCGEGroup> groups= (List<SCGEGroup>) e.getValue();
             for(SCGEGroup g:groups){
