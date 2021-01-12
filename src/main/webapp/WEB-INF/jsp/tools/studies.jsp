@@ -86,18 +86,15 @@
                 </div>
             </form>
             <div>
+                <%@include file="../dashboardElements/tier2Modal.jsp"%>
                 <script>
                     $(document).ready(function () {
                         $("#groupSelect-study${rec.studyId}").multiselect({
                             buttonWidth: '100%',
                             onChange: function(option, checked, select) {
-                                //      alert('Changed option ' + $(option).val() + '.');
                                 $('#SaveChangesTier2-study${rec.studyId}').prop('disabled', false)
                                 var value= ($(option).val());
-                                //   alert("VALUE: "+ value);
                                 var $div="#group"+value+"-study${rec.studyId}";
-                                // alert($div)
-
                                 //  $($div).show(2000);
                                 $($div).toggle()
                             }
@@ -105,13 +102,11 @@
                         var valArr = ${rec.associatedGroups};
                         var i = 0, size = valArr.length;
                         for (i; i < size; i++) {
-                            console.log("${rec.studyId} assoc"+ valArr[i]);
                             $("#groupSelect-study${rec.studyId}").multiselect('select', valArr[i]);
                             var $div="#group"+valArr[i]+"-study${rec.studyId}";
                             $($div).show()
                         }
-
-                       $('#study${rec.studyId}-tier${rec.tier}').checked=true
+                       $('input:radio[name="tier${rec.studyId}"]').filter('[value=${rec.tier}]').attr('checked', true)
                     })
                     function enableGroupSelect(studyId, tier){
                         var selectBtn='#groupSelect-study'+studyId
@@ -183,7 +178,7 @@
                         console.log(json);
                     }
                 </script>
-                <%@include file="../dashboardElements/tier2Modal.jsp"%>
+
 
             </div>
         </td>

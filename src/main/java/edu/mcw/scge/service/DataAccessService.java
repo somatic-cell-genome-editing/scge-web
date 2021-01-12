@@ -459,6 +459,18 @@ public class DataAccessService extends AbstractDAO {
     public void deleteTierUpdates(int studyId) throws Exception {
         tierUpdateDao.delete(studyId);
     }
+    public Map<Integer, Integer> getTierUpdate(List<Study> studies) throws Exception {
+        Map<Integer, Integer> tierUpdatesMap=new HashMap<>();
+        for(Study s:studies) {
+            int studyId=s.getStudyId();
+            List<StudyTierUpdate> updates = tierUpdateDao.getStudyTierUpdatesByStudyId(studyId);
+            if (updates != null && updates.size() > 0) {
+               tierUpdatesMap.put(studyId,   updates.get(0).getTier());
+            }
+        }
+        return tierUpdatesMap;
+    }
+
     public void addTier2Associations(List<Study> studies) throws Exception {
         for(Study s:studies){
             List<Integer> groups=new ArrayList<>();

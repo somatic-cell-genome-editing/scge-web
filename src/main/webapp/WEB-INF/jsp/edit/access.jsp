@@ -23,7 +23,7 @@
         <h4 class="text-white">Change Access Tier</h4>
     </div>
     <div class="card-body" align="left">
-    <!--form id="tier2Form${rec.studyId}"-->
+    <!--form id="tier2Formz"-->
         <div class="card">
         Selected Experiment: <input type="text" value="${rec.study}" disabled/>
             <div class="row">
@@ -41,89 +41,25 @@
             </div>
         </div>
     <div class="form-inline">
-    Access Tier:
-        <c:if test="${rec.tier==1}">
-        <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier1" value="1" checked>
+    Access Tier:<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="tier${rec.studyId}" id="study${rec.studyId}-tier1" value="1">
     <label class="form-check-label" for="study${rec.studyId}-tier1">1</label>
     </div>
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier2" value="2" >
+        <input class="form-check-input" type="radio" name="tier${rec.studyId}" id="study${rec.studyId}-tier2" value="2" >
         <label class="form-check-label" for="study${rec.studyId}-tier2">2</label>
     </div>
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier3" value="3" >
+        <input class="form-check-input" type="radio" name="tier${rec.studyId}" id="study${rec.studyId}-tier3" value="3" >
         <label class="form-check-label" for="study${rec.studyId}-tier3">3 </label>
     </div>
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier4" value="4" >
+        <input class="form-check-input" type="radio" name="tier${rec.studyId}" id="study${rec.studyId}-tier4" value="4" >
         <label class="form-check-label" for="study${rec.studyId}-tier4">4 </label>
         </div>
-        </c:if>
-        <c:if test="${rec.tier==2}">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier1" value="1" >
-            <label class="form-check-label" for="study${rec.studyId}-tier1">1</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier2" value="2" checked>
-            <label class="form-check-label" for="study${rec.studyId}-tier2">2</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier3" value="3" >
-            <label class="form-check-label" for="study${rec.studyId}-tier3">3 </label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier4" value="4" >
-            <label class="form-check-label" for="study${rec.studyId}-tier4">4 </label>
-        </div>
-</c:if>
-<c:if test="${rec.tier==3}">
-
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier1" value="1" >
-            <label class="form-check-label" for="study${rec.studyId}-tier1">1</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier2" value="2" >
-            <label class="form-check-label" for="study${rec.studyId}-tier2">2</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier3" value="3" checked >
-            <label class="form-check-label" for="study${rec.studyId}-tier3">3 </label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier4" value="4" >
-            <label class="form-check-label" for="study${rec.studyId}-tier4">4 </label>
-        </div>
-</c:if>
-        <c:if test="${rec.tier==4}">
-
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier1" value="1" >
-                <label class="form-check-label" for="study${rec.studyId}-tier1">1</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier2" value="2" >
-                <label class="form-check-label" for="study${rec.studyId}-tier2">2</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier3" value="3"  >
-                <label class="form-check-label" for="study${rec.studyId}-tier3">3 </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="tier" id="study${rec.studyId}-tier4" value="4" checked>
-                <label class="form-check-label" for="study${rec.studyId}-tier4">4 </label>
-            </div>
-        </c:if>
 
     </div>
-
-
-
         </div>
-
-
         <div class="card">
             <div class="card-header" style="padding-left:0 ">
                 <button class="btn btn-link btn-block text-left" type="button"  aria-expanded="true" onclick="toggleDiv(${rec.studyId})" >
@@ -149,7 +85,7 @@
                 <c:forEach items="${groupsMap1}" var="m">
                     <!--p><a href="members?group=$-{m.key}" style="font-weight:bold">{m.key}</a></p-->
                         <c:choose>
-                            <c:when test="${m.key!=31 && m.key!=33}">
+                            <c:when test="${m.key!=501 && m.key!=502}">
                                 <c:forEach items="${m.value}" var="sg">
                                     <option value="${sg.groupId}">${sg.groupName}</option>
                                 </c:forEach>

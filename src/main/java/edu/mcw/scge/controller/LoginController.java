@@ -129,9 +129,6 @@ public class LoginController{
             Map<SCGEGroup, List<Person>> groupMembersMap=service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
             Map<SCGEGroup, List<Person>> DCCNIHMembersMap=service.getDCCNIHMembersMap(consortiumGroups);
 
-
-            //   Map<Integer, List<Person>> groupMembersMap=service.getAllGroupsMembersMap(consortiumGroups);
-          //  req.setAttribute("groupsMap", consortiumGroups);
             req.setAttribute("groupsMap1", consortiumGroups);
             req.setAttribute("groupMembersMap",groupMembersMap );
             req.setAttribute("DCCNIHMembersMap",DCCNIHMembersMap );
@@ -147,7 +144,9 @@ public class LoginController{
             StudyDao sdao=new StudyDao();
             List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID/GroupId.
             service.addTier2Associations(studies);
+            Map<Integer, Integer> tierUpdateMap=service.getTierUpdate(studies);
             req.setAttribute("studies", studies);
+            req.setAttribute("tierUpdatesMap", tierUpdateMap);
             return "base";
         }else{
             message = name+" Your request is under processing. You will receive a confirmation email shortly.";
