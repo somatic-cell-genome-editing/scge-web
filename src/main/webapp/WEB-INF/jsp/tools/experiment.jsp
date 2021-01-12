@@ -113,6 +113,13 @@
     td{
         padding-left:1%;
     }
+    .heatmapCell {
+        font-size:14px;
+        border:1px solid black;
+        text-align:center;
+        width:30px;height:20px;
+
+    }
 </style>
 
 <div>
@@ -133,10 +140,12 @@
 
             <tbody>
 
-            <% List<Delivery> dList = (List<Delivery>)request.getAttribute("deliveryList");
-                Delivery d = dList.get(0);
-            %>
+            <%
 
+                List<Delivery> dList = (List<Delivery>)request.getAttribute("deliveryList");
+                Delivery d = dList.get(0);
+
+            %>
                 <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=3">SpCas9</a></td></tr>
                 <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=1"><%=d.getType()%></a></td></tr>
                 <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
@@ -198,12 +207,13 @@
     <hr>
     <div class="row">
         <div class="col-lg-3">
-            <h3>Results Summary:</h3>
+            <table width="600"><tr><td><h3>Tissue Signal Map</h3></td><td align="right"><button class="btn" id="summaryResultsTableBtn" onclick="showTable()">Show Table</button></td></tr></table>
+
 
         </div>
     </div>
-    <div id="summaryTable2" style="">
-        <table id="myTable2" class="able ablesorter table-striped" style="width:50%" border="0">
+    <div id="summaryTable2" style="float:left;padding-right:30px;">
+        <table id="myTable2" class="able ablesorter table-striped" style="width:400px;" border="0">
             <thead><tr>
                 <th>Biological&nbsp;System</th>
                 <th>Tissue</th>
@@ -214,7 +224,10 @@
 
             <%
                 List<AnimalTestingResultsSummary> results= (List<AnimalTestingResultsSummary>)request.getAttribute("results");
+                int count=0;
+                boolean columnOne = true;
                 for (AnimalTestingResultsSummary r: results) {
+                    count++;
             %>
 
                 <tr>
@@ -233,12 +246,12 @@
 
                                 %>
 
-                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("blue",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
-                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("green",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                                <td style="padding:0px;margin:0px;"><div class="heatmapCell" style="font-size:10px; color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:20px;background-color:<%=UI.getRGBValue("blue",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                                <td style="padding:0px;margin:0px;"><div class="heatmapCell"  style="font-size:10px; color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:20px;background-color:<%=UI.getRGBValue("green",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
                             </tr>
                             <tr>
-                                <td style="padding:0px;margin:0px;"><div style="border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("red",1,255)%>"></div></td>
-                                <td style="padding:0px;margin:0px;"><div style="color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:30px;background-color:<%=UI.getRGBValue("rd",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
+                                <td style="padding:0px;margin:0px;"><div class="heatmapCell"  style="font-size:10px; border:1px solid black;text-align:center;width:30px;height:20px;background-color:<%=UI.getRGBValue("red",1,255)%>"></div></td>
+                                <td style="padding:0px;margin:0px;"><div class="heatmapCell"  style="font-size:10px; color:<%=color%>;border:1px solid black;text-align:center;width:30px;height:20px;background-color:<%=UI.getRGBValue("rd",Integer.parseInt(r.getSignalPresent()),r.getNumberOfSamples())%>"> <%=Integer.parseInt(r.getSignalPresent())%>/<%=r.getNumberOfSamples()%></div></td>
                             </tr>
                         </table>
                         <!--
@@ -267,41 +280,43 @@
                     -->
                 </tr>
 
+
+            <%
+                if ((count > (results.size() /2) && columnOne) ) {
+                    columnOne = false;
+                    %>
+            </tbody></table></div>
+            <div id="summaryTable3" style="">
+            <table id="myTable3" class="able ablesorter table-striped" style="width:400px;" border="0">
+                <thead><tr>
+                    <th>Biological&nbsp;System</th>
+                    <th>Tissue</th>
+                    <th>Signal</th>
+                </tr></thead>
+                <tbody>
+                <%} %>
+
                 <% } %>
+
             </tbody>
         </table>
     </div>
 
 
-
-
-
-
     <hr>
-    <div class="row">
-        <div class="col-lg-3">
-            <h3>Results Summary:</h3>
-
-        </div>
-        <div class="col-lg-9">
-            <button class="btn" id="summaryResultsTableBtn" onclick="showTable()">Show Table</button>
-        </div>
-    </div>
     <div id="summaryTable" style="display: none">
         <table id="myTable" class="table tablesorter table-striped" style="width:50%">
             <thead><tr>
-                <th>Parent_tissue_term</th>
-                <th>tissue_term</th>
-                <th>number_of_samples</th>
-
-
-                <th>signal</th>
-                <th>signal_present</th>
-                <th>signal_description</th>
-                <th>image_link</th>
-                <th>percent_cells_in_roi_with_sginal</th>
-                <th>roi</th>
-                <th>roi_coordinates</th>
+                <th>Organ System</th>
+                <th>Tissue</th>
+                <th>Sample Count</th>
+                <th>Abesent/Present</th>
+                <th>Number Present</th>
+                <th>Signal Description</th>
+                <th>Image</th>
+                <th>Percent With Signal</th>
+                <th>ROI</th>
+                <th>ROI Coordinates</th>
 
             </tr></thead>
             <tbody>
@@ -431,6 +446,21 @@ function showTable() {
     }else{
     _div.style.display="none";
     }
+
+    var _div=document.getElementById('summaryTable2');
+    if(_div.style.display === "none"){
+        _div.style.display="block";
+    }else{
+        _div.style.display="none";
+    }
+
+    var _div=document.getElementById('summaryTable3');
+    if(_div.style.display === "none"){
+        _div.style.display="block";
+    }else{
+        _div.style.display="none";
+    }
+
 
 }
 </script>
