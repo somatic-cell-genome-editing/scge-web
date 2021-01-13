@@ -44,7 +44,7 @@
 </script>
 <script src="/toolkit/js/edit.js"></script>
 
-
+<% List<Study> studies = (List<Study>) request.getAttribute("studies"); %>
 
 
 
@@ -69,44 +69,44 @@
     </tr>
     </thead>
 
-    <c:forEach items="${studies}" var="rec">
+        <% for (Study s: studies) { %>
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
         <!--td><button class="btn btn-outline-secondary btn-sm">Edit</button></td-->
 
             <c:if test="${userName!=null}">
         <td>
-            <form class="form-row" id="editStudy${rec.studyId}" action="edit/access">
+            <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="edit/access">
                 <div class="col  tiers">
-                    <input type="hidden" name="tier" id="tier-study-${rec.studyId}" value="${rec.studyId}"/>
-                    <input type="hidden" name="studyId" id="study-${rec.studyId}" value="${rec.studyId}"/>
-                    <input type="hidden" name="groupMembersjson" id="study-${rec.studyId}-json"/>
-                    <input type="hidden" name="groupIdsJson" id="study-${rec.studyId}-groupIdsJson"/>
-                    <input type="button" id="updateTier-study${rec.studyId}" class="form-control" onclick="changeAccess($(this),${rec.studyId} , ${rec.tier})" value="Update Tier">
+                    <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>
+                    <input type="hidden" name="studyId" id="study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>
+                    <input type="hidden" name="groupMembersjson" id="study-<%=s.getStudyId()%>-json"/>
+                    <input type="hidden" name="groupIdsJson" id="study-<%=s.getStudyId()%>-groupIdsJson"/>
+                    <input type="button" id="updateTier-study<%=s.getStudyId()%>" class="form-control" onclick="changeAccess($(this),<%=s.getStudyId()%> , <%=s.getTier()%>)" value="Update Tier">
                 </div>
             </form>
             <div>
                 <%@include file="../dashboardElements/tier2Modal.jsp"%>
                 <script>
                     $(document).ready(function () {
-                        $("#groupSelect-study${rec.studyId}").multiselect({
+                        $("#groupSelect-study<%=s.getStudyId()%>").multiselect({
                             buttonWidth: '100%',
                             onChange: function(option, checked, select) {
-                                $('#SaveChangesTier2-study${rec.studyId}').prop('disabled', false)
+                                $('#SaveChangesTier2-study<%=s.getStudyId()%>').prop('disabled', false)
                                 var value= ($(option).val());
-                                var $div="#group"+value+"-study${rec.studyId}";
+                                var $div="#group"+value+"-study<%=s.getStudyId()%>";
                                 //  $($div).show(2000);
                                 $($div).toggle()
                             }
                         });
-                        var valArr = ${rec.associatedGroups};
+                        var valArr = <%=s.getAssociatedGroups()%>;
                         var i = 0, size = valArr.length;
                         for (i; i < size; i++) {
-                            $("#groupSelect-study${rec.studyId}").multiselect('select', valArr[i]);
-                            var $div="#group"+valArr[i]+"-study${rec.studyId}";
+                            $("#groupSelect-study<%=s.getStudyId()%>").multiselect('select', valArr[i]);
+                            var $div="#group"+valArr[i]+"-study<%=s.getStudyId()%>";
                             $($div).show()
                         }
-                       $('input:radio[name="tier${rec.studyId}"]').filter('[value=${rec.tier}]').attr('checked', true)
+                       $('input:radio[name="tier<%=s.getStudyId()%>"]').filter('[value=<%=s.getTier()%>]').attr('checked', true)
                     })
                     function enableGroupSelect(studyId, tier){
                         var selectBtn='#groupSelect-study'+studyId
@@ -183,18 +183,18 @@
             </div>
         </td>
             <td style="width: 10%">
-                    ${rec.tier}
+                <%=s.getTier()%>
             </td>
     </c:if>
-        <td><a href="/toolkit/data/experiments/search/${rec.studyId}">${rec.study}</a></td>
-        <td>${rec.type}</td>
-        <td>${rec.labName}</td>
-        <td>${rec.pi}</td>
-        <td><a href="${rec.rawData}">[Download]</a></td>
-        <td>${rec.submissionDate}</td>
-        <td>${rec.studyId}</td>
+        <td><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
+        <td><%=s.getType()%></td>
+        <td><%=s.getLabName()%></td>
+        <td><%=s.getPi()%></td>
+        <td><a href="<%=s.getRawData()%>">[Download]</a></td>
+        <td><%=s.getSubmissionDate()%></td>
+        <td><%=s.getStudyId()%></td>
 
-        </c:forEach>
+       <%}%>
 
     </tr>
 </table>
