@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import edu.mcw.scge.dao.implementation.AnimalTestingResultsDAO;
 import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.ExperimentDao;
+import edu.mcw.scge.dao.implementation.GroupDAO;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.DataAccessService;
 import edu.mcw.scge.service.db.DBService;
@@ -28,6 +29,7 @@ import java.util.List;
 public class ToolkitController {
    IndexServices services=new IndexServices();
     DBService dbService=new DBService();
+    GroupDAO gdao=new GroupDAO();
     @GetMapping(value="/home")
     public String getToolKitHome(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
         req.setAttribute("action", "Toolkit");
@@ -62,7 +64,7 @@ public class ToolkitController {
     }
     @RequestMapping(value="/animalReporter/search")
     public String getReporterHome(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-       List<ExperimentRecord> records=dbService.getAllExperimentRecordsByLabId(3);
+       List<ExperimentRecord> records=dbService.getAllExperimentRecordsByLabId(gdao.getGroupId("consortium"));
         System.out.println("EXPERIMENTS: "+ records.size());
         req.setAttribute("experimentRecords", records);
         req.setAttribute("action", "Animal Reporters");

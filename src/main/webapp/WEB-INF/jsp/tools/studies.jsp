@@ -47,6 +47,7 @@
 <% List<Study> studies = (List<Study>) request.getAttribute("studies"); %>
 
 
+
 <div>
     <table id="myTable" class="tablesorter">
     <thead>
@@ -66,41 +67,45 @@
 
     </tr>
     </thead>
-    <% for (Study s: studies) { %>
 
+        <% for (Study s: studies) { %>
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
         <!--td><button class="btn btn-outline-secondary btn-sm">Edit</button></td-->
-        <c:if test="${userName!=null}">
+
+            <c:if test="${userName!=null}">
         <td>
             <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="edit/access">
                 <div class="col  tiers">
-                    <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>"/>
+                    <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>
                     <input type="hidden" name="studyId" id="study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>
                     <input type="hidden" name="groupMembersjson" id="study-<%=s.getStudyId()%>-json"/>
                     <input type="hidden" name="groupIdsJson" id="study-<%=s.getStudyId()%>-groupIdsJson"/>
-
-
                     <input type="button" id="updateTier-study<%=s.getStudyId()%>" class="form-control" onclick="changeAccess($(this),<%=s.getStudyId()%> , <%=s.getTier()%>)" value="Update Tier">
                 </div>
             </form>
             <div>
+                <%@include file="../dashboardElements/tier2Modal.jsp"%>
                 <script>
                     $(document).ready(function () {
                         $("#groupSelect-study<%=s.getStudyId()%>").multiselect({
                             buttonWidth: '100%',
                             onChange: function(option, checked, select) {
-                                //      alert('Changed option ' + $(option).val() + '.');
                                 $('#SaveChangesTier2-study<%=s.getStudyId()%>').prop('disabled', false)
                                 var value= ($(option).val());
-                                //   alert("VALUE: "+ value);
                                 var $div="#group"+value+"-study<%=s.getStudyId()%>";
-                                // alert($div)
-
                                 //  $($div).show(2000);
                                 $($div).toggle()
                             }
                         });
+                        var valArr = <%=s.getAssociatedGroups()%>;
+                        var i = 0, size = valArr.length;
+                        for (i; i < size; i++) {
+                            $("#groupSelect-study<%=s.getStudyId()%>").multiselect('select', valArr[i]);
+                            var $div="#group"+valArr[i]+"-study<%=s.getStudyId()%>";
+                            $($div).show()
+                        }
+                       $('input:radio[name="tier<%=s.getStudyId()%>"]').filter('[value=<%=s.getTier()%>]').attr('checked', true)
                     })
                     function enableGroupSelect(studyId, tier){
                         var selectBtn='#groupSelect-study'+studyId
@@ -172,7 +177,7 @@
                         console.log(json);
                     }
                 </script>
-                <%@include file="../dashboardElements/tier2Modal.jsp"%>
+
 
             </div>
         </td>
@@ -180,19 +185,15 @@
         <td style="width: 10%">
             ${rec.tier}
         </td>
+
         <td><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
         <td><%=s.getLabName()%></td>
         <td><%=s.getPi()%></td>
         <td><a href="<%=s.getRawData()%>">[Download]</a></td>
-
-        <%
-            String pattern = "dd/MM/yyyy";
-            SimpleDateFormat format = new SimpleDateFormat(pattern);
-        %>
-        <td><%=format.format(s.getSubmissionDate())%></td>
+        <td><%=s.getSubmissionDate()%></td>
         <td><%=s.getStudyId()%></td>
 
-<% } %>
+       <%}%>
 
     </tr>
 </table>

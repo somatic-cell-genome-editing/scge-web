@@ -221,7 +221,7 @@ public class DataAccessService extends AbstractDAO {
       //  System.out.println("groupROLEMAP"+groupRoleMap.size());
         return groupRoleMap;
     }
-    public Map<String, List<String>> getGroupsByMemberId(int id) {
+    public Map<String, List<String>> getGroupsNRolesByMemberId(int id) {
         Map<String, List<String>> groupRoleMap=new HashMap<>();
         try {
             groupRoleMap=   gdao.getGroupsNRolesByMemberId(id);
@@ -288,7 +288,7 @@ public class DataAccessService extends AbstractDAO {
 
         return subgroups;
     }
-    public  Map<String, List<String>> getGroupsMapByGroupName(String groupName) {
+    public  Map<String, List<String>> getGroupsNRolesMapByGroupName(String groupName) {
         if(groupName.contains("Cell")){
             groupName="Cell & Tissue Platform";
         }
@@ -306,10 +306,11 @@ public class DataAccessService extends AbstractDAO {
 
         return map;
     }
-    public  Map<Integer, List<SCGEGroup>> getGroupsMapByGroupId(int groupId) {
+    public  Map<Integer, List<SCGEGroup>> getGroupsMapByGroupName(String groupName) throws Exception {
 
         Map<Integer, List<SCGEGroup>> map= new HashMap<>();
         List<SCGEGroup> subgroups=new ArrayList<>();
+        int groupId=gdao.getGroupId(groupName);
         try {
             subgroups=   gdao.getSubGroupsByGroupId(groupId);
             for(SCGEGroup sg:subgroups){
@@ -349,6 +350,34 @@ public class DataAccessService extends AbstractDAO {
 
         return map;
     }
+    public  Map<SCGEGroup, List<SCGEGroup>> getGroupMapByGroupName(String groupName) throws Exception {
+
+        Map<SCGEGroup, List<SCGEGroup>> map= new HashMap<>();
+        List<SCGEGroup> subgroups=new ArrayList<>();
+        int groupId=gdao.getGroupId(groupName);
+        try {
+            subgroups=   gdao.getSubGroupsByGroupId(groupId);
+            for(SCGEGroup sg:subgroups){
+                List<SCGEGroup> ssgroups=  gdao.getSubGroupsByGroupId(sg.getGroupId());
+                for(SCGEGroup g:ssgroups){
+                    List<Person> members=new ArrayList<>();
+                    Set<Integer> memberIds=new HashSet<>();
+                    for(Person p:gdao.getGroupMembersByGroupId(g.getGroupId())) {
+                        if(!memberIds.contains(p.getId())){
+                            memberIds.add(p.getId());
+                            members.add(p);
+                        }
+                    }
+                    g.setMembers(members);
+                }
+                map.put(sg, ssgroups);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return map;
+    }
     public Map<Integer, List<Person>> getAllGroupsMembersMap( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
         Map<Integer, List<Person>> map=new HashMap<>();
         for(Map.Entry e: consortiumGroup.entrySet()){
@@ -372,9 +401,7 @@ public class DataAccessService extends AbstractDAO {
     }
     public Map<SCGEGroup, List<Person>> getGroupMembersMapExcludeDCCNIH( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
         Map<SCGEGroup, List<Person>> map=new HashMap<>();
-        List<Integer> DCCNIHGroups=new ArrayList<>(Arrays.asList(
-                32,34, 35,36,37,38,39,40,41,42,43,45
-        ));
+        List<Integer> DCCNIHGroups= gdao.getDCCNIHGroupIds();
         for(Map.Entry e: consortiumGroup.entrySet()){
             List<SCGEGroup> groups= (List<SCGEGroup>) e.getValue();
             for(SCGEGroup g:groups){
@@ -397,9 +424,7 @@ public class DataAccessService extends AbstractDAO {
     }
     public Map<SCGEGroup, List<Person>> getDCCNIHMembersMap( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
         Map<SCGEGroup, List<Person>> map=new HashMap<>();
-        List<Integer> DCCNIHGroups=new ArrayList<>(Arrays.asList(
-                32,34, 35,36,37,38,39,40,41,42,43,45
-        ));
+        List<Integer> DCCNIHGroups= gdao.getDCCNIHGroupIds();
         for(Map.Entry e: consortiumGroup.entrySet()){
             List<SCGEGroup> groups= (List<SCGEGroup>) e.getValue();
             for(SCGEGroup g:groups){
@@ -434,6 +459,18 @@ public class DataAccessService extends AbstractDAO {
     public void deleteTierUpdates(int studyId) throws Exception {
         tierUpdateDao.delete(studyId);
     }
+    public Map<Integer, Integer> getTierUpdate(List<Study> studies) throws Exception {
+        Map<Integer, Integer> tierUpdatesMap=new HashMap<>();
+        for(Study s:studies) {
+            int studyId=s.getStudyId();
+            List<StudyTierUpdate> updates = tierUpdateDao.getStudyTierUpdatesByStudyId(studyId);
+            if (updates != null && updates.size() > 0) {
+               tierUpdatesMap.put(studyId,   updates.get(0).getTier());
+            }
+        }
+        return tierUpdatesMap;
+    }
+
     public void addTier2Associations(List<Study> studies) throws Exception {
         for(Study s:studies){
             List<Integer> groups=new ArrayList<>();

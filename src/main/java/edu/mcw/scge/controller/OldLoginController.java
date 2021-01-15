@@ -170,14 +170,14 @@ public class OldLoginController {
             model.addAttribute("isGroupAdmin", "true");
         }
    //     Map<String, List<String>> groupRoleMap=service.getGroupsByMemberName(req.getSession().getAttribute("userName").toString());
-        Map<String, List<String>> groupRoleMap=service.getGroupsByMemberId((Integer) req.getSession().getAttribute("personId"));
+        Map<String, List<String>> groupRoleMap=service.getGroupsNRolesByMemberId((Integer) req.getSession().getAttribute("personId"));
         Map<String, Map<String, List<String>>> groupSubgroupRoleMap=service.getGroupsByPersonId((Integer) req.getSession().getAttribute("personId"));
         req.getSession().setAttribute("groupRoleMap", groupRoleMap);
         req.getSession().setAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
         model.addAttribute("groupRoleMap", groupRoleMap);
         model.addAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
       //  model.addAttribute("consortiumGroups", service.getSubGroupsByGroupName("consortium group"));
-        model.addAttribute("groupsMap", service.getGroupsMapByGroupName("consortium group"));
+      //  model.addAttribute("groupsMap", service.getGroupsMapByGroupName("consortium group"));
 
 
         model.addAttribute("message", req.getParameter("message"));
