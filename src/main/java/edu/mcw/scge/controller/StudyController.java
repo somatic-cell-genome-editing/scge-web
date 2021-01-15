@@ -35,18 +35,7 @@ public class StudyController {
 
     }
 
-    @RequestMapping(value="/experiment")
-    public String getStudy(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        /*
-        EditorDao dao = new EditorDao();
-        Editor editor= dao.getEditorById(Integer.parseInt(req.getParameter("id"))).get(0);
-        req.setAttribute("editor", editor);
-        req.setAttribute("action", editor.getSymbol());
-        req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-*/
-        return null;
-    }
+
     @RequestMapping(value="/search/{studyId}")
     public String getExperimentRecordsByStudy(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable(required = false) int studyId) throws Exception {
         List<ExperimentRecord> records=dbService.getAllExperimentRecordsByStudyId(studyId);
@@ -59,6 +48,9 @@ public class StudyController {
 
         return null;
     }
+
+
+    /*
     @GetMapping(value="/search/results/{id}")
     public void getResults(@PathVariable String id, HttpServletRequest req, HttpServletResponse res) throws Exception {
         int experimentId= Integer.parseInt(id);
@@ -94,7 +86,6 @@ public class StudyController {
                 json.append("A"+"\",");
                 json.append("\"gene\":\""+s.getTissueTerm()+"\",");
                 json.append("\"value\":"+value+"},");
-                //     System.out.print(matrix[i][j]+"\t");
             }
             json.append("]");
             Gson gson=new Gson();
@@ -102,13 +93,10 @@ public class StudyController {
             req.setAttribute("regionListJson",regionListJson);
             req.setAttribute("json", json);
         }
-        //    System.out.println("RECORDS SIZE:"+records.size());
-
-        //
         req.setAttribute("action", "Experiment Report");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
     }
-
+*/
 }

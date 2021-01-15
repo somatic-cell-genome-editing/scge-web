@@ -54,11 +54,10 @@
         <!--th>Action</th-->
         <c:if test="${userName!=null}">
             <th>Action</th>
-            <th>Tier</th>
         </c:if>
 
+        <th>Tier</th>
         <th>Name</th>
-        <th>Type</th>
         <th>Laboratory</th>
         <th>Contact PI</th>
         <th>Raw Data</th>
@@ -177,12 +176,11 @@
 
             </div>
         </td>
-            <td style="width: 10%">
-                    ${rec.tier}
-            </td>
         </c:if>
+        <td style="width: 10%">
+            ${rec.tier}
+        </td>
         <td><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
-        <td><%=s.getType()%></td>
         <td><%=s.getLabName()%></td>
         <td><%=s.getPi()%></td>
         <td><a href="<%=s.getRawData()%>">[Download]</a></td>

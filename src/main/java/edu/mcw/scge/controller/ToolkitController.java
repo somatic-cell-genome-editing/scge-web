@@ -71,7 +71,7 @@ public class ToolkitController {
 
         return null;
     }
-
+/*
     @GetMapping(value="/animalReporter/results/{id}")
     public void getdeliveryResults(@PathVariable String id, HttpServletRequest req, HttpServletResponse res) throws Exception {
        int experimentId= Integer.parseInt(id);
@@ -111,14 +111,13 @@ public class ToolkitController {
             req.setAttribute("regionListJson",regionListJson);
             req.setAttribute("json", json);
         }
-    //    System.out.println("RECORDS SIZE:"+records.size());
-
-    //
         req.setAttribute("action", "Experiment Report");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
     }
+*/
+
     @RequestMapping(value="/editor/search")
     public String getEditorHome(HttpServletRequest req, HttpServletResponse res) throws Exception {
         EditorDao dao = new EditorDao();

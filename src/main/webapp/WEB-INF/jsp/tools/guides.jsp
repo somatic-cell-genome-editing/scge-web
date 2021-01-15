@@ -49,22 +49,24 @@
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
-    <th>Guide</th>
-        <th>Target Locus</th>
-    <th>Detection Method</th>
-        <td>Species</td>
-    <th>Source</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Subtype</th>
+    <td>Alias</td>
+    <th>Target Locus</th>
+    <td>Species</td>
     </tr>
     </thead>
 
-        <% for (Guide g: guides) { %>
+    <% for (Guide g: guides) { %>
 
     <tr>
         <td><a href="guide?id=<%=g.getGuide_id()%>"><%=g.getGuide()%></a></td>
+        <td>Need to add Type</td>
+        <td>Need to add Subtype</td>
+        <td>Need to add Alias</td>
         <td><%=SFN.parse(g.getTargetLocus())%></td>
-        <td><%=SFN.parse(g.getDetectionMethod())%></td>
         <td><%=SFN.parse(g.getSpecies())%></td>
-        <td><%=SFN.parse(g.getSource())%></td>
     </tr>
         <% } %>
 </table>

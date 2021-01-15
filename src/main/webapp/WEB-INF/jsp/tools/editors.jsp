@@ -51,16 +51,13 @@
 
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
-        <th>Symbol</th>
+        <th>Name</th>
         <th>Type</th>
         <th>Subtype</th>
-        <th>Variant</th>
-        <th>Species</th>
-        <th>PAM Preference</th>
-        <th>Fusion</th>
+        <th>Alias</th>
+        <th>Origin Species</th>
         <th>Activity</th>
-        <th>DSB Cleavage Type</th>
-        <th>Protein Format</th>
+        <th>Cleavage Type</th>
         <th>Source</th>
 
     </tr>
@@ -71,13 +68,10 @@
         <td><a href="editor?id=<%=editor.getId()%>"><%=editor.getSymbol()%></a></td>
         <td><%=editor.getType()%></td>
         <td><%=editor.getSubType()%></td>
-        <td><%=editor.getEditorVariant()%></td>
+        <td><%=editor.getAlias()%></td>
         <td><%=editor.getSpecies()%></td>
-        <td><%=editor.getPamPreference()%></td>
-        <td><%=editor.getFusion()%></td>
         <td><%=editor.getActivity()%></td>
         <td><%=editor.getDsbCleavageType()%></td>
-        <td><%=SFN.parse(editor.getProteinFormat())%></td>
         <td><%=editor.getSource()%></td>
 
     </tr>
