@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
+<%@ page import="edu.mcw.scge.datamodel.ExperimentRecord" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -38,7 +39,7 @@
 
 <div>
     <%
-        List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
+        List<ExperimentRecord> experimentRecords = (List<ExperimentRecord>) request.getAttribute("experimentRecords");
         Study study = (Study) request.getAttribute("study");
         //out.println(experiments.size());
     %>
@@ -61,18 +62,25 @@
     <thead>
     <tr>
     <th>Name</th>
-    <th>Type</th>
-        <th>SCGE ID</th>
+        <th>Editor</th>
+        <th>Model</th>
+        <th>Delivery System</th>
+        <th>Vector</th>
+        <th>Guide</th>
     </tr>
     </thead>
 
-        <% for (Experiment exp: experiments) { %>
+        <% for (ExperimentRecord exp: experimentRecords) { %>
 
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
-        <td><a href="/toolkit/data/experiments/record/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td>
-        <td><%=exp.getType()%></td>
-        <td><%=exp.getExperimentId()%></td>
+
+        <td><a href="/toolkit/data/studies/search/results/<%=exp.getExperimentId()%>"><%=SFN.parse(exp.getExperimentName())%></a></td>
+        <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=SFN.parse(exp.getEditorSymbol())%></a></td>
+        <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
+        <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
+        <td></td>
+        <td><a href="/toolkit/data/guide/guide?id=<%=exp.getGuideId()%>"><%=SFN.parse(exp.getGuide())%></a></td>
     </tr>
         <% } %>
 </table>
