@@ -39,8 +39,8 @@ public class GuideController {
         req.setAttribute("studies", studies);
 
         ExperimentDao experimentDao= new ExperimentDao();
-        List<Experiment> experiments = experimentDao.getExperimentsByGuide(guide.getGuide_id());
-        req.setAttribute("experiments",experiments);
+        List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByGuide(guide.getGuide_id());
+        req.setAttribute("experimentRecords",experimentRecords);
 
         EditorDao editorDao = new EditorDao();
         List<Editor> editors = editorDao.getEditorByGuide(guide.getGuide_id());

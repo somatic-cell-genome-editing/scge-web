@@ -6,6 +6,7 @@ import edu.mcw.scge.dao.implementation.ModelDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Editor;
 import edu.mcw.scge.datamodel.Experiment;
+import edu.mcw.scge.datamodel.ExperimentRecord;
 import edu.mcw.scge.datamodel.Study;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,8 +45,8 @@ public class ModelController {
         req.setAttribute("studies", studies);
 
         ExperimentDao experimentDao= new ExperimentDao();
-        List<Experiment> experiments = experimentDao.getExperimentsByModel(mod.getModelId());
-        req.setAttribute("experiments",experiments);
+        List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByModel(mod.getModelId());
+        req.setAttribute("experimentRecords",experimentRecords);
 
 
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);

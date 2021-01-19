@@ -1,6 +1,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.Guide" %>
+<%@ page import="edu.mcw.scge.datamodel.Editor" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -42,32 +43,37 @@
     });
 </script>
 
-<% List<Guide> relatedGuides = (List<Guide>) request.getAttribute("guides"); %>
+<% List<Guide> relatedGuides = (List<Guide>) request.getAttribute("guides");
+   System.out.println(relatedGuides.size());
+   Editor editor = (Editor) request.getAttribute("editor");
+
+
+%>
 
 
 <div>
     <div>
         <table  style="width:80%">
 
-            <tr ><td class="header" ><strong>Symbol</strong></td><td>${editor.symbol}</td></tr>
-            <tr ><td class="header"><strong>Type</strong></td><td>${editor.type}</td></tr>
-            <tr ><td class="header"><strong>Subtype</strong></td><td>${editor.subType}</td></tr>
-            <tr ><td class="header"><strong>Alias</strong></td><td>${editor.alias}</td></tr>
-            <tr ><td class="header"><strong>Species</strong></td><td>${editor.species}</td></tr>
+            <tr ><td class="header" ><strong>Symbol</strong></td><td><%=editor.getSymbol()%></td></tr>
+            <tr ><td class="header"><strong>Type</strong></td><td><%=editor.getType()%></td></tr>
+            <tr ><td class="header"><strong>Subtype</strong></td><td><%=editor.getSubType()%></td></tr>
+            <tr ><td class="header"><strong>Alias</strong></td><td><%=editor.getAlias()%></td></tr>
+            <tr ><td class="header"><strong>Species</strong></td><td><%=editor.getSpecies()%></td></tr>
 
         </table>
         <hr>
         <table style="width:80%">
 
-        <tr ><td class="header"><strong>PAM Preference</strong></td><td>${editor.pamPreference}</td></tr>
-            <tr ><td class="header"><strong>Variant</strong></td><td>${editor.editorVariant}</td></tr>
-            <tr ><td class="header"><strong>Substrate Target</strong></td><td>${editor.substrateTarget}</td></tr>
-            <tr ><td class="header"><strong>Overhang</strong></td><td>${editor.overhang}</td></tr>
-            <tr ><td class="header"><strong>Fusion</strong></td><td>${editor.fusion}</td></tr>
+        <tr ><td class="header"><strong>PAM Preference</strong></td><td><%=editor.getPamPreference()%></td></tr>
+            <tr ><td class="header"><strong>Variant</strong></td><td><%=editor.getEditorVariant()%></td></tr>
+            <tr ><td class="header"><strong>Substrate Target</strong></td><td><%=editor.getSubstrateTarget()%></td></tr>
+            <tr ><td class="header"><strong>Overhang</strong></td><td><%=editor.getOverhang()%></td></tr>
+            <tr ><td class="header"><strong>Fusion</strong></td><td><%=editor.getFusion()%></td></tr>
 
-            <tr ><td class="header"><strong>Activity</strong></td><td>${editor.activity}</td></tr>
-            <tr ><td class="header"><strong>DSB Cleavage Type</strong></td><td>${editor.dsbCleavageType}</td></tr>
-            <tr ><td class="header"><strong>Protein Format</strong></td><td>${editor.proteinFormat}</td></tr>
+            <tr ><td class="header"><strong>Activity</strong></td><td><%=editor.getActivity()%></td></tr>
+            <tr ><td class="header"><strong>DSB Cleavage Type</strong></td><td><%=editor.getDsbCleavageType()%></td></tr>
+            <tr ><td class="header"><strong>Protein Format</strong></td><td><%=editor.getProteinFormat()%></td></tr>
         </table>
         <hr>
         <table style="width:80%">
@@ -81,10 +87,10 @@
         </table>
         <hr>
         <table style="width:80%">
-            <tr ><td class="header"><strong>Note</strong></td><td>${editor.note}</td></tr>
-            <tr ><td class="header"><strong>Add Gene</strong></td><td><a href="${editor.addGeneLink}">${editor.addGeneLink}</a></td></tr>
-            <tr ><td class="header"><strong>Source</strong></td><td>${editor.source}</td></tr>
-            <tr ><td class="header"><strong>Editor ID</strong></td><td>${editor.id}</td></tr>
+            <tr ><td class="header"><strong>Note</strong></td><td><%=editor.getNote()%></td></tr>
+            <tr ><td class="header"><strong>Add Gene</strong></td><td><a href="<%=editor.getAddGeneLink()%>"><%=editor.getAddGeneLink()%></a></td></tr>
+            <tr ><td class="header"><strong>Source</strong></td><td><%=editor.getSource()%></td></tr>
+            <tr ><td class="header"><strong>Editor ID</strong></td><td><%=editor.getId()%></td></tr>
         </table>
     </div>
     <hr>

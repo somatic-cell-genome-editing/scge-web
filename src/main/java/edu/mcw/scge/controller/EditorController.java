@@ -48,8 +48,8 @@ public class EditorController {
         req.setAttribute("studies", studies);
 
         ExperimentDao experimentDao= new ExperimentDao();
-        List<Experiment> experiments = experimentDao.getExperimentsByEditor(editor.getId());
-        req.setAttribute("experiments",experiments);
+        List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByEditor(editor.getId());
+        req.setAttribute("experimentRecords",experimentRecords);
 
         GuideDao guideDao = new GuideDao();
         List<Guide> guides = guideDao.getGuidesByEditor(editor.getId());
