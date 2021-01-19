@@ -52,20 +52,18 @@
         <th>Name</th>
         <th>Type</th>
         <th>Subtype</th>
-        <th>NP Size</th>
-        <th>Lab</th>
+        <th>Alias</th>
+        <th>SCGE ID</th>
     </tr>
     </thead>
 
-        <% for (Delivery d: systems) { %>
-
+    <% for (Delivery d: systems) { %>
     <tr>
         <td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=d.getName()%></a></td>
         <td><%=d.getType()%></td>
         <td><%=d.getSubtype()%></td>
-        <td><%=SFN.parse(d.getNpSize())%></td>
-        <td><%=SFN.parse(d.getLabId())%></td>
+        <td>???</td>
+        <td><%=d.getId()%></td>
     </tr>
         <% } %>
 </table>
-<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->

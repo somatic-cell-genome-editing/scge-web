@@ -55,25 +55,36 @@
     <div>
         <table  style="width:80%">
 
-            <tr ><td class="header" ><strong>Symbol</strong></td><td><%=editor.getSymbol()%></td></tr>
+            <tr ><td class="header"><strong>SCGE ID</strong></td><td><%=editor.getId()%></td></tr>
+            <tr ><td class="header" ><strong>Name</strong></td><td><%=editor.getSymbol()%></td></tr>
+            <tr ><td class="header" ><strong>Description</strong></td><td>???</td></tr>
             <tr ><td class="header"><strong>Type</strong></td><td><%=editor.getType()%></td></tr>
             <tr ><td class="header"><strong>Subtype</strong></td><td><%=editor.getSubType()%></td></tr>
             <tr ><td class="header"><strong>Alias</strong></td><td><%=editor.getAlias()%></td></tr>
-            <tr ><td class="header"><strong>Species</strong></td><td><%=editor.getSpecies()%></td></tr>
 
         </table>
         <hr>
         <table style="width:80%">
 
-        <tr ><td class="header"><strong>PAM Preference</strong></td><td><%=editor.getPamPreference()%></td></tr>
+            <tr ><td class="header"><strong>Origin Species</strong></td><td><%=editor.getSpecies()%></td></tr>
+            <tr ><td class="header"><strong>PAM</strong></td><td><%=editor.getPamPreference()%></td></tr>
             <tr ><td class="header"><strong>Variant</strong></td><td><%=editor.getEditorVariant()%></td></tr>
-            <tr ><td class="header"><strong>Substrate Target</strong></td><td><%=editor.getSubstrateTarget()%></td></tr>
-            <tr ><td class="header"><strong>Overhang</strong></td><td><%=editor.getOverhang()%></td></tr>
-            <tr ><td class="header"><strong>Fusion</strong></td><td><%=editor.getFusion()%></td></tr>
-
             <tr ><td class="header"><strong>Activity</strong></td><td><%=editor.getActivity()%></td></tr>
-            <tr ><td class="header"><strong>DSB Cleavage Type</strong></td><td><%=editor.getDsbCleavageType()%></td></tr>
-            <tr ><td class="header"><strong>Protein Format</strong></td><td><%=editor.getProteinFormat()%></td></tr>
+            <tr ><td class="header"><strong>Cleavage Type</strong></td><td><%=editor.getDsbCleavageType()%></td></tr>
+
+
+        </table>
+        <hr>
+        <table style="width:80%">
+
+            <tr ><td class="header"><strong>Source</strong></td><td><%=editor.getSource()%></td></tr>
+            <tr ><td class="header"><strong>Stock/Catalog/RRID</strong></td><td></td></tr>
+        </table>
+        <hr>
+        <table style="width:80%">
+
+            <tr ><td class="header"><strong>Protein Sequence</strong></td><td>???</td></tr>
+
         </table>
         <hr>
         <table style="width:80%">
@@ -84,13 +95,6 @@
                     <% } %>
                 </td>
             </tr>
-        </table>
-        <hr>
-        <table style="width:80%">
-            <tr ><td class="header"><strong>Note</strong></td><td><%=editor.getNote()%></td></tr>
-            <tr ><td class="header"><strong>Add Gene</strong></td><td><a href="<%=editor.getAddGeneLink()%>"><%=editor.getAddGeneLink()%></a></td></tr>
-            <tr ><td class="header"><strong>Source</strong></td><td><%=editor.getSource()%></td></tr>
-            <tr ><td class="header"><strong>Editor ID</strong></td><td><%=editor.getId()%></td></tr>
         </table>
     </div>
     <hr>

@@ -52,27 +52,23 @@
 
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
-        <th>Model Type</th>
-        <th>Short Name</th>
         <th>Name</th>
-        <th>Organism</th>
-        <th>Transgene</th>
-        <th>Transgene Reporter</th>
-        <th>Genotype</th>
-        <!--<th>SCGE ID</th>-->
+        <th>Model Type</th>
+        <th>Subtype</th>
+        <th>Alias</th>
+        <th>Species</th>
+        <th>SCGE ID</th>
     </tr>
     </thead>
 <% for (Model model: models )  { %>
 
     <tr>
-        <td><%=model.getType()%></td>
         <td><a href="model/?id=<%=model.getModelId()%>"><%=SFN.parse(model.getShortName())%></a></td>
+        <td><%=model.getType()%></td>
+        <td><%=SFN.parse(model.getSubtype())%></td>
         <td><a href="model/?id=<%=model.getModelId()%>"><%=model.getName()%></a></td>
         <td><%=model.getOrganism()%></td>
-        <td><%=SFN.parse(model.getTransgene())%></td>
-        <td><%=SFN.parse(model.getTransgeneReporter())%></td>
-        <td><%=SFN.parse(model.getGenotype())%></td>
-        <!--<td><%=model.getModelId()%></td>-->
+        <td><%=model.getModelId()%></td>
     </tr>
 <% } %>
 </table>

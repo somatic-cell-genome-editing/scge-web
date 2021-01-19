@@ -55,6 +55,7 @@
     <td>Alias</td>
     <th>Target Locus</th>
     <td>Species</td>
+    <td>SCGE ID</td>
     </tr>
     </thead>
 
@@ -67,7 +68,7 @@
         <td>Need to add Alias</td>
         <td><%=SFN.parse(g.getTargetLocus())%></td>
         <td><%=SFN.parse(g.getSpecies())%></td>
+        <td><%=g.getGuide_id()%></td>
     </tr>
         <% } %>
 </table>
-<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->

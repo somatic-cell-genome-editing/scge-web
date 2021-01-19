@@ -59,7 +59,7 @@
         <th>Activity</th>
         <th>Cleavage Type</th>
         <th>Source</th>
-
+        <th>SCGE ID</th>
     </tr>
     </thead>
 
@@ -73,6 +73,7 @@
         <td><%=editor.getActivity()%></td>
         <td><%=editor.getDsbCleavageType()%></td>
         <td><%=editor.getSource()%></td>
+        <td><%=editor.getId()%></td>
 
     </tr>
 <% } %>

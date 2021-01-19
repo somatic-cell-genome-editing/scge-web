@@ -46,35 +46,29 @@
 <div>
     <div>
         <table  style="width:80%">
-
-
-            <tr><td class="header"><strong>Model Type</strong></td><td><%=m.getType()%></td></tr>
-            <tr><td class="header"><strong>Name</strong></td><td><%=m.getName()%></tr>
-            <tr><td class="header"><strong>Short Name</strong></td><td><%=SFN.parse(m.getShortName())%></td></tr>
+            <tr ><td class="header"><strong>SCGE ID</strong></td><td><%=m.getModelId()%></td></tr>
+            <tr><td class="header"><strong>Name</strong></td><td><%=m.getName()%></td></tr>
+            <tr><td class="header"><strong>Description</strong></td><td></td></tr>
+            <tr><td class="header"><strong>Type</strong></td><td><%=m.getType()%></td></tr>
             <tr><td class="header"><strong>Subtype</strong></td><td><%=SFN.parse(m.getSubtype())%></td></tr>
-            <tr><td class="header"><strong>Organism</strong></td><td><%=m.getOrganism()%></td></tr>
-            <tr><td class="header"><strong>GenoType</strong></td><td><%=SFN.parse(m.getGenotype())%></td></tr>
-            <tr><td class="header"><strong>Stock Number/Stable ID</strong></td><td><%=SFN.parse(m.getStockNumber())%></td></tr>
-
+            <tr><td class="header"><strong>Alias</strong></td><td></td></tr>
         </table>
         <hr>
-        <table style="width:80%">
 
+        <table style="width:80%">
+            <tr><td class="header"><strong>Parental&nbsp;Origin</strong></td><td>???</td></tr>
+            <tr><td class="header"><strong>Organism</strong></td><td><%=m.getOrganism()%></td></tr>
+            <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(m.getSource())%></td></tr>
+            <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><%=SFN.parse(m.getStockNumber())%> <%=SFN.parse(m.getRrid())%></td></tr>
+        </table>
+        <hr>
+
+        <table style="width:80%">
         <tr><td class="header"><strong>Age</strong></td><td><%=SFN.parse(m.getAge())%></td></tr>
             <tr><td class="header"><strong>Transgene</strong></td><td><%=SFN.parse(m.getTransgene())%></td></tr>
             <tr><td class="header"><strong>Transgene Description</strong></td><td><%=SFN.parse(m.getTransgeneDescription())%></td></tr>
-            <tr><td class="header"><strong>Transgene Reporter</strong></td><td><%=SFN.parse(m.getTransgeneReporter())%></td></tr>
-            <tr><td class="header"><strong>Reporter DB IDs</strong></td><td><%=SFN.parse(m.getReporterDbIds())%></td></tr>
-
-        </table>
-        <hr>
-        <table style="width:80%">
-            <tr><td class="header"><strong>Age Range</strong></td><td><%=SFN.parse(m.getAgeRange())%></td></tr>
-            <tr><td class="header"><strong>Sex</strong></td><td><%=SFN.parse(m.getSex())%></td></tr>
-            <tr><td class="header"><strong>RRID</strong></td><td><%=SFN.parse(m.getRrid())%></td></tr>
-            <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(m.getSource())%></td></tr>
-            <tr><td class="header"><strong>Annotated Map</strong></td><td><%=SFN.parse(m.getAnnotatedMap())%></td></tr>
-            <tr ><td class="header"><strong>Modle ID</strong></td><td><%=m.getModelId()%></td></tr>
+            <tr><td class="header"><strong>Reporter</strong></td><td><%=SFN.parse(m.getTransgeneReporter())%></td></tr>
+        <tr><td class="header"><strong>Annotated Map</strong></td><td><%=SFN.parse(m.getAnnotatedMap())%></td></tr>
 
         </table>
     </div>
