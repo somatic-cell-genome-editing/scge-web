@@ -104,6 +104,15 @@
 
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col-sm-3" ><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" class="tool-img" alt="" /></div>
+                <div class="col-sm-9" style="text-align: left" ><a href="/toolkit/data/vector/search"><span class="object-count"><%=sdao.getVectorCount()%></span>&nbsp;<strong>Vectors/Formats</strong></a></div>
+            </div>
+
+        </div>
+    </div>
 
 
 
