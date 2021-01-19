@@ -4,12 +4,7 @@ $(function() {
         theme : 'blue'
 
     });
-    $('input[name=tier]').on('change', function () {
-        var tier=$(this).val();
-        setParameters(studyId, tier)
-        enableSaveChanges(studyId, tier.trim());
 
-    })
 
 });
 var studyId;

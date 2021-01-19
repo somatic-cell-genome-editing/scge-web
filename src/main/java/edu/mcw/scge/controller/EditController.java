@@ -40,6 +40,7 @@ public class EditController {
                                HttpServletRequest req, HttpServletResponse res,
                                 RedirectAttributes redirectAttributes) throws Exception {
         // System.out.println("TIER: "+ tier+"\tSTUDY ID: "+ studyId);
+        System.out.println("TIER: "+ tier);
         System.out.println("JSON:"+ json);
         System.out.println("GROUP IDS JSON: "+ groupIdsJson);
         req.getSession().getAttribute("personId");

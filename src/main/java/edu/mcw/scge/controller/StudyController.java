@@ -66,44 +66,45 @@ public class StudyController {
         Experiment e = dao.getExperiment(experimentId);
 
         List<ExperimentRecord> records=dbService.getExperimentRecordById(experimentId);
-        if(records.size()>0){
-            ExperimentRecord r=  records.get(0);
-            edu.mcw.scge.datamodel.Model m= dbService.getModelById( e.getModelId());
-            List<ReporterElement> reporterElements=dbService.getReporterElementsByExpRecId(r.getExperimentRecId());
-            List<AnimalTestingResultsSummary> results=dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecId());
-            for(AnimalTestingResultsSummary s: results){
-                List<Sample> samples= dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
-                s.setSamples(samples  );
+        if(records.size()>0) {
+            for (ExperimentRecord r : records) {
+           //     ExperimentRecord r = records.get(0);
+                edu.mcw.scge.datamodel.Model m = dbService.getModelById(r.getModelId());
+                List<ReporterElement> reporterElements = dbService.getReporterElementsByExpRecId(r.getExperimentRecordId());
+                List<AnimalTestingResultsSummary> results = dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecordId());
+                for (AnimalTestingResultsSummary s : results) {
+                    List<Sample> samples = dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
+                    s.setSamples(samples);
+                }
+                List<Delivery> deliveryList = dbService.getDeliveryVehicles(r.getDeliverySystemId());
+                List<ApplicationMethod> applicationMethod = dbService.getApplicationMethodsById(r.getApplicationMethodId());
+                req.setAttribute("applicationMethod", applicationMethod);
+                req.setAttribute("deliveryList", deliveryList);
+                req.setAttribute("experiment", e);
+                req.setAttribute("experimentRecords", r);
+                req.setAttribute("model", m);
+                req.setAttribute("reporterElements", reporterElements);
+                req.setAttribute("results", results);
+                List<String> regionList = new ArrayList<>();
+                StringBuilder json = new StringBuilder();
+                json.append("[");
+                for (AnimalTestingResultsSummary s : results) {
+                    regionList.add(s.getTissueTerm().trim());
+                    int value = Integer.parseInt(s.getSignalPresent());
+                    json.append("{\"sample\":\"");
+                    json.append("A" + "\",");
+                    json.append("\"gene\":\"" + s.getTissueTerm() + "\",");
+                    json.append("\"value\":" + value + "},");
+                    //     System.out.print(matrix[i][j]+"\t");
+                }
+                json.append("]");
+                Gson gson = new Gson();
+                String regionListJson = gson.toJson(regionList);
+                req.setAttribute("regionListJson", regionListJson);
+                req.setAttribute("json", json);
             }
-            List<Delivery> deliveryList=dbService.getDeliveryVehicles(e.getDeliverySystemId());
-            List<ApplicationMethod> applicationMethod=dbService.getApplicationMethodsById(r.getApplicationMethodId());
-            req.setAttribute("applicationMethod", applicationMethod);
-            req.setAttribute("deliveryList", deliveryList);
-            req.setAttribute("experiment",e);
-            req.setAttribute("experimentRecords",r);
-            req.setAttribute("model", m);
-            req.setAttribute("reporterElements", reporterElements);
-            req.setAttribute("results", results);
-            List<String> regionList=new ArrayList<>();
-            StringBuilder json=new StringBuilder();
-            json.append("[");
-            for(AnimalTestingResultsSummary s:results){
-                regionList.add(s.getTissueTerm().trim());
-                int value= Integer.parseInt(s.getSignalPresent());
-                json.append("{\"sample\":\"");
-                json.append("A"+"\",");
-                json.append("\"gene\":\""+s.getTissueTerm()+"\",");
-                json.append("\"value\":"+value+"},");
-                //     System.out.print(matrix[i][j]+"\t");
-            }
-            json.append("]");
-            Gson gson=new Gson();
-            String regionListJson=gson.toJson(regionList);
-            req.setAttribute("regionListJson",regionListJson);
-            req.setAttribute("json", json);
+            //    System.out.println("RECORDS SIZE:"+records.size());
         }
-        //    System.out.println("RECORDS SIZE:"+records.size());
-
         //
         req.setAttribute("action", "Experiment Report");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");

@@ -146,7 +146,7 @@ public class LoginController{
             service.addTier2Associations(studies);
             Map<Integer, Integer> tierUpdateMap=service.getTierUpdate(studies);
             req.setAttribute("studies", studies);
-            req.setAttribute("tierUpdatesMap", tierUpdateMap);
+            req.setAttribute("tierUpdateMap", tierUpdateMap);
             return "base";
         }else{
             message = name+" Your request is under processing. You will receive a confirmation email shortly.";

@@ -3,6 +3,7 @@
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.util.Map" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -44,7 +45,10 @@
 </script>
 <script src="/toolkit/js/edit.js"></script>
 
-<% List<Study> studies = (List<Study>) request.getAttribute("studies"); %>
+<% List<Study> studies = (List<Study>) request.getAttribute("studies");
+    Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
+
+%>
 
 
 
@@ -57,9 +61,7 @@
             <th>Action</th>
             <th>Tier</th>
         </c:if>
-
         <th>Name</th>
-        <th>Type</th>
         <th>Laboratory</th>
         <th>Contact PI</th>
         <th>Raw Data</th>
@@ -78,7 +80,14 @@
         <td>
             <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="edit/access">
                 <div class="col  tiers">
-                    <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>
+                    <% int tier=0;
+                        if(tierUpdateMap.get(s.getStudyId())!=null){
+                         tier=tierUpdateMap.get(s.getStudyId());
+                        }
+                        else
+                            tier=s.getTier();
+                   %>
+                    <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=tier%>"/>
                     <input type="hidden" name="studyId" id="study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>
                     <input type="hidden" name="groupMembersjson" id="study-<%=s.getStudyId()%>-json"/>
                     <input type="hidden" name="groupIdsJson" id="study-<%=s.getStudyId()%>-groupIdsJson"/>
@@ -107,6 +116,13 @@
                             $($div).show()
                         }
                        $('input:radio[name="tier<%=s.getStudyId()%>"]').filter('[value=<%=s.getTier()%>]').attr('checked', true)
+
+                        $('input[name=tier<%=s.getStudyId()%>]').on('change', function () {
+                            var tier=$(this).val();
+                            setParameters(studyId, tier)
+                            enableSaveChanges(studyId, tier.trim());
+
+                        })
                     })
                     function enableGroupSelect(studyId, tier){
                         var selectBtn='#groupSelect-study'+studyId
@@ -187,7 +203,6 @@
             </td>
     </c:if>
         <td><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
-        <td><%=s.getType()%></td>
         <td><%=s.getLabName()%></td>
         <td><%=s.getPi()%></td>
         <td><a href="<%=s.getRawData()%>">[Download]</a></td>
