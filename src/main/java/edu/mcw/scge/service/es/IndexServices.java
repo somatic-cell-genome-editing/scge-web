@@ -3,6 +3,9 @@ package edu.mcw.scge.service.es;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.DisMaxQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -10,13 +13,39 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 
+import javax.management.Query;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class IndexServices {
+    public SearchResponse getSearchResults(String category, String searchTerm) throws IOException {
+
+        SearchSourceBuilder srb=new SearchSourceBuilder();
+
+        srb.query(this.buildBoolQuery(category, searchTerm));
+        srb.aggregation(this.buildSearchAggregations("category"));
+        srb.highlighter(this.buildHighlights());
+        srb.size(1000);
+        SearchRequest searchRequest=new SearchRequest("scge_search_dev");
+        searchRequest.source(srb);
+
+        return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+
+    }
+    public HighlightBuilder buildHighlights(){
+        List<String> fields=new ArrayList<>(Arrays.asList(
+               "name", "type", "subType","aliases","experimentalTags","externalId","symbol",
+                "species","pam","description","site", "detectionMethod","sequence","target"
+        ));
+        HighlightBuilder hb=new HighlightBuilder();
+        for(String field:fields){
+            hb.field(field);
+        }
+        return hb;
+    }
+
     public SearchResponse getSearchResponse() throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
@@ -41,6 +70,22 @@ public class IndexServices {
         }
         return aggs;
     }
+    public AggregationBuilder buildSearchAggregations(String fieldName){
+        AggregationBuilder aggs= null;
+        if(fieldName==null)
+            fieldName="category";
+        aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
+                .order(BucketOrder.key(true));
+
+        return aggs;
+    }
+    public  Map<String, List<Terms.Bucket>> getSearchAggregations(SearchResponse sr){
+        Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
+        Terms categoryAggs=sr.getAggregations().get("category");
+        aggregations.put("categoryAggs", (List<Terms.Bucket>) categoryAggs.getBuckets());
+
+        return aggregations;
+    }
     public  Map<String, List<Terms.Bucket>> getAggregations(SearchResponse sr){
         Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
         Terms editorAggs=sr.getAggregations().get("editor");
@@ -56,4 +101,25 @@ public class IndexServices {
         }*/
         return aggregations;
     }
+
+    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm){
+        BoolQueryBuilder q=new BoolQueryBuilder();
+        q.must(buildQuery(category,searchTerm));
+        if(category!=null){
+            q.filter(QueryBuilders.termQuery("category.keyword",category));
+        }
+        return q;
+    }
+    public QueryBuilder buildQuery(String category,String searchTerm){
+        DisMaxQueryBuilder q=new DisMaxQueryBuilder();
+        if(searchTerm!=null && !searchTerm.equals("")) {
+            q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
+                    "description", "experimentalTags", "externalId", "aliases",
+                    "target", "species", "site", "sequence", "pam", "detectionMethod","target"));
+        }else{
+            q.add(QueryBuilders.matchAllQuery());
+        }
+        return q;
+    }
+
 }
