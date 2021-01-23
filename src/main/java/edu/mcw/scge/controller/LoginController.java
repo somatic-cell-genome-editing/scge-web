@@ -104,7 +104,7 @@ public class LoginController{
 
         String userStatus = pdao.getPersonStatus(client.getPrincipalName());
      //   if(userStatus.equalsIgnoreCase("approved"))
-            if(userStatus.equalsIgnoreCase("active")){
+            if(userStatus!=null && userStatus.equalsIgnoreCase("active")){
          //   req.getSession().setAttribute("token",client.getAccessToken().getTokenValue());
             List<Person> persons = pdao.getPersonByGoogleId(client.getPrincipalName());
             int personId=0;
@@ -178,16 +178,22 @@ public class LoginController{
             Map userAttributes = response.getBody();
             model.addAttribute("name", userAttributes.get("name"));
             String name = (String) userAttributes.get("name");
-            verifyUserExists(client.getPrincipalName(), userAttributes.get("email").toString());
-            String userStatus = pdao.getPersonStatus(client.getPrincipalName());
+            boolean userExists = verifyUserExists(client.getPrincipalName(), userAttributes.get("email").toString());
+            System.out.println("USER EXISTS:" + userExists);
+            if (userExists) {
+                String userStatus = pdao.getPersonStatus(client.getPrincipalName());
 
-         //   if (userStatus.equalsIgnoreCase("approved")) {
-            if (userStatus.equalsIgnoreCase("active")) {
-                HttpSession session = req.getSession(true);
-                session.setAttribute("userName", name);
-                session.setAttribute("userAttributes", userAttributes);
-                req.setAttribute("userName", name);
-                return "redirect:/loginSuccess";
+                //   if (userStatus.equalsIgnoreCase("approved")) {
+                if (userStatus.equalsIgnoreCase("active")) {
+                    HttpSession session = req.getSession(true);
+                    session.setAttribute("userName", name);
+                    session.setAttribute("userAttributes", userAttributes);
+                    req.setAttribute("userName", name);
+                    return "redirect:/loginSuccess";
+                }
+            }else{
+                req.setAttribute("message","Please contact SCGE admin and register your google id");
+                return "redirect:/";
             }
         }
        return "home2";

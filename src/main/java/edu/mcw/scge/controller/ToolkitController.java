@@ -81,13 +81,13 @@ public class ToolkitController {
         if(records.size()>0){
           ExperimentRecord r=  records.get(0);
           edu.mcw.scge.datamodel.Model m= dbService.getModelById( r.getModelId());
-           List< ReporterElement> reporterElements=dbService.getReporterElementsByExpRecId(r.getExperimentRecId());
-           List<AnimalTestingResultsSummary> results=dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecId());
+           List< ReporterElement> reporterElements=dbService.getReporterElementsByExpRecId(r.getExperimentRecordId());
+           List<AnimalTestingResultsSummary> results=dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecordId());
            for(AnimalTestingResultsSummary s: results){
                List<Sample> samples= dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
                s.setSamples(samples  );
            }
-           List<Delivery> deliveryList=dbService.getDeliveryVehicles(r.getDeliveryId());
+           List<Delivery> deliveryList=dbService.getDeliveryVehicles(r.getDeliverySystemId());
            List<ApplicationMethod> applicationMethod=dbService.getApplicationMethodsById(r.getApplicationMethodId());
             req.setAttribute("applicationMethod", applicationMethod);
             req.setAttribute("deliveryList", deliveryList);
