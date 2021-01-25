@@ -30,7 +30,7 @@ public class ToolkitController {
    IndexServices services=new IndexServices();
     DBService dbService=new DBService();
     GroupDAO gdao=new GroupDAO();
-    @GetMapping(value="/home")
+    @GetMapping(value="")
     public String getToolKitHome(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
         req.setAttribute("action", "Toolkit");
         req.setAttribute("page", "/WEB-INF/jsp/tools/home");
