@@ -43,12 +43,16 @@
     <tr>
         <td align="center"><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" border="0"/></td>
         <td align="center">
+            <div class="input-group" >
             <form action="/toolkit/data/search/results"  class="form-inline my-2 my-lg-0">
+
                 <input size=60 class="form-control "  name="searchTerm" type="search" placeholder="Search SCGE (Models, Editors, Delivery, Guides)" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                <br>
-                <small><a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a></small>
+
             </form>
+            </div>
+            <small class="form-text text-muted">Examples:&nbsp;<a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a></small>
+
         </td>
     </tr>
 </table>

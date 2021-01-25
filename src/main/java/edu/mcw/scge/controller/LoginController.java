@@ -114,7 +114,8 @@ public class LoginController{
             session.setAttribute("userAttributes",userAttributes);
             session.setAttribute("personId", personId);
             req.setAttribute("destination", "base");
-            req.setAttribute("page", "/WEB-INF/jsp/dashboard");
+      //      req.setAttribute("page", "/WEB-INF/jsp/dashboard");
+                req.setAttribute("page", "/WEB-INF/jsp/tools/home");
             model.addAttribute("message", req.getParameter("message"));
             model.addAttribute("status", req.getParameter("status"));
       //  return"redirect:/secure/success"+ "?status=" + userStatus + "&message=" + message+"&destination=base";
@@ -182,8 +183,6 @@ public class LoginController{
             System.out.println("USER EXISTS:" + userExists);
             if (userExists) {
                 String userStatus = pdao.getPersonStatus(client.getPrincipalName());
-
-                //   if (userStatus.equalsIgnoreCase("approved")) {
                 if (userStatus.equalsIgnoreCase("active")) {
                     HttpSession session = req.getSession(true);
                     session.setAttribute("userName", name);
@@ -218,4 +217,6 @@ public class LoginController{
         tiers.add("4");
         return tiers;
     }
+
+
 }
