@@ -1,97 +1,190 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: jthota
-  Date: 9/9/2019
-  Time: 12:10 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<style>
-    h4{
-        color:grey;
-    }
-</style>
+<link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/dashboard/">
 
-<!--div class="container" style="align-content: center;text-align: center">
+
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-2" style="text-align: center">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="getMainContent('home')">
+                            <span data-feather="home"></span>
+                            Dashboard <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file"></span>
+                            My Submissions
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file"></span>
+                            All Submissions
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="users"></span>
+                            My Group
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="users"></span>
+                            Working Groups
+                        </a>
+                    </li>
+                    <!--li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="bar-chart-2"></span>
+                            Reports
+                        </a>
+                    </li-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="layers"></span>
+                            Consortium Groups
+                        </a>
+                    </li>
+                </ul>
 
-        </div>
-        <div class="col-md-2" style="text-align: center">
-            <a href="data/animalReporter" style="text-decoration: none">
-            <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/mouse.png" width="75" height="75" alt="" />
-            <div style="text-align: center;"><p >Animal Reporter and Testing Centers Data</p></div>
-            </a>
-        </div>
-        <div class="col-md-2" style="text-align: center">
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Resources</span>
+                    <a class="d-flex align-items-center text-muted" href="#">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file-text"></span>
+                            Upload Docs..
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file-text"></span>
+                            Submit Data ..
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file-text"></span>
+                            Point of Contacts
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file-text"></span>
+                            Forms
+                        </a>
+                    </li>
 
-            <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/biological-rev.png" width="75" height="75" alt="" />
-            <div style="text-align: center;"><p>Biological Effects</p></div>
+                </ul>
+            </div>
+        </nav>
 
-        </div>
-        <div class="col-md-2" style="text-align: center">
-            <a href="toolkit/delivery/search">
-            <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="75" height="75" alt="" />
-            <div style="text-align: center;"><p>Delivery Systems Data</p></div>
-            </a>
-        </div>
-        <div class="col-md-2" style="text-align: center">
-            <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="75" height="75" alt="" />
-            <div style="text-align: center;"><p>Genome Editor Data</p></div>
-        </div>
-    </div>
-      </div-->
-
-<!--div  class="form-inline container">
-<div class="panel panel-default" >
-    <%--@include file="dashboardElements/myGroupAssociations.jsp"--%>
-   <%--@include file="dashboardElements/workingGroups.jsp"--%>
-</div>
-    <div class="panel panel-default" >
-        <%--@include file="dashboardElements/consortiumGroups.jsp"--%>
-    </div>
-
-</div-->
-<div class="container-fluid wrapper">
-    <div>
-        <c:if test="${tier!=null && tier!=''}">
-            <p style="color:green">Selected study tier changed to TIER ${tier}</p>
-        </c:if>
-        <!--p style="color:green;font-weight: bold">$-{message} </p-->
-        <div class="row">
-
-            <div class="col-lg-10">
-                <div><p style="color:steelblue;font-weight: bold;font-size: 20px">Submissions: ${fn:length(studies)}</p></div>
-
-                <%@include file="tools/studies.jsp"%>
-                <!--div class="card ">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <h4 style="color:steelblue">Studies pending PI action</h4>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <%--@include file="dashboardElements/pendingPIAction.jsp"--%>
-                    </div>
-                </div-->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Dashboard</h1>
             </div>
 
-            <div class="card sidebar-wrapper col-lg-2" style="background-color:#ffffff">
-                <div class="sidebarItemDiv">
-            <%@include file="dashboardElements/myGroupAssociations.jsp"%>
-                </div>
-                <!--div class="sidebarItemDiv">
-            <%--@include file="dashboardElements/workingGroups.jsp"--%>
-                </div-->
-                <div class="sidebarItemDiv">
-                <%@include file="dashboardElements/consortiumGroups.jsp"%>
-                </div>
-            </div>
+            <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
-        </div>
-
+            <h2>Submissions</h2>
+            <%@include file="dashboardElements/studies.jsp"%>
+        </main>
     </div>
 </div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!--script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script-->
+<!--script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="../../assets/js/vendor/popper.min.js"></script>
+<script src="../../dist/js/bootstrap.min.js"></script-->
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace()
+</script>
+
+<!-- Graphs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Delivery", "Editor", "SATC", "LATC", "Biological Effects"],
+            datasets: [{
+                label: '# of Submissions',
+                data: [12, 19, 3, 5, 2],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255,99,132,1)',
+                borderWidth: 1
+            },
+                {
+                    label: "Tier-1",
+                    backgroundColor:  'rgba(54, 162, 235, 0.2)',
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderWidth: 1,
+                    data: [6,9,7,3,10]
+                },
+                {
+                    label: "Tier-2",
+                    backgroundColor: "rgba(255, 206, 86, 0.2)",
+                    borderColor:  'rgba(255, 206, 86, 1)',
+                    borderWidth: 1,
+                    data: [3,10,7,4,6]
+                },
+                {
+                    label: "Tier-3",
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor:  'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    data: [7,3,10,7,4]
+                },
+                {
+                    label: "Tier-4",
+                    backgroundColor:   'rgba(153, 102, 255, 0.2)',
+                    borderColor:    'rgba(153, 102, 255, 1)',
+                    borderWidth: 1,
+                    data: [6,10,7,4,6]
+                }
+            ]
+        },
+        options: {
+            responsive: false,
+            scales: {
+                xAxes: [{
+
+                    gridLines: {
+                        offsetGridLines: true // à rajouter
+                    }
+                },
+                   ],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    function getMainContent(content){
+        var  $contentDiv=$('#mainContent');
+        var  $tmp=$contentDiv.html();
+        var url;
+        url="/toolkit/data/search/studies/"
+
+        $.get(url, function (data, status) {
+            $contentDiv.html(data);
+        })
+    }
+</script>
 
