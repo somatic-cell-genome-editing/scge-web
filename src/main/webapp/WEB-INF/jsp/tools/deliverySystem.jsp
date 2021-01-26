@@ -54,8 +54,8 @@
         <table style="width:80%">
 
 
-                <tr><td class="header"><strong>Genome&nbsp;Serotype</strong></td><td><%=SFN.parse(d.getVvGenomeSerotype())%></td></tr>
-                <tr><td class="header"><strong>Capsid&nbsp;Serotype</strong></td><td><%=SFN.parse(d.getVvCapsidSerotype())%></td></tr>
+                <!--tr><td class="header"><strong>Genome&nbsp;Serotype</strong></td><td><%--=SFN.parse(d.getVvGenomeSerotype())--%></td></tr>
+                <tr><td class="header"><strong>Capsid&nbsp;Serotype</strong></td><td><%--=SFN.parse(d.getVvCapsidSerotype())--%></td></tr-->
             <% } %>
 
 
@@ -64,8 +64,8 @@
         <table style="width:80%">
             <tr><td class="header"><strong>Annotated&nbsp;Map</strong></td><td><%=SFN.parse(d.getAnnotatedMap())%></td></tr>
             <tr><td class="header"><strong>Lab&nbsp;ID</strong></td><td><%=SFN.parse(d.getLabId())%></td></tr>
-            <tr><td class="header"><strong>Capsid&nbsp;Variant</strong></td><td><%=SFN.parse(d.getVvCapsidVariant())%></td></tr>
-            <tr><td class="header"><strong>Titer&nbsp;Method</strong></td><td><%=SFN.parse(d.getTiterMethod())%></td></tr>
+            <!--tr><td class="header"><strong>Capsid&nbsp;Variant</strong></td><td><%--=SFN.parse(d.getVvCapsidVariant())--%></td></tr>
+            <tr><td class="header"><strong>Titer&nbsp;Method</strong></td><td><%--=SFN.parse(d.getTiterMethod())--%></td></tr-->
             <tr><td class="header"><strong>RRID</strong></td><td><%=SFN.parse(d.getRrid())%></td></tr>
             <tr><td class="header"><strong>NP&nbsp;Size</strong></td><td><%=SFN.parse(d.getNpSize())%></td></tr>
             <tr><td class="header"><strong>Mol&nbsp;Targeting&nbsp;Agent</strong></td><td><%=SFN.parse(d.getMolTargetingAgent())%></td></tr>

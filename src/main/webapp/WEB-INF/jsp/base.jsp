@@ -97,168 +97,136 @@ Goals"/>
     .nav-link:hover{
         background-color: #5aabd6;
     }
+    #searchBarNav{
+        background:linear-gradient(to bottom, white 0%, #e6f0fc 100%);
+        background-color: #e6f0fc;
+        align-content: center;
+        text-align: center;
+        height:80px
+    }
  </style>
 </head>
 
 <body>
 <div id="wrapper" class="fusion-wrapper">
     <div id="home" style="position:relative;top:-1px;"></div>
-
-        <div class="fusion-header-v3 fusion-logo-alignment fusion-logo-left fusion-sticky-menu- fusion-sticky-logo- fusion-mobile-logo-  fusion-mobile-menu-design-modern">
-
-            <div class="fusion-secondary-header">
-                <div class="fusion-row">
-                    <div class="fusion-alignleft">
-                        <div class="fusion-contact-info"><span class="fusion-contact-info-phone-number"></span><span class="fusion-contact-info-email-address"><a href="mailto:s&#99;g&#101;&#64;&#109;&#99;&#119;&#46;e&#100;&#117;">s&#99;g&#101;&#64;&#109;&#99;&#119;&#46;e&#100;&#117;</a></span></div>
-
-                    </div>
-
-
-                    <div style="float:right">
-
-                        <!--div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div-->
-                        <div id="navbar">
-
-                            <span class="navbar-text navbar-right">
-
-                                <!-- using pageContext requires jsp-api artifact in pom.xml -->
-                                <c:choose>
-                                    <c:when test="${userName!=null}">
-                                        Logged in as:<img class="img-circle" src="${userImageUrl}" width="24">
-
-                                        ${userName}&nbsp;
-                                        <a href="/toolkit/logout" title="Sign out"><button class="btn btn-primary">Logout</button></a>
-
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a href="/toolkit/login/google">Google Login</a>
-                                    </c:otherwise>
-                                </c:choose>
-
-                            </span>
-
-                        </div>
-
+    <div class="fusion-header-v3 fusion-logo-alignment fusion-logo-left fusion-sticky-menu- fusion-sticky-logo- fusion-mobile-logo-  fusion-mobile-menu-design-modern">
+        <div class="fusion-secondary-header">
+            <div class="fusion-row">
+                <div class="fusion-alignleft">
+                    <div class="fusion-contact-info"><span class="fusion-contact-info-phone-number"></span><span class="fusion-contact-info-email-address"><a href="mailto:s&#99;g&#101;&#64;&#109;&#99;&#119;&#46;e&#100;&#117;">s&#99;g&#101;&#64;&#109;&#99;&#119;&#46;e&#100;&#117;</a></span></div>
+                </div>
+                <div style="float:right">
+                    <!--div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div-->
+                    <div id="navbar">
+                        <span class="navbar-text navbar-right">
+                            <!-- using pageContext requires jsp-api artifact in pom.xml -->
+                            <c:choose>
+                                <c:when test="${userName!=null}">
+                                    Logged in as:<img class="img-circle" src="${userImageUrl}" width="24">
+                                    ${userName}&nbsp;
+                                    <a href="/toolkit/logout" title="Sign out"><button class="btn btn-primary">Logout</button></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="/toolkit/login/google">Google Login</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </span>
                     </div>
                 </div>
-
             </div>
-            <div class="fusion-header-sticky-height"></div>
-
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <a class="navbar-brand"  href="https://scge.mcw.edu/" >
-
-
-                    <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" />
-
-
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/toolkit/data?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400"><i class="fas fa-tools"></i>&nbsp;ToolKit <span class="sr-only">(current)</span></a>
-                        </li>
-                        <!--li class="nav-item">
-                            <a class="nav-link" href="/toolkit/?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
-                        </li-->
-
-                        <c:if test="${userName!=null}">
-                            <li class="nav-item">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fas fa-th"></i>&nbsp;Dashboard</a></li>
-                        <!--li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
-                        </li-->
-                        </c:if>
-
-
-                    </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search SCGE" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
-            </nav>
         </div>
+        <div class="fusion-header-sticky-height"></div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" id="searchBarNav" >
+            <div style=";width:100%" align="center" >
+                <%@include file="tools/search.jsp"%>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand"  href="https://scge.mcw.edu/" >
+                <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" />
+            </a>
+            <!--button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                   <span class="navbar-toggler-icon"></span>
+               </button-->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400"><i class="fas fa-tools"></i>&nbsp;ToolKit <span class="sr-only">(current)</span></a>
+                    </li>
+                    <!--li class="nav-item">
+                           <a class="nav-link" href="/toolkit/?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
+                       </li-->
+                    <c:if test="${userName!=null}">
+                        <li class="nav-item">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fas fa-th"></i>&nbsp;Dashboard</a></li>
+                        <li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
+                        </li>
+                    </c:if>
+                </ul>
+                <!--form class="form-inline my-2 my-lg-0">
+                       <input class="form-control mr-sm-2" type="search" placeholder="Search SCGE" aria-label="Search">
+                       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                   </form-->
+            </div>
+        </nav>
+    </div>
     <div id="main">
         <c:if test="${destination!='create'}">
-
             <div class="" style="margin-top: 0;padding-top: 0">
-
-                <c:choose>
-                <c:when test="${action=='Animal Reporter Models'}">
                 <div class="container-fluid">
-                    </c:when>
-                    <c:otherwise>
-                    <div class="container-fluid">
-                        </c:otherwise>
-                        </c:choose>
-
-                        <!--h1 class="page-header">Dashboard</h1-->
-                        <c:choose>
-                            <c:when test="${action!=null}">
-                                <h4 class="page-header" style="color:grey;">${action}  </h4>
-                                <hr>
-                            </c:when>
-                            <c:otherwise>
-                                <!--h4 class="page-header" style="color:grey;">Dashboard</h4-->
-                                <!--h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success btn-sm">Submit Data</button></a>&nbsp;<a href="dataSubmission"><button class="btn btn btn-outline-secondary btn-sm">Upload Docs</button></a></span></h1-->
-                                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                                    <h1 class="h2">Toolkit</h1>
-                                    <div class="btn-toolbar mb-2 mb-md-0">
-                                        <div class="btn-group mr-2">
-                                            <button class="btn btn-sm btn-outline-secondary">Submit Data</button>
-                                            <button class="btn btn-sm btn-outline-secondary"> <span data-feather="upload"></span>Upload Docs</button>
-                                        </div>
-                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                                            <span data-feather="file"></span>
-                                            Forms
-                                        </button>
+                    <!--h1 class="page-header">Dashboard</h1-->
+                    <c:choose>
+                        <c:when test="${action!=null}">
+                            <h4 class="page-header" style="color:grey;">${action}  </h4>
+                            <hr>
+                        </c:when>
+                        <c:otherwise>
+                            <!--h4 class="page-header" style="color:grey;">Dashboard</h4-->
+                            <!--h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success btn-sm">Submit Data</button></a>&nbsp;<a href="dataSubmission"><button class="btn btn btn-outline-secondary btn-sm">Upload Docs</button></a></span></h1-->
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h1 class="h2">Toolkit</h1>
+                                <div class="btn-toolbar mb-2 mb-md-0">
+                                    <div class="btn-group mr-2">
+                                        <button class="btn btn-sm btn-outline-secondary">Submit Data</button>
+                                        <button class="btn btn-sm btn-outline-secondary"> <span data-feather="upload"></span>Upload Docs</button>
                                     </div>
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                                        <span data-feather="file"></span>
+                                            Forms
+                                    </button>
                                 </div>
-
-                                <!--div style="text-align: center; ;height:50px" >
-                                <h4>Welcome to Somatic Cell Genome Editing</h4>
-                                </div-->
-                            </c:otherwise>
-                        </c:choose>
-
-                        <div style="margin-top: 0;padding-top:0">
-                            <c:import url="/${page}.jsp" />
-                        </div>
+                            </div>
+                            <!--div style="text-align: center; ;height:50px" >
+                            <h4>Welcome to Somatic Cell Genome Editing</h4>
+                            </div-->
+                        </c:otherwise>
+                    </c:choose>
+                    <div style="margin-top: 0;padding-top:0">
+                        <c:import url="/${page}.jsp" />
                     </div>
-
                 </div>
             </div>
         </c:if>
-
-        <c:if test="${destination=='create'}">
-            <!--div class="container">
-            <h4 style="color:cornflowerblue">Welcome to Somatic Cell Genome Editing</h4>
-            </div-->
-
-            <c:import url="/${page}.jsp" />
-        </c:if>
-
     </div>
+    <c:if test="${destination=='create'}">
+        <!--div class="container">
+        <h4 style="color:cornflowerblue">Welcome to Somatic Cell Genome Editing</h4>
+        </div-->
+        <c:import url="/${page}.jsp" />
+    </c:if>
 </div>
+
 <div class="fusion-clearfix"></div>
-
-
-        <footer id="footer" class="fusion-footer-copyright-area fusion-footer-copyright-center">
-            <div class="fusion-row">
-                <div class="fusion-copyright-content">
-
-                    <div class="fusion-copyright-notice">
-                        <div style="text-align: center">
+<footer id="footer" class="fusion-footer-copyright-area fusion-footer-copyright-center">
+    <div class="fusion-row">
+        <div class="fusion-copyright-content">
+            <div class="fusion-copyright-notice">
+                <div style="text-align: center">
                             This website is hosted by the SCGE DCC | Copyright 2019 SCGE | All Rights Reserved	</div>
                     </div>
-
-
-                </div> <!-- fusion-fusion-copyright-content -->
-            </div> <!-- fusion-row -->
-        </footer> <!-- #footer -->
+        </div> <!-- fusion-fusion-copyright-content -->
+    </div> <!-- fusion-row -->
+</footer> <!-- #footer -->
 
 
 <!-- Bootstrap core JavaScript

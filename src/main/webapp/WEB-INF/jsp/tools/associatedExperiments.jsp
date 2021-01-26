@@ -2,11 +2,12 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="edu.mcw.scge.datamodel.ExperimentRecord" %>
 <h4 class="page-header" style="color:grey;">Associated SCGE Experiment Records</h4>
 
 <div>
         <%
-        List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
+        List<ExperimentRecord> experiments = (List<ExperimentRecord>) request.getAttribute("experiments");
         Study study = (Study) request.getAttribute("study");
         //out.println(experiments.size());
     %>
@@ -24,7 +25,7 @@
         </tr>
         </thead>
 
-        <% for (Experiment exp: experiments) { %>
+        <% for (ExperimentRecord exp: experiments) { %>
 
         <tr>
             <!--td><input class="form" type="checkbox"></td-->

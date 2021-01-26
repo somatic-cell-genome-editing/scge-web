@@ -9,7 +9,7 @@
         <!--th>Action</th-->
         <th>Tier</th>
         <th>Name</th>
-        <th>Type</th>
+        <!--th>Type</th-->
         <th>Laboratory</th>
         <th>Contact PI</th>
         <th>Raw Data</th>
@@ -24,7 +24,7 @@
     <tr>
         <td><%=s.getTier()%>
         <td><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
-        <td><%=s.getType()%></td>
+        <!--td><%--=s.getType()--%></td-->
         <td><%=s.getLabName()%></td>
         <td><%=s.getPi()%></td>
         <td><a href="<%=s.getRawData()%>">[Download]</a></td>
