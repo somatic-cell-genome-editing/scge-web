@@ -60,7 +60,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="file-text"></span>
-                            <%=s.getStudyId()%>..
+                            <%--=s.getStudyId()--%>..
                         </a>
                     </li>
                     <li class="nav-item">
@@ -80,9 +80,9 @@
                             <span data-feather="file-text"></span>
                             Forms
                         </a>
-                    </li-->
+                    </li>
 
-                </ul>
+                </ul-->
             </div>
         </nav>
 

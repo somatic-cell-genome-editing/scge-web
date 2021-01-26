@@ -29,6 +29,7 @@
     </thead>
     <tbody>
     <c:forEach items="${sr.hits.hits}" var="hit">
+
         <tr>
             <td>${hit.sourceAsMap.category}</td>
 
@@ -52,12 +53,12 @@
                     </c:otherwise>
                 </c:choose>
             </td>
-            <td>${hit.sourceAsMap.name}</td>
+            <td> <a href="/toolkit/data/delivery/system?id=${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></td>
             <td>
                 <div  class="more hideContent" style="overflow-y: auto">
                     <c:set value="true" var="first"/>
                     <c:forEach items="${hit.highlightFields}" var="hf">
-                        ${hf.key} ->
+                        <span style="font-weight: bold">${hf.key} -></span>
                         <c:forEach items="${hf.value.fragments}" var="f">
                             ${f} ;
                         </c:forEach>
@@ -66,6 +67,7 @@
                 </div>
             </td>
         </tr>
+
     </c:forEach>
 
     </tbody>

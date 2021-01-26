@@ -66,7 +66,10 @@
             <td><%=s.getSubmissionDate()%></td>
             <td><%=s.getStudyId()%></td>
         </tr>
+
         <%}%>
+
+
         </tbody>
     </table>
 </div>
