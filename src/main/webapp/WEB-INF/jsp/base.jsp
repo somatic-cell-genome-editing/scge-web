@@ -137,18 +137,14 @@ Goals"/>
             </div>
         </div>
         <div class="fusion-header-sticky-height"></div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light" id="searchBarNav" >
-            <div style=";width:100%" align="center" >
-                <%@include file="tools/search.jsp"%>
-            </div>
-        </nav>
+
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand"  href="https://scge.mcw.edu/" >
                 <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" />
             </a>
-            <!--button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                    <span class="navbar-toggler-icon"></span>
-               </button-->
+               </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
@@ -163,10 +159,10 @@ Goals"/>
                         </li>
                     </c:if>
                 </ul>
-                <!--form class="form-inline my-2 my-lg-0">
-                       <input class="form-control mr-sm-2" type="search" placeholder="Search SCGE" aria-label="Search">
+                <form action="/toolkit/data/search/results" class="form-inline my-2 my-lg-0">
+                       <input  name="searchTerm" class="form-control mr-sm-2" type="search" placeholder="Search SCGE" aria-label="Search">
                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                   </form-->
+                   </form>
             </div>
         </nav>
     </div>
@@ -183,7 +179,12 @@ Goals"/>
                         <c:otherwise>
                             <!--h4 class="page-header" style="color:grey;">Dashboard</h4-->
                             <!--h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success btn-sm">Submit Data</button></a>&nbsp;<a href="dataSubmission"><button class="btn btn btn-outline-secondary btn-sm">Upload Docs</button></a></span></h1-->
-                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <nav class="navbar navbar-expand-lg navbar-light bg-light" id="searchBarNav" >
+                                <div style=";width:100%" align="center" >
+                                    <%@include file="tools/search.jsp"%>
+                                </div>
+                            </nav>
+                            <!--div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                 <h1 class="h2">Toolkit</h1>
                                 <div class="btn-toolbar mb-2 mb-md-0">
                                     <div class="btn-group mr-2">
@@ -195,7 +196,7 @@ Goals"/>
                                             Forms
                                     </button>
                                 </div>
-                            </div>
+                            </div-->
                             <!--div style="text-align: center; ;height:50px" >
                             <h4>Welcome to Somatic Cell Genome Editing</h4>
                             </div-->

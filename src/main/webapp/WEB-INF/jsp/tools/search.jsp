@@ -47,39 +47,27 @@
     })
 </script>
 
-<div class="">
-    <form  action="results">
-        <div class="" >
-
-            <div class="container">
-
-                <div class="form-row row">
-
-                    <div class="form-group col-md-2">
-                        <input type="hidden" id="modelsAspect" value="all">
-
-
-                    </div>
-                    <div class="form-group col-md-8">
-                        <small class="form-text text-muted" style="font-size: 14px">Enter a tissue or editor or animal model or delivery system.</small>
-                        <div class="input-group" >
-
-                            <input  name="searchTerm" class="form-control form-control-lg border-secondary" type="search"  placeholder="Enter Search Term ...." value=""/>
-
-                            <div class="input-group-append">
-
-                                <button class="btn btn-outline-secondary" type="submit" >
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
+        <div class="" style="text-align: center;padding-top:0.5%;width:50%;" align="center">
+            <div  align="center">
+            <form  action="/toolkit/data/search/results">
+            <div class="form-group"  align="center" >
+                <div class="input-group" align="center">
+                    <input  name="searchTerm" class="form-control form-control-lg border-secondary" type="search"  placeholder="Enter Search Term ...." value=""/>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit" >
+                                <i class="fa fa-search"></i>
+                            </button>
                         </div>
-                        <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="" >Brain</a>, <a href="" >CRISPER</a>,
-                            <a href="" >AAV</a>, <a href="" >Ai9</a>
-                        </small>
-                    </div>
-                </div>
-            </div>
 
+                </div>
+
+                    <small class="form-text text-muted" style="font-size: 11px">Examples:<a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a> <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
+                        <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
+                    </small>
+
+            </div>
+            </form>
+            </div>
         </div>
-    </form>
-</div>
+
+
