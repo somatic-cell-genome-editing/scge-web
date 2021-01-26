@@ -55,7 +55,7 @@ public class DashboardController {
         return "base";
     }
 
-  /*  @RequestMapping(value="/home")
+ /*   @RequestMapping(value="/home")
     public String getDashboardHome(HttpServletRequest req) throws Exception {
         StudyDao sdao=new StudyDao();
         List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID/GroupId.
