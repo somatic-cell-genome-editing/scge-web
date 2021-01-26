@@ -279,7 +279,7 @@
     <!-- Login Form -->
     <form action="/toolkit/login/google">
 
-      <input type="submit" class="fadeIn fourth" value="Login by Google credentials">
+      <input type="submit" class="fadeIn fourth" value="Sign in with Google">
     </form>
 
     <!-- Remind Passowrd -->
