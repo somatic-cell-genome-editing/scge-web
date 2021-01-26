@@ -6,12 +6,12 @@
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
-                    <li class="nav-item">
+                    <!--li class="nav-item">
                         <a class="nav-link active" href="#" onclick="getMainContent('home')">
                             <span data-feather="home"></span>
                             Dashboard <span class="sr-only">(current)</span>
                         </a>
-                    </li>
+                    </li-->
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="file"></span>
@@ -42,12 +42,12 @@
                             Reports
                         </a>
                     </li-->
-                    <li class="nav-item">
+                    <!--li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="layers"></span>
                             Consortium Groups
                         </a>
-                    </li>
+                    </li-->
                 </ul>
 
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -56,11 +56,11 @@
                         <span data-feather="plus-circle"></span>
                     </a>
                 </h6>
-                <ul class="nav flex-column mb-2">
+                <!--ul class="nav flex-column mb-2">
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="file-text"></span>
-                            Upload Docs..
+                            <%=s.getStudyId()%>..
                         </a>
                     </li>
                     <li class="nav-item">
@@ -80,7 +80,7 @@
                             <span data-feather="file-text"></span>
                             Forms
                         </a>
-                    </li>
+                    </li-->
 
                 </ul>
             </div>
@@ -88,7 +88,7 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent">
             <h2>Submissions</h2>
-            <%@include file="tools/studies.jsp"%>
+            <%@include file="dashboardElements/myStudies.jsp"%>
         </main>
     </div>
 </div>
