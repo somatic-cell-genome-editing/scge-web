@@ -50,7 +50,11 @@
         <div class="" style="text-align: center;padding-top:0.5%;width:50%;" align="center">
             <div  align="center">
             <form  action="/toolkit/data/search/results">
-            <div class="form-group"  align="center" >
+            <div class="form-group row"  align="center" >
+                <div class="input-group col-lg-2">
+                    <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" border="0" alt="SCGE"/>
+                </div>
+                <div class="input-group col-lg-10">
                 <div class="input-group" align="center">
                     <input  name="searchTerm" class="form-control form-control-lg border-secondary" type="search"  placeholder="Enter Search Term ...." value=""/>
                         <div class="input-group-append">
@@ -64,7 +68,7 @@
                     <small class="form-text text-muted" style="font-size: 11px">Examples:<a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a> <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
                         <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
                     </small>
-
+                </div>
             </div>
             </form>
             </div>
