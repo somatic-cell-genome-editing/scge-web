@@ -33,6 +33,7 @@ public class DataAccessService extends AbstractDAO {
     AccessDao adao=new AccessDao();
     StudyDao sdao=new StudyDao();
     TierUpdateDao tierUpdateDao=new TierUpdateDao();
+    public static List<String> labels;
     public List<TestData> getData(String name, String symbol) throws Exception {
            return tdao.getTestData();
     }
@@ -580,6 +581,98 @@ public class DataAccessService extends AbstractDAO {
             updates.add(rec);
         }
         insertTierUpdates(updates);
+    }
+    public Map<String, Map<Integer, Integer>> sortStudies(List<Study> studies){
+        Map<String, Map<Integer, Integer>> sortedMap=new HashMap<>();
+        for(Study s:studies){
+
+        }
+
+        return null;
+    }
+    public Map<String, List<Integer>> getPlotData() throws Exception {
+        GrantDao grantDao=new GrantDao();
+        Map<String, Map<Integer, Integer>> statsMap=new HashMap<>();
+
+        for(String i: grantDao.getAllDistinctInitiatives()) {
+            if (!i.equalsIgnoreCase("DCC")) {
+                List<Grant> grants = grantDao.getGrantsByInitiative(i);
+                Map<Integer, Integer> tierStats = new HashMap<>();
+                int totalStudies = 0;
+
+                for (Grant g : grants) {
+
+                    List<Study> studies = sdao.getStudiesByGrantId(g.getGrantId());
+                    totalStudies = studies.size() + totalStudies;
+
+                    for (int j = 1; j < 5; j++) {
+                        int tierCount = 0;
+                        for (Study s : studies) {
+                            if (s.getTier() == j) {
+                                tierCount = tierCount + 1;
+                            }
+                        }
+                        if (tierStats.get(j) != null) {
+                            tierCount = tierCount + tierStats.get(j);
+                        }
+                        tierStats.put(j, tierCount);
+                    }
+                }
+                tierStats.put(0, totalStudies);
+                statsMap.put(i, tierStats);
+            }
+        }
+        Map<String, List<Integer>> plotData=new HashMap<>();
+        List<String> labels=new ArrayList<>();
+        for(Map.Entry e:statsMap.entrySet()){
+            String initative= (String) e.getKey();
+            labels.add(initative);
+
+            //   System.out.println("Initiative: "+ initative+"*********");
+            Map<Integer, Integer> tierCounts= (Map<Integer, Integer>) e.getValue();
+            List<Integer> submissions=new ArrayList<>();
+            List<Integer> tier1=new ArrayList<>();
+            List<Integer> tier2=new ArrayList<>();
+            List<Integer> tier3=new ArrayList<>();
+            List<Integer> tier4=new ArrayList<>();
+            if(plotData.get("Submissions")!=null){
+                submissions.addAll(plotData.get("Submissions"));
+            }
+            submissions.add(tierCounts.get(0));
+            plotData.put("Submissions", submissions);
+
+            /**********************tier-1****************/
+            if(plotData.get("Tier-1")!=null){
+                tier1.addAll(plotData.get("Tier-1"));
+            }
+            tier1.add(tierCounts.get(1));
+            plotData.put("Tier-1", tier1);
+            /*******************TIER-2*****************/
+            if(plotData.get("Tier-2")!=null){
+                tier2.addAll(plotData.get("Tier-2"));
+            }
+            tier2.add(tierCounts.get(2));
+            plotData.put("Tier-2", tier2);
+            /*****************************TIER-3*************/
+            if(plotData.get("Tier-3")!=null){
+                tier3.addAll(plotData.get("Tier-3"));
+            }
+            tier3.add(tierCounts.get(3));
+            plotData.put("Tier-3", tier3);
+            /*********************TIER-4********************/
+            if(plotData.get("Tier-4")!=null){
+                tier4.addAll(plotData.get("Tier-4"));
+            }
+            tier4.add(tierCounts.get(4));
+            plotData.put("Tier-4", tier4);
+
+        }
+        System.out.println(labels.toString());
+        for(Map.Entry entry:plotData.entrySet()){
+            System.out.println(entry.getKey()+ "\t"+ entry.getValue().toString());
+        }
+       DataAccessService.labels=labels;
+        return  plotData;
     }
     public void logToDb(GoogleIdToken.Payload payload){
         String email=payload.getEmail();
