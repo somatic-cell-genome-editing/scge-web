@@ -1,6 +1,7 @@
 package edu.mcw.scge.controller;
 
 
+import com.google.gson.Gson;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Person;
@@ -142,12 +143,17 @@ public class LoginController{
             req.setAttribute("userEmail", userAttributes.get("email"));
          //   req.setAttribute("message", message);
             req.setAttribute("status", req.getParameter("status"));
-            StudyDao sdao=new StudyDao();
-            List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID/GroupId.
-            service.addTier2Associations(studies);
-            Map<Integer, Integer> tierUpdateMap=service.getTierUpdate(studies);
-            req.setAttribute("studies", studies);
-            req.setAttribute("tierUpdateMap", tierUpdateMap);
+       //     StudyDao sdao=new StudyDao();
+      //      List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID/GroupId.
+           // Map<Initiative, Map<Tier, Count>>
+            Map<String, List<Integer>> plotData=  service. getPlotData();
+            Gson gson=new Gson();
+                //     service.addTier2Associations(studies);
+         //   Map<Integer, Integer> tierUpdateMap=service.getTierUpdate(studies);
+        //    req.setAttribute("studies", studies);
+            req.setAttribute("plotData", plotData);
+            req.setAttribute("labels", gson.toJson(DataAccessService.labels));
+         //   req.setAttribute("tierUpdateMap", tierUpdateMap);
             return "base";
         }else{
             message = name+" Your request is under processing. You will receive a confirmation email shortly.";
