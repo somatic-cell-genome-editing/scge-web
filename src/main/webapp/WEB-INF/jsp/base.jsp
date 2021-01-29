@@ -61,7 +61,9 @@ Goals"/>
     <script src="/toolkit/common/tableSorter/js/tablesorter.js"> </script>
     <script src="/toolkit/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
- <style>
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+
+    <style>
     html, body {
         height: 100%;
         font-size: small;
@@ -148,7 +150,9 @@ Goals"/>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400"><i class="fas fa-tools"></i>&nbsp;ToolKit <span class="sr-only">(current)</span></a>
+                        <!--a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400"><i class="fas fa-tools"></i>&nbsp;ToolKit <span class="sr-only">(current)</span></a-->
+                        <span data-feather="home"></span>
+                        <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400">Home</a>
                     </li>
                     <!--li class="nav-item">
                            <a class="nav-link" href="/toolkit/?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
@@ -179,11 +183,25 @@ Goals"/>
                         <c:otherwise>
                             <!--h4 class="page-header" style="color:grey;">Dashboard</h4-->
                             <!--h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success btn-sm">Submit Data</button></a>&nbsp;<a href="dataSubmission"><button class="btn btn btn-outline-secondary btn-sm">Upload Docs</button></a></span></h1-->
-                            <nav class="navbar navbar-expand-lg navbar-light bg-light" id="searchBarNav" >
                                 <div style=";width:100%" align="center" >
-                                    <%@include file="tools/search.jsp"%>
+                                    <%--@include file="tools/search.jsp"--%>
+                                        <div class="container" align="center">
+                                            <table align="center">
+                                                <tr>
+                                                    <td align="center"><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" border="0"/></td>
+                                                    <td align="center">
+                                                        <form action="/toolkit/data/search/results"  class="form-inline my-2 my-lg-0">
+                                                            <input size=60 class="form-control "  name="searchTerm" type="search" placeholder="Search SCGE (Models, Editors, Delivery, Guides)" aria-label="Search">
+                                                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                                            <br>
+                                                            <small><a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a></small>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                 </div>
-                            </nav>
+
                             <!--div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                 <h1 class="h2">Toolkit</h1>
                                 <div class="btn-toolbar mb-2 mb-md-0">
