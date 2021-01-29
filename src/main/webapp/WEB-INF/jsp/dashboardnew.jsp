@@ -87,7 +87,7 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent">
-            <h2>Submissions</h2>
+            <h2>My Submissions</h2>
             <%@include file="dashboardElements/myStudies.jsp"%>
         </main>
     </div>
