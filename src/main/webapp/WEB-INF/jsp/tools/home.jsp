@@ -35,7 +35,7 @@
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/toolkit/data/Studies/search">
+                        <a class="nav-link active" href="/toolkit/data/studies/search">
                             <i class="fas fa-arrow-to-right" style="font-size: 50px;color:steelblue"></i>
                             <strong>Submissions</strong>&nbsp;<span class="object-count"><%=sdao.getStudyCount()%></span> <span class="sr-only">(current)</span>
                         </a>
