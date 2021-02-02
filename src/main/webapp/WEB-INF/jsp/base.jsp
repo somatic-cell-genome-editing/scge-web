@@ -159,8 +159,8 @@ Goals"/>
                        </li-->
                     <c:if test="${userName!=null}">
                         <li class="nav-item">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fas fa-th"></i>&nbsp;Dashboard</a></li>
-                        <li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
-                        </li>
+                        <!--li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
+                        </li-->
                     </c:if>
                 </ul>
                 <form action="/toolkit/data/search/results" class="form-inline my-2 my-lg-0">

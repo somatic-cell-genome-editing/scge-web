@@ -94,7 +94,7 @@
             <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
             <h2>Submissions</h2>
-            <%@include file="dashboardElements/studies.jsp"%>
+            <%@include file="tools/studies.jsp"%>
         </main>
     </div>
 </div>

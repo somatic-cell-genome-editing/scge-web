@@ -15,13 +15,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="file"></span>
-                            My Submissions
+                            My Studies
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/toolkit/data/studies/search">
                             <span data-feather="file"></span>
-                            All Submissions
+                            All Studies
                         </a>
                     </li>
                     <li class="nav-item">
