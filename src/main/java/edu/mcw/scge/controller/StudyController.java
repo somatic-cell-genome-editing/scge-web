@@ -26,12 +26,13 @@ public class StudyController {
     public String getStudies(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         StudyDao sdao=new StudyDao();
         List<Study> studies = sdao.getStudies();
+        System.out.println("STUDIES: "+studies.size());
         req.setAttribute("studies", studies);
-        req.setAttribute("action", "Submissions");
+        req.setAttribute("action", "Studies");
         req.setAttribute("page", "/WEB-INF/jsp/tools/studies");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
-        return null;
+        return "null";
 
     }
 
