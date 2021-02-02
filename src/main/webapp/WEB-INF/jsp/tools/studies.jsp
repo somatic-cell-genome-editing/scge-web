@@ -49,7 +49,18 @@
     Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
 
 %>
-
+<table align="center">
+    <tr>
+        <td align="center"><img height="100" width="100" src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" border="0"/></td>
+        <td align="center">
+            <form class="form-inline my-2 my-lg-0">
+                <input size=60 class="form-control " type="search" placeholder="Search Studies" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<br>
 
 
 <div>

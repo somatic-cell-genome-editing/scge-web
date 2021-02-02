@@ -82,9 +82,10 @@ public class LoginController{
                                Model model, OAuth2AuthenticationToken authentication, HttpServletRequest req) throws Exception {
         model.addAttribute("message", message);
         model.addAttribute("tier", tier);
-        model.addAttribute("studyId",studyId);
-     OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
-    //    System.out.println("Principal Name:"+client.getPrincipalName());
+        model.addAttribute("studyId", studyId);
+        OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
+        //    System.out.println("Principal Name:"+client.getPrincipalName());
+        if(client!=null){
         String userInfoEndpointUri = client.getClientRegistration()
                 .getProviderDetails()
                 .getUserInfoEndpoint()
@@ -101,66 +102,69 @@ public class LoginController{
             ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
             Map userAttributes = response.getBody();
             model.addAttribute("name", userAttributes.get("name"));
-            String name= (String) userAttributes.get("name");
+            String name = (String) userAttributes.get("name");
 
-        String userStatus = pdao.getPersonStatus(client.getPrincipalName());
-     //   if(userStatus.equalsIgnoreCase("approved"))
-            if(userStatus!=null && userStatus.equalsIgnoreCase("active")){
-         //   req.getSession().setAttribute("token",client.getAccessToken().getTokenValue());
-            List<Person> persons = pdao.getPersonByGoogleId(client.getPrincipalName());
-            int personId=0;
-            if(persons.size()>0)
-            personId=persons.get(0).getId();
-            HttpSession session= req.getSession(true);
-            session.setAttribute("userAttributes",userAttributes);
-            session.setAttribute("personId", personId);
-            req.setAttribute("destination", "base");
-      //      req.setAttribute("page", "/WEB-INF/jsp/dashboard");
+            String userStatus = pdao.getPersonStatus(client.getPrincipalName());
+            //   if(userStatus.equalsIgnoreCase("approved"))
+            if (userStatus != null && userStatus.equalsIgnoreCase("active")) {
+                //   req.getSession().setAttribute("token",client.getAccessToken().getTokenValue());
+                List<Person> persons = pdao.getPersonByGoogleId(client.getPrincipalName());
+                int personId = 0;
+                if (persons.size() > 0)
+                    personId = persons.get(0).getId();
+                HttpSession session = req.getSession(true);
+                session.setAttribute("userAttributes", userAttributes);
+                session.setAttribute("personId", personId);
+                req.setAttribute("destination", "base");
+                //      req.setAttribute("page", "/WEB-INF/jsp/dashboard");
                 req.setAttribute("page", "/WEB-INF/jsp/tools/home");
-            model.addAttribute("message", req.getParameter("message"));
-            model.addAttribute("status", req.getParameter("status"));
-      //  return"redirect:/secure/success"+ "?status=" + userStatus + "&message=" + message+"&destination=base";
-            /***************************************************************************************************/
-            Map<String, List<String>> groupRoleMap=service.getGroupsNRolesByMemberId(personId);
-            Map<String, Map<String, List<String>>> groupSubgroupRoleMap=service.getGroupsByPersonId(personId);
-            req.getSession().setAttribute("groupRoleMap", groupRoleMap);
-            req.getSession().setAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
+                model.addAttribute("message", req.getParameter("message"));
+                model.addAttribute("status", req.getParameter("status"));
+                //  return"redirect:/secure/success"+ "?status=" + userStatus + "&message=" + message+"&destination=base";
+                /***************************************************************************************************/
+                Map<String, List<String>> groupRoleMap = service.getGroupsNRolesByMemberId(personId);
+                Map<String, Map<String, List<String>>> groupSubgroupRoleMap = service.getGroupsByPersonId(personId);
+                req.getSession().setAttribute("groupRoleMap", groupRoleMap);
+                req.getSession().setAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
 
-            req.setAttribute("groupsMap", service.getGroupMapByGroupName("consortium"));
-            Map<Integer, List<SCGEGroup>> consortiumGroups= service.getGroupsMapByGroupName("consortium");
-            Map<SCGEGroup, List<Person>> groupMembersMap=service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
-            Map<SCGEGroup, List<Person>> DCCNIHMembersMap=service.getDCCNIHMembersMap(consortiumGroups);
+                req.setAttribute("groupsMap", service.getGroupMapByGroupName("consortium"));
+                Map<Integer, List<SCGEGroup>> consortiumGroups = service.getGroupsMapByGroupName("consortium");
+                Map<SCGEGroup, List<Person>> groupMembersMap = service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
+                Map<SCGEGroup, List<Person>> DCCNIHMembersMap = service.getDCCNIHMembersMap(consortiumGroups);
 
-            req.setAttribute("groupsMap1", consortiumGroups);
-            req.setAttribute("groupMembersMap",groupMembersMap );
-            req.setAttribute("DCCNIHMembersMap",DCCNIHMembersMap );
-            session.setAttribute("userName", userAttributes.get("name"));
-            session.setAttribute("userImageUrl", userAttributes.get("picture"));
-            model.addAttribute("userName", userAttributes.get("name"));
-            model.addAttribute("userImageUrl", userAttributes.get("picture"));
-            req.setAttribute("givenName", userAttributes.get("givenName"));
-            req.setAttribute("familyName", userAttributes.get("familyName"));
-            req.setAttribute("userEmail", userAttributes.get("email"));
-         //   req.setAttribute("message", message);
-            req.setAttribute("status", req.getParameter("status"));
-       //     StudyDao sdao=new StudyDao();
-      //      List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID/GroupId.
-           // Map<Initiative, Map<Tier, Count>>
-            Map<String, List<Integer>> plotData=  service. getPlotData();
-            Gson gson=new Gson();
+                req.setAttribute("groupsMap1", consortiumGroups);
+                req.setAttribute("groupMembersMap", groupMembersMap);
+                req.setAttribute("DCCNIHMembersMap", DCCNIHMembersMap);
+                session.setAttribute("userName", userAttributes.get("name"));
+                session.setAttribute("userImageUrl", userAttributes.get("picture"));
+                model.addAttribute("userName", userAttributes.get("name"));
+                model.addAttribute("userImageUrl", userAttributes.get("picture"));
+                req.setAttribute("givenName", userAttributes.get("givenName"));
+                req.setAttribute("familyName", userAttributes.get("familyName"));
+                req.setAttribute("userEmail", userAttributes.get("email"));
+                //   req.setAttribute("message", message);
+                req.setAttribute("status", req.getParameter("status"));
+                //     StudyDao sdao=new StudyDao();
+                //      List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID/GroupId.
+                // Map<Initiative, Map<Tier, Count>>
+                Map<String, List<Integer>> plotData = service.getPlotData();
+                Gson gson = new Gson();
                 //     service.addTier2Associations(studies);
-         //   Map<Integer, Integer> tierUpdateMap=service.getTierUpdate(studies);
-        //    req.setAttribute("studies", studies);
-            req.setAttribute("plotData", plotData);
-            req.setAttribute("labels", gson.toJson(DataAccessService.labels));
-         //   req.setAttribute("tierUpdateMap", tierUpdateMap);
-            return "base";
-        }else{
-            message = name+" Your request is under processing. You will receive a confirmation email shortly.";
-            return "redirect:/oauth_login"+ "?status=" + userStatus + "&message=" + message;
+                //   Map<Integer, Integer> tierUpdateMap=service.getTierUpdate(studies);
+                //    req.setAttribute("studies", studies);
+                req.setAttribute("plotData", plotData);
+                req.setAttribute("labels", gson.toJson(DataAccessService.labels));
+                //   req.setAttribute("tierUpdateMap", tierUpdateMap);
+                return "base";
+            } else {
+                message = name + " Your request is under processing. You will receive a confirmation email shortly.";
+                return "redirect:/oauth_login" + "?status=" + userStatus + "&message=" + message;
+            }
         }
-        }
-        return "loginSuccess";
+    }
+     //   return "loginSuccess";
+
+        return "redirect:/oauth_login";
     }
 
     @RequestMapping("/loginSuccessPage")

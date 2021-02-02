@@ -30,14 +30,14 @@
     <div class="col-sm-3">
         <div class="card">
             <div class="card-header" >
-               Popular searches
+                Browse
             </div>
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link active" href="/toolkit/data/studies/search">
-                            <i class="fas fa-arrow-to-right" style="font-size: 50px;color:steelblue"></i>
-                            <strong>Submissions</strong>&nbsp;<span class="object-count"><%=sdao.getStudyCount()%></span> <span class="sr-only">(current)</span>
+                            <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="30" height="30" alt="" />
+                            <strong>Studies</strong>&nbsp;<span class="object-count"><%=sdao.getStudyCount()%></span> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -94,7 +94,7 @@
     <div class="col-sm-3">
     <div class="card shadow">
         <div class="card-header ">
-            Projects
+            Initiatives
         </div>
         <div class="card-body">
 
