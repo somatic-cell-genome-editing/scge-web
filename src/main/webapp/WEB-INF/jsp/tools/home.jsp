@@ -152,7 +152,7 @@
         Quick Links
     </div>
     <div class="card-body">
-        <ul class="nav flex-column mb-2">
+        <!--ul class="nav flex-column mb-2">
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <span data-feather="layers"></span>
@@ -177,7 +177,7 @@
                 </a>
             </li>
 
-        </ul>
+        </ul-->
     </div>
 </div>
     </div>
@@ -187,7 +187,7 @@
             Updates/Upcoming Features ..
         </div>
         <div class="card-body">
-            <ul class="nav flex-column mb-2">
+            <!--ul class="nav flex-column mb-2">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <span data-feather="layers"></span>
@@ -207,7 +207,7 @@
                     </a>
                 </li>
 
-            </ul>
+            </ul-->
         </div>
     </div>
     </div>
