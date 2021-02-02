@@ -208,9 +208,9 @@
             <td><a href="<%=s.getRawData()%>">[Download]</a></td>
             <td><%=s.getSubmissionDate()%></td>
             <td><%=s.getStudyId()%></td>
-        </tr>
+
             <%}%>
 
-
+        </tr>
     </table>
 </div>
