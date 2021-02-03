@@ -68,12 +68,12 @@
         <thead>
         <tr><!--th>Select</th-->
             <!--th>Action</th-->
-            <c:if test="${userName!=null}">
+            <c:if test="${userAttributes.get('name')!=null}">
                 <th>Action</th>
                 <th>Tier</th>
             </c:if>
             <th>Name</th>
-            <th>Laboratory</th>
+            <th>Institution</th>
             <th>Contact PI</th>
             <th>Raw Data</th>
             <th>Submission Date</th>
@@ -87,7 +87,7 @@
             <!--td><input class="form" type="checkbox"></td-->
             <!--td><button class="btn btn-outline-secondary btn-sm">Edit</button></td-->
 
-            <c:if test="${userName!=null}">
+            <c:if test="${userAttributes.get('name')!=null}">
                 <td>
                     <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="edit/access">
                         <div class="col  tiers">

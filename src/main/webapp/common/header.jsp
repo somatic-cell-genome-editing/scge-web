@@ -110,10 +110,10 @@ Goals"/>
                                 <div class="col">
 
                                     <!--div class="g-signin2 col" data-onsuccess="onSignIn" data-theme="dark"></div-->
-                                    <c:if test="${userName!=null && userName!=''}">
+                                    <c:if test="${userAttributes.get('name')!=null && userAttributes.get('name')!=''}">
                                         <table>
                                             <tr>
-                                                <td> ${userName} &nbsp;&nbsp; ${userEmail}</td>
+                                                <td> ${userAttributes.get('name')} &nbsp;&nbsp; ${userAttributes.get('email')}</td>
                                                 <td>&nbsp;&nbsp;<a href="logout" style="text-decoration: underline;font-weight: bold">Sign out</a>
 
                                                 </td>
