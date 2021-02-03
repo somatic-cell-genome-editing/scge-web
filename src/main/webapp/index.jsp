@@ -294,7 +294,10 @@
     <!-- Login Form -->
     <form action="/toolkit/login/google">
       <input type="submit" class="fadeIn fourth" value="Login with Google">
-      <input type="button" onClick="mailto:jdepons@yahoo.com" class="fadeIn fourth" value="Register for an Account">
+    </form>
+    <form action="loginFailure">
+      <input  type="submit" class="fadeIn fourth" value="Register for an Account">
+
     </form>
     <!--a href="/toolkit/login/google" class="fadeIn fourth"><img  src="/toolkit/common/google_signin_buttons/web/2x/btn_google_signin_dark_normal_web@2x.png" width="70%"  height="50"/></a-->
 
