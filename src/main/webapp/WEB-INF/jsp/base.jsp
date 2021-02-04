@@ -61,7 +61,6 @@ Goals"/>
     <script src="/toolkit/common/tableSorter/js/tablesorter.js"> </script>
     <script src="/toolkit/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 
     <style>
     html, body {
@@ -128,6 +127,7 @@ Goals"/>
                                     Logged in as:<img class="img-circle" src="${userAttributes.get('picture')}" width="24">
                                     ${userAttributes.get('name')}&nbsp;
                                     <a href="/toolkit/logout" title="Sign out"><button class="btn btn-primary">Logout</button></a>
+
                                 </c:when>
                                 <c:otherwise>
                                     <a href="/toolkit/login/google">Google Login</a>
@@ -151,14 +151,15 @@ Goals"/>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <!--a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400"><i class="fas fa-tools"></i>&nbsp;ToolKit <span class="sr-only">(current)</span></a-->
-                        <span data-feather="home"></span>
-                        <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400">Home</a>
+
+                        <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400">
+                            <span data-feather="home"></span>Home</a>
                     </li>
                     <!--li class="nav-item">
                            <a class="nav-link" href="/toolkit/?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
                        </li-->
                     <c:if test="${userAttributes.get('name')!=null}">
-                        <li class="nav-item">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fas fa-th"></i>&nbsp;Dashboard</a></li>
+                        <li class="nav-item">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fas fa-th"></i>&nbsp;My Dashboard</a></li>
                         <!--li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
                         </li-->
                     </c:if>
@@ -174,6 +175,11 @@ Goals"/>
         <c:if test="${destination!='create'}">
             <div class="" style="margin-top: 0;padding-top: 0">
                 <div class="container-fluid">
+                    <div align="center">
+                    <c:forEach items="${personInfoRecords}" var="i">
+                        <p style="padding: 0;" class="text-muted"><strong>Initiative:</strong> ${i.groupName} &nbsp;<strong>User Group:</strong> ${i.subGroupName}</p>
+                    </c:forEach>
+                    </div>
                     <!--h1 class="page-header">Dashboard</h1-->
                     <c:choose>
                         <c:when test="${action!=null}">
@@ -186,6 +192,8 @@ Goals"/>
                                 <div style=";width:100%" align="center" >
                                     <%--@include file="tools/search.jsp"--%>
                                         <div class="container" align="center">
+
+
                                             <table align="center">
                                                 <tr>
                                                     <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" border="0"/></td>

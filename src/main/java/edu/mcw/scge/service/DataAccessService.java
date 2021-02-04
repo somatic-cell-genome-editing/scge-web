@@ -237,18 +237,18 @@ public class DataAccessService extends AbstractDAO {
         try {
             List<PersonInfo> associations=  gdao.getGroupsNRolesByPersonId(id);
             for(PersonInfo i:associations){
-                Map<String, List<String>> map=groupSubgroupRoleMap.get(i.getGroup());
+                Map<String, List<String>> map=groupSubgroupRoleMap.get(i.getGroupName());
                 List<String> roles=new ArrayList<>();
                 if(map!=null && map.size()>0){
 
-                    if(map.get(i.getSubgroup())!=null){
-                        roles.addAll(map.get(i.getSubgroup()));
+                    if(map.get(i.getSubGroupName())!=null){
+                        roles.addAll(map.get(i.getSubGroupName()));
                      }
 
                 }else map=new HashMap<>();
                 roles.add(i.getRole());
-                map.put(i.getSubgroup(), roles);
-                groupSubgroupRoleMap.put(i.getGroup(), map);
+                map.put(i.getSubGroupName(), roles);
+                groupSubgroupRoleMap.put(i.getGroupName(), map);
             }
         } catch (Exception e) {
             e.printStackTrace();
