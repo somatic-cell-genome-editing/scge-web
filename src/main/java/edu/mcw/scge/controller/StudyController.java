@@ -9,6 +9,7 @@ import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,14 +20,15 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value="/data/studies")
-public class StudyController {
+public class StudyController extends LoginController{
     DBService dbService=new DBService();
 
     @RequestMapping(value="/search")
-    public String getStudies(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+    public String getStudies(HttpServletRequest req, HttpServletResponse res, @ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords) throws Exception {
         StudyDao sdao=new StudyDao();
         List<Study> studies = sdao.getStudies();
         System.out.println("STUDIES: "+studies.size());
+        req.setAttribute("personInfoList",personInfoRecords);
         req.setAttribute("studies", studies);
         req.setAttribute("action", "Studies");
         req.setAttribute("page", "/WEB-INF/jsp/tools/studies");
@@ -49,7 +51,14 @@ public class StudyController {
 
         return null;
     }
+    @RequestMapping(value="/search/group/{groupId}")
+    public String getStudiesByGroupId(@PathVariable int groupId, HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable(required = false) int studyId) throws Exception {
+        List<Study> records=dbService.getStudiesByGroupId(groupId);
 
+
+
+        return null;
+    }
 
     /*
     @GetMapping(value="/search/results/{id}")

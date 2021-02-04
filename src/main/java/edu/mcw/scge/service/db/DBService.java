@@ -54,4 +54,8 @@ public class DBService {
         AnimalTestingResultsDAO dao=new AnimalTestingResultsDAO();
         return dao.getSampleDetailsByResultId(resultId,experimentRecId);
     }
+    public List<Study> getStudiesByGroupId(int groupId){
+
+        return null;
+    }
 }

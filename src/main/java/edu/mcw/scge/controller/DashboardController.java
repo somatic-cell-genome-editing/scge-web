@@ -10,27 +10,33 @@ import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.DataAccessService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalTime;
+import java.util.*;
 
 @Controller
 @RequestMapping(value="/db")
-public class DashboardController {
+public class DashboardController extends LoginController {
     DataAccessService service=new DataAccessService();
     @RequestMapping(value="")
-    public String getDashboard(HttpServletRequest req) throws Exception {
+    public String getDashboard(@ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords,
+                               @ModelAttribute("DCCNIHGroupsIds")List<Integer> DCCNIHGroupsIds, HttpServletRequest req) throws Exception {
         HttpSession session= req.getSession(true);
         int personId= (int) session.getAttribute("personId");
         req.setAttribute("action","Dashboard");
         req.setAttribute("destination", "base");
         req.setAttribute("page", "/WEB-INF/jsp/dashboardnew");
-
+        Set<Integer> groupIds= new HashSet<>();
+        for(PersonInfo i:personInfoRecords){
+            groupIds.add(i.getSubGroupId());
+            System.out.println(i.getGrantInitiative() +"\t"+ i.getGrantTitle()+"\t"+ i.getGroupName()+"\tGROUPID:"+i.getGroupId()+"\t"+ i.getSubGroupName() +"\tSUBGROUP ID:"+i.getSubGroupId()+"\t"+i.getRole());
+        }
         Map<String, List<String>> groupRoleMap=service.getGroupsNRolesByMemberId(personId);
         Map<String, Map<String, List<String>>> groupSubgroupRoleMap=service.getGroupsByPersonId(personId);
         req.getSession().setAttribute("groupRoleMap", groupRoleMap);
@@ -47,33 +53,26 @@ public class DashboardController {
         //   req.setAttribute("message", message);
         req.setAttribute("status", req.getParameter("status"));
         StudyDao sdao=new StudyDao();
-        List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID/GroupId.
+        List<Study> studies=new ArrayList<>();
+        for(int groupId:groupIds){
+            if(DCCNIHGroupsIds.contains(groupId)){
+                studies.addAll(sdao.getStudies());
+            }else
+            studies.addAll(sdao.getStudiesByGroupId(groupId));
+        }
         service.addTier2Associations(studies);
         Map<Integer, Integer> tierUpdateMap=service.getTierUpdate(studies);
+        req.setAttribute("personInfoList",personInfoRecords);
+
         req.setAttribute("studies", studies);
         req.setAttribute("tierUpdateMap", tierUpdateMap);
         return "base";
     }
-
- /*   @RequestMapping(value="/home")
-    public String getDashboardHome(HttpServletRequest req) throws Exception {
-        StudyDao sdao=new StudyDao();
-        List<Study> studies = sdao.getStudies(); //this has to be changed to pull studies by memberID/GroupId.
-        req.setAttribute("studies", studies);
-        return "dashboardElements/home";
-    }
-    @RequestMapping(value="/mySubmissions")
-    public String getMySubmissions(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        StudyDao sdao=new StudyDao();
+    @ModelAttribute("DCCNIHGroupsIds")
+    public List<Integer> getDCCNIHGroupsIds() throws Exception {
         GroupDAO gdao=new GroupDAO();
-        PersonDao pdao=new PersonDao();
-        HttpSession session=req.getSession();
-        int memberId= (int) session.getAttribute("personId");
-        List<PersonInfo> infoList=pdao.getPersonInfoById(memberId);
-       System.out.println("MEMBER ID:"+ memberId +" GROUPS: " + infoList.size());
-     //   List<Study> studies = sdao.getStudiesByLab(memberId); //this has to be changed to pull studies by memberID/GroupId.
-    //    req.setAttribute("studies", studies);
-    //    return "tools/studies";
-        return null;
-    }*/
+       return gdao.getDCCNIHGroupIds();
+
+    }
+
 }
