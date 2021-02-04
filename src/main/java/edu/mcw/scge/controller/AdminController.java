@@ -16,7 +16,7 @@ import java.io.IOException;
 @Controller
 @RequestMapping(value="/admin")
 public class AdminController {
-    @GetMapping(value = "/")
+    @RequestMapping(value = "")
     public void getAnimalReporter(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
 
         req.setAttribute("action", "Administration");

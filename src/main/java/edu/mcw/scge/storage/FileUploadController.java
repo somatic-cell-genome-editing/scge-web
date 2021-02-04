@@ -1,6 +1,9 @@
 package edu.mcw.scge.storage;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +32,17 @@ public class FileUploadController {
 		this.storageService = storageService;
 	}
 
-	@GetMapping("/download")
+	@GetMapping("/download/{studyId}")
 	public String listDownloadFiles(Model model, HttpServletRequest req, HttpServletResponse res,
-									@ModelAttribute("message") String message) throws IOException, ServletException {
+									@ModelAttribute("message") String message, @PathVariable String studyId) throws IOException, ServletException {
 		//	storageService.loadAll().forEach(System.out::println);
 		req.setAttribute("message", message);
 
-
-
-		req.setAttribute("files", storageService.loadAll().map(
+		req.setAttribute("files", storageService.loadAll(studyId).map(
 				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-						"serveFile", path.getFileName().toString()).build().toUri().toString())
+						"serveFile", studyId + "/" + path.getFileName().toString()).build().toUri().toString())
 				.collect(Collectors.toList()));
+
 		req.setAttribute("action", "Download");
 		req.setAttribute("destination", "dataSubmission");
 		req.setAttribute("page", "/WEB-INF/jsp/submissions/download");
@@ -51,31 +53,12 @@ public class FileUploadController {
 		return null;
 	}
 
-
-
-	@GetMapping("/uploadFile")
-	public String listUploadedFiles(Model model, HttpServletRequest req, HttpServletResponse res,
-									@ModelAttribute("message") String message) throws IOException, ServletException {
-	//	storageService.loadAll().forEach(System.out::println);
-		req.setAttribute("message", message);
-		req.setAttribute("files", storageService.loadAll().map(
-				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-						"serveFile", path.getFileName().toString()).build().toUri().toString())
-				.collect(Collectors.toList()));
-		req.setAttribute("action", "Data Submission System");
-		req.setAttribute("destination", "dataSubmission");
-		req.setAttribute("page", "/WEB-INF/jsp/submissions/submission");
-		req.setAttribute("groupRoleMap",req.getSession().getAttribute("groupRoleMap"));
-		req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-
-	//	return "submissions/uploadForm";
-		return null;
-	}
-
-	@GetMapping("/files/{filename:.+}")
+	@GetMapping("/files/{studyId}/{filename:.+}")
 	@ResponseBody
-	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-		Resource file = storageService.loadAsResource(filename);
+	public ResponseEntity<Resource> serveFile(@PathVariable String filename, @PathVariable String studyId) {
+
+		Resource file = storageService.loadAsResource(studyId + "/" + filename);
+
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
@@ -96,5 +79,23 @@ public class FileUploadController {
 	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
 		return ResponseEntity.notFound().build();
 	}
+/*
+	@GetMapping("/uploadFile")
+	public String listUploadedFiles(Model model, HttpServletRequest req, HttpServletResponse res,
+									@ModelAttribute("message") String message) throws IOException, ServletException {
+		req.setAttribute("message", message);
+		req.setAttribute("files", storageService.loadAll().map(
+				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+						"serveFile", path.getFileName().toString()).build().toUri().toString())
+				.collect(Collectors.toList()));
+		req.setAttribute("action", "Data Submission System");
+		req.setAttribute("destination", "dataSubmission");
+		req.setAttribute("page", "/WEB-INF/jsp/submissions/submission");
+		req.setAttribute("groupRoleMap",req.getSession().getAttribute("groupRoleMap"));
+		req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+		return null;
+	}
+*/
 
 }
