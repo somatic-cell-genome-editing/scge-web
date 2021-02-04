@@ -29,6 +29,30 @@ public class FileUploadController {
 		this.storageService = storageService;
 	}
 
+	@GetMapping("/download")
+	public String listDownloadFiles(Model model, HttpServletRequest req, HttpServletResponse res,
+									@ModelAttribute("message") String message) throws IOException, ServletException {
+		//	storageService.loadAll().forEach(System.out::println);
+		req.setAttribute("message", message);
+
+
+
+		req.setAttribute("files", storageService.loadAll().map(
+				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+						"serveFile", path.getFileName().toString()).build().toUri().toString())
+				.collect(Collectors.toList()));
+		req.setAttribute("action", "Download");
+		req.setAttribute("destination", "dataSubmission");
+		req.setAttribute("page", "/WEB-INF/jsp/submissions/download");
+		req.setAttribute("groupRoleMap",req.getSession().getAttribute("groupRoleMap"));
+		req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+		//	return "submissions/uploadForm";
+		return null;
+	}
+
+
+
 	@GetMapping("/uploadFile")
 	public String listUploadedFiles(Model model, HttpServletRequest req, HttpServletResponse res,
 									@ModelAttribute("message") String message) throws IOException, ServletException {
@@ -60,7 +84,8 @@ public class FileUploadController {
 	public String handleFileUpload(@RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
 
-		storageService.store(file);
+		//removed upload for now
+		//storageService.store(file);
 		redirectAttributes.addFlashAttribute("message",
 				"You successfully uploaded " + file.getOriginalFilename() + "!");
 

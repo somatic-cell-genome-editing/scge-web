@@ -45,8 +45,13 @@
 </script>
 <script src="/toolkit/js/edit.js"></script>
 
+
+
+
+
 <% List<Study> studies = (List<Study>) request.getAttribute("studies");
     Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
+
 
 %>
 <table align="center">

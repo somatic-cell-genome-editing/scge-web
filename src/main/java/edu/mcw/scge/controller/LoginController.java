@@ -89,7 +89,10 @@ public class LoginController{
                         int personId = 0;
                         if (persons.size() > 0)
                             personId = persons.get(0).getId();
+                        userAttributes.put("email","bob@yahoo.com");
                         session.setAttribute("userAttributes",userAttributes);
+                        System.out.println(userAttributes.toString());
+
                         session.setAttribute("personId", personId);
                         return "redirect:/loginSuccess";
                     }

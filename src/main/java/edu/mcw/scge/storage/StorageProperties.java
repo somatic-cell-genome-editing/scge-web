@@ -14,7 +14,7 @@ public class StorageProperties {
 	/**
 	 * Folder location for storing files
 	 */
-	private String location = "C:/tmp/upload-dir";
+	private String location = "/Users/jdepons/upload-dir/";
 	//private String location = "upload-dir";
 	public String getLocation() {
 		return location;

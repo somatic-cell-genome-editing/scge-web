@@ -158,7 +158,9 @@ Goals"/>
                            <a class="nav-link" href="/toolkit/?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
                        </li-->
                     <c:if test="${userAttributes.get('name')!=null}">
+
                         <li class="nav-item">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fas fa-th"></i>&nbsp;Dashboard</a></li>
+                        <li class="nav-item">   <a class="nav-link" href="/toolkit/admin" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fas fa-th"></i>&nbsp;Admin</a></li>
                         <!--li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
                         </li-->
                     </c:if>
@@ -177,7 +179,7 @@ Goals"/>
                     <!--h1 class="page-header">Dashboard</h1-->
                     <c:choose>
                         <c:when test="${action!=null}">
-                            <h4 class="page-header" style="color:grey;">${action}  </h4>
+                            <h4 class="page-header" style="color:#1A80B6;font-size:30px;">${action}  </h4>
                             <hr>
                         </c:when>
                         <c:otherwise>
