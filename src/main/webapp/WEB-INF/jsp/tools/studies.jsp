@@ -4,6 +4,8 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="edu.mcw.scge.datamodel.PersonInfo" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -47,8 +49,9 @@
 
 <% List<Study> studies = (List<Study>) request.getAttribute("studies");
     Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
-
+    List<PersonInfo> personInfoList= (List<PersonInfo>) request.getAttribute("personInfoList");
 %>
+<c:if test="${action!='Dashboard'}">
 <table align="center">
     <tr>
         <td align="center"><img height="100" width="100" src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" border="0"/></td>
@@ -60,18 +63,15 @@
         </td>
     </tr>
 </table>
+</c:if>
 <br>
 
 
 <div>
     <table id="myTable" class="tablesorter">
         <thead>
-        <tr><!--th>Select</th-->
-            <!--th>Action</th-->
-            <c:if test="${userAttributes.get('name')!=null}">
-                <th>Action</th>
-                <th>Tier</th>
-            </c:if>
+        <tr><th>Action</th>
+            <th>Tier</th>
             <th>Name</th>
             <th>Institution</th>
             <th>Contact PI</th>
@@ -82,13 +82,24 @@
         </tr>
         </thead>
 
-        <% for (Study s: studies) { %>
+        <% for (Study s: studies) {
+        boolean hasUpdateAction=false;
+            for(PersonInfo i:personInfoList){
+                if(s.getGroupId()==i.getSubGroupId()){
+                    hasUpdateAction=true;
+                }
+            }
+        %>
         <tr>
             <!--td><input class="form" type="checkbox"></td-->
             <!--td><button class="btn btn-outline-secondary btn-sm">Edit</button></td-->
 
-            <c:if test="${userAttributes.get('name')!=null}">
                 <td>
+
+                    <!--c:if test="$-{userAttributes.get('name')!=null && personInfoRecords.get(0).personId==personId}"-->
+                    <c:if test="${userAttributes.get('name')!=null}">
+
+                    <%if(hasUpdateAction){%>
                     <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="edit/access">
                         <div class="col  tiers">
                             <% int tier=0;
@@ -208,15 +219,22 @@
 
 
                     </div>
+                        <%}%>
+                    </c:if>
+
                 </td>
                 <td style="width: 10%">
                     <%=s.getTier()%>
                 </td>
-            </c:if>
-            <td><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
+            <td><%if(hasUpdateAction)  {%><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%}%><%=s.getStudy()%>
+                <%if(hasUpdateAction)  {%></a><%}%>
+            </td>
             <td><%=s.getLabName()%></td>
             <td><%=s.getPi()%></td>
-            <td><a href="<%=s.getRawData()%>">[Download]</a></td>
+            <td><%if(hasUpdateAction)  {%>
+                <a href="<%=s.getRawData()%>">[Download]</a>
+                <%}%>
+            </td>
             <td><%=s.getSubmissionDate()%></td>
             <td><%=s.getStudyId()%></td>
         </tr>

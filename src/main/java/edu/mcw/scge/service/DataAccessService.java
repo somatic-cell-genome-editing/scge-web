@@ -667,10 +667,10 @@ public class DataAccessService extends AbstractDAO {
             plotData.put("Tier-4", tier4);
 
         }
-        System.out.println(labels.toString());
+      /*  System.out.println(labels.toString());
         for(Map.Entry entry:plotData.entrySet()){
             System.out.println(entry.getKey()+ "\t"+ entry.getValue().toString());
-        }
+        }*/
        DataAccessService.labels=labels;
         return  plotData;
     }

@@ -4,6 +4,7 @@ package edu.mcw.scge.controller;
 import com.google.gson.Gson;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.datamodel.Person;
+import edu.mcw.scge.datamodel.PersonInfo;
 import edu.mcw.scge.service.DataAccessService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ public class LoginController{
     }
 
     @RequestMapping("/loginSuccessPage")
-    public String verifyAuthentication(@ModelAttribute("userAttributes") Map userAttributes, HttpServletRequest req) throws Exception {
+    public String verifyAuthentication(@ModelAttribute("userAttributes") Map userAttributes,@ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords, HttpServletRequest req) throws Exception {
         boolean userExists = verifyUserExists(userAttributes.get("sub").toString(), userAttributes.get("email").toString());
         if (userExists) {
                     String userStatus = pdao.getPersonStatus(userAttributes.get("sub").toString());
@@ -91,6 +92,12 @@ public class LoginController{
                             personId = persons.get(0).getId();
                         session.setAttribute("userAttributes",userAttributes);
                         session.setAttribute("personId", personId);
+                        session.setAttribute("personInfoList", personInfoRecords);
+                        req.setAttribute("personInfoList", personInfoRecords);
+                      /*  System.out.println("PersonInoRecords size: "+personInfoRecords.size() );
+                        for(PersonInfo i:personInfoRecords){
+                            System.out.println(i.getGrantInitiative() +"\t"+ i.getGrantTitle()+"\t"+ i.getGroupName()+"\tGROUPID:"+i.getGroupId()+"\t"+ i.getSubGroupName() +"\tSUBGROUP ID:"+i.getSubGroupId()+"\t"+i.getRole());
+                        }*/
                         return "redirect:/loginSuccess";
                     }
                 } else {
@@ -138,6 +145,22 @@ public class LoginController{
         }
         return null;
     }
+    @ModelAttribute("personInfoRecords")
+    public List<PersonInfo> getPerson(@ModelAttribute("userAttributes") Map userAttributes) throws Exception {
+      if(userAttributes!=null) {
+          boolean userExists = verifyUserExists(userAttributes.get("sub").toString(), userAttributes.get("email").toString());
+          List<PersonInfo> personInfoList = new ArrayList<>();
+          if (userExists) {
+              List<Person> personRecords = pdao.getPersonByGoogleId(userAttributes.get("sub").toString());
+              if (personRecords.size() > 0)
+                  personInfoList = pdao.getPersonInfo(personRecords.get(0).getId());
+          }
+          return personInfoList;
+      }
+      return null;
+    }
+
+
  /*  @ModelAttribute("tiers")
     public List<String> getTiers() {
         List<String> tiers = new ArrayList<String>();
