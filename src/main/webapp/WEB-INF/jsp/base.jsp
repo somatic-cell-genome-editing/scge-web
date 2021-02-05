@@ -177,16 +177,21 @@ Goals"/>
         <c:if test="${destination!='create'}">
             <div class="" style="margin-top: 0;padding-top: 0">
                 <div class="container-fluid">
-                    <div align="center">
-                    <c:forEach items="${personInfoRecords}" var="i">
-                        <p style="padding: 0;" class="text-muted"><strong>Initiative:</strong> ${i.groupName} &nbsp;<strong>User Group:</strong> ${i.subGroupName}</p>
-                    </c:forEach>
-                    </div>
+
                     <!--h1 class="page-header">Dashboard</h1-->
                     <c:choose>
                         <c:when test="${action!=null}">
                             <h4 class="page-header" style="color:#1A80B6;font-size:30px;">${action}  </h4>
                             <hr>
+                            <c:if test="${action=='Dashboard'}">
+                                <div align="right">
+                                    <c:forEach items="${personInfoList}" var="i">
+                                        <p style="padding: 0;" class="text-muted">
+                                            <strong>Initiative:</strong> ${i.groupName} &nbsp;
+                                            <strong>User Group:</strong> ${i.subGroupName}</p>
+                                    </c:forEach>
+                                </div>
+                            </c:if>
                         </c:when>
                         <c:otherwise>
                             <!--h4 class="page-header" style="color:grey;">Dashboard</h4-->
@@ -238,18 +243,15 @@ Goals"/>
                         </c:otherwise>
                     </c:choose>
                     <div style="margin-top: 0;padding-top:0">
+                        <c:if test="${page!=null}">
                         <c:import url="/${page}.jsp" />
+                        </c:if>
                     </div>
                 </div>
             </div>
         </c:if>
     </div>
-    <c:if test="${destination=='create'}">
-        <!--div class="container">
-        <h4 style="color:cornflowerblue">Welcome to Somatic Cell Genome Editing</h4>
-        </div-->
-        <c:import url="/${page}.jsp" />
-    </c:if>
+
 </div>
 
 <div class="fusion-clearfix"></div>
@@ -271,7 +273,7 @@ Goals"/>
 
 <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script-->
 <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script-->
-    <!--script>
+    <script>
     $.ajaxSetup({
     beforeSend : function(xhr, settings) {
     if (settings.type == 'POST' || settings.type == 'PUT'
@@ -285,6 +287,6 @@ Goals"/>
     }
     }
     });
-    </script-->
+    </script>
 </body>
 </html>

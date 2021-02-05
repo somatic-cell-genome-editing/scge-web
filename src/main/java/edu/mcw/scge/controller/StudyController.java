@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value="/data/studies")
@@ -25,11 +26,29 @@ public class StudyController extends LoginController{
 
     @RequestMapping(value="/search")
     public String getStudies(HttpServletRequest req, HttpServletResponse res, @ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords) throws Exception {
+      if(personInfoRecords==null)
+          return "redirect:/";
+       int personId=personInfoRecords.get(0).getPersonId();
         StudyDao sdao=new StudyDao();
         List<Study> studies = sdao.getStudies();
-        System.out.println("STUDIES: "+studies.size());
-        req.setAttribute("personInfoList",personInfoRecords);
+     //   Map<String, Map<String, List<String>>> groupSubgroupRoleMap = service.getGroupsByPersonId(personId);
+      //  req.getSession().setAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
+
+        Map<Integer, List<SCGEGroup>> consortiumGroups = service.getGroupsMapByGroupName("consortium");
+        Map<SCGEGroup, List<Person>> groupMembersMap = service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
+        Map<SCGEGroup, List<Person>> DCCNIHMembersMap = service.getDCCNIHMembersMap(consortiumGroups);
+
+        req.setAttribute("groupsMap1", consortiumGroups);
+        req.setAttribute("groupMembersMap", groupMembersMap);
+        req.setAttribute("DCCNIHMembersMap", DCCNIHMembersMap);
+        //   req.setAttribute("message", message);
+        req.setAttribute("status", req.getParameter("status"));
+        service.addTier2Associations(studies);
+        Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
+
         req.setAttribute("studies", studies);
+        req.setAttribute("tierUpdateMap", tierUpdateMap);
+        req.setAttribute("personInfoRecords",personInfoRecords);
         req.setAttribute("action", "Studies");
         req.setAttribute("page", "/WEB-INF/jsp/tools/studies");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
