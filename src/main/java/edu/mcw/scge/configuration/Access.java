@@ -1,7 +1,5 @@
 package edu.mcw.scge.configuration;
 
-<<<<<<< HEAD
-
 import edu.mcw.scge.datamodel.PersonInfo;
 import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.dao.implementation.StudyDao;
