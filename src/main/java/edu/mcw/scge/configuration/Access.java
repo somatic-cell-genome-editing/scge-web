@@ -12,7 +12,7 @@ public class Access {
     private static Access a;
 
     public static Access getInstance() {
-        if (a == null) {
+        if (a != null) {
             return a;
         }else {
             return new Access();
