@@ -16,7 +16,7 @@ import java.io.IOException;
 @Controller
 @RequestMapping(value="/data")
 public class DataController {
-    @GetMapping(value="animalReporter")
+ /*   @GetMapping(value="animalReporter")
     public void getAnimalReporter(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
 
             req.setAttribute("action", "Animal Reporter Models");
@@ -36,5 +36,5 @@ public class DataController {
             req.setAttribute("message", "Please Login");
             res.sendRedirect("/scge/home?message="+"please login");
         }*/
-    }
+  /*  }*/
 }

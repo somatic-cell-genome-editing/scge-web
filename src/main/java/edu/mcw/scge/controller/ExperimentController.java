@@ -4,23 +4,24 @@ import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.ExperimentRecordDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
-import edu.mcw.scge.datamodel.Editor;
-import edu.mcw.scge.datamodel.Experiment;
-import edu.mcw.scge.datamodel.ExperimentRecord;
-import edu.mcw.scge.datamodel.Study;
+import edu.mcw.scge.datamodel.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping(value="/data/experiments")
-public class ExperimentController {
+public class ExperimentController extends LoginController {
+    ExperimentDao edao = new ExperimentDao();
+    StudyDao sdao = new StudyDao();
 
     @RequestMapping(value="/search")
     public String getExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
@@ -37,35 +38,31 @@ public class ExperimentController {
     }
 
     @RequestMapping(value="/search/{studyId}")
-    public String getExperimentRecordsByStudy(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable(required = false) int studyId) throws Exception {
-        ExperimentDao edao = new ExperimentDao();
+    public String getExperimentRecordsByStudy(HttpServletRequest req, HttpServletResponse res,
+                                              @ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords,
+                                              @PathVariable(required = false) int studyId) throws Exception {
 
-        StudyDao sdao = new StudyDao();
-        Study study = sdao.getStudyById(studyId).get(0);
+        if(hasAccess(studyId, "study",personInfoRecords)) {
+            Study study = sdao.getStudyById(studyId).get(0);
+            List<Experiment> records = edao.getExperimentsByStudy(studyId);
+            System.out.println(records.size());
+            req.setAttribute("experiments", records);
+            req.setAttribute("study", study);
+            req.setAttribute("action", "Experiments");
+            req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        }
 
-        List<Experiment> records=edao.getExperimentsByStudy(studyId);
-        System.out.println(records.size());
-        req.setAttribute("experiments", records);
-        req.setAttribute("study", study);
-        req.setAttribute("action", "Experiments");
-        req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-
-        return null;
+        return "error";
     }
 
 
     @RequestMapping(value="/record/{experimentId}")
     public String getExperimentRecords(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable(required = false) int experimentId) throws Exception {
-        ExperimentDao edao = new ExperimentDao();
-
-
-        StudyDao sdao = new StudyDao();
 
 
         List<ExperimentRecord> records=edao.getExperimentRecords(experimentId);
         System.out.println(records.size());
-
         req.setAttribute("experimentRecords", records);
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
         req.setAttribute("study", study);
@@ -76,18 +73,26 @@ public class ExperimentController {
         return null;
     }
 
+    public boolean hasAccess(int id, String idType,  List<PersonInfo> personInfoRecords) throws Exception {
+        int personId=personInfoRecords.get(0).getPersonId();
+        boolean flag=false;
+        List<Integer> DCCNIHGroupsIds=service.getDCCNIHGroupsIds();
+        List<Experiment> experiments=new ArrayList<>();
+        for(PersonInfo i:personInfoRecords) {
+            if (DCCNIHGroupsIds.contains(i.getSubGroupId())) {
+                flag=true;
+            }
+        }
+        if (idType.equalsIgnoreCase("study")) {
+            if(flag) {
+                   return flag;
+            }else
+                   experiments = edao.getExperimentsByStudy(id, personId);
+            return experiments != null && experiments.size() > 0;
 
+        }
 
-    @RequestMapping(value="/experiment")
-    public String getExperiment(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        /*
-        EditorDao dao = new EditorDao();
-        Editor editor= dao.getEditorById(Integer.parseInt(req.getParameter("id"))).get(0);
-        req.setAttribute("editor", editor);
-        req.setAttribute("action", editor.getSymbol());
-        req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-*/
-        return null;
+        return false;
     }
+
 }

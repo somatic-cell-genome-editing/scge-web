@@ -49,7 +49,7 @@
 
 <% List<Study> studies = (List<Study>) request.getAttribute("studies");
     Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
-    List<PersonInfo> personInfoList= (List<PersonInfo>) request.getAttribute("personInfoList");
+    List<PersonInfo> personInfoRecords= (List<PersonInfo>) request.getAttribute("personInfoRecords");
 %>
 <c:if test="${action!='Dashboard'}">
 <table align="center">
@@ -84,7 +84,7 @@
 
         <% for (Study s: studies) {
         boolean hasUpdateAction=false;
-            for(PersonInfo i:personInfoList){
+            for(PersonInfo i:personInfoRecords){
                 if(s.getGroupId()==i.getSubGroupId()){
                     hasUpdateAction=true;
                 }

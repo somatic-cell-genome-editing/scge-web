@@ -2,6 +2,7 @@ package edu.mcw.scge.controller;
 
 
 import com.google.gson.Gson;
+import edu.mcw.scge.dao.implementation.GroupDAO;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.PersonInfo;
@@ -127,20 +128,21 @@ public class LoginController{
     public Map getUserAttributes(OAuth2AuthenticationToken authentication){
         if(authentication!=null) {
             OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
-            System.out.println("Principal Name:" + client.getPrincipalName());
-            String userInfoEndpointUri = client.getClientRegistration()
-                    .getProviderDetails()
-                    .getUserInfoEndpoint()
-                    .getUri();
-            if (!StringUtils.isEmpty(userInfoEndpointUri)) {
-                RestTemplate restTemplate = new RestTemplate();
-                HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + client.getAccessToken()
-                        .getTokenValue());
-                HttpEntity<String> entity = new HttpEntity<String>("", headers);
+            if(client!=null) {
+                String userInfoEndpointUri = client.getClientRegistration()
+                        .getProviderDetails()
+                        .getUserInfoEndpoint()
+                        .getUri();
+                if (!StringUtils.isEmpty(userInfoEndpointUri)) {
+                    RestTemplate restTemplate = new RestTemplate();
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + client.getAccessToken()
+                            .getTokenValue());
+                    HttpEntity<String> entity = new HttpEntity<String>("", headers);
 
-                ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
-                return response.getBody();
+                    ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
+                    return response.getBody();
+                }
             }
         }
         return null;

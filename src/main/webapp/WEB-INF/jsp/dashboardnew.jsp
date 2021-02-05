@@ -1,6 +1,13 @@
 <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/dashboard/">
-
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!--div align="center">
+    <!c:forEach items="$-{personInfoList}" var="i"-->
+        <!--p style="padding: 0;" class="text-muted">
+            <strong>Initiative:</strong> $--{i.groupName} &nbsp;
+            <strong>User Group:</strong> $--{i.subGroupName}</p-->
+    <!--/c:forEach-->
+<!--/div-->
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
