@@ -1,20 +1,22 @@
 package edu.mcw.scge.controller;
 
+import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.ExperimentRecordDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
-import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.datamodel.Experiment;
+import edu.mcw.scge.datamodel.ExperimentRecord;
+import edu.mcw.scge.datamodel.PersonInfo;
+import edu.mcw.scge.datamodel.Study;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,7 +24,7 @@ import java.util.List;
 public class ExperimentController extends LoginController {
     ExperimentDao edao = new ExperimentDao();
     StudyDao sdao = new StudyDao();
-
+    Access access=new Access();
     @RequestMapping(value="/search")
     public String getExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentRecordDao edao=new ExperimentRecordDao();
@@ -42,10 +44,9 @@ public class ExperimentController extends LoginController {
                                               @ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords,
                                               @PathVariable(required = false) int studyId) throws Exception {
 
-        if(hasAccess(studyId, "study",personInfoRecords)) {
+        if(access.hasAccess(studyId, "study",personInfoRecords)) {
             Study study = sdao.getStudyById(studyId).get(0);
             List<Experiment> records = edao.getExperimentsByStudy(studyId);
-            System.out.println(records.size());
             req.setAttribute("experiments", records);
             req.setAttribute("study", study);
             req.setAttribute("action", "Experiments");
@@ -59,8 +60,6 @@ public class ExperimentController extends LoginController {
 
     @RequestMapping(value="/record/{experimentId}")
     public String getExperimentRecords(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable(required = false) int experimentId) throws Exception {
-
-
         List<ExperimentRecord> records=edao.getExperimentRecords(experimentId);
         System.out.println(records.size());
         req.setAttribute("experimentRecords", records);
@@ -73,26 +72,7 @@ public class ExperimentController extends LoginController {
         return null;
     }
 
-    public boolean hasAccess(int id, String idType,  List<PersonInfo> personInfoRecords) throws Exception {
-        int personId=personInfoRecords.get(0).getPersonId();
-        boolean flag=false;
-        List<Integer> DCCNIHGroupsIds=service.getDCCNIHGroupsIds();
-        List<Experiment> experiments=new ArrayList<>();
-        for(PersonInfo i:personInfoRecords) {
-            if (DCCNIHGroupsIds.contains(i.getSubGroupId())) {
-                flag=true;
-            }
-        }
-        if (idType.equalsIgnoreCase("study")) {
-            if(flag) {
-                   return flag;
-            }else
-                   experiments = edao.getExperimentsByStudy(id, personId);
-            return experiments != null && experiments.size() > 0;
 
-        }
 
-        return false;
-    }
 
 }
