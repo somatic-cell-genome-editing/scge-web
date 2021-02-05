@@ -81,26 +81,27 @@ public class LoginController{
     }
 
     @RequestMapping("/loginSuccessPage")
-    public String verifyAuthentication( @ModelAttribute("userAttributes") Map userAttributes,@ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords, HttpServletRequest req) throws Exception {
+    public String verifyAuthentication( @ModelAttribute("userAttributes") Map userAttributes, HttpServletRequest req) throws Exception {
         if (req.getSession().getAttribute("userAttributes") != null) {
             return "redirect:/loginSuccess";
         }
 
         boolean userExists = verifyUserExists(userAttributes.get("sub").toString(), userAttributes.get("email").toString());
         if (userExists) {
-                    String userStatus = pdao.getPersonStatus(userAttributes.get("sub").toString());
+                    Person p = pdao.getPersonByEmail(userAttributes.get("email").toString()).get(0);
+
+                    String userStatus = p.getStatus();
                     if (userStatus.equalsIgnoreCase("active")) {
                         HttpSession session = req.getSession(true);
-                        List<Person> persons = pdao.getPersonByGoogleId(userAttributes.get("sub").toString());
-                        int personId = 0;
-                        if (persons.size() > 0)
-                            personId = persons.get(0).getId();
+                                //pdao.getPersonByGoogleId(userAttributes.get("sub").toString());
+                          int personId = p.getId();
 
+                        userAttributes.put("personId",personId);
                         session.setAttribute("userAttributes",userAttributes);
-
                         session.setAttribute("personId", personId);
-                        session.setAttribute("personInfoList", personInfoRecords);
-                        req.setAttribute("personInfoList", personInfoRecords);
+
+                        session.setAttribute("personInfoList", getPerson(userAttributes));
+                        req.setAttribute("personInfoList", getPerson(userAttributes));
                       /*  System.out.println("PersonInoRecords size: "+personInfoRecords.size() );
                         for(PersonInfo i:personInfoRecords){
                             System.out.println(i.getGrantInitiative() +"\t"+ i.getGrantTitle()+"\t"+ i.getGroupName()+"\tGROUPID:"+i.getGroupId()+"\t"+ i.getSubGroupName() +"\tSUBGROUP ID:"+i.getSubGroupId()+"\t"+i.getRole());

@@ -1,26 +1,71 @@
 package edu.mcw.scge.configuration;
 
+import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.PersonInfo;
+import edu.mcw.scge.datamodel.SCGEGroup;
 import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.service.DataAccessService;
+import edu.mcw.scge.service.db.DBService;
+
 
 import java.util.List;
+import java.util.Map;
 
 public class Access {
 
+    private Map<Integer, List<SCGEGroup>> consortiumGroups = null;
+    private Map<SCGEGroup, List<Person>> groupMembersMap = null;
+    private Map<SCGEGroup, List<Person>> DCCNIHMembersMap = null;
 
+    private static Access access;
 
-    private static Access a;
+    public Access () {
 
-    public static Access getInstance() {
-        if (a != null) {
-            return a;
-        }else {
-            return new Access();
+        DataAccessService service=new DataAccessService();
+        try {
+            this.consortiumGroups = service.getGroupsMapByGroupName("consortium");
+            this.groupMembersMap = service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
+            this.DCCNIHMembersMap = service.getDCCNIHMembersMap(consortiumGroups);
+        }catch (Exception e) {
+            System.out.println(e);
         }
 
     }
+
+    public static Access getInstance() {
+        if (access != null) {
+            return access;
+        }else {
+            access =  new Access();
+            return access;
+        }
+    }
+
+    public Map<Integer, List<SCGEGroup>> getConsortiumGroups() {
+        return consortiumGroups;
+    }
+
+    public void setConsortiumGroups(Map<Integer, List<SCGEGroup>> consortiumGroups) {
+        this.consortiumGroups = consortiumGroups;
+    }
+
+    public Map<SCGEGroup, List<Person>> getGroupMembersMap() {
+        return groupMembersMap;
+    }
+
+    public void setGroupMembersMap(Map<SCGEGroup, List<Person>> groupMembersMap) {
+        this.groupMembersMap = groupMembersMap;
+    }
+
+    public Map<SCGEGroup, List<Person>> getDCCNIHMembersMap() {
+        return DCCNIHMembersMap;
+    }
+
+    public void setDCCNIHMembersMap(Map<SCGEGroup, List<Person>> DCCNIHMembersMap) {
+        this.DCCNIHMembersMap = DCCNIHMembersMap;
+    }
+
 
     public boolean hasAccessToStudy(PersonInfo p, Study s) {
         if(s.getGroupId()==p.getSubGroupId()){

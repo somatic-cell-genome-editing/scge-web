@@ -47,6 +47,7 @@ public class AdminController extends LoginController{
 
         attributes.put("email", p.getEmail());
         attributes.put("name", p.getName());
+        attributes.put("personId",p.getId());
 
         sess.setAttribute("userAttributes",attributes);
         System.out.println(attributes.toString());

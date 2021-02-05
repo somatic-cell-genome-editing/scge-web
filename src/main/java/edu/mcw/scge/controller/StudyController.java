@@ -1,9 +1,11 @@
 package edu.mcw.scge.controller;
 
 import com.google.gson.Gson;
+import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.ExperimentRecordDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
+
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
@@ -34,10 +36,12 @@ public class StudyController extends LoginController{
      //   Map<String, Map<String, List<String>>> groupSubgroupRoleMap = service.getGroupsByPersonId(personId);
       //  req.getSession().setAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
 
-        Map<Integer, List<SCGEGroup>> consortiumGroups = service.getGroupsMapByGroupName("consortium");
-        Map<SCGEGroup, List<Person>> groupMembersMap = service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
-        Map<SCGEGroup, List<Person>> DCCNIHMembersMap = service.getDCCNIHMembersMap(consortiumGroups);
+        System.out.println("here 1");
+        Map<Integer, List<SCGEGroup>> consortiumGroups = Access.getInstance().getConsortiumGroups();
+        Map<SCGEGroup, List<Person>> groupMembersMap = Access.getInstance().getGroupMembersMap();
+        Map<SCGEGroup, List<Person>> DCCNIHMembersMap = Access.getInstance().getDCCNIHMembersMap();
 
+        System.out.println("here 2");
         req.setAttribute("groupsMap1", consortiumGroups);
         req.setAttribute("groupMembersMap", groupMembersMap);
         req.setAttribute("DCCNIHMembersMap", DCCNIHMembersMap);
