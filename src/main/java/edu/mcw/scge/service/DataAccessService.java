@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -682,4 +683,11 @@ public class DataAccessService extends AbstractDAO {
         String sub=payload.getSubject();
 
     }
+
+    public List<Integer> getDCCNIHGroupsIds() throws Exception {
+        GroupDAO gdao=new GroupDAO();
+        return gdao.getDCCNIHGroupIds();
+
+    }
+
 }
