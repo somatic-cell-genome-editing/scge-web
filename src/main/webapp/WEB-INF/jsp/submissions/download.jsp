@@ -1,7 +1,8 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="edu.mcw.scge.datamodel.Study" %><%--
+<%@ page import="edu.mcw.scge.datamodel.Study" %>
+<%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 10/8/2020
