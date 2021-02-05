@@ -81,7 +81,11 @@ public class LoginController{
     }
 
     @RequestMapping("/loginSuccessPage")
-    public String verifyAuthentication(@ModelAttribute("userAttributes") Map userAttributes,@ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords, HttpServletRequest req) throws Exception {
+    public String verifyAuthentication( @ModelAttribute("userAttributes") Map userAttributes,@ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords, HttpServletRequest req) throws Exception {
+        if (req.getSession().getAttribute("userAttributes") != null) {
+            return "redirect:/loginSuccess";
+        }
+
         boolean userExists = verifyUserExists(userAttributes.get("sub").toString(), userAttributes.get("email").toString());
         if (userExists) {
                     String userStatus = pdao.getPersonStatus(userAttributes.get("sub").toString());
@@ -91,9 +95,8 @@ public class LoginController{
                         int personId = 0;
                         if (persons.size() > 0)
                             personId = persons.get(0).getId();
-                        userAttributes.put("email","bob@yahoo.com");
+
                         session.setAttribute("userAttributes",userAttributes);
-                        System.out.println(userAttributes.toString());
 
                         session.setAttribute("personId", personId);
                         session.setAttribute("personInfoList", personInfoRecords);
