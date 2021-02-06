@@ -83,8 +83,6 @@ public class LoginController{
     @RequestMapping("/loginSuccessPage")
     public String verifyAuthentication(OAuth2AuthenticationToken authentication, HttpServletRequest req) throws Exception {
         Map userAttributes=getUserAttributes(authentication);
-        UserService user=new UserService();
-        user.getCurrentUser();
 
         if(userAttributes!=null) {
             boolean userExists = access.verifyUserExists(userAttributes.get("sub").toString(), userAttributes.get("email").toString());
