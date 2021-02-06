@@ -7,15 +7,14 @@ import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.ExperimentRecordDao;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
-import edu.mcw.scge.datamodel.Person;
-import edu.mcw.scge.datamodel.SCGEGroup;
-import edu.mcw.scge.datamodel.Study;
+import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.Data;
 import edu.mcw.scge.service.DataAccessService;
 import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -56,7 +55,7 @@ public class StudyController{
 
             return "base";
         }
-        return null;
+        return "redirect:/";
     }
 
 
@@ -81,7 +80,7 @@ public class StudyController{
         return null;
     }
 
-    /*
+
     @GetMapping(value="/search/results/{id}")
     public void getResults(@PathVariable String id, HttpServletRequest req, HttpServletResponse res) throws Exception {
         int experimentId= Integer.parseInt(id);
@@ -91,14 +90,14 @@ public class StudyController{
         List<ExperimentRecord> records=dbService.getExperimentRecordById(experimentId);
         if(records.size()>0){
             ExperimentRecord r=  records.get(0);
-            edu.mcw.scge.datamodel.Model m= dbService.getModelById( e.getModelId());
-            List<ReporterElement> reporterElements=dbService.getReporterElementsByExpRecId(r.getExperimentRecId());
-            List<AnimalTestingResultsSummary> results=dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecId());
+            edu.mcw.scge.datamodel.Model m= dbService.getModelById( r.getModelId());
+            List<ReporterElement> reporterElements=dbService.getReporterElementsByExpRecId(r.getExperimentRecordId());
+            List<AnimalTestingResultsSummary> results=dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecordId());
             for(AnimalTestingResultsSummary s: results){
                 List<Sample> samples= dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
                 s.setSamples(samples  );
             }
-            List<Delivery> deliveryList=dbService.getDeliveryVehicles(e.getDeliverySystemId());
+            List<Delivery> deliveryList=dbService.getDeliveryVehicles(r.getDeliverySystemId());
             List<ApplicationMethod> applicationMethod=dbService.getApplicationMethodsById(r.getApplicationMethodId());
             req.setAttribute("applicationMethod", applicationMethod);
             req.setAttribute("deliveryList", deliveryList);
@@ -129,5 +128,5 @@ public class StudyController{
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
     }
-*/
+
 }

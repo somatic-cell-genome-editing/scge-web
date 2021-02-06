@@ -10,7 +10,7 @@ import java.security.Principal;
 /**
  * Created by jthota on 11/19/2019.
  */
-@RestController
+//@RestController
 public class UserController {
     @GetMapping("/user")
     public Principal user(Principal principal) {
