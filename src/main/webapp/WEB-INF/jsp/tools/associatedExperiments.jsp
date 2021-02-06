@@ -31,7 +31,7 @@
         <tr>
             <!--td><input class="form" type="checkbox"></td-->
 
-            <td><a href="/toolkit/data/experiments/search/<%=exp.getStudyId()%>"><%=SFN.parse(exp.getStudyName())%></a></td>
+            <td><a href="/toolkit/data/experiments/study/<%=exp.getStudyId()%>"><%=SFN.parse(exp.getStudyName())%></a></td>
             <td><a href="/toolkit/data/studies/search/results/<%=exp.getExperimentId()%>"><%=SFN.parse(exp.getExperimentName())%></a></td>
             <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=SFN.parse(exp.getEditorSymbol())%></a></td>
             <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>

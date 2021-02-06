@@ -70,7 +70,7 @@
 
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
-        <td><a href="/toolkit/data/experiments/record/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td>
+        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td>
         <td><%=exp.getType()%></td>
         <td><%=exp.getExperimentId()%></td>
     </tr>

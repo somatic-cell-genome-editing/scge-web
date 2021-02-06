@@ -230,7 +230,7 @@
                 <td style="width: 10%">
                     <%=s.getTier()%>
                 </td>
-            <td><%if(hasUpdateAction)  {%><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%}%><%=s.getStudy()%>
+            <td><%if(hasUpdateAction)  {%><a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%}%><%=s.getStudy()%>
                 <%if(hasUpdateAction)  {%></a><%}%>
             </td>
             <td><%=s.getLabName()%></td>

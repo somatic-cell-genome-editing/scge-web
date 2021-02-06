@@ -2,16 +2,20 @@ package edu.mcw.scge.controller;
 
 import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
+import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.ExperimentRecordDao;
+import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
-
-import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.datamodel.Person;
+import edu.mcw.scge.datamodel.SCGEGroup;
+import edu.mcw.scge.datamodel.Study;
+import edu.mcw.scge.service.Data;
+import edu.mcw.scge.service.DataAccessService;
 import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,46 +27,38 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value="/data/studies")
-public class StudyController extends LoginController{
+public class StudyController{
     DBService dbService=new DBService();
+    DataAccessService service=new DataAccessService();
+    UserService userService=new UserService();
+    Access access= new Access();
+    StudyDao sdao=new StudyDao();
 
     @RequestMapping(value="/search")
-    public String getStudies(HttpServletRequest req, HttpServletResponse res, @ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords) throws Exception {
-      if(personInfoRecords==null)
-          return "redirect:/";
-       int personId=personInfoRecords.get(0).getPersonId();
-        StudyDao sdao=new StudyDao();
+    public String getStudies( HttpServletRequest req, HttpServletResponse res) throws Exception {
+
+        Person p=userService.getCurrentUser();
         List<Study> studies = sdao.getStudies();
-     //   Map<String, Map<String, List<String>>> groupSubgroupRoleMap = service.getGroupsByPersonId(personId);
-      //  req.getSession().setAttribute("groupSubgroupRoleMap", groupSubgroupRoleMap);
 
-        System.out.println("here 1");
-        Map<Integer, List<SCGEGroup>> consortiumGroups = Access.getInstance().getConsortiumGroups();
-        Map<SCGEGroup, List<Person>> groupMembersMap = Access.getInstance().getGroupMembersMap();
-        Map<SCGEGroup, List<Person>> DCCNIHMembersMap = Access.getInstance().getDCCNIHMembersMap();
-
-        System.out.println("here 2");
-        req.setAttribute("groupsMap1", consortiumGroups);
-        req.setAttribute("groupMembersMap", groupMembersMap);
-        req.setAttribute("DCCNIHMembersMap", DCCNIHMembersMap);
-        //   req.setAttribute("message", message);
+        req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
+        req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
+        req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
         req.setAttribute("status", req.getParameter("status"));
         service.addTier2Associations(studies);
         Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
 
         req.setAttribute("studies", studies);
         req.setAttribute("tierUpdateMap", tierUpdateMap);
-        req.setAttribute("personInfoRecords",personInfoRecords);
+        req.setAttribute("personInfoRecords",access.getPersonInfoRecords(p.getId()));
         req.setAttribute("action", "Studies");
         req.setAttribute("page", "/WEB-INF/jsp/tools/studies");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
-        return "null";
+        return "base";
 
     }
 
 
-    @RequestMapping(value="/search/{studyId}")
+  /*  @RequestMapping(value="/search/{studyId}")
     public String getExperimentRecordsByStudy(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable(required = false) int studyId) throws Exception {
         List<ExperimentRecord> records=dbService.getAllExperimentRecordsByStudyId(studyId);
 
@@ -73,7 +69,7 @@ public class StudyController extends LoginController{
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
-    }
+    }*/
     @RequestMapping(value="/search/group/{groupId}")
     public String getStudiesByGroupId(@PathVariable int groupId, HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable(required = false) int studyId) throws Exception {
         List<Study> records=dbService.getStudiesByGroupId(groupId);
