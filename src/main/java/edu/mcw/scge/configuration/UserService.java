@@ -18,6 +18,7 @@ public class UserService {
     public Person getCurrentUser() throws Exception {
         Authentication authToken = SecurityContextHolder.getContext().getAuthentication();
      //   if(SecurityContextHolder.getContext().getAuthentication().getPrincipal()!=null) {
+          if(authToken!=null){
             Map<String, Object> attributes;
             if (authToken instanceof OAuth2AuthenticationToken) {
                 attributes = ((OAuth2AuthenticationToken) authToken).getPrincipal().getAttributes();
@@ -32,7 +33,7 @@ public class UserService {
                 //    System.out.println("CURRENT USER NAME:"+ userPrincipal.getAttribute("email"));
                 //   System.out.println("CURRENT USER:" + SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
             }
-            }
+            }}
 
             return null;
     }
