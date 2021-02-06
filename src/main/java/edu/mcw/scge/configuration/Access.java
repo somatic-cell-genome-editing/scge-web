@@ -23,6 +23,13 @@ public class Access {
                 return dccNIHflag;
             }else {
                 return hasStudyAccess(id,personId);
+            }
+        }
+        if (idType.equalsIgnoreCase("experiment")) {
+            if(dccNIHflag) {
+                return dccNIHflag;
+            }else {
+                return hasExperimentAccess(id,personId);
 
             }
 
@@ -36,5 +43,8 @@ public class Access {
     }
     public boolean hasStudyAccess(int studyId, int personId) throws Exception{
         return verifyPersonHasStudyAccess(studyId, personId);
+    }
+    public boolean hasExperimentAccess(int experimentId, int personId) throws Exception{
+        return sdao.getStudyByExperimentId(experimentId, personId).size()>0;
     }
 }

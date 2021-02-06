@@ -23,7 +23,7 @@
     <% for (Study s: studies) { %>
     <tr>
         <td><%=s.getTier()%>
-        <td><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
+        <td><a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
         <td></td>
         <td><%=s.getLabName()%></td>
         <td><%=s.getPi()%></td>

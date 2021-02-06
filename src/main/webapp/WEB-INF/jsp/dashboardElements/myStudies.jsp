@@ -202,7 +202,7 @@
                     <%=s.getTier()%>
                 </td>
             </c:if>
-            <td><a href="/toolkit/data/experiments/search/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
+            <td><a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
             <td><%=s.getLabName()%></td>
             <td><%=s.getPi()%></td>
             <td><a href="<%=s.getRawData()%>">[Download]</a></td>

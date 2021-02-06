@@ -23,10 +23,11 @@ import java.util.List;
 @RequestMapping(value="/data/experiments")
 public class ExperimentController extends LoginController {
     ExperimentDao edao = new ExperimentDao();
+    ExperimentRecordDao erDao=new ExperimentRecordDao();
     StudyDao sdao = new StudyDao();
     Access access=new Access();
-    @RequestMapping(value="/search")
-    public String getExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+    @RequestMapping(value="/")
+    public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentRecordDao edao=new ExperimentRecordDao();
         List<ExperimentRecord>  records = edao.getExperimentRecords();
 
@@ -39,8 +40,8 @@ public class ExperimentController extends LoginController {
 
     }
 
-    @RequestMapping(value="/search/{studyId}")
-    public String getExperimentRecordsByStudy(HttpServletRequest req, HttpServletResponse res,
+    @RequestMapping(value="/study/{studyId}")
+    public String getExperimentsByStudyId(HttpServletRequest req, HttpServletResponse res,
                                               @ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords,
                                               @PathVariable(required = false) int studyId) throws Exception {
 
@@ -58,20 +59,38 @@ public class ExperimentController extends LoginController {
     }
 
 
-    @RequestMapping(value="/record/{experimentId}")
-    public String getExperimentRecords(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable(required = false) int experimentId) throws Exception {
-        List<ExperimentRecord> records=edao.getExperimentRecords(experimentId);
-        System.out.println(records.size());
-        req.setAttribute("experimentRecords", records);
-        Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
-        req.setAttribute("study", study);
-        req.setAttribute("action", "Experiment Details");
-        req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-
-        return null;
+    @RequestMapping(value="/experiment/{experimentId}")
+    public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res,
+                                       @PathVariable(required = false) int experimentId,
+                                       @ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords) throws Exception {
+        if(access.hasAccess(experimentId, "experiment",personInfoRecords)) {
+            List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
+            System.out.println(records.size());
+            req.setAttribute("experimentRecords", records);
+            Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
+            req.setAttribute("study", study);
+            req.setAttribute("action", "Experiment Details");
+            req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        }
+        return "error";
     }
-
+    @RequestMapping(value="/experiment/{experimentId}/record/{expRecordId")
+    public String getExperimentRecords(HttpServletRequest req, HttpServletResponse res,
+                                       @PathVariable(required = false) int experimentId,
+                                       @PathVariable(required = false) int expRecordId,
+                                       @ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords) throws Exception {
+        if(access.hasAccess(experimentId, "experiment",personInfoRecords)) {
+            List<ExperimentRecord> records = erDao.getExperimentRecordByExpRecId(expRecordId);
+            req.setAttribute("experimentRecords", records);
+            Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
+            req.setAttribute("study", study);
+            req.setAttribute("action", "Experiment Details");
+            req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        }
+        return "error";
+    }
 
 
 

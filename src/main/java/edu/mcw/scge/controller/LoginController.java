@@ -81,7 +81,7 @@ public class LoginController{
     }
 
     @RequestMapping("/loginSuccessPage")
-    public String verifyAuthentication(@ModelAttribute("userAttributes") Map userAttributes,@ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords, HttpServletRequest req) throws Exception {
+    public String verifyAuthentication(OAuth2AuthenticationToken authentication,@ModelAttribute("userAttributes") Map userAttributes,@ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords, HttpServletRequest req) throws Exception {
         boolean userExists = verifyUserExists(userAttributes.get("sub").toString(), userAttributes.get("email").toString());
         if (userExists) {
                     String userStatus = pdao.getPersonStatus(userAttributes.get("sub").toString());
