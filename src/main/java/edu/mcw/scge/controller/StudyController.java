@@ -1,14 +1,10 @@
 package edu.mcw.scge.controller;
 
-import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.ExperimentDao;
-import edu.mcw.scge.dao.implementation.ExperimentRecordDao;
-import edu.mcw.scge.dao.implementation.PersonDao;
+
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Person;
-import edu.mcw.scge.datamodel.SCGEGroup;
 import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.Data;
 import edu.mcw.scge.service.DataAccessService;
@@ -21,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +33,7 @@ public class StudyController{
     public String getStudies( HttpServletRequest req, HttpServletResponse res) throws Exception {
 
         Person p=userService.getCurrentUser();
-        if(p!=null) {
+
             List<Study> studies = sdao.getStudies();
 
             req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
@@ -55,8 +50,8 @@ public class StudyController{
             req.setAttribute("page", "/WEB-INF/jsp/tools/studies");
 
             return "base";
-        }
-        return "redirect:/";
+
+
     }
 
 

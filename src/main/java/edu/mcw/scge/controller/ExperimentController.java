@@ -42,8 +42,6 @@ public class ExperimentController extends UserController {
                                               @PathVariable(required = false) int studyId) throws Exception {
         Person p=userService.getCurrentUser();
 
-        if(p==null)
-            return "redirect:/";
             if (access.hasAccess(studyId, "study", access.getPersonInfoRecords(p.getId()))) {
                 Study study = sdao.getStudyById(studyId).get(0);
                 List<Experiment> records = edao.getExperimentsByStudy(studyId);
@@ -66,8 +64,6 @@ public class ExperimentController extends UserController {
     ) throws Exception {
 
         Person p=userService.getCurrentUser();
-        if(p==null)
-            return "redirect:/";
         if (access.hasAccess(experimentId, "experiment", access.getPersonInfoRecords(p.getId()))) {
             List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
             System.out.println(records.size());
@@ -87,8 +83,6 @@ public class ExperimentController extends UserController {
                                        @PathVariable(required = false) int experimentId,
                                        @PathVariable(required = false) int expRecordId) throws Exception {
         Person p=userService.getCurrentUser();
-        if(p==null)
-            return "redirect:/";
             if (access.hasAccess(experimentId, "experiment", access.getPersonInfoRecords(p.getId()))) {
                 List<ExperimentRecord> records = erDao.getExperimentRecordByExpRecId(expRecordId);
                 req.setAttribute("experimentRecords", records);
