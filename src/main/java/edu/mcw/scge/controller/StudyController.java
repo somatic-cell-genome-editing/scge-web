@@ -38,23 +38,25 @@ public class StudyController{
     public String getStudies( HttpServletRequest req, HttpServletResponse res) throws Exception {
 
         Person p=userService.getCurrentUser();
-        List<Study> studies = sdao.getStudies();
+        if(p!=null) {
+            List<Study> studies = sdao.getStudies();
 
-        req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
-        req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
-        req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
-        req.setAttribute("status", req.getParameter("status"));
-        service.addTier2Associations(studies);
-        Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
+            req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
+            req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
+            req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
+            req.setAttribute("status", req.getParameter("status"));
+            service.addTier2Associations(studies);
+            Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
 
-        req.setAttribute("studies", studies);
-        req.setAttribute("tierUpdateMap", tierUpdateMap);
-        req.setAttribute("personInfoRecords",access.getPersonInfoRecords(p.getId()));
-        req.setAttribute("action", "Studies");
-        req.setAttribute("page", "/WEB-INF/jsp/tools/studies");
+            req.setAttribute("studies", studies);
+            req.setAttribute("tierUpdateMap", tierUpdateMap);
+            req.setAttribute("personInfoRecords", access.getPersonInfoRecords(p.getId()));
+            req.setAttribute("action", "Studies");
+            req.setAttribute("page", "/WEB-INF/jsp/tools/studies");
 
-        return "base";
-
+            return "base";
+        }
+        return "redirect:/";
     }
 
 

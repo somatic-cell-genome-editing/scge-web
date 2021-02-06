@@ -4,7 +4,6 @@ import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +41,8 @@ public class ExperimentController extends UserController {
 
                                               @PathVariable(required = false) int studyId) throws Exception {
         Person p=userService.getCurrentUser();
+        if(p==null)
+            return "redirect:/";
         if(access.hasAccess(studyId, "study",access.getPersonInfoRecords(p.getId()))) {
             Study study = sdao.getStudyById(studyId).get(0);
             List<Experiment> records = edao.getExperimentsByStudy(studyId);
@@ -63,6 +64,8 @@ public class ExperimentController extends UserController {
 
 
         Person p=userService.getCurrentUser();
+        if(p==null)
+            return "redirect:/";
         if(access.hasAccess(experimentId, "experiment", access.getPersonInfoRecords(p.getId()))) {
             List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
             System.out.println(records.size());
@@ -80,6 +83,8 @@ public class ExperimentController extends UserController {
                                        @PathVariable(required = false) int experimentId,
                                        @PathVariable(required = false) int expRecordId) throws Exception {
         Person p=userService.getCurrentUser();
+        if(p==null)
+            return "redirect:/";
         if(access.hasAccess(experimentId, "experiment",access.getPersonInfoRecords(p.getId()))) {
             List<ExperimentRecord> records = erDao.getExperimentRecordByExpRecId(expRecordId);
             req.setAttribute("experimentRecords", records);

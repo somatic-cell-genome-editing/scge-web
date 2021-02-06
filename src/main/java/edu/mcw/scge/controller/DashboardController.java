@@ -25,11 +25,10 @@ public class DashboardController extends LoginController {
     UserService userService=new UserService();
 
     @RequestMapping(value="")
-    public String getDashboard(
-                               HttpServletRequest req) throws Exception {
+    public String getDashboard(HttpServletRequest req) throws Exception {
 
         Person p=userService.getCurrentUser();
-
+        if(p!=null){
 
             req.setAttribute("action", "Dashboard");
             req.setAttribute("destination", "base");
@@ -81,7 +80,7 @@ public class DashboardController extends LoginController {
             return "base";
 
     }
-
-
+        return "redirect:/";
+    }
 
 }
