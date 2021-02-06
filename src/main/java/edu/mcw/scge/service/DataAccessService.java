@@ -28,10 +28,9 @@ import java.util.*;
  * Created by jthota on 8/16/2019.
  */
 public class DataAccessService extends AbstractDAO {
-    TestDataDao tdao=new TestDataDao();
+    private static TestDataDao tdao=new TestDataDao();
     PersonDao pdao=new PersonDao();
     GroupDAO gdao=new GroupDAO();
-    AccessDao adao=new AccessDao();
     StudyDao sdao=new StudyDao();
     TierUpdateDao tierUpdateDao=new TierUpdateDao();
     public static List<String> labels;

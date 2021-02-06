@@ -1,17 +1,12 @@
 package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.Access;
-import edu.mcw.scge.dao.implementation.EditorDao;
-import edu.mcw.scge.dao.implementation.ExperimentDao;
-import edu.mcw.scge.dao.implementation.ExperimentRecordDao;
-import edu.mcw.scge.dao.implementation.StudyDao;
-import edu.mcw.scge.datamodel.Experiment;
-import edu.mcw.scge.datamodel.ExperimentRecord;
-import edu.mcw.scge.datamodel.PersonInfo;
-import edu.mcw.scge.datamodel.Study;
+import edu.mcw.scge.configuration.UserService;
+import edu.mcw.scge.dao.implementation.*;
+import edu.mcw.scge.datamodel.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -21,11 +16,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value="/data/experiments")
-public class ExperimentController extends LoginController {
+public class ExperimentController extends UserController {
     ExperimentDao edao = new ExperimentDao();
     ExperimentRecordDao erDao=new ExperimentRecordDao();
     StudyDao sdao = new StudyDao();
     Access access=new Access();
+    PersonDao pdao=new PersonDao();
+    UserService userService=new UserService();
     @RequestMapping(value="/")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentRecordDao edao=new ExperimentRecordDao();
@@ -41,11 +38,11 @@ public class ExperimentController extends LoginController {
     }
 
     @RequestMapping(value="/study/{studyId}")
-    public String getExperimentsByStudyId(HttpServletRequest req, HttpServletResponse res,
-                                              @ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords,
-                                              @PathVariable(required = false) int studyId) throws Exception {
+    public String getExperimentsByStudyId( HttpServletRequest req, HttpServletResponse res,
 
-        if(access.hasAccess(studyId, "study",personInfoRecords)) {
+                                              @PathVariable(required = false) int studyId) throws Exception {
+        Person p=userService.getCurrentUser();
+        if(access.hasAccess(studyId, "study",access.getPersonInfoRecords(p.getId()))) {
             Study study = sdao.getStudyById(studyId).get(0);
             List<Experiment> records = edao.getExperimentsByStudy(studyId);
             req.setAttribute("experiments", records);
@@ -61,9 +58,12 @@ public class ExperimentController extends LoginController {
 
     @RequestMapping(value="/experiment/{experimentId}")
     public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res,
-                                       @PathVariable(required = false) int experimentId,
-                                       @ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords) throws Exception {
-        if(access.hasAccess(experimentId, "experiment",personInfoRecords)) {
+                                               @PathVariable(required = false) int experimentId
+                                      ) throws Exception {
+
+
+        Person p=userService.getCurrentUser();
+        if(access.hasAccess(experimentId, "experiment", access.getPersonInfoRecords(p.getId()))) {
             List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
             System.out.println(records.size());
             req.setAttribute("experimentRecords", records);
@@ -78,9 +78,9 @@ public class ExperimentController extends LoginController {
     @RequestMapping(value="/experiment/{experimentId}/record/{expRecordId")
     public String getExperimentRecords(HttpServletRequest req, HttpServletResponse res,
                                        @PathVariable(required = false) int experimentId,
-                                       @PathVariable(required = false) int expRecordId,
-                                       @ModelAttribute("personInfoRecords") List<PersonInfo> personInfoRecords) throws Exception {
-        if(access.hasAccess(experimentId, "experiment",personInfoRecords)) {
+                                       @PathVariable(required = false) int expRecordId) throws Exception {
+        Person p=userService.getCurrentUser();
+        if(access.hasAccess(experimentId, "experiment",access.getPersonInfoRecords(p.getId()))) {
             List<ExperimentRecord> records = erDao.getExperimentRecordByExpRecId(expRecordId);
             req.setAttribute("experimentRecords", records);
             Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);

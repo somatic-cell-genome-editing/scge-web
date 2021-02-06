@@ -242,7 +242,7 @@ Goals"/>
                     </c:choose>
                     <div style="margin-top: 0;padding-top:0">
                         <c:if test="${page!=null}">
-                        <c:import url="/${page}.jsp" />
+                        <c:import url="${page}.jsp" />
                         </c:if>
                     </div>
                 </div>
