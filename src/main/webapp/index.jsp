@@ -1,4 +1,5 @@
-<%--
+<%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.service.Data" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 1/27/2021
@@ -282,6 +283,7 @@
 
 </head>
 <body>
+
 <div class="wrapper fadeInDown" >
   <div id="formContent" style="background-color: transparent">
     <!-- Tabs Titles -->
@@ -293,18 +295,19 @@
 
     <!-- Login Form -->
     <form action="/toolkit/login/google">
-      <input type="submit" class="fadeIn fourth" value="Login with Google">
+      <img src="/toolkit/images/Google-G.png" height="30" width="30" border="0" style="background-color:white; padding:3px; position:relative; top:0;left:80px;"/>
+      <input style="margin-bottom: 0px;" type="submit"  value="Login with Google">
     </form>
     <form action="loginFailure">
-      <input  type="submit" class="fadeIn fourth" value="Register for an Account">
-
+      <img src="/toolkit/images/Google-G.png" height="30" width="30" border="0" style="visibility:hidden;"/>
+      <input  style="margin-bottom: 0px;"  type="submit"  value="Request an Account">
     </form>
     <!--a href="/toolkit/login/google" class="fadeIn fourth"><img  src="/toolkit/common/google_signin_buttons/web/2x/btn_google_signin_dark_normal_web@2x.png" width="70%"  height="50"/></a-->
 
 
     <!-- Remind Passowrd -->
     <div id="formFooter" style="margin-top:5%">
-      <a class="underlineHover" href="https://dev.scge.mcw.edu">Home</a>
+      <a class="underlineHover" href="https://dev.scge.mcw.edu">SCGE Home</a>
     </div>
 
   </div>

@@ -95,48 +95,48 @@
     <div class="col-sm-3">
     <div class="card shadow">
         <div class="card-header ">
-            Initiatives
+            Studies by Initiative
         </div>
         <div class="card-body">
 
             <ul class="nav flex-column mb-2">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=1">
                         <span data-feather="layers"></span>
-                        Rodent Testing Center                </a>
+                        Rodent Testing Center               </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=2">
                         <span data-feather="file-text"></span>
                         Large Animal Reporter
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=3">
                         <span data-feather="file-text"></span>
                         Large Animal Testing Center
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=4">
                         <span data-feather="file-text"></span>
                         Cell & Tissue Platform
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=5">
                         <span data-feather="file-text"></span>
                         In Vivo Cell Tracking
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=6">
                         <span data-feather="file-text"></span>
                         Delivery Vehicle Initiative
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=7">
                         <span data-feather="file-text"></span>
                         New Editors Initiative
                     </a>

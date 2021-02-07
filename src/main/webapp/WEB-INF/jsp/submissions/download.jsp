@@ -50,7 +50,7 @@
 
 
             <li>
-                <a href="<%=file%>"><%=fileParts[fileParts.length -1]%></a>
+                <a href="<%=file%>"><script>document.write("<%=fileParts[fileParts.length -1]%>")</script></a>
             </li>
               </td>
           </tr>

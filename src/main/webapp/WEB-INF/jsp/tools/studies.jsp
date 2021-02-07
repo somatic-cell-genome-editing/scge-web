@@ -74,15 +74,12 @@
 <div>
     <table id="myTable" class="tablesorter">
         <thead>
-        <tr><th>Action</th>
-            <th>Tier</th>
+        <tr><th></th>
+            <th width="20">Tier</th>
             <th>Name</th>
             <th>Institution</th>
             <th>Contact PI</th>
-            <th>Raw Data</th>
             <th>Submission Date</th>
-            <th>SCGE ID</th>
-
         </tr>
         </thead>
 
@@ -227,7 +224,7 @@
                     </c:if>
 
                 </td>
-                <td style="width: 10%">
+                <td width="20">
                     <%=s.getTier()%>
                 </td>
             <td><%if(hasUpdateAction)  {%><a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%}%><%=s.getStudy()%>
@@ -235,12 +232,7 @@
             </td>
             <td><%=s.getLabName()%></td>
             <td><%=s.getPi()%></td>
-            <td><%if(hasUpdateAction)  {%>
-                <a href="<%=s.getRawData()%>">[Download]</a>
-                <%}%>
-            </td>
             <td><%=s.getSubmissionDate()%></td>
-            <td><%=s.getStudyId()%></td>
         </tr>
         <%}%>
 

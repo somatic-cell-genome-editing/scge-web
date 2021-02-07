@@ -42,7 +42,9 @@
         Study study = (Study) request.getAttribute("study");
         //out.println(experiments.size());
     %>
-
+<table width="95%">
+    <tr>
+        <td>
     <table>
         <tr>
             <td class="desc" style="font-weight:700;"><%=study.getStudy()%>:</td>
@@ -52,8 +54,17 @@
             <td>&nbsp;&nbsp;&nbsp;</td>
             <td class="desc"  style="font-weight:700;">Submission Date:</td>
             <td class="desc" ><%=study.getSubmissionDate()%></td>
+
+        </td>
+            </td>
         </tr>
     </table>
+        </td>
+        <td align="right">
+            <input type="button" value="Download Submitted Data" onclick="javascript:location.href='/toolkit/download/<%=study.getStudyId()%>'"/>
+        </td>
+    </tr>
+</table>
 
 
 

@@ -36,16 +36,20 @@ public class StudyController{
     @RequestMapping(value="/search")
     public String getStudies( HttpServletRequest req, HttpServletResponse res) throws Exception {
 
+
+        System.out.println("here1");
         Person p=userService.getCurrentUser();
         if(p!=null) {
             List<Study> studies = sdao.getStudies();
 
+            System.out.println("here2");
             req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
             req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
             req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
             req.setAttribute("status", req.getParameter("status"));
             service.addTier2Associations(studies);
             Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
+            System.out.println("here3");
 
             req.setAttribute("studies", studies);
             req.setAttribute("tierUpdateMap", tierUpdateMap);
@@ -53,6 +57,7 @@ public class StudyController{
             req.setAttribute("action", "Studies");
             req.setAttribute("page", "/WEB-INF/jsp/tools/studies");
 
+            System.out.println("here4");
             return "base";
         }
         return "redirect:/";

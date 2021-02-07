@@ -15,6 +15,8 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'// https://mvnrepository.com/artifact/org.springframework/spring-core
     compile fileTree(dir: 'lib', include: '*.jar')
 
+    compile 'org.apache.commons:commons-lang3:3.11'
+
     compile group: 'org.springframework', name: 'spring-core', version: '5.1.9.RELEASE'
 // https://mvnrepository.com/artifact/org.springframework/spring-context
     compile group: 'org.springframework', name: 'spring-context', version: '5.1.9.RELEASE'
