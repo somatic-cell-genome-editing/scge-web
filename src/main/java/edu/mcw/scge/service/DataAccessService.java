@@ -485,7 +485,7 @@ public class DataAccessService extends AbstractDAO {
             //   SCGEGroup g=new SCGEGroup();
            //    g=gdao.getGroupById(u.getGroupId());
              //  g.setMembers( gdao.getGroupMembersByGroupId(u.getGroupId()));
-               groups.add(u.getGroupId());
+               groups.add(u.getAssociatedGroupId());
            }
            s.setAssociatedGroups(groups);
         }
@@ -508,7 +508,7 @@ public class DataAccessService extends AbstractDAO {
                     rec.setStudyTierUpdateId(sequenceKey);
                     rec.setStudyId(studyId);
                     rec.setTier(tier);
-                    rec.setGroupId((Integer) selectedArray.get(j));
+                    rec.setAssociatedGroupId((Integer) selectedArray.get(j));
                  //   rec.setMemberId((Integer) selectedArray.get(j));
                     rec.setModifiedBy(userId);
                     rec.setStatus("submitted"); //initial status of update is "submitted", after processing status changes to "PROCESSED"
@@ -556,7 +556,7 @@ public class DataAccessService extends AbstractDAO {
                     rec.setStudyTierUpdateId(sequenceKey);
                     rec.setStudyId(studyId);
                     rec.setTier(tier);
-                    rec.setGroupId(Integer.parseInt(groupId));
+                    rec.setAssociatedGroupId(Integer.parseInt(groupId));
                     rec.setMemberId((Integer) array.get(j));
                     rec.setModifiedBy(userId);
                     rec.setStatus("submitted"); //initial status of update is "submitted", after processing status changes to "PROCESSED"

@@ -36,7 +36,7 @@ public class EditorController {
     }
 
     @RequestMapping(value="/editor")
-    public String getEditor(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+    public String getEditor(HttpServletRequest req, HttpServletResponse res) throws Exception {
         EditorDao dao = new EditorDao();
         Editor editor= dao.getEditorById(Integer.parseInt(req.getParameter("id"))).get(0);
         req.setAttribute("editor", editor);

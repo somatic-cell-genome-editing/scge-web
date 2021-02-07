@@ -55,8 +55,10 @@ public class ExperimentController extends UserController {
                 req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
                 req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
-            }else
-            return "error";
+            }
+        req.setAttribute("page", "/WEB-INF/jsp/error");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        return null;
 
 
     }
@@ -72,7 +74,6 @@ public class ExperimentController extends UserController {
             return "redirect:/";
         if (access.hasAccess(experimentId, "experiment", access.getPersonInfoRecords(p.getId()))) {
             List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
-            System.out.println(records.size());
             req.setAttribute("experimentRecords", records);
             Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
             req.setAttribute("study", study);
@@ -80,8 +81,10 @@ public class ExperimentController extends UserController {
             req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
-        }else
-        return "error";
+        }
+        req.setAttribute("page", "/WEB-INF/jsp/error");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        return null;
 
     }
     @RequestMapping(value="/experiment/{experimentId}/record/{expRecordId}")
@@ -137,9 +140,10 @@ public class ExperimentController extends UserController {
                 req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");
                 req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
                 return null;
-            }else
-            return "error";
-
+            }
+        req.setAttribute("page", "/WEB-INF/jsp/error");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        return null;
         }
 
 }

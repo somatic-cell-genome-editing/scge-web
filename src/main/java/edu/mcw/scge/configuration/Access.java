@@ -1,5 +1,7 @@
 package edu.mcw.scge.configuration;
 
+import edu.mcw.scge.dao.implementation.DeliveryDao;
+import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Person;
@@ -18,7 +20,8 @@ public class Access {
     DataAccessService service=new DataAccessService();
     StudyDao sdao=new StudyDao();
     PersonDao pdao=new PersonDao();
-
+    EditorDao editorDao=new EditorDao();
+    DeliveryDao deliveryDao=new DeliveryDao();
     public boolean hasAccess(int id, String idType,  List<PersonInfo> personInfoRecords) throws Exception {
         int personId=personInfoRecords.get(0).getPersonId();
         boolean dccNIHflag=false;
@@ -45,6 +48,24 @@ public class Access {
             }
 
         }
+        if (idType.equalsIgnoreCase("editor")) {
+            if(dccNIHflag) {
+                return dccNIHflag;
+            }else {
+                return hasEditorAccess(id,personId);
+
+            }
+
+        }
+        if (idType.equalsIgnoreCase("delivery")) {
+            if(dccNIHflag) {
+                return dccNIHflag;
+            }else {
+                return hasDeliveryAccess(id,personId);
+
+            }
+
+        }
 
         return false;
     }
@@ -58,7 +79,12 @@ public class Access {
     public boolean hasExperimentAccess(int experimentId, int personId) throws Exception{
         return sdao.getStudyByExperimentId(experimentId, personId).size()>0;
     }
-
+    public boolean hasEditorAccess(int editorId, int personId) throws Exception{
+        return editorDao.verifyEditorAccess(editorId, personId);
+    }
+    public boolean hasDeliveryAccess(int deliveryId, int personId) throws Exception{
+        return deliveryDao.verifyDeliveryAccess(deliveryId, personId);
+    }
 
     public boolean verifyUserExists( String principalName, String email) throws Exception {
         System.out.println("EMAIL: "+ email);
