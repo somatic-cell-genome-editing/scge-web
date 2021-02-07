@@ -4,6 +4,7 @@ import edu.mcw.scge.dao.implementation.DeliveryDao;
 import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.datamodel.Editor;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.PersonInfo;
 import edu.mcw.scge.datamodel.Study;
@@ -24,6 +25,10 @@ public class Access {
     EditorDao editorDao=new EditorDao();
     DeliveryDao deliveryDao=new DeliveryDao();
 
+
+    public boolean isLoggedIn() {
+        return true;
+    }
 
     public boolean isAdmin(Person p) {
 
@@ -101,12 +106,61 @@ public class Access {
 
     }
     public boolean hasStudyAccess(int studyId, int personId) throws Exception{
+        StudyDao sdao = new StudyDao();
+        Study s = sdao.getStudyByStudyId(studyId);
+        Access a = new Access();
+
+        if (s.getTier()==4) {
+            return true;
+        }
+        if (s.getTier()==3 && a.isLoggedIn()) {
+            return true;
+        }
+
         return verifyPersonHasStudyAccess(studyId, personId);
     }
+    public boolean hasStudyAccess(Study s, Person p) throws Exception{
+        Access a = new Access();
+
+        if (s.getTier()==4) {
+            return true;
+        }
+        if (s.getTier()==3 && a.isLoggedIn()) {
+            return true;
+        }
+
+        return verifyPersonHasStudyAccess(s.getStudyId(), p.getId());
+    }
+
     public boolean hasExperimentAccess(int experimentId, int personId) throws Exception{
         return sdao.getStudyByExperimentId(experimentId, personId).size()>0;
     }
+
+    public boolean hasEditorAccess(Editor e, Person p) throws Exception{
+        if (e.getTier() == 4) {
+            return true;
+        }
+
+        if (e.getTier() == 3) {
+            return true;
+        }
+
+        return editorDao.verifyEditorAccess(e.getId(), p.getId());
+    }
+
+
     public boolean hasEditorAccess(int editorId, int personId) throws Exception{
+        EditorDao edao = new EditorDao();
+        Editor e = edao.getEditorById(editorId).get(0);
+
+        if (e.getTier() == 4) {
+            return true;
+        }
+
+        if (e.getTier() == 3) {
+            return true;
+        }
+
         return editorDao.verifyEditorAccess(editorId, personId);
     }
     public boolean hasDeliveryAccess(int deliveryId, int personId) throws Exception{

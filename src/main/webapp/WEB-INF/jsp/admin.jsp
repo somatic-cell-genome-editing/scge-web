@@ -49,29 +49,6 @@
 </table>
 
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-2 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li class="active"><a href="">Become User<span class="sr-only">(current)</span></a></li>
-                <li><a href="unauthorizedUsers">New user requests</a></li>
-                <li><a href="memberProfile">Update member profile</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li><a href="#">Join the Group</a></li>
-                <li><a href="#">Leave the Group</a></li>
-                <li><a href="#">Delete Group</a></li>
-                <li><a href="groups">List groups</a></li>
-                <li><a href="members">List members</a></li>
-
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li><a href="#">Submit Study</a></li>
-                <li><a href="#">Update Study</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

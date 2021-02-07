@@ -7,6 +7,7 @@
 <%@ page import="edu.mcw.scge.datamodel.PersonInfo" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.web.UI" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -207,7 +208,7 @@
                 <td width="20">
                     <%=s.getTier()%>
                 </td>
-            <td><%if(access.canUpdateTier(person,s)) {  %>
+            <td><%if(access.hasStudyAccess(s,person)) {  %>
                     <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a>
                 <%} else { %>
                     <%=s.getStudy()%>
@@ -215,7 +216,7 @@
             </td>
             <td><%=s.getLabName()%></td>
             <td><%=s.getPi()%></td>
-            <td><%=s.getSubmissionDate()%></td>
+            <td><%=UI.formatDate(s.getSubmissionDate())%></td>
         </tr>
         <%}%>
     </table>

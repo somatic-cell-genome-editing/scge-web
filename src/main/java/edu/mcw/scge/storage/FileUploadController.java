@@ -7,7 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
 
+import edu.mcw.scge.configuration.Access;
+import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.datamodel.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -37,6 +40,15 @@ public class FileUploadController {
 	@GetMapping("/download/{studyId}")
 	public String listDownloadFiles(Model model, HttpServletRequest req, HttpServletResponse res,
 									@ModelAttribute("message") String message, @PathVariable String studyId) throws Exception {
+
+		UserService userService=new UserService();
+		Access access= new Access();
+		Person p = userService.getCurrentUser(req.getSession());
+
+		if (!access.hasStudyAccess(Integer.parseInt(studyId),p.getId())) {
+			req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+		}
+
 		//	storageService.loadAll().forEach(System.out::println);
 		req.setAttribute("message", message);
 
@@ -45,7 +57,7 @@ public class FileUploadController {
 
 		req.setAttribute("files", storageService.loadAll(studyId).map(
 				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-						"serveFile", path.getFileName().toString(),studyId).build().toUri().toString())
+						"serveFile", req,path.getFileName().toString(),studyId).build().toUri().toString())
 				.collect(Collectors.toList()));
 
 		req.setAttribute("action", "Related Files");
@@ -61,7 +73,15 @@ public class FileUploadController {
 
 	@GetMapping("/files/{studyId}/{filename:.+}")
 	@ResponseBody
-	public ResponseEntity<Resource> serveFile(@PathVariable String filename, @PathVariable String studyId) {
+	public ResponseEntity<Resource> serveFile(HttpServletRequest req, @PathVariable String filename, @PathVariable String studyId) throws Exception{
+
+		UserService userService=new UserService();
+		Access access= new Access();
+		Person p = userService.getCurrentUser(req.getSession());
+
+		if (!access.hasStudyAccess(Integer.parseInt(studyId),p.getId())) {
+			return null;
+		}
 
 		Resource file = storageService.loadAsResource(studyId + "/" + filename);
 

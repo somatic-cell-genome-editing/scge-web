@@ -47,10 +47,8 @@
               <td></td>
               <td></td>
               <td>
-
-
             <li>
-                <a href="<%=file%>"><script>document.write("<%=fileParts[fileParts.length -1]%>")</script></a>
+                <a href="<%=file%>"><script>document.write(unescape('<%=fileParts[fileParts.length -1]%>'))</script></a>
             </li>
               </td>
           </tr>

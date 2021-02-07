@@ -62,9 +62,11 @@ public class AdminController extends LoginController{
 
         sess.setAttribute("userAttributes",attributes);
 
-        req.setAttribute("action", "Become User");
-        req.setAttribute("page", "/WEB-INF/jsp/sudo");
+        req.setAttribute("people", pdao.getAllMembers());
+        req.setAttribute("action", "Administration");
+        req.setAttribute("page", "/WEB-INF/jsp/admin");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
 
     }
 

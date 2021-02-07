@@ -42,24 +42,26 @@ public class ExperimentController extends UserController {
     public String getExperimentsByStudyId( HttpServletRequest req, HttpServletResponse res,
                                            @PathVariable(required = false) int studyId) throws Exception {
         Person p=userService.getCurrentUser(req.getSession());
+        Study study = sdao.getStudyById(studyId).get(0);
 
-        if(p==null)
+        if(!access.isLoggedIn()) {
             return "redirect:/";
-         else  if (access.hasAccess(studyId, "study", access.getPersonInfoRecords(p.getId()))) {
-                Study study = sdao.getStudyById(studyId).get(0);
-                List<Experiment> records = edao.getExperimentsByStudy(studyId);
-                req.setAttribute("experiments", records);
-                req.setAttribute("study", study);
-                req.setAttribute("action", "Experiments");
-                req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
-                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        }
+
+        if (!access.hasStudyAccess(study,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
-            }
-        req.setAttribute("page", "/WEB-INF/jsp/error");
+
+        }
+
+        List<Experiment> records = edao.getExperimentsByStudy(studyId);
+        req.setAttribute("experiments", records);
+        req.setAttribute("study", study);
+        req.setAttribute("action", "Experiments");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
-
-
     }
 
 
@@ -69,80 +71,90 @@ public class ExperimentController extends UserController {
     ) throws Exception {
 
         Person p=userService.getCurrentUser(req.getSession());
-        if(p==null)
+
+        if(!access.isLoggedIn()) {
             return "redirect:/";
-        if (access.hasAccess(experimentId, "experiment", access.getPersonInfoRecords(p.getId()))) {
-            List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
-            req.setAttribute("experimentRecords", records);
-            Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
-            req.setAttribute("study", study);
-            req.setAttribute("action", "Experiment Records");
-            req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
+        }
+
+        List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
+        Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
+
+        if (!access.hasStudyAccess(study,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
+
         }
-        req.setAttribute("page", "/WEB-INF/jsp/error");
+
+        req.setAttribute("experimentRecords", records);
+        req.setAttribute("study", study);
+        req.setAttribute("action", "Experiment Records");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
-
     }
     @RequestMapping(value="/experiment/{experimentId}/record/{expRecordId}")
     public String getExperimentRecords(HttpServletRequest req, HttpServletResponse res,
                                        @PathVariable(required = false) int experimentId,
                                        @PathVariable(required = false) int expRecordId) throws Exception {
-        Person p=userService.getCurrentUser(req.getSession());
-        if(p==null){
+        Person p = userService.getCurrentUser(req.getSession());
+
+        if (!access.isLoggedIn()) {
             return "redirect:/";
         }
-            if (access.hasAccess(experimentId, "experiment", access.getPersonInfoRecords(p.getId()))) {
-                List<ExperimentRecord> records = erDao.getExperimentRecordByExpRecId(expRecordId);
-                req.setAttribute("experimentRecords", records);
-                Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
-                if(records.size()>0){
-                    ExperimentRecord r=  records.get(0);
-                    edu.mcw.scge.datamodel.Model m= dbService.getModelById( r.getModelId());
-                    List<ReporterElement> reporterElements=dbService.getReporterElementsByExpRecId(r.getExperimentRecordId());
-                    List<AnimalTestingResultsSummary> results=dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecordId());
-                    for(AnimalTestingResultsSummary s: results){
-                        List<Sample> samples= dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
-                        s.setSamples(samples  );
-                    }
-                    List<Delivery> deliveryList=dbService.getDeliveryVehicles(r.getDeliverySystemId());
-                    List<ApplicationMethod> applicationMethod=dbService.getApplicationMethodsById(r.getApplicationMethodId());
-                    req.setAttribute("applicationMethod", applicationMethod);
-                    req.setAttribute("deliveryList", deliveryList);
-                    //req.setAttribute("experiment",e);
-                    req.setAttribute("experimentRecords",r);
-                    req.setAttribute("model", m);
-                    req.setAttribute("reporterElements", reporterElements);
-                    req.setAttribute("results", results);
-                    List<String> regionList=new ArrayList<>();
-                    StringBuilder json=new StringBuilder();
-                    json.append("[");
-                    for(AnimalTestingResultsSummary s:results){
-                        regionList.add(s.getTissueTerm().trim());
-                        int value= Integer.parseInt(s.getSignalPresent());
-                        json.append("{\"sample\":\"");
-                        json.append("A"+"\",");
-                        json.append("\"gene\":\""+s.getTissueTerm()+"\",");
-                        json.append("\"value\":"+value+"},");
-                    }
-                    json.append("]");
-                    Gson gson=new Gson();
-                    String regionListJson=gson.toJson(regionList);
-                    req.setAttribute("regionListJson",regionListJson);
-                    req.setAttribute("json", json);
-                }
-                req.setAttribute("action", "Experiment Report");
 
-                req.setAttribute("study", study);
-                req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");
-                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-                return null;
+        List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
+        Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
+
+        if (!access.hasStudyAccess(study, p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
+        req.setAttribute("experimentRecords", records);
+        if (records.size() > 0) {
+            ExperimentRecord r = records.get(0);
+            edu.mcw.scge.datamodel.Model m = dbService.getModelById(r.getModelId());
+            List<ReporterElement> reporterElements = dbService.getReporterElementsByExpRecId(r.getExperimentRecordId());
+            List<AnimalTestingResultsSummary> results = dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecordId());
+            for (AnimalTestingResultsSummary s : results) {
+                List<Sample> samples = dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
+                s.setSamples(samples);
             }
-        req.setAttribute("page", "/WEB-INF/jsp/error");
+            List<Delivery> deliveryList = dbService.getDeliveryVehicles(r.getDeliverySystemId());
+            List<ApplicationMethod> applicationMethod = dbService.getApplicationMethodsById(r.getApplicationMethodId());
+            req.setAttribute("applicationMethod", applicationMethod);
+            req.setAttribute("deliveryList", deliveryList);
+            //req.setAttribute("experiment",e);
+            req.setAttribute("experimentRecords", r);
+            req.setAttribute("model", m);
+            req.setAttribute("reporterElements", reporterElements);
+            req.setAttribute("results", results);
+            List<String> regionList = new ArrayList<>();
+            StringBuilder json = new StringBuilder();
+            json.append("[");
+            for (AnimalTestingResultsSummary s : results) {
+                regionList.add(s.getTissueTerm().trim());
+                int value = Integer.parseInt(s.getSignalPresent());
+                json.append("{\"sample\":\"");
+                json.append("A" + "\",");
+                json.append("\"gene\":\"" + s.getTissueTerm() + "\",");
+                json.append("\"value\":" + value + "},");
+            }
+            json.append("]");
+            Gson gson = new Gson();
+            String regionListJson = gson.toJson(regionList);
+            req.setAttribute("regionListJson", regionListJson);
+            req.setAttribute("json", json);
+        }
+        req.setAttribute("action", "Experiment Report");
+
+        req.setAttribute("study", study);
+        req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
-        }
+    }
 
 }

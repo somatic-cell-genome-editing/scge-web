@@ -1,6 +1,16 @@
 package edu.mcw.scge.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class UI {
+
+    public static String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        return sdf.format(date);
+
+    }
+
 
     public static String getRGBValue(String scale, int currentValue, int maxValue) {
 

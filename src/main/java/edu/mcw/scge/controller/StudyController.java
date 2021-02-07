@@ -41,12 +41,14 @@ public class StudyController{
         Person p=userService.getCurrentUser(req.getSession());
         if(p!=null) {
             List<Study> studies = sdao.getStudies();
+            System.out.println("here2");
 
             //req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
             //req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
             //req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
             req.setAttribute("status", req.getParameter("status"));
             service.addTier2Associations(studies);
+            System.out.println("here3");
             Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
 
             req.setAttribute("studies", studies);

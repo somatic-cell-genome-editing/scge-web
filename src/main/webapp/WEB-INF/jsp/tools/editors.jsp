@@ -1,6 +1,8 @@
 <%@ page import="edu.mcw.scge.datamodel.Editor" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -63,18 +65,25 @@
     </tr>
     </thead>
 
-<% for (Editor editor: editors) { %>
-    <tr>
-        <td><a href="editor?id=<%=editor.getId()%>"><%=editor.getSymbol()%></a></td>
-        <td><%=editor.getType()%></td>
-        <td><%=editor.getSubType()%></td>
-        <td><%=editor.getAlias()%></td>
-        <td><%=editor.getSpecies()%></td>
-        <td><%=editor.getActivity()%></td>
-        <td><%=editor.getDsbCleavageType()%></td>
-        <td><%=editor.getSource()%></td>
-        <td><%=editor.getId()%></td>
+<%
+    UserService userService=new UserService();
+    Access access= new Access();
+    for (Editor editor: editors) { %>
 
-    </tr>
+        <% if (access.hasEditorAccess(editor, userService.getCurrentUser(request.getSession()))) {%>
+
+        <tr>
+            <td><a href="editor?id=<%=editor.getId()%>"><%=editor.getSymbol()%></a></td>
+            <td><%=editor.getType()%></td>
+            <td><%=editor.getSubType()%></td>
+            <td><%=editor.getAlias()%></td>
+            <td><%=editor.getSpecies()%></td>
+            <td><%=editor.getActivity()%></td>
+            <td><%=editor.getDsbCleavageType()%></td>
+            <td><%=editor.getSource()%></td>
+            <td><%=editor.getId()%></td>
+
+        </tr>
+    <% } %>
 <% } %>
 </table>
