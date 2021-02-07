@@ -29,7 +29,6 @@ public class ExperimentController extends UserController {
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentRecordDao edao=new ExperimentRecordDao();
         List<ExperimentRecord>  records = edao.getExperimentRecords();
-
         req.setAttribute("experimentRecords", records);
         req.setAttribute("action", "Experiments");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
@@ -42,7 +41,7 @@ public class ExperimentController extends UserController {
     @RequestMapping(value="/study/{studyId}")
     public String getExperimentsByStudyId( HttpServletRequest req, HttpServletResponse res,
                                            @PathVariable(required = false) int studyId) throws Exception {
-        Person p=userService.getCurrentUser();
+        Person p=userService.getCurrentUser(req.getSession());
 
         if(p==null)
             return "redirect:/";
@@ -69,7 +68,7 @@ public class ExperimentController extends UserController {
                                                @PathVariable(required = false) int experimentId
     ) throws Exception {
 
-        Person p=userService.getCurrentUser();
+        Person p=userService.getCurrentUser(req.getSession());
         if(p==null)
             return "redirect:/";
         if (access.hasAccess(experimentId, "experiment", access.getPersonInfoRecords(p.getId()))) {
@@ -91,7 +90,7 @@ public class ExperimentController extends UserController {
     public String getExperimentRecords(HttpServletRequest req, HttpServletResponse res,
                                        @PathVariable(required = false) int experimentId,
                                        @PathVariable(required = false) int expRecordId) throws Exception {
-        Person p=userService.getCurrentUser();
+        Person p=userService.getCurrentUser(req.getSession());
         if(p==null){
             return "redirect:/";
         }

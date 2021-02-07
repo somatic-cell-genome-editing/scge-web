@@ -27,7 +27,7 @@ public class DashboardController extends LoginController {
     @RequestMapping(value="")
     public String getDashboard(HttpServletRequest req) throws Exception {
 
-        Person p=userService.getCurrentUser();
+        Person p=userService.getCurrentUser(req.getSession());
         if(p!=null){
 
             req.setAttribute("action", "Dashboard");

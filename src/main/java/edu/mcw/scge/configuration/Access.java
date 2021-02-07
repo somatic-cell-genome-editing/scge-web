@@ -6,6 +6,7 @@ import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.PersonInfo;
+import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.Data;
 import edu.mcw.scge.service.DataAccessService;
 
@@ -22,6 +23,32 @@ public class Access {
     PersonDao pdao=new PersonDao();
     EditorDao editorDao=new EditorDao();
     DeliveryDao deliveryDao=new DeliveryDao();
+
+
+    public boolean isAdmin(Person p) {
+
+        System.out.println("email in admin " + p.getEmail());
+        if (p.getEmail().equals("jdepons@yahoo.com") || true) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean canUpdateTier(Person p, Study s) throws Exception {
+
+        List<PersonInfo> personInfoRecords= this.getPersonInfoRecords(p.getId());
+
+        for(PersonInfo i:personInfoRecords){
+            if(s.getGroupId()==i.getSubGroupId()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
     public boolean hasAccess(int id, String idType,  List<PersonInfo> personInfoRecords) throws Exception {
         int personId=personInfoRecords.get(0).getPersonId();
         boolean dccNIHflag=false;

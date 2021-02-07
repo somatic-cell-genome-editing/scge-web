@@ -6,6 +6,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="edu.mcw.scge.datamodel.PersonInfo" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -48,12 +49,9 @@
 <script src="/toolkit/js/edit.js"></script>
 
 
-
-
-
 <% List<Study> studies = (List<Study>) request.getAttribute("studies");
-    Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
-    List<PersonInfo> personInfoRecords= (List<PersonInfo>) request.getAttribute("personInfoRecords");
+    //Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
+    Person person = (Person) request.getAttribute("person");
 %>
 <c:if test="${action!='Dashboard'}">
 <table align="center">
@@ -83,34 +81,17 @@
         </tr>
         </thead>
 
-        <% for (Study s: studies) {
-        boolean hasUpdateAction=false;
-            for(PersonInfo i:personInfoRecords){
-                if(s.getGroupId()==i.getSubGroupId()){
-                    hasUpdateAction=true;
-                }
-            }
+        <%
+            Access access = new Access();
         %>
+
+        <% for (Study s: studies) { %>
         <tr>
-            <!--td><input class="form" type="checkbox"></td-->
-            <!--td><button class="btn btn-outline-secondary btn-sm">Edit</button></td-->
-
-                <td>
-
-                    <!--c:if test="$-{userAttributes.get('name')!=null && personInfoRecords.get(0).personId==personId}"-->
-                    <c:if test="${userAttributes.get('name')!=null}">
-
-                    <%if(hasUpdateAction){%>
+            <td>
+                <% if (access.canUpdateTier(person,s)){%>
                     <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="edit/access">
                         <div class="col  tiers">
-                            <% int tier=0;
-                                if(tierUpdateMap!=null && tierUpdateMap.get(s.getStudyId())!=null){
-                                    tier=tierUpdateMap.get(s.getStudyId());
-                                }
-                                else
-                                    tier=s.getTier();
-                            %>
-                            <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=tier%>"/>
+                            <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=s.getTier()%>"/>
                             <input type="hidden" name="studyId" id="study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>
                             <input type="hidden" name="groupMembersjson" id="study-<%=s.getStudyId()%>-json"/>
                             <input type="hidden" name="groupIdsJson" id="study-<%=s.getStudyId()%>-groupIdsJson"/>
@@ -221,21 +202,21 @@
 
                     </div>
                         <%}%>
-                    </c:if>
 
                 </td>
                 <td width="20">
                     <%=s.getTier()%>
                 </td>
-            <td><%if(hasUpdateAction)  {%><a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%}%><%=s.getStudy()%>
-                <%if(hasUpdateAction)  {%></a><%}%>
+            <td><%if(access.canUpdateTier(person,s)) {  %>
+                    <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a>
+                <%} else { %>
+                    <%=s.getStudy()%>
+                <% } %>
             </td>
             <td><%=s.getLabName()%></td>
             <td><%=s.getPi()%></td>
             <td><%=s.getSubmissionDate()%></td>
         </tr>
         <%}%>
-
-
     </table>
 </div>
