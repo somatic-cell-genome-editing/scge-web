@@ -41,18 +41,17 @@ public class StudyController{
         Person p=userService.getCurrentUser(req.getSession());
         if(p!=null) {
             List<Study> studies = sdao.getStudies();
-            System.out.println("here2");
 
-            //req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
-            //req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
-            //req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
+            req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
+            req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
+            req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
             req.setAttribute("status", req.getParameter("status"));
+            req.setAttribute("DCCNIHAncestorGroupIds", Data.getInstance().getDCCNIHAncestorGroupIds());
             service.addTier2Associations(studies);
-            System.out.println("here3");
             Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
 
             req.setAttribute("studies", studies);
-            //req.setAttribute("tierUpdateMap", tierUpdateMap);
+            req.setAttribute("tierUpdateMap", tierUpdateMap);
             req.setAttribute("person", p);
             req.setAttribute("action", "Studies");
             req.setAttribute("page", "/WEB-INF/jsp/tools/studies");

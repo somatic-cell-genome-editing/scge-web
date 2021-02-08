@@ -35,23 +35,22 @@ public class DashboardController extends LoginController {
             req.setAttribute("page", "/WEB-INF/jsp/dashboardnew");
             req.setAttribute("status", req.getParameter("status"));
 
-            List<Integer> DCCNIHGroupsIds = service.getDCCNIHGroupsIds();
-            List<Study> studies = new ArrayList<>();
-            Set<Integer> groupIds = new HashSet<>();
-            List<PersonInfo> personInfoRecords= access.getPersonInfoRecords(p.getId());
+            List<Study> studies =sdao.getStudies(p);
 
+            List<PersonInfo> personInfoRecords= access.getPersonInfoRecords(p.getId());
+            req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
+            req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
+            req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
+            req.setAttribute("status", req.getParameter("status"));
+            req.setAttribute("DCCNIHAncestorGroupIds", Data.getInstance().getDCCNIHAncestorGroupIds());
             service.addTier2Associations(studies);
             Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
-            //req.setAttribute("personInfoRecords", personInfoRecords);
 
-            Person person=userService.getCurrentUser(req.getSession());
+        //    Person person=userService.getCurrentUser(req.getSession());
             req.setAttribute("person",p);
-
-
             req.setAttribute("personInfoRecords", personInfoRecords);
-            req.setAttribute("studies", sdao.getStudies(p));
+            req.setAttribute("studies", studies);
             req.setAttribute("studiesShared", new ArrayList());
-
             req.setAttribute("tierUpdateMap", tierUpdateMap);
             return "base";
 
