@@ -124,8 +124,8 @@ Goals"/>
                             <!-- using pageContext requires jsp-api artifact in pom.xml -->
                             <c:choose>
                                 <c:when test="${userAttributes.get('name')!=null}">
-                                    Logged in as:<img class="img-circle" src="${userAttributes.get('picture')}" width="24">
-                                    ${userAttributes.get('name')}&nbsp;
+                                    <img class="img-circle" src="${userAttributes.get('picture')}" width="24">
+                                    &nbsp;${userAttributes.get('name')}&nbsp;&nbsp;
                                     <a href="/toolkit/logout" title="Sign out"><button class="btn btn-primary">Logout</button></a>
 
                                 </c:when>
