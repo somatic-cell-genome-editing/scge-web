@@ -34,6 +34,7 @@ public class AdminController extends LoginController{
 
             PersonDao personDao = new PersonDao();
             req.setAttribute("people", personDao.getAllMembers());
+            req.setAttribute("person",userService.getCurrentUser(req.getSession()));
             req.setAttribute("action", "Administration");
             req.setAttribute("page", "/WEB-INF/jsp/admin");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -63,6 +64,7 @@ public class AdminController extends LoginController{
         sess.setAttribute("userAttributes",attributes);
 
         req.setAttribute("people", pdao.getAllMembers());
+        req.setAttribute("person",p);
         req.setAttribute("action", "Administration");
         req.setAttribute("page", "/WEB-INF/jsp/admin");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
