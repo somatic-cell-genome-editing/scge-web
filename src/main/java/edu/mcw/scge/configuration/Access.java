@@ -53,6 +53,19 @@ public class Access {
     }
 
 
+    public boolean isInDCCorNIHGroup(Person p) throws Exception{
+        List<Integer> DCCNIHGroupsIds=Data.getInstance().getDCCNIHGroupsIds();
+        PersonDao pdao = new PersonDao();
+        List<PersonInfo> personInfoRecords = pdao.getPersonInfo(p.getId());
+
+        for(PersonInfo i:personInfoRecords) {
+            if (DCCNIHGroupsIds.contains(i.getSubGroupId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public boolean hasAccess(int id, String idType,  List<PersonInfo> personInfoRecords) throws Exception {
         int personId=personInfoRecords.get(0).getPersonId();
@@ -117,6 +130,8 @@ public class Access {
             return true;
         }
 
+
+
         return verifyPersonHasStudyAccess(studyId, personId);
     }
     public boolean hasStudyAccess(Study s, Person p) throws Exception{
@@ -129,7 +144,13 @@ public class Access {
             return true;
         }
 
-        return verifyPersonHasStudyAccess(s.getStudyId(), p.getId());
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
+
+
+            return verifyPersonHasStudyAccess(s.getStudyId(), p.getId());
     }
 
     public boolean hasExperimentAccess(int experimentId, int personId) throws Exception{

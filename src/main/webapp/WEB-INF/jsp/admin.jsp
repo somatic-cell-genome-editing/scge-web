@@ -28,8 +28,12 @@
 <body>
 
 
-<% List<Person> people = (List<Person>)request.getAttribute("people"); %>
+<% List<Person> people = (List<Person>)request.getAttribute("people");
+    Person person = (Person) request.getAttribute("person");
+%>
 
+You are logged in as <b><%=person.getName()%></b>
+<br><br>
 <table>
     <tr>
         <td>Become User</td>

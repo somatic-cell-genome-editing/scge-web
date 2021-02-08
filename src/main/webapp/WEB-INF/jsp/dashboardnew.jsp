@@ -1,3 +1,5 @@
+<%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
+<%@ page import="edu.mcw.scge.configuration.UserService" %>
 <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/dashboard/">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -8,6 +10,20 @@
             <strong>User Group:</strong> $--{i.subGroupName}</p-->
     <!--/c:forEach-->
 <!--/div-->
+<script>
+    $(function() {
+        $("#myTable2").tablesorter({
+            theme : 'blue'
+
+        });
+    });
+</script>
+
+<%
+    List<Study> studyList = (List<Study>) request.getAttribute("studies");
+    List<Study> studiesShared = (List<Study>) request.getAttribute("studiesShared");
+    List<PersonInfo> personInfoRecords = (List<PersonInfo>) request.getAttribute("personInfoRecords");
+%>
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -95,8 +111,64 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent">
             <h2>My Studies</h2>
-            <%@include file="tools/studies.jsp"%>
+            <% System.out.println(studyList); %>
+            <% if (studyList.size() ==0) { %>
+                You have not submitted any studies
+            <% } else { %>
+                <%@include file="tools/studies.jsp"%>
+            <% } %>
         </main>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent2">
+            <h2>Studies Shared with Me</h2>
+            <% if (studiesShared.size() ==0) { %>
+                0 Studies shared with me
+            <% } else {%>
+            <table id="myTable2" class="tablesorter">
+                <thead>
+                <tr><th></th>
+                    <th width="20">Tier</th>
+                    <th>Name</th>
+                    <th>Institution</th>
+                    <th>Contact PI</th>
+                    <th>Submission Date</th>
+                </tr>
+                </thead>
+
+            <%  UserService userService = new UserService();
+                for (Study shared: studiesShared) { %>
+
+                <tr>
+                    <td>
+                    </td>
+                    <td width="20">
+                        <%=shared.getTier()%>
+                    </td>
+                    <td><%if(new Access().hasStudyAccess(shared,userService.getCurrentUser(request.getSession()))) {  %>
+                        <a href="/toolkit/data/experiments/study/<%=shared.getStudyId()%>"><%=shared.getStudy()%></a>
+                        <%} else { %>
+                        <%=shared.getStudy()%>
+                        <% } %>
+                    </td>
+                    <td><%=shared.getLabName()%></td>
+                    <td><%=shared.getPi()%></td>
+                    <td><%=UI.formatDate(shared.getSubmissionDate())%></td>
+                </tr>
+            <%}%>
+            </table>
+            <% } %>
+        </main>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent3">
+            <h2>Groups I'm a Member Of</h2>
+
+            <% for (PersonInfo pi: personInfoRecords) { %>
+                <p style="padding: 0;" class="text-muted">
+                <strong>Initiative:</strong> <%=pi.getGroupName()%> &nbsp;
+                <strong>User Group:</strong> <%=pi.getSubGroupName()%></p>
+            <% } %>
+
+        </main>
+
     </div>
 </div>
 
