@@ -21,6 +21,8 @@
     body {
       background-color: #56baed;
       background-image: url("common/images/genomeEditing.jpg");
+      background-size: auto;
+      background-repeat: no-repeat;
     }
 
     body {
@@ -311,6 +313,9 @@
     </div>
 
   </div>
+</div>
+<div>
+  <p style="color: darkorange;"><strong>Background image credit:</strong>&nbsp;National Human Genome Research Institute</p>
 </div>
 </body>
 </html>
