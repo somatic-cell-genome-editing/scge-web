@@ -37,26 +37,66 @@ public class StudyController{
     public String getStudies( HttpServletRequest req, HttpServletResponse res) throws Exception {
 
 
-        System.out.println("here1");
+
+        int initiative = 0;
+        String initiativeName="";
+        if (req.getParameter("initiative") != null)  {
+            initiative=Integer.parseInt(req.getParameter("initiative"));
+        }
+
+        if (initiative==1) {
+            initiativeName="Rodent Testing Center";
+        }else if (initiative==2) {
+            initiativeName="Large Animal Reporter";
+        }else if (initiative==3) {
+            initiativeName="Large Animal Testing Center";
+
+        }else if (initiative==4) {
+            initiativeName="Cell & Tissue Platform";
+
+        }else if (initiative==5) {
+            initiativeName="In Vivo Cell Tracking";
+
+        }else if (initiative==6) {
+            initiativeName="Delivery Vehicle Initiative";
+
+        }else if (initiative==7) {
+            initiativeName="New Editors Initiative";
+
+        }
+
+
+
         Person p=userService.getCurrentUser(req.getSession());
         if(p!=null) {
-            List<Study> studies = sdao.getStudies();
+            List<Study> studies = null;
+            if (initiative > 0) {
+                studies = sdao.getStudiesByInitiative(initiativeName);
+            }else {
+                studies = sdao.getStudies();
+            }
 
-            req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
-            req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
-            req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
+            //req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
+            //req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
+            //req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
             req.setAttribute("status", req.getParameter("status"));
-            req.setAttribute("DCCNIHAncestorGroupIds", Data.getInstance().getDCCNIHAncestorGroupIds());
             service.addTier2Associations(studies);
             Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
 
             req.setAttribute("studies", studies);
-            req.setAttribute("tierUpdateMap", tierUpdateMap);
+            //req.setAttribute("tierUpdateMap", tierUpdateMap);
             req.setAttribute("person", p);
-            req.setAttribute("action", "Studies");
+
+            if (initiative > 0) {
+                req.setAttribute("action", "Studies: " + initiativeName);
+
+            }else {
+                req.setAttribute("action", "Studies");
+
+            }
+
             req.setAttribute("page", "/WEB-INF/jsp/tools/studies");
 
-            System.out.println("here4");
             return "base";
         }
         return "redirect:/";
