@@ -23,6 +23,7 @@
     List<Study> studyList = (List<Study>) request.getAttribute("studies");
     List<Study> studiesShared = (List<Study>) request.getAttribute("studiesShared");
     List<PersonInfo> personInfoRecords = (List<PersonInfo>) request.getAttribute("personInfoRecords");
+    Person personRecord = (Person) request.getAttribute("person");
 %>
 <div class="container-fluid">
     <div class="row">
@@ -50,13 +51,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="users"></span>
-                            My Group
+                            My Groups
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="users"></span>
-                            Working Groups
+                            My Account
                         </a>
                     </li>
                     <!--li class="nav-item">
@@ -118,7 +119,7 @@
                 <%@include file="tools/studies.jsp"%>
             <% } %>
         </main>
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent2">
+        <main  style="margin-top:20px;"  role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent2">
             <h2>Studies Shared with Me</h2>
             <% if (studiesShared.size() ==0) { %>
                 0 Studies shared with me
@@ -158,14 +159,36 @@
             <% } %>
         </main>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent3">
+        <main style="margin-top:20px;" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent3">
             <h2>Groups I'm a Member Of</h2>
 
             <% for (PersonInfo pi: personInfoRecords) { %>
-                <p style="padding: 0;" class="text-muted">
-                <strong>Initiative:</strong> <%=pi.getGroupName()%> &nbsp;
-                <strong>User Group:</strong> <%=pi.getSubGroupName()%></p>
+                <li><p style="padding: 0;font-size:14px" class="text-muted">
+                    <b><%=pi.getGroupName()%></b>&nbsp;--&nbsp;<%=pi.getSubGroupName()%></p></li>
             <% } %>
+
+        </main>
+
+        <main style="margin-top:20px;" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent4">
+            <h2>Account Information</h2>
+
+            <table>
+                <tr>
+                    <th>Name:</th><td>&nbsp;</td><td><%=personRecord.getName()%></td>
+                </tr>
+                <tr>
+                    <th>Email:</th><td>&nbsp;</td><td><%=personRecord.getEmail()%></td>
+                </tr>
+                <tr>
+                    <th>Institution:</th><td>&nbsp;</td><td><%=personRecord.getInstitutionName()%></td>
+                </tr>
+                <tr>
+                    <th>Account Status:</th><td>&nbsp;</td><td><%=personRecord.getStatus()%></td>
+                </tr>
+                <tr>
+                    <th>SCGE ID:</th><td>&nbsp;</td><td><%=personRecord.getId()%></td>
+                </tr>
+            </table>
 
         </main>
 
