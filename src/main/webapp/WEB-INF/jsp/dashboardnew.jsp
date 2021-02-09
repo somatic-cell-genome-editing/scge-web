@@ -10,14 +10,6 @@
             <strong>User Group:</strong> $--{i.subGroupName}</p-->
     <!--/c:forEach-->
 <!--/div-->
-<script>
-    $(function() {
-        $("#myTable2").tablesorter({
-            theme : 'blue'
-
-        });
-    });
-</script>
 
 <%
     List<Study> studyList = (List<Study>) request.getAttribute("studies");
@@ -60,18 +52,7 @@
                             My Account
                         </a>
                     </li>
-                    <!--li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="bar-chart-2"></span>
-                            Reports
-                        </a>
-                    </li-->
-                    <!--li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="layers"></span>
-                            Consortium Groups
-                        </a>
-                    </li-->
+
                 </ul>
 
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -112,7 +93,6 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent">
             <h2>My Studies</h2>
-            <% System.out.println(studyList); %>
             <% if (studyList.size() ==0) { %>
                 You have not submitted any studies
             <% } else { %>
@@ -127,7 +107,7 @@
             <table id="myTable2" class="tablesorter">
                 <thead>
                 <tr><th></th>
-                    <th width="20">Tier</th>
+                    <th>Tier</th>
                     <th>Name</th>
                     <th>Institution</th>
                     <th>Contact PI</th>
@@ -141,7 +121,7 @@
                 <tr>
                     <td>
                     </td>
-                    <td width="20">
+                    <td>
                         <%=shared.getTier()%>
                     </td>
                     <td><%if(new Access().hasStudyAccess(shared,userService.getCurrentUser(request.getSession()))) {  %>

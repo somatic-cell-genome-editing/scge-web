@@ -30,8 +30,8 @@
     <tr>
         <td align="center"><img height="100" width="100" src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" border="0"/></td>
         <td align="center">
-            <form class="form-inline my-2 my-lg-0">
-                <input size=60 class="form-control " type="search" placeholder="Search Delivery Systems" aria-label="Search">
+            <form action="/toolkit/data/search/results/Delivery" class="form-inline my-2 my-lg-0">
+                <input size=60 class="form-control " name="searchTerm" type="search" placeholder="Search Delivery Systems" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </td>

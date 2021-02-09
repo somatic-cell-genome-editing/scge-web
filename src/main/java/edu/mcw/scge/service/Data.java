@@ -1,5 +1,6 @@
 package edu.mcw.scge.service;
 
+import edu.mcw.scge.dao.implementation.GroupDAO;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.SCGEGroup;
 
@@ -12,12 +13,15 @@ public class Data {
     private  Map<SCGEGroup, List<Person>> groupMembersMap ;
     private  Map<SCGEGroup, List<Person>> DCCNIHMembersMap;
     private  List<Integer> DCCNIHGroupsIds;
+    private List<Integer> DCCNIHAncestorGroupIds;
+    GroupDAO gdao=new GroupDAO();
     private Data() throws Exception {
         DataAccessService service=new DataAccessService();
         consortiumGroups=service.getGroupsMapByGroupName("consortium");
         groupMembersMap= service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
         DCCNIHMembersMap= service.getDCCNIHMembersMap(consortiumGroups);
         DCCNIHGroupsIds=service.getDCCNIHGroupsIds();
+        DCCNIHAncestorGroupIds=gdao.getDCCNIHAncestorGroupIds();
 
     }
     public static Data getInstance() throws Exception {
@@ -56,5 +60,13 @@ public class Data {
 
     public void setDCCNIHGroupsIds(List<Integer> DCCNIHGroupsIds) {
         this.DCCNIHGroupsIds = DCCNIHGroupsIds;
+    }
+
+    public List<Integer> getDCCNIHAncestorGroupIds() {
+        return DCCNIHAncestorGroupIds;
+    }
+
+    public void setDCCNIHAncestorGroupIds(List<Integer> DCCNIHAncestorGroupIds) {
+        this.DCCNIHAncestorGroupIds = DCCNIHAncestorGroupIds;
     }
 }

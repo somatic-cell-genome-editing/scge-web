@@ -30,7 +30,7 @@
         var  $contentDiv=$('#results');
         var  $tmp=$contentDiv.html();
         var url;
-        url="/toolkit/data/search/results/"+category+"?searchTerm="+searchTerm
+        url="/toolkit/data/search/results/"+category+"?facetSearch=true&searchTerm="+searchTerm
 
         $.get(url, function (data, status) {
             $contentDiv.html(data);
