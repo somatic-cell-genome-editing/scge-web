@@ -91,7 +91,7 @@
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent" style="border:1px solid #E5E5E5;padding-top:10px; padding-bottom:10px;">
             <h2>My Studies</h2>
             <% if (studyList.size() ==0) { %>
                 You have not submitted any studies
@@ -99,7 +99,7 @@
                 <%@include file="tools/studies.jsp"%>
             <% } %>
         </main>
-        <main  style="margin-top:20px;"  role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent2">
+        <main  style="border:1px solid #E5E5E5; margin-top:20px;padding-top:10px; padding-bottom:10px;"  role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent2">
             <h2>Studies Shared with Me</h2>
             <% if (studiesShared.size() ==0) { %>
                 0 Studies shared with me
@@ -139,7 +139,7 @@
             <% } %>
         </main>
 
-        <main style="margin-top:20px;" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent3">
+        <main style="border:1px solid #E5E5E5; margin-top:20px;padding-top:10px; padding-bottom:10px;" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent3">
             <h2>Groups I'm a Member Of</h2>
 
             <% for (PersonInfo pi: personInfoRecords) { %>
@@ -149,7 +149,7 @@
 
         </main>
 
-        <main style="margin-top:20px;" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent4">
+        <main style="border:1px solid #E5E5E5; margin-top:20px;padding-top:10px; padding-bottom:10px;" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="mainContent4">
             <h2>Account Information</h2>
 
             <table>
