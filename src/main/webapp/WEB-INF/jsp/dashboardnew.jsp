@@ -143,8 +143,7 @@
             <h2>Groups I'm a Member Of</h2>
 
             <% for (PersonInfo pi: personInfoRecords) { %>
-                <li><p style="padding: 0;font-size:14px" class="text-muted">
-                    <b><%=pi.getGroupName()%></b>&nbsp;--&nbsp;<%=pi.getSubGroupName()%></p></li>
+                <li><span style="padding: 0;font-size:14px" class="text-muted"><b><%=pi.getGroupName()%></b>&nbsp;...&nbsp;<%=pi.getSubGroupName()%></span></li>
             <% } %>
 
         </main>
