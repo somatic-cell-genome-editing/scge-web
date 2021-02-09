@@ -37,7 +37,7 @@
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link active" href="/toolkit/data/studies/search">
-                            <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="30" height="30" alt="" />
+                            <img src="/toolkit/images/studyIcon.png" width="30" height="30" alt="" />
                             <strong>Studies</strong>&nbsp;<span class="object-count"><%=sdao.getStudyCount()%></span> <span class="sr-only">(current)</span>
                         </a>
                     </li>
@@ -61,12 +61,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/toolkit/data/guide/search">
-                            <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="30" height="30" alt="" />
+                            <img src="/toolkit/images/guideIcon.png" width="30" height="30" alt="" />
                             <strong>Guides</strong> &nbsp; <span class="object-count"><%=sdao.getGuideCount()%></span>                       </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/toolkit/data/vitro/search">
-                            <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="30" height="30" alt="" />
+                            <img src="/toolkit/images/experimentIcon.png" width="30" height="30" alt="" />
                             <strong>Experiment Records</strong>&nbsp;<span class="object-count"><%=sdao.getExperimentCount()%></span>                        </a>
                     </li>
                     <!--li class="nav-item">
@@ -84,7 +84,7 @@
     <div class="col-sm-6">
         <div class="card">
             <div class="card-header" >
-                Submissions
+                Studies
             </div>
             <div class="card-body">
 
@@ -107,37 +107,37 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/toolkit/data/studies/search?initiative=2">
-                        <span data-feather="file-text"></span>
+                        <span data-feather="layers"></span>
                         Large Animal Reporter
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/toolkit/data/studies/search?initiative=3">
-                        <span data-feather="file-text"></span>
+                        <span data-feather="layers"></span>
                         Large Animal Testing Center
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/toolkit/data/studies/search?initiative=4">
-                        <span data-feather="file-text"></span>
+                        <span data-feather="layers"></span>
                         Cell & Tissue Platform
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/toolkit/data/studies/search?initiative=5">
-                        <span data-feather="file-text"></span>
+                        <span data-feather="layers"></span>
                         In Vivo Cell Tracking
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/toolkit/data/studies/search?initiative=6">
-                        <span data-feather="file-text"></span>
+                        <span data-feather="layers"></span>
                         Delivery Vehicle Initiative
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/toolkit/data/studies/search?initiative=7">
-                        <span data-feather="file-text"></span>
+                        <span data-feather="layers"></span>
                         New Editors Initiative
                     </a>
                 </li>

@@ -39,9 +39,11 @@ public class Access {
         List<PersonInfo> personInfoRecords= this.getPersonInfoRecords(p.getId());
 
         for(PersonInfo i:personInfoRecords){
-            if(s.getGroupId()==i.getSubGroupId()){
-                return true;
-            }
+            //if(s.getGroupId()==i.getSubGroupId()){
+              if (s.getSubmitterId()==p.getId() || s.getPiId()==p.getId()) {
+                  return true;
+              }
+            //}
         }
         return false;
     }
@@ -118,6 +120,8 @@ public class Access {
 
         return this.hasStudyAccess(s,p);
     }
+
+
     public boolean hasStudyAccess(Study s, Person p) throws Exception{
         Access a = new Access();
 
@@ -131,7 +135,20 @@ public class Access {
         if (isInDCCorNIHGroup(p)) {
             return true;
         }
-        return sdao.verifyStudyAccessByPesonId(s.getStudyId(),p.getId());
+
+        //check for tier 1 access
+        List<PersonInfo> personInfoList = pdao.getPersonInfo(p.getId());
+
+        for (PersonInfo pi: personInfoList) {
+            if (pi.getSubGroupId()==s.getGroupId()) {
+                return true;
+            }
+        }
+
+        return false;
+
+
+        //return sdao.verifyStudyAccessByPesonId(s.getStudyId(),p.getId());
     }
 
     public boolean hasExperimentAccess(int experimentId, int personId) throws Exception{
