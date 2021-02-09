@@ -38,8 +38,8 @@
     <tr>
         <td align="center"><img height="100" width="100" src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" border="0"/></td>
         <td align="center">
-            <form class="form-inline my-2 my-lg-0">
-                <input size=60 class="form-control " type="search" placeholder="Search Genetic Models" aria-label="Search">
+            <form action="/toolkit/data/search/results/Model" class="form-inline my-2 my-lg-0">
+                <input size=60 class="form-control " name="searchTerm" type="search" placeholder="Search Genetic Models" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </td>
@@ -63,7 +63,7 @@
 <% for (Model model: models )  { %>
 
     <tr>
-        <td><a href="model/?id=<%=model.getModelId()%>"><%=SFN.parse(model.getShortName())%></a></td>
+        <td><!--a href="model/?id=<%--=model.getModelId()-%>"><%--=SFN.parse(model.getShortName())--%></a--></td>
         <td><%=model.getType()%></td>
         <td><%=SFN.parse(model.getSubtype())%></td>
         <td><a href="model/?id=<%=model.getModelId()%>"><%=model.getName()%></a></td>

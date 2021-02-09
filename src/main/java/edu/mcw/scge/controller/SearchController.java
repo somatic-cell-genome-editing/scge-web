@@ -49,6 +49,9 @@ public class SearchController{
     public String getResultsByCategory(HttpServletRequest req, HttpServletResponse res, Model model,
                              @PathVariable(required = false) String category, @RequestParam(required = false) String searchTerm) throws ServletException, IOException {
         SearchResponse sr=services.getSearchResults(category,searchTerm);
+        boolean facetSearch=false;
+        if(req.getParameter("facetSearch")!=null)
+        facetSearch= req.getParameter("facetSearch").equals("true");
         req.setAttribute("searchTerm", searchTerm);
         req.setAttribute("category",category);
         req.setAttribute("sr", sr);
@@ -56,8 +59,14 @@ public class SearchController{
       //  req.setAttribute("action", "Search Results");
      //   req.setAttribute("page", "/WEB-INF/jsp/search/resultsTable");
       //  req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-
+        if(facetSearch)
         return "search/resultsTable";
+        else{
+             req.setAttribute("action", "Search Results");
+               req.setAttribute("page", "/WEB-INF/jsp/search/resultsTable");
+              req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        }
+        return null;
     }
 
 
