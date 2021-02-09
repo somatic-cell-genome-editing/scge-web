@@ -1,13 +1,7 @@
 package edu.mcw.scge.configuration;
 
-import edu.mcw.scge.dao.implementation.DeliveryDao;
-import edu.mcw.scge.dao.implementation.EditorDao;
-import edu.mcw.scge.dao.implementation.PersonDao;
-import edu.mcw.scge.dao.implementation.StudyDao;
-import edu.mcw.scge.datamodel.Editor;
-import edu.mcw.scge.datamodel.Person;
-import edu.mcw.scge.datamodel.PersonInfo;
-import edu.mcw.scge.datamodel.Study;
+import edu.mcw.scge.dao.implementation.*;
+import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.Data;
 import edu.mcw.scge.service.DataAccessService;
 
@@ -24,7 +18,7 @@ public class Access {
     PersonDao pdao=new PersonDao();
     EditorDao editorDao=new EditorDao();
     DeliveryDao deliveryDao=new DeliveryDao();
-
+    ModelDao modelDao = new ModelDao();
 
     public boolean isLoggedIn() {
         return true;
@@ -114,25 +108,15 @@ public class Access {
 
         return false;
     }
-    public boolean verifyPersonHasStudyAccess(int studyId, int personId) throws Exception{
-        return sdao.verifyStudyAccessByPesonId(studyId,personId);
 
-    }
     public boolean hasStudyAccess(int studyId, int personId) throws Exception{
         StudyDao sdao = new StudyDao();
+        PersonDao personDao = new PersonDao();
+
         Study s = sdao.getStudyByStudyId(studyId);
-        Access a = new Access();
+        Person p = personDao.getPersonById(personId).get(0);
 
-        if (s.getTier()==4) {
-            return true;
-        }
-        if (s.getTier()==3 && a.isLoggedIn()) {
-            return true;
-        }
-
-
-
-        return verifyPersonHasStudyAccess(studyId, personId);
+        return this.hasStudyAccess(s,p);
     }
     public boolean hasStudyAccess(Study s, Person p) throws Exception{
         Access a = new Access();
@@ -147,10 +131,7 @@ public class Access {
         if (isInDCCorNIHGroup(p)) {
             return true;
         }
-
-
-
-            return verifyPersonHasStudyAccess(s.getStudyId(), p.getId());
+        return sdao.verifyStudyAccessByPesonId(s.getStudyId(),p.getId());
     }
 
     public boolean hasExperimentAccess(int experimentId, int personId) throws Exception{
@@ -166,26 +147,57 @@ public class Access {
             return true;
         }
 
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
         return editorDao.verifyEditorAccess(e.getId(), p.getId());
     }
 
+    public boolean hasModelAccess(Model m, Person p) throws Exception{
+        if (m.getTier() == 4) {
+            return true;
+        }
+
+        if (m.getTier() == 3) {
+            return true;
+        }
+
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
+        return modelDao.verifyModelAccess(m.getModelId(), p.getId());
+    }
 
     public boolean hasEditorAccess(int editorId, int personId) throws Exception{
         EditorDao edao = new EditorDao();
         Editor e = edao.getEditorById(editorId).get(0);
-
-        if (e.getTier() == 4) {
-            return true;
-        }
-
-        if (e.getTier() == 3) {
-            return true;
-        }
-
-        return editorDao.verifyEditorAccess(editorId, personId);
+        PersonDao personDao = new PersonDao();
+        Person p = personDao.getPersonById(personId).get(0);
+        return this.hasEditorAccess(e,p);
     }
+
+    public boolean hasDeliveryAccess(Delivery d, Person p) throws Exception{
+        if (d.getTier() == 4) {
+            return true;
+        }
+
+        if (d.getTier() == 3) {
+            return true;
+        }
+
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
+        return deliveryDao.verifyDeliveryAccess(d.getId(), p.getId());
+    }
+
     public boolean hasDeliveryAccess(int deliveryId, int personId) throws Exception{
-        return deliveryDao.verifyDeliveryAccess(deliveryId, personId);
+        DeliveryDao ddao = new DeliveryDao();
+        PersonDao pdao = new PersonDao();
+        return this.hasDeliveryAccess(ddao.getDeliverySystemsById(deliveryId).get(0),pdao.getPersonById(personId).get(0));
     }
 
     public boolean verifyUserExists( String principalName, String email) throws Exception {
