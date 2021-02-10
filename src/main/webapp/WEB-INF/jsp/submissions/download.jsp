@@ -2,6 +2,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
+<%@ page import="edu.mcw.scge.web.UI" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -31,16 +32,12 @@
         <td style="font-weight:700">Institution:</td><td>&nbsp;&nbsp;</td><td><%=study.getLabName()%><br></td>
     </tr>
     <tr>
-        <td style="font-weight:700">Submission Date:</td><td>&nbsp;&nbsp;</td><td><%=study.getSubmissionDate()%></td>
+        <td style="font-weight:700">Submission Date:</td><td>&nbsp;&nbsp;</td><td><%=UI.formatDate(study.getSubmissionDate())%></td>
     </tr>
     <tr>
         <td>&nbsp;</td>
     </tr>
 
-
-    <% if (files.size()==0) { %>
-        This account does not have files availble for download.
-    <% } %>
 
         <% for (String file: files) {
             String[] fileParts = file.split("/");
