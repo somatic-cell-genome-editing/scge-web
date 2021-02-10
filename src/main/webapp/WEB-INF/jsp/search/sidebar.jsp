@@ -5,7 +5,9 @@
   Time: 1:31 PM
   To change this template use File | Settings | File Templates.
 --%>
+<h3>Filters</h3>
 <div id="jstree_results">
+
 <ul class="nav flex-column" >
     <li class="nav-item"><a href="/toolkit/data/search/results?searchTerm=${searchTerm}"><strong>All</strong> (${sr.hits.totalHits})</a>
         <ul class="nav flex-column">

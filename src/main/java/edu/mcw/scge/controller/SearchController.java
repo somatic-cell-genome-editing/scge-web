@@ -33,9 +33,7 @@ public class SearchController{
     public String getResults(HttpServletRequest req, HttpServletResponse res, @RequestParam(required = false) String searchTerm) throws ServletException, IOException {
         System.out.println("SEARCH TERAM: "+searchTerm);
         SearchResponse sr=services.getSearchResults(null, searchTerm);
-        for(SearchHit s:sr.getHits().getHits()){
-          System.out.println("SYMBOL:"+  s.getSourceAsMap().get("symbol"));
-        }
+
         req.setAttribute("sr", sr);
         req.setAttribute("searchTerm", searchTerm);
         req.setAttribute("aggregations",services.getSearchAggregations(sr));
