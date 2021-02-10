@@ -38,6 +38,9 @@
     </tr>
 
 
+    <% if (files.size()==0) { %>
+        This account does not have files availble for download.
+    <% } %>
 
         <% for (String file: files) {
             String[] fileParts = file.split("/");

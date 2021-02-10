@@ -29,7 +29,7 @@
 
 <table align="center">
     <tr>
-        <td align="center"><img height="100" width="100" src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" border="0"/></td>
+        <td align="center"><img height="100" width="100" src="/toolkit/images/guideIcon.png" border="0"/></td>
         <td align="center">
             <form action="/toolkit/data/search/results/Guide" class="form-inline my-2 my-lg-0">
                 <input size=60 class="form-control " name="searchTerm" type="search" placeholder="Search Guides" aria-label="Search">

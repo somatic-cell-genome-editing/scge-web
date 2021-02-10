@@ -65,8 +65,6 @@ public class StudyController{
 
         }
 
-
-
         Person p=userService.getCurrentUser(req.getSession());
         if(p!=null) {
             List<Study> studies = null;
@@ -76,9 +74,6 @@ public class StudyController{
                 studies = sdao.getStudies();
             }
 
-            //req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
-            //req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
-            //req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
             req.setAttribute("status", req.getParameter("status"));
             service.addTier2Associations(studies);
             Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);

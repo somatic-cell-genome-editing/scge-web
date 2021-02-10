@@ -53,10 +53,10 @@
 
             <tr ><td class="header"><strong>SCGE ID</strong></td><td><%=g.getGuide_id()%></td></tr>
             <tr ><td class="header"><strong>Name</strong></td><td><%=SFN.parse(g.getGrnaLabId())%></td></tr>
-            <tr ><td class="header"><strong>Description</strong></td><td>???</td></tr>
+            <tr ><td class="header"><strong>Description</strong></td><td><%=SFN.parse(g.getGuideDescription())%></td></tr>
             <tr ><td class="header"><strong>Type</strong></td><td>???</td></tr>
             <tr ><td class="header" width="150"><strong>Subtype</strong></td><td><%=g.getGuide()%></td></tr>
-            <tr ><td class="header" width="150"><strong>Alias</strong></td><td>???</td></tr>
+            <tr ><td class="header" width="150"><strong>Alias</strong></td><td></td></tr>
         </table>
         <hr>
         <table style="width:80%">
@@ -73,10 +73,9 @@
         </table>
         <hr>
         <table style="width:80%">
-            <tr ><td class="header"><strong>Guide Format</strong></td><td><%=SFN.parse(g.getgRnaFormat())%></td></tr>
             <tr ><td class="header"><strong>Spacer Sequence</strong></td><td><%=SFN.parse(g.getSpacerSequence())%></td></tr>
             <tr ><td class="header"><strong>Spacer Length</strong></td><td><%=SFN.parse(g.getSpacerLength())%></td></tr>
-            <tr ><td class="header"><strong>Modifications</strong></td><td>???</td></tr>
+            <tr ><td class="header"><strong>Modifications</strong></td><td><%=SFN.parse(g.getModifications())%></td></tr>
             <tr ><td class="header"><strong>Repeat Sequence</strong></td><td><%=SFN.parse(g.getRepeatSequence())%></td></tr>
             <tr ><td class="header"><strong>Anti-Repeat Sequence</strong></td><td><%=SFN.parse(g.getAntiRepeatSequence())%></td></tr>
             <tr ><td class="header"><strong>Stemloop 1 Sequence</strong></td><td><%=SFN.parse(g.getStemloop1Sequence())%></td></tr>

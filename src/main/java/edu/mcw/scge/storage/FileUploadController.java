@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import edu.mcw.scge.configuration.Access;
@@ -54,12 +55,14 @@ public class FileUploadController {
 
 		StudyDao sdao = new StudyDao();
 
-
-		req.setAttribute("files", storageService.loadAll(studyId).map(
-				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-						"serveFile", req,path.getFileName().toString(),studyId).build().toUri().toString())
-				.collect(Collectors.toList()));
-
+		try {
+			req.setAttribute("files", storageService.loadAll(studyId).map(
+					path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+							"serveFile", req, path.getFileName().toString(), studyId).build().toUri().toString())
+					.collect(Collectors.toList()));
+		}catch (Exception e) {
+			req.setAttribute("files", new ArrayList<String>());
+		}
 		req.setAttribute("action", "Related Files");
 		req.setAttribute("study",sdao.getStudyById(Integer.parseInt(studyId)).get(0));
 		req.setAttribute("destination", "dataSubmission");

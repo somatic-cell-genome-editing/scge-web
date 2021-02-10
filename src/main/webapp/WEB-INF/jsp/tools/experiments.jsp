@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
+<%@ page import="edu.mcw.scge.web.UI" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -53,7 +54,7 @@
             <td class="desc" ><%=study.getPi()%></td>
             <td>&nbsp;&nbsp;&nbsp;</td>
             <td class="desc"  style="font-weight:700;">Submission Date:</td>
-            <td class="desc" ><%=study.getSubmissionDate()%></td>
+            <td class="desc" ><%=UI.formatDate(study.getSubmissionDate())%></td>
 
         </td>
             </td>

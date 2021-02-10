@@ -1,6 +1,8 @@
 <%@ page import="edu.mcw.scge.datamodel.Model" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="edu.mcw.scge.configuration.UserService" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -61,15 +63,23 @@
         <th>SCGE ID</th>
     </tr>
     </thead>
-<% for (Model model: models )  { %>
+
+
+    <%
+        Access access = new Access();
+        UserService userService = new UserService();
+        for (Model model: models )  { %>
+
+
+    <% if (access.hasModelAccess(model, userService.getCurrentUser(request.getSession()))) {%>
 
     <tr>
-        <td><!--a href="model/?id=<%--=model.getModelId()-%>"><%--=SFN.parse(model.getShortName())--%></a--></td>
         <td><%=model.getType()%></td>
         <td><%=SFN.parse(model.getSubtype())%></td>
         <td><a href="model/?id=<%=model.getModelId()%>"><%=model.getName()%></a></td>
         <td><%=model.getOrganism()%></td>
         <td><%=model.getModelId()%></td>
     </tr>
+    <% } %>
 <% } %>
 </table>

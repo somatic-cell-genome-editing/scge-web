@@ -61,8 +61,8 @@
     <tr>
         <td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=d.getName()%></a></td>
         <td><%=d.getType()%></td>
-        <td><%=d.getSubtype()%></td>
-        <td>???</td>
+        <td><%=SFN.parse(d.getSubtype())%></td>
+        <td></td>
         <td><%=d.getId()%></td>
     </tr>
         <% } %>

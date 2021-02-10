@@ -59,12 +59,10 @@
             <tr><td class="header"><strong>Parental&nbsp;Origin</strong></td><td>???</td></tr>
             <tr><td class="header"><strong>Organism</strong></td><td><%=m.getOrganism()%></td></tr>
             <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(m.getSource())%></td></tr>
-            <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><%=SFN.parse(m.getStockNumber())%> <%=SFN.parse(m.getRrid())%></td></tr>
         </table>
         <hr>
 
         <table style="width:80%">
-        <tr><td class="header"><strong>Age</strong></td><td><%=SFN.parse(m.getAge())%></td></tr>
             <tr><td class="header"><strong>Transgene</strong></td><td><%=SFN.parse(m.getTransgene())%></td></tr>
             <tr><td class="header"><strong>Transgene Description</strong></td><td><%=SFN.parse(m.getTransgeneDescription())%></td></tr>
             <tr><td class="header"><strong>Reporter</strong></td><td><%=SFN.parse(m.getTransgeneReporter())%></td></tr>

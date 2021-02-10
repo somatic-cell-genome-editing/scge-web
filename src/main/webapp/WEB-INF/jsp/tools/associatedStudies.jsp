@@ -10,11 +10,9 @@
         <th>Tier</th>
         <th>Name</th>
         <th>Initiative</th>
-        <th>Laboratory</th>
+        <th>Institution</th>
         <th>Contact PI</th>
-        <th>Raw Data</th>
         <th>Submission Date</th>
-        <th>SCGE ID</th>
     </tr>
     </thead>
 
@@ -27,13 +25,11 @@
         <td></td>
         <td><%=s.getLabName()%></td>
         <td><%=s.getPi()%></td>
-        <td><a href="<%=s.getRawData()%>">[Download]</a></td>
         <%
             String pattern = "dd/MM/yyyy";
             SimpleDateFormat format = new SimpleDateFormat(pattern);
         %>
         <td><%=format.format(s.getSubmissionDate())%></td>
-        <td><%=s.getStudyId()%></td>
     </tr>
     <% } %>
 
