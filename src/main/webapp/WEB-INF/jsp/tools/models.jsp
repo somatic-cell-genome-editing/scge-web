@@ -52,6 +52,7 @@
 
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
+        <tr>
         <th>Name</th>
         <th>Model Type</th>
         <th>Subtype</th>
