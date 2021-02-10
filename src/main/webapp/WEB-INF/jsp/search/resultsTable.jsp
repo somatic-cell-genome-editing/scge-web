@@ -53,7 +53,7 @@
                     </c:otherwise>
                 </c:choose>
             </td>
-            <td> <a href="/toolkit/data/delivery/system?id=${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></td>
+            <td> <a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></td>
             <td>
                 <div  class="more hideContent" style="overflow-y: auto">
                     <c:set value="true" var="first"/>
