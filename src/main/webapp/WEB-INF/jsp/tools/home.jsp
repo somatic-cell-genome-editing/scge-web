@@ -57,7 +57,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/toolkit/data/delivery/search">
                             <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="30" height="30" alt="" />
-                            <strong>Delivery Vehicles</strong> &nbsp;<span class="object-count"><%=sdao.getDeliveryCount()%></span>                       </a>
+                            <strong>Delivery Systems</strong> &nbsp;<span class="object-count"><%=sdao.getDeliveryCount()%></span>                       </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/toolkit/data/guide/search">
@@ -101,9 +101,35 @@
 
             <ul class="nav flex-column mb-2">
                 <li class="nav-item">
+                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=7">
+                        <span data-feather="layers"></span>
+                        Genome Editors
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=6">
+                        <span data-feather="layers"></span>
+                        Delivery Systems Initiative
+                    </a>
+                </li>
+                <li class="card-header">Biological Effects</li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=4">
+                        <span data-feather="layers"></span>
+                        Bilogical Systems
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=5">
+                        <span data-feather="layers"></span>
+                        In Vivo Cell Tracking
+                    </a>
+                </li>
+                <li class="card-header">Animal Reporter and Testing Center</li>
+                <li class="nav-item">
                     <a class="nav-link" href="/toolkit/data/studies/search?initiative=1">
                         <span data-feather="layers"></span>
-                        Rodent Testing Center               </a>
+                        Small Animal Testing Centers (SATC)              </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/toolkit/data/studies/search?initiative=2">
@@ -114,31 +140,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/toolkit/data/studies/search?initiative=3">
                         <span data-feather="layers"></span>
-                        Large Animal Testing Center
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=4">
-                        <span data-feather="layers"></span>
-                        Cell & Tissue Platform
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=5">
-                        <span data-feather="layers"></span>
-                        In Vivo Cell Tracking
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=6">
-                        <span data-feather="layers"></span>
-                        Delivery Vehicle Initiative
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/toolkit/data/studies/search?initiative=7">
-                        <span data-feather="layers"></span>
-                        New Editors Initiative
+                        Large Animal Testing Centers (LATC)
                     </a>
                 </li>
             </ul>

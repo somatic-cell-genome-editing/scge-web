@@ -77,7 +77,7 @@
             <td><a href="editor?id=<%=editor.getId()%>"><%=editor.getSymbol()%></a></td>
             <td><%=editor.getType()%></td>
             <td><%=editor.getSubType()%></td>
-            <td><%=editor.getAlias()%></td>
+            <td><%=SFN.parse(editor.getAlias())%></td>
             <td><%=editor.getSpecies()%></td>
             <td><%=editor.getActivity()%></td>
             <td><%=editor.getDsbCleavageType()%></td>
