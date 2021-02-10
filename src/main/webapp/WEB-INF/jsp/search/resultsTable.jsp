@@ -35,7 +35,7 @@
 
             <td>${hit.sourceAsMap.type}</td>
             <td>${hit.sourceAsMap.subType}</td>
-            <td>
+            <td><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
                 <c:choose>
                     <c:when test="${hit.sourceAsMap.subType=='Cas12'}">
                         <c:if test="${fn:contains(hit.sourceAsMap.symbol,'-1')}">
@@ -52,6 +52,7 @@
                         ${hit.sourceAsMap.symbol}
                     </c:otherwise>
                 </c:choose>
+            </a>
             </td>
             <td> <a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></td>
             <td>

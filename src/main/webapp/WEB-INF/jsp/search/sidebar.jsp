@@ -14,9 +14,8 @@
             <c:forEach items="${aggregations.categoryAggs}" var="bkt">
                 <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
                 <li class="nav-item">
-                    <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}')">
-                        <span data-feather=""></span>
-                            ${bkt.key}&nbsp;(${bkt.docCount})</a>
+                    <a class="nav-link facet-head" onclick="searchByFilter('${bkt.key}','${searchTerm}')" >
+                        <span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span></a>
                     <ul>
                         <c:set var="bktName" value="${bkt.key}TypeAggs"/>
                         <c:forEach items="${aggregations.get(bktName)}" var="type">
