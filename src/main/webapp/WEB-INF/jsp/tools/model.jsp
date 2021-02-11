@@ -48,7 +48,7 @@
         <table  style="width:80%">
             <tr ><td class="header"><strong>SCGE ID</strong></td><td><%=m.getModelId()%></td></tr>
             <tr><td class="header"><strong>Name</strong></td><td><%=m.getName()%></td></tr>
-            <tr><td class="header"><strong>Description</strong></td><td></td></tr>
+            <tr><td class="header"><strong>Description</strong></td><td><%=SFN.parse(m.getDescription())%></td></tr>
             <tr><td class="header"><strong>Type</strong></td><td><%=m.getType()%></td></tr>
             <tr><td class="header"><strong>Subtype</strong></td><td><%=SFN.parse(m.getSubtype())%></td></tr>
             <tr><td class="header"><strong>Alias</strong></td><td></td></tr>
@@ -56,7 +56,7 @@
         <hr>
 
         <table style="width:80%">
-            <tr><td class="header"><strong>Parental&nbsp;Origin</strong></td><td>???</td></tr>
+            <tr><td class="header"><strong>Parental&nbsp;Origin</strong></td><td><%=SFN.parse(m.getParentalOrigin())%></td></tr>
             <tr><td class="header"><strong>Organism</strong></td><td><%=m.getOrganism()%></td></tr>
             <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(m.getSource())%></td></tr>
         </table>

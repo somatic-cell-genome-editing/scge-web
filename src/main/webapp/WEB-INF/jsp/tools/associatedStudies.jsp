@@ -12,8 +12,17 @@
 
 <%} else { %>
 
+<script>
+    $(function() {
+        $("#associatedStudies").tablesorter({
+            theme : 'blue'
 
-<table id="myTable" class="table tablesorter table-striped">
+        });
+    });
+</script>
+
+
+<table id="associatedStudies" class="table tablesorter table-striped">
     <thead>
     <tr><!--th>Select</th-->
         <!--th>Action</th-->

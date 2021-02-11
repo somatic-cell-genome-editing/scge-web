@@ -16,8 +16,16 @@
            0 Experiments Associated
      <%} else { %>
 
+            <script>
+                $(function() {
+                    $("#associatedExperiments").tablesorter({
+                        theme : 'blue'
 
-            <table id="myTable" class="table tablesorter table-striped">
+                    });
+                });
+            </script>
+
+            <table id="associatedExperiments" class="table tablesorter table-striped">
         <thead>
         <tr>
             <th>Study</th>
