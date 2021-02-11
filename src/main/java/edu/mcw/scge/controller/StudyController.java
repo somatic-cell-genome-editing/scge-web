@@ -72,14 +72,21 @@ public class StudyController{
                 studies = sdao.getStudiesByInitiative(initiativeName);
             }else {
                 studies = sdao.getStudies();
+                req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
+                req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
+                req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
+                req.setAttribute("status", req.getParameter("status"));
+                req.setAttribute("DCCNIHAncestorGroupIds", Data.getInstance().getDCCNIHAncestorGroupIds());
+                req.setAttribute("status", req.getParameter("status"));
+                service.addTier2Associations(studies);
+                Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
+                req.setAttribute("tierUpdateMap", tierUpdateMap);
+
             }
 
             req.setAttribute("status", req.getParameter("status"));
-            service.addTier2Associations(studies);
-            Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
 
             req.setAttribute("studies", studies);
-            //req.setAttribute("tierUpdateMap", tierUpdateMap);
             req.setAttribute("person", p);
 
             if (initiative > 0) {
