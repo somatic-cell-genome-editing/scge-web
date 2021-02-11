@@ -31,22 +31,27 @@ public class SearchController{
     }
     @RequestMapping(value="/results")
     public String getResults(HttpServletRequest req, HttpServletResponse res, @RequestParam(required = false) String searchTerm) throws ServletException, IOException {
-        System.out.println("SEARCH TERAM: "+searchTerm);
-        SearchResponse sr=services.getSearchResults(null, searchTerm);
-
-        req.setAttribute("sr", sr);
+        SearchResponse sr=services.getSearchResults("", searchTerm, "", "");
+        boolean facetSearch=false;
+        if(req.getParameter("facetSearch")!=null)
+            facetSearch= req.getParameter("facetSearch").equals("true");        req.setAttribute("sr", sr);
         req.setAttribute("searchTerm", searchTerm);
         req.setAttribute("aggregations",services.getSearchAggregations(sr));
-        req.setAttribute("action", "Search Results: " +sr.getHits().getTotalHits()+" for "+ searchTerm);
-        req.setAttribute("page", "/WEB-INF/jsp/search/results");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-
+        if(facetSearch)
+            return "search/resultsTable";
+        else {
+            req.setAttribute("action", "Search Results: " + sr.getHits().getTotalHits() + " for " + searchTerm);
+            req.setAttribute("page", "/WEB-INF/jsp/search/results");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        }
         return null;
     }
     @RequestMapping(value="/results/{category}")
     public String getResultsByCategory(HttpServletRequest req, HttpServletResponse res, Model model,
                              @PathVariable(required = false) String category, @RequestParam(required = false) String searchTerm) throws ServletException, IOException {
-        SearchResponse sr=services.getSearchResults(category,searchTerm);
+        String type=req.getParameter("type");
+        String subType=req.getParameter("subType");
+        SearchResponse sr=services.getSearchResults(category,searchTerm, type, subType);
         boolean facetSearch=false;
         if(req.getParameter("facetSearch")!=null)
         facetSearch= req.getParameter("facetSearch").equals("true");
@@ -54,9 +59,6 @@ public class SearchController{
         req.setAttribute("category",category);
         req.setAttribute("sr", sr);
         req.setAttribute("aggregations",services.getSearchAggregations(sr));
-      //  req.setAttribute("action", "Search Results");
-     //   req.setAttribute("page", "/WEB-INF/jsp/search/resultsTable");
-      //  req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         if(facetSearch)
         return "search/resultsTable";
         else{

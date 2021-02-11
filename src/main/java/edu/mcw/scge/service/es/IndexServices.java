@@ -20,11 +20,11 @@ import java.io.IOException;
 import java.util.*;
 
 public class IndexServices {
-    public SearchResponse getSearchResults(String category, String searchTerm) throws IOException {
+    public SearchResponse getSearchResults(String category, String searchTerm, String type, String subType) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
 
-        srb.query(this.buildBoolQuery(category, searchTerm));
+        srb.query(this.buildBoolQuery(category, searchTerm, type, subType));
         srb.aggregation(this.buildSearchAggregations("category"));
         srb.highlighter(this.buildHighlights());
         srb.size(1000);
@@ -115,15 +115,22 @@ public class IndexServices {
         return aggregations;
     }
 
-    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm){
+    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm , String type, String subType){
         BoolQueryBuilder q=new BoolQueryBuilder();
-        q.must(buildQuery(category,searchTerm));
-        if(category!=null){
-            q.filter(QueryBuilders.termQuery("category.keyword",category));
+        q.must(buildQuery(searchTerm));
+        if(category!=null && !category.equals("")) {
+            q.filter(QueryBuilders.termQuery("category.keyword", category));
+
+            if (type != null && !type.equals("")) {
+                q.filter(QueryBuilders.termQuery("type.keyword", type));
+            }
+            if (subType != null && !subType.equals("")) {
+                q.filter(QueryBuilders.termQuery("subType.keyword", subType));
+            }
         }
         return q;
     }
-    public QueryBuilder buildQuery(String category,String searchTerm){
+    public QueryBuilder buildQuery(String searchTerm){
         DisMaxQueryBuilder q=new DisMaxQueryBuilder();
         if(searchTerm!=null && !searchTerm.equals("")) {
             q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
