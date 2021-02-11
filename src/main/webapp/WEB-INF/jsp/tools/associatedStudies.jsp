@@ -3,7 +3,26 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <h4 class="page-header" style="color:grey;">Associated SCGE Submissions</h4>
 
-<table id="myTable" class="table tablesorter table-striped">
+<% List<Study> studies = (List<Study>)request.getAttribute("studies"); %>
+
+<% if (studies.size() ==0) { %>
+<tr>
+    <td>0 Studies associated</td>
+</tr>
+
+<%} else { %>
+
+<script>
+    $(function() {
+        $("#associatedStudies").tablesorter({
+            theme : 'blue'
+
+        });
+    });
+</script>
+
+
+<table id="associatedStudies" class="table tablesorter table-striped">
     <thead>
     <tr><!--th>Select</th-->
         <!--th>Action</th-->
@@ -15,8 +34,6 @@
         <th>Submission Date</th>
     </tr>
     </thead>
-
-    <% List<Study> studies = (List<Study>)request.getAttribute("studies"); %>
 
     <% for (Study s: studies) { %>
     <tr>
@@ -35,3 +52,4 @@
 
 </table>
 
+<% } %>

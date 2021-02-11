@@ -38,6 +38,11 @@
         <td>&nbsp;</td>
     </tr>
 
+    <% if (files.size() ==0) { %>
+        <tr>
+            <td>0 files currently avaiable for this study</td>
+        </tr>
+    <% } %>
 
         <% for (String file: files) {
             String[] fileParts = file.split("/");

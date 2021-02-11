@@ -74,10 +74,11 @@
     <% if (access.hasModelAccess(model, userService.getCurrentUser(request.getSession()))) {%>
 
     <tr>
+        <td><a href="model/?id=<%=model.getModelId()%>"><%=model.getName()%></a></td>
         <td><%=model.getType()%></td>
         <td><%=SFN.parse(model.getSubtype())%></td>
-        <td><a href="model/?id=<%=model.getModelId()%>"><%=model.getName()%></a></td>
         <td><%=model.getOrganism()%></td>
+        <td></td>
         <td><%=model.getModelId()%></td>
     </tr>
     <% } %>

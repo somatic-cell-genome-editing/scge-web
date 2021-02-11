@@ -1,5 +1,6 @@
 package edu.mcw.scge.controller;
 
+import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.GuideDao;
@@ -12,11 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import edu.mcw.scge.configuration.Access;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,8 +29,21 @@ public class EditorController {
     @RequestMapping(value="/search")
     public String getEditors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         EditorDao dao = new EditorDao();
+        Access access = new Access();
+        UserService us = new UserService();
+
+
         List<Editor> records= dao.getAllEditors();
-        req.setAttribute("editors", records);
+        List<Editor> securedRecords = new ArrayList<Editor>();
+
+        for (Editor e: records) {
+            if (access.hasEditorAccess(e, access.getUser(req.getSession()))) {
+                securedRecords.add(e);
+            }
+
+        }
+        req.setAttribute("editors", securedRecords);
+
         req.setAttribute("action", "Genome Editors");
         req.setAttribute("page", "/WEB-INF/jsp/tools/editors");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);

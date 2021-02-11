@@ -8,6 +8,7 @@ import edu.mcw.scge.service.DataAccessService;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,12 @@ public class Access {
     public boolean isLoggedIn() {
         return true;
     }
+
+    public Person getUser(HttpSession session) throws Exception{
+        UserService us = new UserService();
+        return us.getCurrentUser(session);
+    }
+
 
     public boolean isAdmin(Person p) {
 
@@ -155,21 +162,6 @@ public class Access {
         return sdao.getStudyByExperimentId(experimentId, personId).size()>0;
     }
 
-    public boolean hasEditorAccess(Editor e, Person p) throws Exception{
-        if (e.getTier() == 4) {
-            return true;
-        }
-
-        if (e.getTier() == 3) {
-            return true;
-        }
-
-        if (isInDCCorNIHGroup(p)) {
-            return true;
-        }
-
-        return editorDao.verifyEditorAccess(e.getId(), p.getId());
-    }
 
     public boolean hasModelAccess(Model m, Person p) throws Exception{
         if (m.getTier() == 4) {
@@ -185,6 +177,22 @@ public class Access {
         }
 
         return modelDao.verifyModelAccess(m.getModelId(), p.getId());
+    }
+
+    public boolean hasEditorAccess(Editor e, Person p) throws Exception{
+        if (e.getTier() == 4) {
+            return true;
+        }
+
+        if (e.getTier() == 3) {
+            return true;
+        }
+
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
+        return editorDao.verifyEditorAccess(e.getId(), p.getId());
     }
 
     public boolean hasEditorAccess(int editorId, int personId) throws Exception{
