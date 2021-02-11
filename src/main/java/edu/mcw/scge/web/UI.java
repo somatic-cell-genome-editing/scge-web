@@ -9,6 +9,10 @@ public class UI {
 
     public static String formatFASTA(String str) {
 
+        if (str == null) {
+            return "";
+        }
+
         int start =0;
         int end = 79;
 

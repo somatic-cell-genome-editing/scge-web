@@ -134,11 +134,8 @@
                     <td>
                         <%=shared.getTier()%>
                     </td>
-                    <td><%if(new Access().hasStudyAccess(shared,userService.getCurrentUser(request.getSession()))) {  %>
+                    <td>
                         <a href="/toolkit/data/experiments/study/<%=shared.getStudyId()%>"><%=shared.getStudy()%></a>
-                        <%} else { %>
-                        <%=shared.getStudy()%>
-                        <% } %>
                     </td>
                     <td><%=shared.getLabName()%></td>
                     <td><%=shared.getPi()%></td>

@@ -40,10 +40,17 @@
 <div>
     <%
         List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
-        Study study = (Study) request.getAttribute("study");
-        //out.println(experiments.size());
+        Study study = null;
+        System.out.println("1");
+        if (request.getAttribute("study") != null) {
+            study = (Study) request.getAttribute("study");
+        }
+        System.out.println("2");
+
     %>
-<table width="95%">
+
+    <% if (study != null) { %>
+    <table width="95%">
     <tr>
         <td>
     <table>
@@ -67,7 +74,11 @@
     </tr>
 </table>
 
+<% }
 
+        System.out.println("3");
+
+%>
 
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
@@ -88,4 +99,3 @@
     </tr>
         <% } %>
 </table>
-<!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->

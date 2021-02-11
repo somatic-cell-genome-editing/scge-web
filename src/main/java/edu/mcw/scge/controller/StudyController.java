@@ -40,29 +40,32 @@ public class StudyController{
 
         int initiative = 0;
         String initiativeName="";
+        String initiativeTitle="";
         if (req.getParameter("initiative") != null)  {
             initiative=Integer.parseInt(req.getParameter("initiative"));
         }
 
         if (initiative==1) {
             initiativeName="Rodent Testing Center";
+            initiativeTitle="Small Animal Testing Centers (SATC)";
         }else if (initiative==2) {
             initiativeName="Large Animal Reporter";
+            initiativeTitle="Large Animal Reporters";
         }else if (initiative==3) {
             initiativeName="Large Animal Testing Center";
-
+            initiativeTitle="Large Animal Testing Centers (LATC)";
         }else if (initiative==4) {
             initiativeName="Cell & Tissue Platform";
-
+            initiativeTitle="Biological Effects: Biological Systems";
         }else if (initiative==5) {
             initiativeName="In Vivo Cell Tracking";
-
+            initiativeTitle="Biological Effects: In Vivo Cell Tracking";
         }else if (initiative==6) {
             initiativeName="Delivery Vehicle Initiative";
-
+            initiativeTitle="Delivery Systems Initiative";
         }else if (initiative==7) {
             initiativeName="New Editors Initiative";
-
+            initiativeTitle="Genome Editors Initiative";
         }
 
         Person p=userService.getCurrentUser(req.getSession());
@@ -90,7 +93,7 @@ public class StudyController{
             req.setAttribute("person", p);
 
             if (initiative > 0) {
-                req.setAttribute("action", "Studies: " + initiativeName);
+                req.setAttribute("action", "Studies: " + initiativeTitle);
 
             }else {
                 req.setAttribute("action", "Studies");

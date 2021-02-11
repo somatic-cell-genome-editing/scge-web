@@ -8,6 +8,7 @@ import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.service.es.IndexServices;
+import edu.mcw.scge.web.UI;
 import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,7 +73,7 @@ public class EditorController {
         }
 
         req.setAttribute("editor", editor);
-        req.setAttribute("action", "Genome Editor: " + editor.getSymbol());
+        req.setAttribute("action", "Genome Editor: " + UI.replacePhiSymbol(editor.getSymbol()));
         req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
 
         StudyDao sdao = new StudyDao();

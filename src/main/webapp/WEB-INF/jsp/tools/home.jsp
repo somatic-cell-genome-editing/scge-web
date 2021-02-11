@@ -65,9 +65,9 @@
                             <strong>Guides</strong> &nbsp; <span class="object-count"><%=sdao.getGuideCount()%></span>                       </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/toolkit/data/vitro/search">
+                        <a class="nav-link" href="/toolkit/data/experiments/search">
                             <img src="/toolkit/images/experimentIcon.png" width="30" height="30" alt="" />
-                            <strong>Experiment Records</strong>&nbsp;<span class="object-count"><%=sdao.getExperimentCount()%></span>                        </a>
+                            <strong>Experiments</strong>&nbsp;<span class="object-count"><%=sdao.getExperimentCount()%></span>                        </a>
                     </li>
                     <!--li class="nav-item">
                         <a class="nav-link" href="#">
