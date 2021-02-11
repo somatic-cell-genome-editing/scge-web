@@ -467,6 +467,8 @@ public class DataAccessService extends AbstractDAO {
             List<StudyTierUpdate> updates = tierUpdateDao.getStudyTierUpdatesByStudyId(studyId);
             if (updates != null && updates.size() > 0) {
                tierUpdatesMap.put(studyId,   updates.get(0).getTier());
+            }else{
+                tierUpdatesMap.put(studyId, s.getTier());
             }
         }
         return tierUpdatesMap;
@@ -490,6 +492,9 @@ public class DataAccessService extends AbstractDAO {
            s.setAssociatedGroups(groups);
         }
 
+    }
+    public Map<Integer, Integer> getUpdatedTiersOfAllStudies() throws Exception {
+       return tierUpdateDao.getUpdatedTiersOfAllStudies();
     }
     public void insertTierUpdates(int studyId, int tier, int userId, String json) throws Exception {
         List<StudyTierUpdate> updates= new ArrayList<>();

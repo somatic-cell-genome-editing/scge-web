@@ -51,7 +51,7 @@
 
 
 <% List<Study> studies = (List<Study>) request.getAttribute("studies");
-    //Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
+    Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
     Person person = (Person) request.getAttribute("person");
 %>
 <c:if test="${action!='Dashboard'}">
@@ -96,7 +96,7 @@
                             <input type="hidden" name="studyId" id="study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>
                             <input type="hidden" name="groupMembersjson" id="study-<%=s.getStudyId()%>-json"/>
                             <input type="hidden" name="groupIdsJson" id="study-<%=s.getStudyId()%>-groupIdsJson"/>
-                            <input type="button" id="updateTier-study<%=s.getStudyId()%>" class="form-control" onclick="changeAccess($(this),<%=s.getStudyId()%> , <%=s.getTier()%>)" value="Update Tier">
+                            <input type="button" id="updateTier-study<%=s.getStudyId()%>" class="form-control" onclick="changeAccess($(this),<%=s.getStudyId()%> , <%=tierUpdateMap.get(s.getStudyId())%>)" value="Update Tier">
                         </div>
                     </form>
                     <div>
