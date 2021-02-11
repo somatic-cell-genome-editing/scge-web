@@ -17,6 +17,16 @@
     List<PersonInfo> personInfoRecords = (List<PersonInfo>) request.getAttribute("personInfoRecords");
     Person personRecord = (Person) request.getAttribute("person");
 %>
+
+<script>
+    $(function() {
+        $("#myTable2").tablesorter({
+            theme : 'blue'
+
+        });
+    });
+</script>
+
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">

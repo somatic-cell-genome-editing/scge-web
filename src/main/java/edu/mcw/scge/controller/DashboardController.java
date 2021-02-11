@@ -50,7 +50,11 @@ public class DashboardController extends LoginController {
             req.setAttribute("person",p);
             req.setAttribute("personInfoRecords", personInfoRecords);
             req.setAttribute("studies", studies);
-            req.setAttribute("studiesShared", new ArrayList());
+
+            List<Study> sharedStudies = sdao.getSharedTier2Studies(p.getId());
+
+
+            req.setAttribute("studiesShared", sharedStudies);
             req.setAttribute("tierUpdateMap", tierUpdateMap);
             return "base";
 
