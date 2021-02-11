@@ -25,11 +25,11 @@ public class ExperimentController extends UserController {
     Access access=new Access();
     DBService dbService=new DBService();
     UserService userService=new UserService();
-    @RequestMapping(value="/")
+    @RequestMapping(value="/search")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        ExperimentRecordDao edao=new ExperimentRecordDao();
-        List<ExperimentRecord>  records = edao.getExperimentRecords();
-        req.setAttribute("experimentRecords", records);
+        ExperimentDao edao=new ExperimentDao();
+        List<Experiment>  records = edao.getAllExperiments();
+        req.setAttribute("experiments", records);
         req.setAttribute("action", "Experiments");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
