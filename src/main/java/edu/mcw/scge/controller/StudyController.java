@@ -45,23 +45,23 @@ public class StudyController{
         }
 
         if (initiative==1) {
-            initiativeName="Rodent Testing Center";
+            initiativeName="Small Animal Testing Centers (SATC)";
         }else if (initiative==2) {
-            initiativeName="Large Animal Reporter";
+            initiativeName="Large Animal Reporters";
         }else if (initiative==3) {
-            initiativeName="Large Animal Testing Center";
+            initiativeName="Large Animal Testing Centers (LATC)";
 
         }else if (initiative==4) {
-            initiativeName="Cell & Tissue Platform";
+            initiativeName="Biological Effects: Biological Systems";
 
         }else if (initiative==5) {
-            initiativeName="In Vivo Cell Tracking";
+            initiativeName="Biological Effects: In Vivo Cell Tracking";
 
         }else if (initiative==6) {
-            initiativeName="Delivery Vehicle Initiative";
+            initiativeName="Delivery Systems Initiative";
 
         }else if (initiative==7) {
-            initiativeName="New Editors Initiative";
+            initiativeName="Genome Editors Initiative";
 
         }
 
