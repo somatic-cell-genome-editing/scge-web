@@ -60,24 +60,7 @@
 
     </div>
         </div>
-        <div class="card">
-            <div class="card-header" style="padding-left:0 ">
-                <button class="btn btn-link btn-block text-left" type="button"  aria-expanded="true" onclick="toggleDiv(<%=s.getStudyId()%>)" >
-                Groups default to have access...
-                </button>
-            </div>
-            <!--button type="button" class="btn btn-primary" onclick="toggleDiv($-{rec.studyId})">Groups that have access...</button-->
-            <div class="card-body" id="collapse<%=s.getStudyId()%>" style="display: none">
-            <c:forEach items="${DCCNIHMembersMap}" var="map">
-                <div class="group form-group" id="group${map.key.groupId}-study<%=s.getStudyId()%>">
-                    <span style="color:steelblue;">${map.key.groupName}:</span>
-                    <c:forEach items="${map.value}" var="p">
-                            <span>${p.name}</span>
-                    </c:forEach>
-                </div>
-            </c:forEach>
-            </div>
-        </div>
+
 
         <div class="form-group group-dropdown-list card" >
             <label for="groupSelect-study<%=s.getStudyId()%>">Select Group</label>
@@ -133,6 +116,24 @@
         <button>Submit</button>
         </div-->
     <!--/form-->
+    </div>
+    <div class="card">
+        <div class="card-header" style="padding-left:0 ">
+            <button class="btn btn-link btn-block text-left" type="button"  aria-expanded="true" onclick="toggleDiv(<%=s.getStudyId()%>)" >
+                Groups default to have access...
+            </button>
+        </div>
+        <!--button type="button" class="btn btn-primary" onclick="toggleDiv($-{rec.studyId})">Groups that have access...</button-->
+        <div class="card-body" id="collapse<%=s.getStudyId()%>" style="display: none">
+            <c:forEach items="${DCCNIHMembersMap}" var="map">
+                <div class="group form-group" id="group${map.key.groupId}-study<%=s.getStudyId()%>">
+                    <span style="color:steelblue;">${map.key.groupName}:</span>
+                    <c:forEach items="${map.value}" var="p">
+                        <span>${p.name}</span>
+                    </c:forEach>
+                </div>
+            </c:forEach>
+        </div>
     </div>
     </div>
 
