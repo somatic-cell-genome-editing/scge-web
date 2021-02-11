@@ -307,16 +307,16 @@ public class DataAccessService extends AbstractDAO {
 
         return map;
     }
-    public  Map<Integer, List<SCGEGroup>> getGroupsMapByGroupName(String groupName) throws Exception {
+    public  Map<SCGEGroup, List<SCGEGroup>> getGroupsMapByGroupName(String groupName) throws Exception {
 
-        Map<Integer, List<SCGEGroup>> map= new HashMap<>();
+        Map<SCGEGroup, List<SCGEGroup>> map= new HashMap<>();
         List<SCGEGroup> subgroups=new ArrayList<>();
         int groupId=gdao.getGroupId(groupName);
         try {
             subgroups=   gdao.getSubGroupsByGroupId(groupId);
             for(SCGEGroup sg:subgroups){
                 List<SCGEGroup> ssgroups=  gdao.getSubGroupsByGroupId(sg.getGroupId());
-                map.put(sg.getGroupId(), ssgroups);
+                map.put(sg, ssgroups);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -400,7 +400,7 @@ public class DataAccessService extends AbstractDAO {
         }
         return map;
     }
-    public Map<SCGEGroup, List<Person>> getGroupMembersMapExcludeDCCNIH( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
+    public Map<SCGEGroup, List<Person>> getGroupMembersMapExcludeDCCNIH( Map<SCGEGroup, List<SCGEGroup>> consortiumGroup) throws Exception {
         Map<SCGEGroup, List<Person>> map=new HashMap<>();
         List<Integer> DCCNIHGroups= gdao.getDCCNIHGroupIds();
         for(Map.Entry e: consortiumGroup.entrySet()){
@@ -423,7 +423,7 @@ public class DataAccessService extends AbstractDAO {
         }
         return map;
     }
-    public Map<SCGEGroup, List<Person>> getDCCNIHMembersMap( Map<Integer, List<SCGEGroup>> consortiumGroup) throws Exception {
+    public Map<SCGEGroup, List<Person>> getDCCNIHMembersMap( Map<SCGEGroup   , List<SCGEGroup>> consortiumGroup) throws Exception {
         Map<SCGEGroup, List<Person>> map=new HashMap<>();
         List<Integer> DCCNIHGroups= gdao.getDCCNIHGroupIds();
         for(Map.Entry e: consortiumGroup.entrySet()){

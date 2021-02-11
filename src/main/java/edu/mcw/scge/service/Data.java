@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Data {
     private static Data instance =null;
-    private  Map<Integer, List<SCGEGroup>> consortiumGroups;
+    private  Map<SCGEGroup, List<SCGEGroup>> consortiumGroups;
     private  Map<SCGEGroup, List<Person>> groupMembersMap ;
     private  Map<SCGEGroup, List<Person>> DCCNIHMembersMap;
     private  List<Integer> DCCNIHGroupsIds;
@@ -30,11 +30,11 @@ public class Data {
         return instance;
     }
 
-    public Map<Integer, List<SCGEGroup>> getConsortiumGroups() {
+    public Map<SCGEGroup, List<SCGEGroup>> getConsortiumGroups() {
         return consortiumGroups;
     }
 
-    public void setConsortiumGroups(Map<Integer, List<SCGEGroup>> consortiumGroups) {
+    public void setConsortiumGroups(Map<SCGEGroup, List<SCGEGroup>> consortiumGroups) {
         this.consortiumGroups = consortiumGroups;
     }
 

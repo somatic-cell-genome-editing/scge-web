@@ -68,10 +68,12 @@
                 <c:forEach items="${groupsMap1}" var="m">
                     <!--p><a href="members?group=$-{m.key}" style="font-weight:bold">{m.key}</a></p-->
                         <c:choose>
-                            <c:when test="${!fn:contains(DCCNIHAncestorGroupIds, m.key)}">
+                            <c:when test="${!fn:contains(DCCNIHAncestorGroupIds, m.key.groupId)}">
+                            <optgroup label="${m.key.groupName}">
                                 <c:forEach items="${m.value}" var="sg">
                                     <option value="${sg.groupId}">${sg.groupName}</option>
                                 </c:forEach>
+                            </optgroup >
                             </c:when>
                         </c:choose>
 
