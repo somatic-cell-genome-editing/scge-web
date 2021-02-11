@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -143,19 +144,7 @@ public class Access {
             return true;
         }
 
-        //check for tier 1 access
-        List<PersonInfo> personInfoList = pdao.getPersonInfo(p.getId());
-
-        for (PersonInfo pi: personInfoList) {
-            if (pi.getSubGroupId()==s.getGroupId()) {
-                return true;
-            }
-        }
-
-        return false;
-
-
-        //return sdao.verifyStudyAccessByPesonId(s.getStudyId(),p.getId());
+        return sdao.verifyStudyAccessByPesonId(s.getStudyId(),p.getId());
     }
 
     public boolean hasExperimentAccess(int experimentId, int personId) throws Exception{

@@ -62,7 +62,7 @@
 %>
 
 <% if (showCountMessage) { %>
-<span style="color:#1A80B6; padding-left:10px;">Displaying <b><%=editors.size()%></b> of <b><%=total%></b> Editors.  <%=(total = editors.size())%> Editors hidden from view (tier 1 or 2)</span>
+<span style="color:#1A80B6; padding-left:10px;">Displaying <b><%=editors.size()%></b> of <b><%=total%></b> Editors.  <%=(total - editors.size())%> Editors hidden from view (tier 1 or 2)</span>
 <% } %>
 
 <table id="myTable" class="table tablesorter table-striped">
