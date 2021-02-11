@@ -493,9 +493,7 @@ public class DataAccessService extends AbstractDAO {
         }
 
     }
-    public Map<Integer, Integer> getUpdatedTiersOfAllStudies() throws Exception {
-       return tierUpdateDao.getUpdatedTiersOfAllStudies();
-    }
+
     public void insertTierUpdates(int studyId, int tier, int userId, String json) throws Exception {
         List<StudyTierUpdate> updates= new ArrayList<>();
         LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Chicago" ) );
