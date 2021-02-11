@@ -63,9 +63,9 @@
 
     <tr>
         <td><a href="guide?id=<%=g.getGuide_id()%>"><%=g.getGuide()%></a></td>
-        <td>Need to add Type</td>
-        <td>Need to add Subtype</td>
-        <td>Need to add Alias</td>
+        <td></td>
+        <td></td>
+        <td></td>
         <td><%=SFN.parse(g.getTargetLocus())%></td>
         <td><%=SFN.parse(g.getSpecies())%></td>
         <td><%=g.getGuide_id()%></td>

@@ -2,8 +2,56 @@ package edu.mcw.scge.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UI {
+
+    public static String formatFASTA(String str) {
+
+        int start =0;
+        int end = 79;
+
+        int runs = str.length() / 80;
+        System.out.println(runs);
+
+        String ret = "";
+        for (int i=0; i<9; i++)  {
+            ret +=str.substring(start,end) + "\n";
+            start +=80;
+            end +=80;
+
+        }
+
+        if (str.length() > start) {
+            ret += str.substring(start);
+        }
+
+        return ret;
+
+    }
+
+    public static String replacePhiSymbol(String namePre){
+
+        if (namePre == null) {
+            return "";
+        }
+        String namePost = "";
+        for (int i =0; i< namePre.length(); i++) {
+
+            char c = namePre.charAt(i);
+            int code = (int) c;
+
+            if (code == 934) {
+                namePost += "&#x3D5;";
+            }else {
+                namePost += c;
+            }
+        }
+        return namePost;
+
+    }
+
 
     public static String formatDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");

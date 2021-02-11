@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ page import="edu.mcw.scge.datamodel.Editor" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="edu.mcw.scge.web.UI" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -47,7 +48,6 @@
 <% List<Guide> relatedGuides = (List<Guide>) request.getAttribute("guides");
    Editor editor = (Editor) request.getAttribute("editor");
 
-
 %>
 
 
@@ -56,7 +56,7 @@
         <table  style="width:80%">
 
             <tr ><td class="header"><strong>SCGE ID</strong></td><td><%=editor.getId()%></td></tr>
-            <tr ><td class="header" ><strong>Name</strong></td><td><%=editor.getSymbol()%></td></tr>
+            <tr ><td class="header" ><strong>Name</strong></td><td><%=UI.replacePhiSymbol(editor.getSymbol())%></td></tr>
             <tr ><td class="header" ><strong>Description</strong></td><td><%=SFN.parse(editor.getEditorDescription())%></td></tr>
             <tr ><td class="header"><strong>Type</strong></td><td><%=editor.getType()%></td></tr>
             <tr ><td class="header"><strong>Subtype</strong></td><td><%=editor.getSubType()%></td></tr>
@@ -83,7 +83,7 @@
         <hr>
         <table style="width:80%">
 
-            <tr ><td class="header"><strong>Protein Sequence</strong></td><td><%=SFN.parse(editor.getProteinSequence())%></td></tr>
+            <tr ><td class="header"><strong>Protein Sequence</strong></td><td><pre><%=UI.formatFASTA(editor.getProteinSequence())%></pre></td></tr>
 
         </table>
         <hr>
@@ -91,7 +91,7 @@
             <tr><td class="header"><strong>Related Guides</strong></td>
                 <td>
                     <%for (Guide relatedGuide: relatedGuides) { %>
-                    <a href="/toolkit/data/guide/guide?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getGuide()%></a><br>
+                    <a href="/toolkit/data/guide/guide?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence()%></a><br>
                     <% } %>
                 </td>
             </tr>
