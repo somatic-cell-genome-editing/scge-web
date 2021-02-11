@@ -6,10 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <div class="container">
-    <h4>Devlivery Vehicle details</h4>
+    <h4>Devlivery System Details</h4>
 <form>
     <label>
-        Delivery Vehicle Name/Symbol:
+        Delivery System Name/Symbol:
         <input type="text">
     </label>
     <label>

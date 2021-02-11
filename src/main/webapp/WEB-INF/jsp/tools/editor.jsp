@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ page import="edu.mcw.scge.datamodel.Editor" %>
+<%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -44,7 +45,6 @@
 </script>
 
 <% List<Guide> relatedGuides = (List<Guide>) request.getAttribute("guides");
-   System.out.println(relatedGuides.size());
    Editor editor = (Editor) request.getAttribute("editor");
 
 
@@ -57,7 +57,7 @@
 
             <tr ><td class="header"><strong>SCGE ID</strong></td><td><%=editor.getId()%></td></tr>
             <tr ><td class="header" ><strong>Name</strong></td><td><%=editor.getSymbol()%></td></tr>
-            <tr ><td class="header" ><strong>Description</strong></td><td>???</td></tr>
+            <tr ><td class="header" ><strong>Description</strong></td><td><%=SFN.parse(editor.getEditorDescription())%></td></tr>
             <tr ><td class="header"><strong>Type</strong></td><td><%=editor.getType()%></td></tr>
             <tr ><td class="header"><strong>Subtype</strong></td><td><%=editor.getSubType()%></td></tr>
             <tr ><td class="header"><strong>Alias</strong></td><td><%=editor.getAlias()%></td></tr>
@@ -83,7 +83,7 @@
         <hr>
         <table style="width:80%">
 
-            <tr ><td class="header"><strong>Protein Sequence</strong></td><td>???</td></tr>
+            <tr ><td class="header"><strong>Protein Sequence</strong></td><td><%=SFN.parse(editor.getProteinSequence())%></td></tr>
 
         </table>
         <hr>

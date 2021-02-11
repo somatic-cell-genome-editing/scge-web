@@ -12,7 +12,12 @@
         //out.println(experiments.size());
     %>
 
-    <table id="myTable" class="table tablesorter table-striped">
+     <% if (experiments.size() ==0) { %>
+           0 Experiments Associated
+     <%} else { %>
+
+
+            <table id="myTable" class="table tablesorter table-striped">
         <thead>
         <tr>
             <th>Study</th>
@@ -42,3 +47,5 @@
         </tr>
         <% } %>
     </table>
+
+    <% } %>

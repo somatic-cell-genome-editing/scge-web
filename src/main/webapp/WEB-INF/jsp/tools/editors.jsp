@@ -3,6 +3,8 @@
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
+<%@ page import="edu.mcw.scge.dao.implementation.EditorDao" %>
+<%@ page import="edu.mcw.scge.dao.implementation.StatsDao" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -49,7 +51,17 @@
 </table>
 <br>
 
-<% List<Editor> editors = (List<Editor>) request.getAttribute("editors"); %>
+<% List<Editor> editors = (List<Editor>) request.getAttribute("editors");
+    StatsDao sdao = new StatsDao();
+    int total = sdao.getEditorCount();
+    boolean showCountMessage = true;
+    if (total == editors.size()) {
+        showCountMessage=false;
+    }
+%>
+
+
+<span style="color:rgb(65,189,225); padding-left:10px;">Displaying <b><%=editors.size()%></b> of <b><%=total%></b> Editors.  <%=(total = editors.size())%> Editors hidden from view (tier 1 or 2)</span>
 
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
@@ -71,7 +83,6 @@
     Access access= new Access();
     for (Editor editor: editors) { %>
 
-        <% if (access.hasEditorAccess(editor, userService.getCurrentUser(request.getSession()))) {%>
 
         <tr>
             <td><a href="editor?id=<%=editor.getId()%>"><%=editor.getSymbol()%></a></td>
@@ -86,5 +97,4 @@
 
         </tr>
     <% } %>
-<% } %>
 </table>
