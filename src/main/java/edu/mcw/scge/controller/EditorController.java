@@ -31,19 +31,19 @@ public class EditorController {
         EditorDao dao = new EditorDao();
         Access access = new Access();
         UserService us = new UserService();
+        Person p = us.getCurrentUser(req.getSession());
+
+        List<Editor> records = null;
 
 
-        List<Editor> records= dao.getAllEditors();
-        List<Editor> securedRecords = new ArrayList<Editor>();
+        if (access.isInDCCorNIHGroup(p)) {
+            records = dao.getAllEditors();
 
-        for (Editor e: records) {
-            if (access.hasEditorAccess(e, access.getUser(req.getSession()))) {
-                securedRecords.add(e);
-            }
-
+        }else {
+            records = dao.getAllEditors(us.getCurrentUser(req.getSession()).getId());
         }
-        req.setAttribute("editors", securedRecords);
 
+        req.setAttribute("editors", records);
         req.setAttribute("action", "Genome Editors");
         req.setAttribute("page", "/WEB-INF/jsp/tools/editors");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -55,6 +55,22 @@ public class EditorController {
     public String getEditor(HttpServletRequest req, HttpServletResponse res) throws Exception {
         EditorDao dao = new EditorDao();
         Editor editor= dao.getEditorById(Integer.parseInt(req.getParameter("id"))).get(0);
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.hasEditorAccess(editor,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
         req.setAttribute("editor", editor);
         req.setAttribute("action", "Genome Editor: " + editor.getSymbol());
         req.setAttribute("page", "/WEB-INF/jsp/tools/editor");

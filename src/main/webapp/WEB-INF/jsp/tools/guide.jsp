@@ -2,6 +2,7 @@
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Editor" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.scge.web.UI" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -54,8 +55,8 @@
             <tr ><td class="header"><strong>SCGE ID</strong></td><td><%=g.getGuide_id()%></td></tr>
             <tr ><td class="header"><strong>Name</strong></td><td><%=SFN.parse(g.getGrnaLabId())%></td></tr>
             <tr ><td class="header"><strong>Description</strong></td><td><%=SFN.parse(g.getGuideDescription())%></td></tr>
-            <tr ><td class="header"><strong>Type</strong></td><td>???</td></tr>
-            <tr ><td class="header" width="150"><strong>Subtype</strong></td><td><%=g.getGuide()%></td></tr>
+            <tr ><td class="header"><strong>Type</strong></td><td></td></tr>
+            <tr ><td class="header" width="150"><strong>Subtype</strong></td><td></td></tr>
             <tr ><td class="header" width="150"><strong>Alias</strong></td><td></td></tr>
         </table>
         <hr>
@@ -69,7 +70,6 @@
             <tr ><td class="header"><strong>Chromosome Start</strong></td><td><%=SFN.parse(g.getStart())%></td></tr>
             <tr ><td class="header"><strong>Chromosome Stop</strong></td><td><%=SFN.parse(g.getStop())%></td></tr>
             <tr ><td class="header"><strong>Strand</strong></td><td><%=SFN.parse(g.getStrand())%></td></tr>
-            <tr ><td class="header"><strong>Alias</strong></td><td>???</td></tr>
         </table>
         <hr>
         <table style="width:80%">
@@ -87,7 +87,7 @@
             <tr><td class="header"><strong>Related Editors</strong></td>
                 <td>
                     <%for (Editor relatedEditor: relatedEditors) { %>
-                    <a href="/toolkit/data/editors/editor?id=<%=relatedEditor.getId()%>" ><%=relatedEditor.getSymbol()%></a><br>
+                    <a href="/toolkit/data/editors/editor?id=<%=relatedEditor.getId()%>" ><%=UI.replacePhiSymbol(relatedEditor.getSymbol())%></a><br>
                     <% } %>
                 </td>
             </tr>

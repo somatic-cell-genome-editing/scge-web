@@ -1,9 +1,15 @@
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.configuration.UserService" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
 <h4 class="page-header" style="color:grey;">Associated SCGE Submissions</h4>
 
-<% List<Study> studies = (List<Study>)request.getAttribute("studies"); %>
+<% List<Study> studies = (List<Study>)request.getAttribute("studies");
+   Access localStudyAccess = new Access();
+   Person localStudyPerson = new UserService().getCurrentUser(request.getSession());
+%>
 
 <% if (studies.size() ==0) { %>
 <tr>
@@ -36,18 +42,20 @@
     </thead>
 
     <% for (Study s: studies) { %>
-    <tr>
-        <td><%=s.getTier()%>
-        <td><a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
-        <td></td>
-        <td><%=s.getLabName()%></td>
-        <td><%=s.getPi()%></td>
-        <%
-            String pattern = "dd/MM/yyyy";
-            SimpleDateFormat format = new SimpleDateFormat(pattern);
-        %>
-        <td><%=format.format(s.getSubmissionDate())%></td>
-    </tr>
+    <% if (localStudyAccess.hasStudyAccess(s,localStudyPerson)) { %>
+        <tr>
+            <td><%=s.getTier()%>
+            <td><a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
+            <td></td>
+            <td><%=s.getLabName()%></td>
+            <td><%=s.getPi()%></td>
+            <%
+                String pattern = "dd/MM/yyyy";
+                SimpleDateFormat format = new SimpleDateFormat(pattern);
+            %>
+            <td><%=format.format(s.getSubmissionDate())%></td>
+        </tr>
+    <% } %>
     <% } %>
 
 </table>

@@ -5,6 +5,7 @@
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ page import="edu.mcw.scge.dao.implementation.EditorDao" %>
 <%@ page import="edu.mcw.scge.dao.implementation.StatsDao" %>
+<%@ page import="edu.mcw.scge.web.UI" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -86,7 +87,7 @@
 
 
         <tr>
-            <td><a href="editor?id=<%=editor.getId()%>"><%=editor.getSymbol()%></a></td>
+            <td><a href="editor?id=<%=editor.getId()%>"><%=UI.replacePhiSymbol(editor.getSymbol())%></a></td>
             <td><%=editor.getType()%></td>
             <td><%=editor.getSubType()%></td>
             <td><%=SFN.parse(editor.getAlias())%></td>

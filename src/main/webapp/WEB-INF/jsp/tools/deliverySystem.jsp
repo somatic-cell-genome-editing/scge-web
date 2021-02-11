@@ -45,8 +45,8 @@
             <tr><td class="header"><strong>SCGE ID</strong></td><td><%=d.getId()%></td></tr>
             <tr><td class="header"><strong>Name</strong></td><td><%=d.getName()%></td></tr>
             <tr><td class="header"><strong>Description</strong></td><td><%=SFN.parse(d.getDescription())%></td></tr>
-            <tr><td class="header" width="150"><strong>Type</strong></td><td><%=d.getType()%></td></tr>
-            <tr><td class="header"><strong>Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
+            <tr><td class="header" width="150"><strong>Type</strong></td><td><%=SFN.parse(d.getType())%></td></tr>
+            <tr><td class="header"><strong>Subtype</strong></td><td><%=SFN.parse(d.getSubtype())%></td></tr>
             <tr><td class="header"><strong>Alias</strong></td><td></td></tr>
 
         </table>
@@ -54,12 +54,12 @@
         <table style="width:80%">
 
             <tr><td class="header"><strong>Mol&nbsp;Targeting&nbsp;Agent</strong></td><td><%=SFN.parse(d.getMolTargetingAgent())%></td></tr>
-            <tr><td class="header"><strong>Mol&nbsp;Targeting&nbsp;Agent Details</strong></td><td>???</td></tr>
+            <tr><td class="header"><strong>Mol&nbsp;Targeting&nbsp;Agent Details</strong></td><td></td></tr>
         </table>
         <hr>
         <table style="width:80%">
             <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(d.getSource())%></td></tr>
-            <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td>???</td></tr>
+            <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><%=SFN.parse(d.getRrid())%></td></tr>
             </tbody>
         </table>
     </div>
