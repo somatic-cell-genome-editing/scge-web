@@ -6,6 +6,7 @@
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
+<%@ page import="edu.mcw.scge.web.UI" %>
 <h4 class="page-header" style="color:grey;">Associated SCGE Experiment Records</h4>
 
 <div>
@@ -46,21 +47,19 @@
         </thead>
 
         <% for (ExperimentRecord exp: experiments) { %>
-                <% if (localStudyAccess.hasExperimentAccess(exp.getExperimentId(),localStudyPerson.getId())) { %>
 
                     <tr>
                         <!--td><input class="form" type="checkbox"></td-->
 
                         <td><a href="/toolkit/data/experiments/study/<%=exp.getStudyId()%>"><%=SFN.parse(exp.getStudyName())%></a></td>
                         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>"><%=SFN.parse(exp.getExperimentName())%></a></td>
-                        <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=SFN.parse(exp.getEditorSymbol())%></a></td>
+                        <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td>
                         <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
                         <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
                         <td></td>
                         <td><a href="/toolkit/data/guide/guide?id=<%=exp.getGuideId()%>"><%=SFN.parse(exp.getGuide())%></a></td>
                         <td><%=exp.getExperimentRecordId()%></td>
                     </tr>
-                <% } %>
         <% } %>
     </table>
 
