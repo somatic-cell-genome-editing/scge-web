@@ -134,7 +134,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/toolkit/data/studies/search?initiative=2">
                         <span data-feather="layers"></span>
-                        Large Animal Reporter
+                        Large Animal Reporter (LAR)
                     </a>
                 </li>
                 <li class="nav-item">
