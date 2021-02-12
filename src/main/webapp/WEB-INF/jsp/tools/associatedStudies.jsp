@@ -4,7 +4,7 @@
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
-<h4 class="page-header" style="color:grey;">Associated SCGE Submissions</h4>
+<h4 class="page-header" style="color:grey;">Associated SCGE Studies</h4>
 
 <% List<Study> studies = (List<Study>)request.getAttribute("studies");
    Access localStudyAccess = new Access();
