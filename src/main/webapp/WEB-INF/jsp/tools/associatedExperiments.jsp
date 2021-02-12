@@ -46,7 +46,6 @@
         </thead>
 
         <% for (ExperimentRecord exp: experiments) { %>
-                <% if (localStudyAccess.hasExperimentAccess(exp.getExperimentId(),localStudyPerson.getId())) { %>
 
                     <tr>
                         <!--td><input class="form" type="checkbox"></td-->
@@ -60,7 +59,6 @@
                         <td><a href="/toolkit/data/guide/guide?id=<%=exp.getGuideId()%>"><%=SFN.parse(exp.getGuide())%></a></td>
                         <td><%=exp.getExperimentRecordId()%></td>
                     </tr>
-                <% } %>
         <% } %>
     </table>
 
