@@ -63,7 +63,7 @@ public class SearchController{
         return "search/resultsTable";
         else{
              req.setAttribute("action", "Search Results");
-               req.setAttribute("page", "/WEB-INF/jsp/search/resultsTable");
+               req.setAttribute("page", "/WEB-INF/jsp/search/results");
               req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         }
         return null;

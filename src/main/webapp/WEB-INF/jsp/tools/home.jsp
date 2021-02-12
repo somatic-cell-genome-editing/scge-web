@@ -224,7 +224,7 @@
         data: {
           //  labels: ${labels},
             labels:
-            ["Biological-Vitro","Editors","LAC","Biological-vivo","LATC","Delivery","SATC"],
+            ["In Vitro","Editors","LAC","In vivo","LATC","Delivery Systems","SATC"],
             datasets: [{
                 label: '# of Submissions',
                 data: ${plotData.get("Submissions")},

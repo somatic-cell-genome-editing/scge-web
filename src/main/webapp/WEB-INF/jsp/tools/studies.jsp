@@ -37,6 +37,10 @@
         overflow-y: auto;
         overflow-x: auto;
     }
+    optgroup{
+       color:cornflowerblue;
+        font-weight: bold
+    }
 
 </style>
 <script>
@@ -111,8 +115,11 @@
                                         var $div="#group"+value+"-study<%=s.getStudyId()%>";
                                         //  $($div).show(2000);
                                         $($div).toggle()
-                                    }
+                                    },
+                                    enableCollapsibleOptGroups: true,
+                                    buttonContainer: '<div id="groupSelect-study<%=s.getStudyId()%>-container" class="btn-group" />'
                                 });
+                                $('#groupSelect-study<%=s.getStudyId()%>-container .caret-container').click();
                                 var valArr = <%=s.getAssociatedGroups()%>;
                                 var i = 0, size = valArr.length;
                                 for (i; i < size; i++) {
