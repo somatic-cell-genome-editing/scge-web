@@ -3,6 +3,8 @@
 <%@ page import="edu.mcw.scge.datamodel.Delivery" %>
 <%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -44,6 +46,8 @@
 <div>
     <%
         List<Guide> guides = (List<Guide>) request.getAttribute("guides");
+        Access access = new Access();
+        Person p = access.getUser(request.getSession());
     %>
 
     <table id="myTable" class="table tablesorter table-striped">
@@ -61,6 +65,7 @@
 
     <% for (Guide g: guides) { %>
 
+        <% if (access.hasGuideAccess(g,p)) { %>
     <tr>
         <td><a href="guide?id=<%=g.getGuide_id()%>"><%=g.getGuide()%></a></td>
         <td></td>
@@ -71,4 +76,6 @@
         <td><%=g.getGuide_id()%></td>
     </tr>
         <% } %>
+
+     <% } %>
 </table>

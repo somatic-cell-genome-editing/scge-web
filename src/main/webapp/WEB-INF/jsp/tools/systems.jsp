@@ -2,6 +2,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.Delivery" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -44,6 +46,8 @@
 <div>
     <%
         List<Delivery> systems = (List<Delivery>) request.getAttribute("systems");
+        Access access = new Access();
+        Person p = access.getUser(request.getSession());
     %>
 
     <table id="myTable" class="table tablesorter table-striped">
@@ -58,12 +62,15 @@
     </thead>
 
     <% for (Delivery d: systems) { %>
-    <tr>
+
+        <% if (access.hasDeliveryAccess(d,p))  { %>
+        <tr>
         <td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=d.getName()%></a></td>
         <td><%=d.getType()%></td>
         <td><%=SFN.parse(d.getSubtype())%></td>
         <td></td>
         <td><%=d.getId()%></td>
+            <% } %>
     </tr>
         <% } %>
 </table>

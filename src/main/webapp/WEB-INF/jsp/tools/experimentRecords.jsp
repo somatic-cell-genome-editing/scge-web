@@ -4,6 +4,8 @@
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="edu.mcw.scge.datamodel.ExperimentRecord" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -42,6 +44,9 @@
     <%
         List<ExperimentRecord> experimentRecords = (List<ExperimentRecord>) request.getAttribute("experimentRecords");
         Study study = (Study) request.getAttribute("study");
+        Access access = new Access();
+        Person p = access.getUser(request.getSession());
+
         //out.println(experiments.size());
     %>
 
@@ -73,8 +78,10 @@
 
         <% for (ExperimentRecord exp: experimentRecords) { %>
 
+        <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) { %>
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
+
 
         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
         <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td>
@@ -84,5 +91,6 @@
         <td><a href="/toolkit/data/guide/guide?id=<%=exp.getGuideId()%>"><%=SFN.parse(exp.getGuide())%></a></td>
     </tr>
         <% } %>
+     <% } %>
 </table>
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->

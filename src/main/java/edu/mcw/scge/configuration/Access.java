@@ -34,7 +34,6 @@ public class Access {
 
     public boolean isAdmin(Person p) {
 
-        System.out.println("email in admin " + p.getEmail());
         if (p.getEmail().equals("jdepons@yahoo.com") || true) {
             return true;
         }else {
@@ -190,6 +189,31 @@ public class Access {
         PersonDao personDao = new PersonDao();
         Person p = personDao.getPersonById(personId).get(0);
         return this.hasEditorAccess(e,p);
+    }
+
+    public boolean hasGuideAccess(Guide g, Person p) throws Exception{
+        if (g.getTier() == 4) {
+            return true;
+        }
+
+        if (g.getTier() == 3) {
+            return true;
+        }
+
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
+        //need to fix
+        return true;
+    }
+
+    public boolean hasGuideAccess(int guideId, int personId) throws Exception{
+        GuideDao edao = new GuideDao();
+        Guide g = edao.getGuideById(guideId).get(0);
+        PersonDao personDao = new PersonDao();
+        Person p = personDao.getPersonById(personId).get(0);
+        return this.hasGuideAccess(g,p);
     }
 
     public boolean hasDeliveryAccess(Delivery d, Person p) throws Exception{
