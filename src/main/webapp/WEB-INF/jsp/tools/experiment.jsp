@@ -121,6 +121,7 @@
 
     }
 </style>
+<% System.out.println("here 1"); %>
 
 <div>
     <div>
@@ -135,17 +136,19 @@
     </div>
 
     <hr>
+
+    <%
+
+        List<Delivery> dList = (List<Delivery>)request.getAttribute("deliveryList");
+        if (dList.size() > 0) {
+            Delivery d = dList.get(0);
+    %>
+
     <div>
         <table style="width:80%">
 
             <tbody>
 
-            <%
-
-                List<Delivery> dList = (List<Delivery>)request.getAttribute("deliveryList");
-                Delivery d = dList.get(0);
-
-            %>
                 <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=3">SpCas9</a></td></tr>
                 <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=1"><%=d.getType()%></a></td></tr>
                 <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
@@ -154,7 +157,9 @@
         </table>
     </div>
     <hr>
+    <% } %>
 
+    <% System.out.println("here 2"); %>
 
     <hr>
     <div>
@@ -181,6 +186,8 @@
         </table>
     </div>
     <hr>
+    <% System.out.println("here 3"); %>
+
     <div>
         <table style="width:80%">
 
@@ -202,6 +209,7 @@
             <tr><td class="header"><strong>Sample Preparation</strong></td><td>${experiment.samplePrep}</td></tr>
         </table>
     </div>
+    <% System.out.println("here 4"); %>
 
 <!-- JD NEW -->
     <hr>
