@@ -89,6 +89,7 @@
         <th>Study</th>
     <th>Name</th>
     <th>Type</th>
+        <th>Contact PI</th>
         <th>SCGE ID</th>
     </tr>
     </thead>
@@ -104,7 +105,9 @@
         <td><%=s.getStudy()%></td>
         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td>
         <td><%=exp.getType()%></td>
+        <td><%=s.getPi()%></td>
         <td><%=exp.getExperimentId()%></td>
     </tr>
         <% } %>
+        <% }%>
 </table>
