@@ -68,6 +68,7 @@
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
         <tr>
+            <th>Tier</th>
         <th>Name</th>
         <th>Type</th>
         <th>Subtype</th>
@@ -87,6 +88,7 @@
 
 
         <tr>
+            <td width="10"><%=editor.getTier()%></td>
             <td><a href="editor?id=<%=editor.getId()%>"><%=UI.replacePhiSymbol(editor.getSymbol())%></a></td>
             <td><%=editor.getType()%></td>
             <td><%=editor.getSubType()%></td>

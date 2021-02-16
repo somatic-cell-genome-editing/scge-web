@@ -53,6 +53,7 @@
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
+        <th>Tier</th>
         <th>Name</th>
         <th>Type</th>
         <th>Subtype</th>
@@ -65,7 +66,8 @@
 
         <% if (access.hasDeliveryAccess(d,p))  { %>
         <tr>
-        <td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=d.getName()%></a></td>
+            <td width="10"><%=d.getTier()%></td>
+            <td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=d.getName()%></a></td>
         <td><%=d.getType()%></td>
         <td><%=SFN.parse(d.getSubtype())%></td>
         <td></td>

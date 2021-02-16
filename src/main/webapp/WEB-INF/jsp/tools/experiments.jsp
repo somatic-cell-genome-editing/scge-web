@@ -3,6 +3,9 @@
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
+<%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -39,6 +42,9 @@
 
 <div>
     <%
+        Access access = new Access();
+        StudyDao sdao = new StudyDao();
+        Person p = access.getUser(request.getSession());
         List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
         Study study = null;
         System.out.println("1");
@@ -74,25 +80,28 @@
     </tr>
 </table>
 
-<% }
-
-        System.out.println("3");
-
-%>
+<% } %>
 
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
+        <th>Tier</th>
+        <th>Study</th>
     <th>Name</th>
     <th>Type</th>
         <th>SCGE ID</th>
     </tr>
     </thead>
 
-        <% for (Experiment exp: experiments) { %>
+        <% for (Experiment exp: experiments) {
+            Study s = sdao.getStudyByStudyId(exp.getStudyId());
+        %>
+
+        <% if (access.hasStudyAccess(s,p)) { %>
 
     <tr>
-        <!--td><input class="form" type="checkbox"></td-->
+        <td width="10"><%=s.getTier()%></td>
+        <td><%=s.getStudy()%></td>
         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td>
         <td><%=exp.getType()%></td>
         <td><%=exp.getExperimentId()%></td>
