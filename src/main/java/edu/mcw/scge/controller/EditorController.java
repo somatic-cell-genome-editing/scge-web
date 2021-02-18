@@ -36,14 +36,16 @@ public class EditorController {
 
         List<Editor> records = null;
 
+        records = dao.getAllEditors();
 
+/*
         if (access.isInDCCorNIHGroup(p)) {
             records = dao.getAllEditors();
 
         }else {
             records = dao.getAllEditors(us.getCurrentUser(req.getSession()).getId());
         }
-
+*/
         req.setAttribute("editors", records);
         req.setAttribute("action", "Genome Editors");
         req.setAttribute("page", "/WEB-INF/jsp/tools/editors");

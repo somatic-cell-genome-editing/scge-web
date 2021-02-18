@@ -95,7 +95,8 @@
     </thead>
 
         <% for (Experiment exp: experiments) {
-            Study s = sdao.getStudyByStudyId(exp.getStudyId());
+            System.out.println(exp.getStudyId());
+            Study s = sdao.getStudyById(exp.getStudyId()).get(0);
         %>
 
         <% if (access.hasStudyAccess(s,p)) { %>
