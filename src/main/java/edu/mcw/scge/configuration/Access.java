@@ -201,7 +201,7 @@ public class Access {
 
         if (g.getTier() == 3) {
             return true;
-        }`
+        }
 
         if (isInDCCorNIHGroup(p)) {
             return true;
