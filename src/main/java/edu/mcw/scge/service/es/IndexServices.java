@@ -128,6 +128,9 @@ public class IndexServices {
                 q.filter(QueryBuilders.termQuery("subType.keyword", subType));
             }
         }
+        q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
+                should(QueryBuilders.termQuery("tier",4)).should(QueryBuilders.termQuery("tier",3))));
+
         return q;
     }
     public QueryBuilder buildQuery(String searchTerm){
