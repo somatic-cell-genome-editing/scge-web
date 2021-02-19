@@ -50,7 +50,7 @@
             <td><%=s.getLabName()%></td>
             <td><%=s.getPi()%></td>
             <%
-                String pattern = "dd/MM/yyyy";
+                String pattern = "MM/dd/yyyy";
                 SimpleDateFormat format = new SimpleDateFormat(pattern);
             %>
             <td><%=format.format(s.getSubmissionDate())%></td>
