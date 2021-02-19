@@ -49,7 +49,7 @@ public class VectorController {
             return null;
 
         }
-        
+
         req.setAttribute("vector", v);
         req.setAttribute("action", "Vector/Format: " + v.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/vector");

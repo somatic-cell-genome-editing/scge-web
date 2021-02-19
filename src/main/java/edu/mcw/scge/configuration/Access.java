@@ -35,12 +35,19 @@ public class Access {
 
     public boolean isAdmin(Person p) throws Exception{
 
-        if (this.isInDCCorNIHGroup(p)) {
+        if (p.getEmail().equals("jdepons@yahoo.com")
+            || p.getEmail_lc().equals("jthota@mcw.edu")
+            || p.getEmail_lc().equals("mrdwinel@mcw.edu")
+            || p.getEmail_lc().equals("mjhoffman@mcw.edu")
+            || p.getEmail_lc().equals("ageurts@mcw.edu")
+            || p.getEmail_lc().equals("alemke@mcw.edu")
+            || p.getEmail_lc().equals("mgrzybowski@mcw.edu")
+            || p.getEmail_lc().equals("jrsmith@mcw.edu")
+                || p.getEmail_lc().equals("akwitek@mcw.edu")) {
             return true;
         }else {
             return false;
         }
-
     }
 
     public boolean canUpdateTier(Person p, Study s) throws Exception {
