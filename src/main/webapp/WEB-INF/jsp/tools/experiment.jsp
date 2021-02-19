@@ -121,7 +121,6 @@
 
     }
 </style>
-<% System.out.println("here 1"); %>
 
 <div>
     <div>
@@ -136,30 +135,28 @@
     </div>
 
     <hr>
-
-
-
-    <%
-    if (false) {
-        List<Delivery> dList = (List<Delivery>)request.getAttribute("deliveryList");
-        if (dList.size() > 0) {
-            Delivery d = dList.get(0);
-    %>
-
     <div>
         <table style="width:80%">
 
             <tbody>
 
+            <%
+
+                List<Delivery> dList = (List<Delivery>)request.getAttribute("deliveryList");
+                Delivery d =new Delivery();
+                if(dList!=null && dList.size()>0)
+                    d=dList.get(0);
+
+            %>
                 <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=3">SpCas9</a></td></tr>
-                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=1"><%=d.getType()%></a></td></tr>
+                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=1"><%--=d.getType()--%></a></td></tr>
                 <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td>26.52</td></tr>
             </tbody>
         </table>
     </div>
     <hr>
-    <% } }%>
+
 
     <hr>
     <div>
@@ -172,22 +169,26 @@
 </table>
     </div>
     <hr>
-
-
     <div>
-        <table style="width:80%">
 
-            <tbody>
-            <c:forEach items="${applicationMethod}" var="a">
-                <tr><td class="header"><strong>Application Method</strong></td><td>${a.applicationType}</td></tr>
-                <tr><td class="header"><strong>Application Site</strong></td><td>${a.siteOfApplication}</td></tr>
-                <tr><td class="header"><strong>Dosage</strong></td><td>${a.dosage}</td></tr>
-                <tr><td class="header"><strong>Time Course</strong></td><td>${a.timeCourse}</td></tr>
-                <tr><td class="header"><strong>Days post injection</strong></td><td>${a.daysPostInjection}</td></tr>
+    </div>
+    <hr>
+    <div>
+        <!--table style="width:80%">
 
-            </c:forEach>
+            <tbody-->
+            <!--c:if test="$-{applicationMethod!=null && fn:length(applicationMethod)>0}"-->
+            <!--c:forEach items="$-{applicationMethod}" var="a"-->
+                <!--tr><td class="header"><strong>Application Method</strong></td><td>$-{a.applicationType}</td></tr>
+                <tr><td class="header"><strong>Application Site</strong></td><td>$-{a.siteOfApplication}</td></tr>
+                <tr><td class="header"><strong>Dosage</strong></td><td>$-{a.dosage}</td></tr>
+                <tr><td class="header"><strong>Time Course</strong></td><td>$-{a.timeCourse}</td></tr>
+                <tr><td class="header"><strong>Days post injection</strong></td><td>$-{a.daysPostInjection}</td></tr-->
+
+            <!--/c:forEach-->
+            <!--/c:if>
             </tbody>
-        </table>
+        </table-->
     </div>
     <hr>
     <div>
@@ -196,10 +197,7 @@
         </table>
     </div>
 
-    <%@include file="graph.jsp"%>
-
-
-    <!-- JD NEW -->
+<!-- JD NEW -->
     <hr>
     <div class="row">
         <div class="col-lg-3">
@@ -338,23 +336,23 @@
     </div>
     <hr>
 
+    <%@include file="graph.jsp"%>
     <div >
         <c:forEach items="${results}" var="r">
         <div class="satcResults  card" id="${r.tissueTerm}" style="display: none">
         <div  class="container" style="padding:1%">
            <table>
                <tr>
-                    <td class="header">Parent Tissue</td>
-                   <td><h3>${r.parentTissueTerm}</h3></td>
+                <td class="header">Parent Tissue</td>   <td><h3>${r.parentTissueTerm}</h3></td>
                </tr>
                <tr>
-                   <td class="header">Tissue</td>
-                   <td>${r.tissueTerm}</td></tr>
+                   <td class="header">Tissue</td> <td>${r.tissueTerm}</td></tr>
                <tr>
-                   <td class="header">Number of samples</td><td>${r.numberOfSamples}</td>
+                <td class="header">Number of samples</td>                    <td>${r.numberOfSamples}</td>
+
                </tr>
-                <tr>
-                    <td class="header">Signal</td>                    <td>${r.signal}</td>
+<tr>
+                <td class="header">Signal</td>                    <td>${r.signal}</td>
 
 </tr>
                <tr>
@@ -381,6 +379,13 @@
                 <td class="header">ROI Coordinates</td>                    <td>${r.ROICoordinates}</td>
 
                </tr>
+
+
+
+
+
+
+
            </table>
         </div>
             <hr>

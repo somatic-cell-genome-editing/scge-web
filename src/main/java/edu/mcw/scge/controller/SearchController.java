@@ -1,7 +1,11 @@
 package edu.mcw.scge.controller;
 
+import edu.mcw.scge.configuration.Access;
+import edu.mcw.scge.configuration.UserService;
+import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.service.es.IndexServices;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.security.user.User;
 import org.elasticsearch.search.SearchHit;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +22,9 @@ import java.io.IOException;
 @RequestMapping(value="/data/search")
 public class SearchController{
     IndexServices services=new IndexServices();
+    Access access=new Access();
+    UserService userService=new UserService();
+
     @RequestMapping(value="/delivery/results")
     public String getDeliveryResults(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
         SearchResponse sr=services.getSearchResponse();
@@ -30,8 +37,11 @@ public class SearchController{
         return null;
     }
     @RequestMapping(value="/results")
-    public String getResults(HttpServletRequest req, HttpServletResponse res, @RequestParam(required = false) String searchTerm) throws ServletException, IOException {
-        SearchResponse sr=services.getSearchResults("", searchTerm, "", "");
+    public String getResults(HttpServletRequest req, HttpServletResponse res, @RequestParam(required = false) String searchTerm) throws Exception {
+        Person user=userService.getCurrentUser(req.getSession());
+        boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
+
+        SearchResponse sr=services.getSearchResults("", searchTerm, "", "",DCCNIHMember);
         boolean facetSearch=false;
         if(req.getParameter("facetSearch")!=null)
             facetSearch= req.getParameter("facetSearch").equals("true");        req.setAttribute("sr", sr);
@@ -48,10 +58,12 @@ public class SearchController{
     }
     @RequestMapping(value="/results/{category}")
     public String getResultsByCategory(HttpServletRequest req, HttpServletResponse res, Model model,
-                             @PathVariable(required = false) String category, @RequestParam(required = false) String searchTerm) throws ServletException, IOException {
+                             @PathVariable(required = false) String category, @RequestParam(required = false) String searchTerm) throws Exception {
+        Person user=userService.getCurrentUser(req.getSession());
+        boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
         String type=req.getParameter("type");
         String subType=req.getParameter("subType");
-        SearchResponse sr=services.getSearchResults(category,searchTerm, type, subType);
+        SearchResponse sr=services.getSearchResults(category,searchTerm, type, subType, DCCNIHMember);
         boolean facetSearch=false;
         if(req.getParameter("facetSearch")!=null)
         facetSearch= req.getParameter("facetSearch").equals("true");

@@ -129,10 +129,17 @@ public class ExperimentController extends UserController {
             req.setAttribute("applicationMethod", applicationMethod);
             req.setAttribute("deliveryList", deliveryList);
             //req.setAttribute("experiment",e);
-            req.setAttribute("experimentRecords", r);
+            req.setAttribute("experiment", r);
             req.setAttribute("model", m);
             req.setAttribute("reporterElements", reporterElements);
             req.setAttribute("results", results);
+            System.out.println("Applications: "+ applicationMethod.size()+
+                    "\ndelivery lsit: "+deliveryList.size()+
+            "\nexperimentRecords: "+records.size()+
+            "\nmodel:" +m.getName()+
+                    "\nreporters:"+reporterElements.size()+
+                    "\nresults:"+results.size());
+
             List<String> regionList = new ArrayList<>();
             StringBuilder json = new StringBuilder();
             json.append("[");
@@ -145,6 +152,7 @@ public class ExperimentController extends UserController {
                 json.append("\"value\":" + value + "},");
             }
             json.append("]");
+            System.out.println("REGION LSIT"+regionList.size());
             Gson gson = new Gson();
             String regionListJson = gson.toJson(regionList);
             req.setAttribute("regionListJson", regionListJson);

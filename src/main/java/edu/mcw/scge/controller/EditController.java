@@ -48,8 +48,7 @@ public class EditController {
      //   service.insertOrUpdateTierUpdates(studyId, tier, userId, json );
         service.insertTierUpdates(studyId, tier, userId, groupIdsJson );
         // updateDatabase(Integer.parseInt(studyId), tier, userId, json);
-        //    sendEmailNotification("jthota@mcw.edu", "SCGE","Your Study is updated");
-        // redirectAttributes.addFlashAttribute("message","Confirmation request sent to PI");
+        sendEmailNotification("jthota@mcw.edu", "SCGE"," Study:"+studyId+" is updated. These changes will get approved after 24 hours");
         String message="Confirmation request sent to PI";
         return "redirect:/loginSuccess?message="+message+"&studyId="+studyId+"&tier="+tier;
 

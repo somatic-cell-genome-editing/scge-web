@@ -20,11 +20,11 @@ import java.io.IOException;
 import java.util.*;
 
 public class IndexServices {
-    public SearchResponse getSearchResults(String category, String searchTerm, String type, String subType) throws IOException {
+    public SearchResponse getSearchResults(String category, String searchTerm, String type, String subType, boolean DCCNIHMember) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
 
-        srb.query(this.buildBoolQuery(category, searchTerm, type, subType));
+        srb.query(this.buildBoolQuery(category, searchTerm, type, subType, DCCNIHMember));
         srb.aggregation(this.buildSearchAggregations("category"));
         srb.highlighter(this.buildHighlights());
         srb.size(1000);
@@ -115,7 +115,7 @@ public class IndexServices {
         return aggregations;
     }
 
-    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm , String type, String subType){
+    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm , String type, String subType, boolean DCCNIHMember){
         BoolQueryBuilder q=new BoolQueryBuilder();
         q.must(buildQuery(searchTerm));
         if(category!=null && !category.equals("")) {
@@ -128,9 +128,10 @@ public class IndexServices {
                 q.filter(QueryBuilders.termQuery("subType.keyword", subType));
             }
         }
-        q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
-                should(QueryBuilders.termQuery("tier",4)).should(QueryBuilders.termQuery("tier",3))));
-
+        if(!DCCNIHMember) {
+            q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
+                    should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
+        }
         return q;
     }
     public QueryBuilder buildQuery(String searchTerm){
