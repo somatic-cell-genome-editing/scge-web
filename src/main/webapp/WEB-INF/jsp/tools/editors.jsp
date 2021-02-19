@@ -6,6 +6,8 @@
 <%@ page import="edu.mcw.scge.dao.implementation.EditorDao" %>
 <%@ page import="edu.mcw.scge.dao.implementation.StatsDao" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
+<%@ page import="javax.xml.stream.FactoryConfigurationError" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -68,6 +70,7 @@
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
         <tr>
+            <th>Tier</th>
         <th>Name</th>
         <th>Type</th>
         <th>Subtype</th>
@@ -83,10 +86,12 @@
 <%
     UserService userService=new UserService();
     Access access= new Access();
+    Person p = access.getUser(request.getSession());
     for (Editor editor: editors) { %>
 
-
+        <% if (access.hasEditorAccess(editor, p)) {%>
         <tr>
+            <td width="10"><%=editor.getTier()%></td>
             <td><a href="editor?id=<%=editor.getId()%>"><%=UI.replacePhiSymbol(editor.getSymbol())%></a></td>
             <td><%=editor.getType()%></td>
             <td><%=editor.getSubType()%></td>
@@ -98,5 +103,6 @@
             <td><%=editor.getId()%></td>
 
         </tr>
+        <% } %>
     <% } %>
 </table>

@@ -28,6 +28,7 @@ public class ExperimentController extends UserController {
     @RequestMapping(value="/search")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentDao edao=new ExperimentDao();
+
         List<Experiment>  records = edao.getAllExperiments();
         req.setAttribute("experiments", records);
         req.setAttribute("action", "Experiments");

@@ -55,6 +55,7 @@
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
         <tr>
+            <th>Tier</th>
         <th>Name</th>
         <th>Model Type</th>
         <th>Subtype</th>
@@ -74,6 +75,7 @@
     <% if (access.hasModelAccess(model, userService.getCurrentUser(request.getSession()))) {%>
 
     <tr>
+        <td width="10"><%=model.getTier()%></td>
         <td><a href="model/?id=<%=model.getModelId()%>"><%=model.getName()%></a></td>
         <td><%=model.getType()%></td>
         <td><%=SFN.parse(model.getSubtype())%></td>

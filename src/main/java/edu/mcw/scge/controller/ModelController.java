@@ -1,13 +1,12 @@
 package edu.mcw.scge.controller;
 
+import edu.mcw.scge.configuration.Access;
+import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.ModelDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
-import edu.mcw.scge.datamodel.Editor;
-import edu.mcw.scge.datamodel.Experiment;
-import edu.mcw.scge.datamodel.ExperimentRecord;
-import edu.mcw.scge.datamodel.Study;
+import edu.mcw.scge.datamodel.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +35,24 @@ public class ModelController {
     public String getModel(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ModelDao dao = new ModelDao();
         edu.mcw.scge.datamodel.Model mod= dao.getModelById(Integer.parseInt(req.getParameter("id")));
+
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.hasModelAccess(mod,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
+
         req.setAttribute("model", mod);
         req.setAttribute("action","Model System: " + mod.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/model");

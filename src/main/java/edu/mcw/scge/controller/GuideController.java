@@ -1,5 +1,7 @@
 package edu.mcw.scge.controller;
 
+import edu.mcw.scge.configuration.Access;
+import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,22 @@ public class GuideController {
     public String getGuide(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         GuideDao dao = new GuideDao();
         Guide guide= dao.getGuideById(Integer.parseInt(req.getParameter("id"))).get(0);
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.hasGuideAccess(guide,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
         req.setAttribute("guide", guide);
         req.setAttribute("action", "Guide: " + guide.getGuide());
         req.setAttribute("page", "/WEB-INF/jsp/tools/guide");

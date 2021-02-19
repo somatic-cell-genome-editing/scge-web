@@ -1,5 +1,7 @@
 package edu.mcw.scge.controller;
 
+import edu.mcw.scge.configuration.Access;
+import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.DeliveryDao;
 import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
@@ -32,6 +34,22 @@ public class VectorController {
     public String getVector(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         VectorDao dao = new VectorDao();
         Vector v= dao.getVectorById(Integer.parseInt(req.getParameter("id"))).get(0);
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.hasVectorAccess(v,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
         req.setAttribute("vector", v);
         req.setAttribute("action", "Vector/Format: " + v.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/vector");

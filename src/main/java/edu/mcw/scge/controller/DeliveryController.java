@@ -1,5 +1,7 @@
 package edu.mcw.scge.controller;
 
+import edu.mcw.scge.configuration.Access;
+import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.DeliveryDao;
 import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.ExperimentDao;
@@ -33,6 +35,24 @@ public class DeliveryController {
     public String getDeliverySystem(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         DeliveryDao dao = new DeliveryDao();
         Delivery system= dao.getDeliverySystemsById(Integer.parseInt(req.getParameter("id"))).get(0);
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.hasDeliveryAccess(system,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
+
+
         req.setAttribute("system", system);
         req.setAttribute("action", "Delivery System: " + system.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/deliverySystem");

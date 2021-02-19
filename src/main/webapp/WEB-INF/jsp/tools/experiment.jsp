@@ -121,6 +121,7 @@
 
     }
 </style>
+<% System.out.println("here 1"); %>
 
 <div>
     <div>
@@ -135,17 +136,19 @@
     </div>
 
     <hr>
+
+    <%
+
+        List<Delivery> dList = (List<Delivery>)request.getAttribute("deliveryList");
+        if (dList.size() > 0) {
+            Delivery d = dList.get(0);
+    %>
+
     <div>
         <table style="width:80%">
 
             <tbody>
 
-            <%
-
-                List<Delivery> dList = (List<Delivery>)request.getAttribute("deliveryList");
-                Delivery d = dList.get(0);
-
-            %>
                 <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=3">SpCas9</a></td></tr>
                 <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=1"><%=d.getType()%></a></td></tr>
                 <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
@@ -154,7 +157,9 @@
         </table>
     </div>
     <hr>
+    <% } %>
 
+    <% System.out.println("here 2"); %>
 
     <hr>
     <div>
@@ -181,6 +186,8 @@
         </table>
     </div>
     <hr>
+    <% System.out.println("here 3"); %>
+
     <div>
         <table style="width:80%">
 
@@ -203,7 +210,10 @@
         </table>
     </div>
 
-<!-- JD NEW -->
+    <%@include file="graph.jsp"%>
+
+
+    <!-- JD NEW -->
     <hr>
     <div class="row">
         <div class="col-lg-3">
@@ -342,23 +352,23 @@
     </div>
     <hr>
 
-    <%@include file="graph.jsp"%>
     <div >
         <c:forEach items="${results}" var="r">
         <div class="satcResults  card" id="${r.tissueTerm}" style="display: none">
         <div  class="container" style="padding:1%">
            <table>
                <tr>
-                <td class="header">Parent Tissue</td>   <td><h3>${r.parentTissueTerm}</h3></td>
+                    <td class="header">Parent Tissue</td>
+                   <td><h3>${r.parentTissueTerm}</h3></td>
                </tr>
                <tr>
-                   <td class="header">Tissue</td> <td>${r.tissueTerm}</td></tr>
+                   <td class="header">Tissue</td>
+                   <td>${r.tissueTerm}</td></tr>
                <tr>
-                <td class="header">Number of samples</td>                    <td>${r.numberOfSamples}</td>
-
+                   <td class="header">Number of samples</td><td>${r.numberOfSamples}</td>
                </tr>
-<tr>
-                <td class="header">Signal</td>                    <td>${r.signal}</td>
+                <tr>
+                    <td class="header">Signal</td>                    <td>${r.signal}</td>
 
 </tr>
                <tr>
@@ -385,13 +395,6 @@
                 <td class="header">ROI Coordinates</td>                    <td>${r.ROICoordinates}</td>
 
                </tr>
-
-
-
-
-
-
-
            </table>
         </div>
             <hr>

@@ -21,6 +21,7 @@ public class Access {
     EditorDao editorDao=new EditorDao();
     DeliveryDao deliveryDao=new DeliveryDao();
     ModelDao modelDao = new ModelDao();
+    AccessDao adao = new AccessDao();
 
     public boolean isLoggedIn() {
         return true;
@@ -32,10 +33,17 @@ public class Access {
     }
 
 
-    public boolean isAdmin(Person p) {
+    public boolean isAdmin(Person p) throws Exception{
 
-        System.out.println("email in admin " + p.getEmail());
-        if (p.getEmail().equals("jdepons@yahoo.com") || true) {
+        if (p.getEmail().equals("jdepons@yahoo.com")
+            || p.getEmail_lc().equals("jthota@mcw.edu")
+            || p.getEmail_lc().equals("mrdwinel@mcw.edu")
+            || p.getEmail_lc().equals("mjhoffman@mcw.edu")
+            || p.getEmail_lc().equals("ageurts@mcw.edu")
+            || p.getEmail_lc().equals("alemke@mcw.edu")
+            || p.getEmail_lc().equals("mgrzybowski@mcw.edu")
+            || p.getEmail_lc().equals("jrsmith@mcw.edu")
+                || p.getEmail_lc().equals("akwitek@mcw.edu")) {
             return true;
         }else {
             return false;
@@ -47,11 +55,9 @@ public class Access {
         List<PersonInfo> personInfoRecords= this.getPersonInfoRecords(p.getId());
 
         for(PersonInfo i:personInfoRecords){
-            //if(s.getGroupId()==i.getSubGroupId()){
               if (s.getSubmitterId()==p.getId() || s.getPiId()==p.getId()) {
                   return true;
               }
-            //}
         }
         return false;
     }
@@ -165,7 +171,8 @@ public class Access {
             return true;
         }
 
-        return modelDao.verifyModelAccess(m.getModelId(), p.getId());
+        return adao.verifyModelAccess(m,p);
+        //return modelDao.verifyModelAccess(m.getModelId(), p.getId());
     }
 
     public boolean hasEditorAccess(Editor e, Person p) throws Exception{
@@ -180,8 +187,10 @@ public class Access {
         if (isInDCCorNIHGroup(p)) {
             return true;
         }
+        AccessDao adao = new AccessDao();
 
-        return editorDao.verifyEditorAccess(e.getId(), p.getId());
+        return adao.verifyEditorAccess(e,p);
+        //return editorDao.verifyEditorAccess(e.getId(), p.getId());
     }
 
     public boolean hasEditorAccess(int editorId, int personId) throws Exception{
@@ -191,6 +200,55 @@ public class Access {
         Person p = personDao.getPersonById(personId).get(0);
         return this.hasEditorAccess(e,p);
     }
+
+    public boolean hasGuideAccess(Guide g, Person p) throws Exception{
+        if (g.getTier() == 4) {
+            return true;
+        }
+
+        if (g.getTier() == 3) {
+            return true;
+        }
+
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
+        return adao.verifyGuideAccess(g,p);
+    }
+
+    public boolean hasVectorAccess(int vectorId, int personId) throws Exception{
+        VectorDao edao = new VectorDao();
+        Vector v = edao.getVectorById(vectorId).get(0);
+        PersonDao personDao = new PersonDao();
+        Person p = personDao.getPersonById(personId).get(0);
+        return this.hasVectorAccess(v,p);
+    }
+
+    public boolean hasVectorAccess(Vector v, Person p) throws Exception{
+        if (v.getTier() == 4) {
+            return true;
+        }
+
+        if (v.getTier() == 3) {
+            return true;
+        }
+
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
+        return adao.verifyVectorAccess(v,p);
+    }
+
+    public boolean hasGuideAccess(int guideId, int personId) throws Exception{
+        GuideDao edao = new GuideDao();
+        Guide g = edao.getGuideById(guideId).get(0);
+        PersonDao personDao = new PersonDao();
+        Person p = personDao.getPersonById(personId).get(0);
+        return this.hasGuideAccess(g,p);
+    }
+
 
     public boolean hasDeliveryAccess(Delivery d, Person p) throws Exception{
         if (d.getTier() == 4) {
@@ -205,7 +263,8 @@ public class Access {
             return true;
         }
 
-        return deliveryDao.verifyDeliveryAccess(d.getId(), p.getId());
+        return adao.verifyDeliveryAccess(d,p);
+        //return deliveryDao.verifyDeliveryAccess(d.getId(), p.getId());
     }
 
     public boolean hasDeliveryAccess(int deliveryId, int personId) throws Exception{
