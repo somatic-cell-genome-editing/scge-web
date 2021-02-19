@@ -137,8 +137,10 @@
 
     <hr>
 
-    <%
 
+
+    <%
+    if (false) {
         List<Delivery> dList = (List<Delivery>)request.getAttribute("deliveryList");
         if (dList.size() > 0) {
             Delivery d = dList.get(0);
@@ -157,9 +159,7 @@
         </table>
     </div>
     <hr>
-    <% } %>
-
-    <% System.out.println("here 2"); %>
+    <% } }%>
 
     <hr>
     <div>
@@ -172,21 +172,7 @@
 </table>
     </div>
     <hr>
-    <div>
-        <table style="width:80%">
 
-            <tbody>
-            <c:forEach items="${reporterElements}" var="reporter">
-            <tr><td class="header"><strong>Reporter Name</strong></td><td>${reporter.reporterName}</td></tr>
-            <tr><td class="header"><strong>Reporter Type</strong></td><td>${reporter.reporterType}</td></tr>
-            <tr><td class="header"><strong>Reporter Protein Id</strong></td><td>${reporter.reporterProteinId}</td></tr>
-            <tr><td class="header"><strong>Organism</strong></td><td>${reporter.organism}</td></tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
-    <hr>
-    <% System.out.println("here 3"); %>
 
     <div>
         <table style="width:80%">

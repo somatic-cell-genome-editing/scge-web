@@ -35,8 +35,7 @@ public class Access {
 
     public boolean isAdmin(Person p) throws Exception{
 
-        if (p.getEmail().equals("jdepons@yahoo.com")
-            || p.getEmail_lc().equals("jthota@mcw.edu")
+        if (p.getEmail_lc().equals("jdepons@yahoo.com") || p.getEmail_lc().equals("jthota@mcw.edu")
             || p.getEmail_lc().equals("mrdwinel@mcw.edu")
             || p.getEmail_lc().equals("mjhoffman@mcw.edu")
             || p.getEmail_lc().equals("ageurts@mcw.edu")
