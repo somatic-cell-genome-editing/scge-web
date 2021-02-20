@@ -36,7 +36,7 @@ public class IndexServices {
     }
     public HighlightBuilder buildHighlights(){
         List<String> fields=new ArrayList<>(Arrays.asList(
-               "name", "type", "subType","aliases","externalId","symbol","additionalData",
+               "name", "type", "subType","aliases","externalId","symbol","additionalData", "experimentalTags",
                 "species","pam","description","site", "detectionMethod","sequence","target"
         ));
 
