@@ -9,12 +9,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-<link href="https://rgd.mcw.edu/rgdweb/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
-
-<script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/tablesorter.js"> </script>
-<script src="https://rgd.mcw.edu/rgdweb/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
 
 <script>
     $(function() {
@@ -25,9 +19,9 @@
     });
 </script>
 <div class="row">
-    <div class="col-sm-2 col-md-2 sidebar">
+    <div class="col-md-2 sidebar">
         <ul class="nav nav-sidebar">
-            <li class="active"><a href="success?destination=base" style="font-weight: bold">Filters <span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="" style="font-weight: bold">Filters <span class="sr-only">(current)</span></a></li>
 
         </ul>
 
@@ -63,11 +57,8 @@
 
 
 </div>
-    <div class="col-sm-12 ">
-
-
-
-            <table id="myTable" class="tablesorter">
+    <div class="col-md-10">
+           <table id="myTable" class="table tablesorter">
                 <thead>
                 <tr>
                     <th>Reporter Animal Id</th>
@@ -189,4 +180,3 @@
 
 </div>
  </div>
-

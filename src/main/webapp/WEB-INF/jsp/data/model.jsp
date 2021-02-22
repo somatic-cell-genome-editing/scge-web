@@ -67,7 +67,7 @@
         <div class="panel-heading" style="background-color:#4c91cd;color:white;font-weight: bold">Cre-dependent expression of tdTomato</div>
         <div class="panel panel-body">
 
-            <img src="/scge/images/tdtomato_results.png" alt="results"/>
+            <img src="/toolkit/images/tdtomato_results.png" alt="results"/>
         </div>
     </div>
 </div>
