@@ -35,14 +35,15 @@ public class Access {
 
     public boolean isAdmin(Person p) throws Exception{
 
-        if (p.getEmail_lc().equals("jdepons@yahoo.com") || p.getEmail_lc().equals("jthota@mcw.edu")
-            || p.getEmail_lc().equals("mrdwinel@mcw.edu")
-            || p.getEmail_lc().equals("mjhoffman@mcw.edu")
-            || p.getEmail_lc().equals("ageurts@mcw.edu")
-            || p.getEmail_lc().equals("alemke@mcw.edu")
-            || p.getEmail_lc().equals("mgrzybowski@mcw.edu")
-            || p.getEmail_lc().equals("jrsmith@mcw.edu")
-                || p.getEmail_lc().equals("akwitek@mcw.edu")) {
+        if (p.getEmail().toLowerCase().equals("jdepons@yahoo.com")
+            || p.getEmail().toLowerCase().equals("jthota@mcw.edu")
+            || p.getEmail().toLowerCase().equals("mrdwinel@mcw.edu")
+            || p.getEmail().toLowerCase().equals("mjhoffman@mcw.edu")
+            || p.getEmail().toLowerCase().equals("ageurts@mcw.edu")
+            || p.getEmail().toLowerCase().equals("alemke@mcw.edu")
+            || p.getEmail().toLowerCase().equals("mgrzybowski@mcw.edu")
+            || p.getEmail().toLowerCase().equals("jrsmith@mcw.edu")
+                || p.getEmail().toLowerCase().equals("akwitek@mcw.edu")) {
             return true;
         }else {
             return false;
