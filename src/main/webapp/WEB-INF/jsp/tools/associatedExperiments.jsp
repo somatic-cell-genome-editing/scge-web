@@ -42,7 +42,7 @@
             <th>Editor</th>
             <th>Model</th>
             <th>Delivery System</th>
-            <th>Vecotr</th>
+            <th>Vector</th>
             <th>Guide</th>
             <th>Record ID</th>
         </tr>
