@@ -297,7 +297,7 @@
         <tr><td>Instructions on creating a Google account can be found here...<a href="https://support.google.com/accounts/answer/27441?hl=en" style="font-weight:700;">Create a Google Account - Google Account Help</a><br><br></td></tr>
 
         <tr><td>After your Google account is created you must submit an access request to scge@mcw.edu via email.<br></td></tr>
-        <tr><td>Please include your <b>NAME</b>,  <b>INSTITUTION</b>, and <b>GOOGLE ACCOUNT USERNAME</b></td></tr>
+        <tr><td>Please include your <b>name</b>,  <b>institution</b>, and <b>Google account username</b></td></tr>
 
         <tr><td><br>If you have questions, please contact <a href="mailto:scge@mcw.edu" style="font-weight:700;">scge@mcw.edu</a></td></tr>
 
