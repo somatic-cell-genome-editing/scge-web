@@ -46,6 +46,14 @@ public class DBService {
         DeliveryDao dao=new DeliveryDao();
         return dao.getDeliverySystemsById(deliveryId);
     }
+    public List<Editor> getEditors(int editorId) throws Exception {
+        EditorDao dao = new EditorDao();
+        return dao.getEditorById(editorId);
+    }
+    public List<Guide> getGuides(int guideId) throws Exception {
+        GuideDao dao = new GuideDao();
+        return dao.getGuideById(guideId);
+    }
     public List<ApplicationMethod> getApplicationMethodsById(int applicationMethodId) throws Exception {
         ApplicationMethodDao dao=new ApplicationMethodDao();
         return dao.getApplicationMethod(applicationMethodId);
@@ -53,6 +61,11 @@ public class DBService {
     public List<Sample> getSampleDetails(int resultId, int experimentRecId) throws Exception {
         AnimalTestingResultsDAO dao=new AnimalTestingResultsDAO();
         return dao.getSampleDetailsByResultId(resultId,experimentRecId);
+    }
+
+    public List<ExperimentResultDetail> getExperimentalResults(int expRecId) throws Exception{
+        ExperimentResultDao dao = new ExperimentResultDao();
+        return dao.getResultsByExperimentRecId(expRecId);
     }
     public List<Study> getStudiesByGroupId(int groupId){
 

@@ -120,25 +120,33 @@ public class ExperimentController extends UserController {
             edu.mcw.scge.datamodel.Model m = dbService.getModelById(r.getModelId());
             List<ReporterElement> reporterElements = dbService.getReporterElementsByExpRecId(r.getExperimentRecordId());
             List<AnimalTestingResultsSummary> results = dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecordId());
+            List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(r.getExperimentRecordId());
+
             for (AnimalTestingResultsSummary s : results) {
                 List<Sample> samples = dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
                 s.setSamples(samples);
             }
             List<Delivery> deliveryList = dbService.getDeliveryVehicles(r.getDeliverySystemId());
+            List<Editor> editorList = dbService.getEditors(r.getEditorId());
+            List<Guide> guideList = dbService.getGuides(r.getGuideId());
             List<ApplicationMethod> applicationMethod = dbService.getApplicationMethodsById(r.getApplicationMethodId());
             req.setAttribute("applicationMethod", applicationMethod);
             req.setAttribute("deliveryList", deliveryList);
+            req.setAttribute("editorList",editorList);
+            req.setAttribute("guideList",guideList);
             //req.setAttribute("experiment",e);
             req.setAttribute("experiment", r);
             req.setAttribute("model", m);
             req.setAttribute("reporterElements", reporterElements);
+            req.setAttribute("experimentResults",experimentResults);
+            req.setAttribute("experimentResults",experimentResults);
             req.setAttribute("results", results);
             System.out.println("Applications: "+ applicationMethod.size()+
                     "\ndelivery lsit: "+deliveryList.size()+
             "\nexperimentRecords: "+records.size()+
             "\nmodel:" +m.getName()+
                     "\nreporters:"+reporterElements.size()+
-                    "\nresults:"+results.size());
+                    "\nresults:"+experimentResults.size());
 
             List<String> regionList = new ArrayList<>();
             StringBuilder json = new StringBuilder();
@@ -157,6 +165,7 @@ public class ExperimentController extends UserController {
             String regionListJson = gson.toJson(regionList);
             req.setAttribute("regionListJson", regionListJson);
             req.setAttribute("json", json);
+
         }
         req.setAttribute("action", "Experiment Report");
 
