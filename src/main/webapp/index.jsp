@@ -300,7 +300,7 @@
       <img src="/toolkit/images/Google-G.png" height="30" width="30" border="0" style="background-color:white; padding:3px; position:relative; top:0;left:80px;"/>
       <input style="margin-bottom: 0px;" type="submit"  value="Login with Google">
     </form>
-    <form action="loginFailure">
+    <form action="/toolkit/data/requestAccount">
       <img src="/toolkit/images/Google-G.png" height="30" width="30" border="0" style="visibility:hidden;"/>
       <input  style="margin-bottom: 0px;"  type="submit"  value="Request an Account">
     </form>
