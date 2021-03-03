@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value="/data/experiments")
@@ -86,7 +88,40 @@ public class ExperimentController extends UserController {
             return null;
 
         }
+        List<String> labels=new ArrayList<>();
+        Map<String, List<Double>> plotData=new HashMap<>();
+        List<Double> replicate1 = new ArrayList<>();
+        List<Double> replicate2 = new ArrayList<>();
+        List<Double> replicate3 = new ArrayList<>();
+        List<Double> mean = new ArrayList<>();
+        for(ExperimentRecord record:records) {
+            labels.add("\"" + record.getExperimentName() + "\"");
+            List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
+            int noOfSamples = experimentResults.get(0).getNumberOfSamples();
+            double average = 0;
+            for(ExperimentResultDetail result: experimentResults){
 
+                if(result.getReplicate() == 1) {
+                    replicate1.add(Double.valueOf(result.getResult()));
+                }
+                if(result.getReplicate() == 2) {
+                    replicate2.add(Double.valueOf(result.getResult()));
+                }
+                if(result.getReplicate() == 3) {
+                    replicate3.add(Double.valueOf(result.getResult()));
+                }
+               average += Double.valueOf(result.getResult());
+            }
+            average = average/noOfSamples;
+            mean.add(average);
+        }
+
+        plotData.put("Replicate-1", replicate1);
+        plotData.put("Replicate-2", replicate2);
+        plotData.put("Replicate-3", replicate3);
+        plotData.put("Mean",mean);
+        req.setAttribute("experiments",labels);
+        req.setAttribute("plotData",plotData);
         req.setAttribute("experimentRecords", records);
         req.setAttribute("study", study);
         req.setAttribute("action", "Experiment Records");

@@ -39,6 +39,8 @@
         });
     });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
 
 <div>
     <%
@@ -62,7 +64,10 @@
         </tr>
     </table>
 
+        <div>
+    <canvas id="resultChart" width="1000" height="400"></canvas>
 
+        </div>
 
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
@@ -93,4 +98,64 @@
         <% } %>
      <% } %>
 </table>
+
+        <script>
+            var ctx = document.getElementById("resultChart");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ${experiments},
+                    datasets: [{
+                        label: 'Replicate 1',
+                        data: ${plotData.get("Replicate-1")},
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: "Replicate 2",
+                        data: ${plotData.get("Replicate-2")},
+                        backgroundColor:  'rgba(54, 162, 235, 0.2)',
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        borderWidth: 1
+                    },
+                    {
+                        label: "Replicate 3",
+                        data: ${plotData.get("Replicate-3")},
+                        backgroundColor: "rgba(255, 206, 86, 0.2)",
+                        borderColor:  'rgba(255, 206, 86, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: "Mean",
+                        data: ${plotData.get("Mean")},
+                        borderColor:    'rgba(153, 102, 255, 1)',
+                        borderWidth: 1,
+                        type: "scatter"
+                    }
+                    ]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                        xAxes: [{
+
+                            gridLines: {
+                                offsetGridLines: true // à rajouter
+                            }
+                        },
+                        ],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+        <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+        <script>
+            feather.replace()
+        </script>
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
