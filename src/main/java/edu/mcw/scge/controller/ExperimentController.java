@@ -100,22 +100,23 @@ public class ExperimentController extends UserController {
             labels.add("\"" + record.getExperimentName() + "\"");
             List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
             resultDetail.put(record.getExperimentRecordId(),experimentResults);
-            int noOfSamples = experimentResults.get(0).getNumberOfSamples();
+            int noOfSamples = 0;
             double average = 0;
             for(ExperimentResultDetail result: experimentResults){
-
+                noOfSamples = experimentResults.get(0).getNumberOfSamples();
                 if(result.getReplicate() == 1) {
-                    replicate1.add(Double.valueOf(result.getResult()));
+                    replicate1.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
                 }
                 if(result.getReplicate() == 2) {
-                    replicate2.add(Double.valueOf(result.getResult()));
+                    replicate2.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
                 }
                 if(result.getReplicate() == 3) {
-                    replicate3.add(Double.valueOf(result.getResult()));
+                    replicate3.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
                 }
                average += Double.valueOf(result.getResult());
             }
             average = average/noOfSamples;
+            average = Math.round(average * 100.0) / 100.0;
             mean.add(average);
             resultMap.put(record.getExperimentRecordId(),average);
         }
