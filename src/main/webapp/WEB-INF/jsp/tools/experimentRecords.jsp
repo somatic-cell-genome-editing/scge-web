@@ -32,9 +32,13 @@
 <script>
     $(function() {
         $("#myTable").tablesorter({
-            theme : 'blue'
+            theme : 'blue',
+            widgets: ['zebra',"filter",'resizable', 'stickyHeaders'],
         });
         $("#myTable").tablesorter().bind("sortEnd", function (e, t) {
+            update();
+        });
+        $("#myTable").tablesorter().bind("filterEnd", function (e, t) {
             update();
         });
     });
@@ -73,7 +77,7 @@
     <thead>
     <tr>
     <th>Name</th>
-        <th>Editor</th>
+        <th class="tablesorter-header" data-placeholder="Search for editor...">Editor</th>
         <th>Model</th>
         <th>Delivery System</th>
         <th>Guide</th>
@@ -164,7 +168,6 @@
             });
 
             function update(){
-                console.log("in");
                 var table = document.getElementById('myTable');
                 var xArray=[];
                 var yArray=[];
@@ -172,16 +175,20 @@
                 var bArray=[];
                 var cArray=[];
                 var rowLength = table.rows.length;
-                for (i = 1; i < rowLength; i++){
-                    var cells = table.rows.item(i).cells;
-                    var cellLength = cells.length;
-                    var column = cells.item(0); //points to condition column
-                    var avg = cells.item(7);
-                    xArray[i-1]= column.innerText;
-                    yArray[i-1]= avg.innerHTML;
-                    aArray[i-1]=cells.item(8).innerHTML;
-                    bArray[i-1]=cells.item(9).innerHTML;
-                    cArray[i-1]=cells.item(10).innerHTML;
+                var j = 0;
+                for (i = 2; i < rowLength; i++){
+                    if(table.rows.item(i).style.display != 'none') {
+                        var cells = table.rows.item(i).cells;
+                        var cellLength = cells.length;
+                        var column = cells.item(0); //points to condition column
+                        var avg = cells.item(7);
+                        xArray[j] = column.innerText;
+                        yArray[j] = avg.innerHTML;
+                        aArray[j] = cells.item(8).innerHTML;
+                        bArray[j] = cells.item(9).innerHTML;
+                        cArray[j] = cells.item(10).innerHTML;
+                        j++;
+                    }
                 }
 
                 myChart.data.labels = xArray;
