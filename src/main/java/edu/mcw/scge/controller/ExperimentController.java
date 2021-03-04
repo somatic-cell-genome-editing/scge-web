@@ -94,9 +94,12 @@ public class ExperimentController extends UserController {
         List<Double> replicate2 = new ArrayList<>();
         List<Double> replicate3 = new ArrayList<>();
         List<Double> mean = new ArrayList<>();
+        HashMap<Integer,Double> resultMap = new HashMap<>();
+        HashMap<Integer,List<ExperimentResultDetail>> resultDetail = new HashMap<>();
         for(ExperimentRecord record:records) {
             labels.add("\"" + record.getExperimentName() + "\"");
             List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
+            resultDetail.put(record.getExperimentRecordId(),experimentResults);
             int noOfSamples = experimentResults.get(0).getNumberOfSamples();
             double average = 0;
             for(ExperimentResultDetail result: experimentResults){
@@ -114,6 +117,7 @@ public class ExperimentController extends UserController {
             }
             average = average/noOfSamples;
             mean.add(average);
+            resultMap.put(record.getExperimentRecordId(),average);
         }
 
         plotData.put("Replicate-1", replicate1);
@@ -123,6 +127,8 @@ public class ExperimentController extends UserController {
         req.setAttribute("experiments",labels);
         req.setAttribute("plotData",plotData);
         req.setAttribute("experimentRecords", records);
+        req.setAttribute("resultDetail",resultDetail);
+        req.setAttribute("resultMap",resultMap);
         req.setAttribute("study", study);
         req.setAttribute("action", "Experiment Records");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
