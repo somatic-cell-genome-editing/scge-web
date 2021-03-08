@@ -90,43 +90,50 @@ public class ExperimentController extends UserController {
         }
         List<String> labels=new ArrayList<>();
         Map<String, List<Double>> plotData=new HashMap<>();
-        List<Double> replicate1 = new ArrayList<>();
-        List<Double> replicate2 = new ArrayList<>();
-        List<Double> replicate3 = new ArrayList<>();
+        HashMap<Integer,List<Integer>> replicateResult = new HashMap<>();
         List<Double> mean = new ArrayList<>();
         HashMap<Integer,Double> resultMap = new HashMap<>();
         HashMap<Integer,List<ExperimentResultDetail>> resultDetail = new HashMap<>();
+        String efficiency = null;
+        int noOfSamples = 0;
+        int i=0;
+        List values = new ArrayList<>();
         for(ExperimentRecord record:records) {
             labels.add("\"" + record.getExperimentName() + "\"");
             List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
             resultDetail.put(record.getExperimentRecordId(),experimentResults);
-            int noOfSamples = 0;
             double average = 0;
             for(ExperimentResultDetail result: experimentResults){
-                noOfSamples = experimentResults.get(0).getNumberOfSamples();
-                if(result.getReplicate() == 1) {
-                    replicate1.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
-                }
-                if(result.getReplicate() == 2) {
-                    replicate2.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
-                }
-                if(result.getReplicate() == 3) {
-                    replicate3.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
-                }
-               average += Double.valueOf(result.getResult());
+                noOfSamples =result.getNumberOfSamples();
+                efficiency = result.getResultType() + " in " + experimentResults.get(0).getUnits();
+                values = replicateResult.get(result.getReplicate());
+                if(values == null)
+                    values = new ArrayList<>();
+                values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
+                replicateResult.put(result.getReplicate(),values);
+                average += Double.valueOf(result.getResult());
             }
+            for(int replicate: replicateResult.keySet()) {
+                List<Integer> val = replicateResult.get(replicate);
+                if(val.size() != i+1){
+                    val.add(null);
+                }
+                replicateResult.put(replicate,val);
+            }
+
+            i++;
+
             average = average/noOfSamples;
             average = Math.round(average * 100.0) / 100.0;
             mean.add(average);
             resultMap.put(record.getExperimentRecordId(),average);
         }
 
-        plotData.put("Replicate-1", replicate1);
-        plotData.put("Replicate-2", replicate2);
-        plotData.put("Replicate-3", replicate3);
         plotData.put("Mean",mean);
+        req.setAttribute("replicateResult",replicateResult);
         req.setAttribute("experiments",labels);
         req.setAttribute("plotData",plotData);
+        req.setAttribute("efficiency",efficiency);
         req.setAttribute("experimentRecords", records);
         req.setAttribute("resultDetail",resultDetail);
         req.setAttribute("resultMap",resultMap);

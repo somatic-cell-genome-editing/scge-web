@@ -83,7 +83,7 @@
         <th>Guide</th>
         <th>Result Type</th>
         <th>Units</th>
-        <th>Result</th>
+        <th>Result in %</th>
     </tr>
     </thead>
 
@@ -119,35 +119,7 @@
                 type: 'bar',
                 data: {
                     labels: ${experiments},
-                    datasets: [{
-                        label: 'Replicate 1',
-                        data: ${plotData.get("Replicate-1")},
-                        backgroundColor: 'rgba(0, 0, 0, 0)',
-                        borderColor: 'rgba(255,99,132,1)',
-                        type: "scatter"
-                    },
-                    {
-                        label: "Replicate 2",
-                        data: ${plotData.get("Replicate-2")},
-                        backgroundColor: 'rgba(0, 0, 0, 0)',
-                        borderColor: "rgba(54, 162, 235, 1)",
-                        type: "scatter"
-                    },
-                    {
-                        label: "Replicate 3",
-                        data: ${plotData.get("Replicate-3")},
-                        backgroundColor: 'rgba(0, 0, 0, 0)',
-                        borderColor:  'rgba(62, 150, 81, 0.8)',
-                        type: "scatter"
-                    },
-                    {
-                        label: "Mean",
-                        data: ${plotData.get("Mean")},
-                        backgroundColor: 'rgba(255, 206, 99, 0.6)',
-                        borderColor:    'rgba(255, 206, 99, 0.8)',
-                        borderWidth: 1
-                    }
-                    ]
+                    datasets: generateData()
                 },
                 options: {
                     responsive: true,
@@ -168,12 +140,9 @@
             });
 
             function update(){
-                var table = document.getElementById('myTable');
+                var table = document.getElementById('myTable'); //to remove filtered rows
                 var xArray=[];
                 var yArray=[];
-                var aArray=[];
-                var bArray=[];
-                var cArray=[];
                 var rowLength = table.rows.length;
                 var j = 0;
                 for (i = 2; i < rowLength; i++){
@@ -184,19 +153,46 @@
                         var avg = cells.item(7);
                         xArray[j] = column.innerText;
                         yArray[j] = avg.innerHTML;
-                        aArray[j] = cells.item(8).innerHTML;
-                        bArray[j] = cells.item(9).innerHTML;
-                        cArray[j] = cells.item(10).innerHTML;
+                        for(k = 8;k<cellLength;k++){
+                            var arr = [];
+                            if(j != 0)
+                                arr = myChart.data.datasets[k-7].data;
+
+                            arr.push(cells.item(k).innerHTML);
+                            myChart.data.datasets[k-7].data = arr;
+                        }
                         j++;
                     }
+
                 }
 
                 myChart.data.labels = xArray;
-                myChart.data.datasets[3].data = yArray;
-                myChart.data.datasets[0].data=aArray;
-                myChart.data.datasets[1].data=bArray;
-                myChart.data.datasets[2].data=cArray;
+                myChart.data.datasets[0].data = yArray;
                 myChart.update();
+            }
+
+            function generateData() {
+                var noOfDatasets=${replicateResult.keySet().size()}
+                var dataSet = ${replicateResult.values()};
+                var data=[];
+                data.push({
+                    label: "Mean",
+                    data: ${plotData.get("Mean")},
+                    backgroundColor: 'rgba(255, 206, 99, 0.6)',
+                    borderColor:    'rgba(255, 206, 99, 0.8)',
+                    borderWidth: 1
+                });
+                for(var i=0;i< noOfDatasets;i++){
+                    data.push({
+                        data: dataSet[i],
+                        label: "Replicate: "+(i+1),
+                        backgroundColor: 'rgba(255,99,132,1)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        type: "scatter",
+                        showLine: false
+                    });
+                }
+                return data;
             }
         </script>
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
