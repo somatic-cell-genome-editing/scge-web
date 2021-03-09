@@ -77,6 +77,8 @@
     <thead>
     <tr>
     <th>Name</th>
+        <th>Tissue</th>
+        <th>Cell Type</th>
         <th class="tablesorter-header" data-placeholder="Search for editor...">Editor</th>
         <th>Model</th>
         <th>Delivery System</th>
@@ -98,6 +100,8 @@
 
 
         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
+        <td><%=SFN.parse(exp.getTissueId())%></td>
+        <td><%=SFN.parse(exp.getCellType())%></td>
         <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td>
         <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
         <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
@@ -150,16 +154,16 @@
                         var cells = table.rows.item(i).cells;
                         var cellLength = cells.length;
                         var column = cells.item(0); //points to condition column
-                        var avg = cells.item(7);
+                        var avg = cells.item(9);
                         xArray[j] = column.innerText;
                         yArray[j] = avg.innerHTML;
-                        for(k = 8;k<cellLength;k++){
+                        for(k = 10;k<cellLength;k++){
                             var arr = [];
                             if(j != 0)
-                                arr = myChart.data.datasets[k-7].data;
+                                arr = myChart.data.datasets[k-9].data;
 
                             arr.push(cells.item(k).innerHTML);
-                            myChart.data.datasets[k-7].data = arr;
+                            myChart.data.datasets[k-9].data = arr;
                         }
                         j++;
                     }
