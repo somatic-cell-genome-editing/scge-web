@@ -109,11 +109,18 @@ public class ExperimentController extends UserController {
                 values = replicateResult.get(result.getReplicate());
                 if(values == null)
                     values = new ArrayList<>();
-                values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
+                if(result.getResult() == null || result.getResult().isEmpty())
+                    values.add(null);
+                else  {
+                    values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
+                    average += Double.valueOf(result.getResult());
+                }
+
                 replicateResult.put(result.getReplicate(),values);
-                average += Double.valueOf(result.getResult());
+
+
             }
-            for(int replicate: replicateResult.keySet()) {
+            /*for(int replicate: replicateResult.keySet()) {
                 List<Integer> val = replicateResult.get(replicate);
                 if(val.size() != i+1){
                     val.add(null);
@@ -122,13 +129,13 @@ public class ExperimentController extends UserController {
             }
 
             i++;
-
+*/
             average = average/noOfSamples;
             average = Math.round(average * 100.0) / 100.0;
             mean.add(average);
             resultMap.put(record.getExperimentRecordId(),average);
         }
-
+        
         plotData.put("Mean",mean);
         req.setAttribute("replicateResult",replicateResult);
         req.setAttribute("experiments",labels);
