@@ -220,8 +220,6 @@
     <div id="results">
         <table id="resultsTable" class="table tablesorter table-striped" style="width:50%;">
             <thead><tr>
-                <th>Tissue</th>
-                <th>Cell Type</th>
                 <th>Sample Count</th>
                 <th>Units</th>
                 <th>Assay Description</th>
@@ -233,8 +231,6 @@
 
             <c:forEach items="${experimentResults}" var="r">
                 <tr>
-                    <td>${r.tissueId}</td>
-                    <td>${r.cellType}</td>
                     <td>${r.numberOfSamples}</td>
                     <td>${r.units}</td>
                     <td>${r.assayDescription}</td>
