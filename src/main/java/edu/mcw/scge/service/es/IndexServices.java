@@ -225,7 +225,36 @@ public class IndexServices {
                             "models.transgene" ,
                             "models.transgeneReporter" ,
                             "models.description" ,
-                            "models.strainCode").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).operator(Operator.AND));
+                            "models.strainCode").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).operator(Operator.AND).boost(50));
+            q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
+                    "description", "experimentalTags", "externalId", "aliases",
+                    "target", "species", "site", "sequence", "pam", "detectionMethod","target",
+                    "name.ngram",
+                    "study.study",
+                    "study.labName" ,
+                    "study.pi"
+                    ,       "editors.type" ,
+                    "editors.subType" ,
+                    "editors.symbol" ,
+                    "editors.alias" ,
+                    "editors.species" ,
+                    "editors.pamPreference" ,
+                    "editors.substrateTarget" ,
+                    "editors.activity" ,
+                    "editors.fusion" ,
+                    "editors.dsbCleavageType" ,
+                    "editors.source" ,
+                    "deliveries.type" ,
+                    "deliveries.name" ,
+                    "deliveries.source" ,
+                    "deliveries.description" ,
+                    "models.type" ,
+                    "models.name" ,
+                    "models.organism" ,
+                    "models.transgene" ,
+                    "models.transgeneReporter" ,
+                    "models.description" ,
+                    "models.strainCode").type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10));
         }else{
             q.add(QueryBuilders.matchAllQuery());
         }
