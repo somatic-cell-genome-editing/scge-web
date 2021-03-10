@@ -25,11 +25,11 @@ public class IndexServices {
         srb.aggregation(this.buildSearchAggregations("category"));
         srb.highlighter(this.buildHighlights());
         srb.size(1000);
-     //   SearchRequest searchRequest=new SearchRequest("scge_search_test");
+    //  SearchRequest searchRequest=new SearchRequest("scge_search_test");
        SearchRequest searchRequest=new SearchRequest("scge_search_prod");
        searchRequest.source(srb);
 
-        return ESClient.getInstance().getClient().search(searchRequest, RequestOptions.DEFAULT);
+        return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
 
     }
     public HighlightBuilder buildHighlights(){
@@ -83,7 +83,7 @@ public class IndexServices {
         SearchRequest searchRequest=new SearchRequest("scge_delivery_dev");
         searchRequest.source(srb);
 
-        return ESClient.getInstance().getClient().search(searchRequest, RequestOptions.DEFAULT);
+        return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
 
     }
     public AggregationBuilder buildAggregations(String fieldName){
