@@ -225,7 +225,7 @@ public class IndexServices {
                             "models.transgene" ,
                             "models.transgeneReporter" ,
                             "models.description" ,
-                            "models.strainCode").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).operator(Operator.AND).boost(50));
+                            "models.strainCode").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).operator(Operator.AND).boost(20));
             q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
                     "description", "experimentalTags", "externalId", "aliases",
                     "target", "species", "site", "sequence", "pam", "detectionMethod","target",
