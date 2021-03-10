@@ -1,11 +1,9 @@
-<%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
-<%@ page import="edu.mcw.scge.datamodel.Study" %>
-<%@ page import="edu.mcw.scge.datamodel.ExperimentRecord" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
-<%@ page import="edu.mcw.scge.datamodel.Person" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="edu.mcw.scge.datamodel.*" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -34,11 +32,19 @@
 <script>
     $(function() {
         $("#myTable").tablesorter({
-            theme : 'blue'
-
+            theme : 'blue',
+            widgets: ['zebra',"filter",'resizable', 'stickyHeaders'],
+        });
+        $("#myTable").tablesorter().bind("sortEnd", function (e, t) {
+            update();
+        });
+        $("#myTable").tablesorter().bind("filterEnd", function (e, t) {
+            update();
         });
     });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
 
 <div>
     <%
@@ -62,21 +68,31 @@
         </tr>
     </table>
 
+        <div class="chart-container" style="position: relative; height:80vh; width:80vw">
+    <canvas id="resultChart"></canvas>
 
+        </div>
 
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
     <th>Name</th>
-        <th>Editor</th>
+        <th>Tissue</th>
+        <th>Cell Type</th>
+        <th class="tablesorter-header" data-placeholder="Search for editor...">Editor</th>
         <th>Model</th>
         <th>Delivery System</th>
-        <th>Vector</th>
         <th>Guide</th>
+        <th>Result Type</th>
+        <th>Units</th>
+        <th>Result in %</th>
     </tr>
     </thead>
 
-        <% for (ExperimentRecord exp: experimentRecords) { %>
+        <% HashMap<Integer,Double> resultMap = (HashMap<Integer, Double>) request.getAttribute("resultMap");
+            HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
+            for (ExperimentRecord exp: experimentRecords) {
+        %>
 
         <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) { %>
     <tr>
@@ -84,13 +100,107 @@
 
 
         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
+        <td><%=SFN.parse(exp.getTissueId())%></td>
+        <td><%=SFN.parse(exp.getCellType())%></td>
         <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td>
         <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
         <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
-        <td></td>
         <td><a href="/toolkit/data/guide/guide?id=<%=exp.getGuideId()%>"><%=SFN.parse(exp.getGuide())%></a></td>
+        <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getResultType()%></td>
+        <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getUnits()%></td>
+        <td><%=resultMap.get(exp.getExperimentRecordId())%></td>
+        <%for(ExperimentResultDetail e:resultDetail.get(exp.getExperimentRecordId())) {%>
+        <td style="display: none"><%=e.getResult()%></td>
+        <%}%>
     </tr>
         <% } %>
      <% } %>
 </table>
+
+        <script>
+            var ctx = document.getElementById("resultChart");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ${experiments},
+                    datasets: generateData()
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                offsetGridLines: true // à rajouter
+                            }
+                        },
+                        ],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            function update(){
+                var table = document.getElementById('myTable'); //to remove filtered rows
+                var xArray=[];
+                var yArray=[];
+                var rowLength = table.rows.length;
+                var j = 0;
+                for (i = 2; i < rowLength; i++){
+                    if(table.rows.item(i).style.display != 'none') {
+                        var cells = table.rows.item(i).cells;
+                        var cellLength = cells.length;
+                        var column = cells.item(0); //points to condition column
+                        var avg = cells.item(9);
+                        xArray[j] = column.innerText;
+                        yArray[j] = avg.innerHTML;
+                        for(k = 10;k<cellLength;k++){
+                            var arr = [];
+                            if(j != 0)
+                                arr = myChart.data.datasets[k-9].data;
+
+                            arr.push(cells.item(k).innerHTML);
+                            myChart.data.datasets[k-9].data = arr;
+                        }
+                        j++;
+                    }
+
+                }
+
+                myChart.data.labels = xArray;
+                myChart.data.datasets[0].data = yArray;
+                myChart.update();
+            }
+
+            function generateData() {
+                var noOfDatasets=${replicateResult.keySet().size()}
+                var dataSet = ${replicateResult.values()};
+                var data=[];
+                data.push({
+                    label: "Mean",
+                    data: ${plotData.get("Mean")},
+                    backgroundColor: 'rgba(255, 206, 99, 0.6)',
+                    borderColor:    'rgba(255, 206, 99, 0.8)',
+                    borderWidth: 1
+                });
+                for(var i=0;i< noOfDatasets;i++){
+                    data.push({
+                        data: dataSet[i],
+                        label: "Replicate: "+(i+1),
+                        backgroundColor: 'rgba(255,99,132,1)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        type: "scatter",
+                        showLine: false
+                    });
+                }
+                return data;
+            }
+        </script>
+        <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+        <script>
+            feather.replace()
+        </script>
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->

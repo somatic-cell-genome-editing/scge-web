@@ -38,6 +38,13 @@ public class ToolkitController {
 
         return null;
     }
+
+    @RequestMapping(value="/requestAccount")
+    public String getRequestAccount(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
+        return "requestAccount";
+    }
+
+
     @RequestMapping(value="/delivery/results")
     public String getDeliveryResults(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
 

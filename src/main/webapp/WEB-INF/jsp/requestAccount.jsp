@@ -20,7 +20,7 @@
 
         body {
             background-color: #56baed;
-            background-image: url("common/images/genomeEditing.jpg");
+            background-image: url("../common/images/genomeEditing.jpg");
             background-size: auto;
             background-repeat: no-repeat;
         }
@@ -288,13 +288,27 @@
 
 <div class="wrapper fadeInDown" style="background-color:#F1EDEA" >
 
+    <table>
 
-    Access Denied<br><br>
+        <tr><td>The SCGE toolkit uses <b>Google</b> as its authentication provider</td></tr>
 
-    If you feel you should have access to this page please contact scge@mcw.edu
+        <tr><td><br>To gain access you must have an account at <a href="https://www.google.com" style="font-weight:700;">https://www.google.com</a><br><br></td></tr>
 
+        <tr><td>Instructions on creating a Google account can be found here...<a href="https://support.google.com/accounts/answer/27441?hl=en" style="font-weight:700;">Create a Google Account - Google Account Help</a><br><br></td></tr>
 
+        <tr><td>After your Google account is created you must submit an access request to scge@mcw.edu via email.<br></td></tr>
+        <tr><td>Please include your <b>name</b>,  <b>institution</b>, and <b>Google account username</b></td></tr>
 
+        <tr><td><br>If you have questions, please contact <a href="mailto:scge@mcw.edu" style="font-weight:700;">scge@mcw.edu</a></td></tr>
+
+        <tr><td><br>Thank You!</td></tr>
+
+    </table>
+
+</div>
+<div>
+    <p style="color: darkorange;"><strong>Background image credit:</strong>&nbsp;National Human Genome Research Institute</p>
 </div>
 </body>
 </html>
+

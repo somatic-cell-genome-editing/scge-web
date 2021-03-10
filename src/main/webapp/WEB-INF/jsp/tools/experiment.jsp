@@ -2,6 +2,8 @@
 <%@ page import="edu.mcw.scge.datamodel.AnimalTestingResultsSummary" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.Delivery" %>
+<%@ page import="edu.mcw.scge.datamodel.Editor" %>
+<%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -20,6 +22,10 @@
 
         });
         $("#samplesTable").tablesorter({
+            theme : 'blue'
+
+        });
+        $("#resultsTable").tablesorter({
             theme : 'blue'
 
         });
@@ -147,11 +153,20 @@
                 if(dList!=null && dList.size()>0)
                     d=dList.get(0);
 
+                List<Editor> editorList = (List<Editor>)request.getAttribute("editorList");
+                Editor e = new Editor();
+                if(editorList != null && editorList.size() > 0)
+                    e=editorList.get(0);
+
+                List<Guide> guideList = (List<Guide>)request.getAttribute("guideList");
+                Guide g = new Guide();
+                if(guideList != null && guideList.size() > 0)
+                    g=guideList.get(0);
             %>
-                <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=3">SpCas9</a></td></tr>
-                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=1"><%--=d.getType()--%></a></td></tr>
+                <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=3"><%=e.getSymbol()%></a></td></tr>
+                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=1"><%=d.getType()%></a></td></tr>
                 <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
-                <tr><td class="header"><strong>Guide</strong></td><td>26.52</td></tr>
+                <tr><td class="header"><strong>Guide</strong></td><td><%=g.getGuide()%></td></tr>
             </tbody>
         </table>
     </div>
@@ -173,30 +188,61 @@
 
     </div>
     <hr>
-    <div>
-        <!--table style="width:80%">
+    <!--div>
+        <table style="width:80%">
 
-            <tbody-->
-            <!--c:if test="$-{applicationMethod!=null && fn:length(applicationMethod)>0}"-->
-            <!--c:forEach items="$-{applicationMethod}" var="a"-->
-                <!--tr><td class="header"><strong>Application Method</strong></td><td>$-{a.applicationType}</td></tr>
+            <tbody>
+            <!--c:if test="$-{applicationMethod!=null && fn:length(applicationMethod)>0}">
+            <!--c:forEach items="$-{applicationMethod}" var="a">
+                <tr><td class="header"><strong>Application Method</strong></td><td>$-{a.applicationType}</td></tr>
                 <tr><td class="header"><strong>Application Site</strong></td><td>$-{a.siteOfApplication}</td></tr>
                 <tr><td class="header"><strong>Dosage</strong></td><td>$-{a.dosage}</td></tr>
                 <tr><td class="header"><strong>Time Course</strong></td><td>$-{a.timeCourse}</td></tr>
-                <tr><td class="header"><strong>Days post injection</strong></td><td>$-{a.daysPostInjection}</td></tr-->
+                <tr><td class="header"><strong>Days post injection</strong></td><td>$-{a.daysPostInjection}</td></tr>
 
-            <!--/c:forEach-->
+            <!--/c:forEach>
             <!--/c:if>
             </tbody>
-        </table-->
-    </div>
+        </table>
+    </div -->
     <hr>
-    <div>
+    <!--div>
         <table style="width:50%">
-            <tr><td class="header"><strong>Sample Preparation</strong></td><td>${experiment.samplePrep}</td></tr>
+            <tr><td class="header"><strong>Sample Preparation</strong></td><td>$-{experiment.samplePrep}</td></tr>
+        </table>
+    </div -->
+    <hr>
+    <div class="row">
+        <div class="col-lg-3">
+            <table width="600"><tr><td><h3>Results</h3></td><td align="right"></td></tr></table>
+        </div>
+    </div>
+    <div id="results">
+        <table id="resultsTable" class="table tablesorter table-striped" style="width:50%;">
+            <thead><tr>
+                <th>Sample Count</th>
+                <th>Units</th>
+                <th>Assay Description</th>
+                <th>Result Type</th>
+                <th>Replicate</th>
+                <th>Result</th>
+            </tr></thead>
+            <tbody>
+
+            <c:forEach items="${experimentResults}" var="r">
+                <tr>
+                    <td>${r.numberOfSamples}</td>
+                    <td>${r.units}</td>
+                    <td>${r.assayDescription}</td>
+                    <td>${r.resultType}</td>
+                    <td>${r.replicate}</td>
+                    <td>${r.result}</td>
+                </tr>
+
+            </c:forEach>
+            </tbody>
         </table>
     </div>
-
 <!-- JD NEW -->
     <hr>
     <div class="row">

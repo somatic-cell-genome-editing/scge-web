@@ -39,10 +39,12 @@
         <tr>
             <th>Study</th>
             <th>Name</th>
+            <th>Tissue</th>
+            <th>Cell Type</th>
             <th>Editor</th>
             <th>Model</th>
             <th>Delivery System</th>
-            <th>Vecotr</th>
+            <th>Vector</th>
             <th>Guide</th>
             <th>Record ID</th>
         </tr>
@@ -56,6 +58,8 @@
 
                         <td><a href="/toolkit/data/experiments/study/<%=exp.getStudyId()%>"><%=SFN.parse(s.getStudy())%></a></td>
                         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>"><%=SFN.parse(exp.getExperimentName())%></a></td>
+                        <td><%=SFN.parse(exp.getTissueId())%></td>
+                        <td><%=SFN.parse(exp.getCellType())%></td>
                         <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td>
                         <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
                         <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
