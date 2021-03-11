@@ -156,8 +156,8 @@
                 data.push({
                     label: "Mean",
                     data: ${plotData.get("Mean")},
-                    backgroundColor: 'rgba(255, 206, 99, 0.6)',
-                    borderColor:    'rgba(255, 206, 99, 0.8)',
+                    backgroundColor:  'rgba(54, 162, 235, 0.2)',
+                    borderColor: "rgba(54, 162, 235, 1)",
                     borderWidth: 1
                 });
                 return data;
