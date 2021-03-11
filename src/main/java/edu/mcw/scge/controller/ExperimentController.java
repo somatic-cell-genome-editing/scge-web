@@ -66,7 +66,59 @@ public class ExperimentController extends UserController {
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
     }
+    @RequestMapping(value="/experiment/experimentRecords")
+    public String getAllExperimentRecords(HttpServletRequest req, HttpServletResponse res
+    ) throws Exception {
 
+        Person p=userService.getCurrentUser(req.getSession());
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        List<ExperimentRecord> records = edao.getAllExperimentRecords();
+        Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
+
+        if (!access.hasStudyAccess(study,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+        List<String> labels=new ArrayList<>();
+        Map<String, List<Double>> plotData=new HashMap<>();
+        List<Double> mean = new ArrayList<>();
+        HashMap<Integer,Double> resultMap = new HashMap<>();
+        HashMap<Integer,List<ExperimentResultDetail>> resultDetail = new HashMap<>();
+        int noOfSamples = 0;
+        for(ExperimentRecord record:records) {
+            labels.add("\"Cond: " + record.getExperimentRecordId() + "\"");
+            List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
+            resultDetail.put(record.getExperimentRecordId(),experimentResults);
+            double average = 0;
+            for(ExperimentResultDetail result: experimentResults){
+                noOfSamples =result.getNumberOfSamples();
+                if(result.getResult() != null && !result.getResult().isEmpty())
+                    average += Double.valueOf(result.getResult());
+            }
+            average = average/noOfSamples;
+            average = Math.round(average * 100.0) / 100.0;
+            mean.add(average);
+            resultMap.put(record.getExperimentRecordId(),average);
+        }
+
+        plotData.put("Mean",mean);
+        req.setAttribute("experiments",labels);
+        req.setAttribute("plotData",plotData);
+        req.setAttribute("experimentRecords", records);
+        req.setAttribute("resultDetail",resultDetail);
+        req.setAttribute("resultMap",resultMap);
+       // req.setAttribute("study", study);
+        req.setAttribute("action", "All Experiment Records");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/allExperimentRecords");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        return null;
+    }
 
     @RequestMapping(value="/experiment/{experimentId}")
     public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res,
@@ -135,7 +187,7 @@ public class ExperimentController extends UserController {
             mean.add(average);
             resultMap.put(record.getExperimentRecordId(),average);
         }
-        
+
         plotData.put("Mean",mean);
         req.setAttribute("replicateResult",replicateResult);
         req.setAttribute("experiments",labels);
