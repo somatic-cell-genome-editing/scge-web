@@ -77,8 +77,7 @@
 
         <% HashMap<Integer,Double> resultMap = (HashMap<Integer, Double>) request.getAttribute("resultMap");
             HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
-
-            System.out.println(resultMap.size());
+            HashMap<Integer,String> labels = (HashMap<Integer, String>) request.getAttribute("experiments");
             for (ExperimentRecord exp: experimentRecords) {
         %>
 
@@ -87,7 +86,7 @@
         <!--td><input class="form" type="checkbox"></td-->
 
 
-        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=exp.getExperimentRecordId()%></a></td>
+        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=labels.get(exp.getExperimentRecordId()).replace("\"","")%></a></td>
         <td><%=SFN.parse(exp.getTissueId())%></td>
         <td><%=SFN.parse(exp.getCellType())%></td>
         <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td>
@@ -106,7 +105,7 @@
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ${experiments},
+                    labels: ${experiments.values()},
                     datasets: generateData()
                 },
                 options: {
@@ -156,8 +155,8 @@
                 data.push({
                     label: "Mean",
                     data: ${plotData.get("Mean")},
-                    backgroundColor:  'rgba(54, 162, 235, 0.2)',
-                    borderColor: "rgba(54, 162, 235, 1)",
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
                     borderWidth: 1
                 });
                 return data;

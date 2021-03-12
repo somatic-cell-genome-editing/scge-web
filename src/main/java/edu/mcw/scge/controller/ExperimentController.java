@@ -1,6 +1,7 @@
 package edu.mcw.scge.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.bind.TreeTypeAdapter;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
@@ -13,10 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value="/data/experiments")
@@ -70,41 +68,60 @@ public class ExperimentController extends UserController {
     public String getAllExperimentRecords(HttpServletRequest req, HttpServletResponse res
     ) throws Exception {
 
-        Person p=userService.getCurrentUser(req.getSession());
+        Person p = userService.getCurrentUser(req.getSession());
 
-        if(!access.isLoggedIn()) {
+        if (!access.isLoggedIn()) {
             return "redirect:/";
         }
 
         List<ExperimentRecord> records = edao.getAllExperimentRecords();
-        Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
+        Set<Integer> studies = new TreeSet<>();
+        HashMap<Integer,String> studyNames = new HashMap<>();
+        for (ExperimentRecord r : records) {
+            studies.add(r.getStudyId());
+        }
 
-        if (!access.hasStudyAccess(study,p)) {
+        for (int s : studies){
+            Study study = sdao.getStudyById(s).get(0);
+            if(!access.hasStudyAccess(study,p))
+                studies.remove(s);
+            else {
+                String piname = study.getPi();
+                String label = piname.split(",")[0];
+                int index=label.lastIndexOf(" ");
+                label = label.substring(index);
+                studyNames.put(s,label);
+            }
+        }
+        if (studies.size() == 0) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
-
         }
-        List<String> labels=new ArrayList<>();
+
         Map<String, List<Double>> plotData=new HashMap<>();
         List<Double> mean = new ArrayList<>();
         HashMap<Integer,Double> resultMap = new HashMap<>();
         HashMap<Integer,List<ExperimentResultDetail>> resultDetail = new HashMap<>();
+        HashMap<Integer,String> labels = new HashMap<>();
         int noOfSamples = 0;
         for(ExperimentRecord record:records) {
-            labels.add("\"Cond: " + record.getExperimentRecordId() + "\"");
-            List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
-            resultDetail.put(record.getExperimentRecordId(),experimentResults);
-            double average = 0;
-            for(ExperimentResultDetail result: experimentResults){
-                noOfSamples =result.getNumberOfSamples();
-                if(result.getResult() != null && !result.getResult().isEmpty())
-                    average += Double.valueOf(result.getResult());
+            if(studies.contains(record.getStudyId())) {
+                String label = studyNames.get(record.getStudyId());
+                labels.put(record.getExperimentRecordId(),"\"" + label+ "-" + record.getExperimentRecordId() + "\"");
+                List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
+                resultDetail.put(record.getExperimentRecordId(), experimentResults);
+                double average = 0;
+                for (ExperimentResultDetail result : experimentResults) {
+                    noOfSamples = result.getNumberOfSamples();
+                    if (result.getResult() != null && !result.getResult().isEmpty())
+                        average += Double.valueOf(result.getResult());
+                }
+                average = average / noOfSamples;
+                average = Math.round(average * 100.0) / 100.0;
+                mean.add(average);
+                resultMap.put(record.getExperimentRecordId(), average);
             }
-            average = average/noOfSamples;
-            average = Math.round(average * 100.0) / 100.0;
-            mean.add(average);
-            resultMap.put(record.getExperimentRecordId(),average);
         }
 
         plotData.put("Mean",mean);
