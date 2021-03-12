@@ -1,10 +1,7 @@
 package edu.mcw.scge.controller;
 
 import com.google.gson.Gson;
-import edu.mcw.scge.dao.implementation.AnimalTestingResultsDAO;
-import edu.mcw.scge.dao.implementation.EditorDao;
-import edu.mcw.scge.dao.implementation.ExperimentDao;
-import edu.mcw.scge.dao.implementation.GroupDAO;
+import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.DataAccessService;
 import edu.mcw.scge.service.db.DBService;
@@ -40,7 +37,18 @@ public class ToolkitController {
     }
 
     @RequestMapping(value="/requestAccount")
-    public String getRequestAccount(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
+    public String getRequestAccount(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        if (req.getParameter("googleEmail") != null && !req.getParameter("googleEmail").equals("")) {
+
+            AccessDao adao = new AccessDao();
+            adao.insertAccessRequest(req.getParameter("firstName"),req.getParameter("lastName"),req.getParameter("googleEmail"),req.getParameter("institution"),req.getParameter("institutionalEmail"),req.getParameter("pi"));
+
+            req.setAttribute("msg","Thank you for your request.  It may take up to 3 business days to review.");
+
+        }
+
+
+
         return "requestAccount";
     }
 

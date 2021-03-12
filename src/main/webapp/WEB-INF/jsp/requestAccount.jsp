@@ -285,17 +285,31 @@
 
 </head>
 <body>
-<div style="color:#ED7D17; font-size:20px;padding: 15px;margin:10px;background-color:#ECE8E5;" >
+<div style="color:#ED7D17; font-size:16px;padding: 15px;margin:10px;background-color:#ECE8E5;" >
     The SCGE Toolkit is currently available to consortium members by invitation only<br>
     A public release of the toolkit is scheduled for early 2022<br>
     Questions regarding access can be mailed to scge@mcw.edu
 </div>
+
 <div class="wrapper fadeInDown" style="background-color:#F1EDEA" >
 
     <table>
+        <%  String msg = (String) request.getAttribute("msg");
+        if (msg != null) {
+        %>
+        <tr>
+            <td colspan=2>
+                <div style="padding:10px; font-size:22px;color:#ED7D17;"><%=msg%></div>
+            </td>
+        </tr>
+        <%
+            }
+        %>
+
         <tr>
             <td>
-                <form action="/toolkit/data/requestAccount" method="POST">
+                <form action="#" method="Get">
+
                     <div style="border:1px solid black; padding: 5px;">
     <table border="0" width="500">
         <tr>
