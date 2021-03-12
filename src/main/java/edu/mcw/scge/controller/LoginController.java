@@ -114,6 +114,7 @@ public class LoginController{
         return "loginFailure" ;
     }
  //   @ModelAttribute("userAttributes")
+
  public Map getUserAttributes(OAuth2AuthenticationToken authentication){
      if(authentication!=null) {
          OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());

@@ -286,6 +286,12 @@
 </head>
 <body>
 
+<div style="position:absolute; top:10px; left:10px; color:#ED7D17; font-size:16px;padding: 15px;margin:10px;background-color:#ECE8E5;" >
+  The SCGE Toolkit is currently available to consortium members by invitation only<br>
+  A public release of the toolkit is scheduled for early 2022<br>
+  Questions regarding access can be mailed to scge@mcw.edu
+</div>
+
 <div class="wrapper fadeInDown" >
   <div id="formContent" style="background-color: transparent">
     <!-- Tabs Titles -->
@@ -300,7 +306,7 @@
       <img src="/toolkit/images/Google-G.png" height="30" width="30" border="0" style="background-color:white; padding:3px; position:relative; top:0;left:80px;"/>
       <input style="margin-bottom: 0px;" type="submit"  value="Login with Google">
     </form>
-    <form action="loginFailure">
+    <form action="/toolkit/data/requestAccount">
       <img src="/toolkit/images/Google-G.png" height="30" width="30" border="0" style="visibility:hidden;"/>
       <input  style="margin-bottom: 0px;"  type="submit"  value="Request an Account">
     </form>
@@ -309,7 +315,7 @@
 
     <!-- Remind Passowrd -->
     <div id="formFooter" style="margin-top:5%">
-      <a class="underlineHover" href="https://dev.scge.mcw.edu">SCGE Home</a>
+      <a class="underlineHover" href="https://scge.mcw.edu">SCGE Home</a>
     </div>
 
   </div>

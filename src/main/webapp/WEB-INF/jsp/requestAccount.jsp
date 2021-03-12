@@ -20,7 +20,7 @@
 
         body {
             background-color: #56baed;
-            background-image: url("common/images/genomeEditing.jpg");
+            background-image: url("../common/images/genomeEditing.jpg");
             background-size: auto;
             background-repeat: no-repeat;
         }
@@ -285,16 +285,85 @@
 
 </head>
 <body>
+<div style="color:#ED7D17; font-size:16px;padding: 15px;margin:10px;background-color:#ECE8E5;" >
+    The SCGE Toolkit is currently available to consortium members by invitation only<br>
+    A public release of the toolkit is scheduled for early 2022<br>
+    Questions regarding access can be mailed to scge@mcw.edu
+</div>
 
 <div class="wrapper fadeInDown" style="background-color:#F1EDEA" >
 
+    <table>
+        <%  String msg = (String) request.getAttribute("msg");
+        if (msg != null) {
+        %>
+        <tr>
+            <td colspan=2>
+                <div style="padding:10px; font-size:22px;color:#ED7D17;"><%=msg%></div>
+            </td>
+        </tr>
+        <%
+            }
+        %>
 
-    Access Denied<br><br>
+        <tr>
+            <td>
+                <form action="#" method="Get">
 
-    If you feel you should have access to this page please contact scge@mcw.edu
+                    <div style="border:1px solid black; padding: 5px;">
+    <table border="0" width="500">
+        <tr>
+            <td width="150">First Name</td><td><input name="firstName" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>Last Name</td><td><input name="lastName" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td width="150">Email Address tied to Google Account (Institutional email address is recommended)</td><td width="350"><input name="googleEmail" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>Institution</td><td><input name="institution" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>Institutional Email Address (if different than Email address registered to Google account)</td><td><input name="institutionalEmail" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>Principle Investigator</td><td><input name="pi" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="submit" value="Submit Access Request"/></td>
+        </tr>
+    </table>
+                    </div>
+                </form>
+            </td><td valign="top">
+
+<div style="border:1px solid black; padding:5px; margin:5px;">
+    <table>
+
+        <tr><td>The SCGE toolkit uses <b>Google</b> as its authentication provider</td></tr>
+
+        <tr><td><br>To gain access you must have an account at <a href="https://www.google.com" style="font-weight:700;">https://www.google.com</a><br><br></td></tr>
+
+        <tr><td>It is recommended that you create a Google account using your institutional email address (i.e. jane.doe@harvard.edu).  This will assist us in verifying your identity.  Instructions on creating a Google account can be found here...<a href="https://support.google.com/accounts/answer/27441?hl=en" style="font-weight:700;">Create a Google Account - Google Account Help</a>  </td></tr>
+
+        <tr><td><br>If you have questions, please contact <a href="mailto:scge@mcw.edu" style="font-weight:700;">scge@mcw.edu</a></td></tr>
+
+        <tr><td><br>Thank You!</td></tr>
+
+    </table>
+
+</div>
 
 
+        </td>
+        </tr>
+    </table>
 
+</div>
+<div>
+    <p style="color: darkorange;"><strong>Background image credit:</strong>&nbsp;National Human Genome Research Institute</p>
 </div>
 </body>
 </html>
+
