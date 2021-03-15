@@ -69,6 +69,11 @@
                             <img src="/toolkit/images/experimentIcon.png" width="30" height="30" alt="" />
                             <strong>Experiments</strong>&nbsp;<span class="object-count"><%=sdao.getExperimentCount()%></span>                        </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/toolkit/data/experiments/experiment/experimentRecords">
+                            <img src="/toolkit/images/experimentIcon.png" width="30" height="30" alt="" />
+                            <strong>Experiment Records</strong></a>
+                    </li>
                     <!--li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="bar-chart-2"></span>
