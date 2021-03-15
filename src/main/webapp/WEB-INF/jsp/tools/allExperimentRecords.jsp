@@ -49,24 +49,10 @@
 <div>
     <%
         List<ExperimentRecord> experimentRecords = (List<ExperimentRecord>) request.getAttribute("experimentRecords");
-        Study study = (Study) request.getAttribute("study");
         Access access = new Access();
         Person p = access.getUser(request.getSession());
 
-        //out.println(experiments.size());
     %>
-
-    <table>
-        <tr>
-            <td class="desc" style="font-weight:700;"><%=study.getStudy()%>:</td>
-            <td>&nbsp;&nbsp;&nbsp;</td>
-            <td class="desc"   style="font-weight:700;">PI:</td>
-            <td class="desc" ><%=study.getPi()%></td>
-            <td>&nbsp;&nbsp;&nbsp;</td>
-            <td class="desc"  style="font-weight:700;">Submission Date:</td>
-            <td class="desc" ><%=study.getSubmissionDate()%></td>
-        </tr>
-    </table>
 
         <div class="chart-container" style="position: relative; height:80vh; width:80vw">
     <canvas id="resultChart"></canvas>
@@ -79,7 +65,7 @@
     <th>Name</th>
         <th>Tissue</th>
         <th>Cell Type</th>
-        <th class="tablesorter-header" data-placeholder="Search for editor...">Editor</th>
+        <th>Editor</th>
         <th>Model</th>
         <th>Delivery System</th>
         <th>Guide</th>
@@ -91,15 +77,16 @@
 
         <% HashMap<Integer,Double> resultMap = (HashMap<Integer, Double>) request.getAttribute("resultMap");
             HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
+            HashMap<Integer,String> labels = (HashMap<Integer, String>) request.getAttribute("experiments");
             for (ExperimentRecord exp: experimentRecords) {
         %>
 
-        <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) { %>
+        <% //if (access.hasStudyAccess(exp.getStudyId(),p.getId())) { %>
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
 
 
-        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
+        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=labels.get(exp.getExperimentRecordId()).replace("\"","")%></a></td>
         <td><%=SFN.parse(exp.getTissueId())%></td>
         <td><%=SFN.parse(exp.getCellType())%></td>
         <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td>
@@ -109,20 +96,16 @@
         <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getResultType()%></td>
         <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getUnits()%></td>
         <td><%=resultMap.get(exp.getExperimentRecordId())%></td>
-        <%for(ExperimentResultDetail e:resultDetail.get(exp.getExperimentRecordId())) {%>
-        <td style="display: none"><%=e.getResult()%></td>
-        <%}%>
     </tr>
         <% } %>
-     <% } %>
+     <% //} %>
 </table>
-
         <script>
             var ctx = document.getElementById("resultChart");
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ${experiments},
+                    labels: ${experiments.values()},
                     datasets: generateData()
                 },
                 options: {
@@ -157,14 +140,6 @@
                         var avg = cells.item(9);
                         xArray[j] = column.innerText;
                         yArray[j] = avg.innerHTML;
-                        for(k = 10;k<cellLength;k++){
-                            var arr = [];
-                            if(j != 0)
-                                arr = myChart.data.datasets[k-9].data;
-
-                            arr.push(cells.item(k).innerHTML);
-                            myChart.data.datasets[k-9].data = arr;
-                        }
                         j++;
                     }
 
@@ -176,26 +151,14 @@
             }
 
             function generateData() {
-                var noOfDatasets=${replicateResult.keySet().size()}
-                var dataSet = ${replicateResult.values()};
                 var data=[];
                 data.push({
                     label: "Mean",
                     data: ${plotData.get("Mean")},
-                    backgroundColor: 'rgba(255, 206, 99, 0.6)',
-                    borderColor:    'rgba(255, 206, 99, 0.8)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
                     borderWidth: 1
                 });
-                for(var i=0;i< noOfDatasets;i++){
-                    data.push({
-                        data: dataSet[i],
-                        label: "Replicate: "+(i+1),
-                        backgroundColor: 'rgba(255,99,132,1)',
-                        borderColor: 'rgba(255,99,132,1)',
-                        type: "scatter",
-                        showLine: false
-                    });
-                }
                 return data;
             }
         </script>
@@ -203,4 +166,5 @@
         <script>
             feather.replace()
         </script>
+
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
