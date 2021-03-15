@@ -43,7 +43,8 @@ public class Access {
             || p.getEmail().toLowerCase().equals("alemke@mcw.edu")
             || p.getEmail().toLowerCase().equals("mgrzybowski@mcw.edu")
             || p.getEmail().toLowerCase().equals("jrsmith@mcw.edu")
-                || p.getEmail().toLowerCase().equals("akwitek@mcw.edu")) {
+                || p.getEmail().toLowerCase().equals("akwitek@mcw.edu")
+        || p.getEmail().toLowerCase().equals("hsvnalabolu@gmail.com")) {
             return true;
         }else {
             return false;
