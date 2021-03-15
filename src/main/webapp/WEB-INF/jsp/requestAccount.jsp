@@ -328,7 +328,7 @@
             <td>Institutional Email Address (if different than Email address registered to Google account)</td><td><input name="institutionalEmail" type="text" value=""/></td>
         </tr>
         <tr>
-            <td>Principle Investigator</td><td><input name="pi" type="text" value=""/></td>
+            <td>Principal Investigator</td><td><input name="pi" type="text" value=""/></td>
         </tr>
         <tr>
             <td colspan="2" align="center"><input type="submit" value="Submit Access Request"/></td>
