@@ -24,16 +24,15 @@ public class UI {
         int end = 79;
 
         int runs = str.length() / 80;
-        System.out.println(runs);
+
 
         String ret = "";
-        for (int i=0; i<9; i++)  {
+        for (int i=0; i<runs; i++)  {
             ret +=str.substring(start,end) + "\n";
             start +=80;
             end +=80;
 
         }
-
         if (str.length() > start) {
             ret += str.substring(start);
         }
