@@ -29,7 +29,7 @@ public class IndexServices {
        SearchRequest searchRequest=new SearchRequest("scge_search_prod");
        searchRequest.source(srb);
 
-        return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        return ESClient.getInstance().getClient().search(searchRequest, RequestOptions.DEFAULT);
 
     }
     public HighlightBuilder buildHighlights(){
@@ -83,7 +83,7 @@ public class IndexServices {
         SearchRequest searchRequest=new SearchRequest("scge_delivery_dev");
         searchRequest.source(srb);
 
-        return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        return ESClient.getInstance().getClient().search(searchRequest, RequestOptions.DEFAULT);
 
     }
     public AggregationBuilder buildAggregations(String fieldName){
@@ -157,7 +157,8 @@ public class IndexServices {
             q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
                     should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
         }
-        System.out.println(q);
+
+     //   System.out.println(q);
         return q;
     }
     public QueryBuilder buildQuery(String searchTerm){
@@ -225,7 +226,7 @@ public class IndexServices {
                             "models.transgene" ,
                             "models.transgeneReporter" ,
                             "models.description" ,
-                            "models.strainCode").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).operator(Operator.AND).boost(20));
+                            "models.strainCode").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).fuzziness(1).operator(Operator.AND).boost(20));
             q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
                     "description", "experimentalTags", "externalId", "aliases",
                     "target", "species", "site", "sequence", "pam", "detectionMethod","target",
