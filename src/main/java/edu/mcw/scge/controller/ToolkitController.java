@@ -45,6 +45,13 @@ public class ToolkitController {
 
     @RequestMapping(value="/requestAccount")
     public String getRequestAccount(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+
+        if ((req.getParameter("action") !=null && req.getParameter("action").equals("request") && req.getParameter("googleEmail").equals(""))) {
+            req.setAttribute("msg","Email Address tied to Google Account is required.");
+            return "requestAccount";
+        }
+
+
         if (req.getParameter("googleEmail") != null && !req.getParameter("googleEmail").equals("")) {
 
             AccessDao adao = new AccessDao();
