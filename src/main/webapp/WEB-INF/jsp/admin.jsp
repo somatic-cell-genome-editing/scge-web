@@ -1,5 +1,9 @@
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
+<%@ page import="edu.mcw.scge.dao.implementation.GroupDAO" %>
+<%@ page import="edu.mcw.scge.datamodel.PersonInfo" %>
+<%@ page import="edu.mcw.scge.datamodel.SCGEGroup" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -28,7 +32,9 @@
 <body>
 
 
-<% List<Person> people = (List<Person>)request.getAttribute("people");
+<% GroupDAO gdao = new GroupDAO();
+    PersonDao pdao = new PersonDao();
+    List<Person> people = (List<Person>)request.getAttribute("people");
     Person person = (Person) request.getAttribute("person");
 %>
 
@@ -51,6 +57,101 @@ You are logged in as <b><%=person.getName()%></b>
         </td>
     </tr>
 </table>
+
+
+<br>
+<form action="admin?action=add">
+    <table border="0">
+        <tr>
+            <td></td>
+            <td>Name</td>
+            <td>Institution</td>
+            <td>Google Account Email</td>
+            <td>Other Email</td>
+            <td></td>
+
+        <tr>
+            <td>Add User:&nbsp;</td>
+            <td><input name="name" type="text" /></td>
+            <td><input name="institution" type="text" /></td>
+            <td><input name="gEmail" type="text" /></td>
+            <td><input name="oEmail" type="text" /></td>
+            <td><input type="submit" value="Add User"/></td>
+        </tr>
+    </table>
+</form>
+
+<style>
+    .adminInput {
+        color:black;
+    }
+</style>
+<br>
+Users
+<table border="1" cellpadding="4">
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Institution</td>
+        <td>Google Account Email</td>
+        <td>Other Email</td>
+        <td>Account Status</td>
+        <td></td>
+        <td></td>
+        <td></td>
+
+
+    </tr>
+    <% for (Person p: people) { %>
+        <tr>
+            <td><%=p.getId()%></td>
+            <td><input type="text" value="<%=p.getName()%>" width="150" class="adminInput" /></td>
+            <td><input type="text" value="<%=p.getInstitutionName()%>"  width="150" class="adminInput"/></td>
+            <td><input type="text" value="<%=p.getEmail()%>" width="150" class="adminInput"/></td>
+            <td><input type="text" value="<%=p.getOtherId()%>" width="150" class="adminInput"/></td>
+            <td><select name="status">
+
+                <% if (p.getStatus().equals("ACTIVE")) { %>
+                <option value="ACTIVE" checked>ACTIVE</option>
+                <% } else { %>
+                <option value="ACTIVE">ACTIVE</option>
+                <% } %>
+                <% if (p.getStatus().equals("INACTIVE")) { %>
+                <option value="INACTIVE" checked>INACTIVE</option>
+                <% } else { %>
+                <option value="INACTIVE">INACTIVE</option>
+                <% } %>
+
+            </select>
+            </td>
+            <td><a href="">U</a></td>
+            <td><a href="">D</a></td>
+            <td width="300">
+                <% List<PersonInfo> piList = gdao.getGroupsNRolesByPersonId(p.getId()); %>
+
+                <% if (piList != null) { %>
+                <% for (PersonInfo pi: piList) { %>
+                <li><span style="padding: 0;font-size:14px" class="text-muted"><%=pi.getSubGroupName()%></span></li>
+                <% }
+                } %>
+
+
+
+            </td>
+
+
+
+     </tr>
+    <% } %>
+
+
+</table>
+
+
+
+
+
+
 
 
 

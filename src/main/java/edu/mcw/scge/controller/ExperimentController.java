@@ -74,10 +74,11 @@ public class ExperimentController extends UserController {
             return "redirect:/";
         }
 
-        List<ExperimentRecord> records = edao.getAllExperimentRecords();
+        List<ExperimentRecord> records = new ArrayList<>();
+        List<ExperimentRecord> allRecords = edao.getAllExperimentRecords();
         Set<Integer> studies = new TreeSet<>();
         HashMap<Integer,String> studyNames = new HashMap<>();
-        for (ExperimentRecord r : records) {
+        for (ExperimentRecord r : allRecords) {
             studies.add(r.getStudyId());
         }
 
@@ -93,6 +94,7 @@ public class ExperimentController extends UserController {
                 studyNames.put(s,label);
             }
         }
+
         if (studies.size() == 0) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -105,8 +107,9 @@ public class ExperimentController extends UserController {
         HashMap<Integer,List<ExperimentResultDetail>> resultDetail = new HashMap<>();
         HashMap<Integer,String> labels = new HashMap<>();
         int noOfSamples = 0;
-        for(ExperimentRecord record:records) {
+        for(ExperimentRecord record:allRecords) {
             if(studies.contains(record.getStudyId())) {
+                records.add(record);
                 String label = studyNames.get(record.getStudyId());
                 labels.put(record.getExperimentRecordId(),"\"" + label+ "-" + record.getExperimentRecordId() + "\"");
                 List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());

@@ -48,7 +48,8 @@ public class SearchController{
         req.setAttribute("searchTerm", searchTerm);
         req.setAttribute("aggregations",services.getSearchAggregations(sr));
         if(facetSearch)
-            return "search/resultsTable";
+         //   return "search/resultsTable";
+            return "search/resultsView";
         else {
             req.setAttribute("action", "Search Results: " + sr.getHits().getTotalHits() + " for " + searchTerm);
             req.setAttribute("page", "/WEB-INF/jsp/search/results");
@@ -72,7 +73,8 @@ public class SearchController{
         req.setAttribute("sr", sr);
         req.setAttribute("aggregations",services.getSearchAggregations(sr));
         if(facetSearch)
-        return "search/resultsTable";
+      //  return "search/resultsTable";
+            return "search/resultsView";
         else{
              req.setAttribute("action", "Search Results");
                req.setAttribute("page", "/WEB-INF/jsp/search/results");

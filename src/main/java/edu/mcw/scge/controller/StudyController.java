@@ -73,6 +73,8 @@ public class StudyController{
             List<Study> studies = null;
             if (initiative > 0) {
                 studies = sdao.getStudiesByInitiative(initiativeName);
+                Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
+                req.setAttribute("tierUpdateMap", tierUpdateMap);
             }else {
                 studies = sdao.getStudies();
                 req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
