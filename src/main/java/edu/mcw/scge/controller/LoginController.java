@@ -96,9 +96,12 @@ public class LoginController{
                   //  session.setAttribute("personInfoList", getPerson(userAttributes));
                     req.setAttribute("personInfoList", access.getPersonInfoRecords(userAttributes));
 
+                    System.out.println("USER_LOGIN_SUCCESS " + userAttributes.get("email").toString()+ " " +  new Date().toString());
+
                     return "redirect:/loginSuccess";
                 }
             } else {
+                System.out.println("USER_LOGIN_FAILED " + userAttributes.get("email").toString() + " " +  new Date().toString());
                 req.setAttribute("msg", "Please contact SCGE admin and register your google id");
                 return "redirect:/loginFailure";
             }
