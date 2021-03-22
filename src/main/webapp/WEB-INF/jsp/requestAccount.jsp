@@ -337,6 +337,7 @@
         </tr>
     </table>
                     </div>
+                    <input type="hidden" name="action" value="request"/>
                 </form>
             </td><td valign="top">
 
