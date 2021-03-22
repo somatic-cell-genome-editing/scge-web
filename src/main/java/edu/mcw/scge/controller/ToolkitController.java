@@ -68,7 +68,7 @@ public class ToolkitController {
             // -- Set the FROM and TO fields --
             msg.setFrom(new InternetAddress("jdepons@mcw.edu", "SCGE Toolkit"));
 
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("jdepons@mcw.edu", false));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("scge_toolkit@mcw.edu", false));
 
             //msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse("jdepons@mcw.edu", false));
 
