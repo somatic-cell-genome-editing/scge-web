@@ -2,6 +2,7 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
+import edu.mcw.scge.dao.implementation.GroupDAO;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.datamodel.Person;
 import org.springframework.stereotype.Controller;
@@ -90,8 +91,25 @@ public class AdminController extends LoginController{
 
     }
 
-    @RequestMapping(value = "/add")
-    public void getAdd(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+    @RequestMapping(value = "/groups")
+    public void getGroups(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+
+        req.setAttribute("action", "Manage Groups");
+        req.setAttribute("page", "/WEB-INF/jsp/admin/groups");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        System.out.println("here5");
+
+
+    }
+
+    @RequestMapping(value = "/addUser")
+    public void getAddUser(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         UserService userService=new UserService();
         Access access= new Access();
         if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
@@ -100,18 +118,147 @@ public class AdminController extends LoginController{
 
 
 
+        String name = req.getParameter("name");
+        int institution = Integer.parseInt(req.getParameter("institution"));
+        String gEmail = req.getParameter("gEmail");
+        String oEmail = req.getParameter("oEmail");
 
-        System.out.println("adding");
-        /*
-        PersonDao personDao = new PersonDao();
-        req.setAttribute("people", personDao.getAllMembers());
+
+
+
+        PersonDao pdao = new PersonDao();
+
+
+        Person p = new Person.Builder().build();
+
+        p.setName(name);
+        p.setInstitution(institution);
+        p.setEmail(gEmail);
+        p.setStatus("ACTIVE");
+        if (oEmail != null && !oEmail.equals("")) {
+            p.setOtherId(oEmail);
+        }
+
+        if (pdao.exists(p)) {
+            System.out.println("user exists");
+            throw new Exception("User already exists");
+        }else {
+            System.out.println("inserting user");
+            pdao.insert(p);
+        }
+
+        req.setAttribute("people", pdao.getAllMembers());
         req.setAttribute("person",userService.getCurrentUser(req.getSession()));
         req.setAttribute("action", "Manage Users");
         req.setAttribute("page", "/WEB-INF/jsp/admin/users");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-        */
+
 
     }
+
+    @RequestMapping(value = "/updateUser")
+    public void getUpdateUser(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+
+
+        int id=Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("name");
+        int institution = Integer.parseInt(req.getParameter("institution"));
+        String gEmail = req.getParameter("gEmail");
+        String oEmail = req.getParameter("oEmail");
+
+        PersonDao pdao = new PersonDao();
+
+        Person p = pdao.getPersonById(Integer.parseInt(req.getParameter("id"))).get(0);
+
+        p.setId(id);
+        p.setName(name);
+        p.setInstitution(institution);
+        p.setEmail(gEmail);
+        p.setStatus("ACTIVE");
+        if (oEmail != null && !oEmail.equals("")) {
+            p.setOtherId(oEmail);
+        }
+
+
+            pdao.update(p);
+
+
+        req.setAttribute("people", pdao.getAllMembers());
+        req.setAttribute("person",userService.getCurrentUser(req.getSession()));
+        req.setAttribute("action", "Manage Users");
+        req.setAttribute("page", "/WEB-INF/jsp/admin/users");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+
+    }
+
+
+    @RequestMapping(value = "/removeUser")
+    public void getRemoveUser(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+
+        PersonDao pdao = new PersonDao();
+        Person p = pdao.getPersonById(Integer.parseInt(req.getParameter("id"))).get(0);
+
+        System.out.println("deleting " + p.getId());
+        pdao.delete(p);
+
+        req.setAttribute("people", pdao.getAllMembers());
+        req.setAttribute("person",userService.getCurrentUser(req.getSession()));
+        req.setAttribute("action", "Manage Users");
+        req.setAttribute("page", "/WEB-INF/jsp/admin/users");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+
+    }
+
+
+    @RequestMapping(value = "/addGroup")
+    public void getAddGroup(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+
+
+        System.out.println("adding Group");
+        req.setAttribute("action", "Manage Groups");
+        req.setAttribute("page", "/WEB-INF/jsp/admin/groups");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        System.out.println("here5");
+
+
+    }
+
+    @RequestMapping(value = "/removeGroup")
+    public void getRemoveGroup(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+
+
+        System.out.println("removing group");
+
+        req.setAttribute("action", "Manage Groups");
+        req.setAttribute("page", "/WEB-INF/jsp/admin/groups");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        System.out.println("here5");
+
+
+    }
+
 
 }
 

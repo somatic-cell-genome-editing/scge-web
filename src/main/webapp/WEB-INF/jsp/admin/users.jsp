@@ -6,6 +6,7 @@
 <%@ page import="edu.mcw.scge.datamodel.SCGEGroup" %>
 <%@ page import="edu.mcw.scge.datamodel.Institution" %>
 <%@ page import="edu.mcw.scge.dao.InstitutionDAO" %>
+<%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -42,7 +43,7 @@
 
 
 <br>
-<form action="/toolkit/admin/add">
+<form action="/toolkit/admin/addUser">
     <table border="0" class="table tablesorter table-striped">
         <tr>
             <td></td>
@@ -123,16 +124,19 @@
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
 
 
     </tr>
     <% for (Person p: people) { %>
         <tr>
+            <form action="#">
+            <input type="hidden" value="<%=p.getId()%>" name="id"/>
             <td><%=p.getId()%></td>
-            <td><input type="text" value="<%=p.getName()%>" width="150" class="adminInput" /></td>
-            <td><input type="text" value="<%=p.getInstitutionName()%>"  width="150" class="adminInput"/></td>
-            <td><input type="text" value="<%=p.getEmail()%>" width="150" class="adminInput"/></td>
-            <td><input type="text" value="<%=p.getOtherId()%>" width="150" class="adminInput"/></td>
+            <td><input name="name" type="text" value="<%=p.getName()%>" width="150" class="adminInput" /></td>
+            <td><input name="institution" type="text" value="<%=p.getInstitution()%>"  width="150" class="adminInput"/></td>
+            <td><input name="gEmail" type="text" value="<%=p.getEmail()%>" width="150" class="adminInput"/></td>
+            <td><input name="oEmail" type="text" value="<%=SFN.parse(p.getOtherId())%>" width="150" class="adminInput"/></td>
             <td><select name="status">
 
                 <% if (p.getStatus().equals("ACTIVE")) { %>
@@ -148,8 +152,10 @@
 
             </select>
             </td>
-            <td><a href="">U</a></td>
-            <td><a href="">D</a></td>
+            <td><input type="button" value="U" onclick="this.form.action='/toolkit/admin/updateUser'; this.form.submit();"/></td>
+            <td><input type="button" value="D" onclick="this.form.action='/toolkit/admin/removeUser'; this.form.submit();"/></td>
+            <td><input type="button" value="G" onclick="this.form.action='/toolkit/admin/groups'; this.form.submit();"/></td>
+            </form>
             <td width="300">
 
 
