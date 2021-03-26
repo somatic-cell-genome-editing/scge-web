@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.mcw.scge.dao.spring.CountQuery" %>
 <%@ page import="edu.mcw.scge.dao.implementation.StatsDao" %><%--
   Created by IntelliJ IDEA.
@@ -227,44 +228,52 @@
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          //  labels: ${labels},
-            labels:
-            ["Biological Systems","Genome Editors","LAR","in vivo Cell Tracking","LATC","Delivery Systems","SATC"],
-            datasets: [{
-                label: '# of Submissions',
-                data: ${plotData.get("Submissions")},
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255,99,132,1)',
-                borderWidth: 1
-            },
+           labels: ${labels},
+         /*   labels:
+            ["Biological Systems","Genome Editors","LAR","in vivo Cell Tracking"
+                ,"LATC","Delivery Systems","SATC"],*/
+            datasets: [
+                <c:set var="first" value="true"/>
+                <c:set var="color" value="0"/>
+                <c:forEach items="${plotData}" var="p">
+                <c:choose>
+                <c:when test="${first=='true'}">
                 {
-                    label: "Tier-1",
-                    backgroundColor:  'rgba(54, 162, 235, 0.2)',
-                    borderColor: "rgba(54, 162, 235, 1)",
-                    borderWidth: 1,
-                    data: ${plotData.get("Tier-1")}
-                },
-                {
-                    label: "Tier-2",
-                    backgroundColor: "rgba(255, 206, 86, 0.2)",
-                    borderColor:  'rgba(255, 206, 86, 1)',
-                    borderWidth: 1,
-                    data: ${plotData.get("Tier-2")}
-                },
-                {
-                    label: "Tier-3",
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor:  'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    data: ${plotData.get("Tier-3")}
-                },
-                {
-                    label: "Tier-4",
+                    label: '# ${p.key}',
+                    data: ${p.value},
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    borderWidth: 1
+                }
+                <c:set var="first" value="false"/>
+                <c:set var="color" value="${color+20}"/>
+                </c:when>
+                <c:otherwise >
+                ,{
+                    label: '${p.key}',
+                    data: ${p.value},
+                    <c:if test="${p.key=='Tier-3'}" >
                     backgroundColor:   'rgba(153, 102, 255, 0.2)',
                     borderColor:    'rgba(153, 102, 255, 1)',
-                    borderWidth: 1,
-                    data: ${plotData.get("Tier-4")}
+                    </c:if>
+                    <c:if test="${p.key=='Tier-1'}" >
+                    backgroundColor:  'rgba(54, 162, 235, 0.2)',
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    </c:if>
+                    <c:if test="${p.key=='Tier-2'}" >
+                    backgroundColor: "rgba(255, 206, 86, 0.2)",
+                    borderColor:  'rgba(255, 206, 86, 1)',
+                    </c:if>
+                    <c:if test="${p.key=='Tier-4'}" >
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor:  'rgba(75, 192, 192, 1)',
+                    </c:if>
+                    borderWidth: 1
                 }
+                <c:set var="color" value="${color+25}"/>
+                </c:otherwise>
+                </c:choose>
+                </c:forEach>
             ]
         },
         options: {

@@ -72,10 +72,11 @@ public class LoginController{
     @RequestMapping("/loginSuccess")
     public String getHomePage(OAuth2AuthenticationToken authentication, HttpServletRequest req) throws Exception {
         HttpSession session = req.getSession(true);
-        Map<String, List<Integer>> plotData = service.getPlotData();
+        LinkedHashMap<String, List<Integer>> plotData = service.getPlotData();
         Gson gson = new Gson();
         req.setAttribute("plotData", plotData);
         req.setAttribute("labels", gson.toJson(DataAccessService.labels));
+
         req.setAttribute("page", "/WEB-INF/jsp/tools/home");
         return "base";
     }
