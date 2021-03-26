@@ -76,6 +76,7 @@ public class LoginController{
         Gson gson = new Gson();
         req.setAttribute("plotData", plotData);
         req.setAttribute("labels", gson.toJson(DataAccessService.labels));
+
         req.setAttribute("page", "/WEB-INF/jsp/tools/home");
         return "base";
     }

@@ -598,7 +598,7 @@ public class DataAccessService extends AbstractDAO {
         Map<String, Map<Integer, Integer>> statsMap=new HashMap<>();
 
         for(String i: grantDao.getAllDistinctInitiatives()) {
-            if (!i.equalsIgnoreCase("DCC")) {
+            if (!i.equalsIgnoreCase("DCC") && !i.equalsIgnoreCase("NIH")) {
                 List<Grant> grants = grantDao.getGrantsByInitiative(i);
                 Map<Integer, Integer> tierStats = new HashMap<>();
                 int totalStudies = 0;
@@ -629,7 +629,7 @@ public class DataAccessService extends AbstractDAO {
         List<String> labels=new ArrayList<>();
         for(Map.Entry e:statsMap.entrySet()){
             String initative= (String) e.getKey();
-            labels.add(initative);
+            labels.add(getLabel(initative));
 
             //   System.out.println("Initiative: "+ initative+"*********");
             Map<Integer, Integer> tierCounts= (Map<Integer, Integer>) e.getValue();
@@ -670,12 +670,28 @@ public class DataAccessService extends AbstractDAO {
             plotData.put("Tier-4", tier4);
 
         }
+
       /*  System.out.println(labels.toString());
         for(Map.Entry entry:plotData.entrySet()){
             System.out.println(entry.getKey()+ "\t"+ entry.getValue().toString());
         }*/
        DataAccessService.labels=labels;
-        return  plotData;
+       return  plotData;
+    }
+    public String getLabel(String l){
+        if(l.equalsIgnoreCase("Cell & Tissue Platform"))
+            return "Biological Systems";
+        if(l.equalsIgnoreCase("New Editors Initiative"))
+          return  "Genome Editors";
+        if(l.equalsIgnoreCase("Large Animal Reporter"))
+            return "LAR";
+        if(l.equalsIgnoreCase("Large Animal Testing Center"))
+            return  "LATC";
+        if(l.equalsIgnoreCase("Delivery Vehicle Initiative"))
+            return  "Delivery Systems";
+        if(l.equalsIgnoreCase("Rodent Testing Center"))
+             return "SATC";
+        return l;
     }
     public void logToDb(GoogleIdToken.Payload payload){
         String email=payload.getEmail();
