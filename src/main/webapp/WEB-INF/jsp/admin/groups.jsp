@@ -30,135 +30,50 @@
 </head>
 
 <body>
+<% try { %>
 
-<% GroupDAO gdao = new GroupDAO();
+
+<%
+
     PersonDao pdao = new PersonDao();
-    List<Person> people = (List<Person>)request.getAttribute("people");
-    Person person = (Person) request.getAttribute("person");
+    GroupDAO gdao = new GroupDAO();
+    Person p = pdao.getPersonById(Integer.parseInt(request.getParameter("id"))).get(0);
 %>
 
+<h2>User: <%=p.getName()%> - <%=p.getEmail()%></h2>
 
+<%
+  List<PersonInfo> piList = gdao.getGroupsNRolesByPersonId(p.getId());
+%>
 
-<br>
-<form action="admin?action=add">
-    <table border="0" class="table tablesorter table-striped">
-        <tr>
-            <td></td>
-            <td>Name</td>
-            <td>Institution</td>
-            <td>Google Account Email</td>
-            <td>Other Email</td>
-            <td></td>
-
-        <tr>
-            <td>Add User:&nbsp;</td>
-            <td><input name="name" type="text" /></td>
-            <td><input name="institution" type="text" /></td>
-            <td><input name="gEmail" type="text" /></td>
-            <td><input name="oEmail" type="text" /></td>
-            <td><input type="submit" value="Add User"/></td>
-        </tr>
-    </table>
-</form>
-
-<style>
-    .adminInput {
-        color:black;
-    }
-
-    table {
-        border: 1px solid #ddd;
-        width: 100%;
-    }
-
-    td {
-        color:black;
-        text-align: right;
-    }
-
-    input {
-        color:black;
-    }
-
-</style>
-<br>
-<script>
-    $(function() {
-        $("#users").tablesorter({
-            theme : 'blue'
-
-        });
-    });
-</script>
-
-<table id="users" border="1" cellpadding="4" cellspacing="4" class="table tablesorter table-striped">
-    <tr>
-        <td>ID</td>
-        <td>Name</td>
-        <td>Institution</td>
-        <td>Google Account Email</td>
-        <td>Other Email</td>
-        <td>Account Status</td>
-        <td></td>
-        <td></td>
-        <td></td>
-
-
-    </tr>
-    <% for (Person p: people) { %>
-        <tr>
-            <td><%=p.getId()%></td>
-            <td><input type="text" value="<%=p.getName()%>" width="150" class="adminInput" /></td>
-            <td><input type="text" value="<%=p.getInstitutionName()%>"  width="150" class="adminInput"/></td>
-            <td><input type="text" value="<%=p.getEmail()%>" width="150" class="adminInput"/></td>
-            <td><input type="text" value="<%=p.getOtherId()%>" width="150" class="adminInput"/></td>
-            <td><select name="status">
-
-                <% if (p.getStatus().equals("ACTIVE")) { %>
-                <option value="ACTIVE" checked>ACTIVE</option>
-                <% } else { %>
-                <option value="ACTIVE">ACTIVE</option>
-                <% } %>
-                <% if (p.getStatus().equals("INACTIVE")) { %>
-                <option value="INACTIVE" checked>INACTIVE</option>
-                <% } else { %>
-                <option value="INACTIVE">INACTIVE</option>
-                <% } %>
-
-            </select>
-            </td>
-            <td><a href="">U</a></td>
-            <td><a href="">D</a></td>
-            <td width="300">
-
-
-
-                <% List<PersonInfo> piList = gdao.getGroupsNRolesByPersonId(p.getId()); %>
-
-                <% if (piList != null) { %>
-                    <table border="1" cellspacing="0">
-                    <% for (PersonInfo pi: piList) { %>
-                        <tr><td><span style="padding: 0;font-size:14px" class="text-muted"><%=pi.getSubGroupName()%></span></td></tr>
-
-                    <% } %>
-                    </table>
-                <% } %>
-
-
-
-            </td>
-
-
-
-     </tr>
+<% if (piList != null) { %>
+<h2>Current Group Association</h2>
+<table border="" cellspacing="0">
+    <% for (PersonInfo pi: piList) { %>
+        <tr><td><input type="button" value="Remove" onclick="location.href='/toolkit/admin/removeGroup?id=<%=p.getId()%>&gid=<%=group.getGroupId()%>'"/></td><td>&nbsp;&nbsp;&nbsp;</td><td><span style="padding: 0;font-size:14px" class="text-muted"><%=pi.getSubGroupName()%></span></td></tr>
     <% } %>
+</table>
+<% } %>
 
-
+<%
+    List<SCGEGroup> groups = gdao.getAllGroups();
+%>
+<br>
+<h2>Other Groups</h2>
+<table border="" cellspacing="0">
+    <form>
+    <% for (SCGEGroup group: groups) { %>
+        <tr><td><input type="button" value="Add" onclick="location.href='/toolkit/admin/addGroup?id=<%=p.getId()%>&gid=<%=group.getGroupId()%>'"/></td><td>&nbsp;&nbsp;&nbsp;</td><td><span style="padding: 0;font-size:14px" class="text-muted"><%=group.getGroupName()%></span></td></tr>
+    <% } %>
+    </form>
 </table>
 
 
 
-
+<% } catch (Exception e) {
+    e.printStackTrace();
+}
+%>
 
 
 
