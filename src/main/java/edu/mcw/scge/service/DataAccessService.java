@@ -593,7 +593,7 @@ public class DataAccessService extends AbstractDAO {
 
         return null;
     }
-    public Map<String, List<Integer>> getPlotData() throws Exception {
+    public LinkedHashMap<String, List<Integer>> getPlotData() throws Exception {
         GrantDao grantDao=new GrantDao();
         Map<String, Map<Integer, Integer>> statsMap=new HashMap<>();
 
@@ -625,7 +625,7 @@ public class DataAccessService extends AbstractDAO {
                 statsMap.put(i, tierStats);
             }
         }
-        Map<String, List<Integer>> plotData=new HashMap<>();
+        LinkedHashMap<String, List<Integer>> plotData=new LinkedHashMap<>();
         List<String> labels=new ArrayList<>();
         for(Map.Entry e:statsMap.entrySet()){
             String initative= (String) e.getKey();
@@ -638,37 +638,43 @@ public class DataAccessService extends AbstractDAO {
             List<Integer> tier2=new ArrayList<>();
             List<Integer> tier3=new ArrayList<>();
             List<Integer> tier4=new ArrayList<>();
-            if(plotData.get("Submissions")!=null){
-                submissions.addAll(plotData.get("Submissions"));
+            for(Map.Entry entry:tierCounts.entrySet()){
+                if((int)entry.getKey()==0){
+                    if(plotData.get("Submissions")!=null){
+                        submissions.addAll(plotData.get("Submissions"));
+                    }
+                    submissions.add((Integer) entry.getValue());
+                    plotData.put("Submissions", submissions);
+                }
+                if((int)entry.getKey()==1){
+                    if(plotData.get("Tier-1")!=null){
+                        tier1.addAll(plotData.get("Tier-1"));
+                    }
+                    tier1.add((Integer) entry.getValue());
+                    plotData.put("Tier-1", tier1);
+                }
+                if((int)entry.getKey()==2){
+                    if(plotData.get("Tier-2")!=null){
+                        tier2.addAll(plotData.get("Tier-2"));
+                    }
+                    tier2.add((Integer) entry.getValue());
+                    plotData.put("Tier-2", tier2);
+                }
+                if((int)entry.getKey()==3){
+                    if(plotData.get("Tier-3")!=null){
+                        tier3.addAll(plotData.get("Tier-3"));
+                    }
+                    tier3.add((Integer) entry.getValue());
+                    plotData.put("Tier-3", tier3);
+                }
+                if((int)entry.getKey()==4){
+                    if(plotData.get("Tier-4")!=null){
+                        tier4.addAll(plotData.get("Tier-4"));
+                    }
+                    tier4.add((Integer) entry.getValue());
+                    plotData.put("Tier-4", tier4);
+                }
             }
-            submissions.add(tierCounts.get(0));
-            plotData.put("Submissions", submissions);
-
-            /**********************tier-1****************/
-            if(plotData.get("Tier-1")!=null){
-                tier1.addAll(plotData.get("Tier-1"));
-            }
-            tier1.add(tierCounts.get(1));
-            plotData.put("Tier-1", tier1);
-            /*******************TIER-2*****************/
-            if(plotData.get("Tier-2")!=null){
-                tier2.addAll(plotData.get("Tier-2"));
-            }
-            tier2.add(tierCounts.get(2));
-            plotData.put("Tier-2", tier2);
-            /*****************************TIER-3*************/
-            if(plotData.get("Tier-3")!=null){
-                tier3.addAll(plotData.get("Tier-3"));
-            }
-            tier3.add(tierCounts.get(3));
-            plotData.put("Tier-3", tier3);
-            /*********************TIER-4********************/
-            if(plotData.get("Tier-4")!=null){
-                tier4.addAll(plotData.get("Tier-4"));
-            }
-            tier4.add(tierCounts.get(4));
-            plotData.put("Tier-4", tier4);
-
         }
 
       /*  System.out.println(labels.toString());

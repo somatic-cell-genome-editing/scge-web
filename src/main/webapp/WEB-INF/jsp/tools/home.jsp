@@ -241,8 +241,8 @@
                 {
                     label: '# ${p.key}',
                     data: ${p.value},
-                    backgroundColor:   'rgba(153, 102, 255, 0.2)',
-                    borderColor:    'rgba(153, 102, 255, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
                     borderWidth: 1
                 }
                 <c:set var="first" value="false"/>
@@ -252,9 +252,9 @@
                 ,{
                     label: '${p.key}',
                     data: ${p.value},
-                    <c:if test="${p.key=='Submissions'}" >
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
+                    <c:if test="${p.key=='Tier-3'}" >
+                    backgroundColor:   'rgba(153, 102, 255, 0.2)',
+                    borderColor:    'rgba(153, 102, 255, 1)',
                     </c:if>
                     <c:if test="${p.key=='Tier-1'}" >
                     backgroundColor:  'rgba(54, 162, 235, 0.2)',
