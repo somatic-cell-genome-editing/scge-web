@@ -20,7 +20,7 @@ public class IndexServices {
     public SearchResponse getSearchResults(String category, String searchTerm, String type, String subType, boolean DCCNIHMember) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
-        System.out.println(searchTerm);
+      //  System.out.println(searchTerm);
         srb.query(this.buildBoolQuery(category, searchTerm, type, subType, DCCNIHMember));
         srb.aggregation(this.buildSearchAggregations("category"));
         srb.highlighter(this.buildHighlights());
@@ -112,12 +112,12 @@ public class IndexServices {
         aggregations.put("categoryAggs", (List<Terms.Bucket>) categoryAggs.getBuckets());
         for(Terms.Bucket b:categoryAggs.getBuckets()){
            Terms typeAggs= b.getAggregations().get("type");
-          System.out.println(b.getKey() + "\t"+ b.getDocCount());
+        //  System.out.println(b.getKey() + "\t"+ b.getDocCount());
            aggregations.put(b.getKey()+"TypeAggs", (List<Terms.Bucket>) typeAggs.getBuckets());
            for(Terms.Bucket bkt: typeAggs.getBuckets()) {
                Terms subtypeAggs = bkt.getAggregations().get("subtype");
                aggregations.put(bkt.getKey() + "SubtypeAggs", (List<Terms.Bucket>) subtypeAggs.getBuckets());
-               System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() +"\tsubtypeAggsSize: "+subtypeAggs.getBuckets().size());
+          //     System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() +"\tsubtypeAggsSize: "+subtypeAggs.getBuckets().size());
 
            }
         }
@@ -157,7 +157,7 @@ public class IndexServices {
             q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
                     should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
         }
-        System.out.println(q);
+     //   System.out.println(q);
         return q;
     }
     public QueryBuilder buildQuery(String searchTerm){
