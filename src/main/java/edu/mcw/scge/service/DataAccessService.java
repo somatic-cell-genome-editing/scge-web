@@ -180,7 +180,7 @@ public class DataAccessService extends AbstractDAO {
       return   pdao.getAllUnauthorizedUsers();
      }
     public List<Person> getAllMembers() throws Exception {
-        return   pdao.getAllMembers();
+        return   pdao.getAllActiveMembers();
     }
     public List<Person> getPersonById(String scgeMemberId) throws Exception {
         return   pdao.getPersonById(Integer.parseInt(scgeMemberId));

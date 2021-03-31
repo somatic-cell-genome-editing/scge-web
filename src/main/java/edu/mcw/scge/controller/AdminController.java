@@ -34,7 +34,7 @@ public class AdminController extends LoginController{
         }
 
             PersonDao personDao = new PersonDao();
-            req.setAttribute("people", personDao.getAllMembers());
+            req.setAttribute("people", personDao.getAllActiveMembers());
             req.setAttribute("person",userService.getCurrentUser(req.getSession()));
             req.setAttribute("action", "Administration");
             req.setAttribute("page", "/WEB-INF/jsp/admin/admin");
@@ -64,7 +64,7 @@ public class AdminController extends LoginController{
 
         sess.setAttribute("userAttributes",attributes);
 
-        req.setAttribute("people", pdao.getAllMembers());
+        req.setAttribute("people", pdao.getAllActiveMembers());
         req.setAttribute("person",p);
         req.setAttribute("action", "Administration");
         req.setAttribute("page", "/WEB-INF/jsp/admin/admin");
@@ -147,7 +147,7 @@ public class AdminController extends LoginController{
             pdao.insert(p);
         }
 
-        req.setAttribute("people", pdao.getAllMembers());
+        req.setAttribute("people", pdao.getAllActiveMembers());
         req.setAttribute("person",userService.getCurrentUser(req.getSession()));
         req.setAttribute("action", "Manage Users");
         req.setAttribute("page", "/WEB-INF/jsp/admin/users");
@@ -188,7 +188,7 @@ public class AdminController extends LoginController{
             pdao.update(p);
 
 
-        req.setAttribute("people", pdao.getAllMembers());
+        req.setAttribute("people", pdao.getAllActiveMembers());
         req.setAttribute("person",userService.getCurrentUser(req.getSession()));
         req.setAttribute("action", "Manage Users");
         req.setAttribute("page", "/WEB-INF/jsp/admin/users");
@@ -212,7 +212,7 @@ public class AdminController extends LoginController{
         System.out.println("deleting " + p.getId());
         pdao.delete(p);
 
-        req.setAttribute("people", pdao.getAllMembers());
+        req.setAttribute("people", pdao.getAllActiveMembers());
         req.setAttribute("person",userService.getCurrentUser(req.getSession()));
         req.setAttribute("action", "Manage Users");
         req.setAttribute("page", "/WEB-INF/jsp/admin/users");
@@ -247,7 +247,6 @@ public class AdminController extends LoginController{
         if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
             req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
         }
-
 
         System.out.println("removing group");
 
