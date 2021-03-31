@@ -142,12 +142,12 @@
                 <% if (p.getStatus().equals("ACTIVE")) { %>
                 <option value="ACTIVE" checked>ACTIVE</option>
                 <% } else { %>
-                <option value="ACTIVE">ACTIVE</option>
+                <option value="INACTIVE">INACTIVE</option>
                 <% } %>
                 <% if (p.getStatus().equals("INACTIVE")) { %>
                 <option value="INACTIVE" checked>INACTIVE</option>
                 <% } else { %>
-                <option value="INACTIVE">INACTIVE</option>
+                <option value="ACTIVE">ACTIVE</option>
                 <% } %>
 
             </select>

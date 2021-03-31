@@ -50,7 +50,7 @@
 <h2>Current Group Association</h2>
 <table border="" cellspacing="0">
     <% for (PersonInfo pi: piList) { %>
-        <tr><td><input type="button" value="Remove" onclick="location.href='/toolkit/admin/removeGroup?id=<%=p.getId()%>&gid=<%=group.getGroupId()%>'"/></td><td>&nbsp;&nbsp;&nbsp;</td><td><span style="padding: 0;font-size:14px" class="text-muted"><%=pi.getSubGroupName()%></span></td></tr>
+        <tr><td><input type="button" value="Remove" onclick="location.href='/toolkit/admin/removeGroup?id=<%=p.getId()%>&gid=<%=pi.getGrantId()%>'"/></td><td>&nbsp;&nbsp;&nbsp;</td><td><span style="padding: 0;font-size:14px" class="text-muted"><%=pi.getSubGroupName()%></span></td></tr>
     <% } %>
 </table>
 <% } %>

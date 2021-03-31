@@ -5,6 +5,7 @@ import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.GroupDAO;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.datamodel.Person;
+import edu.mcw.scge.datamodel.PersonInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -229,6 +230,16 @@ public class AdminController extends LoginController{
         if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
             req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
         }
+
+        int groupId=Integer.parseInt(req.getParameter("gid"));
+
+
+        PersonDao pdao = new PersonDao();
+        Person p = pdao.getPersonById(Integer.parseInt(req.getParameter("id"))).get(0);
+
+        pdao.insertPersonInfo(p.getId(),1,groupId,-1);
+
+
 
 
         System.out.println("adding Group");
