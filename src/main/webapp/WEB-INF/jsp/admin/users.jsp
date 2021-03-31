@@ -131,10 +131,11 @@
     <% for (Person p: people) { %>
         <tr>
             <form action="#">
-            <input type="hidden" value="<%=p.getId()%>" name="id"/>
+            <input type="hidden" value="<%=p.getId()%>" name="id" />
+            <input type="hidden" name="institution" value="<%=p.getInstitution()%>" />
             <td><%=p.getId()%></td>
             <td><input name="name" type="text" value="<%=p.getName()%>" width="150" class="adminInput" /></td>
-            <td><input name="institution" type="text" value="<%=p.getInstitution()%>"  width="150" class="adminInput"/></td>
+            <td><input name="institutionName" type="text" value="<%=p.getInstitution()%>"  width="150" class="adminInput"/></td>
             <td><input name="gEmail" type="text" value="<%=p.getEmail()%>" width="150" class="adminInput"/></td>
             <td><input name="oEmail" type="text" value="<%=SFN.parse(p.getOtherId())%>" width="150" class="adminInput"/></td>
             <td><select name="status">
