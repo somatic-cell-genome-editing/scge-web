@@ -128,7 +128,9 @@
 
 
     </tr>
-    <% for (Person p: people) { %>
+    <% for (Person p: people) {
+        System.out.println("here now");
+    %>
         <tr>
             <form action="#">
             <input type="hidden" value="<%=p.getId()%>" name="id" />
