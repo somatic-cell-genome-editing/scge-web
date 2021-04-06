@@ -164,6 +164,11 @@
                 Vector v = new Vector();
                 if(vectorList !=null && vectorList.size() > 0)
                     v = vectorList.get(0);
+
+                List<ApplicationMethod> methods = (List<ApplicationMethod>)request.getAttribute("applicationMethod");
+                ApplicationMethod a = new ApplicationMethod();
+                if(methods !=null && methods.size() > 0)
+                    a = methods.get(0);
             %>
                 <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=<%=e.getId()%>"><%=e.getSymbol()%></a></td></tr>
                 <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=d.getType()%></a></td></tr>
@@ -191,23 +196,27 @@
 
     </div>
     <hr>
-    <!--div>
+    <div>
         <table style="width:80%">
 
             <tbody>
-            <!--c:if test="$-{applicationMethod!=null && fn:length(applicationMethod)>0}">
-            <!--c:forEach items="$-{applicationMethod}" var="a">
-                <tr><td class="header"><strong>Application Method</strong></td><td>$-{a.applicationType}</td></tr>
-                <tr><td class="header"><strong>Application Site</strong></td><td>$-{a.siteOfApplication}</td></tr>
-                <tr><td class="header"><strong>Dosage</strong></td><td>$-{a.dosage}</td></tr>
-                <tr><td class="header"><strong>Time Course</strong></td><td>$-{a.timeCourse}</td></tr>
-                <tr><td class="header"><strong>Days post injection</strong></td><td>$-{a.daysPostInjection}</td></tr>
 
-            <!--/c:forEach>
-            <!--/c:if>
+                <tr><td class="header"><strong>Application Method</strong></td><td><%=a.getApplicationType()%></td></tr>
+                <tr><td class="header"><strong>Application Site</strong></td><td><%=a.getSiteOfApplication()%></td></tr>
+                <tr><td class="header"><strong>Dosage</strong></td><td><%=a.getDosage()%></td></tr>
+                <tr><td class="header"><strong>Injection Frequency</strong></td><td><%=a.getInjectionFrequency()%></td></tr>
+                <tr><td class="header"><strong>Injection Rate</strong></td><td><%=a.getInjectionRate()%></td></tr>
+                <tr><td class="header"><strong>Injection Volume</strong></td><td><%=a.getInjectionVolume()%></td></tr>
+                <tr><td class="header"><strong>Days post injection</strong></td><td><%=a.getDaysPostInjection()%></td></tr>
+                <tr><td class="header"><strong>Editor Format</strong></td><td><%=a.getEditorFormat()%></td></tr>
+                <tr><td class="header"><strong>Antidote Id</strong></td><td><%=a.getAntidoteId()%></td></tr>
+                <tr><td class="header"><strong>Antidote Description</strong></td><td><%=a.getAntidoteDescription()%></td></tr>
+
+
+
             </tbody>
         </table>
-    </div -->
+    </div>
     <hr>
     <!--div>
         <table style="width:50%">
