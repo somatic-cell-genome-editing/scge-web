@@ -1,9 +1,6 @@
 <%@ page import="edu.mcw.scge.web.UI" %>
-<%@ page import="edu.mcw.scge.datamodel.AnimalTestingResultsSummary" %>
 <%@ page import="java.util.List" %>
-<%@ page import="edu.mcw.scge.datamodel.Delivery" %>
-<%@ page import="edu.mcw.scge.datamodel.Editor" %>
-<%@ page import="edu.mcw.scge.datamodel.Guide" %>
+<%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -162,11 +159,17 @@
                 Guide g = new Guide();
                 if(guideList != null && guideList.size() > 0)
                     g=guideList.get(0);
+
+                List<Vector> vectorList = (List<Vector>)request.getAttribute("vectorList");
+                Vector v = new Vector();
+                if(vectorList !=null && vectorList.size() > 0)
+                    v = vectorList.get(0);
             %>
-                <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=3"><%=e.getSymbol()%></a></td></tr>
-                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=1"><%=d.getType()%></a></td></tr>
+                <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=<%=e.getId()%>"><%=e.getSymbol()%></a></td></tr>
+                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=d.getType()%></a></td></tr>
                 <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td><%=g.getGuide()%></td></tr>
+            <tr><td class="header"><strong>Vector</strong></td><td><a href="/toolkit/data/vector/format?id=<%=v.getVectorId()%>"><%=v.getName()%></a></td></tr>
             </tbody>
         </table>
     </div>
