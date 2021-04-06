@@ -244,8 +244,11 @@ public class ExperimentController extends UserController {
         }
 
         req.setAttribute("experimentRecords", records);
+        ExperimentRecord r = new ExperimentRecord();
         if (records.size() > 0) {
-            ExperimentRecord r = records.get(0);
+            for(ExperimentRecord record: records)
+                if(record.getExperimentRecordId() == expRecordId)
+                    r = record;
             edu.mcw.scge.datamodel.Model m = dbService.getModelById(r.getModelId());
             List<ReporterElement> reporterElements = dbService.getReporterElementsByExpRecId(r.getExperimentRecordId());
             List<AnimalTestingResultsSummary> results = dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecordId());
@@ -269,7 +272,6 @@ public class ExperimentController extends UserController {
             req.setAttribute("experiment", r);
             req.setAttribute("model", m);
             req.setAttribute("reporterElements", reporterElements);
-            req.setAttribute("experimentResults",experimentResults);
             req.setAttribute("experimentResults",experimentResults);
             req.setAttribute("results", results);
             System.out.println("Applications: "+ applicationMethod.size()+
