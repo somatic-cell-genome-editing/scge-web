@@ -1,10 +1,6 @@
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.text.DateFormat" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="edu.mcw.scge.datamodel.PersonInfo" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
@@ -96,119 +92,24 @@
                 <% if (access.canUpdateTier(person,s)){%>
                     <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="edit/access">
                         <div class="col  tiers">
-                            <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=s.getTier()%>"/>
+                            <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=tierUpdateMap.get(s.getStudyId())%>"/>
                             <input type="hidden" name="studyId" id="study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>
                             <input type="hidden" name="groupMembersjson" id="study-<%=s.getStudyId()%>-json"/>
                             <input type="hidden" name="groupIdsJson" id="study-<%=s.getStudyId()%>-groupIdsJson"/>
                             <input type="button" id="updateTier-study<%=s.getStudyId()%>" class="form-control" onclick="changeAccess($(this),<%=s.getStudyId()%> , <%=tierUpdateMap.get(s.getStudyId())%>)" value="Update Tier">
                         </div>
                     </form>
-                    <div>
+                <div>
+                    <div class="modal" id="tier2Modal<%=s.getStudyId()%>">
                         <%@include file="../dashboardElements/tier2Modal.jsp"%>
-                        <script>
-                            $(document).ready(function () {
-                                $("#groupSelect-study<%=s.getStudyId()%>").multiselect({
-                                    buttonWidth: '100%',
-                                    onChange: function(option, checked, select) {
-                                        $('#SaveChangesTier2-study<%=s.getStudyId()%>').prop('disabled', false)
-                                        var value= ($(option).val());
-                                        var $div="#group"+value+"-study<%=s.getStudyId()%>";
-                                        //  $($div).show(2000);
-                                        $($div).toggle()
-                                    },
-                                    enableCollapsibleOptGroups: true,
-                                    buttonContainer: '<div id="groupSelect-study<%=s.getStudyId()%>-container" class="btn-group" />'
-                                });
-                                $('#groupSelect-study<%=s.getStudyId()%>-container .caret-container').click();
-                                var valArr = <%=s.getAssociatedGroups()%>;
-                                var i = 0, size = valArr.length;
-                                for (i; i < size; i++) {
-                                    $("#groupSelect-study<%=s.getStudyId()%>").multiselect('select', valArr[i]);
-                                    var $div="#group"+valArr[i]+"-study<%=s.getStudyId()%>";
-                                    $($div).show()
-                                }
-                                $('input:radio[name="tier<%=s.getStudyId()%>"]').filter('[value=<%=s.getTier()%>]').attr('checked', true)
-
-                                $('input[name=tier<%=s.getStudyId()%>]').on('change', function () {
-                                    var tier=$(this).val();
-                                    setParameters(studyId, tier)
-                                    enableSaveChanges(studyId, tier.trim());
-
-                                })
-                            })
-                            function enableGroupSelect(studyId, tier){
-                                var selectBtn='#groupSelect-study'+studyId
-                                if(tier===2) {
-                                    $(selectBtn).multiselect('enable')
-                                }
-                            }
-                            function enableSaveChanges(studyId, tier){
-                                $('#SaveChangesTier2-study'+studyId).prop('disabled', false)
-                                if(tier==='2')
-                                    $('#groupSelect-study'+studyId).multiselect('enable')
-                                else{
-                                    $('#groupSelect-study'+studyId).multiselect('disable')
-
-                                }
-                            }
-                            function setParameters(studyId,tier){
-                                $('#tier-study-'+studyId).val(tier);
-                            }
-                            function appendGroups(studyId){
-                                var values=$('#groupSelect-study'+studyId).val() || [];
-                                // alert(values.join(","))
-                                var json="{\"selected\":[";
-                                var flag=true;
-                                $.each(values, function( index, value ) {
-                                    //  alert( index + ": " + value );
-                                    if(flag){
-                                        flag=false;
-                                        json=json+"{\"groupId\":\""+value+"\", \"members\":["
-                                    }else{
-                                        json=json+",{\"groupId\":\""+value+"\", \"members\":["
-                                    }
-                                    var first=true;
-                                    var _name='member-group'+value+'-study'+studyId;
-                                    $.each($('input[name='+_name+']:checked'), function() {
-                                        //   console.log("GROUP-"+ value+":\t"+$(this).val());
-                                        if(first) {
-                                            json = json + $(this).val() ;
-                                            first=false;
-                                        }
-                                        else
-                                            json=json+","+$(this).val();
-
-                                    });
-
-                                    json=json+"]}"
-                                });
-                                json=json+"]}"
-                                $('#study-'+studyId+'-memberJson').val(json);
-                                console.log(json);
-                            }
-                            function appendGroupIds(studyId){
-                                var values=$('#groupSelect-study'+studyId).val() || [];
-                                // alert(values.join(","))
-                                var json="{\"selected\":[";
-                                var flag=true;
-                                $.each(values, function( index, value ) {
-                                    //  alert( index + ": " + value );
-                                    if(flag){
-                                        flag=false;
-                                        json=json+value
-                                    }else{
-                                        json=json+","+value
-                                    }
-
-                                });
-                                json=json+"]}"
-                                $('#study-'+studyId+'-groupIdsJson').val(json);
-                                console.log(json);
-                            }
-                        </script>
-
-
                     </div>
+                    <script>
+                        $(document).ready(function () {
+                            buildModel(<%=s.getStudyId()%>, <%=s.getAssociatedGroups()%>, <%=tierUpdateMap.get(s.getStudyId())%>)
+
+                        })
+                    </script>
+                </div>
                         <%}%>
 
                 </td>

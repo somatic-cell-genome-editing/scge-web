@@ -463,6 +463,7 @@ public class DataAccessService extends AbstractDAO {
     public Map<Integer, Integer> getTierUpdate(List<Study> studies) throws Exception {
         Map<Integer, Integer> tierUpdatesMap=new HashMap<>();
         for(Study s:studies) {
+
             int studyId=s.getStudyId();
             List<StudyTierUpdate> updates = tierUpdateDao.getStudyTierUpdatesByStudyId(studyId);
             if (updates != null && updates.size() > 0) {
@@ -505,8 +506,6 @@ public class DataAccessService extends AbstractDAO {
             JSONArray selectedArray= jsonObject.getJSONArray("selected");
                 for(int j=0; j<selectedArray.length();j++){
                     int sequenceKey=getNextKey("study_tier_updates_seq");
-
-                    System.out.println("Group ID: "+ selectedArray.get(j) +"\tSequenceKey:"+ sequenceKey);
                     StudyTierUpdate rec= new StudyTierUpdate();
                     rec.setStudyTierUpdateId(sequenceKey);
                     rec.setStudyId(studyId);
@@ -520,7 +519,6 @@ public class DataAccessService extends AbstractDAO {
                     rec.setModifiedDate(sqlDate);
                     updates.add(rec);
                 }
-
 
         }else{
             int sequenceKey=getNextKey("study_tier_updates_seq");

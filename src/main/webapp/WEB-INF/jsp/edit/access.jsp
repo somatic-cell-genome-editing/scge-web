@@ -6,18 +6,7 @@
   Time: 8:03 AM
   To change this template use File | Settings | File Templates.
 --%>
-<style>
-   /* ul li:before {
 
-        font-family: 'FontAwesome';
-        content: '\f067';
-        margin:0 5px 0 -15px;
-        color: #ff8000;
-    }
-    ul li{
-       padding-right: 10px;
-    }*/
-</style>
 <div class="wrapper card" >
     <div class="card-header" style="background-color: #00AA9E;text-align: center" >
         <h4 class="text-white">Change Access Tier</h4>
