@@ -51,7 +51,7 @@
 <div style="border:1px solid black; padding:5px;">
 <table border="0" cellspacing="0">
     <% for (PersonInfo pi: piList) { %>
-        <tr><td><input type="button" value="Remove" onclick="location.href='/toolkit/admin/removeGroup?id=<%=p.getId()%>&gid=<%=pi.getGrantId()%>'"/></td><td>&nbsp;&nbsp;&nbsp;</td><td><span style="padding: 0;font-size:14px" class="text-muted"><%=pi.getSubGroupName()%></span></td></tr>
+        <tr><td><input type="button" value="Remove" onclick="location.href='/toolkit/admin/removeGroup?id=<%=p.getId()%>&gid=<%=pi.getGroupId()%>'"/></td><td>&nbsp;&nbsp;&nbsp;</td><td><span style="padding: 0;font-size:14px" class="text-muted"><%=pi.getGroupName()%></span></td></tr>
     <% } %>
 </table>
 </div>

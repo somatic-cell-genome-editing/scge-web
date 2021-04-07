@@ -83,11 +83,8 @@ public class AdminController extends LoginController{
         }
 
         PersonDao personDao = new PersonDao();
-        System.out.println("here1");
         req.setAttribute("people", personDao.getAllMembers());
-        System.out.println("here2");
         req.setAttribute("person",userService.getCurrentUser(req.getSession()));
-        System.out.println("here3");
         req.setAttribute("action", "Manage Users");
         req.setAttribute("page", "/WEB-INF/jsp/admin/users");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -188,9 +185,7 @@ public class AdminController extends LoginController{
             p.setOtherId(oEmail);
         }
 
-
-            pdao.update(p);
-
+        pdao.update(p);
 
         req.setAttribute("people", pdao.getAllActiveMembers());
         req.setAttribute("person",userService.getCurrentUser(req.getSession()));
@@ -213,7 +208,6 @@ public class AdminController extends LoginController{
         PersonDao pdao = new PersonDao();
         Person p = pdao.getPersonById(Integer.parseInt(req.getParameter("id"))).get(0);
 
-        System.out.println("deleting " + p.getId());
         pdao.delete(p);
 
         req.setAttribute("people", pdao.getAllActiveMembers());
@@ -236,20 +230,14 @@ public class AdminController extends LoginController{
 
         int groupId=Integer.parseInt(req.getParameter("gid"));
 
-
         PersonDao pdao = new PersonDao();
         Person p = pdao.getPersonById(Integer.parseInt(req.getParameter("id"))).get(0);
 
         pdao.insertPersonInfo(p.getId(),1,groupId);
 
-
-
-
-        System.out.println("adding Group");
         req.setAttribute("action", "Manage Groups");
         req.setAttribute("page", "/WEB-INF/jsp/admin/groups");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-        System.out.println("here5");
 
 
     }
@@ -262,16 +250,19 @@ public class AdminController extends LoginController{
             req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
         }
 
-        System.out.println("removing group");
+        int groupId=Integer.parseInt(req.getParameter("gid"));
+
+        PersonDao pdao = new PersonDao();
+        Person p = pdao.getPersonById(Integer.parseInt(req.getParameter("id"))).get(0);
+        System.out.println("in remove");
+
+        pdao.deletePersonInfo(p.getId(),groupId);
 
         req.setAttribute("action", "Manage Groups");
         req.setAttribute("page", "/WEB-INF/jsp/admin/groups");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-        System.out.println("here5");
-
 
     }
-
 
 }
 

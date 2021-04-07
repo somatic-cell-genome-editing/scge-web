@@ -38,6 +38,9 @@
     PersonDao pdao = new PersonDao();
     List<Person> people = (List<Person>)request.getAttribute("people");
     Person person = (Person) request.getAttribute("person");
+    InstitutionDAO idao = new InstitutionDAO();
+    List<Institution> iList = idao.getAll();
+
 %>
 
 
@@ -55,9 +58,6 @@
 
         <%
         try {
-            InstitutionDAO idao = new InstitutionDAO();
-            List<Institution> iList = idao.getAll();
-            System.out.println("ilist = " + iList);
         %>
                         <tr>
             <td>Add User:&nbsp;</td>
@@ -129,7 +129,6 @@
 
     </tr>
     <% for (Person p: people) {
-        System.out.println("here now");
     %>
         <tr>
             <form action="#">
@@ -137,7 +136,16 @@
             <input type="hidden" name="institution" value="<%=p.getInstitution()%>" />
             <td><%=p.getId()%></td>
             <td><input name="name" type="text" value="<%=p.getName()%>" width="150" class="adminInput" /></td>
-            <td><input name="institutionName" type="text" value="<%=p.getInstitution()%>"  width="150" class="adminInput"/></td>
+
+                <td>
+                    <select name="institution">
+                        <% for (Institution i:iList) { %>
+                        <option value="<%=i.getId()%>" <% if (i.getId() == p.getInstitution()) out.print("selected");%>><%=i.getName()%></option>
+                        <% } %>
+                    </select>
+                </td>
+
+            <!--<td><input name="institutionName" type="text" value="<%=p.getInstitution()%>"  width="150" class="adminInput"/></td>-->
             <td><input name="gEmail" type="text" value="<%=p.getEmail()%>" width="150" class="adminInput"/></td>
             <td><input name="oEmail" type="text" value="<%=SFN.parse(p.getOtherId())%>" width="150" class="adminInput"/></td>
             <td><select name="status">
@@ -168,7 +176,7 @@
                 <% if (piList != null) { %>
                     <table border="1" cellspacing="0">
                     <% for (PersonInfo pi: piList) { %>
-                        <tr><td><span style="padding: 0;font-size:14px" class="text-muted"><%=pi.getSubGroupName()%></span></td></tr>
+                        <tr><td><span style="padding: 0;font-size:14px" class="text-muted"><%=pi.getGroupName()%></span></td></tr>
 
                     <% } %>
                     </table>
