@@ -14,10 +14,9 @@ public class Data {
     private  Map<SCGEGroup, List<Person>> DCCNIHMembersMap;
     private  List<Integer> DCCNIHGroupsIds;
     private List<Integer> DCCNIHAncestorGroupIds;
-    GroupDAO gdao=new GroupDAO();
     private Data() throws Exception {
         DataAccessService service=new DataAccessService();
-       // consortiumGroups=service.getGroupsMapByGroupName("consortium");
+        consortiumGroups=service.getGroupsMapByGroupName("consortium");
         groupMembersMap= service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
         DCCNIHMembersMap= service.getDCCNIHMembersMap(consortiumGroups);
         DCCNIHGroupsIds=service.getDCCNIHGroupsIds();
