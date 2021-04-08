@@ -43,7 +43,12 @@
 
 %>
 
-
+<%
+    String msg = (String) request.getAttribute("msg");
+    if (msg !=null) {
+%>
+        <div style="font-size:20px;color:blue;"><%=msg%></div>
+<% } %>
 
 <br>
 <form action="/toolkit/admin/addUser">
@@ -116,15 +121,11 @@
 <table id="users" border="1" cellpadding="4" cellspacing="4" class="table tablesorter table-striped">
     <tr>
         <td>ID</td>
-        <td>Name</td>
-        <td>Institution</td>
-        <td>Google Account Email</td>
-        <td>Other Email</td>
+        <td>Name/Institution</td>
+        <td>Email Accounts</td>
         <td>Account Status</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>Action</td>
+        <td style="font-size:8px;"></td>
 
 
     </tr>
@@ -133,43 +134,45 @@
         <tr>
             <form action="#">
             <input type="hidden" value="<%=p.getId()%>" name="id" />
-            <input type="hidden" name="institution" value="<%=p.getInstitution()%>" />
+            <input type="hidden" size="40" name="institution" value="<%=p.getInstitution()%>" />
             <td><%=p.getId()%></td>
-            <td><input name="name" type="text" value="<%=p.getName()%>" width="150" class="adminInput" /></td>
+            <td align="left"><input name="name" type="text" value="<%=p.getName()%>" width="150" class="adminInput" style="margin-bottom:10px;"/>
 
-                <td>
+
                     <select name="institution">
                         <% for (Institution i:iList) { %>
                         <option value="<%=i.getId()%>" <% if (i.getId() == p.getInstitution()) out.print("selected");%>><%=i.getName()%></option>
                         <% } %>
                     </select>
-                </td>
+            </td>
 
             <!--<td><input name="institutionName" type="text" value="<%=p.getInstitution()%>"  width="150" class="adminInput"/></td>-->
-            <td><input name="gEmail" type="text" value="<%=p.getEmail()%>" width="150" class="adminInput"/></td>
-            <td><input name="oEmail" type="text" value="<%=SFN.parse(p.getOtherId())%>" width="150" class="adminInput"/></td>
+            <td>
+                <input name="gEmail" type="text" value="<%=p.getEmail()%>" width="150" class="adminInput"/>
+                <input name="oEmail" type="text" value="<%=SFN.parse(p.getOtherId())%>" width="150" class="adminInput" style="margin-top:10px;"/>
+            </td>
             <td><select name="status">
 
                 <% if (p.getStatus().equals("ACTIVE")) { %>
                 <option value="ACTIVE" checked>ACTIVE</option>
                 <% } else { %>
-                <option value="INACTIVE">INACTIVE</option>
+                <option value="ACTIVE">ACTIVE</option>
                 <% } %>
                 <% if (p.getStatus().equals("INACTIVE")) { %>
                 <option value="INACTIVE" checked>INACTIVE</option>
                 <% } else { %>
-                <option value="ACTIVE">ACTIVE</option>
+                <option value="INACTIVE">INACTIVE</option>
                 <% } %>
 
             </select>
             </td>
-            <td><input type="button" value="U" onclick="this.form.action='/toolkit/admin/updateUser'; this.form.submit();"/></td>
-            <td><input type="button" value="D" onclick="this.form.action='/toolkit/admin/removeUser'; this.form.submit();"/></td>
-            <td><input type="button" value="G" onclick="this.form.action='/toolkit/admin/groups'; this.form.submit();"/></td>
+            <td align="left">
+                <input style="width:100px;" type="button" value="Update User" onclick="this.form.action='/toolkit/admin/updateUser'; this.form.submit();" /><br>
+                <input type="button" value="Delete User" onclick="if (confirm('Permanently Delete User?')) {this.form.action='/toolkit/admin/removeUser'; this.form.submit();}" style="margin-top:10px;"/><br>
+                <input type="button" value="Manage Groups" onclick="this.form.action='/toolkit/admin/groups'; this.form.submit();" style="margin-top:10px;"/>
+            </td>
             </form>
             <td width="300">
-
-
 
                 <% List<PersonInfo> piList = gdao.getGroupsNRolesByPersonId(p.getId()); %>
 

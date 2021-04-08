@@ -152,6 +152,7 @@ public class AdminController extends LoginController{
         req.setAttribute("person",userService.getCurrentUser(req.getSession()));
         req.setAttribute("action", "Manage Users");
         req.setAttribute("page", "/WEB-INF/jsp/admin/users");
+        req.setAttribute("msg","User " + p.getName() + " Added");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
 
@@ -171,7 +172,7 @@ public class AdminController extends LoginController{
         int institution = Integer.parseInt(req.getParameter("institution"));
         String gEmail = req.getParameter("gEmail");
         String oEmail = req.getParameter("oEmail");
-
+        String status = req.getParameter("status");
         PersonDao pdao = new PersonDao();
 
         Person p = pdao.getPersonById(Integer.parseInt(req.getParameter("id"))).get(0);
@@ -180,7 +181,7 @@ public class AdminController extends LoginController{
         p.setName(name);
         p.setInstitution(institution);
         p.setEmail(gEmail);
-        p.setStatus("ACTIVE");
+        p.setStatus(status);
         if (oEmail != null && !oEmail.equals("")) {
             p.setOtherId(oEmail);
         }
@@ -191,6 +192,7 @@ public class AdminController extends LoginController{
         req.setAttribute("person",userService.getCurrentUser(req.getSession()));
         req.setAttribute("action", "Manage Users");
         req.setAttribute("page", "/WEB-INF/jsp/admin/users");
+        req.setAttribute("msg","User " + p.getName() + " Updated");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
 
@@ -213,6 +215,7 @@ public class AdminController extends LoginController{
         req.setAttribute("people", pdao.getAllActiveMembers());
         req.setAttribute("person",userService.getCurrentUser(req.getSession()));
         req.setAttribute("action", "Manage Users");
+        req.setAttribute("msg","User " + p.getName() + " Deleted");
         req.setAttribute("page", "/WEB-INF/jsp/admin/users");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 

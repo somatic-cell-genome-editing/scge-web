@@ -32,6 +32,15 @@
 </head>
 
 <body>
+
+<%
+    String msg = (String) request.getAttribute("msg");
+    if (msg !=null) {
+%>
+<div style="font-size:20px;color:blue;"><%=msg%></div>
+<% } %>
+
+
 <% try { %>
 
 
@@ -88,7 +97,9 @@
     <% for (SCGEGroup group: groups) { %>
         <tr>
             <td><input type="button" value="Add" onclick="location.href='/toolkit/admin/addGroup?id=<%=p.getId()%>&gid=<%=group.getGroupId()%>'"/></td>
+            <td>&nbsp;&nbsp;</td>
             <td><%=group.getGroupName()%></td>
+            <td>&nbsp;&nbsp;</td>
             <td><%=grantDao.getGrantByGroupId(group.getGroupId()).getGrantInitiative()%></td>
         </tr>
     <% } %>
