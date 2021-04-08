@@ -136,7 +136,6 @@
         <tr>
             <form action="#">
             <input type="hidden" value="<%=p.getId()%>" name="id" />
-            <input type="hidden" size="40" name="institution" value="<%=p.getInstitution()%>" />
             <td><%=p.getId()%></td>
             <td align="left"><input name="name" type="text" value="<%=p.getName()%>" width="150" class="adminInput" style="margin-bottom:10px;"/>
 

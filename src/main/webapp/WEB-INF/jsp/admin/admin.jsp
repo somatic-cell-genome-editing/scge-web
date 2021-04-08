@@ -61,7 +61,8 @@ You are logged in as <b><%=person.getName()%></b>
 
 <br>
 
-<a href="/toolkit/admin/users" />Manage Users</a>
+<a href="/toolkit/admin/users" style="font-size:20px;"/>Manage Users</a><br><br>
+<a href="/toolkit/admin/groupOverview"  style="font-size:20px;" />Group Overview</a>
 
 
 

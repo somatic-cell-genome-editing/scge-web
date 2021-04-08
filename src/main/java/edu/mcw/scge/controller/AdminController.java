@@ -2,10 +2,13 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
+import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.GroupDAO;
 import edu.mcw.scge.dao.implementation.PersonDao;
+import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.PersonInfo;
+import edu.mcw.scge.datamodel.Study;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(value="/admin")
 public class AdminController extends LoginController{
+
 
     @RequestMapping(value = "")
     public void getAdmin(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
@@ -104,8 +108,21 @@ public class AdminController extends LoginController{
         req.setAttribute("action", "Manage Groups");
         req.setAttribute("page", "/WEB-INF/jsp/admin/groups");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-        System.out.println("here5");
 
+    }
+
+    @RequestMapping(value = "/groupOverview")
+    public void getGroupOverview(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+
+        req.setAttribute("action", "Groups Overview");
+        req.setAttribute("page", "/WEB-INF/jsp/admin/groupOverview");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
     }
 
@@ -179,7 +196,9 @@ public class AdminController extends LoginController{
 
         p.setId(id);
         p.setName(name);
+        System.out.println("setting to " + institution);
         p.setInstitution(institution);
+        System.out.println("get = " + p.getInstitution());
         p.setEmail(gEmail);
         p.setStatus(status);
         if (oEmail != null && !oEmail.equals("")) {
