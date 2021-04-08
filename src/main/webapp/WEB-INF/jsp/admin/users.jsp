@@ -201,8 +201,7 @@
 
 
 <% } catch (Exception e) {
-    out.print(e.getMessage().toString());
-    out.print(e.getStackTrace().toString());
+    System.out.println(e.getStackTrace());
 }
 %>
 
