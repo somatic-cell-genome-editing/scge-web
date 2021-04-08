@@ -34,6 +34,8 @@
 
 <body>
 
+<% try { %>
+
 <% GroupDAO gdao = new GroupDAO();
     PersonDao pdao = new PersonDao();
     List<Person> people = (List<Person>)request.getAttribute("people");
@@ -198,7 +200,11 @@
 </table>
 
 
-
+<% } catch (Exception e) {
+    out.print(e.getMessage().toString());
+    out.print(e.getStackTrace().toString());
+}
+%>
 
 
 
