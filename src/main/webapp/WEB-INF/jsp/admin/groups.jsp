@@ -62,7 +62,7 @@
 </table>
 
 <%
-  List<PersonInfo> piList = gdao.getGroupsNRolesByPersonId(p.getId());
+  List<PersonInfo> piList = pdao.getPersonInfo(p.getId());
 %>
 
 <% if (piList != null) { %>
