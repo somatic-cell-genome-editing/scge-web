@@ -325,7 +325,7 @@ public class DataAccessService extends AbstractDAO {
         Map<String, Map<Integer, Integer>> statsMap=new HashMap<>();
 
         for(String i: grantDao.getAllDistinctInitiatives()) {
-            if (!i.equalsIgnoreCase("DCC") && !i.equalsIgnoreCase("NIH")) {
+            if (i!=null && !i.equalsIgnoreCase("DCC") && !i.equalsIgnoreCase("NIH")) {
                 List<Grant> grants = grantDao.getGrantsByInitiative(i);
                 Map<Integer, Integer> tierStats = new HashMap<>();
                 int totalStudies = 0;
