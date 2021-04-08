@@ -176,7 +176,7 @@
             </form>
             <td width="300">
 
-                <% List<PersonInfo> piList = gdao.getGroupsNRolesByPersonId(p.getId()); %>
+                <% List<PersonInfo> piList = pdao.getPersonInfo(p.getId()); %>
 
                 <% if (piList != null) { %>
                     <table border="1" cellspacing="0">
