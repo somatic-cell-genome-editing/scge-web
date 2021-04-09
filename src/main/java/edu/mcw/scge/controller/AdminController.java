@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -282,6 +283,55 @@ public class AdminController extends LoginController{
 
         req.setAttribute("action", "Manage Groups");
         req.setAttribute("page", "/WEB-INF/jsp/admin/groups");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+    }
+    @RequestMapping(value = "/studyTierUpdates")
+    public void getStudyTierUpdates(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+
+        req.setAttribute("tierUpdates", service.getAllTierUpdates());
+
+        req.setAttribute("action", "Tier Updates");
+        req.setAttribute("page", "/WEB-INF/jsp/admin/studyTierUpdates");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+    }
+    @RequestMapping(value = "/commitUpdates")
+    public void commitUpdates(HttpServletRequest req, HttpServletResponse res, @RequestParam int studyId) throws Exception {
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+        service.commitTierUpdates(studyId); //loads tier updates into actual study table and related object tables instantly
+        req.setAttribute("tierUpdates", service.getAllTierUpdates());
+
+        String message="Commited updates of study "+ studyId;
+        req.setAttribute("message", message);
+        req.setAttribute("action", "Tier Updates");
+        req.setAttribute("page", "/WEB-INF/jsp/admin/studyTierUpdates");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+    }
+    @RequestMapping(value = "/revertUpdates")
+    public void revertUpdates(HttpServletRequest req, HttpServletResponse res, @RequestParam int studyId) throws Exception {
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+        service.deleteTierUpdates(studyId);
+        req.setAttribute("tierUpdates", service.getAllTierUpdates());
+
+        String message="Reverted/deleted updates of study "+ studyId;
+        req.setAttribute("message", message);
+        req.setAttribute("action", "Tier Updates");
+        req.setAttribute("page", "/WEB-INF/jsp/admin/studyTierUpdates");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
     }

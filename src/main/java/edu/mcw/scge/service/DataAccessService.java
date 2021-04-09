@@ -6,6 +6,7 @@ import edu.mcw.scge.dao.AbstractDAO;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.dao.spring.StudyAssociationQuery;
 import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.process.tierUpdates.UpdateUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -33,6 +34,7 @@ public class DataAccessService extends AbstractDAO {
     GroupDAO gdao=new GroupDAO();
     StudyDao sdao=new StudyDao();
     TierUpdateDao tierUpdateDao=new TierUpdateDao();
+    UpdateUtils tierUpdateUtils=new UpdateUtils();
     public static List<String> labels;
     public List<TestData> getData(String name, String symbol) throws Exception {
            return tdao.getTestData();
@@ -202,6 +204,9 @@ public class DataAccessService extends AbstractDAO {
     public void deleteTierUpdates(int studyId) throws Exception {
         tierUpdateDao.delete(studyId);
     }
+    public void commitTierUpdates(int studyId) throws Exception {
+        tierUpdateUtils.commitUpdates(studyId);
+    }
     public Map<Integer, Integer> getTierUpdate(List<Study> studies) throws Exception {
         Map<Integer, Integer> tierUpdatesMap=new HashMap<>();
         for(Study s:studies) {
@@ -215,6 +220,11 @@ public class DataAccessService extends AbstractDAO {
             }
         }
         return tierUpdatesMap;
+    }
+
+    public Map<Integer,  List<StudyTierUpdate>> getAllTierUpdates() throws Exception {
+
+      return  tierUpdateUtils .getSortedUpdatesMapByStudyId( tierUpdateDao.getStudyTierUpdates());
     }
 
     public void addTier2Associations(List<Study> studies) throws Exception {
