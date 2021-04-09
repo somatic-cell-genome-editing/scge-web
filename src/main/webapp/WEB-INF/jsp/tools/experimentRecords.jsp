@@ -52,7 +52,7 @@
         Study study = (Study) request.getAttribute("study");
         Access access = new Access();
         Person p = access.getUser(request.getSession());
-
+Experiment ex = (Experiment) request.getAttribute("experiment");
         //out.println(experiments.size());
     %>
 
@@ -67,12 +67,15 @@
             <td class="desc" ><%=study.getSubmissionDate()%></td>
         </tr>
     </table>
-
+<hr>
+        <table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table>
         <div class="chart-container" style="position: relative; height:80vh; width:80vw">
     <canvas id="resultChart"></canvas>
 
         </div>
-
+<div>
+<hr>
+    <h3>Results</h3>
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
@@ -86,7 +89,7 @@
         <th>Vector</th>
         <th>Result Type</th>
         <th>Units</th>
-        <th>Result in %</th>
+        <th>Result</th>
     </tr>
     </thead>
 
@@ -118,7 +121,7 @@
         <% } %>
      <% } %>
 </table>
-
+</div>
         <script>
             var ctx = document.getElementById("resultChart");
             var myChart = new Chart(ctx, {
@@ -133,12 +136,26 @@
                         xAxes: [{
                             gridLines: {
                                 offsetGridLines: true // à rajouter
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Experiment Conditions',
+                                fontSize: 14,
+                                fontStyle: 'bold',
+                                fontFamily: 'Calibri'
                             }
                         },
                         ],
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: ${efficiency},
+                                fontSize: 14,
+                                fontStyle: 'bold',
+                                fontFamily: 'Calibri'
                             }
                         }]
                     }
