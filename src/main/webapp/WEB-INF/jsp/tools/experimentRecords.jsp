@@ -52,7 +52,7 @@
         Study study = (Study) request.getAttribute("study");
         Access access = new Access();
         Person p = access.getUser(request.getSession());
-
+Experiment ex = (Experiment) request.getAttribute("experiment");
         //out.println(experiments.size());
     %>
 
@@ -67,12 +67,15 @@
             <td class="desc" ><%=study.getSubmissionDate()%></td>
         </tr>
     </table>
-
+<hr>
+        <table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table>
         <div class="chart-container" style="position: relative; height:80vh; width:80vw">
     <canvas id="resultChart"></canvas>
 
         </div>
 <div>
+<hr>
+    <h3>Results</h3>
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>

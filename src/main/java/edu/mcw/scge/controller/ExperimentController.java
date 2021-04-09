@@ -154,6 +154,7 @@ public class ExperimentController extends UserController {
 
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
+        Experiment e = edao.getExperiment(experimentId);
 
         if (!access.hasStudyAccess(study,p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
@@ -218,6 +219,7 @@ public class ExperimentController extends UserController {
         req.setAttribute("resultDetail",resultDetail);
         req.setAttribute("resultMap",resultMap);
         req.setAttribute("study", study);
+        req.setAttribute("experiment",e);
         req.setAttribute("action", "Experiment Records");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
