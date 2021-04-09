@@ -178,7 +178,7 @@ public class ExperimentController extends UserController {
             double average = 0;
             for(ExperimentResultDetail result: experimentResults){
                 noOfSamples =result.getNumberOfSamples();
-                efficiency = result.getResultType() + " in " + experimentResults.get(0).getUnits();
+                efficiency = "\""+result.getResultType() + " in " + experimentResults.get(0).getUnits()+"\"";
                 values = replicateResult.get(result.getReplicate());
                 if(values == null)
                     values = new ArrayList<>();
@@ -252,8 +252,12 @@ public class ExperimentController extends UserController {
             edu.mcw.scge.datamodel.Model m = dbService.getModelById(r.getModelId());
             List<ReporterElement> reporterElements = dbService.getReporterElementsByExpRecId(r.getExperimentRecordId());
             List<AnimalTestingResultsSummary> results = dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecordId());
-            List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(r.getExperimentRecordId());
-
+            List<ExperimentResultDetail> experimentResultList = dbService.getExperimentalResults(r.getExperimentRecordId());
+            List<ExperimentResultDetail> experimentResults=new ArrayList<>();
+            for(ExperimentResultDetail e: experimentResultList){
+                if(e.getResult() != null && !e.getResult().equals(""))
+                    experimentResults.add(e);
+            }
             for (AnimalTestingResultsSummary s : results) {
                 List<Sample> samples = dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
                 s.setSamples(samples);

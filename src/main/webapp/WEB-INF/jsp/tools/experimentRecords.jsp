@@ -72,7 +72,7 @@
     <canvas id="resultChart"></canvas>
 
         </div>
-
+<div>
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
@@ -86,7 +86,7 @@
         <th>Vector</th>
         <th>Result Type</th>
         <th>Units</th>
-        <th>Result in %</th>
+        <th>Result</th>
     </tr>
     </thead>
 
@@ -118,7 +118,7 @@
         <% } %>
      <% } %>
 </table>
-
+</div>
         <script>
             var ctx = document.getElementById("resultChart");
             var myChart = new Chart(ctx, {
@@ -133,12 +133,26 @@
                         xAxes: [{
                             gridLines: {
                                 offsetGridLines: true // à rajouter
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Experiment Conditions',
+                                fontSize: 14,
+                                fontStyle: 'bold',
+                                fontFamily: 'Calibri'
                             }
                         },
                         ],
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: ${efficiency},
+                                fontSize: 14,
+                                fontStyle: 'bold',
+                                fontFamily: 'Calibri'
                             }
                         }]
                     }
