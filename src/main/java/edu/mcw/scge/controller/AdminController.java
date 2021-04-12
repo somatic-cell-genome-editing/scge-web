@@ -136,41 +136,50 @@ public class AdminController extends LoginController{
         }
 
 
+        String msg = "";
 
-        String name = req.getParameter("name");
-        int institution = Integer.parseInt(req.getParameter("institution"));
-        String gEmail = req.getParameter("gEmail");
-        String oEmail = req.getParameter("oEmail");
+        try {
 
 
+            String name = req.getParameter("name");
+            int institution = Integer.parseInt(req.getParameter("institution"));
+            String gEmail = req.getParameter("gEmail");
+            String oEmail = req.getParameter("oEmail");
+
+            if (name.equals("")) {
+                throw new Exception("Name Required");
+            }
 
 
-        PersonDao pdao = new PersonDao();
+            PersonDao pdao = new PersonDao();
 
 
-        Person p = new Person.Builder().build();
+            Person p = new Person.Builder().build();
 
-        p.setName(name);
-        p.setInstitution(institution);
-        p.setEmail(gEmail);
-        p.setStatus("ACTIVE");
-        if (oEmail != null && !oEmail.equals("")) {
-            p.setOtherId(oEmail);
-        }
+            p.setName(name);
+            p.setInstitution(institution);
+            p.setEmail(gEmail);
+            p.setStatus("ACTIVE");
+            if (oEmail != null && !oEmail.equals("")) {
+                p.setOtherId(oEmail);
+            }
 
-        if (pdao.exists(p)) {
-            System.out.println("user exists");
-            throw new Exception("User already exists");
-        }else {
-            System.out.println("inserting user");
-            pdao.insert(p);
+            if (pdao.exists(p)) {
+                throw new Exception("User already exists");
+            } else {
+                pdao.insert(p);
+                msg = "User " + p.getName() + " Added";
+            }
+
+        }catch (Exception e) {
+            msg = e.getMessage();
         }
 
         req.setAttribute("people", pdao.getAllActiveMembers());
         req.setAttribute("person",userService.getCurrentUser(req.getSession()));
         req.setAttribute("action", "Manage Users");
         req.setAttribute("page", "/WEB-INF/jsp/admin/users");
-        req.setAttribute("msg","User " + p.getName() + " Added");
+        req.setAttribute("msg",msg);
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
 
@@ -184,35 +193,46 @@ public class AdminController extends LoginController{
             req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
         }
 
+        String msg = "";
+        try {
 
-        int id=Integer.parseInt(req.getParameter("id"));
-        String name = req.getParameter("name");
-        int institution = Integer.parseInt(req.getParameter("institution"));
-        String gEmail = req.getParameter("gEmail");
-        String oEmail = req.getParameter("oEmail");
-        String status = req.getParameter("status");
-        PersonDao pdao = new PersonDao();
+            int id = Integer.parseInt(req.getParameter("id"));
+            String name = req.getParameter("name");
 
-        Person p = pdao.getPersonById(Integer.parseInt(req.getParameter("id"))).get(0);
+            if (name.equals("")) {
+                throw new Exception("Name is required");
+            }
 
-        p.setId(id);
-        p.setName(name);
-        System.out.println("setting to " + institution);
-        p.setInstitution(institution);
-        System.out.println("get = " + p.getInstitution());
-        p.setEmail(gEmail);
-        p.setStatus(status);
-        if (oEmail != null && !oEmail.equals("")) {
-            p.setOtherId(oEmail);
+            int institution = Integer.parseInt(req.getParameter("institution"));
+            String gEmail = req.getParameter("gEmail");
+            String oEmail = req.getParameter("oEmail");
+            String status = req.getParameter("status");
+            PersonDao pdao = new PersonDao();
+
+            Person p = pdao.getPersonById(Integer.parseInt(req.getParameter("id"))).get(0);
+
+            p.setId(id);
+            p.setName(name);
+            p.setInstitution(institution);
+            p.setEmail(gEmail);
+            p.setStatus(status);
+            if (oEmail != null && !oEmail.equals("")) {
+                p.setOtherId(oEmail);
+            }
+
+            pdao.update(p);
+            msg = "User " + p.getName() + " Updated";
+
+        } catch (Exception e) {
+            msg = e.getMessage();
         }
 
-        pdao.update(p);
 
-        req.setAttribute("people", pdao.getAllActiveMembers());
+        req.setAttribute("people", pdao.getAllMembers());
         req.setAttribute("person",userService.getCurrentUser(req.getSession()));
         req.setAttribute("action", "Manage Users");
         req.setAttribute("page", "/WEB-INF/jsp/admin/users");
-        req.setAttribute("msg","User " + p.getName() + " Updated");
+        req.setAttribute("msg",msg);
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
 

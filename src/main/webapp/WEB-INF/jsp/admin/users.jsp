@@ -155,12 +155,12 @@
             <td><select name="status">
 
                 <% if (p.getStatus().equals("ACTIVE")) { %>
-                <option value="ACTIVE" checked>ACTIVE</option>
+                <option value="ACTIVE" selected>ACTIVE</option>
                 <% } else { %>
                 <option value="ACTIVE">ACTIVE</option>
                 <% } %>
                 <% if (p.getStatus().equals("INACTIVE")) { %>
-                <option value="INACTIVE" checked>INACTIVE</option>
+                <option value="INACTIVE" selected>INACTIVE</option>
                 <% } else { %>
                 <option value="INACTIVE">INACTIVE</option>
                 <% } %>
