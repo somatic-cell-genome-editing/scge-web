@@ -6,6 +6,7 @@ import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -153,6 +154,7 @@ public class ExperimentController extends UserController {
 
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
+        Experiment e = edao.getExperiment(experimentId);
 
         if (!access.hasStudyAccess(study,p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
@@ -177,7 +179,7 @@ public class ExperimentController extends UserController {
             double average = 0;
             for(ExperimentResultDetail result: experimentResults){
                 noOfSamples =result.getNumberOfSamples();
-                efficiency = result.getResultType() + " in " + experimentResults.get(0).getUnits();
+                efficiency = "\""+result.getResultType() + " in " + experimentResults.get(0).getUnits()+"\"";
                 values = replicateResult.get(result.getReplicate());
                 if(values == null)
                     values = new ArrayList<>();
@@ -217,6 +219,7 @@ public class ExperimentController extends UserController {
         req.setAttribute("resultDetail",resultDetail);
         req.setAttribute("resultMap",resultMap);
         req.setAttribute("study", study);
+        req.setAttribute("experiment",e);
         req.setAttribute("action", "Experiment Records");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -243,13 +246,20 @@ public class ExperimentController extends UserController {
         }
 
         req.setAttribute("experimentRecords", records);
+        ExperimentRecord r = new ExperimentRecord();
         if (records.size() > 0) {
-            ExperimentRecord r = records.get(0);
+            for(ExperimentRecord record: records)
+                if(record.getExperimentRecordId() == expRecordId)
+                    r = record;
             edu.mcw.scge.datamodel.Model m = dbService.getModelById(r.getModelId());
             List<ReporterElement> reporterElements = dbService.getReporterElementsByExpRecId(r.getExperimentRecordId());
             List<AnimalTestingResultsSummary> results = dbService.getAnimalTestingResultsByExpRecId(r.getExperimentRecordId());
-            List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(r.getExperimentRecordId());
-
+            List<ExperimentResultDetail> experimentResultList = dbService.getExperimentalResults(r.getExperimentRecordId());
+            List<ExperimentResultDetail> experimentResults=new ArrayList<>();
+            for(ExperimentResultDetail e: experimentResultList){
+                if(e.getResult() != null && !e.getResult().equals(""))
+                    experimentResults.add(e);
+            }
             for (AnimalTestingResultsSummary s : results) {
                 List<Sample> samples = dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
                 s.setSamples(samples);
@@ -257,16 +267,17 @@ public class ExperimentController extends UserController {
             List<Delivery> deliveryList = dbService.getDeliveryVehicles(r.getDeliverySystemId());
             List<Editor> editorList = dbService.getEditors(r.getEditorId());
             List<Guide> guideList = dbService.getGuides(r.getGuideId());
+            List<Vector> vectorList = dbService.getVectors(r.getVectorId());
             List<ApplicationMethod> applicationMethod = dbService.getApplicationMethodsById(r.getApplicationMethodId());
             req.setAttribute("applicationMethod", applicationMethod);
             req.setAttribute("deliveryList", deliveryList);
             req.setAttribute("editorList",editorList);
             req.setAttribute("guideList",guideList);
+            req.setAttribute("vectorList",vectorList);
             //req.setAttribute("experiment",e);
             req.setAttribute("experiment", r);
             req.setAttribute("model", m);
             req.setAttribute("reporterElements", reporterElements);
-            req.setAttribute("experimentResults",experimentResults);
             req.setAttribute("experimentResults",experimentResults);
             req.setAttribute("results", results);
             System.out.println("Applications: "+ applicationMethod.size()+

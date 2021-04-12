@@ -9,7 +9,7 @@
 <div id="jstree_results">
 
 <ul class="nav flex-column" >
-    <li class="nav-item"><strong><a onclick="searchByFilter('','${searchTerm}','', '')">All (${sr.hits.totalHits})</a></strong>
+    <li class="nav-item jstree-open" ><strong><a onclick="searchByFilter('','${searchTerm}','', '')">All (${sr.hits.totalHits})</a></strong>
         <ul class="nav flex-column">
             <c:forEach items="${aggregations.categoryAggs}" var="bkt">
                 <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->

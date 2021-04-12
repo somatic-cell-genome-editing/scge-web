@@ -1,15 +1,9 @@
 <%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
+<%@ page import="edu.mcw.scge.datamodel.PersonInfo" %>
 <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/dashboard/">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!--div align="center">
-    <!c:forEach items="$-{personInfoList}" var="i"-->
-        <!--p style="padding: 0;" class="text-muted">
-            <strong>Initiative:</strong> $--{i.groupName} &nbsp;
-            <strong>User Group:</strong> $--{i.subGroupName}</p-->
-    <!--/c:forEach-->
-<!--/div-->
 
 <%
     List<Study> studyList = (List<Study>) request.getAttribute("studies");
@@ -28,16 +22,11 @@
 </script>
 
 <div class="container-fluid">
+    ${message}
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
-                    <!--li class="nav-item">
-                        <a class="nav-link active" href="#" onclick="getMainContent('home')">
-                            <span data-feather="home"></span>
-                            Dashboard <span class="sr-only">(current)</span>
-                        </a>
-                    </li-->
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="file"></span>
@@ -71,33 +60,7 @@
                         <span data-feather="plus-circle"></span>
                     </a>
                 </h6>
-                <!--ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            <%--=s.getStudyId()--%>..
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Submit Data ..
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Point of Contacts
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Forms
-                        </a>
-                    </li>
 
-                </ul-->
             </div>
         </nav>
 
@@ -150,7 +113,7 @@
             <h2>Groups I'm a Member Of</h2>
 
             <% for (PersonInfo pi: personInfoRecords) { %>
-                <li><span style="padding: 0;font-size:14px" class="text-muted"><b><%=pi.getGroupName()%></b>&nbsp;...&nbsp;<%=pi.getSubGroupName()%></span></li>
+                <li><span style="padding: 0;font-size:14px" class="text-muted"><b><%=pi.getGroupName()%></b></span></li>
             <% } %>
 
         </main>

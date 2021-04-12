@@ -53,9 +53,9 @@
         <hr>
         <table style="width:80%">
 
-            <tr><td class="header"><strong>Variant</strong></td><td><%=SFN.parse(v.getVariant())%></td></tr>
+            <tr><td class="header"><strong>Variant</strong></td><td><%=SFN.parse(v.getCapsidVariant())%></td></tr>
             <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(v.getSource())%></td></tr>
-            <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><%=SFN.parse(v.getStockNumber())%></td></tr>
+            <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><%=SFN.parse(v.getLabId())%></td></tr>
         </table>
         <hr>
         <table style="width:80%">

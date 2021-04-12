@@ -43,7 +43,8 @@ public class Access {
             || p.getEmail().toLowerCase().equals("alemke@mcw.edu")
             || p.getEmail().toLowerCase().equals("mgrzybowski@mcw.edu")
             || p.getEmail().toLowerCase().equals("jrsmith@mcw.edu")
-                || p.getEmail().toLowerCase().equals("akwitek@mcw.edu")) {
+                || p.getEmail().toLowerCase().equals("akwitek@mcw.edu")
+        || p.getEmail().toLowerCase().equals("hsvnalabolu@gmail.com")) {
             return true;
         }else {
             return false;
@@ -64,12 +65,14 @@ public class Access {
 
 
     public boolean isInDCCorNIHGroup(Person p) throws Exception{
+
+
         List<Integer> DCCNIHGroupsIds=Data.getInstance().getDCCNIHGroupsIds();
         PersonDao pdao = new PersonDao();
         List<PersonInfo> personInfoRecords = pdao.getPersonInfo(p.getId());
 
         for(PersonInfo i:personInfoRecords) {
-            if (DCCNIHGroupsIds.contains(i.getSubGroupId())) {
+            if (DCCNIHGroupsIds.contains(i.getGroupId())) {
                 return true;
             }
         }
@@ -83,7 +86,7 @@ public class Access {
       //  List<Integer> DCCNIHGroupsIds=service.getDCCNIHGroupsIds();
         List<Integer> DCCNIHGroupsIds=Data.getInstance().getDCCNIHGroupsIds();
         for(PersonInfo i:personInfoRecords) {
-            if (DCCNIHGroupsIds.contains(i.getSubGroupId())) {
+            if (DCCNIHGroupsIds.contains(i.getGroupId())) {
                 dccNIHflag=true;
             }
         }

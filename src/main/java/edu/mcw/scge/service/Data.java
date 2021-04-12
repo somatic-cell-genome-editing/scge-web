@@ -21,7 +21,7 @@ public class Data {
         groupMembersMap= service.getGroupMembersMapExcludeDCCNIH(consortiumGroups);
         DCCNIHMembersMap= service.getDCCNIHMembersMap(consortiumGroups);
         DCCNIHGroupsIds=service.getDCCNIHGroupsIds();
-        DCCNIHAncestorGroupIds=gdao.getDCCNIHAncestorGroupIds();
+       DCCNIHAncestorGroupIds=gdao.getDCCNIHAncestorGroupIds();
 
     }
     public static Data getInstance() throws Exception {

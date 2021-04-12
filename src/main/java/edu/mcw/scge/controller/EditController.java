@@ -1,17 +1,15 @@
 package edu.mcw.scge.controller;
 
 import com.sun.mail.smtp.SMTPTransport;
+import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.dao.implementation.PersonDao;
+import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Person;
-import edu.mcw.scge.datamodel.StudyTierUpdate;
+import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.DataAccessService;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -20,11 +18,9 @@ import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -33,52 +29,39 @@ import java.util.Properties;
 @RequestMapping(value="/edit")
 public class EditController {
     DataAccessService service=new DataAccessService();
+    StudyDao sdao=new StudyDao();
     PersonDao pdao=new PersonDao();
+    Access access=new Access();
     @RequestMapping(value = "/access")
     public String updateAccess(@RequestParam int tier, @RequestParam int studyId ,@RequestParam(required = false) String json,
                                @RequestParam(required = false) String groupIdsJson,
-                               HttpServletRequest req, HttpServletResponse res,
-                                RedirectAttributes redirectAttributes) throws Exception {
-        // System.out.println("TIER: "+ tier+"\tSTUDY ID: "+ studyId);
-        System.out.println("TIER: "+ tier);
-        System.out.println("JSON:"+ json);
-        System.out.println("GROUP IDS JSON: "+ groupIdsJson);
+                               HttpServletRequest req,HttpServletResponse res) throws Exception {
+
         req.getSession().getAttribute("personId");
         int userId= (int) req.getSession().getAttribute("personId");
-     //   service.insertOrUpdateTierUpdates(studyId, tier, userId, json );
+        if (!access.hasStudyAccess(studyId,userId)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
         service.insertTierUpdates(studyId, tier, userId, groupIdsJson );
-        // updateDatabase(Integer.parseInt(studyId), tier, userId, json);
-        sendEmailNotification("scge@mcw.edu", "SCGE"," Study:"+studyId+" is updated. These changes will get approved after 24 hours");
-        String message="Confirmation request sent to PI";
-        return "redirect:/loginSuccess?message="+message+"&studyId="+studyId+"&tier="+tier;
+        Study study= sdao.getStudyById(studyId).get(0);
+        List<Person> p=pdao.getPersonById(study.getPiId());
+        System.out.println("STUDY:"+study.getStudyId()+"\tPI:"+ p.get(0).getEmail());
+        String emailMsg=" Study:"+studyId+" - "+study.getStudy() +" is updated. These changes will get executed after 24 hours";
+        sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated",emailMsg);
+        String message="Confirmation request sent to PI. Requested changes will get executed after 24 hours";
+        return "redirect:/db?message="+message+"&studyId="+studyId+"&tier="+tier;
 
-
-        //  return null;
-    }
-   // @RequestMapping(value = "access")
-    public String getEditAccess(@RequestParam int tier, @RequestParam int studyId ,@RequestParam(required = false) String json, HttpServletRequest req, HttpServletResponse res,
-                                RedirectAttributes redirectAttributes) throws Exception {
-       // System.out.println("TIER: "+ tier+"\tSTUDY ID: "+ studyId);
-        System.out.println("JSON:"+ json);
-        req.getSession().getAttribute("personId");
-        int userId= (int) req.getSession().getAttribute("personId");
-          //  service.insertOrUpdateTierUpdates(studyId, tier, userId, json );
-           // updateDatabase(Integer.parseInt(studyId), tier, userId, json);
-        //    sendEmailNotification("jthota@mcw.edu", "SCGE","Your Study is updated");
-            // redirectAttributes.addFlashAttribute("message","Confirmation request sent to PI");
-            String message="Confirmation request sent to PI";
-            return "redirect:/loginSuccess?message="+message+"&studyId="+studyId+"&tier="+tier;
-
-
-      //  return null;
     }
     @RequestMapping(value = "resetAccess")
     public String resetAccess(@RequestParam String tier, @RequestParam String studyId , HttpServletRequest req, HttpServletResponse res,
                                 RedirectAttributes redirectAttributes) throws Exception {
         System.out.println("TIER: "+ tier+"\tSTUDY ID: "+ studyId);
         if(!tier.equals("2")){
-            sendEmailNotification("jthota@mcw.edu", "SCGE","Your Study is updated");
-            //  redirectAttributes.addFlashAttribute("message","Confirmation request sent to PI");
+            sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated","Your Study is updated");
             String message="Confirmation request sent to PI";
             return "redirect:/loginSuccess?message="+message+"&studyId="+studyId+"&tier="+tier;
         }else {
@@ -117,11 +100,11 @@ public class EditController {
         final MimeMessage msg = new MimeMessage(session);
 
         // -- Set the FROM and TO fields --
-        msg.setFrom(new InternetAddress("jthota@mcw.edu", "SCGE Toolkit"));
+        msg.setFrom(new InternetAddress("scge_toolkit@mcw.edu", "SCGE Toolkit"));
 
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail, false));
 
-        //msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse("jdepons@mcw.edu", false));
+     //   msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse("scge_toolkit@mcw.edu", false));
 
         msg.setSubject(title);
         msg.setText(message, "utf-8");

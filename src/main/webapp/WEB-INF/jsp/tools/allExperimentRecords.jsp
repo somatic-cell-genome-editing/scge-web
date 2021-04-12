@@ -69,6 +69,7 @@
         <th>Model</th>
         <th>Delivery System</th>
         <th>Guide</th>
+        <th>Vector</th>
         <th>Result Type</th>
         <th>Units</th>
         <th>Result in %</th>
@@ -93,6 +94,7 @@
         <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
         <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
         <td><a href="/toolkit/data/guide/guide?id=<%=exp.getGuideId()%>"><%=SFN.parse(exp.getGuide())%></a></td>
+        <td><a href="/toolkit/data/vector/format?id=<%=exp.getVectorId()%>"><%=SFN.parse(exp.getVector())%></a></td>
         <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getResultType()%></td>
         <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getUnits()%></td>
         <td><%=resultMap.get(exp.getExperimentRecordId())%></td>
@@ -137,7 +139,7 @@
                         var cells = table.rows.item(i).cells;
                         var cellLength = cells.length;
                         var column = cells.item(0); //points to condition column
-                        var avg = cells.item(9);
+                        var avg = cells.item(10);
                         xArray[j] = column.innerText;
                         yArray[j] = avg.innerHTML;
                         j++;

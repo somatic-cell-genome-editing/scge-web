@@ -52,7 +52,7 @@
         Study study = (Study) request.getAttribute("study");
         Access access = new Access();
         Person p = access.getUser(request.getSession());
-
+Experiment ex = (Experiment) request.getAttribute("experiment");
         //out.println(experiments.size());
     %>
 
@@ -67,12 +67,15 @@
             <td class="desc" ><%=study.getSubmissionDate()%></td>
         </tr>
     </table>
-
+<hr>
+        <table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table>
         <div class="chart-container" style="position: relative; height:80vh; width:80vw">
     <canvas id="resultChart"></canvas>
 
         </div>
-
+<div>
+<hr>
+    <h3>Results</h3>
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
@@ -83,9 +86,10 @@
         <th>Model</th>
         <th>Delivery System</th>
         <th>Guide</th>
+        <th>Vector</th>
         <th>Result Type</th>
         <th>Units</th>
-        <th>Result in %</th>
+        <th>Result</th>
     </tr>
     </thead>
 
@@ -106,6 +110,7 @@
         <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
         <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
         <td><a href="/toolkit/data/guide/guide?id=<%=exp.getGuideId()%>"><%=SFN.parse(exp.getGuide())%></a></td>
+        <td><a href="/toolkit/data/vector/format?id=<%=exp.getVectorId()%>"><%=SFN.parse(exp.getVector())%></a></td>
         <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getResultType()%></td>
         <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getUnits()%></td>
         <td><%=resultMap.get(exp.getExperimentRecordId())%></td>
@@ -116,7 +121,7 @@
         <% } %>
      <% } %>
 </table>
-
+</div>
         <script>
             var ctx = document.getElementById("resultChart");
             var myChart = new Chart(ctx, {
@@ -131,12 +136,26 @@
                         xAxes: [{
                             gridLines: {
                                 offsetGridLines: true // à rajouter
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Experiment Conditions',
+                                fontSize: 14,
+                                fontStyle: 'bold',
+                                fontFamily: 'Calibri'
                             }
                         },
                         ],
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: ${efficiency},
+                                fontSize: 14,
+                                fontStyle: 'bold',
+                                fontFamily: 'Calibri'
                             }
                         }]
                     }
@@ -154,16 +173,16 @@
                         var cells = table.rows.item(i).cells;
                         var cellLength = cells.length;
                         var column = cells.item(0); //points to condition column
-                        var avg = cells.item(9);
+                        var avg = cells.item(10);
                         xArray[j] = column.innerText;
                         yArray[j] = avg.innerHTML;
-                        for(k = 10;k<cellLength;k++){
+                        for(k = 11;k<cellLength;k++){
                             var arr = [];
                             if(j != 0)
-                                arr = myChart.data.datasets[k-9].data;
+                                arr = myChart.data.datasets[k-10].data;
 
                             arr.push(cells.item(k).innerHTML);
-                            myChart.data.datasets[k-9].data = arr;
+                            myChart.data.datasets[k-10].data = arr;
                         }
                         j++;
                     }
