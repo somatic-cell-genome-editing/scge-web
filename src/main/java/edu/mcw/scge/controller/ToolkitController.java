@@ -124,7 +124,7 @@ public class ToolkitController {
 
         return null;
     }
-    @RequestMapping(value="/vitro/search")
+   /* @RequestMapping(value="/vitro/search")
     public String getVitroHome(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         List<ExperimentRecord> records=dbService.getAllExperimentRecordsByLabId(15);
         System.out.println("EXPERIMENTS: "+ records.size());
@@ -146,6 +146,7 @@ public class ToolkitController {
 
         return null;
     }
+    */
 /*
     @GetMapping(value="/animalReporter/results/{id}")
     public void getdeliveryResults(@PathVariable String id, HttpServletRequest req, HttpServletResponse res) throws Exception {

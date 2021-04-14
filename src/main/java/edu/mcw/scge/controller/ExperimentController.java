@@ -172,11 +172,15 @@ public class ExperimentController extends UserController {
         int noOfSamples = 0;
         int i=0;
         List values = new ArrayList<>();
+
+        HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
         for(ExperimentRecord record:records) {
             labels.add("\"" + record.getExperimentName() + "\"");
             List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
             resultDetail.put(record.getExperimentRecordId(),experimentResults);
             double average = 0;
+
+            guideMap.put(record.getExperimentRecordId(),dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
             for(ExperimentResultDetail result: experimentResults){
                 noOfSamples =result.getNumberOfSamples();
                 efficiency = "\""+result.getResultType() + " in " + experimentResults.get(0).getUnits()+"\"";
@@ -220,6 +224,7 @@ public class ExperimentController extends UserController {
         req.setAttribute("resultMap",resultMap);
         req.setAttribute("study", study);
         req.setAttribute("experiment",e);
+        req.setAttribute("guideMap",guideMap);
         req.setAttribute("action", "Experiment Records");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -266,7 +271,7 @@ public class ExperimentController extends UserController {
             }
             List<Delivery> deliveryList = dbService.getDeliveryVehicles(r.getDeliverySystemId());
             List<Editor> editorList = dbService.getEditors(r.getEditorId());
-            List<Guide> guideList = dbService.getGuides(r.getGuideId());
+            List<Guide> guideList = dbService.getGuidesByExpRecId(r.getExperimentRecordId());
             List<Vector> vectorList = dbService.getVectors(r.getVectorId());
             List<ApplicationMethod> applicationMethod = dbService.getApplicationMethodsById(r.getApplicationMethodId());
             req.setAttribute("applicationMethod", applicationMethod);

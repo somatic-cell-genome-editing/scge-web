@@ -7,12 +7,14 @@ import edu.mcw.scge.dao.implementation.EditorDao;
 import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -35,6 +37,7 @@ public class DeliveryController {
     public String getDeliverySystem(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         DeliveryDao dao = new DeliveryDao();
         Delivery system= dao.getDeliverySystemsById(Integer.parseInt(req.getParameter("id"))).get(0);
+        DBService dbService = new DBService();
 
         UserService userService = new UserService();
         Person p=userService.getCurrentUser(req.getSession());
@@ -65,6 +68,11 @@ public class DeliveryController {
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByDeliverySystem(system.getId());
         req.setAttribute("experimentRecords",experimentRecords);
 
+        HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
+        for(ExperimentRecord record:experimentRecords) {
+            guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
+        }
+        req.setAttribute("guideMap", guideMap);
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

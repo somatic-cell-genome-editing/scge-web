@@ -135,7 +135,7 @@ public class StudyController{
     }
 
 
-    @GetMapping(value="/search/results/{id}")
+  /*  @GetMapping(value="/search/results/{id}")
     public void getResults(@PathVariable String id, HttpServletRequest req, HttpServletResponse res) throws Exception {
         int experimentId= Integer.parseInt(id);
         ExperimentDao dao = new ExperimentDao();
@@ -182,5 +182,5 @@ public class StudyController{
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
     }
-
+*/
 }

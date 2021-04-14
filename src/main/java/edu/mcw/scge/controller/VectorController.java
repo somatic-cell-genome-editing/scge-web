@@ -7,11 +7,13 @@ import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.dao.implementation.VectorDao;
 import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -34,7 +36,7 @@ public class VectorController {
     public String getVector(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         VectorDao dao = new VectorDao();
         Vector v= dao.getVectorById(Integer.parseInt(req.getParameter("id"))).get(0);
-
+        DBService dbService = new DBService();
         UserService userService = new UserService();
         Person p=userService.getCurrentUser(req.getSession());
         edu.mcw.scge.configuration.Access access = new Access();
@@ -62,6 +64,11 @@ public class VectorController {
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByVector(v.getVectorId());
         req.setAttribute("experimentRecords",experimentRecords);
 
+        HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
+        for(ExperimentRecord record:experimentRecords) {
+            guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
+        }
+        req.setAttribute("guideMap", guideMap);
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

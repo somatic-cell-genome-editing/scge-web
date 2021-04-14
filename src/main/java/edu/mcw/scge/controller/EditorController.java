@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -54,7 +55,7 @@ public class EditorController {
     public String getEditor(HttpServletRequest req, HttpServletResponse res) throws Exception {
         EditorDao dao = new EditorDao();
         Editor editor= dao.getEditorById(Integer.parseInt(req.getParameter("id"))).get(0);
-
+        DBService dbService = new DBService();
         UserService userService = new UserService();
         Person p=userService.getCurrentUser(req.getSession());
         Access access = new Access();
@@ -82,10 +83,15 @@ public class EditorController {
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByEditor(editor.getId());
         req.setAttribute("experimentRecords",experimentRecords);
 
+        HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
+        for(ExperimentRecord record:experimentRecords) {
+            guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
+        }
+
         GuideDao guideDao = new GuideDao();
         List<Guide> guides = guideDao.getGuidesByEditor(editor.getId());
         req.setAttribute("guides", guides);
-
+        req.setAttribute("guideMap", guideMap);
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
