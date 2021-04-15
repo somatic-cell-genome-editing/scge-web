@@ -65,6 +65,10 @@ public class DBService {
         VectorDao dao = new VectorDao();
         return dao.getVectorById(vectorId);
     }
+    public List<Vector> getVectorsByExpRecId(int expRecId) throws Exception {
+        VectorDao dao = new VectorDao();
+        return dao.getVectorsByExpRecId(expRecId);
+    }
     public List<ApplicationMethod> getApplicationMethodsById(int applicationMethodId) throws Exception {
         ApplicationMethodDao dao=new ApplicationMethodDao();
         return dao.getApplicationMethod(applicationMethodId);

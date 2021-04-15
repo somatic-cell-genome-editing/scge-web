@@ -73,6 +73,13 @@ public class DeliveryController {
             guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
         }
         req.setAttribute("guideMap", guideMap);
+
+        HashMap<Integer,List<Vector>> vectorMap = new HashMap<>();
+        for(ExperimentRecord record:experimentRecords) {
+            vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+        }
+        req.setAttribute("vectorMap", vectorMap);
+
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

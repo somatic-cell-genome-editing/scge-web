@@ -96,12 +96,19 @@ Experiment ex = (Experiment) request.getAttribute("experiment");
         <% HashMap<Integer,Double> resultMap = (HashMap<Integer, Double>) request.getAttribute("resultMap");
             HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
             HashMap<Integer,List<Guide>> guideMap = (HashMap<Integer,List<Guide>>)request.getAttribute("guideMap");
+            HashMap<Integer,List<Vector>> vectorMap = (HashMap<Integer,List<Vector>>)request.getAttribute("vectorMap");
             for (ExperimentRecord exp: experimentRecords) {
                 List<Guide> guideList = guideMap.get(exp.getExperimentRecordId());
                 String guide = "";
                 for(Guide g: guideList) {
                     guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+SFN.parse(g.getGuide())+"</a>";
                     guide += ";\t";
+                }
+                List<Vector> vectorList = vectorMap.get(exp.getExperimentRecordId());
+                String vector = "";
+                for(Vector v: vectorList) {
+                    vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">"+SFN.parse(v.getName())+"</a>";
+                    vector += ";\t";
                 }
         %>
 
@@ -117,7 +124,7 @@ Experiment ex = (Experiment) request.getAttribute("experiment");
         <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
         <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
         <td><%=guide%></td>
-        <td><a href="/toolkit/data/vector/format?id=<%=exp.getVectorId()%>"><%=SFN.parse(exp.getVector())%></a></td>
+        <td><%=vector%></td>
         <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getResultType()%></td>
         <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getUnits()%></td>
         <td><%=resultMap.get(exp.getExperimentRecordId())%></td>

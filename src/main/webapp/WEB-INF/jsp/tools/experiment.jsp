@@ -163,10 +163,11 @@
                 }
 
                 List<Vector> vectorList = (List<Vector>)request.getAttribute("vectorList");
-                Vector v = new Vector();
-                if(vectorList !=null && vectorList.size() > 0)
-                    v = vectorList.get(0);
-
+                String vector = "";
+                for(Vector v: vectorList) {
+                    vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">"+v.getName()+"</a>";
+                    vector += ";\t";
+                }
                 List<ApplicationMethod> methods = (List<ApplicationMethod>)request.getAttribute("applicationMethod");
                 ApplicationMethod a = new ApplicationMethod();
                 if(methods !=null && methods.size() > 0)
@@ -176,7 +177,7 @@
                 <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=d.getType()%></a></td></tr>
                 <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td><%=guide%></td></tr>
-            <tr><td class="header"><strong>Vector</strong></td><td><a href="/toolkit/data/vector/format?id=<%=v.getVectorId()%>"><%=v.getName()%></a></td></tr>
+            <tr><td class="header"><strong>Vector</strong></td><td><%=vector%></td></tr>
             </tbody>
         </table>
     </div>

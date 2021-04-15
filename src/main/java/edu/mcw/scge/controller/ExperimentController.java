@@ -174,6 +174,8 @@ public class ExperimentController extends UserController {
         List values = new ArrayList<>();
 
         HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
+        HashMap<Integer,List<Vector>> vectorMap = new HashMap<>();
+
         for(ExperimentRecord record:records) {
             labels.add("\"" + record.getExperimentName() + "\"");
             List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
@@ -181,6 +183,8 @@ public class ExperimentController extends UserController {
             double average = 0;
 
             guideMap.put(record.getExperimentRecordId(),dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
+            vectorMap.put(record.getExperimentRecordId(),dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+
             for(ExperimentResultDetail result: experimentResults){
                 noOfSamples =result.getNumberOfSamples();
                 efficiency = "\""+result.getResultType() + " in " + experimentResults.get(0).getUnits()+"\"";
@@ -225,6 +229,7 @@ public class ExperimentController extends UserController {
         req.setAttribute("study", study);
         req.setAttribute("experiment",e);
         req.setAttribute("guideMap",guideMap);
+        req.setAttribute("vectorMap",vectorMap);
         req.setAttribute("action", "Experiment Records");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -272,7 +277,7 @@ public class ExperimentController extends UserController {
             List<Delivery> deliveryList = dbService.getDeliveryVehicles(r.getDeliverySystemId());
             List<Editor> editorList = dbService.getEditors(r.getEditorId());
             List<Guide> guideList = dbService.getGuidesByExpRecId(r.getExperimentRecordId());
-            List<Vector> vectorList = dbService.getVectors(r.getVectorId());
+            List<Vector> vectorList = dbService.getVectorsByExpRecId(r.getExperimentRecordId());
             List<ApplicationMethod> applicationMethod = dbService.getApplicationMethodsById(r.getApplicationMethodId());
             req.setAttribute("applicationMethod", applicationMethod);
             req.setAttribute("deliveryList", deliveryList);
