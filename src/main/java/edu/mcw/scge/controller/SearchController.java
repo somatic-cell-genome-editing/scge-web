@@ -54,6 +54,7 @@ public class SearchController{
             req.setAttribute("action", "Search Results: " + sr.getHits().getTotalHits() + " for " + searchTerm);
             req.setAttribute("page", "/WEB-INF/jsp/search/results");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+          //  return "search/results";
         }
         return null;
     }

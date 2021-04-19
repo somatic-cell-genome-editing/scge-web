@@ -9,8 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-
     <title>Somatic Cell Gene Editing</title>
     <link rel='dns-prefetch' href='//s.w.org' />
     <link rel="alternate" type="application/rss+xml" title="Somatic Cell Gene Editing &raquo; Feed" href="https://scge.mcw.edu/feed/" />
@@ -23,31 +21,6 @@
     <meta property="og:description" content="The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.
 Goals"/>
 
-    <meta property="og:image" content="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg"/>
-
-
-    <link rel='stylesheet' id='avada-stylesheet-css'  href='https://scge.mcw.edu/wp-content/themes/Avada/assets/css/style.min.css?ver=6.1.1' type='text/css' media='all' />
-
-    <!--[if IE]>
-    <link rel='stylesheet' id='avada-IE-css'  href='https://scge.mcw.edu/wp-content/themes/Avada/assets/css/ie.min.css?ver=6.1.1' type='text/css' media='all' />
-    <style id='avada-IE-inline-css' type='text/css'>
-        .avada-select-parent .select-arrow{background-color:#ffffff}
-        .select-arrow{background-color:#ffffff}
-    </style>
-    <![endif]-->
-    <link rel='stylesheet' id='fusion-dynamic-css-css'  href='/toolkit/common/css/scge_nav_header.css' type='text/css' media='all' />
-
-    <!--style>
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            color: white;
-            text-align: center;
-            padding-top: 20%;
-        }
-    </style-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -63,64 +36,36 @@ Goals"/>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
     <style>
-    html, body {
-        height: 100%;
-        font-size: small;
-    }
+        body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:1rem;font-weight:400;line-height:1.5;color:#212529;text-align:left;background-color:#fff}
 
-    #wrapper {
-    min-height: 100%;
-    }
 
     #main {
     overflow:auto;
     padding-bottom:150px; /* this needs to be bigger than footer height*/
     }
 
-    .footer {
-    position: relative;
-    margin-top: -150px; /* negative value of footer height */
-    height: 150px;
-    clear:both;
-    padding-top:20px;
-    }
+
     .sidebarItemDiv{
         margin:1%;
 
     }
-     .card{
-         padding:1%;
-         border:1px solid white;
-     }
-     .sidebar-wrapper{
-         border: 2px solid gainsboro ;
-     }
     .nav-link:hover{
         background-color: #5aabd6;
     }
-    #searchBarNav{
-        background:linear-gradient(to bottom, white 0%, #e6f0fc 100%);
-        background-color: #e6f0fc;
-        align-content: center;
-        text-align: center;
-        height:80px
-    }
+
  </style>
 </head>
 
 <body>
-<div id="wrapper" class="fusion-wrapper">
-    <div id="home" style="position:relative;top:-1px;"></div>
-    <div class="fusion-header-v3 fusion-logo-alignment fusion-logo-left fusion-sticky-menu- fusion-sticky-logo- fusion-mobile-logo-  fusion-mobile-menu-design-modern">
-        <div class="fusion-secondary-header">
-            <div class="fusion-row">
-                <div class="fusion-alignleft">
-                    <div class="fusion-contact-info"><span class="fusion-contact-info-phone-number"></span><span class="fusion-contact-info-email-address"><a href="mailto:s&#99;g&#101;&#64;&#109;&#99;&#119;&#46;e&#100;&#117;">s&#99;g&#101;&#64;&#109;&#99;&#119;&#46;e&#100;&#117;</a></span></div>
-                </div>
-                <div style="float:right">
-                    <!--div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div-->
-                    <div id="navbar">
-                        <span class="navbar-text navbar-right">
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="https://scge.mcw.edu/">SCGE</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <span class="navbar-text navbar-right">
                             <!-- using pageContext requires jsp-api artifact in pom.xml -->
                             <c:choose>
                                 <c:when test="${userAttributes.get('name')!=null}">
@@ -134,45 +79,52 @@ Goals"/>
                                 </c:otherwise>
                             </c:choose>
                         </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="fusion-header-sticky-height"></div>
+        </li>
+    </ul>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
+    <div class="container">
+        <a class="navbar-brand"  href="https://scge.mcw.edu/" >
+            <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" style="background-color: transparent"/>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand"  href="https://scge.mcw.edu/" >
-                <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" />
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                   <span class="navbar-toggler-icon"></span>
-               </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <!--a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400"><i class="fas fa-tools"></i>&nbsp;ToolKit <span class="sr-only">(current)</span></a-->
+                    <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-weight: 400;font-family: Offside;font-size: 16px">
+                        <i class="fas fa-home"></i>Home</a>
+                </li>
+                <c:if test="${userAttributes.get('name')!=null}">
 
-                        <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-size: 16px;font-family: Offside;font-weight: 400">
-                            <span data-feather="home"></span>Home</a>
+                    <li class="nav-item">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fas fa-th"></i>&nbsp;My&nbsp;Dashboard</a></li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/toolkit/admin" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: 400;font-family: Offside;font-size: 16px">
+                            <i class="fas fa-th"></i>&nbsp;Admin
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/toolkit/admin/users">Manage Users</a>
+                            <a class="dropdown-item" href="/toolkit/admin">Sudo User</a>
+                            <a class="dropdown-item" href="/toolkit/admin/groupOverview">Groups Overview</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Study Tier Updates</a>
+                        </div>
                     </li>
-                    <!--li class="nav-item">
-                           <a class="nav-link" href="/toolkit/?destination=base" style="font-weight: bold;color:orangered;font-size: 16px">ToolKit</a>
-                       </li-->
-                    <c:if test="${userAttributes.get('name')!=null}">
+                    <!--li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
+                    </li-->
+                </c:if>
 
-                        <li class="nav-item">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fas fa-th"></i>&nbsp;My&nbsp;Dashboard</a></li>
-                        <li class="nav-item">   <a class="nav-link" href="/toolkit/admin" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fas fa-th"></i>&nbsp;Admin</a></li>
-                        <!--li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
-                        </li-->
-                    </c:if>
-                </ul>
-                <form action="/toolkit/data/search/results" class="form-inline my-2 my-lg-0">
-                       <input  name="searchTerm" class="form-control mr-sm-2" type="search" placeholder="Search SCGE" aria-label="Search">
-                       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                   </form>
-            </div>
-        </nav>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fa fa-phone" aria-hidden="true"></i>Contact</a>
+                </li>
+            </ul>
+        </div>
     </div>
+</nav>
+
     <div id="main">
         <c:if test="${destination!='create'}">
             <div class="" style="margin-top: 0;padding-top: 0">
@@ -252,19 +204,15 @@ Goals"/>
         </c:if>
     </div>
 
-</div>
 
-<div class="fusion-clearfix"></div>
-<footer id="footer" class="fusion-footer-copyright-area fusion-footer-copyright-center">
-    <div class="fusion-row">
-        <div class="fusion-copyright-content">
-            <div class="fusion-copyright-notice">
-                <div style="text-align: center">
-                            This website is hosted by the SCGE DCC | Copyright 2019 SCGE | All Rights Reserved	</div>
-                    </div>
-        </div> <!-- fusion-fusion-copyright-content -->
-    </div> <!-- fusion-row -->
-</footer> <!-- #footer -->
+
+<footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+    <div class="container text-center">
+        <small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2019 SCGE | All Rights Reserved</small>
+    </div>
+</footer>
+
+
 
 
 <!-- Bootstrap core JavaScript
