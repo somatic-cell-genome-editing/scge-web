@@ -13,19 +13,7 @@
                         <li class="nav-item">
                             <a class="nav-link facet-head" onclick="searchByFilter('${bkt.key}','${searchTerm}','', '')" >
                         <span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span></a>
-                            <!--ul>
-                        <c:set var="bktName" value="${bkt.key}TypeAggs"/>
-                        <c:forEach items="${aggregations.get(bktName)}" var="type">
-                            <li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','')" >${type.key}(${type.docCount})</a>
-                                <ul>
-                                <c:set var="subtypeAggsBkt" value="${type.key}SubtypeAggs"/>
-                                <c:forEach items="${aggregations.get(subtypeAggsBkt)}" var="subtype">
-                                    <li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li>
-                                </c:forEach>
-                                </ul>
-                            </li>
-                        </c:forEach>
-                    </ul-->
+
                         </li>
 
 
@@ -107,6 +95,33 @@
                 </ul>
             </div>
         </div>
+
+    </div>
+
+
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" href="#collapseFour">
+                Filter by Subtype
+            </a>
+        </div>
+        <div id="collapseFour" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1">
+                        Default checkbox
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" disabled>
+                    <label class="form-check-label" for="defaultCheck2">
+                        Disabled checkbox
+                    </label>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -114,24 +129,30 @@
 
     function searchByFilter(category, searchTerm, type, subType) {
 
-        var  $contentDiv=$('#results');
+      //  var  $contentDiv=$('#results');
+        var  $contentDiv=$('#reloadResults');
         var  $tmp=$contentDiv.html();
+        var currentURL=window.location.href
         var url;
+        url="/toolkit/data/search/results/"+category+"?facetSearch=true&searchTerm="+searchTerm+"&type="+type+"&subType="+subType
         var breadCrumbList=$("#breadcrumb");
             breadCrumbList.html(
                 " <ol class=\"breadcrumb\">" +
                 "        <!--li class=\"breadcrumb-item active\" aria-current=\"page\">Home</li-->" +
-                "<li class=\"breadcrumb-item active\">Categories</li>"+
-                "<li class=\"breadcrumb-item \" aria-current=\"page\">"+category+"</li>"+
+                "<!--li class=\"breadcrumb-item active\"><a onclick=\"+searchByFilter('','"+searchTerm+"','', '')\">Categories</a></li-->"+
+                "<li class=\"breadcrumb-item active\"><a href='"+currentURL+"'>Categories</a></li>"+
+                "<li class=\"breadcrumb-item \" aria-current=\"page\"><a onclick=\"+searchByFilter('"+category+"','"+searchTerm+"','"+type+"', '"+subType+"')\">"+category+"</a></li>"+
                 " </ol>"
 
 
         )
 
-        url="/toolkit/data/search/results/"+category+"?facetSearch=true&searchTerm="+searchTerm+"&type="+type+"&subType="+subType
 
         $.get(url, function (data, status) {
+            if(category!== typeof undefined)
             breadCrumbList.show();
+            else
+                breadCrumbList.setAttribute('display','none')
 
             $contentDiv.html(data);
         })
