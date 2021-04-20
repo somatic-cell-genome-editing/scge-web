@@ -29,7 +29,14 @@
         font-size:14px;
     }
 </style>
-
+<script>
+    $(function() {
+        $("#myTable").tablesorter({
+            theme : 'blue',
+            widgets: ['zebra',"filter",'resizable', 'stickyHeaders'],
+        });
+    });
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 
 
@@ -60,7 +67,91 @@ Experiment ex = (Experiment) request.getAttribute("experiment");
     <canvas id="resultChart"></canvas>
 
         </div>
+        <div>
+            <hr>
+            <h3>Results</h3>
+            <table id="myTable" class="table tablesorter table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Tissue</th>
+                    <th>Cell Type</th>
+                    <th class="tablesorter-header" data-placeholder="Search for editor...">Editor</th>
+                    <th>Model</th>
+                    <th>Delivery System</th>
+                    <th>Guide</th>
+                    <th>Vector</th>
+                    <th>Result Type</th>
+                    <th>Units</th>
+                    <th>Result</th>
+                </tr>
+                </thead>
 
+                <% HashMap deliveryMap = (HashMap) request.getAttribute("deliveryMap");
+                    HashMap<Integer,List<ExperimentResultDetail>> deliveryDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("deliveryDetail");
+                    HashMap editingMap = (HashMap) request.getAttribute("editingMap");
+                    HashMap<Integer,List<ExperimentResultDetail>> editingDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("editingDetail");
+
+                    HashMap<Integer,List<Guide>> guideMap = (HashMap<Integer,List<Guide>>)request.getAttribute("guideMap");
+                    HashMap<Integer,List<Vector>> vectorMap = (HashMap<Integer,List<Vector>>)request.getAttribute("vectorMap");
+                    for (ExperimentRecord exp: experimentRecords) {
+                        List<Guide> guideList = guideMap.get(exp.getExperimentRecordId());
+                        String guide = "";
+                        for(Guide g: guideList) {
+                            guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+SFN.parse(g.getGuide())+"</a>";
+                            guide += ";\t";
+                        }
+                        List<Vector> vectorList = vectorMap.get(exp.getExperimentRecordId());
+                        String vector = "";
+                        for(Vector v: vectorList) {
+                            vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">"+SFN.parse(v.getName())+"</a>";
+                            vector += ";\t";
+                        }
+                %>
+
+                <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) { %>
+                <tr>
+                    <!--td><input class="form" type="checkbox"></td-->
+
+
+                    <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
+                    <td><%=SFN.parse(exp.getTissueId())%></td>
+                    <td><%=SFN.parse(exp.getCellType())%></td>
+                    <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td>
+                    <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
+                    <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
+                    <td><%=guide%></td>
+                    <td><%=vector%></td>
+                    <td><%=deliveryDetail.get(exp.getExperimentRecordId()).get(0).getResultType()%></td>
+                    <td><%=deliveryDetail.get(exp.getExperimentRecordId()).get(0).getUnits()%></td>
+                    <td><%=deliveryMap.get(exp.getExperimentRecordId())%></td>
+                    <%for(ExperimentResultDetail e:deliveryDetail.get(exp.getExperimentRecordId())) {%>
+                    <td style="display: none"><%=e.getResult()%></td>
+                    <%}%>
+                </tr>
+                <tr>
+                    <!--td><input class="form" type="checkbox"></td-->
+
+
+                    <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
+                    <td><%=SFN.parse(exp.getTissueId())%></td>
+                    <td><%=SFN.parse(exp.getCellType())%></td>
+                    <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td>
+                    <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
+                    <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
+                    <td><%=guide%></td>
+                    <td><%=vector%></td>
+                    <td><%=editingDetail.get(exp.getExperimentRecordId()).get(0).getResultType()%></td>
+                    <td><%=editingDetail.get(exp.getExperimentRecordId()).get(0).getUnits()%></td>
+                    <td><%=editingMap.get(exp.getExperimentRecordId())%></td>
+                    <%for(ExperimentResultDetail e:editingDetail.get(exp.getExperimentRecordId())) {%>
+                    <td style="display: none"><%=e.getResult()%></td>
+                    <%}%>
+                </tr>
+                <% } %>
+                <% } %>
+            </table>
+        </div>
         <script>
             var ctx = document.getElementById("resultChart");
             var myChart = new Chart(ctx, {
@@ -127,16 +218,16 @@ Experiment ex = (Experiment) request.getAttribute("experiment");
                     label: "delivery",
                     yAxisID: 'delivery',
                     data: ${deliveryPlot.get("Mean")},
-                    backgroundColor: 'rgba(255, 206, 99, 0.6)',
-                    borderColor:    'rgba(255, 206, 99, 0.8)',
+                    backgroundColor: 'rgba(255,99,132,0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
                     borderWidth: 1
                 });
                 data.push({
                     label: "editing",
                     yAxisID: 'editing',
                     data: ${editingPlot.get("Mean")},
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
+                    backgroundColor:  'rgba(54, 162, 235, 0.2)',
+                    borderColor: "rgba(54, 162, 235, 1)",
                     borderWidth: 1
                 });
                 for(var i=0;i< noOfDatasets;i++){
@@ -157,7 +248,7 @@ Experiment ex = (Experiment) request.getAttribute("experiment");
                         data: dataSet[i],
                         label: "Replicate: "+(i+1),
                         yAxisID: 'editing',
-                        backgroundColor:  'rgba(54, 162, 235, 0.2)',
+                        backgroundColor:  'rgba(54, 162, 235, 1)',
                         borderColor: "rgba(54, 162, 235, 1)",
                         type: "scatter",
                         showLine: false
