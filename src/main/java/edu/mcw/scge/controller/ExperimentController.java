@@ -10,6 +10,9 @@ import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.NumberUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -164,75 +167,178 @@ public class ExperimentController extends UserController {
         }
         List<String> labels=new ArrayList<>();
         Map<String, List<Double>> plotData=new HashMap<>();
+        Map<String, List<Double>> deliveryPlot=new HashMap<>();
+        Map<String, List<Double>> editingPlot=new HashMap<>();
+
         HashMap<Integer,List<Integer>> replicateResult = new HashMap<>();
-        List<Double> mean = new ArrayList<>();
+        HashMap<Integer,List<Integer>> deliveryReplicate = new HashMap<>();
+        HashMap<Integer,List<Integer>> editingReplicate = new HashMap<>();
+
+        List mean = new ArrayList<>();
+        List deliveryMean = new ArrayList<>();
+        List editingMean = new ArrayList<>();
+
         HashMap<Integer,Double> resultMap = new HashMap<>();
+        HashMap<Integer,Double> deliveryMap = new HashMap<>();
+        HashMap<Integer,Double> editingMap = new HashMap<>();
+
         HashMap<Integer,List<ExperimentResultDetail>> resultDetail = new HashMap<>();
-        String efficiency = null;
-        int noOfSamples = 0;
+        HashMap<Integer,List<ExperimentResultDetail>> deliveryDetail = new HashMap<>();
+        HashMap<Integer,List<ExperimentResultDetail>> editingDetail = new HashMap<>();
+
+        String efficiency = null,deliveryEfficiency=null,editingEfficiency=null;
+        int noOfSamples = 0,deliverySamples=0,editingSamples=0;
         int i=0;
         List values = new ArrayList<>();
-
+        List<String> resultTypes = dbService.getResultTypes(experimentId);
         HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
         HashMap<Integer,List<Vector>> vectorMap = new HashMap<>();
 
-        for(ExperimentRecord record:records) {
-            labels.add("\"" + record.getExperimentName() + "\"");
-            List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
-            resultDetail.put(record.getExperimentRecordId(),experimentResults);
-            double average = 0;
+        if(resultTypes.size() == 1) {
+            for (ExperimentRecord record : records) {
+                labels.add("\"" + record.getExperimentName() + "\"");
+                guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
+                vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
 
-            guideMap.put(record.getExperimentRecordId(),dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
-            vectorMap.put(record.getExperimentRecordId(),dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
 
-            for(ExperimentResultDetail result: experimentResults){
-                noOfSamples =result.getNumberOfSamples();
-                efficiency = "\""+result.getResultType() + " in " + experimentResults.get(0).getUnits()+"\"";
-                values = replicateResult.get(result.getReplicate());
-                if(values == null)
-                    values = new ArrayList<>();
-                if(result.getResult() == null || result.getResult().isEmpty())
-                    values.add(null);
-                else  {
-                    values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
-                    average += Double.valueOf(result.getResult());
+                    String resultType = resultTypes.get(0);
+                List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByResultType(record.getExperimentRecordId(), resultType);
+                resultDetail.put(record.getExperimentRecordId(), experimentResults);
+                double average = 0;
+                for (ExperimentResultDetail result : experimentResults) {
+
+                    noOfSamples = result.getNumberOfSamples();
+                    efficiency = "\"" + result.getResultType() + " in " + experimentResults.get(0).getUnits() + "\"";
+                    values = replicateResult.get(result.getReplicate());
+                    if (values == null)
+                        values = new ArrayList<>();
+                    if (result.getResult() == null || result.getResult().isEmpty())
+                        values.add(null);
+                    else {
+                        values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
+                        average += Double.valueOf(result.getResult());
+                    }
+
+                    replicateResult.put(result.getReplicate(), values);
+
+
                 }
 
-                replicateResult.put(result.getReplicate(),values);
+                average = average / noOfSamples;
+                average = Math.round(average * 100.0) / 100.0;
+                mean.add(average);
+                resultMap.put(record.getExperimentRecordId(), average);
+
+                }
+            plotData.put("Mean",mean);
+            req.setAttribute("replicateResult",replicateResult);
+            req.setAttribute("experiments",labels);
+            req.setAttribute("plotData",plotData);
+            req.setAttribute("efficiency",efficiency);
+            req.setAttribute("experimentRecords", records);
+            req.setAttribute("resultDetail",resultDetail);
+            req.setAttribute("resultMap",resultMap);
+            req.setAttribute("study", study);
+            req.setAttribute("experiment",e);
+            req.setAttribute("guideMap",guideMap);
+            req.setAttribute("vectorMap",vectorMap);
+            req.setAttribute("action", "Experiment Records");
+            req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            }else {
+            values = new ArrayList<>();
+            for (ExperimentRecord record : records) {
+                labels.add("\"" + record.getExperimentName() + "\"");
+                guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
+                vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+
+                List<ExperimentResultDetail> deliveryResults = dbService.getExpResultsByResultType(record.getExperimentRecordId(),  "Delivery Efficiency");
+                List<ExperimentResultDetail> editingResults = dbService.getExpResultsByResultType(record.getExperimentRecordId(),  "Editing Efficiency");
+
+                deliveryDetail.put(record.getExperimentRecordId(), deliveryResults);
+                editingDetail.put(record.getExperimentRecordId(),editingResults);
+
+                List<ExperimentResultDetail> expResults = new ArrayList<>();
+                expResults.addAll(deliveryResults);
+                expResults.addAll(editingResults);
+
+                boolean delivery = false;
+
+                editingDetail.put(record.getExperimentRecordId(), editingResults);
+                deliveryDetail.put(record.getExperimentRecordId(),deliveryResults);
+                double average=0,editingAverage = 0,deliveryAverage=0;
+
+                for (ExperimentResultDetail result : expResults) {
+                    if (result.getResultType().equalsIgnoreCase("Delivery Efficiency")) {
+                        deliveryEfficiency = "\"" + result.getResultType() + " in " + result.getUnits() + "\"";
+                        values = deliveryReplicate.get(result.getReplicate());
+                        deliverySamples = result.getNumberOfSamples();
+                        average = deliveryAverage;
+                        delivery = true;
+                    } else {
+                        editingEfficiency = "\"" + result.getResultType() + " in " + result.getUnits() + "\"";
+                        values = editingReplicate.get(result.getReplicate());
+                        editingSamples = result.getNumberOfSamples();
+                        average = editingAverage;
+                    }
+
+                    if (values == null)
+                        values = new ArrayList<>();
+                    if (result.getResult() == null || result.getResult().isEmpty())
+                        values.add(null);
+                    else {
+                        values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
+                        average += Double.valueOf(result.getResult());
+                    }
+
+                    if (result.getResultType().equalsIgnoreCase("Delivery Efficiency")) {
+                        deliveryReplicate.put(result.getReplicate(), values);
+                        deliveryAverage = average;
+                    } else {
+                        editingReplicate.put(result.getReplicate(), values);
+                        editingAverage = average;
+                    }
+                }
+
+                        deliveryAverage = deliveryAverage / deliverySamples;
+                        deliveryAverage = Math.round(deliveryAverage * 100.0) / 100.0;
+                        deliveryMean.add(deliveryAverage);
+                        deliveryMap.put(record.getExperimentRecordId(), deliveryAverage);
+
+                        editingAverage = editingAverage / editingSamples;
+                        editingAverage = Math.round(editingAverage * 100.0) / 100.0;
+                        editingMean.add(editingAverage);
+                        editingMap.put(record.getExperimentRecordId(), editingAverage);
 
 
             }
-            /*for(int replicate: replicateResult.keySet()) {
-                List<Integer> val = replicateResult.get(replicate);
-                if(val.size() != i+1){
-                    val.add(null);
-                }
-                replicateResult.put(replicate,val);
-            }
-
-            i++;
-*/
-            average = average/noOfSamples;
-            average = Math.round(average * 100.0) / 100.0;
-            mean.add(average);
-            resultMap.put(record.getExperimentRecordId(),average);
+            System.out.println(deliveryMean);
+            System.out.println(editingMean);
+            deliveryPlot.put("Mean",deliveryMean);
+            editingPlot.put("Mean",editingMean);
+            req.setAttribute("deliveryReplicate",deliveryReplicate);
+            req.setAttribute("editingReplicate",editingReplicate);
+            req.setAttribute("deliveryPlot",deliveryPlot);
+            req.setAttribute("editingPlot",editingPlot);
+            req.setAttribute("experiments",labels);
+            req.setAttribute("deliveryEfficiency",deliveryEfficiency);
+            req.setAttribute("editingEfficiency",editingEfficiency);
+            req.setAttribute("deliveryDetail",deliveryDetail);
+            req.setAttribute("editingDetail",editingDetail);
+            req.setAttribute("deliveryMap",deliveryMap);
+            req.setAttribute("editingMap",editingMap);
+            req.setAttribute("experimentRecords", records);
+            req.setAttribute("study", study);
+            req.setAttribute("experiment",e);
+            req.setAttribute("guideMap",guideMap);
+            req.setAttribute("vectorMap",vectorMap);
+            req.setAttribute("action", "Experiment Records");
+            req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecordsMultiple");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         }
 
-        plotData.put("Mean",mean);
-        req.setAttribute("replicateResult",replicateResult);
-        req.setAttribute("experiments",labels);
-        req.setAttribute("plotData",plotData);
-        req.setAttribute("efficiency",efficiency);
-        req.setAttribute("experimentRecords", records);
-        req.setAttribute("resultDetail",resultDetail);
-        req.setAttribute("resultMap",resultMap);
-        req.setAttribute("study", study);
-        req.setAttribute("experiment",e);
-        req.setAttribute("guideMap",guideMap);
-        req.setAttribute("vectorMap",vectorMap);
-        req.setAttribute("action", "Experiment Records");
-        req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+
         return null;
     }
     @RequestMapping(value="/experiment/{experimentId}/record/{expRecordId}")
