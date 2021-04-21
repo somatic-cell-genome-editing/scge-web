@@ -49,7 +49,8 @@ public class SearchController{
         req.setAttribute("aggregations",services.getSearchAggregations(sr));
         if(facetSearch)
          //   return "search/resultsTable";
-            return "search/resultsView";
+        //    return "search/resultsView";
+            return "search/resultsPage";
         else {
             req.setAttribute("action", "Search Results: " + sr.getHits().getTotalHits() + " for " + searchTerm);
             req.setAttribute("page", "/WEB-INF/jsp/search/results");
@@ -65,21 +66,33 @@ public class SearchController{
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
         String type=req.getParameter("type");
         String subType=req.getParameter("subType");
+        System.out.println("CATEOGRY:"+ category+"\n"+
+                "TYPE:"+type+"\n"+
+                "SUBTYPE:"+ subType);
         SearchResponse sr=services.getSearchResults(category,searchTerm, type, subType, DCCNIHMember);
         boolean facetSearch=false;
+        boolean filter=false;
         if(req.getParameter("facetSearch")!=null)
         facetSearch= req.getParameter("facetSearch").equals("true");
+        if(req.getParameter("filter")!=null)
+            filter=req.getParameter("filter").equals("true");
         req.setAttribute("searchTerm", searchTerm);
         req.setAttribute("category",category);
         req.setAttribute("sr", sr);
         req.setAttribute("aggregations",services.getSearchAggregations(sr));
         if(facetSearch)
       //  return "search/resultsTable";
-            return "search/resultsView";
+      //      return "search/resultsView";
+            return "search/resultsPage";
         else{
-             req.setAttribute("action", "Search Results");
-               req.setAttribute("page", "/WEB-INF/jsp/search/results");
-              req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            if(filter){
+                System.out.println("FILTER:"+ filter);
+                return "search/resultsView";
+            }else {
+                req.setAttribute("action", "Search Results");
+                req.setAttribute("page", "/WEB-INF/jsp/search/results");
+                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            }
         }
         return null;
     }

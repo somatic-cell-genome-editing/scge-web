@@ -1,4 +1,3 @@
-<%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ page import="edu.mcw.scge.datamodel.PersonInfo" %>
 <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/dashboard/">

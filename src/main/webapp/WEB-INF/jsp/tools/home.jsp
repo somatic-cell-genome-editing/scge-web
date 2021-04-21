@@ -7,13 +7,13 @@
   Time: 2:05 PM
   To change this template use File | Settings | File Templates.
 --%>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 <% StatsDao sdao = new StatsDao(); %>
 <style>
     .card-header{
         font-weight: bold;
         border:0;
+        color:#017dc4
 
     }
 
@@ -21,7 +21,7 @@
 <div class="row">
     <div class="col-sm-3">
         <div class="card">
-            <div class="card-header text-secondary" >
+            <div class="card-header" >
                 Browse
             </div>
             <div class="card-body">
@@ -79,7 +79,7 @@
     </div>
     <div class="col-sm-6">
         <div class="card">
-            <div class="card-header text-secondary" >
+            <div class="card-header" >
                 Studies
             </div>
             <div class="card-body">
@@ -90,7 +90,7 @@
     </div>
     <div class="col-sm-3">
     <div class="card shadow">
-        <div class="card-header text-secondary ">
+        <div class="card-header ">
             Studies by Initiative
         </div>
         <div class="card-body">
@@ -108,7 +108,7 @@
                         Delivery Systems Initiative
                     </a>
                 </li>
-                <li class="card-header text-secondary">Biological Effects</li>
+                <li class="card-header">Biological Effects</li>
                 <li class="nav-item">
                     <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=4">
                         <span data-feather="layers"></span>
@@ -121,7 +121,7 @@
                         In Vivo Cell Tracking
                     </a>
                 </li>
-                <li class="card-header text-secondary">Animal Reporter and Testing Center</li>
+                <li class="card-header ">Animal Reporter and Testing Center</li>
                 <li class="nav-item">
                     <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=1">
                         <span data-feather="layers"></span>
@@ -147,7 +147,7 @@
 <div class="row">
     <div class=" col-sm-3">
 <div class="card " >
-    <div class="card-header text-secondary " >
+    <div class="card-header " >
         Quick Links
     </div>
     <div class="card-body">
@@ -182,7 +182,7 @@
     </div>
     <div class="col-sm-9" style="margin-top:1%">
     <div class="card" >
-        <div class="card-header text-secondary" >
+        <div class="card-header " >
             Updates/Upcoming Features ..
         </div>
         <div class="card-body">

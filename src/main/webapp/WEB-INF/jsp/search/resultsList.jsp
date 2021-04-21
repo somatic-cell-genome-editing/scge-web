@@ -5,8 +5,7 @@
   Time: 1:40 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <script>
     $(function() {
         $("#myTable").tablesorter({
@@ -44,13 +43,19 @@
             </a>
             </h5>
             </c:if>
-            <span><strong>Category:</strong>${hit.sourceAsMap.category}</span>
-            <span><strong>Type:</strong>${hit.sourceAsMap.type}</span>
+            <span><strong>Category:</strong>&nbsp;${hit.sourceAsMap.category}</span><br>
+            <c:if test="${hit.sourceAsMap.type!=null}">
+            <span><strong>Type:</strong>&nbsp;${hit.sourceAsMap.type}</span><br>
+            </c:if>
             <c:if test="${hit.sourceAsMap.subType!=null}">
-            <span><strong>SubType:</strong>${hit.sourceAsMap.subType}</span>
+            <span><strong>SubType:</strong>&nbsp;${hit.sourceAsMap.subType}</span> <br>
             </c:if>
 
-                <div  class="more hideContent" style="overflow-y: auto">
+            <c:if test="${hit.sourceAsMap.description!=null}">
+                <span><strong>Description:</strong>&nbsp;${hit.sourceAsMap.description}</span>
+            </c:if>
+
+                <!--div  class="more hideContent" style="overflow-y: auto">
                     <strong style="text-decoration: underline">Matched on:</strong>
                     <c:set value="true" var="first"/>
                     <c:forEach items="${hit.highlightFields}" var="hf">
@@ -60,7 +65,7 @@
                         </c:forEach>
                         <br>
                     </c:forEach>
-                </div>
+                </div-->
 
         </div>
     </td></tr>

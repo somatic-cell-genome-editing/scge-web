@@ -18,9 +18,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/js/bootstrap-multiselect.js"></script>
 
 <style>
-    td{
-        font-size: 12px;
-    }
+
     .tiers{
         padding:0;
     }
@@ -34,7 +32,7 @@
         overflow-x: auto;
     }
     optgroup{
-       color:cornflowerblue;
+       color:#1A80B6;
         font-weight: bold
     }
 

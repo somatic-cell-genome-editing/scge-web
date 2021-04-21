@@ -34,26 +34,8 @@ Goals"/>
     <script src="/toolkit/common/tableSorter/js/tablesorter.js"> </script>
     <script src="/toolkit/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link href="/toolkit/css/scge.css" rel="stylesheet" type="text/css"/>
 
-    <style>
-        body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:1rem;font-weight:400;line-height:1.5;color:#212529;text-align:left;background-color:#fff}
-
-
-    #main {
-    overflow:auto;
-    padding-bottom:150px; /* this needs to be bigger than footer height*/
-    }
-
-
-    .sidebarItemDiv{
-        margin:1%;
-
-    }
-    .nav-link:hover{
-        background-color: #5aabd6;
-    }
-
- </style>
 </head>
 
 <body>
@@ -62,7 +44,9 @@ Goals"/>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <form  action="/toolkit/data/search/results" class="form w-100" >
+    <input class="form-control form-control-dark w-100" name="searchTerm" type="text" placeholder="Search" aria-label="Search">
+    </form>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <span class="navbar-text navbar-right">
