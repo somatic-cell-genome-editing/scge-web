@@ -39,11 +39,10 @@ Goals"/>
 </head>
 
 <body>
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="https://scge.mcw.edu/">SCGE</a>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar  sticky-top flex-md-nowrap p-0 shadow" style="background-color: #1a80b6">
+    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="https://scge.mcw.edu/">
+        <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" width="70" height="50" ></a>
+
     <form  action="/toolkit/data/search/results" class="form w-100" >
     <input class="form-control form-control-dark w-100" name="searchTerm" type="text" placeholder="Search" aria-label="Search">
     </form>
@@ -54,7 +53,7 @@ Goals"/>
                             <c:choose>
                                 <c:when test="${userAttributes.get('name')!=null}">
                                     <img class="img-circle" src="${userAttributes.get('picture')}" width="24">
-                                    &nbsp;${userAttributes.get('name')}&nbsp;&nbsp;
+                                    <span class="navbar-text text-white">&nbsp;${userAttributes.get('name')}&nbsp;&nbsp;</span>
                                     <a href="/toolkit/logout" title="Sign out"><button class="btn btn-primary">Logout</button></a>
 
                                 </c:when>
@@ -68,9 +67,9 @@ Goals"/>
 </nav>
 <nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
     <div class="container">
-        <a class="navbar-brand"  href="https://scge.mcw.edu/" >
+        <!--a class="navbar-brand"  href="https://scge.mcw.edu/" >
             <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" style="background-color: transparent"/>
-        </a>
+        </a-->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -179,6 +178,8 @@ Goals"/>
                         </c:otherwise>
                     </c:choose>
                     <div style="margin-top: 0;padding-top:0">
+                        <nav aria-label="breadcrumb" id="breadcrumb"></nav>
+
                         <c:if test="${page!=null}">
                         <c:import url="${page}.jsp" />
                         </c:if>
