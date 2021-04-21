@@ -82,6 +82,16 @@ public class DBService {
         ExperimentResultDao dao = new ExperimentResultDao();
         return dao.getResultsByExperimentRecId(expRecId);
     }
+
+    public List<ExperimentResultDetail> getExpResultsByResultType(int expRecId,String resultType) throws Exception{
+        ExperimentResultDao dao = new ExperimentResultDao();
+        return dao.getResultsByExpResType(expRecId,resultType);
+    }
+
+    public List<String> getResultTypes(int expId) throws Exception{
+        ExperimentResultDao dao = new ExperimentResultDao();
+        return dao.getResTypeByExpId(expId);
+    }
     public List<Study> getStudiesByGroupId(int groupId){
 
         return null;
