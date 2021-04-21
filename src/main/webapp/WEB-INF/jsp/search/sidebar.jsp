@@ -2,35 +2,55 @@
 <input type="hidden" name="category" id="category" value="${category}" >
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
-        <div class="accordion-heading">
-            <c:if test="${fn:length(aggregations.catBkts)>1}">
+        <c:if test="${fn:length(aggregations.catBkts)>1}">
+        <div class="accordion-heading card-header">
+
             <a class="accordion-toggle" data-toggle="collapse" href="#collapseOne">
              Categories
             </a>
-            </c:if>
+
         </div>
-        <div id="collapseOne" class="accordion-body collapse show" data-parent="#accordion2">
-            <div class="accordion-inner">
-                <ul class="nav flex-column">
+        </c:if>
+        <c:choose>
+            <c:when test="${fn:length(aggregations.catBkts)==1}">
+
+                <div>
                     <c:forEach items="${aggregations.catBkts}" var="bkt">
-                        <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
-                        <li class="nav-item">
-                            <a class="nav-link facet-head" onclick="searchByFilter('${bkt.key}','${searchTerm}','', '')" >
-                        <span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span></a>
+                            <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
 
-                        </li>
-
-
+                                <a class="nav-link facet-head" onclick="searchByFilter('${bkt.key}','${searchTerm}','', '')" >
+                                    <span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span></a>
                     </c:forEach>
-                </ul>
-            </div>
-        </div>
+
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div id="collapseOne" class="accordion-body collapse show" data-parent="#accordion2">
+                    <div class="accordion-inner">
+                        <ul class="nav flex-column">
+                            <c:forEach items="${aggregations.catBkts}" var="bkt">
+                                <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
+                                <li class="nav-item">
+                                    <a class="nav-link facet-head" onclick="searchByFilter('${bkt.key}','${searchTerm}','', '')" >
+                                        <span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span></a>
+
+                                </li>
+
+
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </div>
+            </c:otherwise>
+        </c:choose>
+
+
     </div>
     <c:if test="${fn:length(aggregations.typeBkts)>0}">
 
 
     <div class="accordion-group">
-        <div class="accordion-heading">
+        <div class="accordion-heading card-header">
             <a class="accordion-toggle" data-toggle="collapse" href="#collapseTwo">
                 Filter by Type
             </a>
@@ -57,7 +77,7 @@
     </div>
         <c:if test="${fn:length(aggregations.subtypeBkts)>0}">
     <div class="accordion-group">
-        <div class="accordion-heading">
+        <div class="accordion-heading card-header">
             <a class="accordion-toggle" data-toggle="collapse" href="#collapseThree">
                 Filter by Subtype
             </a>
@@ -83,7 +103,7 @@
     </c:if>
     <c:if test="${fn:length(aggregations.editorBkts)>0}">
         <div class="accordion-group">
-            <div class="accordion-heading">
+            <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseFour">
                     Filter by Editor
                 </a>
@@ -106,7 +126,7 @@
     </c:if>
     <c:if test="${fn:length(aggregations.deliveryBkts)>0}">
         <div class="accordion-group">
-            <div class="accordion-heading">
+            <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseFive">
                     Filter by Delivery System
                 </a>
@@ -129,7 +149,7 @@
     </c:if>
     <c:if test="${fn:length(aggregations.modelBkts)>0}">
         <div class="accordion-group">
-            <div class="accordion-heading">
+            <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseSix">
                     Filter by Model
                 </a>

@@ -35,10 +35,26 @@ Goals"/>
     <script src="/toolkit/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link href="/toolkit/css/scge.css" rel="stylesheet" type="text/css"/>
-
+    <style>
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        #wrapper {
+        min-height: 100%;
+    }
+        #main {
+            overflow:auto;
+            padding-bottom:150px; /* this needs to be bigger than footer height*/
+        }
+        footer{
+            position: relative;
+        }
+    </style>
 </head>
 
 <body>
+<div id="wrapper">
 <nav class="navbar  sticky-top flex-md-nowrap p-0 shadow" style="background-color: #1a80b6">
     <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="https://scge.mcw.edu/">
         <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" width="70" height="50" ></a>
@@ -188,38 +204,34 @@ Goals"/>
             </div>
         </c:if>
     </div>
-
+</div>
 
 
 <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
     <div class="container text-center">
         <small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2019 SCGE | All Rights Reserved</small>
     </div>
-</footer>
-
-
-
-
-<!-- Bootstrap core JavaScript
+    <!-- Bootstrap core JavaScript
 ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
+    <!-- Placed at the end of the document so the pages load faster -->
 
-<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script-->
-<!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script-->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script-->
+    <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script-->
     <script>
-    $.ajaxSetup({
-    beforeSend : function(xhr, settings) {
-    if (settings.type == 'POST' || settings.type == 'PUT'
-    || settings.type == 'DELETE') {
-    if (!(/^http:.*/.test(settings.url) || /^https:.*/
-    .test(settings.url))) {
-    // Only send the token to relative URLs i.e. locally.
-    xhr.setRequestHeader("X-XSRF-TOKEN",
-    Cookies.get('XSRF-TOKEN'));
-    }
-    }
-    }
-    });
+        $.ajaxSetup({
+            beforeSend : function(xhr, settings) {
+                if (settings.type == 'POST' || settings.type == 'PUT'
+                    || settings.type == 'DELETE') {
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/
+                        .test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-XSRF-TOKEN",
+                            Cookies.get('XSRF-TOKEN'));
+                    }
+                }
+            }
+        });
     </script>
+</footer>
 </body>
 </html>
