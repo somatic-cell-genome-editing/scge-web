@@ -60,7 +60,10 @@ public class AlignmentController {
                 "KKKRKVSLGSGSDYKDDDDKDYKDDDDK";
 
 
-        PrintWriter pw = new PrintWriter(new FileOutputStream("/data/clustalOmega/clustal.fasta"));
+        String root = "/Users/jdepons/clustalOmega";
+        //String root = "/data/clustalOmega";
+
+        PrintWriter pw = new PrintWriter(new FileOutputStream(root + "/clustal.fasta"));
 
         pw.println(">Casϕ-1");
         pw.println(cas1);
@@ -71,9 +74,7 @@ public class AlignmentController {
 
         pw.close();
 
-        Process p = Runtime.getRuntime().exec("/data/clustalOmega/clustalo --infile /data/clustalOmega/clustal.fasta --threads 8 --MAC-RAM 8000 --outfmt clustal --resno  --output-order tree-order --seqtype protein\n");
-
-
+        Process p = Runtime.getRuntime().exec(root + "/clustalo --infile " + root + "/clustal.fasta --threads 8 --MAC-RAM 8000 --outfmt clustal --resno  --output-order tree-order --seqtype protein\n");
 
         String alignment = "";
         BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -82,7 +83,6 @@ public class AlignmentController {
             alignment += line + "\n";
         }
 
-
         req.setAttribute("alignment",alignment);
         req.setAttribute("action", "Alignment");
         req.setAttribute("page", "/WEB-INF/jsp/tools/align");
@@ -90,7 +90,5 @@ public class AlignmentController {
 
         return null;
     }
-
-
 
 }

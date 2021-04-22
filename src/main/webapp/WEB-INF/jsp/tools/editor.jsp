@@ -68,7 +68,7 @@
 
             <tr ><td class="header"><strong>Origin Species</strong></td><td><%=editor.getSpecies()%></td></tr>
             <tr ><td class="header"><strong>PAM</strong></td><td><%=editor.getPamPreference()%></td></tr>
-            <tr ><td class="header"><strong>Variant</strong></td><td><%=editor.getEditorVariant()%></td></tr>
+            <tr ><td class="header"><strong>Variant</strong></td><td><%SFN.parse(editor.getEditorVariant()()%></td></tr>
             <tr ><td class="header"><strong>Activity</strong></td><td><%=editor.getActivity()%></td></tr>
             <tr ><td class="header"><strong>Cleavage Type</strong></td><td><%=editor.getDsbCleavageType()%></td></tr>
 

@@ -4,6 +4,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -51,6 +52,7 @@
 <% List<Study> studies = (List<Study>) request.getAttribute("studies");
     Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
     Person person = (Person) request.getAttribute("person");
+    GrantDao grantDao = new GrantDao();
 %>
 <c:if test="${action!='Dashboard'}">
 <table align="center">
@@ -73,8 +75,8 @@
         <thead>
         <tr><th></th>
             <th width="20">Tier</th>
-            <th>Name</th>
-            <th>Institution</th>
+            <th>Grant Title</th>
+            <th>Initiative</th>
             <th>Contact PI</th>
             <th>Submission Date</th>
         </tr>
@@ -120,8 +122,8 @@
                     <%=s.getStudy()%>
                 <% } %>
             </td>
-            <td><%=s.getLabName()%></td>
-            <td><%=s.getPi()%></td>
+            <td><%=grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative()%></td>
+            <td><%=s.getPi()%><br>(<%=s.getLabName()%>)</td>
             <td><%=UI.formatDate(s.getSubmissionDate())%></td>
         </tr>
         <%}%>
