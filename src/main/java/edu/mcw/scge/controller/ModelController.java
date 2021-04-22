@@ -79,6 +79,7 @@ public class ModelController {
         }
         req.setAttribute("vectorMap", vectorMap);
 
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/models/search'>Models</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

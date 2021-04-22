@@ -129,7 +129,7 @@
                 <%if(access.hasStudyAccess(s,person)) {  %>
                     <% if (!hasRecords) { %>
                     <%=s.getStudy()%>
-                        <span style="font-size:9px;">(Submission Received: In Processing)</span>
+                        <span style="font-size:10px;">(Submission Received: Processing)</span>
                     <% } else { %>
                         <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a>
                     <% } %>
