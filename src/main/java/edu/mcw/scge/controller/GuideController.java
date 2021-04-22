@@ -31,7 +31,7 @@ public class GuideController {
         return null;
     }
 
-    @RequestMapping(value="/guide")
+    @RequestMapping(value="/system")
     public String getGuide(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         GuideDao dao = new GuideDao();
         Guide guide= dao.getGuideById(Integer.parseInt(req.getParameter("id"))).get(0);
