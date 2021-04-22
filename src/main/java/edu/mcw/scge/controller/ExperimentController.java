@@ -145,7 +145,106 @@ public class ExperimentController extends UserController {
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
     }
+    @RequestMapping(value="/experiment/compareExperiments/{experimentId1}/{experimentId2}")
+    public String compareExperiments(HttpServletRequest req, HttpServletResponse res,
+                                     @PathVariable(required = false) int experimentId1,
+                                     @PathVariable(required = false) int experimentId2) throws Exception {
 
+        Person p = userService.getCurrentUser(req.getSession());
+
+        if (!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        List<ExperimentRecord> exp1 = edao.getExperimentRecords(experimentId1);
+        List<ExperimentRecord> exp2 = edao.getExperimentRecords(experimentId2);
+        Set<Integer> studies = new TreeSet<>();
+        studies.add(exp1.get(0).getStudyId());
+        studies.add(exp2.get(0).getStudyId());
+        List<Study> studiesList = new ArrayList<>();
+        for (int s : studies){
+            Study study = sdao.getStudyById(s).get(0);
+            studiesList.add(study);
+            if(!access.hasStudyAccess(study,p)){
+                req.setAttribute("page", "/WEB-INF/jsp/error");
+                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+                return null;
+            }
+        }
+
+        ExperimentRecord expr1 = exp1.get(0);
+        ExperimentRecord expr2 = exp2.get(0);
+
+        Experiment e1 = edao.getExperiment(experimentId1);
+        Experiment e2 = edao.getExperiment(experimentId2);
+
+        List<ExperimentRecord> allRecords = new ArrayList<>();
+        allRecords.addAll(exp1);
+        allRecords.addAll(exp2);
+
+        HashMap<String,Double> exp1Results = new HashMap<>();
+        HashMap<String,Double> exp2Results = new HashMap<>();
+        List<Double> exp1Mean = new ArrayList<>();
+        List<Double> exp2Mean = new ArrayList<>();
+        HashMap<Integer,String> labels = new HashMap<>();
+        Set<String> labelNames = new TreeSet<>();
+        int noOfSamples = 0;
+
+        String editor1 = "\"" + exp1.get(0).getEditorSymbol() + "\"";
+        String editor2 = "\"" + exp2.get(0).getEditorSymbol() + "\"";
+        String units="";
+        List<Guide> guides1 = dbService.getGuidesByExpRecId(exp1.get(0).getExperimentRecordId());
+        List<Guide> guides2 = dbService.getGuidesByExpRecId(exp2.get(0).getExperimentRecordId());
+
+        for(ExperimentRecord record:allRecords) {
+            labels.put(record.getDeliverySystemId(),record.getDeliverySystemType());
+            List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
+
+            double average = 0;
+            for (ExperimentResultDetail result : experimentResults) {
+                noOfSamples = result.getNumberOfSamples();
+                units = "\"" + result.getResultType() + " in " + experimentResults.get(0).getUnits() + "\"";
+                if (result.getResult() != null && !result.getResult().isEmpty())
+                    average += Double.valueOf(result.getResult());
+            }
+            average = average / noOfSamples;
+            average = Math.round(average * 100.0) / 100.0;
+
+            if(experimentId1 == record.getExperimentId()) {
+                exp1Results.put(record.getDeliverySystemType(), average);
+            }
+            else {
+                exp2Results.put(record.getDeliverySystemType(),average);
+            }
+        }
+        for(Integer id:labels.keySet()) {
+            String name = labels.get(id);
+            exp1Mean.add(exp1Results.get(name));
+            exp2Mean.add(exp2Results.get(name));
+            labelNames.add("\"" + name +"\"" ); //add quotes for labels on graph
+        }
+
+        req.setAttribute("action", "Compare Experiments");
+        req.setAttribute("labelNames",labelNames);
+        req.setAttribute("labels",labels);
+        req.setAttribute("exp1Mean",exp1Mean);
+        req.setAttribute("exp2Mean",exp2Mean);
+        req.setAttribute("editor1",editor1);
+        req.setAttribute("editor2",editor2);
+        req.setAttribute("exp1Results",exp1Results);
+        req.setAttribute("exp2Results",exp2Results);
+        req.setAttribute("units",units);
+        req.setAttribute("studies",studiesList);
+        req.setAttribute("expRecord1",expr1);
+        req.setAttribute("expRecord2",expr2);
+        req.setAttribute("exp1",e1);
+        req.setAttribute("exp2",e2);
+        req.setAttribute("guides1",guides1);
+        req.setAttribute("guides2",guides2);
+        req.setAttribute("page", "/WEB-INF/jsp/tools/compareExperiments");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        return null;
+    }
     @RequestMapping(value="/experiment/{experimentId}")
     public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res,
                                                @PathVariable(required = false) int experimentId
