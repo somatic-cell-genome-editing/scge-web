@@ -43,6 +43,9 @@ public class EditorController {
         }else {
             records = dao.getAllEditors(us.getCurrentUser(req.getSession()).getId());
         }
+
+
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
         req.setAttribute("editors", records);
         req.setAttribute("action", "Genome Editors");
         req.setAttribute("page", "/WEB-INF/jsp/tools/editors");
@@ -71,6 +74,7 @@ public class EditorController {
 
         }
 
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/editors/search'>Editors</a>");
         req.setAttribute("editor", editor);
         req.setAttribute("action", "Genome Editor: " + UI.replacePhiSymbol(editor.getSymbol()));
         req.setAttribute("page", "/WEB-INF/jsp/tools/editor");

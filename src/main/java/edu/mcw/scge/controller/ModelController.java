@@ -25,6 +25,7 @@ public class ModelController {
     public String getModels(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ModelDao dao = new ModelDao();
         List<edu.mcw.scge.datamodel.Model> records= dao.getModels();
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
         req.setAttribute("models", records);
         req.setAttribute("action", "Model Systems");
         req.setAttribute("page", "/WEB-INF/jsp/tools/models");

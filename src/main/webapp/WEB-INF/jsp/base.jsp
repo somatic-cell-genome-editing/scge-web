@@ -90,6 +90,9 @@ Goals"/>
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
+            <% if (request.getAttribute("crumbtrail") != null) {%>
+                <div><%=request.getAttribute("crumbtrail")%></div>
+            <%}%>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
 

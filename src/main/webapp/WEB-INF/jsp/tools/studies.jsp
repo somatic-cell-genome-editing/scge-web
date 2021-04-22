@@ -5,6 +5,7 @@
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ExperimentRecordDao" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -53,6 +54,7 @@
     Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
     Person person = (Person) request.getAttribute("person");
     GrantDao grantDao = new GrantDao();
+    ExperimentRecordDao erdao = new ExperimentRecordDao();
 %>
 <c:if test="${action!='Dashboard'}">
 <table align="center">
@@ -116,8 +118,22 @@
                 <td width="20">
                     <%=s.getTier()%>
                 </td>
-            <td><%if(access.hasStudyAccess(s,person)) {  %>
-                    <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a>
+
+            <%  boolean hasRecords=false;
+                if (erdao.getExperimentRecordsByStudyId(s.getStudyId()).size() > 0) {
+                      hasRecords=true;
+               }
+            %>
+            <td>
+
+                <%if(access.hasStudyAccess(s,person)) {  %>
+                    <% if (!hasRecords) { %>
+                    <%=s.getStudy()%>
+                        <span style="font-size:9px;">(Submission Received: In Processing)</span>
+                    <% } else { %>
+                        <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a>
+                    <% } %>
+
                 <%} else { %>
                     <%=s.getStudy()%>
                 <% } %>

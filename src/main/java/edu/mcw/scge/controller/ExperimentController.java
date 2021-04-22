@@ -34,6 +34,7 @@ public class ExperimentController extends UserController {
         ExperimentDao edao=new ExperimentDao();
 
         List<Experiment>  records = edao.getAllExperiments();
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
         req.setAttribute("experiments", records);
         req.setAttribute("action", "Experiments");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
@@ -61,6 +62,7 @@ public class ExperimentController extends UserController {
         }
 
         List<Experiment> records = edao.getExperimentsByStudy(studyId);
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/studies/search'>Studies</a>");
         req.setAttribute("experiments", records);
         req.setAttribute("study", study);
         req.setAttribute("action", "Experiments");

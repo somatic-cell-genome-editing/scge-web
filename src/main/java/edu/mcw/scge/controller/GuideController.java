@@ -22,6 +22,7 @@ public class GuideController {
     public String getGuides(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         GuideDao dao = new GuideDao();
         List<Guide> records= dao.getGuides();
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
         req.setAttribute("guides", records);
         req.setAttribute("action", "Guides");
         req.setAttribute("page", "/WEB-INF/jsp/tools/guides");
