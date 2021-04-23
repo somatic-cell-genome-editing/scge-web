@@ -74,11 +74,12 @@ public class StudyController{
             if (initiative > 0) {
                 studies = sdao.getStudiesByInitiative(initiativeName);
                 Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
+                req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
                 req.setAttribute("tierUpdateMap", tierUpdateMap);
             }else {
                 studies = sdao.getStudies();
 
-
+                req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
                 req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
                 req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
                 req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());
@@ -135,7 +136,7 @@ public class StudyController{
     }
 
 
-    @GetMapping(value="/search/results/{id}")
+  /*  @GetMapping(value="/search/results/{id}")
     public void getResults(@PathVariable String id, HttpServletRequest req, HttpServletResponse res) throws Exception {
         int experimentId= Integer.parseInt(id);
         ExperimentDao dao = new ExperimentDao();
@@ -182,5 +183,5 @@ public class StudyController{
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
     }
-
+*/
 }

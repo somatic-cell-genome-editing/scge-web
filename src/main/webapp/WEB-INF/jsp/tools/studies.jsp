@@ -4,6 +4,8 @@
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ExperimentRecordDao" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -18,9 +20,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/js/bootstrap-multiselect.js"></script>
 
 <style>
-    td{
-        font-size: 12px;
-    }
+
     .tiers{
         padding:0;
     }
@@ -34,7 +34,7 @@
         overflow-x: auto;
     }
     optgroup{
-       color:cornflowerblue;
+       color:#1A80B6;
         font-weight: bold
     }
 
@@ -53,6 +53,8 @@
 <% List<Study> studies = (List<Study>) request.getAttribute("studies");
     Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
     Person person = (Person) request.getAttribute("person");
+    GrantDao grantDao = new GrantDao();
+    ExperimentRecordDao erdao = new ExperimentRecordDao();
 %>
 <c:if test="${action!='Dashboard'}">
 <table align="center">
@@ -75,8 +77,8 @@
         <thead>
         <tr><th></th>
             <th width="20">Tier</th>
-            <th>Name</th>
-            <th>Institution</th>
+            <th>Grant Title</th>
+            <th>Initiative</th>
             <th>Contact PI</th>
             <th>Submission Date</th>
         </tr>
@@ -116,14 +118,28 @@
                 <td width="20">
                     <%=s.getTier()%>
                 </td>
-            <td><%if(access.hasStudyAccess(s,person)) {  %>
-                    <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a>
+
+            <%  boolean hasRecords=false;
+                if (erdao.getExperimentRecordsByStudyId(s.getStudyId()).size() > 0) {
+                      hasRecords=true;
+               }
+            %>
+            <td>
+
+                <%if(access.hasStudyAccess(s,person)) {  %>
+                    <% if (!hasRecords) { %>
+                    <%=s.getStudy()%>
+                        <span style="font-size:10px;">(Submission Received: Processing)</span>
+                    <% } else { %>
+                        <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a>
+                    <% } %>
+
                 <%} else { %>
                     <%=s.getStudy()%>
                 <% } %>
             </td>
-            <td><%=s.getLabName()%></td>
-            <td><%=s.getPi()%></td>
+            <td><%=grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative()%></td>
+            <td><%=s.getPi()%><br>(<%=s.getLabName()%>)</td>
             <td><%=UI.formatDate(s.getSubmissionDate())%></td>
         </tr>
         <%}%>

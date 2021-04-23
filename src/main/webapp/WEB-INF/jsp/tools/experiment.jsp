@@ -141,7 +141,7 @@
     <div>
         <table style="width:80%">
 
-            <tbody>
+            <>
 
             <%
 
@@ -156,15 +156,18 @@
                     e=editorList.get(0);
 
                 List<Guide> guideList = (List<Guide>)request.getAttribute("guideList");
-                Guide g = new Guide();
-                if(guideList != null && guideList.size() > 0)
-                    g=guideList.get(0);
+                String guide = "";
+                for(Guide g: guideList) {
+                    guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+g.getGuide()+"</a>";
+                    guide += ";\t";
+                }
 
                 List<Vector> vectorList = (List<Vector>)request.getAttribute("vectorList");
-                Vector v = new Vector();
-                if(vectorList !=null && vectorList.size() > 0)
-                    v = vectorList.get(0);
-
+                String vector = "";
+                for(Vector v: vectorList) {
+                    vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">"+v.getName()+"</a>";
+                    vector += ";\t";
+                }
                 List<ApplicationMethod> methods = (List<ApplicationMethod>)request.getAttribute("applicationMethod");
                 ApplicationMethod a = new ApplicationMethod();
                 if(methods !=null && methods.size() > 0)
@@ -173,8 +176,8 @@
                 <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=<%=e.getId()%>"><%=e.getSymbol()%></a></td></tr>
                 <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=d.getType()%></a></td></tr>
                 <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
-                <tr><td class="header"><strong>Guide</strong></td><td><%=g.getGuide()%></td></tr>
-            <tr><td class="header"><strong>Vector</strong></td><td><a href="/toolkit/data/vector/format?id=<%=v.getVectorId()%>"><%=v.getName()%></a></td></tr>
+                <tr><td class="header"><strong>Guide</strong></td><td><%=guide%></td></tr>
+            <tr><td class="header"><strong>Vector</strong></td><td><%=vector%></td></tr>
             </tbody>
         </table>
     </div>

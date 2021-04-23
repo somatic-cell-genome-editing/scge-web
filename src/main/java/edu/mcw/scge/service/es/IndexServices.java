@@ -20,9 +20,16 @@ public class IndexServices {
     public SearchResponse getSearchResults(String category, String searchTerm, String type, String subType, boolean DCCNIHMember) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
-        System.out.println(searchTerm);
+        System.out.println("SEARCH TERM:"+searchTerm+"\tCategory:" +category);
         srb.query(this.buildBoolQuery(category, searchTerm, type, subType, DCCNIHMember));
-        srb.aggregation(this.buildSearchAggregations("category"));
+        srb.aggregation(this.buildSearchAggregations("category", category));
+        if(!category.equals("")) {
+            srb.aggregation(this.buildSearchAggregations("models", null));
+
+            srb.aggregation(this.buildSearchAggregations("deliveries", null));
+
+            srb.aggregation(this.buildSearchAggregations("editors", null));
+        }
         srb.highlighter(this.buildHighlights());
         srb.size(1000);
     //  SearchRequest searchRequest=new SearchRequest("scge_search_test");
@@ -95,31 +102,78 @@ public class IndexServices {
         }
         return aggs;
     }
-    public AggregationBuilder buildSearchAggregations(String fieldName){
+    public AggregationBuilder buildSearchAggregations(String fieldName, String selectedCategory){
         AggregationBuilder aggs= null;
-        if(fieldName==null)
-            fieldName="category";
-        aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
-                .subAggregation(AggregationBuilders.terms("type").field("type.keyword")
-                .subAggregation(AggregationBuilders.terms("subtype").field("subType.keyword")))
-                .order(BucketOrder.key(true));
+        if(fieldName!=null && !fieldName.equalsIgnoreCase("category") &&
+                !fieldName.equals("")){
+            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".type.keyword");
+        }else {
+                fieldName="category";
+            aggs = AggregationBuilders.terms(fieldName).field(fieldName + ".keyword");
+        }
+        if(selectedCategory!=null && !selectedCategory.equals("")) {
+            aggs.subAggregation(AggregationBuilders.terms("type").field("type.keyword")
+                    .subAggregation(AggregationBuilders.terms("subtype").field("subType.keyword"))
+            );
 
+            // .order(BucketOrder.key(true));
+
+        }
         return aggs;
     }
     public  Map<String, List<Terms.Bucket>> getSearchAggregations(SearchResponse sr){
         Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
         Terms categoryAggs=sr.getAggregations().get("category");
+        aggregations.put("catBkts", (List<Terms.Bucket>) categoryAggs.getBuckets());
+        Terms modelAggs=sr.getAggregations().get("models");
+        if(modelAggs!=null)
+        aggregations.put("modelBkts", (List<Terms.Bucket>) modelAggs.getBuckets());
+        Terms editorAggs=sr.getAggregations().get("editors");
+        if(editorAggs!=null)
+        aggregations.put("editorBkts", (List<Terms.Bucket>) editorAggs.getBuckets());
+        Terms deliveyAggs=sr.getAggregations().get("deliveries");
+        if(deliveyAggs!=null)
+        aggregations.put("deliveryBkts", (List<Terms.Bucket>) deliveyAggs.getBuckets());
+
+        List<Terms.Bucket> typeBkts=new ArrayList<>();
+        List<Terms.Bucket> subtypeBkts=new ArrayList<>();
+        for(Terms.Bucket b:categoryAggs.getBuckets()){
+          if(  b.getAggregations()!=null) {
+              Terms typeAggs = b.getAggregations().get("type");
+           //   System.out.println(b.getKey() + "\t" + b.getDocCount());
+              if (typeAggs != null) {
+                  typeBkts.addAll ((List<Terms.Bucket>) typeAggs.getBuckets());
+                  for (Terms.Bucket bkt : typeAggs.getBuckets()) {
+                      Terms subtypeAggs = bkt.getAggregations().get("subtype");
+                      subtypeBkts.addAll ((List<Terms.Bucket>) subtypeAggs.getBuckets());
+               //       System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() + "\tsubtypeAggsSize: " + subtypeAggs.getBuckets().size());
+
+                  }
+              }
+          }
+        }
+        aggregations.put("typeBkts", typeBkts);
+        aggregations.put("subtypeBkts", subtypeBkts);
+        return aggregations;
+    }
+    public  Map<String, List<Terms.Bucket>> getSearchAggregationsBKUP(SearchResponse sr){
+        Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
+        Terms categoryAggs=sr.getAggregations().get("category");
         aggregations.put("categoryAggs", (List<Terms.Bucket>) categoryAggs.getBuckets());
         for(Terms.Bucket b:categoryAggs.getBuckets()){
-           Terms typeAggs= b.getAggregations().get("type");
-          System.out.println(b.getKey() + "\t"+ b.getDocCount());
-           aggregations.put(b.getKey()+"TypeAggs", (List<Terms.Bucket>) typeAggs.getBuckets());
-           for(Terms.Bucket bkt: typeAggs.getBuckets()) {
-               Terms subtypeAggs = bkt.getAggregations().get("subtype");
-               aggregations.put(bkt.getKey() + "SubtypeAggs", (List<Terms.Bucket>) subtypeAggs.getBuckets());
-               System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() +"\tsubtypeAggsSize: "+subtypeAggs.getBuckets().size());
+            if(  b.getAggregations()!=null) {
+                Terms typeAggs = b.getAggregations().get("type");
+                System.out.println(b.getKey() + "\t" + b.getDocCount());
+                if (typeAggs != null) {
+                    aggregations.put(b.getKey() + "TypeAggs", (List<Terms.Bucket>) typeAggs.getBuckets());
+                    for (Terms.Bucket bkt : typeAggs.getBuckets()) {
+                        Terms subtypeAggs = bkt.getAggregations().get("subtype");
+                        aggregations.put(bkt.getKey() + "SubtypeAggs", (List<Terms.Bucket>) subtypeAggs.getBuckets());
+                        System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() + "\tsubtypeAggsSize: " + subtypeAggs.getBuckets().size());
 
-           }
+                    }
+                }
+            }
         }
 
         return aggregations;
@@ -147,10 +201,11 @@ public class IndexServices {
             q.filter(QueryBuilders.termQuery("category.keyword", category));
 
             if (type != null && !type.equals("")) {
-                q.filter(QueryBuilders.termQuery("type.keyword", type));
+
+                q.filter(QueryBuilders.termsQuery("type.keyword", type.split(",")));
             }
             if (subType != null && !subType.equals("")) {
-                q.filter(QueryBuilders.termQuery("subType.keyword", subType));
+                q.filter(QueryBuilders.termsQuery("subType.keyword", subType.split(",")));
             }
         }
         if(!DCCNIHMember) {
@@ -158,7 +213,7 @@ public class IndexServices {
                     should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
         }
 
-     //   System.out.println(q);
+   //    System.out.println(q);
         return q;
     }
     public QueryBuilder buildQuery(String searchTerm){
@@ -174,7 +229,7 @@ public class IndexServices {
                             "name.ngram", "study.study",
                             "study.labName" ,
                             "study.pi"
-                            ,       "editors.type" ,
+                            ,"editors.type" ,
                             "editors.subType" ,
                             "editors.symbol" ,
                             "editors.alias" ,

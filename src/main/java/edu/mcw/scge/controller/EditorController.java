@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -42,6 +43,9 @@ public class EditorController {
         }else {
             records = dao.getAllEditors(us.getCurrentUser(req.getSession()).getId());
         }
+
+
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
         req.setAttribute("editors", records);
         req.setAttribute("action", "Genome Editors");
         req.setAttribute("page", "/WEB-INF/jsp/tools/editors");
@@ -54,7 +58,7 @@ public class EditorController {
     public String getEditor(HttpServletRequest req, HttpServletResponse res) throws Exception {
         EditorDao dao = new EditorDao();
         Editor editor= dao.getEditorById(Integer.parseInt(req.getParameter("id"))).get(0);
-
+        DBService dbService = new DBService();
         UserService userService = new UserService();
         Person p=userService.getCurrentUser(req.getSession());
         Access access = new Access();
@@ -70,6 +74,7 @@ public class EditorController {
 
         }
 
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/editors/search'>Editors</a>");
         req.setAttribute("editor", editor);
         req.setAttribute("action", "Genome Editor: " + UI.replacePhiSymbol(editor.getSymbol()));
         req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
@@ -82,9 +87,21 @@ public class EditorController {
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByEditor(editor.getId());
         req.setAttribute("experimentRecords",experimentRecords);
 
+        HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
+        for(ExperimentRecord record:experimentRecords) {
+            guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
+        }
+
         GuideDao guideDao = new GuideDao();
         List<Guide> guides = guideDao.getGuidesByEditor(editor.getId());
         req.setAttribute("guides", guides);
+        req.setAttribute("guideMap", guideMap);
+
+        HashMap<Integer,List<Vector>> vectorMap = new HashMap<>();
+        for(ExperimentRecord record:experimentRecords) {
+            vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+        }
+        req.setAttribute("vectorMap", vectorMap);
 
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
