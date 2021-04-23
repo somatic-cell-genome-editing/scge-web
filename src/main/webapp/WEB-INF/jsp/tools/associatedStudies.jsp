@@ -5,6 +5,7 @@
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
+<%@ page import="edu.mcw.scge.web.UI" %>
 <h4 class="page-header" style="color:grey;">Associated SCGE Studies</h4>
 
 <% List<Study> studies = (List<Study>)request.getAttribute("studies");
@@ -47,7 +48,7 @@
         <tr>
             <td><%=s.getTier()%>
             <td><a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
-            <td><%=grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative()%></td>
+            <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())%></td>
             <td><%=s.getPi()%><br>(<%=s.getLabName()%>)</td>
             <%
                 String pattern = "MM/dd/yyyy";

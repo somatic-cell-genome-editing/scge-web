@@ -7,6 +7,28 @@ import java.util.regex.Pattern;
 
 public class UI {
 
+    public static String correctInitiative(String initiative)  {
+        if (initiative.equals("Rodent Testing Center")) {
+            return "Small Animal Testing Centers (SATC)";
+        }else if (initiative.equals("Large Animal Reporter")) {
+             return "Large Animal Reporters";
+        }else if (initiative.equals("Large Animal Testing Center")) {
+            return "Large Animal Testing Centers (LATC)";
+        }else if (initiative.equals("Cell & Tissue Platform")) {
+            return "Biological Effects: Biological Systems";
+        }else if (initiative.equals("In Vivo Cell Tracking")) {
+            return "Biological Effects: In Vivo Cell Tracking";
+        }else if (initiative.equals("Delivery Vehicle Initiative")) {
+            return "Delivery Systems Initiative";
+        }else if (initiative.equals("Delivery Vehicle Initiative")) {
+            return "Genome Editors Initiative";
+        }
+
+        return initiative;
+
+    }
+
+
     public static String formatFASTA(String str) {
 
 
