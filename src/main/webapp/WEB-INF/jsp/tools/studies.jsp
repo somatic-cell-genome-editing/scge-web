@@ -138,7 +138,7 @@
                     <%=s.getStudy()%>
                 <% } %>
             </td>
-            <td><%=grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative()%></td>
+            <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())%></td>
             <td><%=s.getPi()%><br>(<%=s.getLabName()%>)</td>
             <td><%=UI.formatDate(s.getSubmissionDate())%></td>
         </tr>
