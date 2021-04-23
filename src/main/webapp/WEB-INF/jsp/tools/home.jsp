@@ -25,7 +25,7 @@
 
         <div class="card shadow">
             <div class="card-header ">
-                Studies by Initiative
+                Browse Studies by Initiative
             </div>
             <div class="card-body">
 
@@ -46,7 +46,7 @@
                     <li class="nav-item">
                         <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=4">
                             <span data-feather="layers"></span>
-                            Bilogical Systems
+                            Biological Systems
                         </a>
                     </li>
                     <li class="nav-item">
