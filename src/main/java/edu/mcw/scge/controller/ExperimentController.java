@@ -140,6 +140,7 @@ public class ExperimentController extends UserController {
         req.setAttribute("resultDetail",resultDetail);
         req.setAttribute("resultMap",resultMap);
        // req.setAttribute("study", study);
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/studies/search'>Studies</a>");
         req.setAttribute("action", "All Experiment Records");
         req.setAttribute("page", "/WEB-INF/jsp/tools/allExperimentRecords");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -332,6 +333,7 @@ public class ExperimentController extends UserController {
 
                 }
             plotData.put("Mean",mean);
+            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/studies/search'>Studies</a> -> <a href='/toolkit/data/experiments/study/" + study.getStudyId() + "'>Experiments</a>");
             req.setAttribute("replicateResult",replicateResult);
             req.setAttribute("experiments",labels);
             req.setAttribute("plotData",plotData);
