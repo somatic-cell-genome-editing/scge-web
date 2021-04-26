@@ -4,6 +4,7 @@ import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.service.es.IndexServices;
+import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.security.user.User;
 import org.elasticsearch.search.SearchHit;
@@ -24,7 +25,7 @@ public class SearchController{
     IndexServices services=new IndexServices();
     Access access=new Access();
     UserService userService=new UserService();
-
+    BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     @RequestMapping(value="/delivery/results")
     public String getDeliveryResults(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
         SearchResponse sr=services.getSearchResponse();
@@ -87,6 +88,8 @@ public class SearchController{
         req.setAttribute("category",category);
         req.setAttribute("sr", sr);
         req.setAttribute("aggregations",services.getSearchAggregations(sr));
+
+        req.setAttribute("crumbTrailMap",   breadCrumb.getCrumbTrailMap(req,null,null, "search"));
         if(facetSearch)
       //  return "search/resultsTable";
       //      return "search/resultsView";
