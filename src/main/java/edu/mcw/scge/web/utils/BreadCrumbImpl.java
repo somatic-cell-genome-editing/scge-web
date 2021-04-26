@@ -87,7 +87,6 @@ public class BreadCrumbImpl implements Crumb {
     public TreeMap<Integer, Map<String, String>> getSearchCrumbTrail(String pageContext, HttpServletRequest req){
         TreeMap<Integer, Map<String, String>> crumbTrail=new TreeMap<>();
         String parentCrumb=new String();
-        int parentId=0;
         String childCrumb=new String();
         String parentUrl=new String();
         if(pageContext.equalsIgnoreCase("search")){
@@ -96,7 +95,7 @@ public class BreadCrumbImpl implements Crumb {
             Map<String, String> trailNLink1=new HashMap<>();
             parentCrumb= "Categories";
             parentUrl="/toolkit/data/search/results?searchTerm="+searchTerm;
-            trailNLink1.put(parentCrumb, parentUrl+parentId);
+            trailNLink1.put(parentCrumb, parentUrl);
             crumbTrail.put(1, trailNLink1);
 
             childCrumb= category;
