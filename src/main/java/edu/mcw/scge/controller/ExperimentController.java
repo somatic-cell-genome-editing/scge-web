@@ -8,6 +8,7 @@ import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.service.db.DBService;
+import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -23,6 +24,7 @@ import java.util.*;
 @Controller
 @RequestMapping(value="/data/experiments")
 public class ExperimentController extends UserController {
+    BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     ExperimentDao edao = new ExperimentDao();
     ExperimentRecordDao erDao=new ExperimentRecordDao();
     StudyDao sdao = new StudyDao();
@@ -59,8 +61,8 @@ public class ExperimentController extends UserController {
             return null;
 
         }
-
         List<Experiment> records = edao.getExperimentsByStudy(studyId);
+        req.setAttribute("crumbTrail", breadCrumb.getCrumbTrailMap(req,study,null,null));
         req.setAttribute("experiments", records);
         req.setAttribute("study", study);
         req.setAttribute("action", "Experiments");
@@ -165,6 +167,8 @@ public class ExperimentController extends UserController {
             return null;
 
         }
+        Experiment experiment= edao.getExperiment(experimentId);
+        req.setAttribute("crumbTrail",  breadCrumb.getCrumbTrailMap(req,study,experiment,null));
         List<String> labels=new ArrayList<>();
         Map<String, List<Double>> plotData=new HashMap<>();
         Map<String, List<Double>> deliveryPlot=new HashMap<>();
@@ -360,6 +364,7 @@ public class ExperimentController extends UserController {
             return null;
 
         }
+        req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,study,records.get(0),null));
 
         req.setAttribute("experimentRecords", records);
         ExperimentRecord r = new ExperimentRecord();

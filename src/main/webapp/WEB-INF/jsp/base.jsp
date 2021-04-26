@@ -143,6 +143,33 @@ Goals"/>
                                     </c:forEach>
                                 </div>
                             </c:if>
+                    <div style="margin-top: 0;padding-top:0">
+                        <!--nav aria-label="breadcrumb" id="breadcrumb"></nav-->
+                        <nav aria-label="breadcrumb" id="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/toolkit/loginSuccess?destination=base">Home</a></li>
+                                <c:if test="${crumbTrail!=null}">
+                                    <c:forEach items="${crumbTrail}" var="item">
+                                        <li class="breadcrumb-item">
+                                            <c:forEach items="${item.value}" var="trail">
+                                                <c:if test="${item.value!=null}">
+                                                    <a href="${trail.value}">
+                                                </c:if>
+                                                ${trail.key}
+                                                <c:if test="${item.value!=null}">
+                                                    </a>
+                                                </c:if>
+
+
+                                            </c:forEach>
+                                        </li>
+                                    </c:forEach>
+                                </c:if>
+
+                                <li class="breadcrumb-item">${action}</li>
+
+                            </ol>
+                        </nav>
                         </c:when>
                         <c:otherwise>
                             <!--h4 class="page-header" style="color:grey;">Dashboard</h4-->
@@ -193,8 +220,7 @@ Goals"/>
                             </div-->
                         </c:otherwise>
                     </c:choose>
-                    <div style="margin-top: 0;padding-top:0">
-                        <nav aria-label="breadcrumb" id="breadcrumb"></nav>
+
 
                         <c:if test="${page!=null}">
                         <c:import url="${page}.jsp" />

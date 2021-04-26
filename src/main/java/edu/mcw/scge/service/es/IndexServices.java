@@ -17,11 +17,12 @@ import java.io.IOException;
 import java.util.*;
 
 public class IndexServices {
-    public SearchResponse getSearchResults(String category, String searchTerm, String type, String subType, boolean DCCNIHMember) throws IOException {
+    public SearchResponse getSearchResults(String category, String searchTerm, String type, String subType,
+                          String editorType, String dsType,String modelType,boolean DCCNIHMember) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
         System.out.println("SEARCH TERM:"+searchTerm+"\tCategory:" +category);
-        srb.query(this.buildBoolQuery(category, searchTerm, type, subType, DCCNIHMember));
+        srb.query(this.buildBoolQuery(category, searchTerm, type, subType,editorType,dsType, modelType, DCCNIHMember));
         srb.aggregation(this.buildSearchAggregations("category", category));
         if(!category.equals("")) {
             srb.aggregation(this.buildSearchAggregations("models", null));
@@ -194,7 +195,8 @@ public class IndexServices {
         return aggregations;
     }
 
-    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm , String type, String subType, boolean DCCNIHMember){
+    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm , String type, String subType,
+                                           String editorType, String dsType, String modelType, boolean DCCNIHMember){
         BoolQueryBuilder q=new BoolQueryBuilder();
         q.must(buildQuery(searchTerm));
         if(category!=null && !category.equals("")) {
@@ -206,6 +208,15 @@ public class IndexServices {
             }
             if (subType != null && !subType.equals("")) {
                 q.filter(QueryBuilders.termsQuery("subType.keyword", subType.split(",")));
+            }
+            if (editorType != null && !editorType.equals("")) {
+                q.filter(QueryBuilders.termsQuery("editors.type.keyword", editorType.split(",")));
+            }
+            if (dsType != null && !dsType.equals("")) {
+                q.filter(QueryBuilders.termsQuery("deliveries.type.keyword", dsType.split(",")));
+            }
+            if (modelType != null && !modelType.equals("")) {
+                q.filter(QueryBuilders.termsQuery("models.type.keyword", modelType.split(",")));
             }
         }
         if(!DCCNIHMember) {
