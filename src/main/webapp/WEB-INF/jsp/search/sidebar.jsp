@@ -17,9 +17,9 @@
                 <div>
                     <c:forEach items="${aggregations.catBkts}" var="bkt">
                             <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
+                        <a class="nav-link facet-head" onclick="searchByFilter('${bkt.key}','${searchTerm}','', '')" -->
+                            <span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span></a>
 
-                                <a class="nav-link facet-head" onclick="searchByFilter('${bkt.key}','${searchTerm}','', '')" >
-                                    <span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span></a>
                     </c:forEach>
 
                 </div>
@@ -31,12 +31,11 @@
                             <c:forEach items="${aggregations.catBkts}" var="bkt">
                                 <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
                                 <li class="nav-item">
-                                    <a class="nav-link facet-head" onclick="searchByFilter('${bkt.key}','${searchTerm}','', '')" >
+
+                                    <a class="nav-link facet-head" href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">
                                         <span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span></a>
 
                                 </li>
-
-
                             </c:forEach>
                         </ul>
                     </div>
@@ -112,8 +111,8 @@
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.editorBkts}" var="subtype">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="subtypeBkt" value="${subtype.key}" id="subtype-${subtype.key}">
-                            <label class="form-check-label" for="subtype-${subtype.key}">
+                            <input class="form-check-input" type="checkbox" name="editorTypeBkt" value="${subtype.key}" id="editorType-${subtype.key}">
+                            <label class="form-check-label" for="editorType-${subtype.key}">
                                 <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
                                     ${subtype.key} (${subtype.docCount})
                             </label>
@@ -135,8 +134,8 @@
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.deliveryBkts}" var="subtype">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="subtypeBkt" value="${subtype.key}" id="subtype-${subtype.key}">
-                            <label class="form-check-label" for="subtype-${subtype.key}">
+                            <input class="form-check-input" type="checkbox" name="dsTypeBkt" value="${subtype.key}" id="dsType-${subtype.key}">
+                            <label class="form-check-label" for="dsType-${subtype.key}">
                                 <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
                                     ${subtype.key} (${subtype.docCount})
                             </label>
@@ -158,8 +157,8 @@
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.modelBkts}" var="subtype">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="subtypeBkt" value="${subtype.key}" id="subtype-${subtype.key}">
-                            <label class="form-check-label" for="subtype-${subtype.key}">
+                            <input class="form-check-input" type="checkbox" name="modelTypeBkt" value="${subtype.key}" id="modelType-${subtype.key}">
+                            <label class="form-check-label" for="modelType-${subtype.key}">
                                 <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
                                     ${subtype.key} (${subtype.docCount})
                             </label>
@@ -195,7 +194,6 @@
 
         )
 
-
         $.get(url, function (data, status) {
             if(category!== typeof undefined)
             breadCrumbList.show();
@@ -206,6 +204,7 @@
         })
 
     }
+
     $( ":checkbox" ).click(function () {
       //  alert("HELLo");
         var  $contentDiv=$('#results');
@@ -216,6 +215,15 @@
         var selectedSubtype=   $('input[name="subtypeBkt"]:checked').map(function () {
             return this.value;
         }).get().join(',');
+        var selectedEditorType=   $('input[name="editorTypeBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+        var selectedDsType=   $('input[name="dsTypeBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+        var selectedModelType=   $('input[name="modelTypeBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
         var searchTerm=$("#searchTerm")
         var category=$("#category")
       /*  alert("SEARCH TERM:"+searchTerm.val()+"\n"+
@@ -223,7 +231,10 @@
         "TYPE:"+selectedType+"\n"+
         "SUBTYPE:"+selectedSubtype);*/
         var url="/toolkit/data/search/results/"+category.val()+"?filter=true&searchTerm="+searchTerm.val()+
-            "&type="+selectedType+"&subType="+selectedSubtype
+            "&type="+selectedType+"&subType="+selectedSubtype +
+            "&editorType="+selectedEditorType +
+            "&dsType="+selectedDsType+
+            "&modelType="+ selectedModelType
 
         $.get(url, function (data, status) {
 
