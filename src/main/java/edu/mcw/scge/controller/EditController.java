@@ -51,7 +51,9 @@ public class EditController {
         List<Person> p=pdao.getPersonById(study.getPiId());
         System.out.println("STUDY:"+study.getStudyId()+"\tPI:"+ p.get(0).getEmail());
         String emailMsg=" Study:"+studyId+" - "+study.getStudy() +" is updated. These changes will get executed after 24 hours";
-        sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated",emailMsg);
+       // sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated",emailMsg);
+        sendEmailNotification(p.get(0).getEmail(), "SCGE Study Updated",emailMsg);
+
         String message="Confirmation request sent to PI. Requested changes will get executed after 24 hours";
         return "redirect:/db?message="+message+"&studyId="+studyId+"&tier="+tier;
 
@@ -59,7 +61,6 @@ public class EditController {
     @RequestMapping(value = "resetAccess")
     public String resetAccess(@RequestParam String tier, @RequestParam String studyId , HttpServletRequest req, HttpServletResponse res,
                                 RedirectAttributes redirectAttributes) throws Exception {
-        System.out.println("TIER: "+ tier+"\tSTUDY ID: "+ studyId);
         if(!tier.equals("2")){
             sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated","Your Study is updated");
             String message="Confirmation request sent to PI";
@@ -104,7 +105,7 @@ public class EditController {
 
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail, false));
 
-     //   msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse("scge_toolkit@mcw.edu", false));
+        msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse("scge_toolkit@mcw.edu", false));
 
         msg.setSubject(title);
         msg.setText(message, "utf-8");
