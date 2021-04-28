@@ -8,6 +8,7 @@ import edu.mcw.scge.dao.implementation.ModelDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
+import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value="/data/models")
 public class ModelController {
+    BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
 
     @RequestMapping(value="/search")
     public String getModels(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
@@ -54,6 +56,7 @@ public class ModelController {
 
         }
 
+        req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,mod,null,null));
 
         req.setAttribute("model", mod);
         req.setAttribute("action","Model System: " + mod.getName());

@@ -8,6 +8,7 @@ import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
+import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value="/data/delivery")
 public class DeliveryController {
+    BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
 
     @RequestMapping(value="/search")
     public String getDeliverySystems(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
@@ -55,6 +57,7 @@ public class DeliveryController {
         }
 
 
+        req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,system,null,null));
 
         req.setAttribute("system", system);
         req.setAttribute("action", "Delivery System: " + system.getName());

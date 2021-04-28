@@ -5,6 +5,7 @@ import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
+import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value="/data/guide")
 public class GuideController {
+    BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
 
     @RequestMapping(value="/search")
     public String getGuides(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
@@ -50,6 +52,7 @@ public class GuideController {
             return null;
 
         }
+        req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,guide,null,null));
 
         req.setAttribute("guide", guide);
         req.setAttribute("action", "Guide: " + guide.getGuide());
