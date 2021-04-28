@@ -68,7 +68,12 @@
             <td>&nbsp;&nbsp;&nbsp;</td>
             <td class="desc"  style="font-weight:700;">Submission Date:</td>
             <td class="desc" ><%=UI.formatDate(study.getSubmissionDate())%></td>
-
+            <%
+                if(study.getStudyId() == 1013) {
+            %>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td class="desc" style="font-weight:700;" ><a href="/toolkit/data/experiments/experiment/compareExperiments/8/9">Compare experiments</a></td>
+            <%}%>
         </td>
             </td>
         </tr>
@@ -110,5 +115,7 @@
         <td><%=exp.getExperimentId()%></td>
     </tr>
         <% } %>
-        <% }%>
-</table>
+        <% } %>
+    </table>
+
+

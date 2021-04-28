@@ -88,7 +88,8 @@ public class SearchController{
         req.setAttribute("category",category);
         req.setAttribute("sr", sr);
         req.setAttribute("aggregations",services.getSearchAggregations(sr));
-        req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,null,null, "search"));
+
+        req.setAttribute("crumbTrailMap",   breadCrumb.getCrumbTrailMap(req,null,null, "search"));
         if(facetSearch)
       //  return "search/resultsTable";
       //      return "search/resultsView";

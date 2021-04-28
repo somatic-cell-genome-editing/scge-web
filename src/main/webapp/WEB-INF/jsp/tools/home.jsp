@@ -20,16 +20,96 @@
 </style>
 <div class="row">
     <div class="col-sm-3">
+
+
+
+        <div class="card shadow">
+            <div class="card-header ">
+                Browse Studies by Initiative
+            </div>
+            <div class="card-body">
+
+                <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=7">
+                            <span data-feather="layers"></span>
+                            Genome Editors
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=6">
+                            <span data-feather="layers"></span>
+                            Delivery Systems Initiative
+                        </a>
+                    </li>
+                    <li class="card-header">Biological Effects</li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=4">
+                            <span data-feather="layers"></span>
+                            Biological Systems
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=5">
+                            <span data-feather="layers"></span>
+                            In Vivo Cell Tracking
+                        </a>
+                    </li>
+                    <li class="card-header ">Animal Reporter and Testing Center</li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=1">
+                            <span data-feather="layers"></span>
+                            Small Animal Testing Centers (SATC)              </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=2">
+                            <span data-feather="layers"></span>
+                            Large Animal Reporter (LAR)
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=3">
+                            <span data-feather="layers"></span>
+                            Large Animal Testing Centers (LATC)
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+    <div class="col-sm-6">
         <div class="card">
             <div class="card-header" >
-                Browse
+                Study Counts by Tier
+            </div>
+            <div class="card-body">
+
+                <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+
+        <!---   studies by initiative card -->
+
+        <div class="card">
+            <div class="card-header" >
+                Browse SCGE
             </div>
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link text-secondary" href="/toolkit/data/studies/search">
                             <img src="/toolkit/images/studyIcon.png" width="30" height="30" alt="" />
-                            Studies&nbsp;<span class="object-count"><%=sdao.getStudyCount()%></span> <span class="sr-only">(current)</span>
+                            All Studies&nbsp;<span class="object-count"><%=sdao.getStudyCount()%></span> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -60,11 +140,13 @@
                             <img src="/toolkit/images/experimentIcon.png" width="30" height="30" alt="" />
                             Experiments&nbsp;<span class="object-count"><%=sdao.getExperimentCount()%></span>                        </a>
                     </li>
+                    <!--
                     <li class="nav-item">
                         <a class="nav-link text-secondary" href="/toolkit/data/experiments/experiment/experimentRecords">
                             <img src="/toolkit/images/experimentIcon.png" width="30" height="30" alt="" />
                             Experiment Records</a>
                     </li>
+                    -->
                     <!--li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="bar-chart-2"></span>
@@ -76,72 +158,11 @@
 
             </div>
         </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="card-header" >
-                Studies
-            </div>
-            <div class="card-body">
 
-                <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-3">
-    <div class="card shadow">
-        <div class="card-header ">
-            Studies by Initiative
-        </div>
-        <div class="card-body">
 
-            <ul class="nav flex-column mb-2">
-                <li class="nav-item">
-                    <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=7">
-                        <span data-feather="layers"></span>
-                        Genome Editors
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=6">
-                        <span data-feather="layers"></span>
-                        Delivery Systems Initiative
-                    </a>
-                </li>
-                <li class="card-header">Biological Effects</li>
-                <li class="nav-item">
-                    <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=4">
-                        <span data-feather="layers"></span>
-                        Bilogical Systems
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=5">
-                        <span data-feather="layers"></span>
-                        In Vivo Cell Tracking
-                    </a>
-                </li>
-                <li class="card-header ">Animal Reporter and Testing Center</li>
-                <li class="nav-item">
-                    <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=1">
-                        <span data-feather="layers"></span>
-                        Small Animal Testing Centers (SATC)              </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=2">
-                        <span data-feather="layers"></span>
-                        Large Animal Reporter (LAR)
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-secondary" href="/toolkit/data/studies/search?initiative=3">
-                        <span data-feather="layers"></span>
-                        Large Animal Testing Centers (LATC)
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
+
+
+        <!-- end studies by initiative card -->
     </div>
 </div>
 <div class="row">

@@ -54,6 +54,7 @@ public class DashboardController extends LoginController {
             List<Study> sharedStudies = sdao.getSharedTier2Studies(p.getId());
 
 
+            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
             req.setAttribute("studiesShared", sharedStudies);
             req.setAttribute("tierUpdateMap", tierUpdateMap);
             return "base";

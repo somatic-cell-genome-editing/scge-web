@@ -11,13 +11,13 @@ import java.util.stream.Collectors;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.datamodel.Model;
 import edu.mcw.scge.datamodel.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -37,6 +37,7 @@ public class FileUploadController {
 	public FileUploadController(StorageService storageService) {
 		this.storageService = storageService;
 	}
+
 
 	@GetMapping("/download/{studyId}")
 	public String listDownloadFiles(Model model, HttpServletRequest req, HttpServletResponse res,
@@ -92,9 +93,20 @@ public class FileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
+	@RequestMapping(value="/images")
+	public String getImages(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+		req.setAttribute("action", "Images");
+		req.setAttribute("page", "/WEB-INF/jsp/tools/images");
+		req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+		return null;
+	}
+
 	@PostMapping("/uploadFile")
 	public String handleFileUpload(@RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
+
+		System.out.println("file name = " + file.getOriginalFilename());
 
 		//removed upload for now
 		//storageService.store(file);

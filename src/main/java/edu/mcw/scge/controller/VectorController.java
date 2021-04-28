@@ -24,6 +24,7 @@ public class VectorController {
     public String getVectors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         VectorDao dao = new VectorDao();
         List<Vector> records= dao.getAllVectors();
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
         req.setAttribute("vectors", records);
         req.setAttribute("action", "Vector/Format");
         req.setAttribute("page", "/WEB-INF/jsp/tools/vectors");

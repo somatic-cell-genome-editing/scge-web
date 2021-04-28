@@ -69,7 +69,7 @@
         <% if (access.hasGuideAccess(g,p)) { %>
     <tr>
         <td width="10"><%=g.getTier()%></td>
-        <td><a href="/toolkit/data/guide/guide?id=<%=g.getGuide_id()%>"><%=g.getGuide()%></a></td>
+        <td><a href="/toolkit/data/guide/system?id=<%=g.getGuide_id()%>"><%=g.getGuide()%></a></td>
         <td></td>
         <td></td>
         <td></td>

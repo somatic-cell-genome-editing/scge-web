@@ -24,6 +24,7 @@ public class GuideController {
     public String getGuides(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         GuideDao dao = new GuideDao();
         List<Guide> records= dao.getGuides();
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
         req.setAttribute("guides", records);
         req.setAttribute("action", "Guides");
         req.setAttribute("page", "/WEB-INF/jsp/tools/guides");
@@ -32,7 +33,7 @@ public class GuideController {
         return null;
     }
 
-    @RequestMapping(value="/guide")
+    @RequestMapping(value="/system")
     public String getGuide(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         GuideDao dao = new GuideDao();
         Guide guide= dao.getGuideById(Integer.parseInt(req.getParameter("id"))).get(0);
@@ -54,6 +55,7 @@ public class GuideController {
         }
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,guide,null,null));
 
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/guide/search'>Guides</a>");
         req.setAttribute("guide", guide);
         req.setAttribute("action", "Guide: " + guide.getGuide());
         req.setAttribute("page", "/WEB-INF/jsp/tools/guide");

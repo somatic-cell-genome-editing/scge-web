@@ -91,7 +91,7 @@
             <tr><td class="header"><strong>Related Guides</strong></td>
                 <td>
                     <%for (Guide relatedGuide: relatedGuides) { %>
-                    <a href="/toolkit/data/guide/guide?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence()%></a><br>
+                    <a href="/toolkit/data/guide/system?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence()%></a><br>
                     <% } %>
                 </td>
             </tr>

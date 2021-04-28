@@ -74,11 +74,12 @@ public class StudyController{
             if (initiative > 0) {
                 studies = sdao.getStudiesByInitiative(initiativeName);
                 Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
+                req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
                 req.setAttribute("tierUpdateMap", tierUpdateMap);
             }else {
                 studies = sdao.getStudies();
 
-
+                req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
                 req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
                 req.setAttribute("groupMembersMap", Data.getInstance().getGroupMembersMap());
                 req.setAttribute("DCCNIHMembersMap", Data.getInstance().getDCCNIHMembersMap());

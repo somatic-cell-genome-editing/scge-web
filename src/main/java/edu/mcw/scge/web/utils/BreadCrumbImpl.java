@@ -1,8 +1,6 @@
 package edu.mcw.scge.web.utils;
 
-import edu.mcw.scge.datamodel.Editor;
-import edu.mcw.scge.datamodel.Experiment;
-import edu.mcw.scge.datamodel.Study;
+import edu.mcw.scge.datamodel.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -17,6 +15,10 @@ public class BreadCrumbImpl implements Crumb {
         String reqUri=req.getRequestURI();
         String contextPath=req.getContextPath();
         System.out.println("REQ URI:"+ reqUri+"\nCONTEXT PATH:"+contextPath);
+
+        if(pageContext!=null && pageContext.equalsIgnoreCase("search")){
+            return getSearchCrumbTrail(pageContext, req);
+        }
         TreeMap<Integer, Map<String, String>> crumbTrail=new TreeMap<>();
         Map<String, String> trailNLink=new HashMap<>();
         String parentCrumb=new String();
@@ -27,7 +29,6 @@ public class BreadCrumbImpl implements Crumb {
         String childUrl=new String();
         if(parent instanceof Study){
             trailNLink.put("Studies", "/toolkit/data/studies/search/");
-
             parentCrumb = ((Study) parent).getStudy();
            parentId=((Study) parent).getStudyId();
            parentUrl="/toolkit/data/experiments/study/";
@@ -40,7 +41,29 @@ public class BreadCrumbImpl implements Crumb {
         }
        if(parent instanceof Editor){
            trailNLink.put("Editors", "/toolkit/data/editors/search/");
-
+           crumbTrail.put(1, trailNLink);
+           return crumbTrail;
+       }
+        if(parent instanceof Model){
+            System.out.println("YES MODEL INSTANCE");
+            trailNLink.put("Models", "/toolkit/data/models/search/");
+            crumbTrail.put(1, trailNLink);
+            return crumbTrail;
+        }
+        if(parent instanceof Experiment){
+            trailNLink.put("Experiments", "/toolkit/data/experiments/search/");
+            crumbTrail.put(1, trailNLink);
+            return crumbTrail;
+        }
+        if(parent instanceof Guide){
+            trailNLink.put("Guides", "/toolkit/data/guide/search/");
+            crumbTrail.put(1, trailNLink);
+            return crumbTrail;
+        }
+        if(parent instanceof Delivery){
+            trailNLink.put("Delivery Systems", "/toolkit/data/delivery/search/");
+            crumbTrail.put(1, trailNLink);
+            return crumbTrail;
         }
 
         if(child instanceof Experiment){
@@ -61,12 +84,52 @@ public class BreadCrumbImpl implements Crumb {
         }
         return crumbTrail;
     }
-    public TreeMap<Integer, Map<String, String>> getCrumbTrail(String pageContext, HttpServletRequest req){
+    public TreeMap<Integer, Map<String, String>> getSearchCrumbTrail(String pageContext, HttpServletRequest req){
         TreeMap<Integer, Map<String, String>> crumbTrail=new TreeMap<>();
+        String parentCrumb=new String();
+        int parentId=0;
+        String childCrumb=new String();
+        String parentUrl=new String();
         if(pageContext.equalsIgnoreCase("search")){
             String searchTerm=req.getParameter("searchTerm");
-            String
+            String category= (String) req.getAttribute("category");
+            Map<String, String> trailNLink1=new HashMap<>();
+            parentCrumb= "Categories";
+            parentUrl="/toolkit/data/search/results?searchTerm="+searchTerm;
+            trailNLink1.put(parentCrumb, parentUrl+parentId);
+            crumbTrail.put(1, trailNLink1);
+
+            childCrumb= category;
+            Map<String, String> trailNLink2=new HashMap<>();
+            trailNLink2.put(childCrumb, "");
+            crumbTrail.put(2, trailNLink2);
+
         }
         return crumbTrail;
     }
+    public TreeMap<Integer, Map<String, String>> getEditorCrumbTrail(String pageContext, HttpServletRequest req){
+        TreeMap<Integer, Map<String, String>> crumbTrail=new TreeMap<>();
+        String parentCrumb=new String();
+        int parentId=0;
+        String childCrumb=new String();
+        String parentUrl=new String();
+        if(pageContext.equalsIgnoreCase("search")){
+            String searchTerm=req.getParameter("searchTerm");
+            String category= (String) req.getAttribute("category");
+            Map<String, String> trailNLink1=new HashMap<>();
+
+            parentCrumb= "Categories";
+            parentUrl="/toolkit/data/search/results?searchTerm="+searchTerm;
+            trailNLink1.put(parentCrumb, parentUrl+parentId);
+            crumbTrail.put(1, trailNLink1);
+
+            childCrumb= category;
+            Map<String, String> trailNLink2=new HashMap<>();
+            trailNLink2.put(childCrumb, "");
+            crumbTrail.put(2, trailNLink2);
+
+        }
+        return crumbTrail;
+    }
+
 }

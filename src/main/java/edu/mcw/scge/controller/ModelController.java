@@ -27,6 +27,7 @@ public class ModelController {
     public String getModels(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ModelDao dao = new ModelDao();
         List<edu.mcw.scge.datamodel.Model> records= dao.getModels();
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
         req.setAttribute("models", records);
         req.setAttribute("action", "Model Systems");
         req.setAttribute("page", "/WEB-INF/jsp/tools/models");
@@ -81,6 +82,7 @@ public class ModelController {
         }
         req.setAttribute("vectorMap", vectorMap);
 
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/models/search'>Models</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
