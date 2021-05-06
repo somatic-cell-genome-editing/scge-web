@@ -34,7 +34,7 @@ public class IndexServices {
         srb.highlighter(this.buildHighlights());
         srb.size(1000);
     //  SearchRequest searchRequest=new SearchRequest("scge_search_test");
-       SearchRequest searchRequest=new SearchRequest("scge_search_prod");
+       SearchRequest searchRequest=new SearchRequest("scge_search_test");
        searchRequest.source(srb);
 
         return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);

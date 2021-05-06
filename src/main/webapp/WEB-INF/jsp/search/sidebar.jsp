@@ -207,8 +207,8 @@
 
     $( ":checkbox" ).click(function () {
       //  alert("HELLo");
-        var  $contentDiv=$('#results');
-
+     //   var  $contentDiv=$('#results');
+        var  $contentDiv=$('#reloadResults');
         var selectedType=   $('input[name="typeBkt"]:checked').map(function () {
             return this.value;
         }).get().join(',');
@@ -230,15 +230,43 @@
             "Category:"+category.val()+"\n"+
         "TYPE:"+selectedType+"\n"+
         "SUBTYPE:"+selectedSubtype);*/
-        var url="/toolkit/data/search/results/"+category.val()+"?filter=true&searchTerm="+searchTerm.val()+
+        var url="/toolkit/data/search/results/"+category.val()+"?facetSearch=true&searchTerm="+searchTerm.val()+
             "&type="+selectedType+"&subType="+selectedSubtype +
             "&editorType="+selectedEditorType +
             "&dsType="+selectedDsType+
             "&modelType="+ selectedModelType
 
         $.get(url, function (data, status) {
-
             $contentDiv.html(data);
+            $.each($('input[name="typeBkt"]'), function(){
+                if(selectedType.includes($(this).val())){
+                    $(this).prop('checked',true)
+                }
+            });
+            $.each($('input[name="subtypeBkt"]'), function(){
+
+                if(selectedSubtype.includes($(this).val())){
+                    $(this).prop('checked',true)
+                }
+            });
+            $.each($('input[name="editorTypeBkt"]'), function(){
+
+                if(selectedEditorType.includes($(this).val())){
+                    $(this).prop('checked',true)
+                }
+            });
+            $.each($('input[name="modelTypeBkt"]'), function(){
+
+                if(selectedModelType.includes($(this).val())){
+                    $(this).prop('checked',true)
+                }
+            });
+            $.each($('input[name="dsTypeBkt"]'), function(){
+
+                if(selectedDsType.includes($(this).val())){
+                    $(this).prop('checked',true)
+                }
+            });
         })
     })
 
