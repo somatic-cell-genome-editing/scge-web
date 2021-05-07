@@ -20,12 +20,12 @@
     <tr><td>
         <div>
             <c:if test="${hit.sourceAsMap.name!=null}">
-            <h5><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></h5>
+            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></h6>
             </c:if>
             <c:if test="${hit.sourceAsMap.symbol!=null}">
-            <h5><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
+            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
                 <c:choose>
-                    <c:when test="${hit.sourceAsMap.subType=='Cas12'}">
+                    <c:when test="${hit.sourceAsMap.subType=='Cas12j'}">
                         <c:if test="${fn:contains(hit.sourceAsMap.symbol,'-1')}">
                             cas&#934;-1
                         </c:if>
@@ -41,18 +41,28 @@
                     </c:otherwise>
                 </c:choose>
             </a>
-            </h5>
+            </h6>
             </c:if>
-            <span><strong>Category:</strong>&nbsp;${hit.sourceAsMap.category}</span><br>
+            <span>Category:&nbsp;${hit.sourceAsMap.category}</span><br>
             <c:if test="${hit.sourceAsMap.type!=null}">
-            <span><strong>Type:</strong>&nbsp;${hit.sourceAsMap.type}</span><br>
+            <span>Type:&nbsp;${hit.sourceAsMap.type}</span><br>
             </c:if>
             <c:if test="${hit.sourceAsMap.subType!=null}">
-            <span><strong>SubType:</strong>&nbsp;${hit.sourceAsMap.subType}</span> <br>
+            <span>SubType:&nbsp;${hit.sourceAsMap.subType}</span> <br>
+            </c:if>
+            <c:if test="${hit.sourceAsMap.target!=null}">
+                <span>Target:&nbsp;${hit.sourceAsMap.target}</span> <br>
+            </c:if>
+            <c:if test="${hit.sourceAsMap.species!=null}">
+                <span>Species:&nbsp;${hit.sourceAsMap.species}</span> <br>
             </c:if>
 
             <c:if test="${hit.sourceAsMap.description!=null}">
-                <span><strong>Description:</strong>&nbsp;${hit.sourceAsMap.description}</span>
+                <span>Description:&nbsp;${hit.sourceAsMap.description}</span><br>
+            </c:if>
+            <c:if test="${hit.sourceAsMap.experimentCount>0}">
+                <i class="fas fa-eye"></i>
+                <span><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">Associated Experiments:&nbsp;${hit.sourceAsMap.experimentCount}</a></span> <br>
             </c:if>
 
                 <!--div  class="more hideContent" style="overflow-y: auto">

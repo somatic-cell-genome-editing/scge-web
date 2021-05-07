@@ -1,28 +1,56 @@
 <input type="hidden" name="searchTerm" id="searchTerm" value="${searchTerm}"/>
 <input type="hidden" name="category" id="category" value="${category}" >
+<script>
+    $(document).ready(function(){
+        // Add down arrow icon for collapse element which is open by default
+        $(".collapse.show").each(function(){
+            $(this).prev(".card-header").find(".fas").addClass("fa-angle-down").removeClass("fa-angle-up");
+        });
+
+        // Toggle right and down arrow icon on show hide of collapse element
+        $(".collapse").on('show.bs.collapse', function(){
+            $(this).prev(".card-header").find(".fas").removeClass("fa-angle-up").addClass("fa-angle-down");
+        }).on('hide.bs.collapse', function(){
+            $(this).prev(".card-header").find(".fas").removeClass("fa-angle-down").addClass("fa-angle-up");
+        });
+    });
+</script>
+<style>
+    .card-header{
+        background-color: white;
+        padding-left:0;
+    }
+    .card-header a{
+        text-decoration: none;
+    }
+</style>
+<h5>Refine your Search&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></h5>
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
         <c:if test="${fn:length(aggregations.catBkts)>1}">
-        <div class="accordion-heading card-header">
+        <!--div class="accordion-heading card-header">
 
             <a class="accordion-toggle" data-toggle="collapse" href="#collapseOne">
              Categories
             </a>
 
-        </div>
+        </div-->
         </c:if>
         <c:choose>
             <c:when test="${fn:length(aggregations.catBkts)==1}">
 
-                <div>
-                    <c:forEach items="${aggregations.catBkts}" var="bkt">
+                <!--div-->
+                    <!--c:forEach items="${aggregations.catBkts}" var="bkt"-->
                             <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
-                        <a class="nav-link facet-head" onclick="searchByFilter('${bkt.key}','${searchTerm}','', '')" -->
-                            <span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span></a>
+                        <!--a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','', '')" -->
+                            <!--span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span-->
+                            <!--span>Clear Filters</span>
 
-                    </c:forEach>
+                        </a-->
 
-                </div>
+                    <!--/c:forEach-->
+
+                <!--/div-->
             </c:when>
             <c:otherwise>
                 <div id="collapseOne" class="accordion-body collapse show" data-parent="#accordion2">
@@ -51,16 +79,18 @@
     <div class="accordion-group">
         <div class="accordion-heading card-header">
             <a class="accordion-toggle" data-toggle="collapse" href="#collapseTwo">
-                Filter by Type
+                ${category}&nbsp;Type<span class="float-right"><i class="fas fa-angle-down"></i></span>
             </a>
         </div>
         <div id="collapseTwo" class="accordion-body collapse show">
             <div class="accordion-inner">
-                <ul class="nav flex-column" >
+
                     <c:forEach items="${aggregations.typeBkts}" var="type">
+
                         <div class="form-check">
+
                             <input class="form-check-input" type="checkbox" name="typeBkt" value="${type.key}"
-                                   id="type-${type.key}" onclick= searchByFilters('${type.key}')>
+                                   id="type-${type.key}" onclick= "searchByFilters('${type.key}')"/>
                             <label class="form-check-label" for="type-${type.key}">
                                ${type.key}(${type.docCount})
 
@@ -70,7 +100,7 @@
 
                     </c:forEach>
 
-                </ul>
+
             </div>
         </div>
     </div>
@@ -78,7 +108,7 @@
     <div class="accordion-group">
         <div class="accordion-heading card-header">
             <a class="accordion-toggle" data-toggle="collapse" href="#collapseThree">
-                Filter by Subtype
+                    ${category}&nbsp; Subtype<span class="float-right"><i class="fas fa-angle-down"></i></span>
             </a>
         </div>
         <div id="collapseThree" class="accordion-body collapse show">
@@ -104,7 +134,7 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseFour">
-                    Filter by Editor
+                        ${category}&nbsp; Editor<span class="float-right"><i class="fas fa-angle-down"></i></span>
                 </a>
             </div>
             <div id="collapseFour" class="accordion-body collapse show">
@@ -127,7 +157,7 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseFive">
-                    Filter by Delivery System
+                        ${category}&nbsp;Delivery System<span class="float-right"><i class="fas fa-angle-down"></i></span>
                 </a>
             </div>
             <div id="collapseFive" class="accordion-body collapse show">
@@ -150,7 +180,7 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseSix">
-                    Filter by Model
+                        ${category}&nbsp; Model<span class="float-right"><i class="fas fa-angle-down"></i></span>
                 </a>
             </div>
             <div id="collapseSix" class="accordion-body collapse show">
@@ -169,7 +199,98 @@
 
         </div>
     </c:if>
+    <c:if test="${fn:length(aggregations.guidesBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapseNine">
+                        ${category}&nbsp; Guide Target<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapseNine" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.guidesBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="guideTargetLocusBkt" value="${subtype.key}" id="guideTarget-${subtype.key}">
+                            <label class="form-check-label" for="guideTarget-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
 
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.speciesBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapseSeven">
+                        ${category}&nbsp; Species<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapseSeven" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.speciesBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="speciesBkt" value="${subtype.key}" id="species-${subtype.key}">
+                            <label class="form-check-label" for="species-${subtype.key}">
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
+
+    <c:if test="${fn:length(aggregations.targetBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapseEight">
+                        ${category}&nbsp; Target<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapseEight" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.targetBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="targetBkt" value="${subtype.key}" id="target-${subtype.key}">
+                            <label class="form-check-label" for="target-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.withExperimentsBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapseTen">
+                  ${category} with Experiments<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapseTen" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.withExperimentsBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="withExperimentsBkt" value="${subtype.key}" id="withExperiments-${subtype.key}">
+                            <label class="form-check-label" for="withExperiments-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
 </div>
 
 <script>

@@ -136,6 +136,7 @@ public class SearchController{
         if(editorType!=null && !editorType.equals(""))filterMap.put("editors.type", editorType);
         if(dsType!=null && !dsType.equals(""))filterMap.put("deliveries.type",dsType);
         if(modelType!=null && !modelType.equals(""))  filterMap.put("models.type", modelType);
+
         return filterMap;
     }
 
