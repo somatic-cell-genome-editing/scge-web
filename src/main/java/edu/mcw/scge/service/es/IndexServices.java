@@ -38,7 +38,7 @@ public class IndexServices {
 
             /*********************guide**************************/
             srb.aggregation(this.buildSearchAggregations("targetLocus", null));
-            srb.aggregation(this.buildSearchAggregations("grnaLabId", null));
+            srb.aggregation(this.buildSearchAggregations("externalId", null));
 
 
 
@@ -196,12 +196,12 @@ public class IndexServices {
         if(targetAggs!=null)
             aggregations.put("targetBkts", (List<Terms.Bucket>) targetAggs.getBuckets());
 
-        Terms grnaLabIdAggs=sr.getAggregations().get("grnaLabId");
-        if(targetAggs!=null)
+        Terms grnaLabIdAggs=sr.getAggregations().get("externalId");
+        if(grnaLabIdAggs!=null)
             aggregations.put("grnaLabIdBkts", (List<Terms.Bucket>) grnaLabIdAggs.getBuckets());
 
         Terms withExperimentsAggs=sr.getAggregations().get("withExperiments");
-        if(targetAggs!=null)
+        if(withExperimentsAggs!=null)
             aggregations.put("withExperimentsBkts", (List<Terms.Bucket>) withExperimentsAggs.getBuckets());
 
         //    List<Terms.Bucket> typeBkts=new ArrayList<>();
@@ -338,7 +338,16 @@ public class IndexServices {
                             "models.transgene" ,
                             "models.transgeneReporter" ,
                             "models.description" ,
-                            "models.strainCode").type(MultiMatchQueryBuilder.Type.CROSS_FIELDS).operator(Operator.AND)).filter(
+                            "models.strainCode",
+                                    "guides.species",
+                                    "guides.targetLocus",
+                                    "guides.targetSequence",
+                                    "guides.pam",
+                                    "guides.grnaLabId",
+
+                                    "guides.guide",
+                                    "guides.source",
+                                    "guides.guideDescription").type(MultiMatchQueryBuilder.Type.CROSS_FIELDS).operator(Operator.AND)).filter(
                             QueryBuilders.termQuery("category.keyword", "Experiment")
                     )).boost(100);
           q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
@@ -369,7 +378,16 @@ public class IndexServices {
                             "models.transgene" ,
                             "models.transgeneReporter" ,
                             "models.description" ,
-                            "models.strainCode").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).fuzziness(1).operator(Operator.AND).boost(20));
+                            "models.strainCode",
+                  "guides.species",
+                  "guides.targetLocus",
+                  "guides.targetSequence",
+                  "guides.pam",
+                  "guides.grnaLabId",
+
+                  "guides.guide",
+                  "guides.source",
+                  "guides.guideDescription").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).fuzziness(1).operator(Operator.AND).boost(20));
             q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
                     "description", "experimentalTags", "externalId", "aliases",
                     "target", "species", "site", "sequence", "pam", "detectionMethod","target",
@@ -398,7 +416,16 @@ public class IndexServices {
                     "models.transgene" ,
                     "models.transgeneReporter" ,
                     "models.description" ,
-                    "models.strainCode").type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10));
+                    "models.strainCode",
+                    "guides.species",
+                    "guides.targetLocus",
+                    "guides.targetSequence",
+                    "guides.pam",
+                    "guides.grnaLabId",
+
+                    "guides.guide",
+                    "guides.source",
+                    "guides.guideDescription").type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10));
         }else{
             q.add(QueryBuilders.matchAllQuery());
         }
