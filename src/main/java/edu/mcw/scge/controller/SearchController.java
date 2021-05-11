@@ -8,6 +8,7 @@ import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.security.user.User;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value="/data/search")
@@ -42,7 +46,7 @@ public class SearchController{
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
 
-        SearchResponse sr=services.getSearchResults("", searchTerm, "", "","","","",DCCNIHMember);
+        SearchResponse sr=services.getSearchResults("", searchTerm, null,DCCNIHMember);
         boolean facetSearch=false;
         if(req.getParameter("facetSearch")!=null)
             facetSearch= req.getParameter("facetSearch").equals("true");        req.setAttribute("sr", sr);
@@ -65,19 +69,8 @@ public class SearchController{
                              @PathVariable(required = false) String category, @RequestParam(required = false) String searchTerm) throws Exception {
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
-        String type=req.getParameter("type");
-        String subType=req.getParameter("subType");
-        String editorType=req.getParameter("editorType");
-        String dsType=req.getParameter("dsType");
-        String modelType=req.getParameter("modelType");
-        System.out.println("CATEOGRY:"+ category+"\n"+
-                "TYPE:"+type+"\n"+
-                "SUBTYPE:"+ subType+"\n"+
-                "EDITOR TYPE:"+editorType+"\n"+
-                "Delivery TYPE:"+ dsType+"\n"+
-                "Model TYpe:"+ modelType);
-        SearchResponse sr=services.getSearchResults(category,searchTerm, type, subType,
-                editorType, dsType, modelType, DCCNIHMember);
+
+        SearchResponse sr=services.getSearchResults(category,searchTerm,getFilterMap(req), DCCNIHMember);
         boolean facetSearch=false;
         boolean filter=false;
         if(req.getParameter("facetSearch")!=null)
@@ -87,17 +80,32 @@ public class SearchController{
         req.setAttribute("searchTerm", searchTerm);
         req.setAttribute("category",category);
         req.setAttribute("sr", sr);
-        req.setAttribute("aggregations",services.getSearchAggregations(sr));
+        Map<String, List<Terms.Bucket>>aggregations=services.getSearchAggregations(sr);
+        req.setAttribute("aggregations",aggregations);
 
         req.setAttribute("crumbTrailMap",   breadCrumb.getCrumbTrailMap(req,null,null, "search"));
-        if(facetSearch)
-      //  return "search/resultsTable";
-      //      return "search/resultsView";
+        if(facetSearch) {
+            System.out.println("FACET SEARCH: "+ facetSearch);
+            //  return "search/resultsTable";
+            //      return "search/resultsView";
+            if(getFilterMap(req).size()==1){
+               SearchResponse searchResponse= services.getFilteredAggregations(category,searchTerm,getFilterMap(req), DCCNIHMember);
+               if(searchResponse!=null) {
+                   Map<String, List<Terms.Bucket>> filtered = services.getSearchAggregations(searchResponse);
+                   aggregations.putAll(filtered);
+                   req.setAttribute("aggregations", aggregations);
+                   //   return "search/resultsView";
+               }
+
+            }
             return "search/resultsPage";
+        }
         else{
             if(filter){
-                System.out.println("FILTER:"+ filter);
-                return "search/resultsView";
+
+             //   return "search/resultsView";
+                return "search/resultsPage";
+
             }else {
                 req.setAttribute("action", "Search Results");
                 req.setAttribute("page", "/WEB-INF/jsp/search/results");
@@ -106,6 +114,34 @@ public class SearchController{
         }
         return null;
     }
+    public Map<String, String> getFilterMap(HttpServletRequest req){
+        Map<String, String> filterMap=new HashMap<>();
+        String type=req.getParameter("type");
+        String subType=req.getParameter("subType");
+        String editorType=req.getParameter("editorType");
+        String dsType=req.getParameter("dsType");
+        String modelType=req.getParameter("modelType");
+        String target=req.getParameter("target");
+        String guideTargetLocus=req.getParameter("guideTargetLocus");
+        String speciesType=req.getParameter("speciesType");
+        String withExperiments=req.getParameter("withExperiments");
+
+
+
+        if(type!=null && !type.equals(""))filterMap.put("type", type);
+        if(subType!=null && !subType.equals(""))filterMap.put("subType", subType);
+        if(editorType!=null && !editorType.equals(""))filterMap.put("editors.type", editorType);
+        if(dsType!=null && !dsType.equals(""))filterMap.put("deliveries.type",dsType);
+        if(modelType!=null && !modelType.equals(""))  filterMap.put("models.type", modelType);
+
+        if(target!=null && !target.equals(""))  filterMap.put("target", target);
+        if(guideTargetLocus!=null && !guideTargetLocus.equals(""))  filterMap.put("guides.targetLocus", guideTargetLocus);
+        if(speciesType!=null && !speciesType.equals(""))  filterMap.put("species", speciesType);
+        if(withExperiments!=null && !withExperiments.equals(""))  filterMap.put("withExperiments", withExperiments);
+
+        return filterMap;
+    }
+
 
 
 }
