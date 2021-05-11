@@ -69,17 +69,6 @@ public class SearchController{
                              @PathVariable(required = false) String category, @RequestParam(required = false) String searchTerm) throws Exception {
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
-      /*  String type=req.getParameter("type");
-        String subType=req.getParameter("subType");
-        String editorType=req.getParameter("editorType");
-        String dsType=req.getParameter("dsType");
-        String modelType=req.getParameter("modelType");
-        System.out.println("CATEOGRY:"+ category+"\n"+
-                "TYPE:"+type+"\n"+
-                "SUBTYPE:"+ subType+"\n"+
-                "EDITOR TYPE:"+editorType+"\n"+
-                "Delivery TYPE:"+ dsType+"\n"+
-                "Model TYpe:"+ modelType);*/
 
         SearchResponse sr=services.getSearchResults(category,searchTerm,getFilterMap(req), DCCNIHMember);
         boolean facetSearch=false;
@@ -96,6 +85,7 @@ public class SearchController{
 
         req.setAttribute("crumbTrailMap",   breadCrumb.getCrumbTrailMap(req,null,null, "search"));
         if(facetSearch) {
+            System.out.println("FACET SEARCH: "+ facetSearch);
             //  return "search/resultsTable";
             //      return "search/resultsView";
             if(getFilterMap(req).size()==1){
@@ -131,11 +121,23 @@ public class SearchController{
         String editorType=req.getParameter("editorType");
         String dsType=req.getParameter("dsType");
         String modelType=req.getParameter("modelType");
+        String target=req.getParameter("target");
+        String guideTargetLocus=req.getParameter("guideTargetLocus");
+        String speciesType=req.getParameter("speciesType");
+        String withExperiments=req.getParameter("withExperiments");
+
+
+
         if(type!=null && !type.equals(""))filterMap.put("type", type);
         if(subType!=null && !subType.equals(""))filterMap.put("subType", subType);
         if(editorType!=null && !editorType.equals(""))filterMap.put("editors.type", editorType);
         if(dsType!=null && !dsType.equals(""))filterMap.put("deliveries.type",dsType);
         if(modelType!=null && !modelType.equals(""))  filterMap.put("models.type", modelType);
+
+        if(target!=null && !target.equals(""))  filterMap.put("target", target);
+        if(guideTargetLocus!=null && !guideTargetLocus.equals(""))  filterMap.put("guides.targetLocus", guideTargetLocus);
+        if(speciesType!=null && !speciesType.equals(""))  filterMap.put("species", speciesType);
+        if(withExperiments!=null && !withExperiments.equals(""))  filterMap.put("withExperiments", withExperiments);
 
         return filterMap;
     }

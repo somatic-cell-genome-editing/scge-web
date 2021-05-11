@@ -25,51 +25,27 @@
     }
 </style>
 <h5>Refine your Search&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></h5>
-<div class="accordion" id="accordion2">
+<div class="accordion">
     <div class="accordion-group">
-        <c:if test="${fn:length(aggregations.catBkts)>1}">
-        <!--div class="accordion-heading card-header">
 
-            <a class="accordion-toggle" data-toggle="collapse" href="#collapseOne">
-             Categories
-            </a>
-
-        </div-->
-        </c:if>
-        <c:choose>
-            <c:when test="${fn:length(aggregations.catBkts)==1}">
-
-                <!--div-->
-                    <!--c:forEach items="${aggregations.catBkts}" var="bkt"-->
-                            <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
-                        <!--a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','', '')" -->
-                            <!--span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span-->
-                            <!--span>Clear Filters</span>
-
-                        </a-->
-
-                    <!--/c:forEach-->
-
-                <!--/div-->
-            </c:when>
-            <c:otherwise>
-                <div id="collapseOne" class="accordion-body collapse show" data-parent="#accordion2">
-                    <div class="accordion-inner">
+            <c:if test="${fn:length(aggregations.catBkts)>1}">
+                <div id="collapseOne" class="accordion-body collapse show" >
+                    <div class="accordion-inner card-header" >
                         <ul class="nav flex-column">
                             <c:forEach items="${aggregations.catBkts}" var="bkt">
                                 <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
                                 <li class="nav-item">
 
-                                    <a class="nav-link facet-head" href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">
-                                        <span style="color:#2478c7">${bkt.key}&nbsp;(${bkt.docCount})</span></a>
+                                    <a class="nav-link" href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}" style="padding-left: 0">
+                                        ${bkt.key}&nbsp;(${bkt.docCount})</a>
 
                                 </li>
                             </c:forEach>
                         </ul>
                     </div>
                 </div>
-            </c:otherwise>
-        </c:choose>
+            </c:if>
+
 
 
     </div>
@@ -345,6 +321,19 @@
         var selectedModelType=   $('input[name="modelTypeBkt"]:checked').map(function () {
             return this.value;
         }).get().join(',');
+
+        var selectedSpeciesType=   $('input[name="speciesBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+        var selectedWithExperiments=   $('input[name="withExperimentsBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+        var selectedTarget=   $('input[name="targetBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+        var selectedGuideTargetLocus=   $('input[name="guideTargetLocusBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
         var searchTerm=$("#searchTerm")
         var category=$("#category")
       /*  alert("SEARCH TERM:"+searchTerm.val()+"\n"+
@@ -355,9 +344,14 @@
             "&type="+selectedType+"&subType="+selectedSubtype +
             "&editorType="+selectedEditorType +
             "&dsType="+selectedDsType+
-            "&modelType="+ selectedModelType
+            "&modelType="+ selectedModelType+
+            "&speciesType="+ selectedSpeciesType+
+            "&withExperiments="+ selectedWithExperiments+
+            "&target="+ selectedTarget+
+            "&guideTargetLocus="+ selectedGuideTargetLocus;
 
-        $.get(url, function (data, status) {
+
+            $.get(url, function (data, status) {
             $contentDiv.html(data);
             $.each($('input[name="typeBkt"]'), function(){
                 if(selectedType.includes($(this).val())){
@@ -382,12 +376,37 @@
                     $(this).prop('checked',true)
                 }
             });
-            $.each($('input[name="dsTypeBkt"]'), function(){
+            $.each($('input[name="speciesBkt"]'), function(){
 
-                if(selectedDsType.includes($(this).val())){
+                if(selectedSpeciesType.includes($(this).val())){
                     $(this).prop('checked',true)
                 }
             });
+
+                $.each($('input[name="targetBkt"]'), function(){
+
+                    if(selectedTarget.includes($(this).val())){
+                        $(this).prop('checked',true)
+                    }
+                });
+                $.each($('input[name="guideTargetLocusBkt"]'), function(){
+
+                    if(selectedGuideTargetLocus.includes($(this).val())){
+                        $(this).prop('checked',true)
+                    }
+                });
+                $.each($('input[name="withExperimentsBkt"]'), function(){
+
+                    if(selectedWithExperiments.includes($(this).val())){
+                        $(this).prop('checked',true)
+                    }
+                });
+                $.each($('input[name="dsTypeBkt"]'), function(){
+
+                    if(selectedDsType.includes($(this).val())){
+                        $(this).prop('checked',true)
+                    }
+                });
         })
     })
 
