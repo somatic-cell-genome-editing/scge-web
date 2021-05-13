@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Editor" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.datamodel.OffTarget" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -45,7 +46,9 @@
 </script>
 
 <% Guide g = (Guide) request.getAttribute("guide"); %>
-<% List<Editor> relatedEditors = (List<Editor>) request.getAttribute("editors"); %>
+<% List<Editor> relatedEditors = (List<Editor>) request.getAttribute("editors");
+    List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
+%>
 
 <div>
     <div>
@@ -88,6 +91,23 @@
                 <td>
                     <%for (Editor relatedEditor: relatedEditors) { %>
                     <a href="/toolkit/data/editors/editor?id=<%=relatedEditor.getId()%>" ><%=UI.replacePhiSymbol(relatedEditor.getSymbol())%></a><br>
+                    <% } %>
+                </td>
+            </tr>
+            <tr ><td class="header"><strong>Ivt Construct Source</strong></td><td><%=SFN.parse(g.getIvtConstructSource())%></td></tr>
+            <tr ><td class="header"><strong>Vector Id</strong></td><td><%=SFN.parse(g.getVectorId())%></td></tr>
+            <tr ><td class="header"><strong>Vector Name</strong></td><td><%=SFN.parse(g.getVectorName())%></td></tr>
+            <tr ><td class="header"><strong>Vector Description</strong></td><td><%=SFN.parse(g.getVectorDescription())%></td></tr>
+            <tr ><td class="header"><strong>Vector Type</strong></td><td><%=SFN.parse(g.getVectorType())%></td></tr>
+            <tr ><td class="header"><strong>Annotated Map</strong></td><td><%=SFN.parse(g.getAnnotatedMap())%></td></tr>
+            <tr ><td class="header"><strong>Specificity Ratio</strong></td><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
+        </table>
+        <hr>
+        <table style="width:80%">
+            <tr><td class="header"><strong>Off Targets</strong></td>
+                <td>
+                    <%for (OffTarget offTarget: offTargets) { %>
+                    <b>Detection Method:</b> <%=offTarget.getDetectionMethod()%> <b>; No of Sites Detected: </b> <%=offTarget.getNoOfSitesDetected()%><br>
                     <% } %>
                 </td>
             </tr>
