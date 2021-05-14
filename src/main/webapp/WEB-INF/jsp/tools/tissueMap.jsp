@@ -102,6 +102,7 @@
 
 
         for (ExperimentRecord er : experimentRecords) {
+            System.out.println("in ex rec ");
             String tissue = "unknown";
             String organSystem = er.getOrganSystemID();
 
@@ -109,6 +110,7 @@
                 System.out.println("organ system = " + organSystem + " organ system - " + rootTissues.get(rootTissue) );
 
                 if (organSystem.equals(rootTissues.get(rootTissue))) {
+                    System.out.println("found a tissue");
                     tissue = rootTissues.get(rootTissue);
                     break;
                 }
@@ -117,10 +119,14 @@
             List<ExperimentResultDetail> erdList = resultDetail.get(er.getExperimentRecordId());
 
             for (ExperimentResultDetail erd : erdList) {
+                System.out.println("result type = " + erd.getResultType());
+                System.out.println("tissue = " + tissue);
                 if (erd.getResultType().equals("Delivery Efficiency")) {
+                    System.out.println("adding to delivery");
                     tissueDeliveryMap.put(tissue, true);
                 }
                 if (erd.getResultType().equals("Editing Efficiency")) {
+                    System.out.println("adding to editing");
                     tissueEditingMap.put(tissue, true);
                 }
             }
@@ -135,11 +141,16 @@
         <tr>
             <td><%=condition%></td>
 
-            <% for (String tissue: rootTissues.keySet()) { %>
-
+            <% for (String tissueKey: rootTissues.keySet()) {
+                String tissue=rootTissues.get(tissueKey);
+            %>
+            <% System.out.println("tissue = " + tissue);
+                System.out.println(tissueDeliveryMap.keySet().toString());
+            %>
             <td width="40">
                 <div class="tissue-control-cell">
                     <% if (tissueDeliveryMap.containsKey(tissue)) { %>
+                    <% System.out.println("in deliver map div"); %>
                     <div class="triangle-topleft"></div>
                     <% } %>
                     <% if (tissueEditingMap.containsKey(tissue)) { %>
