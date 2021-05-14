@@ -64,7 +64,19 @@
         HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
             HashMap<Integer,List<Guide>> guideMap = (HashMap<Integer,List<Guide>>)request.getAttribute("guideMap");
             HashMap<Integer,List<Vector>> vectorMap = (HashMap<Integer,List<Vector>>)request.getAttribute("vectorMap");
-
+        ExperimentResultDao erdao = new ExperimentResultDao();
+        List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
+        List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
+        /*
+        List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
+        */
+        List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
+        List<String> modelList = edao.getExperimentRecordModelList(ex.getExperimentId());
+        List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
+        List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
+        List<String> unitList = erdao.getUnitsByExpId(ex.getExperimentId());
+        List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
+        List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
     %>
 
     <table>
@@ -80,369 +92,10 @@
     </table>
 
 <hr>
-<!--Brain  UBERON:0000955-->
-
-        <style>
-            .tissue-control {
-                position: relative;
-            }
-            .tissue-control-header-first {
-                transform: rotate(-45deg);
-                float: left;
-                width:200px;
-                margin-left:0px;
-                margin-bottom:15px;
-                order:1px solid black;
-                text-align: left;
-                font-size:18px;
-            }
-            .tissue-control-header {
-                transform: rotate(-45deg);
-                float: left;
-                width:200px;
-                margin-left:-155px;
-                margin-bottom:15px;
-                order:1px solid black;
-                text-align: left;
-                font-size:18px;
-            }
-            .tissue-control-cell {
-                border: 1px solid black;
-                loat:left;
-                background-color:#F7F7F7;
-                width:40px;
-                height:40px;
-                position:relative;
-            }
-            .triangle-topleft {
-                position:absolute;
-                top:0px;
-                left:0px;
-                width: 0;
-                height: 0;
-                border-top: 40px solid blue;
-                border-right: 40px solid transparent;
-                cursor:pointer;
-            }
-            .triangle-bottomright {
-                position:absolute;
-                top:0px;
-                left:0px;
-                width: 0;
-                height: 0;
-                border-bottom: 40px solid orange;
-                border-left: 40px solid transparent;
-            }
-        </style>
-
-            <%
-            List<String> tissues = (List<String>)request.getAttribute("tissues");
-            List<String> conditions = (List<String>) request.getAttribute("conditions");
-
-           LinkedHashMap<String,String> rootTissues = new LinkedHashMap<String,String>();
-           rootTissues.put("Reproductive System", "UBERON:0000990");
-           rootTissues.put("Renal/Urinary System", "UBERON:0001008");
-           rootTissues.put("Endocrine System","UBERON:0000949");
-           rootTissues.put("Haemolymphoid System","UBERON:0002193");
-           rootTissues.put("Gastrointestinal System","UBERON:0005409");
-           rootTissues.put("Liver and biliary system","UBERON:0002423");
-           rootTissues.put("Respiratory System","UBERON:0001004");
-           rootTissues.put("Cardiovascular System","UBERON:0004535");
-           rootTissues.put("Musculoskeletal System","UBERON:0002204");
-           rootTissues.put("Integumentary System","UBERON:0002416");
-           rootTissues.put("Nervous System","UBERON:0001016");
-           rootTissues.put("Sensory System","UBERON:0001032");
-
-        %>
-        <div>Organ System Overview</div>
-        <br><br>
-        <div style="position:relative;margin-left:100px;">
-            <table width="5000">
-                <tr>
-                    <td width="40">&nbsp;</td>
-                    <td>
-
-                        <%
-                            boolean first = true;
-                            //for (String tissue: tissues) {
-                              for (String tissue: rootTissues.keySet()) {
-                        %>
-                                <% if (first) { %>
-                                    <div class="tissue-control-header-first"><a href=""><%=tissue%></a></div>
-                                    <% first = false; %>
-                                <% } else { %>
-                                    <div class="tissue-control-header"><a href=""><%=tissue%></a></div>
-                                <% } %>
-                        <%  } %>
-                    </td>
-                </tr>
-            </table>
-
-
-            <%
-               try {
-
-                   HashMap<String, Boolean> tissueEditingMap = new HashMap<String, Boolean>();
-                   HashMap<String, Boolean> tissueDeliveryMap = new HashMap<String, Boolean>();
-                   OntologyXDAO oxdao = new OntologyXDAO();
-
-
-                   for (ExperimentRecord er : experimentRecords) {
-                       String tissue = "unknown";
-                       String organSystem = er.getOrganSystemID();
-
-                       for (String rootTissue : rootTissues.keySet()) {
-                           System.out.println("organ system = " + organSystem + " organ system - " + rootTissues.get(rootTissue) );
-
-                           if (organSystem.equals(rootTissues.get(rootTissue))) {
-                               tissue = rootTissues.get(rootTissue);
-                               break;
-                           }
-                       }
-
-                       List<ExperimentResultDetail> erdList = resultDetail.get(er.getExperimentRecordId());
-
-                       for (ExperimentResultDetail erd : erdList) {
-                           if (erd.getResultType().equals("Delivery Efficiency")) {
-                               tissueDeliveryMap.put(tissue, true);
-                           }
-                           if (erd.getResultType().equals("Editing Efficiency")) {
-                               tissueEditingMap.put(tissue, true);
-                           }
-                       }
-
-                   }
-            %>
-
-
-            <table style="margin-top:50px;">
-
-                <% for (String condition: conditions) { %>
-                    <tr>
-                        <td><%=condition%></td>
-
-                    <% for (String tissue: rootTissues.keySet()) { %>
-
-                        <td width="40">
-                            <div class="tissue-control-cell">
-                                <% if (tissueDeliveryMap.containsKey(tissue)) { %>
-                                    <div class="triangle-topleft"></div>
-                                <% } %>
-                                <% if (tissueEditingMap.containsKey(tissue)) { %>
-                                    <div class="triangle-bottomright"></div>
-                                <% } %>
-                             </div>
-                        </td>
-                     <% } %>
-                </tr>
-                <% } // end conditions %>
-            </table>
-
-
-        </div>
-<%
-        }catch (Exception e) {
-        e.printStackTrace();
-        }
-%>
-
+        <%@include file="tissueMap.jsp"%>
 <hr>
-        <%
-        ExperimentResultDao erdao = new ExperimentResultDao();
-        List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
-        List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
-        /*
-        List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
-        */
-        List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
-        List<String> modelList = edao.getExperimentRecordModelList(ex.getExperimentId());
-        List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
-        List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
-        List<String> unitList = erdao.getUnitsByExpId(ex.getExperimentId());
-
-
-        List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
-        List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
-
-        %>
-
-
-
-<div>Filter Options</div>
-     <table style="margin-left:150px;">
-         <tr>
-             <td valign="top">
-                 <table>
-
-                         <tr>
-                             <td style="font-size:18px; background-color:#F7F7F7;">Conditions</td>
-                         </tr>
-                     <% for (String condition: conditionList) { %>
-                         <tr>
-                             <td><input onclick="applyFilters(this)" id="<%=condition%>" type="checkbox" checked>&nbsp;<%=condition%></td>
-                         </tr>
-                     <% } %>
-
-                 </table>
-
-             </td>
-             <td>
-                 &nbsp;
-             </td>
-             <% if (tissueList.size() > 0 ) { %>
-             <td valign="top">
-                 <table>
-                     <tr>
-                         <td style="font-size:18px; background-color:#F7F7F7;">Tissues</td>
-                     </tr>
-                     <% for (String tissue: tissues) { %>
-                     <tr>
-                         <td><input onclick="applyFilters(this)"  id="<%=tissue%>" type="checkbox" checked>&nbsp;<%=tissue%></td>
-                     </tr>
-                     <% } %>
-
-                 </table>
-
-             </td>
-             <td>
-                 &nbsp;
-             </td>
-             <% } %>
-             <% if (editorList.size() > 0) { %>
-             <td valign="top">
-                 <table>
-                     <tr>
-                         <td style="font-size:18px; background-color:#F7F7F7;">Editors</td>
-                     </tr>
-                     <% for (String editor: editorList) { %>
-                     <tr>
-                         <td><input onclick="applyFilters(this)"  id="<%=editor%>" type="checkbox" checked>&nbsp;<%=editor%></td>
-                     </tr>
-                     <% } %>
-
-                 </table>
-
-             </td>
-             <td>
-                 &nbsp;
-             </td>
-             <% } %>
-             <% if (deliverySystemList.size() > 0 ) { %>
-             <td valign="top">
-                 <table>
-                     <tr>
-                         <td style="font-size:18px; background-color:#F7F7F7;">Delivery Systems</td>
-                     </tr>
-                     <% for (String system: deliverySystemList) { %>
-                     <tr>
-                         <td><input onclick="applyFilters(this)"  id="<%=system%>" type="checkbox" checked>&nbsp;<%=system%></td>
-                     </tr>
-                     <% } %>
-
-                 </table>
-
-             </td>
-             <td>
-                 &nbsp;
-             </td>
-             <% } %>
-             <% if (modelList.size() > 0 ) { %>
-             <td valign="top">
-                 <table>
-                     <tr>
-                         <td style="font-size:18px; background-color:#F7F7F7;">Models</td>
-                     </tr>
-                     <% for (String model: modelList) { %>
-                     <tr>
-                         <td><input onclick="applyFilters(this)"  id="<%=model%>" type="checkbox" checked>&nbsp;<%=model%></td>
-                     </tr>
-                     <% } %>
-
-                 </table>
-
-             </td>
-             <td>
-                 &nbsp;
-             </td>
-             <% } %>
-             <% if (guideList.size() > 0 ) { %>
-             <td valign="top">
-                 <table>
-                     <tr>
-                         <td style="font-size:18px; background-color:#F7F7F7;">Models</td>
-                     </tr>
-                     <% for (String guide: guideList) { %>
-                     <tr>
-                         <td><input onclick="applyFilters(this)"  id="<%=guide%>" type="checkbox" checked>&nbsp;<%=guide%></td>
-                     </tr>
-                     <% } %>
-
-                 </table>
-
-             </td>
-             <td>
-                 &nbsp;
-             </td>
-             <% } %>
-             <% if (vectorList.size() > 0 ) { %>
-             <td valign="top">
-                 <table>
-                     <tr>
-                         <td style="font-size:18px; background-color:#F7F7F7;">Models</td>
-                     </tr>
-                     <% for (String vector: vectorList) { %>
-                     <tr>
-                         <td><input onclick="applyFilters(this)"  id="<%=vector%>" type="checkbox" checked>&nbsp;<%=vector%></td>
-                     </tr>
-                     <% } %>
-
-                 </table>
-
-             </td>
-             <td>
-                 &nbsp;
-             </td>
-             <% } %>
-             <% if (resultTypeList.size() > 0 ) { %>
-             <td valign="top">
-                 <table>
-                     <tr>
-                         <td style="font-size:18px; background-color:#F7F7F7;">Result Types</td>
-                     </tr>
-                     <% for (String resultType: resultTypeList) { %>
-                     <tr>
-                         <td><input onclick="applyFilters(this)"  id="<%=resultType%>" type="checkbox" checked>&nbsp;<%=resultType%></td>
-                     </tr>
-                     <% } %>
-
-                 </table>
-
-             </td>
-             <td>
-                 &nbsp;
-             </td>
-             <% } %>
-             <% if (unitList.size() > 0 ) { %>
-             <td valign="top">
-                 <table>
-                     <tr>
-                         <td style="font-size:18px; background-color:#F7F7F7;">Units</td>
-                     </tr>
-                     <% for (String unit: unitList) { %>
-                     <tr>
-                         <td><input onclick="applyFilters(this)"  id="<%=unit%>" type="checkbox" checked>&nbsp;<%=unit%></td>
-                     </tr>
-                     <% } %>
-
-                 </table>
-
-             </td>
-             <% } %>
-         </tr>
-     </table>
-
-
-  <hr>
+        <%@include file="recordFilters.jsp"%>
+<hr>
 
         <table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table>
         <div class="chart-container" style="position: relative; height:80vh; width:80vw">
@@ -451,6 +104,12 @@
         </div>
 <div>
 <hr>
+    <table width="90%">
+        <tr>
+            <td><h3>Results</h3></td>
+            <td align="right"><a href="#">Download Table Data</a></td>
+        </tr>
+    </table>
     <h3>Results</h3>
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
@@ -593,6 +252,7 @@
                         var cells = table.rows.item(i).cells;
                         var cellLength = cells.length;
                         var column = cells.item(0); //points to condition column
+                        alert(cellLength);
                         var avg = cells.item(10);
                         for (k=0; k<cells.length;k++ ) {
 
