@@ -110,7 +110,7 @@
             <td align="right"><a href="#">Download Table Data</a></td>
         </tr>
     </table>
-    <h3>Results</h3>
+
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
@@ -124,7 +124,7 @@
         <% if (vectorList.size() > 0 ) { %><th>Vector</th><% } %>
         <% if (resultTypeList.size() > 0 ) { %><th>Result Type</th><% } %>
         <% if (unitList.size() > 0 ) { %><th>Units</th><% } %>
-        <th>Result</th>
+        <th id="result">Result</th>
     </tr>
     </thead>
 
@@ -218,21 +218,25 @@
                 var yArray=[];
                 var rowLength = table.rows.length;
                 var j = 0;
+
+                var aveIndex = table.rows.item(0).cells.length -1;
+
+
                 for (i = 2; i < rowLength; i++){
                     if(table.rows.item(i).style.display != 'none') {
                         var cells = table.rows.item(i).cells;
                         var cellLength = cells.length;
                         var column = cells.item(0); //points to condition column
-                        var avg = cells.item(10);
+                        var avg = cells.item(aveIndex);
                         xArray[j] = column.innerText;
                         yArray[j] = avg.innerHTML;
-                        for(k = 11;k<cellLength;k++){
+                        for(k = aveIndex+1;k<cellLength;k++){
                             var arr = [];
                             if(j != 0)
-                                arr = myChart.data.datasets[k-10].data;
+                                arr = myChart.data.datasets[k-aveIndex].data;
 
                             arr.push(cells.item(k).innerHTML);
-                            myChart.data.datasets[k-10].data = arr;
+                            myChart.data.datasets[k-aveIndex].data = arr;
                         }
                         j++;
                     }
@@ -248,19 +252,19 @@
             function applyFilters(obj)  {
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
+                //var aveIndex = table.rows.item(0).cells.length -1;
+
                 for (i = 1; i < rowLength; i++){
                         var cells = table.rows.item(i).cells;
                         var cellLength = cells.length;
                         var column = cells.item(0); //points to condition column
-                        alert(cellLength);
-                        var avg = cells.item(10);
+                        //var avg = cells.item(aveIndex);
                         for (k=0; k<cells.length;k++ ) {
 
                             if (cells.item(k).innerHTML == obj.id || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                                 //alert(table.rows.item(i).style.display);
                                if (obj.checked) {
                                    cells.item(k).off=false;
-                                  // console.log(JSON.stringify(cells.item(k)));
                                    var somethingOff = false;
                                    for (j=0; j<cells.length;j++ ) {
                                         if (cells.item(j).off==true && j !=k) {
@@ -279,14 +283,7 @@
                                    cells.item(k).off = true;
                                    table.rows.item(i).style.display = "none";
                                }
-
-
-                               // alert("found it");
                             }
-                            //if(table.rows.item(i).style.display != 'none') {
-                            //alert(cells.item(k));
-                            //alert (obj.id + " " + cells.item(k).innerHTML + document.getElementById(cells.item(k).innerHTML.replace("\s","-")));
-                            //cells.item(k).innerHTML;
                         }
                 }
                 update();
