@@ -77,6 +77,7 @@
         List<String> unitList = erdao.getUnitsByExpId(ex.getExperimentId());
         List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
         List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
+        List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
     %>
 
     <table>
@@ -116,7 +117,7 @@
     <tr>
         <th>Name</th>
         <% if (tissueList.size() > 0 ) { %><th>Tissue</th><% } %>
-        <th>Cell Type</th>
+        <% if (cellTypeList.size() > 0) { %><th>Cell Type</th><% } %>
         <% if (editorList.size() > 0 ) { %><th class="tablesorter-header" data-placeholder="Search for editor...">Editor</th><% } %>
         <% if (modelList.size() > 0 ) { %><th>Model</th><% } %>
         <% if (deliverySystemList.size() > 0 ) { %><th>Delivery System</th><% } %>
@@ -155,7 +156,7 @@
 
         <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
         <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
-        <td><%=SFN.parse(exp.getCellTypeTerm())%></td>
+        <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
         <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td><% } %>
         <% if (modelList.size() > 0 ) { %><td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td><% } %>
         <% if (deliverySystemList.size() > 0 ) { %><td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td><% } %>
