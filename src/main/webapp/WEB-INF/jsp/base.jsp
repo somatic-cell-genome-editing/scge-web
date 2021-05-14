@@ -149,10 +149,12 @@ Goals"/>
                     <div style="margin-top: 0;padding-top:0">
                         <!--nav aria-label="breadcrumb" id="breadcrumb"></nav-->
                         <nav aria-label="breadcrumb" >
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="/toolkit/loginSuccess?destination=base">Home</a></li>
+
                                 <c:if test="${crumbTrailMap!=null}">
-                                <c:forEach items="${crumbTrailMap}" var="item">
+                                    <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/toolkit/loginSuccess?destination=base">Home</a></li>
+
+                                    <c:forEach items="${crumbTrailMap}" var="item">
                                         <li class="breadcrumb-item">
                                             <c:forEach items="${item.value}" var="trail">
                                                 <c:if test="${item.value!=null}">
@@ -167,11 +169,11 @@ Goals"/>
                                             </c:forEach>
                                         </li>
                                     </c:forEach>
-
+                                    </ol>
                                 </c:if>
                                 <!--li class="breadcrumb-item">${action}</li-->
 
-                            </ol>
+
                         </nav>
 
                         </c:when>
