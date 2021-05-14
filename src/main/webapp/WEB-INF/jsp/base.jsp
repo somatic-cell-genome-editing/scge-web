@@ -154,10 +154,11 @@ Goals"/>
                             </c:if>
                     <div style="margin-top: 0;padding-top:0">
                         <!--nav aria-label="breadcrumb" id="breadcrumb"></nav-->
-                        <c:if test="${crumbTrailMap!=null}">
                         <nav aria-label="breadcrumb" >
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="/toolkit/loginSuccess?destination=base">Home</a></li>
+
+                                <c:if test="${crumbTrailMap!=null}">
+                                    <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/toolkit/loginSuccess?destination=base">Home</a></li>
 
                                     <c:forEach items="${crumbTrailMap}" var="item">
                                         <li class="breadcrumb-item">
@@ -174,13 +175,13 @@ Goals"/>
                                             </c:forEach>
                                         </li>
                                     </c:forEach>
+                                    </ol>
+                                </c:if>
+                                <!--li class="breadcrumb-item">${action}</li-->
 
 
-                                <li class="breadcrumb-item">${action}</li>
-
-                            </ol>
                         </nav>
-                        </c:if>
+
                         </c:when>
                         <c:otherwise>
                             <!--h4 class="page-header" style="color:grey;">Dashboard</h4-->

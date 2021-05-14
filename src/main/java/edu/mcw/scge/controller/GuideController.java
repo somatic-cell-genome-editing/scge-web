@@ -72,6 +72,10 @@ public class GuideController {
         List<Editor> editors = editorDao.getEditorByGuide(guide.getGuide_id());
         req.setAttribute("editors", editors);
 
+        OffTargetDao offTargetDao = new OffTargetDao();
+        List<OffTarget> offTargets = offTargetDao.getOffTargetByGuide(guide.getGuide_id());
+        req.setAttribute("offTargets",offTargets);
+
         HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));

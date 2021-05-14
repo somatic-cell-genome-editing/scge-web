@@ -4,12 +4,6 @@
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="edu.mcw.scge.dao.implementation.ExperimentRecordDao" %>
-<%@ page import="edu.mcw.scge.dao.implementation.ExperimentDao" %>
-<%@ page import="java.util.LinkedHashMap" %>
-<%@ page import="edu.mcw.scge.dao.implementation.OntologyXDAO" %>
-<%@ page import="edu.mcw.scge.dao.implementation.ExperimentResultDao" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -54,29 +48,12 @@
 
 <div>
     <%
-        ExperimentDao edao = new ExperimentDao();
         List<ExperimentRecord> experimentRecords = (List<ExperimentRecord>) request.getAttribute("experimentRecords");
         Study study = (Study) request.getAttribute("study");
         Access access = new Access();
         Person p = access.getUser(request.getSession());
-        Experiment ex = (Experiment) request.getAttribute("experiment");
+Experiment ex = (Experiment) request.getAttribute("experiment");
         //out.println(experiments.size());
-        HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
-            HashMap<Integer,List<Guide>> guideMap = (HashMap<Integer,List<Guide>>)request.getAttribute("guideMap");
-            HashMap<Integer,List<Vector>> vectorMap = (HashMap<Integer,List<Vector>>)request.getAttribute("vectorMap");
-        ExperimentResultDao erdao = new ExperimentResultDao();
-        List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
-        List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
-        /*
-        List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
-        */
-        List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
-        List<String> modelList = edao.getExperimentRecordModelList(ex.getExperimentId());
-        List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
-        List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
-        List<String> unitList = erdao.getUnitsByExpId(ex.getExperimentId());
-        List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
-        List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
     %>
 
     <table>
@@ -90,13 +67,29 @@
             <td class="desc" ><%=study.getSubmissionDate()%></td>
         </tr>
     </table>
+        <hr>
 
-<hr>
-        <%@include file="tissueMap.jsp"%>
-<hr>
-        <%@include file="recordFilters.jsp"%>
-<hr>
+        <%
+            for (ExperimentRecord er: experimentRecords) {
 
+
+
+
+
+            }
+
+        %>
+
+
+
+        <div></div>
+
+
+
+
+
+        Hello
+<hr>
         <table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table>
         <div class="chart-container" style="position: relative; height:80vh; width:80vw">
     <canvas id="resultChart"></canvas>
@@ -104,48 +97,40 @@
         </div>
 <div>
 <hr>
-    <table width="90%">
-        <tr>
-            <td><h3>Results</h3></td>
-            <td align="right"><a href="#">Download Table Data</a></td>
-        </tr>
-    </table>
-
+    <h3>Results</h3>
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
-        <th>Name</th>
-        <% if (tissueList.size() > 0 ) { %><th>Tissue</th><% } %>
+    <th>Name</th>
+        <th>Tissue</th>
         <th>Cell Type</th>
-        <% if (editorList.size() > 0 ) { %><th class="tablesorter-header" data-placeholder="Search for editor...">Editor</th><% } %>
-        <% if (modelList.size() > 0 ) { %><th>Model</th><% } %>
-        <% if (deliverySystemList.size() > 0 ) { %><th>Delivery System</th><% } %>
-        <% if (guideList.size() > 0 ) { %><th>Guide</th> <% } %>
-        <% if (vectorList.size() > 0 ) { %><th>Vector</th><% } %>
-        <% if (resultTypeList.size() > 0 ) { %><th>Result Type</th><% } %>
-        <% if (unitList.size() > 0 ) { %><th>Units</th><% } %>
-        <th id="result">Result</th>
+        <th class="tablesorter-header" data-placeholder="Search for editor...">Editor</th>
+        <th>Model</th>
+        <th>Delivery System</th>
+        <th>Guide</th>
+        <th>Vector</th>
+        <th>Result Type</th>
+        <th>Units</th>
+        <th>Result</th>
     </tr>
     </thead>
 
         <% HashMap<Integer,Double> resultMap = (HashMap<Integer, Double>) request.getAttribute("resultMap");
-            //HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
+            HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
+            HashMap<Integer,List<Guide>> guideMap = (HashMap<Integer,List<Guide>>)request.getAttribute("guideMap");
+            HashMap<Integer,List<Vector>> vectorMap = (HashMap<Integer,List<Vector>>)request.getAttribute("vectorMap");
             for (ExperimentRecord exp: experimentRecords) {
-                List<Guide> guides = guideMap.get(exp.getExperimentRecordId());
+                List<Guide> guideList = guideMap.get(exp.getExperimentRecordId());
                 String guide = "";
-                boolean fst = true;
-                for(Guide g: guides) {
-                    if (!fst) { guide += ";"; }
+                for(Guide g: guideList) {
                     guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+SFN.parse(g.getGuide())+"</a>";
-                    fst = false;
+                    guide += ";\t";
                 }
-                List<Vector> vectors = vectorMap.get(exp.getExperimentRecordId());
+                List<Vector> vectorList = vectorMap.get(exp.getExperimentRecordId());
                 String vector = "";
-                fst=true;
-                for(Vector v: vectors) {
-                    if (!fst) { vector += ";"; }
+                for(Vector v: vectorList) {
                     vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">"+SFN.parse(v.getName())+"</a>";
-                    fst=false;
+                    vector += ";\t";
                 }
         %>
 
@@ -153,16 +138,17 @@
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
 
-        <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
-        <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
-        <td><%=SFN.parse(exp.getCellTypeTerm())%></td>
-        <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td><% } %>
-        <% if (modelList.size() > 0 ) { %><td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td><% } %>
-        <% if (deliverySystemList.size() > 0 ) { %><td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td><% } %>
-        <% if (guideList.size() > 0 ) { %><td><%=guide%></td><% } %>
-        <% if (vectorList.size() > 0 ) { %><td><%=vector%></td><% } %>
-        <% if (resultTypeList.size() > 0 ) { %><td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getResultType()%></td><% } %>
-        <% if (unitList.size() > 0 ) { %><td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getUnits()%></td><% } %>
+
+        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
+        <td><%=SFN.parse(exp.getTissueTerm())%></td>
+        <td><%=SFN.parse(exp.getCellType())%></td>
+        <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td>
+        <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
+        <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
+        <td><%=guide%></td>
+        <td><%=vector%></td>
+        <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getResultType()%></td>
+        <td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getUnits()%></td>
         <td><%=resultMap.get(exp.getExperimentRecordId())%></td>
         <%for(ExperimentResultDetail e:resultDetail.get(exp.getExperimentRecordId())) {%>
         <td style="display: none"><%=e.getResult()%></td>
@@ -218,25 +204,21 @@
                 var yArray=[];
                 var rowLength = table.rows.length;
                 var j = 0;
-
-                var aveIndex = table.rows.item(0).cells.length -1;
-
-
                 for (i = 2; i < rowLength; i++){
                     if(table.rows.item(i).style.display != 'none') {
                         var cells = table.rows.item(i).cells;
                         var cellLength = cells.length;
                         var column = cells.item(0); //points to condition column
-                        var avg = cells.item(aveIndex);
+                        var avg = cells.item(10);
                         xArray[j] = column.innerText;
                         yArray[j] = avg.innerHTML;
-                        for(k = aveIndex+1;k<cellLength;k++){
+                        for(k = 11;k<cellLength;k++){
                             var arr = [];
                             if(j != 0)
-                                arr = myChart.data.datasets[k-aveIndex].data;
+                                arr = myChart.data.datasets[k-10].data;
 
                             arr.push(cells.item(k).innerHTML);
-                            myChart.data.datasets[k-aveIndex].data = arr;
+                            myChart.data.datasets[k-10].data = arr;
                         }
                         j++;
                     }
@@ -246,49 +228,7 @@
                 myChart.data.labels = xArray;
                 myChart.data.datasets[0].data = yArray;
                 myChart.update();
-
             }
-
-            function applyFilters(obj)  {
-                var table = document.getElementById('myTable'); //to remove filtered rows
-                var rowLength = table.rows.length;
-                //var aveIndex = table.rows.item(0).cells.length -1;
-
-                for (i = 1; i < rowLength; i++){
-                        var cells = table.rows.item(i).cells;
-                        var cellLength = cells.length;
-                        var column = cells.item(0); //points to condition column
-                        //var avg = cells.item(aveIndex);
-                        for (k=0; k<cells.length;k++ ) {
-
-                            if (cells.item(k).innerHTML == obj.id || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
-                                //alert(table.rows.item(i).style.display);
-                               if (obj.checked) {
-                                   cells.item(k).off=false;
-                                   var somethingOff = false;
-                                   for (j=0; j<cells.length;j++ ) {
-                                        if (cells.item(j).off==true && j !=k) {
-                                            somethingOff = true;
-                                            break;
-                                        }
-                                   }
-
-                                   if (somethingOff) {
-                                       table.rows.item(i).style.display = "none";
-                                   }else {
-                                       table.rows.item(i).style.display = "";
-                                   }
-
-                               }else {
-                                   cells.item(k).off = true;
-                                   table.rows.item(i).style.display = "none";
-                               }
-                            }
-                        }
-                }
-                update();
-            }
-
 
             function generateData() {
                 var noOfDatasets=${replicateResult.keySet().size()}
@@ -318,7 +258,4 @@
         <script>
             feather.replace()
         </script>
-
-
-
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
