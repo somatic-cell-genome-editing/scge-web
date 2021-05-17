@@ -123,11 +123,11 @@
                 System.out.println("tissue = " + tissue);
                 if (erd.getResultType().equals("Delivery Efficiency")) {
                     System.out.println("adding to delivery");
-                    tissueDeliveryMap.put(tissue, true);
+                    tissueDeliveryMap.put(tissue + "-" + er.getExperimentName(), true);
                 }
                 if (erd.getResultType().equals("Editing Efficiency")) {
                     System.out.println("adding to editing");
-                    tissueEditingMap.put(tissue, true);
+                    tissueEditingMap.put(tissue + "-" + er.getExperimentName(), true);
                 }
             }
 
@@ -149,11 +149,11 @@
             %>
             <td width="40">
                 <div class="tissue-control-cell">
-                    <% if (tissueDeliveryMap.containsKey(tissue)) { %>
+                    <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
                     <% System.out.println("in deliver map div"); %>
                     <div class="triangle-topleft"></div>
                     <% } %>
-                    <% if (tissueEditingMap.containsKey(tissue)) { %>
+                    <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
                     <div class="triangle-bottomright"></div>
                     <% } %>
                 </div>
