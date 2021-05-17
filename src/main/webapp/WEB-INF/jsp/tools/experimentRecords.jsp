@@ -302,6 +302,8 @@
                     borderColor:    'rgba(255, 206, 99, 0.8)',
                     borderWidth: 1
                 });
+
+
                 for(var i=0;i< noOfDatasets;i++){
                     data.push({
                         data: dataSet[i],

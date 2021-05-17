@@ -99,7 +99,7 @@
         <td valign="top">
             <table>
                 <tr>
-                    <td style="font-size:18px; background-color:#F7F7F7;">Models</td>
+                    <td style="font-size:18px; background-color:#F7F7F7;">Guides</td>
                 </tr>
                 <% for (String guide: guideList) { %>
                 <tr>
