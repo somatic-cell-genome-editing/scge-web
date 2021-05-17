@@ -334,7 +334,6 @@ public class ExperimentController extends UserController {
             List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
             List<String> conditions = edao.getExperimentRecordConditionList(experimentId);
 
-
             req.setAttribute("tissues",tissues);
             req.setAttribute("conditions",conditions);
             req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/studies/search'>Studies</a> -> <a href='/toolkit/data/experiments/study/" + study.getStudyId() + "'>Experiments</a>");
@@ -351,9 +350,8 @@ public class ExperimentController extends UserController {
             req.setAttribute("vectorMap",vectorMap);
             req.setAttribute("action", "Experiment Records");
             req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
+
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-
-
 
         return null;
     }

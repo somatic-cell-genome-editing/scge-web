@@ -18,6 +18,8 @@
   Time: 4:25 PM
   To change this template use File | Settings | File Templates.
 --%>
+
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <link href="/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
@@ -67,9 +69,6 @@
         ExperimentResultDao erdao = new ExperimentResultDao();
         List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
         List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
-        /*
-        List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
-        */
         List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
         List<String> modelList = edao.getExperimentRecordModelList(ex.getExperimentId());
         List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
@@ -92,8 +91,12 @@
         </tr>
     </table>
 
+        <% if (tissueList.size() > 0 ) { %>
 <hr>
-        <%@include file="tissueMap.jsp"%>
+
+                <%@include file="tissueMap.jsp"%>
+
+            <% } %>
 <hr>
         <%@include file="recordFilters.jsp"%>
 <hr>
