@@ -1,6 +1,7 @@
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
+<%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -141,8 +142,6 @@
     <div>
         <table style="width:80%">
 
-            <>
-
             <%
 
                 List<Delivery> dList = (List<Delivery>)request.getAttribute("deliveryList");
@@ -173,9 +172,9 @@
                 if(methods !=null && methods.size() > 0)
                     a = methods.get(0);
             %>
-                <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=<%=e.getId()%>"><%=e.getSymbol()%></a></td></tr>
-                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=d.getType()%></a></td></tr>
-                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=d.getSubtype()%></td></tr>
+                <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=<%=e.getId()%>"><%=SFN.parse(e.getSymbol())%></a></td></tr>
+                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=SFN.parse(d.getType())%></a></td></tr>
+                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=SFN.parse(d.getSubtype())%></td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td><%=guide%></td></tr>
             <tr><td class="header"><strong>Vector</strong></td><td><%=vector%></td></tr>
             </tbody>
@@ -212,8 +211,8 @@
                 <tr><td class="header"><strong>Injection Volume</strong></td><td><%=a.getInjectionVolume()%></td></tr>
                 <tr><td class="header"><strong>Days post injection</strong></td><td><%=a.getDaysPostInjection()%></td></tr>
                 <tr><td class="header"><strong>Editor Format</strong></td><td><%=a.getEditorFormat()%></td></tr>
-                <tr><td class="header"><strong>Antidote Id</strong></td><td><%=a.getAntidoteId()%></td></tr>
-                <tr><td class="header"><strong>Antidote Description</strong></td><td><%=a.getAntidoteDescription()%></td></tr>
+                <tr><td class="header"><strong>Antidote Id</strong></td><td><%=SFN.parse(a.getAntidoteId())%></td></tr>
+                <tr><td class="header"><strong>Antidote Description</strong></td><td><%=SFN.parse(a.getAntidoteDescription())%></td></tr>
 
 
 
@@ -263,7 +262,6 @@
     <div class="row">
         <div class="col-lg-3">
             <table width="600"><tr><td><h3>Tissue Signal Map</h3></td><td align="right"><button class="btn" id="summaryResultsTableBtn" onclick="showTable()">Show Table</button></td></tr></table>
-
 
         </div>
     </div>
