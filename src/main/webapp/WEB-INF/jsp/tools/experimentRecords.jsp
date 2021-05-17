@@ -53,7 +53,7 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 
-
+<% try {  %>
 <div>
     <%
         ExperimentDao edao = new ExperimentDao();
@@ -77,6 +77,9 @@
         List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
         List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
         List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
+      List<String> tissues = (List<String>)request.getAttribute("tissues");
+    List<String> conditions = (List<String>) request.getAttribute("conditions");
+
     %>
 
     <table>
@@ -96,8 +99,8 @@
 
                 <%@include file="tissueMap.jsp"%>
 
-            <% } %>
-<hr>
+            <% }  %>
+        <hr>
         <%@include file="recordFilters.jsp"%>
 <hr>
 
@@ -325,6 +328,9 @@
             feather.replace()
         </script>
 
-
+<% } catch (Exception e) {
+        e.printStackTrace();
+ }
+%>
 
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->

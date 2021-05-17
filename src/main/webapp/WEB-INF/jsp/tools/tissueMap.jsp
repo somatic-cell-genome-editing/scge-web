@@ -52,8 +52,6 @@
 </style>
 
 <%
-    List<String> tissues = (List<String>)request.getAttribute("tissues");
-    List<String> conditions = (List<String>) request.getAttribute("conditions");
 
     LinkedHashMap<String,String> rootTissues = new LinkedHashMap<String,String>();
     rootTissues.put("Reproductive System", "UBERON:0000990");
