@@ -215,10 +215,39 @@
                                 fontFamily: 'Calibri'
                             }
                         }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            afterLabel: function(tooltipItem, data) {
+                                var index = tooltipItem.index;
+                                console.log(index);
+                                return getDetails(index);
+                            }
+                        }
                     }
                 }
             });
 
+            function getDetails(index) {
+                var table = document.getElementById('myTable');
+                var j = 0;
+                var detail = [];
+                var rowLength = table.rows.length;
+                var avgIndex = table.rows.item(0).cells.length -1;
+                for (i = 2; i < rowLength; i++) {
+                    if (table.rows.item(i).style.display != 'none') {
+                        if (j == index) {
+                            for(k = 1;k < avgIndex-2;k++){
+                                var label = table.rows.item(0).cells.item(k).innerText;
+                                var value = table.rows.item(i).cells.item(k).innerText;
+                                detail.push(label + ':' + value) ;
+                            }
+                        }
+                        j++;
+                    }
+                }
+                return detail;
+            }
             function update(){
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var xArray=[];
