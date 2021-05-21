@@ -69,7 +69,7 @@
             HashMap<Integer,List<Guide>> guideMap = (HashMap<Integer,List<Guide>>)request.getAttribute("guideMap");
             HashMap<Integer,List<Vector>> vectorMap = (HashMap<Integer,List<Vector>>)request.getAttribute("vectorMap");
         ExperimentResultDao erdao = new ExperimentResultDao();
-       // List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
+       List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
 
         List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
         List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
