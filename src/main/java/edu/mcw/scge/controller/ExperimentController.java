@@ -205,11 +205,9 @@ public class ExperimentController extends UserController {
             for (ExperimentResultDetail result : experimentResults) {
                 noOfSamples = result.getNumberOfSamples();
                 units = "\"" + result.getResultType() + " in " + experimentResults.get(0).getUnits() + "\"";
-                if (result.getResult() != null && !result.getResult().isEmpty())
-                    average += Double.valueOf(result.getResult());
+                if (result.getReplicate() == 0)
+                    average = Double.valueOf(result.getResult());
             }
-            average = average / noOfSamples;
-            average = Math.round(average * 100.0) / 100.0;
 
             if(experimentId1 == record.getExperimentId()) {
                 exp1Results.put(record.getDeliverySystemType(), average);
