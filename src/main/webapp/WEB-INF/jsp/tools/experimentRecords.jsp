@@ -79,6 +79,7 @@
         List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
       List<String> tissues = (List<String>)request.getAttribute("tissues");
     List<String> conditions = (List<String>) request.getAttribute("conditions");
+    System.out.println("In Records page");
 
     %>
 
