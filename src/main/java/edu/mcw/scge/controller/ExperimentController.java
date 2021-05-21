@@ -305,26 +305,21 @@ public class ExperimentController extends UserController {
                 resultDetail.put(record.getExperimentRecordId(), experimentResults);
                 double average = 0;
                 for (ExperimentResultDetail result : experimentResults) {
-
                     noOfSamples = result.getNumberOfSamples();
                     efficiency = "\"" + result.getResultType() + " in " + experimentResults.get(0).getUnits() + "\"";
-                    values = replicateResult.get(result.getReplicate());
-                    if (values == null)
-                        values = new ArrayList<>();
-                    if (result.getResult() == null || result.getResult().isEmpty())
-                        values.add(null);
-                    else {
-                        values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
-                        average += Double.valueOf(result.getResult());
-                    }
+                    if(result.getReplicate() != 0) {
+                        values = replicateResult.get(result.getReplicate());
+                        if (values == null)
+                            values = new ArrayList<>();
+                        if (result.getResult() == null || result.getResult().isEmpty())
+                            values.add(null);
+                        else {
+                            values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
+                        }
 
-                    replicateResult.put(result.getReplicate(), values);
-
-
+                        replicateResult.put(result.getReplicate(), values);
+                    }else average = Double.valueOf(result.getResult());
                 }
-
-                average = average / noOfSamples;
-                average = Math.round(average * 100.0) / 100.0;
                 mean.add(average);
                 resultMap.put(record.getExperimentRecordId(), average);
 
