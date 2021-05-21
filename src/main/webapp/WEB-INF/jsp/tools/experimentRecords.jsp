@@ -64,6 +64,7 @@
         Person p = access.getUser(request.getSession());
         Experiment ex = (Experiment) request.getAttribute("experiment");
         //out.println(experiments.size());
+        System.out.println("In Records Page");
         HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
             HashMap<Integer,List<Guide>> guideMap = (HashMap<Integer,List<Guide>>)request.getAttribute("guideMap");
             HashMap<Integer,List<Vector>> vectorMap = (HashMap<Integer,List<Vector>>)request.getAttribute("vectorMap");
@@ -71,11 +72,8 @@
        // List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
 
         List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
-         System.out.println(tissueList);
         List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
-         System.out.println(editorList);
         List<String> modelList = edao.getExperimentRecordModelList(ex.getExperimentId());
-         System.out.println(modelList);
         List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
         List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
         List<String> unitList = erdao.getUnitsByExpId(ex.getExperimentId());
