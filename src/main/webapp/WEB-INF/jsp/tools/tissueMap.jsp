@@ -77,6 +77,7 @@
     rootTissues.put("Integumentary System","UBERON:0002416");
     rootTissues.put("Nervous System","UBERON:0001016");
     rootTissues.put("Sensory System","UBERON:0001032");
+    rootTissues.put("Hematopoietic System","UBERON:0002390");
 %>
 <div>Organ System Overview</div>
 <br><br>
@@ -112,20 +113,29 @@
         HashMap<String,Set<String>> tissueEditingConditions = new HashMap<>();
         List<Double> resultDetails = new ArrayList<>();
         Set<String> labelDetails = new TreeSet<>();
+        Set<String> tissueNames = new TreeSet<>();
 
         for (ExperimentRecord er : experimentRecords) {
             String tissue = "unknown";
-            String organSystem = er.getOrganSystemID();
+            String organSystemID = er.getOrganSystemID();
+            String organSystem = "unknown";
             for (String rootTissue : rootTissues.keySet()) {
-                if (organSystem.equals(rootTissues.get(rootTissue))) {
+                if (organSystemID.equals(rootTissues.get(rootTissue))) {
                     System.out.println("found a tissue");
                     tissue = rootTissues.get(rootTissue);
+                    organSystem = rootTissue;
                     break;
                 }
             }
-            String tissueName = "\""+tissue+"\"";
+            String tissueTerm = er.getTissueTerm();
+            String cellType = er.getCellTypeTerm();
+            String tissueName = "\"" + organSystem + ">" + tissueTerm + ">";
+            if (cellType != null && !cellType.equals(""))
+                tissueName += cellType + "\"";
+            else tissueName += "\"";
+            tissueNames.add(tissueName);
 
-            if(!tissue.equals("unknown")) {
+
             List<ExperimentResultDetail> erdList = resultDetail.get(er.getExperimentRecordId());
 
             for (ExperimentResultDetail erd : erdList) {
@@ -162,7 +172,6 @@
                     labelDetails.add("\""+er.getExperimentName()+"\"");
                     tissueEditingConditions.put(tissueName,labelDetails);
                 }
-            }
             }
         }
     %>
@@ -204,24 +213,23 @@
         </thead>
         <tr>
     <% int i = 0,j=0;
-        for (String tissueKey: rootTissues.keySet()) {
-        String tissue=rootTissues.get(tissueKey);
+        for (String tissueName: tissueNames) {
     %>
     <tr>
-        <td><%=tissueKey%></td>
+        <td><b><%=tissueName%></b></td>
         <td>
-            <% if (tissueDeliveryConditions.containsKey("\""+tissue+"\"")) {%>
+            <% if (tissueDeliveryConditions.containsKey(tissueName)) {%>
             <div class="chart-container">
                 <canvas id="canvasDelivery<%=i%>"></canvas>
             </div>
-            <%  i++;}%>
+            <%  i++;} else %><b>NO DATA</b>
         </td>
         <td>
-            <% if (tissueEditingConditions.containsKey("\""+tissue+"\"")) {%>
+            <% if (tissueEditingConditions.containsKey(tissueName)) {%>
             <div class="chart-container">
                 <canvas id="canvasEditing<%=j%>"></canvas>
             </div>
-            <%   j++;}%>
+            <%   j++;} else %> <b>NO DATA</b>
         </td>
     </tr>
 <%}%>
