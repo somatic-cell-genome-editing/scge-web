@@ -265,6 +265,7 @@ public class ExperimentController extends UserController {
             return null;
 
         }
+        System.out.println("In Controller");
         List<String> labels=new ArrayList<>();
         Map<String, List<Double>> plotData=new HashMap<>();
         Map<String, List<Double>> deliveryPlot=new HashMap<>();
