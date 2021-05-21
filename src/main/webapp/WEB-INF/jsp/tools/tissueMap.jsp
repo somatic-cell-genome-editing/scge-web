@@ -1,5 +1,7 @@
 <%@ page import="java.util.TreeSet" %>
 <%@ page import="java.util.Set" %>
+<%@ page import="java.util.LinkedHashMap" %>
+<%@ page import="java.util.ArrayList" %>
 <style>
     .tissue-control {
         position: relative;
@@ -75,7 +77,6 @@
     rootTissues.put("Integumentary System","UBERON:0002416");
     rootTissues.put("Nervous System","UBERON:0001016");
     rootTissues.put("Sensory System","UBERON:0001032");
-
 %>
 <div>Organ System Overview</div>
 <br><br>
@@ -105,7 +106,6 @@
     <%
         HashMap<String, Boolean> tissueEditingMap = new HashMap<String, Boolean>();
         HashMap<String, Boolean> tissueDeliveryMap = new HashMap<String, Boolean>();
-        OntologyXDAO oxdao = new OntologyXDAO();
         HashMap<String,List<Double>> tissueEditingResults = new HashMap<>();
         HashMap<String,List<Double>> tissueDeliveryResults = new HashMap<>();
         HashMap<String,Set<String>> tissueDeliveryConditions = new HashMap<>();
