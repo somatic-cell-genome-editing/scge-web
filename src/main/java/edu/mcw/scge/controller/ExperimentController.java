@@ -265,7 +265,7 @@ public class ExperimentController extends UserController {
             return null;
 
         }
-        System.out.println("In Controller");
+
         List<String> labels=new ArrayList<>();
         Map<String, List<Double>> plotData=new HashMap<>();
         Map<String, List<Double>> deliveryPlot=new HashMap<>();
@@ -328,6 +328,7 @@ public class ExperimentController extends UserController {
             List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
             List<String> conditions = edao.getExperimentRecordConditionList(experimentId);
 
+        System.out.println("In controller");
             req.setAttribute("tissues",tissues);
             req.setAttribute("conditions",conditions);
             req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/studies/search'>Studies</a> -> <a href='/toolkit/data/experiments/study/" + study.getStudyId() + "'>Experiments</a>");

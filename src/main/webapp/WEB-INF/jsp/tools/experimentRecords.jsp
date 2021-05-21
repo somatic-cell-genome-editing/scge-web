@@ -59,13 +59,10 @@
 
         ExperimentDao edao = new ExperimentDao();
         List<ExperimentRecord> experimentRecords = (List<ExperimentRecord>) request.getAttribute("experimentRecords");
-        System.out.println(experimentRecords.size());
         Study study = (Study) request.getAttribute("study");
-        System.out.println(study.getStudy());
         Access access = new Access();
         Person p = access.getUser(request.getSession());
         Experiment ex = (Experiment) request.getAttribute("experiment");
-        System.out.println(ex.getName());
         //out.println(experiments.size());
 
         HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
@@ -83,7 +80,7 @@
         List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
         List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
         List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
-      //List<String> tissues = (List<String>)request.getAttribute("tissues");
+      List<String> tissues = (List<String>)request.getAttribute("tissues");
     List<String> conditions = (List<String>) request.getAttribute("conditions");
 
 
