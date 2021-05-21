@@ -53,7 +53,14 @@
         border-left: 40px solid transparent;
     }
 </style>
-
+<script>
+    $(function() {
+        $("#grid").tablesorter({
+            theme: 'blue',
+            widgets: ['zebra', 'resizable', 'stickyHeaders'],
+        });
+    });
+</script>
 <%
 
     LinkedHashMap<String,String> rootTissues = new LinkedHashMap<String,String>();
@@ -190,7 +197,7 @@
 
 </div>
 <div>
-    <table class="table" style="height:600px; width:600px;">
+    <table id="grid" class="table tablesorter" style="height:600px; width:600px;">
         <thead>
         <th>Organ System</th>
         <th>Delivery</th>
