@@ -56,6 +56,7 @@
 <% try {  %>
 <div>
     <%
+
         ExperimentDao edao = new ExperimentDao();
         List<ExperimentRecord> experimentRecords = (List<ExperimentRecord>) request.getAttribute("experimentRecords");
         Study study = (Study) request.getAttribute("study");
@@ -67,19 +68,23 @@
             HashMap<Integer,List<Guide>> guideMap = (HashMap<Integer,List<Guide>>)request.getAttribute("guideMap");
             HashMap<Integer,List<Vector>> vectorMap = (HashMap<Integer,List<Vector>>)request.getAttribute("vectorMap");
         ExperimentResultDao erdao = new ExperimentResultDao();
-        List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
+       // List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
+
         List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
+         System.out.println(tissueList);
         List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
+         System.out.println(editorList);
         List<String> modelList = edao.getExperimentRecordModelList(ex.getExperimentId());
+         System.out.println(modelList);
         List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
         List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
         List<String> unitList = erdao.getUnitsByExpId(ex.getExperimentId());
         List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
         List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
         List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
-      List<String> tissues = (List<String>)request.getAttribute("tissues");
+      //List<String> tissues = (List<String>)request.getAttribute("tissues");
     List<String> conditions = (List<String>) request.getAttribute("conditions");
-    System.out.println("In Records page");
+
 
     %>
 
