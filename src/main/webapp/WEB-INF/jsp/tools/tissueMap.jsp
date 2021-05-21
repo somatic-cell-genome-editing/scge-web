@@ -1,3 +1,6 @@
+<%@ page import="com.sun.javafx.scene.control.skin.VirtualFlow" %>
+<%@ page import="java.util.TreeSet" %>
+<%@ page import="java.util.Set" %>
 <style>
     .tissue-control {
         position: relative;
@@ -97,38 +100,64 @@
         HashMap<String, Boolean> tissueEditingMap = new HashMap<String, Boolean>();
         HashMap<String, Boolean> tissueDeliveryMap = new HashMap<String, Boolean>();
         OntologyXDAO oxdao = new OntologyXDAO();
-
+        HashMap<String,List<Double>> tissueEditingResults = new HashMap<>();
+        HashMap<String,List<Double>> tissueDeliveryResults = new HashMap<>();
+        HashMap<String,Set<String>> tissueDeliveryConditions = new HashMap<>();
+        HashMap<String,Set<String>> tissueEditingConditions = new HashMap<>();
+        List<Double> resultDetails = new ArrayList<>();
+        Set<String> labelDetails = new TreeSet<>();
 
         for (ExperimentRecord er : experimentRecords) {
-            System.out.println("in ex rec ");
             String tissue = "unknown";
             String organSystem = er.getOrganSystemID();
-
             for (String rootTissue : rootTissues.keySet()) {
-                System.out.println("organ system = " + organSystem + " organ system - " + rootTissues.get(rootTissue) );
-
                 if (organSystem.equals(rootTissues.get(rootTissue))) {
                     System.out.println("found a tissue");
                     tissue = rootTissues.get(rootTissue);
                     break;
                 }
             }
+            String tissueName = "\""+tissue+"\"";
 
+            if(!tissue.equals("unknown")) {
             List<ExperimentResultDetail> erdList = resultDetail.get(er.getExperimentRecordId());
 
             for (ExperimentResultDetail erd : erdList) {
-                System.out.println("result type = " + erd.getResultType());
-                System.out.println("tissue = " + tissue);
                 if (erd.getResultType().equals("Delivery Efficiency")) {
-                    System.out.println("adding to delivery");
                     tissueDeliveryMap.put(tissue + "-" + er.getExperimentName(), true);
+
+
+                    if (tissueDeliveryResults == null || !tissueDeliveryResults.containsKey(tissueName))
+                        resultDetails = new ArrayList<>();
+                    else resultDetails = tissueDeliveryResults.get(tissueName);
+                    if (erd.getReplicate() == 0) {
+                        resultDetails.add(Double.valueOf(erd.getResult()));
+                        tissueDeliveryResults.put(tissueName, resultDetails);
+                    }
+                    if(tissueDeliveryConditions == null || !tissueDeliveryConditions.containsKey(tissueName))
+                        labelDetails = new TreeSet<>();
+                    else  labelDetails = tissueDeliveryConditions.get(tissueName);
+                    labelDetails.add("\""+er.getExperimentName()+"\"");
+                    tissueDeliveryConditions.put(tissueName,labelDetails);
                 }
                 if (erd.getResultType().equals("Editing Efficiency")) {
-                    System.out.println("adding to editing");
                     tissueEditingMap.put(tissue + "-" + er.getExperimentName(), true);
+
+                    if(tissueEditingResults == null || !tissueEditingResults.containsKey(tissueName))
+                        resultDetails = new ArrayList<>();
+                    else  resultDetails = tissueEditingResults.get(tissueName);
+                    if (erd.getReplicate() == 0) {
+                        resultDetails.add(Double.valueOf(erd.getResult()));
+                        tissueEditingResults.put(tissueName, resultDetails);
+                    }
+                    if(tissueEditingConditions == null || !tissueEditingConditions.containsKey(tissueName))
+                        labelDetails = new TreeSet<>();
+                    else  labelDetails = tissueEditingConditions.get(tissueName);
+                    labelDetails.add("\""+er.getExperimentName()+"\"");
+                    tissueEditingConditions.put(tissueName,labelDetails);
                 }
             }
-
+            }
         }
     %>
 
@@ -142,13 +171,9 @@
             <% for (String tissueKey: rootTissues.keySet()) {
                 String tissue=rootTissues.get(tissueKey);
             %>
-            <% System.out.println("tissue = " + tissue);
-                System.out.println(tissueDeliveryMap.keySet().toString());
-            %>
             <td width="40">
                 <div class="tissue-control-cell">
                     <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
-                    <% System.out.println("in deliver map div"); %>
                     <div class="triangle-topleft"></div>
                     <% } %>
                     <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
@@ -162,4 +187,103 @@
     </table>
 
 
+
 </div>
+<div>
+    <table class="table" style="height:600px; width:600px;">
+        <thead>
+        <th>Organ System</th>
+        <th>Delivery</th>
+        <th>Editing</th>
+        </thead>
+        <tr>
+    <% int i = 0,j=0;
+        for (String tissueKey: rootTissues.keySet()) {
+        String tissue=rootTissues.get(tissueKey);
+    %>
+    <tr>
+        <td><%=tissueKey%></td>
+        <td>
+            <% if (tissueDeliveryConditions.containsKey("\""+tissue+"\"")) {%>
+            <div class="chart-container">
+                <canvas id="canvasDelivery<%=i%>"></canvas>
+            </div>
+            <%  i++;}%>
+        </td>
+        <td>
+            <% if (tissueEditingConditions.containsKey("\""+tissue+"\"")) {%>
+            <div class="chart-container">
+                <canvas id="canvasEditing<%=j%>"></canvas>
+            </div>
+            <%   j++;}%>
+        </td>
+    </tr>
+<%}%>
+</table>
+</div>
+<script>
+
+   var tissueDeliveryConditions = [];
+   var tissuesDelivery = [];
+   var tissuesEditing = [];
+   var tissueEditingConditions = [];
+   var tissueDeliveryData = <%=tissueDeliveryResults.values()%>;
+   tissueDeliveryConditions = <%=tissueDeliveryConditions.values()%>;
+   tissuesDelivery = <%=tissueDeliveryResults.keySet()%>;
+   var tissueEditingData = <%=tissueEditingResults.values()%>;
+   tissueEditingConditions = <%=tissueEditingConditions.values()%>;
+   tissuesEditing = <%=tissueEditingResults.keySet()%>;
+
+   console.log(tissuesDelivery.length);
+   console.log(tissuesEditing.length);
+   function generateDeliveryData(index){
+       var data=[];
+       data.push({
+           label: "Mean",
+           data: tissueDeliveryData[index],
+           backgroundColor: 'rgba(255, 206, 99, 0.6)',
+           borderColor:    'rgba(255, 206, 99, 0.8)',
+           borderWidth: 1
+       });
+       console.log(tissueDeliveryData[index]);
+       return data;
+   }
+   function generateEditingData(index){
+       var data=[];
+       data.push({
+           label: "Mean",
+           data: tissueEditingData[index],
+           backgroundColor: 'rgba(255, 206, 99, 0.6)',
+           borderColor:    'rgba(255, 206, 99, 0.8)',
+           borderWidth: 1
+       });
+       console.log(tissueEditingData[index]);
+       return data;
+   }
+
+   var deliveryCtxs = [];
+   var deliveryCharts = [];
+   var editingCtxs = [];
+   var editingCharts = [];
+
+   for(var i = 0;i<tissuesDelivery.length;i++) {
+       deliveryCtxs[i] = document.getElementById("canvasDelivery" + i);
+       deliveryCharts[i] = new Chart(deliveryCtxs[i], {
+           type: 'bar',
+           data: {
+               labels: tissueDeliveryConditions[i],
+               datasets: generateDeliveryData(i)
+           }
+       });
+   }
+   for(var i = 0;i<tissuesEditing.length;i++) {
+       editingCtxs[i] = document.getElementById("canvasEditing" + i);
+       editingCharts[i] = new Chart(editingCtxs[i], {
+           type: 'bar',
+           data: {
+               labels: tissueEditingConditions[i],
+               datasets: generateEditingData(i)
+           }
+       });
+   }
+</script>
