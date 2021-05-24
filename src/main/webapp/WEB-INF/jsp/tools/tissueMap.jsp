@@ -79,29 +79,6 @@
     rootTissues.put("Sensory System","UBERON:0001032");
     rootTissues.put("Hematopoietic System","UBERON:0002390");
 %>
-<div>Organ System Overview</div>
-<br><br>
-<div style="position:relative;margin-left:100px;">
-    <table width="5000">
-        <tr>
-            <td width="40">&nbsp;</td>
-            <td>
-
-                <%
-                    boolean first = true;
-                    //for (String tissue: tissues) {
-                    for (String tissue: rootTissues.keySet()) {
-                %>
-                <% if (first) { %>
-                <div class="tissue-control-header-first"><a href=""><%=tissue%></a></div>
-                <% first = false; %>
-                <% } else { %>
-                <div class="tissue-control-header"><a href=""><%=tissue%></a></div>
-                <% } %>
-                <%  } %>
-            </td>
-        </tr>
-    </table>
 
 
     <%
@@ -114,14 +91,35 @@
         HashMap<String,List<ExperimentResultDetail>> qualEditingResults = new HashMap<>();
         HashMap<String,List<ExperimentResultDetail>> qualDeliveryResults = new HashMap<>();
         HashMap<String,ExperimentRecord> experimentRecordHashMap = new HashMap<>();
+        List<String> uniqueObjects = new ArrayList<>();
         List<Double> resultDetails = new ArrayList<>();
         Set<String> labelDetails = new TreeSet<>();
         Set<String> tissueNames = new TreeSet<>();
         List<ExperimentResultDetail> qualResults = new ArrayList<>();
-
+        int noOfRecords = experimentRecords.size();
+        int noOfEditors = 0;
+        int noOfDelivery = 0;
+        int noOfModel = 0;
+        if(editorList != null && editorList.size() == 1)
+            uniqueObjects.add(editorList.get(0));
+        if(deliverySystemList != null && deliverySystemList.size() == 1)
+            uniqueObjects.add(deliverySystemList.get(0));
+        if(modelList != null && modelList.size() == 1)
+            uniqueObjects.add(modelList.get(0));
+        if(guideList != null  && guideList.size() == 1 && !guideMap.values().contains(null))
+            uniqueObjects.add(guideList.get(0));
+        if(vectorList != null && vectorList.size() == 1 && vectorMap.values().contains(null))
+            uniqueObjects.add(vectorList.get(0));
 
         for (ExperimentRecord er : experimentRecords) {
             experimentRecordHashMap.put(er.getExperimentName(),er);
+            if(uniqueObjects.contains(er.getEditorSymbol()))
+                noOfEditors++;
+            if(uniqueObjects.contains(er.getDeliverySystemType()))
+                noOfDelivery++;
+            if(uniqueObjects.contains(er.getModelName()))
+                noOfModel++;
+
             String tissue = "unknown";
             String organSystemID = er.getOrganSystemID();
             String organSystem = "unknown";
@@ -197,7 +195,45 @@
             }
         }
     %>
+<table>
+<tr>
+    <% if(noOfEditors == noOfRecords) {%>
+    <td class="desc"   style="font-weight:700;">Editor:</td>
+    <td class="desc"><a href="/toolkit/data/editors/editor?id=<%=experimentRecords.get(0).getEditorId()%>"><%=experimentRecords.get(0).getEditorSymbol()%></a></td>
+    <td>&nbsp;&nbsp;&nbsp;</td>
+    <%} if(noOfDelivery == noOfRecords) {%>
+    <td class="desc"  style="font-weight:700;">Delivery:</td>
+    <td class="desc" ><a href="/toolkit/data/delivery/system?id="<%=experimentRecords.get(0).getDeliverySystemId()%>><%=experimentRecords.get(0).getDeliverySystemType()%></a></td>
+    <td>&nbsp;&nbsp;&nbsp;</td>
+    <%} if(noOfModel == noOfRecords) {%>
+    <td class="desc"   style="font-weight:700;">Model:</td>
+    <td class="desc"><a href="/toolkit/data/models/model?id=<%=experimentRecords.get(0).getModelId()%>"><%=experimentRecords.get(0).getModelName()%></a></td>
+    <% } %>
+</tr>
+</table>
+<div>Organ System Overview</div>
+<br><br>
+<div style="position:relative;margin-left:100px;">
+    <table width="5000">
+        <tr>
+            <td width="40">&nbsp;</td>
+            <td>
 
+                <%
+                    boolean first = true;
+                    //for (String tissue: tissues) {
+                    for (String tissue: rootTissues.keySet()) {
+                %>
+                <% if (first) { %>
+                <div class="tissue-control-header-first"><a href=""><%=tissue%></a></div>
+                <% first = false; %>
+                <% } else { %>
+                <div class="tissue-control-header"><a href=""><%=tissue%></a></div>
+                <% } %>
+                <%  } %>
+            </td>
+        </tr>
+    </table>
 
     <table style="margin-top:50px;">
 
@@ -239,13 +275,13 @@
                         vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">"+SFN.parse(v.getName())+"</a>";
                         fst=false;
                     }
-                    if(r.getEditorSymbol() != null) {
+                    if(r.getEditorSymbol() != null && noOfEditors != noOfRecords) {
                 %>
 
                 Editor: <a href="/toolkit/data/editors/editor?id="<%=r.getEditorId()%>><%=SFN.parse(r.getEditorSymbol())%></a>
-                <% } if(r.getDeliverySystemType() != null) {%>
+                <% } if(r.getDeliverySystemType() != null && noOfDelivery != noOfRecords) {%>
                 Delivery: <a href="/toolkit/data/delivery/system?id="<%=r.getDeliverySystemId()%>><%=SFN.parse(r.getDeliverySystemType())%></a>
-                <% } if(r.getModelName() != null) {%>
+                <% } if(r.getModelName() != null && noOfModel != noOfRecords) {%>
                 Model: <a href="/toolkit/data/models/model?id="<%=r.getModelId()%>><%=SFN.parse(r.getModelName())%></a>
                 <% } if(guide != "") {%>
                 Guide: <%=guide%>
