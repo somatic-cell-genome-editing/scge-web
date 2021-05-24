@@ -113,19 +113,21 @@
         HashMap<String,Set<String>> tissueEditingConditions = new HashMap<>();
         HashMap<String,List<ExperimentResultDetail>> qualEditingResults = new HashMap<>();
         HashMap<String,List<ExperimentResultDetail>> qualDeliveryResults = new HashMap<>();
-
+        HashMap<String,ExperimentRecord> experimentRecordHashMap = new HashMap<>();
         List<Double> resultDetails = new ArrayList<>();
         Set<String> labelDetails = new TreeSet<>();
         Set<String> tissueNames = new TreeSet<>();
         List<ExperimentResultDetail> qualResults = new ArrayList<>();
 
+
         for (ExperimentRecord er : experimentRecords) {
+            experimentRecordHashMap.put(er.getExperimentName(),er);
             String tissue = "unknown";
             String organSystemID = er.getOrganSystemID();
             String organSystem = "unknown";
             for (String rootTissue : rootTissues.keySet()) {
                 if (organSystemID.equals(rootTissues.get(rootTissue))) {
-                    System.out.println("found a tissue");
+                    //System.out.println("found a tissue");
                     tissue = rootTissues.get(rootTissue);
                     organSystem = rootTissue;
                     break;
@@ -217,6 +219,40 @@
                 </div>
             </td>
             <% } %>
+            <td>
+
+                <%  int id = experimentRecordHashMap.get(condition).getExperimentRecordId();
+                    ExperimentRecord r = experimentRecordHashMap.get(condition);
+                    List<Guide> guides = guideMap.get(id);
+                    String guide = "";
+                    boolean fst = true;
+                    for(Guide g: guides) {
+                        if (!fst) { guide += ";"; }
+                        guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+SFN.parse(g.getGuide())+"</a>";
+                        fst = false;
+                    }
+                    List<Vector> vectors = vectorMap.get(id);
+                    String vector = "";
+                    fst=true;
+                    for(Vector v: vectors) {
+                        if (!fst) { vector += ";"; }
+                        vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">"+SFN.parse(v.getName())+"</a>";
+                        fst=false;
+                    }
+                    if(r.getEditorSymbol() != null) {
+                %>
+
+                Editor: <a href="/toolkit/data/editors/editor?id="<%=r.getEditorId()%>><%=SFN.parse(r.getEditorSymbol())%></a>
+                <% } if(r.getDeliverySystemType() != null) {%>
+                Delivery: <a href="/toolkit/data/delivery/system?id="<%=r.getDeliverySystemId()%>><%=SFN.parse(r.getDeliverySystemType())%></a>
+                <% } if(r.getModelName() != null) {%>
+                Model: <a href="/toolkit/data/models/model?id="<%=r.getModelId()%>><%=SFN.parse(r.getModelName())%></a>
+                <% } if(guide != "") {%>
+                Guide: <%=guide%>
+                <% } if(vector != "") {%>
+                Vector: <%=vector%>
+                <% } %>
+            </td>
         </tr>
         <% } // end conditions %>
     </table>
