@@ -111,9 +111,13 @@
         HashMap<String,List<Double>> tissueDeliveryResults = new HashMap<>();
         HashMap<String,Set<String>> tissueDeliveryConditions = new HashMap<>();
         HashMap<String,Set<String>> tissueEditingConditions = new HashMap<>();
+        HashMap<String,List<ExperimentResultDetail>> qualEditingResults = new HashMap<>();
+        HashMap<String,List<ExperimentResultDetail>> qualDeliveryResults = new HashMap<>();
+
         List<Double> resultDetails = new ArrayList<>();
         Set<String> labelDetails = new TreeSet<>();
         Set<String> tissueNames = new TreeSet<>();
+        List<ExperimentResultDetail> qualResults = new ArrayList<>();
 
         for (ExperimentRecord er : experimentRecords) {
             String tissue = "unknown";
@@ -149,12 +153,20 @@
                     if (erd.getReplicate() == 0) {
                         resultDetails.add(Double.valueOf(erd.getResult()));
                         tissueDeliveryResults.put(tissueName, resultDetails);
+
+                        if (tissueDeliveryConditions == null || !tissueDeliveryConditions.containsKey(tissueName))
+                            labelDetails = new TreeSet<>();
+                        else labelDetails = tissueDeliveryConditions.get(tissueName);
+                        labelDetails.add("\"" + er.getExperimentName() + "\"");
+                        tissueDeliveryConditions.put(tissueName, labelDetails);
                     }
-                    if(tissueDeliveryConditions == null || !tissueDeliveryConditions.containsKey(tissueName))
-                        labelDetails = new TreeSet<>();
-                    else  labelDetails = tissueDeliveryConditions.get(tissueName);
-                    labelDetails.add("\""+er.getExperimentName()+"\"");
-                    tissueDeliveryConditions.put(tissueName,labelDetails);
+                    if(erd.getUnits().contains("present")){
+                        if (qualDeliveryResults == null || !qualDeliveryResults.containsKey(tissueName))
+                            qualResults = new ArrayList<>();
+                        else qualResults = qualDeliveryResults.get(tissueName);
+                        qualResults.add(erd);
+                        qualDeliveryResults.put(tissueName, qualResults);
+                    }
                 }
                 if (erd.getResultType().equals("Editing Efficiency")) {
                     tissueEditingMap.put(tissue + "-" + er.getExperimentName(), true);
@@ -165,12 +177,20 @@
                     if (erd.getReplicate() == 0) {
                         resultDetails.add(Double.valueOf(erd.getResult()));
                         tissueEditingResults.put(tissueName, resultDetails);
+
+                        if(tissueEditingConditions == null || !tissueEditingConditions.containsKey(tissueName))
+                            labelDetails = new TreeSet<>();
+                        else  labelDetails = tissueEditingConditions.get(tissueName);
+                        labelDetails.add("\""+er.getExperimentName()+"\"");
+                        tissueEditingConditions.put(tissueName,labelDetails);
                     }
-                    if(tissueEditingConditions == null || !tissueEditingConditions.containsKey(tissueName))
-                        labelDetails = new TreeSet<>();
-                    else  labelDetails = tissueEditingConditions.get(tissueName);
-                    labelDetails.add("\""+er.getExperimentName()+"\"");
-                    tissueEditingConditions.put(tissueName,labelDetails);
+                    if(erd.getUnits().contains("present")){
+                        if (qualEditingResults == null || !qualEditingResults.containsKey(tissueName))
+                            qualResults = new ArrayList<>();
+                        else qualResults = qualEditingResults.get(tissueName);
+                        qualResults.add(erd);
+                        qualEditingResults.put(tissueName, qualResults);
+                    }
                 }
             }
         }
@@ -205,13 +225,12 @@
 
 </div>
 <div>
-    <table id="grid" class="table tablesorter" style="height:600px; width:600px;">
+    <table id="grid" class="table tablesorter" style="width:600px;">
         <thead>
         <th>Organ System</th>
         <th>Delivery</th>
         <th>Editing</th>
         </thead>
-        <tr>
     <% int i = 0,j=0;
         for (String tissueName: tissueNames) {
     %>
@@ -222,14 +241,60 @@
             <div class="chart-container">
                 <canvas id="canvasDelivery<%=i%>"></canvas>
             </div>
-            <%  i++;} else %><b>NO DATA</b>
+            <%  i++;} else if(qualDeliveryResults.containsKey(tissueName)) { %>
+            <div>
+                <table class="table tablesorter table-striped">
+                <thead><tr>
+                <th>Experiment Record Id</th>
+                <th>Units</th>
+                <th>Replicate</th>
+                <th>Result</th>
+                </tr></thead>
+                <tbody>
+
+             <%  for(ExperimentResultDetail e: qualDeliveryResults.get(tissueName) ) { %>
+                <tr>
+                <td><%=e.getExperimentRecordId()%></td>
+                <td><%=e.getUnits()%></td>
+                <td><%=e.getReplicate()%></td>
+                <td><%=e.getResult()%></td>
+                </tr>
+             <% } %>
+                </tbody>
+                </table>
+                </div>
+            <%  } else %> <b>NO DATA</b>
         </td>
         <td>
             <% if (tissueEditingConditions.containsKey(tissueName)) {%>
+
             <div class="chart-container">
                 <canvas id="canvasEditing<%=j%>"></canvas>
             </div>
-            <%   j++;} else %> <b>NO DATA</b>
+
+            <%   j++;} else if(qualEditingResults.containsKey(tissueName)) { %>
+            <div>
+                <table class="table tablesorter table-striped">
+                    <thead><tr>
+                        <th>Experiment Record Id</th>
+                        <th>Units</th>
+                        <th>Replicate</th>
+                        <th>Result</th>
+                    </tr></thead>
+                    <tbody>
+
+                    <%  for(ExperimentResultDetail e: qualEditingResults.get(tissueName) ) { %>
+                    <tr>
+                        <td><%=e.getExperimentRecordId()%></td>
+                        <td><%=e.getUnits()%></td>
+                        <td><%=e.getReplicate()%></td>
+                        <td><%=e.getResult()%></td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <%  } else %> <b>NO DATA</b>
         </td>
     </tr>
 <%}%>
@@ -248,8 +313,6 @@
    tissueEditingConditions = <%=tissueEditingConditions.values()%>;
    tissuesEditing = <%=tissueEditingResults.keySet()%>;
 
-   console.log(tissuesDelivery.length);
-   console.log(tissuesEditing.length);
    function generateDeliveryData(index){
        var data=[];
        data.push({
@@ -259,7 +322,6 @@
            borderColor:    'rgba(255, 206, 99, 0.8)',
            borderWidth: 1
        });
-       console.log(tissueDeliveryData[index]);
        return data;
    }
    function generateEditingData(index){
@@ -287,7 +349,8 @@
            data: {
                labels: tissueDeliveryConditions[i],
                datasets: generateDeliveryData(i)
-           }
+           },
+           options: { events: [] }
        });
    }
    for(var i = 0;i<tissuesEditing.length;i++) {
@@ -297,7 +360,8 @@
            data: {
                labels: tissueEditingConditions[i],
                datasets: generateEditingData(i)
-           }
+           },
+           options: { events: [] }
        });
    }
 </script>
