@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
+<%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -24,12 +25,9 @@
     $(function() {
         $("#myTable").tablesorter({
             theme : 'blue',
-            widgets: ['zebra',"filter",'resizable', 'stickyHeaders'],
+            widgets: ['zebra','resizable', 'stickyHeaders'],
         });
         $("#myTable").tablesorter().bind("sortEnd", function (e, t) {
-            update();
-        });
-        $("#myTable").tablesorter().bind("filterEnd", function (e, t) {
             update();
         });
     });
@@ -37,7 +35,6 @@
 
 <% try {  %>
 
-<hr>
         <%@include file="recordFilters.jsp"%>
 <hr>
 
@@ -61,7 +58,7 @@
         <th>Name</th>
         <% if (tissueList.size() > 0 ) { %><th>Tissue</th><% } %>
         <% if (cellTypeList.size() > 0) { %><th>Cell Type</th><% } %>
-        <% if (editorList.size() > 0 ) { %><th class="tablesorter-header" data-placeholder="Search for editor...">Editor</th><% } %>
+        <% if (editorList.size() > 0 ) { %><th>Editor</th><% } %>
         <% if (modelList.size() > 0 ) { %><th>Model</th><% } %>
         <% if (deliverySystemList.size() > 0 ) { %><th>Delivery System</th><% } %>
         <% if (guideList.size() > 0 ) { %><th>Guide</th> <% } %>
@@ -94,12 +91,8 @@
         %>
 
         <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) {
-            if(selectedTissue == null || ( selectedTissue.equalsIgnoreCase(exp.getTissueTerm())
-                    && resultDetail.get(exp.getExperimentRecordId()).get(0).getResultType().contains(selectedResultType))) {
         %>
-    <tr>
-        <!--td><input class="form" type="checkbox"></td-->
-
+        <tr>
         <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
         <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
         <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
@@ -117,7 +110,7 @@
         <td style="display: none"><%=e.getResult()%></td>
         <%}}%>
     </tr>
-        <% } }%>
+        <%  }%>
      <% } %>
 </table>
 </div>
@@ -198,14 +191,11 @@
                 var j = 0;
 
                 var aveIndex = table.rows.item(0).cells.length -1;
-                console.log('rowlength='+rowLength );//112
-                console.log('aveIndex='+aveIndex); //7
 
                 for (var i = 2; i < rowLength; i++){
                     if(table.rows.item(i).style.display != 'none') {
                         var cells = table.rows.item(i).cells;
                         var cellLength = cells.length;
-                        console.log('celllength ='+cellLength); //12
                         var column = cells.item(0); //points to condition column
                         var avg = cells.item(aveIndex);
                         xArray[j] = column.innerText;
@@ -232,17 +222,13 @@
             function applyFilters(obj)  {
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
-                //var aveIndex = table.rows.item(0).cells.length -1;
+
 
                 for (i = 1; i < rowLength; i++){
                         var cells = table.rows.item(i).cells;
-                        var cellLength = cells.length;
-                        var column = cells.item(0); //points to condition column
-                        //var avg = cells.item(aveIndex);
                         for (k=0; k<cells.length;k++ ) {
 
                             if (cells.item(k).innerHTML == obj.id || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
-                                //alert(table.rows.item(i).style.display);
                                if (obj.checked) {
                                    cells.item(k).off=false;
                                    var somethingOff = false;
@@ -295,6 +281,19 @@
                 }
                 return data;
             }
+            var tissues = [];
+            tissues= <%= JSONValue.toJSONString(tissues) %>;
+            var resultTypes = [];
+            resultTypes= <%=JSONValue.toJSONString(resultTypeList)%>
+            function load() {
+                for (var i = 0; i < tissues.length; i++) {
+                    applyFilters(document.getElementById(tissues[i]));
+                }
+                for (var i = 0; i < resultTypes.length; i++) {
+                    applyFilters(document.getElementById(resultTypes[i]));
+                }
+            }
+            window.onload=load();
         </script>
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
         <script>
