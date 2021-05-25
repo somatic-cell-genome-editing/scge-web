@@ -266,8 +266,12 @@
         </td>
         </tr>
         <% } %>
+<<<<<<< HEAD
         <% if (resultTypeList.size() > 0 ) { %>
         <tr>
+=======
+        <% if (resultTypeList.size() > 0 && selectedResultType == null) { %>
+>>>>>>> d80865ccf7e5ca9ad2ecb5049f83a07f9a503142
         <td valign="top">
             <table>
                 <tr>

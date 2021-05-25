@@ -246,8 +246,12 @@ public class ExperimentController extends UserController {
     }
     @RequestMapping(value="/experiment/{experimentId}")
     public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res,
-                                               @PathVariable(required = false) int experimentId
+                                               @PathVariable(required = true) int experimentId
     ) throws Exception {
+
+        String resultType = req.getParameter("resultType");
+        String tissue = req.getParameter("tissue");
+        String cellType = req.getParameter("cellType");
 
         Person p=userService.getCurrentUser(req.getSession());
 
@@ -343,6 +347,9 @@ public class ExperimentController extends UserController {
             req.setAttribute("experiment",e);
             req.setAttribute("guideMap",guideMap);
             req.setAttribute("vectorMap",vectorMap);
+            req.setAttribute("resultType",resultType);
+            req.setAttribute("tissue",tissue);
+            req.setAttribute("cellType",cellType);
             req.setAttribute("action", "Experiment Records");
             req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
 
