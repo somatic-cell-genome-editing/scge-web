@@ -140,13 +140,21 @@
                     <td>
                         <div class="recordFilterBlock">
                             <table>
-                                <% for (String tissue: tissues) { %>
+                                <% for (String tissue: tissues) { 
+								if(selectedTissue == null || tissue.equalsIgnoreCase(selectedTissue)) {
+                                %>
                                 <tr>
                                     <td>
                                         <input onclick="applyFilters(this)"  id="<%=tissue%>" type="checkbox" checked>&nbsp;<%=tissue%>
                                     </td>
                                 </tr>
-                                <% } %>
+                                <%} else { %>
+                                <tr>
+                                    <td>
+                                        <input onclick="applyFilters(this)" id="<%=tissue%>" type="checkbox" unchecked>&nbsp;<%=tissue%>
+                                    </td>
+                                </tr>
+                               <% }} %>
                             </table>
                         </div>
                     </td>
@@ -246,13 +254,21 @@
                         <td>
                             <div class="recordFilterBlock">
                                 <table>
-                                    <% for (String resultType: resultTypeList) { %>
-                                    <tr>
-                                        <td>
-                                            <input onclick="applyFilters(this)"  id="<%=resultType%>" type="checkbox" checked>&nbsp;<%=resultType%>
-                                        </td>
-                                    </tr>
-                                    <% } %>
+                                    <% for (String resultType: resultTypeList) { 
+									if(selectedResultType == null || resultType.contains(selectedResultType)) {
+                                %>
+                                <tr>
+                                    <td>
+                                        <input onclick="applyFilters(this)"  id="<%=resultType%>" type="checkbox" checked>&nbsp;<%=resultType%>
+                                    </td>
+                                </tr>
+                                <%} else { %>
+                                <tr>
+                                    <td>
+                                        <input onclick="applyFilters(this)"  id="<%=resultType%>" type="checkbox" unchecked>&nbsp;<%=resultType%>
+                                    </td>
+                                </tr>
+                                <% }} %>
                                 </table>
                             </div></td>
                     </tr>
