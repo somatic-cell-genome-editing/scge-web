@@ -121,8 +121,6 @@
     }
 </style>
 
-<div>Filter Options</div>
-
 <div class="filterOptions">
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()"><div id="filterButton">&#9776; Filter Options</div></a>
 </div>
