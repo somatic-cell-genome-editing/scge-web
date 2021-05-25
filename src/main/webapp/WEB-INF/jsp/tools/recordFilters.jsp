@@ -127,7 +127,6 @@
 
 <div id="mySidenav" class="sidenav">
 
-
     <table align="center" border="0">
 
         <% if (tissueList.size() > 0 ) { %>
