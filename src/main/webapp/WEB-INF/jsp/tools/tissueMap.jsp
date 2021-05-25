@@ -213,7 +213,7 @@
 </table>
 <div>Organ System Overview</div>
 <br><br>
-<div style="position:relative;margin-left:100px;">
+<div style="position:relative;">
     <table width="5000">
         <tr>
             <td width="40">&nbsp;</td>
@@ -255,7 +255,7 @@
                 </div>
             </td>
             <% } %>
-            <td>
+            <td style="font-size: small">
 
                 <%  int id = experimentRecordHashMap.get(condition).getExperimentRecordId();
                     ExperimentRecord r = experimentRecordHashMap.get(condition);
@@ -278,15 +278,15 @@
                     if(r.getEditorSymbol() != null && noOfEditors != noOfRecords) {
                 %>
 
-                Editor: <a href="/toolkit/data/editors/editor?id="<%=r.getEditorId()%>><%=SFN.parse(r.getEditorSymbol())%></a>
+                <a href="/toolkit/data/editors/editor?id="<%=r.getEditorId()%>><%=SFN.parse(r.getEditorSymbol())%></a>&nbsp;&nbsp;
                 <% } if(r.getDeliverySystemType() != null && noOfDelivery != noOfRecords) {%>
-                Delivery: <a href="/toolkit/data/delivery/system?id="<%=r.getDeliverySystemId()%>><%=SFN.parse(r.getDeliverySystemType())%></a>
+                <a href="/toolkit/data/delivery/system?id="<%=r.getDeliverySystemId()%>><%=SFN.parse(r.getDeliverySystemType())%></a>&nbsp;&nbsp;
                 <% } if(r.getModelName() != null && noOfModel != noOfRecords) {%>
-                Model: <a href="/toolkit/data/models/model?id="<%=r.getModelId()%>><%=SFN.parse(r.getModelName())%></a>
+                <a href="/toolkit/data/models/model?id="<%=r.getModelId()%>><%=SFN.parse(r.getModelName())%></a>&nbsp;&nbsp;
                 <% } if(guide != "") {%>
-                Guide: <%=guide%>
+                <%=guide%>&nbsp;&nbsp;
                 <% } if(vector != "") {%>
-                Vector: <%=vector%>
+                <%=vector%>
                 <% } %>
             </td>
         </tr>
@@ -296,6 +296,7 @@
 
 
 </div>
+<hr>
 <div>
     <table id="grid" class="table" style="width:600px;">
         <thead>
