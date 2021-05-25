@@ -94,7 +94,7 @@
         List<String> uniqueObjects = new ArrayList<>();
         List<Double> resultDetails = new ArrayList<>();
         Set<String> labelDetails = new TreeSet<>();
-        Set<String> tissueNames = new TreeSet<>();
+        HashMap<String,String> tissueNames = new HashMap<>();
         List<ExperimentResultDetail> qualResults = new ArrayList<>();
         int noOfRecords = experimentRecords.size();
         int noOfEditors = 0;
@@ -137,7 +137,7 @@
             if (cellType != null && !cellType.equals(""))
                 tissueName += cellType + "\"";
             else tissueName += "\"";
-            tissueNames.add(tissueName);
+            tissueNames.put(tissueName,er.getTissueTerm()+","+er.getCellTypeTerm());
 
 
             List<ExperimentResultDetail> erdList = resultDetail.get(er.getExperimentRecordId());
@@ -297,22 +297,31 @@
 
 </div>
 <div>
-    <table id="grid" class="table tablesorter" style="width:600px;">
+    <table id="grid" class="table" style="width:600px;">
         <thead>
         <th>Organ System</th>
         <th>Delivery</th>
         <th>Editing</th>
         </thead>
     <% int i = 0,j=0;
-        for (String tissueName: tissueNames) {
+        for (String tissueName: tissueNames.keySet()) {
+            String term = tissueNames.get(tissueName);
+            String[] terms = term.split(",");
+            String deliveryurl = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Delivery&tissue="+terms[0]+"&cellType=";
+            String editingurl = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue="+terms[0]+"&cellType=";
+            if(terms.length == 2) {
+                deliveryurl += terms[1];
+                editingurl += terms[1];
+            }
     %>
     <tr>
         <td><b><%=tissueName%></b></td>
         <td>
             <% if (tissueDeliveryConditions.containsKey(tissueName)) {%>
+            <a href= "<%=deliveryurl%>">
             <div class="chart-container">
                 <canvas id="canvasDelivery<%=i%>"></canvas>
-            </div>
+            </div></a>
             <%  i++;} else if(qualDeliveryResults.containsKey(tissueName)) { %>
             <div>
                 <table class="table tablesorter table-striped">
@@ -339,11 +348,11 @@
         </td>
         <td>
             <% if (tissueEditingConditions.containsKey(tissueName)) {%>
-
+            <a href= "<%=editingurl%>">
             <div class="chart-container">
                 <canvas id="canvasEditing<%=j%>"></canvas>
             </div>
-
+            </a>
             <%   j++;} else if(qualEditingResults.containsKey(tissueName)) { %>
             <div>
                 <table class="table tablesorter table-striped">
@@ -405,7 +414,6 @@
            borderColor:    'rgba(255, 206, 99, 0.8)',
            borderWidth: 1
        });
-       console.log(tissueEditingData[index]);
        return data;
    }
 
@@ -435,5 +443,24 @@
            },
            options: { events: [] }
        });
+   }
+   function generateTissuePage(resultType,selectedTissue) {
+       params = new Object();
+       var form = document.createElement("form");
+       var method = "POST";
+       form.setAttribute("method", method);
+       form.setAttribute("action", "/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>");
+       params.species = this.species;
+       params.genes = genes;
+       params.o = this.ontology;
+       for (var key in params) {
+           var hiddenField = document.createElement("input");
+           hiddenField.setAttribute("type", "hidden");
+           hiddenField.setAttribute("name", key);
+           hiddenField.setAttribute("value", params[key]);
+           form.appendChild(hiddenField);
+       }
+       document.body.appendChild(form);
+       form.submit();
    }
 </script>

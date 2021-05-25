@@ -38,7 +38,7 @@
                 </tr>
             </table>
         </td>
-        <% if (tissueList.size() > 0 ) { %>
+        <% if (tissueList.size() > 0 && selectedTissue == null) { %>
         <td valign="top">
             <table>
                 <tr>
@@ -186,7 +186,7 @@
 
         </td>
         <% } %>
-        <% if (resultTypeList.size() > 0 ) { %>
+        <% if (resultTypeList.size() > 0 && selectedResultType == null) { %>
         <td valign="top">
             <table>
                 <tr>

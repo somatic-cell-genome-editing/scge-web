@@ -93,7 +93,10 @@
                 }
         %>
 
-        <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) { %>
+        <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) {
+            if(selectedTissue == null || ( selectedTissue.equalsIgnoreCase(exp.getTissueTerm())
+                    && resultDetail.get(exp.getExperimentRecordId()).get(0).getResultType().contains(selectedResultType))) {
+        %>
     <tr>
         <!--td><input class="form" type="checkbox"></td-->
 
@@ -108,11 +111,13 @@
         <% if (resultTypeList.size() > 0 ) { %><td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getResultType()%></td><% } %>
         <% if (unitList.size() > 0 ) { %><td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getUnits()%></td><% } %>
         <td><%=resultMap.get(exp.getExperimentRecordId())%></td>
-        <%for(ExperimentResultDetail e:resultDetail.get(exp.getExperimentRecordId())) {%>
+        <%for(ExperimentResultDetail e:resultDetail.get(exp.getExperimentRecordId())) {
+            if(e.getReplicate() != 0) {
+        %>
         <td style="display: none"><%=e.getResult()%></td>
-        <%}%>
+        <%}}%>
     </tr>
-        <% } %>
+        <% } }%>
      <% } %>
 </table>
 </div>
@@ -193,17 +198,19 @@
                 var j = 0;
 
                 var aveIndex = table.rows.item(0).cells.length -1;
+                console.log('rowlength='+rowLength );//112
+                console.log('aveIndex='+aveIndex); //7
 
-
-                for (i = 2; i < rowLength; i++){
+                for (var i = 2; i < rowLength; i++){
                     if(table.rows.item(i).style.display != 'none') {
                         var cells = table.rows.item(i).cells;
                         var cellLength = cells.length;
+                        console.log('celllength ='+cellLength); //12
                         var column = cells.item(0); //points to condition column
                         var avg = cells.item(aveIndex);
                         xArray[j] = column.innerText;
                         yArray[j] = avg.innerHTML;
-                        for(k = aveIndex+1;k<cellLength;k++){
+                        for(var k = aveIndex+1;k<cellLength;k++){
                             var arr = [];
                             if(j != 0)
                                 arr = myChart.data.datasets[k-aveIndex].data;
