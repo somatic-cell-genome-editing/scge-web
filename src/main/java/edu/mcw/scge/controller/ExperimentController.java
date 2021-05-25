@@ -431,7 +431,7 @@ public class ExperimentController extends UserController {
             req.setAttribute("json", json);
 
         }
-        req.setAttribute("action", "Experiment Report");
+        req.setAttribute("action", "Condition Details");
 
         req.setAttribute("study", study);
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");

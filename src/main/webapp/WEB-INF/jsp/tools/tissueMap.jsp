@@ -219,7 +219,7 @@
         <td><b><%=tissueName%></b></td>
         <td>
             <% if (tissueDeliveryConditions.containsKey(tissueName)) {%>
-            <div class="chart-container">
+            <div class="chart-container" onclick="alert('hello')">
                 <canvas id="canvasDelivery<%=i%>"></canvas>
             </div>
             <%  i++;} else %><b>NO DATA</b>

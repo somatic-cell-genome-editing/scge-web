@@ -1,3 +1,82 @@
+
+<style>
+    body {
+        font-family: "Lato", sans-serif;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidenav td {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 12px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    @media screen and (max-height: 450px) {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 18px;}
+    }
+</style>
+
+<!--
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+</div>
+-->
+
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "400px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
+
+
+
 <style>
     .recordFilterBlock {
         height:250px;
@@ -7,15 +86,19 @@
 
     }
     .recordFilterTitle {
-        font-size:18px;
-        background-color:#F7F7F7;
+        font-size:16px;
+        ackground-color:#F7F7F7;
 
 
     }
 </style>
 
 <div>Filter Options</div>
-<table align="center" border="0">
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+    <table align="center" border="0">
     <tr>
         <td valign="top">
             <table>
@@ -25,7 +108,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="recordFilterBlock">
                         <table>
                         <% for (String condition: conditionList) { %>
                             <tr>
@@ -33,12 +115,12 @@
                             </tr>
                         <% } %>
                         </table>
-                        </div>
                     </td>
                 </tr>
             </table>
         </td>
         <% if (tissueList.size() > 0 ) { %>
+        <tr>
         <td valign="top">
             <table>
                 <tr>
@@ -46,7 +128,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String tissue: tissues) { %>
                                 <tr>
@@ -56,13 +137,14 @@
                                 </tr>
                                 <% } %>
                             </table>
-                        </div>
                     </td>
                 </tr>
             </table>
         </td>
+        </tr>
         <% } %>
         <% if (editorList.size() > 0) { %>
+        <tr>
         <td valign="top">
             <table>
                 <tr>
@@ -70,7 +152,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String editor: editorList) { %>
                                 <tr>
@@ -80,13 +161,14 @@
                                 </tr>
                                 <% } %>
                             </table>
-                        </div>
                     </td>
                 </tr>
             </table>
         </td>
+        </tr>
         <% } %>
         <% if (deliverySystemList.size() > 0 ) { %>
+        <tr>
         <td valign="top">
             <table>
                 <tr>
@@ -94,7 +176,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String system: deliverySystemList) { %>
                                 <tr>
@@ -104,13 +185,14 @@
                                 </tr>
                                 <% } %>
                             </table>
-                        </div>
                     </td>
                 </tr>
             </table>
         </td>
+        </tr>
         <% } %>
         <% if (modelList.size() > 0 ) { %>
+        <tr>
         <td valign="top">
             <table>
                 <tr>
@@ -118,7 +200,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String model: modelList) { %>
                                 <tr>
@@ -128,15 +209,15 @@
                                 </tr>
                                 <% } %>
                             </table>
-                        </div>
-
                     </td>
                 </tr>
             </table>
 
         </td>
+        </tr>
         <% } %>
         <% if (guideList.size() > 0 ) { %>
+        <tr>
         <td valign="top">
             <table>
                 <tr>
@@ -144,7 +225,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String guide: guideList) { %>
                                 <tr>
@@ -154,14 +234,15 @@
                                 </tr>
                                 <% } %>
                             </table>
-                        </div>
                     </td>
                 </tr>
             </table>
 
         </td>
+        </tr>
         <% } %>
         <% if (vectorList.size() > 0 ) { %>
+        <tr>
         <td valign="top">
             <table>
                 <tr>
@@ -169,7 +250,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String vector: vectorList) { %>
                                 <tr>
@@ -179,14 +259,15 @@
                                 </tr>
                                 <% } %>
                             </table>
-                        </div>
                     </td>
                 </tr>
             </table>
 
         </td>
+        </tr>
         <% } %>
         <% if (resultTypeList.size() > 0 ) { %>
+        <tr>
         <td valign="top">
             <table>
                 <tr>
@@ -194,7 +275,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String resultType: resultTypeList) { %>
                                 <tr>
@@ -204,13 +284,15 @@
                                 </tr>
                                 <% } %>
                             </table>
-                        </div></td>
+                    </td>
                 </tr>
             </table>
 
         </td>
+        </tr>
         <% } %>
         <% if (unitList.size() > 0 ) { %>
+        <tr>
         <td valign="top">
             <table>
                 <tr>
@@ -218,7 +300,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String unit: unitList) { %>
                                 <tr>
@@ -228,12 +309,14 @@
                                 </tr>
                                 <% } %>
                             </table>
-                        </div></td>
+                    </td>
                 </tr>
             </table>
 
         </td>
+        </tr>
         <% } %>
-    </tr>
+
 </table>
 
+</div>

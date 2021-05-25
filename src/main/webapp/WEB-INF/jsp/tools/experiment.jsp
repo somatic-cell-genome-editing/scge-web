@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ExperimentResultDao" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -204,31 +205,41 @@
             <tbody>
 
                 <tr><td class="header"><strong>Application Method</strong></td><td><%=a.getApplicationType()%></td></tr>
-                <tr><td class="header"><strong>Application Site</strong></td><td><%=a.getSiteOfApplication()%></td></tr>
-                <tr><td class="header"><strong>Dosage</strong></td><td><%=a.getDosage()%></td></tr>
-                <tr><td class="header"><strong>Injection Frequency</strong></td><td><%=a.getInjectionFrequency()%></td></tr>
-                <tr><td class="header"><strong>Injection Rate</strong></td><td><%=a.getInjectionRate()%></td></tr>
-                <tr><td class="header"><strong>Injection Volume</strong></td><td><%=a.getInjectionVolume()%></td></tr>
-                <tr><td class="header"><strong>Days post injection</strong></td><td><%=a.getDaysPostInjection()%></td></tr>
+                <tr><td class="header"><strong>Application Site</strong></td><td><%=SFN.parse(a.getSiteOfApplication())%></td></tr>
+                <tr><td class="header"><strong>Dosage</strong></td><td><%=SFN.parse(a.getDosage())%></td></tr>
+                <tr><td class="header"><strong>Injection Frequency</strong></td><td><%=SFN.parse(a.getInjectionFrequency())%></td></tr>
+                <tr><td class="header"><strong>Injection Rate</strong></td><td><%=SFN.parse(a.getInjectionRate())%></td></tr>
+                <tr><td class="header"><strong>Injection Volume</strong></td><td><%=SFN.parse(a.getInjectionVolume())%></td></tr>
+                <tr><td class="header"><strong>Days post injection</strong></td><td><%=SFN.parse(a.getDaysPostInjection())%></td></tr>
                 <tr><td class="header"><strong>Editor Format</strong></td><td><%=a.getEditorFormat()%></td></tr>
                 <tr><td class="header"><strong>Antidote Id</strong></td><td><%=SFN.parse(a.getAntidoteId())%></td></tr>
                 <tr><td class="header"><strong>Antidote Description</strong></td><td><%=SFN.parse(a.getAntidoteDescription())%></td></tr>
-
-
-
             </tbody>
         </table>
     </div>
     <hr>
-    <!--div>
-        <table style="width:50%">
-            <tr><td class="header"><strong>Sample Preparation</strong></td><td>$-{experiment.samplePrep}</td></tr>
-        </table>
-    </div -->
     <hr>
+    <%
+        ExperimentResultDao erdao = new ExperimentResultDao();
+        List<ExperimentResultDetail> resultDetail = erdao.getResultsByExperimentRecId(446);
+
+        for (ExperimentResultDetail erd: resultDetail ) {
+        %>
+            <%=erd.getAssayDescription()%><br>
+            <%=erd.get%>
+
+
+       <% }  %>
+
+
+
+
+    %>
+
+
     <div class="row">
         <div class="col-lg-3">
-            <table width="600"><tr><td><h3>Results</h3></td><td align="right"></td></tr></table>
+            <table width="600"><tr><td><h3>Result Detail</h3></td><td align="right"></td></tr></table>
         </div>
     </div>
     <div id="results">
