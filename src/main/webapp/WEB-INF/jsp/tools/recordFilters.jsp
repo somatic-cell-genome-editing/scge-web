@@ -15,6 +15,7 @@
         overflow-x: hidden;
         transition: 0.5s;
         padding-top: 60px;
+        opacity: 0.8;
     }
 
     .sidenav a {
@@ -27,12 +28,13 @@
     }
 
     .sidenav td {
-        padding: 8px 8px 8px 32px;
+        adding: 8px 8px 8px 23px;
         text-decoration: none;
         font-size: 14px;
         color: white;
         display: block;
         transition: 0.3s;
+        opacity:1;
     }
 
     .sidenav a:hover {
@@ -41,11 +43,27 @@
 
     .sidenav .closebtn {
         position: absolute;
-        top: 0;
+        top: 0px;
+        left:0px;
+        z-index: 100;
         right: 25px;
         font-size: 36px;
         margin-left: 50px;
-        color:white;
+        color:orange;
+    }
+    .filterOptions {
+        padding:5px;
+        position:fixed;
+        top:400px;
+        left:0px;
+        z-index:100;
+        color:orange;
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        transform:rotate(-90deg);
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+        background-color:#1A80B6;
+        margin-left: -50px;
     }
 
     @media screen and (max-height: 450px) {
@@ -63,16 +81,23 @@
     <a href="#">Contact</a>
 </div>
 -->
-
+<!--
 <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
-
+-->
 <script>
     function openNav() {
-        document.getElementById("mySidenav").style.width = "300px";
+        if (document.getElementById("mySidenav").style.width == "300px") {
+            closeNav();
+        }else {
+            document.getElementById("mySidenav").style.width = "300px";
+           // document.getElementById("filterButton").innerHTML="&#9776; Close";
+        }
     }
 
     function closeNav() {
         document.getElementById("mySidenav").style.width = "0";
+        //document.getElementById("filterButton").innerHTML="&#9776; Filter Options";
+
     }
 </script>
 
@@ -81,14 +106,16 @@
 <style>
     .recordFilterBlock {
         eight:250px;
-        border: 2px solid #F7F7F7;
+        border: 0px solid #818181;
         padding:5px;
         overflow-y:auto;
 
     }
     .recordFilterTitle {
-        font-size:16px;
-        ackground-color:#F7F7F7;
+        font-size:20px;
+        ackground-color:#818181;
+        color:#818181;
+
 
 
     }
@@ -96,38 +123,21 @@
 
 <div>Filter Options</div>
 
+<div class="filterOptions">
+    <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()"><div id="filterButton">&#9776; Filter Options</div></a>
+</div>
+
 <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
 
     <table align="center" border="0">
-    <tr>
-        <td valign="top">
-            <table>
 
-                <tr>
-                    <td class="recordFilterTitle">Conditions</td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="recordFilterBlock">
-                        <table>
-                        <% for (String condition: conditionList) { %>
-                            <tr>
-                                <td><input onclick="applyFilters(this)" id="<%=condition%>" type="checkbox" checked>&nbsp;<%=condition%> &nbsp;</td>
-                            </tr>
-                        <% } %>
-                        </table>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </td>
         <% if (tissueList.size() > 0 ) { %>
         <tr>
         <td valign="top">
             <table>
                 <tr>
-                    <td class="recordFilterTitle">Tissues</td>
+                    <td ><div class="recordFilterTitle">Tissues</div></td>
                 </tr>
                 <tr>
                     <td>
@@ -153,7 +163,7 @@
         <td valign="top">
             <table>
                 <tr>
-                    <td  class="recordFilterTitle">Editors</td>
+                    <td  ><div class="recordFilterTitle">Editors</div></td>
                 </tr>
                 <tr>
                     <td>
@@ -179,7 +189,7 @@
         <td valign="top">
             <table>
                 <tr>
-                    <td  class="recordFilterTitle">Delivery Systems</td>
+                    <td  ><div class="recordFilterTitle">Delivery Systems</div></td>
                 </tr>
                 <tr>
                     <td>
@@ -205,7 +215,7 @@
         <td valign="top">
             <table>
                 <tr>
-                    <td  class="recordFilterTitle">Models</td>
+                    <td  ><div class="recordFilterTitle">Models</div></td>
                 </tr>
                 <tr>
                     <td>
@@ -233,7 +243,7 @@
         <td valign="top">
             <table>
                 <tr>
-                    <td  class="recordFilterTitle">Guides</td>
+                    <td  ><div class="recordFilterTitle">Guides</div></td>
                 </tr>
                 <tr>
                     <td>
@@ -260,7 +270,7 @@
         <td valign="top">
             <table>
                 <tr>
-                    <td  class="recordFilterTitle">Vectors</td>
+                    <td  ><div class="recordFilterTitle">Vectors</div></td>
                 </tr>
                 <tr>
                     <td>
@@ -287,7 +297,7 @@
         <td valign="top">
             <table>
                 <tr>
-                    <td  class="recordFilterTitle">Result Types</td>
+                    <td  ><div class="recordFilterTitle">Result Types</div></td>
                 </tr>
                 <tr>
                     <td>
@@ -313,7 +323,7 @@
         <td valign="top">
             <table>
                 <tr>
-                    <td  class="recordFilterTitle">Units</td>
+                    <td  ><div class="recordFilterTitle">Units</div></td>
                 </tr>
                 <tr>
                     <td>
@@ -334,7 +344,29 @@
         </td>
         </tr>
         <% } %>
+        <tr>
+            <td valign="top">
+                <table>
 
+                    <tr>
+                        <td ><div class="recordFilterTitle">Conditions</div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="recordFilterBlock">
+                                <table>
+                                    <% for (String condition: conditionList) { %>
+                                    <tr>
+                                        <td><input onclick="applyFilters(this)" id="<%=condition%>" type="checkbox" checked>&nbsp;<%=condition%> &nbsp;</td>
+                                    </tr>
+                                    <% } %>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 </table>
 
 </div>
