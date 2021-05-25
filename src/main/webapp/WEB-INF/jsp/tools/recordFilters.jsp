@@ -263,6 +263,59 @@
         </td>
         </tr>
         <% } %>
+        <% if (resultTypeList.size() > 0 ) { %>
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td  ><div class="recordFilterTitle">Result Types</div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="recordFilterBlock">
+                                <table>
+                                    <% for (String resultType: resultTypeList) { %>
+                                    <tr>
+                                        <td>
+                                            <input onclick="applyFilters(this)"  id="<%=resultType%>" type="checkbox" checked>&nbsp;<%=resultType%>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                </table>
+                            </div></td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        <% } %>
+        <% if (unitList.size() > 0 ) { %>
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td  ><div class="recordFilterTitle">Units</div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="recordFilterBlock">
+                                <table>
+                                    <% for (String unit: unitList) { %>
+                                    <tr>
+                                        <td>
+                                            <input onclick="applyFilters(this)"  id="<%=unit%>" type="checkbox" checked>&nbsp;<%=unit%>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                </table>
+                            </div></td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        <% } %>
+
         <% if (vectorList.size() > 0 ) { %>
         <tr>
         <td valign="top">
@@ -284,58 +337,6 @@
                             </table>
                         </div>
                     </td>
-                </tr>
-            </table>
-
-        </td>
-        </tr>
-        <% } %>
-        <% if (resultTypeList.size() > 0 ) { %>
-        <tr>
-        <td valign="top">
-            <table>
-                <tr>
-                    <td  ><div class="recordFilterTitle">Result Types</div></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="recordFilterBlock">
-                            <table>
-                                <% for (String resultType: resultTypeList) { %>
-                                <tr>
-                                    <td>
-                                        <input onclick="applyFilters(this)"  id="<%=resultType%>" type="checkbox" checked>&nbsp;<%=resultType%>
-                                    </td>
-                                </tr>
-                                <% } %>
-                            </table>
-                        </div></td>
-                </tr>
-            </table>
-
-        </td>
-        </tr>
-        <% } %>
-        <% if (unitList.size() > 0 ) { %>
-        <tr>
-        <td valign="top">
-            <table>
-                <tr>
-                    <td  ><div class="recordFilterTitle">Units</div></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="recordFilterBlock">
-                            <table>
-                                <% for (String unit: unitList) { %>
-                                <tr>
-                                    <td>
-                                        <input onclick="applyFilters(this)"  id="<%=unit%>" type="checkbox" checked>&nbsp;<%=unit%>
-                                    </td>
-                                </tr>
-                                <% } %>
-                            </table>
-                        </div></td>
                 </tr>
             </table>
 
