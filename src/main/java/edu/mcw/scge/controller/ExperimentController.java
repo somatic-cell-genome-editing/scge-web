@@ -377,6 +377,9 @@ public class ExperimentController extends UserController {
 
         }
 
+        Experiment experiment = edao.getExperiment(experimentId);
+
+
         req.setAttribute("experimentRecords", records);
         ExperimentRecord r = new ExperimentRecord();
         if (records.size() > 0) {
@@ -406,8 +409,8 @@ public class ExperimentController extends UserController {
             req.setAttribute("editorList",editorList);
             req.setAttribute("guideList",guideList);
             req.setAttribute("vectorList",vectorList);
-            //req.setAttribute("experiment",e);
-            req.setAttribute("experiment", r);
+            req.setAttribute("experiment",experiment);
+            req.setAttribute("experimentRecord", r);
             req.setAttribute("model", m);
             req.setAttribute("reporterElements", reporterElements);
             req.setAttribute("experimentResults",experimentResults);
