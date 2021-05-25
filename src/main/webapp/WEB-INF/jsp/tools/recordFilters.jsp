@@ -29,8 +29,8 @@
     .sidenav td {
         padding: 8px 8px 8px 32px;
         text-decoration: none;
-        font-size: 12px;
-        color: #818181;
+        font-size: 14px;
+        color: white;
         display: block;
         transition: 0.3s;
     }
@@ -45,6 +45,7 @@
         right: 25px;
         font-size: 36px;
         margin-left: 50px;
+        color:white;
     }
 
     @media screen and (max-height: 450px) {
@@ -67,7 +68,7 @@
 
 <script>
     function openNav() {
-        document.getElementById("mySidenav").style.width = "400px";
+        document.getElementById("mySidenav").style.width = "300px";
     }
 
     function closeNav() {
@@ -79,10 +80,10 @@
 
 <style>
     .recordFilterBlock {
-        height:250px;
+        eight:250px;
         border: 2px solid #F7F7F7;
         padding:5px;
-        overflow-y:scroll;
+        overflow-y:auto;
 
     }
     .recordFilterTitle {
@@ -108,6 +109,7 @@
                 </tr>
                 <tr>
                     <td>
+                        <div class="recordFilterBlock">
                         <table>
                         <% for (String condition: conditionList) { %>
                             <tr>
@@ -115,6 +117,7 @@
                             </tr>
                         <% } %>
                         </table>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -128,6 +131,7 @@
                 </tr>
                 <tr>
                     <td>
+                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String tissue: tissues) { %>
                                 <tr>
@@ -137,6 +141,7 @@
                                 </tr>
                                 <% } %>
                             </table>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -152,6 +157,7 @@
                 </tr>
                 <tr>
                     <td>
+                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String editor: editorList) { %>
                                 <tr>
@@ -161,6 +167,7 @@
                                 </tr>
                                 <% } %>
                             </table>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -176,6 +183,7 @@
                 </tr>
                 <tr>
                     <td>
+                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String system: deliverySystemList) { %>
                                 <tr>
@@ -185,6 +193,7 @@
                                 </tr>
                                 <% } %>
                             </table>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -200,6 +209,7 @@
                 </tr>
                 <tr>
                     <td>
+                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String model: modelList) { %>
                                 <tr>
@@ -209,6 +219,8 @@
                                 </tr>
                                 <% } %>
                             </table>
+                        </div>
+
                     </td>
                 </tr>
             </table>
@@ -225,6 +237,7 @@
                 </tr>
                 <tr>
                     <td>
+                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String guide: guideList) { %>
                                 <tr>
@@ -234,6 +247,7 @@
                                 </tr>
                                 <% } %>
                             </table>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -250,6 +264,7 @@
                 </tr>
                 <tr>
                     <td>
+                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String vector: vectorList) { %>
                                 <tr>
@@ -259,6 +274,7 @@
                                 </tr>
                                 <% } %>
                             </table>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -266,12 +282,8 @@
         </td>
         </tr>
         <% } %>
-<<<<<<< HEAD
         <% if (resultTypeList.size() > 0 ) { %>
         <tr>
-=======
-        <% if (resultTypeList.size() > 0 && selectedResultType == null) { %>
->>>>>>> d80865ccf7e5ca9ad2ecb5049f83a07f9a503142
         <td valign="top">
             <table>
                 <tr>
@@ -279,6 +291,7 @@
                 </tr>
                 <tr>
                     <td>
+                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String resultType: resultTypeList) { %>
                                 <tr>
@@ -288,7 +301,7 @@
                                 </tr>
                                 <% } %>
                             </table>
-                    </td>
+                        </div></td>
                 </tr>
             </table>
 
@@ -304,6 +317,7 @@
                 </tr>
                 <tr>
                     <td>
+                        <div class="recordFilterBlock">
                             <table>
                                 <% for (String unit: unitList) { %>
                                 <tr>
@@ -313,7 +327,7 @@
                                 </tr>
                                 <% } %>
                             </table>
-                    </td>
+                        </div></td>
                 </tr>
             </table>
 
