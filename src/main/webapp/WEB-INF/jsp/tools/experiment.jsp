@@ -239,9 +239,10 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
             <table width="600"><tr><td><h3>Experimental Record Detail</h3></td><td align="right"></td></tr></table>
         </div>
     </div>
+    <br>
 
         <%ExperimentResultDetail detail = experimentResults.get(0);%>
-    <table align="center">
+    <table align="center" width="800">
         <tr>
             <td><b>Number of Samples:</b> </td><td>&nbsp;&nbsp;</td><td><%=detail.getNumberOfSamples()%></td>
         </tr>
@@ -258,9 +259,10 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
             <td><b>Measurment Units:</b></td><td>&nbsp;&nbsp;</td><td><%=detail.getUnits()%></td>
         </tr>
     </table>
+    <br>
 
 
-        <table id="resultsTable" align="center" width="600">
+        <table id="resultsTable" align="center" width="800">
             <thead><tr>
                 <th>Replicate</th>
                 <th>Result</th>
