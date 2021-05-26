@@ -335,7 +335,7 @@ public class ExperimentController extends UserController {
         System.out.println("In controller");
             req.setAttribute("tissues",tissues);
             req.setAttribute("conditions",conditions);
-            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/studies/search'>Studies</a> -> <a href='/toolkit/data/experiments/study/" + study.getStudyId() + "'>Experiments</a>");
+            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/study/" + study.getStudyId() + "'>Experiments</a>");
             req.setAttribute("replicateResult",replicateResult);
             req.setAttribute("experiments",labels);
             req.setAttribute("plotData",plotData);
