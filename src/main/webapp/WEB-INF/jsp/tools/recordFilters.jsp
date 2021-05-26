@@ -28,7 +28,7 @@
     }
 
     .sidenav td {
-        adding: 8px 8px 8px 23px;
+        adding: 8px 8px 8px 30px;
         text-decoration: none;
         font-size: 14px;
         color: white;
@@ -87,9 +87,11 @@
 <script>
     function openNav() {
         if (document.getElementById("mySidenav").style.width == "300px") {
+            document.getElementById("recordTableContent").style.left="0px";
             closeNav();
         }else {
             document.getElementById("mySidenav").style.width = "300px";
+            document.getElementById("recordTableContent").style.left="300px";
            // document.getElementById("filterButton").innerHTML="&#9776; Close";
         }
     }
