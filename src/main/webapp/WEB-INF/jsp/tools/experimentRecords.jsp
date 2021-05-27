@@ -63,7 +63,7 @@
 
 
     %>
-
+        <div id="recordTableContent" style="position:relative; left:0px; top:00px;">
     <table>
         <tr>
             <td class="desc" style="font-weight:700;"><%=study.getStudy()%>:</td>
@@ -82,6 +82,8 @@
             <% if (tissueList.size() == 0 || selectedResultType != null) { %>
         <hr><%@include file="recordsTable.jsp"%>
             <% }  %>
+
+        </div>
 <% } catch (Exception e) {
         e.printStackTrace();
  }

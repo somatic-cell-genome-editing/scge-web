@@ -38,7 +38,7 @@
 
         <%@include file="recordFilters.jsp"%>
 <hr>
-<div id="recordTableContent" style="position:relative; left:0px; top:00px;">
+
         <table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table>
        <% if(resultMap != null && resultMap.size()!= 0) {%>
         <div class="chart-container" style="position: relative; height:80vh; width:80vw">
@@ -128,7 +128,7 @@
      <% }} %>
 </table>
 </div>
-    </div>
+
         <script>
             var ctx = document.getElementById("resultChart");
             var myChart = new Chart(ctx, {
