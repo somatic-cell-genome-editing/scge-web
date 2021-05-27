@@ -89,13 +89,15 @@
         if (document.getElementById("mySidenav").style.width == "300px") {
             document.getElementById("recordTableContent").style.left="0px";
             document.getElementById("recordTableContent").style.width="100%";
-
+            document.getElementById("filterOpen").style.visibility="visible";
+            document.getElementById("filterClose").style.visibility="hidden";
             closeNav();
         }else {
             document.getElementById("mySidenav").style.width = "300px";
             document.getElementById("recordTableContent").style.left="300px";
             document.getElementById("recordTableContent").style.width="75%";
-           // document.getElementById("filterButton").innerHTML="&#9776; Close";
+            document.getElementById("filterClose").style.visibility="visible";
+            document.getElementById("filterOpen").style.visibility="hidden";
         }
     }
 
@@ -104,6 +106,8 @@
         //document.getElementById("filterButton").innerHTML="&#9776; Filter Options";
 
     }
+    //openNav();
+
 </script>
 
 
@@ -126,9 +130,14 @@
     }
 </style>
 
-<div class="filterOptions">
-    <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()"><div id="filterButton">&#9776; Filter Options</div></a>
+<div class="filterOptions" id="filterOpen">
+    <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
 </div>
+
+<div class="filterOptions" id="filterClose">
+    <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Close Options</a>
+</div>
+
 
 <div id="mySidenav" class="sidenav">
 
@@ -390,3 +399,7 @@
 </table>
 
 </div>
+
+<script>
+    openNav();
+</script>
