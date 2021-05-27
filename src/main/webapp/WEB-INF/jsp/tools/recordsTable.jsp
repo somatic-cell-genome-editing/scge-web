@@ -38,7 +38,6 @@
 
         <%@include file="recordFilters.jsp"%>
 <hr>
-
         <table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table>
        <% if(resultMap != null && resultMap.size()!= 0) {%>
         <div class="chart-container" style="position: relative; height:80vh; width:80vw">
@@ -128,7 +127,6 @@
      <% }} %>
 </table>
 </div>
-
         <script>
             var ctx = document.getElementById("resultChart");
             var myChart = new Chart(ctx, {
@@ -215,7 +213,6 @@
                         var avg = cells.item(aveIndex);
                         xArray[j] = column.innerText;
                         yArray[j] = avg.innerHTML;
-                        labelString = cells.item(aveIndex-1).innerText;
                         for(var k = aveIndex+1;k<cellLength;k++){
                             var arr = [];
                             if(j != 0)
@@ -229,9 +226,10 @@
 
                 }
 
+                labelString = getLabelString();
                 myChart.data.labels = xArray;
                 myChart.data.datasets[0].data = yArray;
-                myChart.options.scales.yAxes[0].labelString = labelString;
+                myChart.options.scales.yAxes[0].scaleLabel.labelString = labelString;
                 myChart.update();
 
             }
@@ -242,10 +240,10 @@
                 var aveIndex = table.rows.item(0).cells.length -1;
                 var rowLength = table.rows.length;
                 for (var i = 1; i < rowLength; i++) {
-                    if (table.rows.item(i).style.display != 'none') {
+                    if (table.rows.item(i).style.display != "none") {
                         var cells = table.rows.item(i).cells;
-                        labelString = cells.item(aveIndex - 2).innerText + ' in '+ cells.item(aveIndex - 1).innerText;
-                        console.log(labelString);
+                        labelString = cells.item(aveIndex - 2).innerText + ' in ' + cells.item(aveIndex - 1).innerText;
+                        break;
                     }
                 }
                 return labelString;
