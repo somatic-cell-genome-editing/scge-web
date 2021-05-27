@@ -316,12 +316,17 @@
             tissues= <%= JSONValue.toJSONString(tissues) %>;
             var resultTypes = [];
             resultTypes= <%=JSONValue.toJSONString(resultTypeList)%>
+            var cellTypes = [];
+            cellTypes = <%= JSONValue.toJSONString(cellTypeList) %>;
             function load() {
                 for (var i = 0; i < tissues.length; i++) {
                     applyFilters(document.getElementById(tissues[i]));
                 }
                 for (var i = 0; i < resultTypes.length; i++) {
                     applyFilters(document.getElementById(resultTypes[i]));
+                }
+                for (var i = 0; i < cellTypes.length; i++) {
+                    applyFilters(document.getElementById(cellTypes[i]));
                 }
             }
             window.onload=load();
