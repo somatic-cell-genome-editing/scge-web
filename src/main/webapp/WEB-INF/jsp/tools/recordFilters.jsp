@@ -401,5 +401,5 @@
 </div>
 
 <script>
-    setTimeout(openNav,2000);
+    setTimeout(openNav,1000);
 </script>
