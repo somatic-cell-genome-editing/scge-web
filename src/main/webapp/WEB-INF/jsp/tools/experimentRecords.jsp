@@ -1,9 +1,10 @@
-<%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
-<%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="edu.mcw.scge.dao.implementation.ExperimentDao" %>
 <%@ page import="edu.mcw.scge.dao.implementation.ExperimentResultDao" %>
+<%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.scge.datamodel.Vector" %>
+
 
 <%--
   Created by IntelliJ IDEA.
@@ -30,7 +31,9 @@
     <%
 
         ExperimentDao edao = new ExperimentDao();
-        List<ExperimentRecord> experimentRecords = (List<ExperimentRecord>) request.getAttribute("experimentRecords");
+        HashMap<Integer,ExperimentRecord> experimentRecordsMap = (HashMap<Integer,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
+        List<ExperimentRecord> experimentRecords = new ArrayList<>(experimentRecordsMap.values());
+        HashMap<Integer,Double> resultMap = (HashMap<Integer, Double>) request.getAttribute("resultMap");
         Study study = (Study) request.getAttribute("study");
         Access access = new Access();
         Person p = access.getUser(request.getSession());
@@ -58,6 +61,7 @@
         String selectedCellType = (String)request.getAttribute("cellType");
         String selectedResultType = (String)request.getAttribute("resultType");
 
+
     %>
 
     <table>
@@ -72,10 +76,10 @@
         </tr>
     </table>
 
-        <% if (tissueList.size() > 0 && selectedResultType == null) { %>
+        <% if (( tissueList.size() > 0 && selectedResultType == null )) { %>
             <hr><%@include file="tissueMap.jsp"%>
          <% }  %>
-            <% if (tissueList.size() == 0 || selectedTissue != null) { %>
+            <% if (tissueList.size() == 0 || selectedResultType != null) { %>
         <hr><%@include file="recordsTable.jsp"%>
             <% }  %>
 <% } catch (Exception e) {

@@ -111,7 +111,10 @@
         if(vectorList != null && vectorList.size() == 1 && vectorMap.values().contains(null))
             uniqueObjects.add(vectorList.get(0));
 
-        for (ExperimentRecord er : experimentRecords) {
+        for (Integer resultId: resultDetail.keySet()) {
+            List<ExperimentResultDetail> erdList = resultDetail.get(resultId);
+            int expRecordId = erdList.get(0).getExperimentRecordId();
+            ExperimentRecord er = experimentRecordsMap.get(expRecordId);
             experimentRecordHashMap.put(er.getExperimentName(),er);
             if(uniqueObjects.contains(er.getEditorSymbol()))
                 noOfEditors++;
@@ -139,8 +142,6 @@
             else tissueName += "\"";
             tissueNames.put(tissueName,er.getTissueTerm()+","+er.getCellTypeTerm());
 
-
-            List<ExperimentResultDetail> erdList = resultDetail.get(er.getExperimentRecordId());
 
             for (ExperimentResultDetail erd : erdList) {
                 if (erd.getResultType().equals("Delivery Efficiency")) {
@@ -203,7 +204,7 @@
     <td>&nbsp;&nbsp;&nbsp;</td>
     <%} if(noOfDelivery == noOfRecords) {%>
     <td class="desc"  style="font-weight:700;">Delivery:</td>
-    <td class="desc" ><a href="/toolkit/data/delivery/system?id="<%=experimentRecords.get(0).getDeliverySystemId()%>><%=experimentRecords.get(0).getDeliverySystemType()%></a></td>
+    <td class="desc" ><a href="/toolkit/data/delivery/system?id=<%=experimentRecords.get(0).getDeliverySystemId()%>"><%=experimentRecords.get(0).getDeliverySystemType()%></a></td>
     <td>&nbsp;&nbsp;&nbsp;</td>
     <%} if(noOfModel == noOfRecords) {%>
     <td class="desc"   style="font-weight:700;">Model:</td>
@@ -278,11 +279,11 @@
                     if(r.getEditorSymbol() != null && noOfEditors != noOfRecords) {
                 %>
 
-                <a href="/toolkit/data/editors/editor?id="<%=r.getEditorId()%>><%=SFN.parse(r.getEditorSymbol())%></a>&nbsp;&nbsp;
+                <a href="/toolkit/data/editors/editor?id=<%=r.getEditorId()%>"><%=SFN.parse(r.getEditorSymbol())%></a>&nbsp;&nbsp;
                 <% } if(r.getDeliverySystemType() != null && noOfDelivery != noOfRecords) {%>
-                <a href="/toolkit/data/delivery/system?id="<%=r.getDeliverySystemId()%>><%=SFN.parse(r.getDeliverySystemType())%></a>&nbsp;&nbsp;
+                <a href="/toolkit/data/delivery/system?id=<%=r.getDeliverySystemId()%>"><%=SFN.parse(r.getDeliverySystemType())%></a>&nbsp;&nbsp;
                 <% } if(r.getModelName() != null && noOfModel != noOfRecords) {%>
-                <a href="/toolkit/data/models/model?id="<%=r.getModelId()%>><%=SFN.parse(r.getModelName())%></a>&nbsp;&nbsp;
+                <a href="/toolkit/data/models/model?id=<%=r.getModelId()%>"><%=SFN.parse(r.getModelName())%></a>&nbsp;&nbsp;
                 <% } if(guide != "") {%>
                 <%=guide%>&nbsp;&nbsp;
                 <% } if(vector != "") {%>
