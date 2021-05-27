@@ -94,7 +94,7 @@
         }else {
             document.getElementById("mySidenav").style.width = "300px";
             document.getElementById("recordTableContent").style.left="300px";
-            document.getElementById("recordTableContent").style.width="80%";
+            document.getElementById("recordTableContent").style.width="75%";
            // document.getElementById("filterButton").innerHTML="&#9776; Close";
         }
     }
