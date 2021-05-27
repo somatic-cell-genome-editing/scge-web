@@ -64,6 +64,7 @@
         filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
         background-color:#1A80B6;
         margin-left: -50px;
+        visibility:hidden;
     }
 
     @media screen and (max-height: 450px) {
@@ -130,12 +131,11 @@
     }
 </style>
 
-<div class="filterOptions" id="filterOpen">
-    <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
-</div>
-
 <div class="filterOptions" id="filterClose">
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Close Options</a>
+</div>
+<div class="filterOptions" id="filterOpen">
+    <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
 </div>
 
 
