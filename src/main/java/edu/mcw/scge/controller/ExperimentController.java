@@ -1,7 +1,6 @@
 package edu.mcw.scge.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.bind.TreeTypeAdapter;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
@@ -10,9 +9,6 @@ import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.NumberUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -299,18 +295,36 @@ public class ExperimentController extends UserController {
         HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
         HashMap<Integer,List<Vector>> vectorMap = new HashMap<>();
 
-            for (ExperimentRecord record : records) {
-                labels.add("\"" + record.getExperimentName() + "\"");
-                guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
-                vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+        List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByExpId(experimentId);
+        HashMap<Integer,List<ExperimentResultDetail>> experimentResultsMap = new HashMap<>();
+        for(ExperimentResultDetail er:experimentResults){
+            if(experimentResultsMap != null && experimentResultsMap.containsKey(er.getResultId()))
+                values = experimentResultsMap.get(er.getResultId());
+            else values = new ArrayList<>();
 
-                List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
-                resultDetail.put(record.getExperimentRecordId(), experimentResults);
+            values.add(er);
+            experimentResultsMap.put(er.getResultId(),values);
+        }
+
+        HashMap<Integer,ExperimentRecord> recordMap = new HashMap<>();
+        for(ExperimentRecord rec:records)
+            recordMap.put(rec.getExperimentRecordId(),rec);
+
+        for (Integer resultId : experimentResultsMap.keySet()) {
+            resultDetail.put(resultId, experimentResultsMap.get(resultId));
+            int expRecId = experimentResultsMap.get(resultId).get(0).getExperimentRecordId();
+            guideMap.put(expRecId, dbService.getGuidesByExpRecId(expRecId));
+            vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
+
+            if (!experimentResultsMap.get(resultId).get(0).getUnits().contains("present")) {
+                ExperimentRecord record = recordMap.get(expRecId);
+                labels.add("\"" + record.getExperimentName() + "\"");
+
                 double average = 0;
-                for (ExperimentResultDetail result : experimentResults) {
-                    noOfSamples = result.getNumberOfSamples();
-                    efficiency = "\"" + result.getResultType() + " in " + experimentResults.get(0).getUnits() + "\"";
-                    if(result.getReplicate() != 0) {
+
+                for (ExperimentResultDetail result : experimentResultsMap.get(resultId)) {
+                    efficiency = "\"" + result.getResultType() + " in " + result.getUnits() + "\"";
+                    if (result.getReplicate() != 0) {
                         values = replicateResult.get(result.getReplicate());
                         if (values == null)
                             values = new ArrayList<>();
@@ -321,18 +335,18 @@ public class ExperimentController extends UserController {
                         }
 
                         replicateResult.put(result.getReplicate(), values);
-                    }else average = Double.valueOf(result.getResult());
+                    } else average = Double.valueOf(result.getResult());
                 }
                 mean.add(average);
-                resultMap.put(record.getExperimentRecordId(), average);
+                resultMap.put(resultId, average);
 
-                }
+            }
+        }
             plotData.put("Mean",mean);
 
             List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
             List<String> conditions = edao.getExperimentRecordConditionList(experimentId);
 
-        System.out.println("In controller");
             req.setAttribute("tissues",tissues);
             req.setAttribute("conditions",conditions);
             req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/study/" + study.getStudyId() + "'>Experiments</a>");
@@ -340,7 +354,7 @@ public class ExperimentController extends UserController {
             req.setAttribute("experiments",labels);
             req.setAttribute("plotData",plotData);
             req.setAttribute("efficiency",efficiency);
-            req.setAttribute("experimentRecords", records);
+            req.setAttribute("experimentRecordsMap", recordMap);
             req.setAttribute("resultDetail",resultDetail);
             req.setAttribute("resultMap",resultMap);
             req.setAttribute("study", study);
@@ -366,7 +380,7 @@ public class ExperimentController extends UserController {
         if (!access.isLoggedIn()) {
             return "redirect:/";
         }
-
+        Experiment experiment = edao.getExperiment(experimentId);
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
 
@@ -376,9 +390,6 @@ public class ExperimentController extends UserController {
             return null;
 
         }
-
-        Experiment experiment = edao.getExperiment(experimentId);
-
 
         req.setAttribute("experimentRecords", records);
         ExperimentRecord r = new ExperimentRecord();

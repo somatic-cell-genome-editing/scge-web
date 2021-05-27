@@ -4,6 +4,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
+<%@ page import="edu.mcw.scge.datamodel.Vector" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -37,14 +38,14 @@
 
         <%@include file="recordFilters.jsp"%>
 <hr>
-
 <div id="recordTableContent" style="position:relative; left:0px; top:00px;">
-
         <table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table>
+       <% if(resultMap != null && resultMap.size()!= 0) {%>
         <div class="chart-container" style="position: relative; height:80vh; width:80vw">
     <canvas id="resultChart"></canvas>
 
         </div>
+<% }%>
 <div>
 <hr>
     <table width="90%">
@@ -71,9 +72,12 @@
     </tr>
     </thead>
 
-        <% HashMap<Integer,Double> resultMap = (HashMap<Integer, Double>) request.getAttribute("resultMap");
-            //HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
-            for (ExperimentRecord exp: experimentRecords) {
+        <%
+
+            for (Integer resultId: resultDetail.keySet()) {
+                List<ExperimentResultDetail> ers = resultDetail.get(resultId);
+                int expRecordId = ers.get(0).getExperimentRecordId();
+                ExperimentRecord exp = experimentRecordsMap.get(expRecordId);
                 List<Guide> guides = guideMap.get(exp.getExperimentRecordId());
                 String guide = "";
                 boolean fst = true;
@@ -90,6 +94,7 @@
                     vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">"+SFN.parse(v.getName())+"</a>";
                     fst=false;
                 }
+
         %>
 
         <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) {
@@ -103,20 +108,27 @@
         <% if (deliverySystemList.size() > 0 ) { %><td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td><% } %>
         <% if (guideList.size() > 0 ) { %><td><%=guide%></td><% } %>
         <% if (vectorList.size() > 0 ) { %><td><%=vector%></td><% } %>
-        <% if (resultTypeList.size() > 0 ) { %><td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getResultType()%></td><% } %>
-        <% if (unitList.size() > 0 ) { %><td><%=resultDetail.get(exp.getExperimentRecordId()).get(0).getUnits()%></td><% } %>
-        <td><%=resultMap.get(exp.getExperimentRecordId())%></td>
-        <%for(ExperimentResultDetail e:resultDetail.get(exp.getExperimentRecordId())) {
-            if(e.getReplicate() != 0) {
-        %>
+        <% if (resultTypeList.size() > 0 ) { %><td><%=ers.get(0).getResultType()%></td><% } %>
+        <% if (unitList.size() > 0 ) { %><td><%=ers.get(0).getUnits()%></td><% } %>
+        <% if(resultMap != null && resultMap.size() != 0) {%>
+        <td><%=resultMap.get(resultId)%></td>
+            <%
+                for(ExperimentResultDetail e:ers) {
+                    if(e.getReplicate() != 0) {
+            %>
         <td style="display: none"><%=e.getResult()%></td>
-        <%}}%>
-    </tr>
-        <%  }%>
-     <% } %>
+            <%} %>
+
+        <%  }} else { %> <td>
+         <%   for(ExperimentResultDetail e:ers) { %>
+            <%=e.getResult()%>
+        <% } %></td>
+        <% }%>
+        </tr>
+     <% }} %>
 </table>
 </div>
-</div> <!-- end record filter content -->
+    </div>
         <script>
             var ctx = document.getElementById("resultChart");
             var myChart = new Chart(ctx, {
@@ -147,7 +159,7 @@
                             },
                             scaleLabel: {
                                 display: true,
-                                labelString: ${efficiency},
+                                labelString: getLabelString(),
                                 fontSize: 14,
                                 fontStyle: 'bold',
                                 fontFamily: 'Calibri'
@@ -158,7 +170,6 @@
                         callbacks: {
                             afterLabel: function(tooltipItem, data) {
                                 var index = tooltipItem.index;
-                                console.log(index);
                                 return getDetails(index);
                             }
                         }
@@ -192,10 +203,11 @@
                 var yArray=[];
                 var rowLength = table.rows.length;
                 var j = 0;
+                var labelString;
 
                 var aveIndex = table.rows.item(0).cells.length -1;
 
-                for (var i = 2; i < rowLength; i++){
+                for (var i = 1; i < rowLength; i++){
                     if(table.rows.item(i).style.display != 'none') {
                         var cells = table.rows.item(i).cells;
                         var cellLength = cells.length;
@@ -203,6 +215,7 @@
                         var avg = cells.item(aveIndex);
                         xArray[j] = column.innerText;
                         yArray[j] = avg.innerHTML;
+                        labelString = cells.item(aveIndex-1).innerText;
                         for(var k = aveIndex+1;k<cellLength;k++){
                             var arr = [];
                             if(j != 0)
@@ -218,10 +231,25 @@
 
                 myChart.data.labels = xArray;
                 myChart.data.datasets[0].data = yArray;
+                myChart.options.scales.yAxes[0].labelString = labelString;
                 myChart.update();
 
             }
+            function getLabelString(){
+                var table = document.getElementById('myTable'); //to remove filtered rows
+                var labelString;
 
+                var aveIndex = table.rows.item(0).cells.length -1;
+                var rowLength = table.rows.length;
+                for (var i = 1; i < rowLength; i++) {
+                    if (table.rows.item(i).style.display != 'none') {
+                        var cells = table.rows.item(i).cells;
+                        labelString = cells.item(aveIndex - 2).innerText + ' in '+ cells.item(aveIndex - 1).innerText;
+                        console.log(labelString);
+                    }
+                }
+                return labelString;
+            }
             function applyFilters(obj)  {
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
