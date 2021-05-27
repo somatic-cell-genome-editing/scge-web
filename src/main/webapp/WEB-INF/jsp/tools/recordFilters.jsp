@@ -19,7 +19,7 @@
     }
 
     .sidenav a {
-        padding: 8px 8px 8px 32px;
+        padding: 8px 8px 8px 8px;
         text-decoration: none;
         font-size: 25px;
         color: #818181;
@@ -88,10 +88,13 @@
     function openNav() {
         if (document.getElementById("mySidenav").style.width == "300px") {
             document.getElementById("recordTableContent").style.left="0px";
+            document.getElementById("recordTableContent").style.width="100%";
+
             closeNav();
         }else {
             document.getElementById("mySidenav").style.width = "300px";
             document.getElementById("recordTableContent").style.left="300px";
+            document.getElementById("recordTableContent").style.width="80%";
            // document.getElementById("filterButton").innerHTML="&#9776; Close";
         }
     }
@@ -129,7 +132,7 @@
 
 <div id="mySidenav" class="sidenav">
 
-    <table align="center" border="0">
+    <table align="center" border="0" style="margin-left:35px;">
 
         <% if (tissueList.size() > 0 ) { %>
         <tr>
@@ -306,21 +309,21 @@
         </tr>
         <% } %>
 
-        <% if (guideList.size() > 0 ) { %>
+        <% if (cellTypeList.size() > 0 ) { %>
         <tr>
         <td valign="top">
             <table>
                 <tr>
-                    <td  ><div class="recordFilterTitle">Guides</div></td>
+                    <td  ><div class="recordFilterTitle">Cell Types</div></td>
                 </tr>
                 <tr>
                     <td>
                         <div class="recordFilterBlock">
                             <table>
-                                <% for (String guide: guideList) { %>
+                                <% for (String cellType: cellTypeList) { %>
                                 <tr>
                                     <td>
-                                        <input onclick="applyFilters(this)"  id="<%=guide%>" type="checkbox" checked>&nbsp;<%=guide%>
+                                        <input onclick="applyFilters(this)"  id="<%=cellType%>" type="checkbox" checked>&nbsp;<%=cellType%>
                                     </td>
                                 </tr>
                                 <% } %>
