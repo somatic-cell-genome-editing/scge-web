@@ -107,8 +107,6 @@
         //document.getElementById("filterButton").innerHTML="&#9776; Filter Options";
 
     }
-    //openNav();
-
 </script>
 
 
@@ -137,8 +135,6 @@
 <div class="filterOptions" id="filterOpen">
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
 </div>
-
-
 <div id="mySidenav" class="sidenav">
 
     <table align="center" border="0" style="margin-left:35px;">
@@ -329,13 +325,20 @@
                     <td>
                         <div class="recordFilterBlock">
                             <table>
-                                <% for (String cellType: cellTypeList) { %>
+                                <% for (String cellType: cellTypeList) { if(selectedCellType == null || cellType.equalsIgnoreCase(selectedCellType)) {
+                                %>
                                 <tr>
                                     <td>
                                         <input onclick="applyFilters(this)"  id="<%=cellType%>" type="checkbox" checked>&nbsp;<%=cellType%>
                                     </td>
                                 </tr>
-                                <% } %>
+                                <%} else { %>
+                                <tr>
+                                    <td>
+                                        <input onclick="applyFilters(this)"  id="<%=cellType%>" type="checkbox" unchecked>&nbsp;<%=cellType%>
+                                    </td>
+                                </tr>
+                                <% }} %>
                             </table>
                         </div>
                     </td>
@@ -399,7 +402,6 @@
 </table>
 
 </div>
-
 <script>
     setTimeout(openNav,1000);
 </script>
