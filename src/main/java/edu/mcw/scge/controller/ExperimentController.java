@@ -1,19 +1,14 @@
 package edu.mcw.scge.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.bind.TreeTypeAdapter;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.service.db.DBService;
-import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.NumberUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -24,7 +19,6 @@ import java.util.*;
 @Controller
 @RequestMapping(value="/data/experiments")
 public class ExperimentController extends UserController {
-    BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     ExperimentDao edao = new ExperimentDao();
     ExperimentRecordDao erDao=new ExperimentRecordDao();
     StudyDao sdao = new StudyDao();
@@ -62,10 +56,9 @@ public class ExperimentController extends UserController {
             return null;
 
         }
-        List<Experiment> records = edao.getExperimentsByStudy(studyId);
 
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/studies/search'>Studies</a>");
-        req.setAttribute("crumbTrail", breadCrumb.getCrumbTrailMap(req,study,null,null));
+        List<Experiment> records = edao.getExperimentsByStudy(studyId);
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
         req.setAttribute("experiments", records);
         req.setAttribute("study", study);
         req.setAttribute("action", "Experiments");
@@ -143,7 +136,7 @@ public class ExperimentController extends UserController {
         req.setAttribute("resultDetail",resultDetail);
         req.setAttribute("resultMap",resultMap);
        // req.setAttribute("study", study);
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/studies/search'>Studies</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
         req.setAttribute("action", "All Experiment Records");
         req.setAttribute("page", "/WEB-INF/jsp/tools/allExperimentRecords");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -208,11 +201,9 @@ public class ExperimentController extends UserController {
             for (ExperimentResultDetail result : experimentResults) {
                 noOfSamples = result.getNumberOfSamples();
                 units = "\"" + result.getResultType() + " in " + experimentResults.get(0).getUnits() + "\"";
-                if (result.getResult() != null && !result.getResult().isEmpty())
-                    average += Double.valueOf(result.getResult());
+                if (result.getReplicate() == 0)
+                    average = Double.valueOf(result.getResult());
             }
-            average = average / noOfSamples;
-            average = Math.round(average * 100.0) / 100.0;
 
             if(experimentId1 == record.getExperimentId()) {
                 exp1Results.put(record.getDeliverySystemType(), average);
@@ -251,8 +242,12 @@ public class ExperimentController extends UserController {
     }
     @RequestMapping(value="/experiment/{experimentId}")
     public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res,
-                                               @PathVariable(required = false) int experimentId
+                                               @PathVariable(required = true) int experimentId
     ) throws Exception {
+
+        String resultType = req.getParameter("resultType");
+        String tissue = req.getParameter("tissue");
+        String cellType = req.getParameter("cellType");
 
         Person p=userService.getCurrentUser(req.getSession());
 
@@ -270,8 +265,7 @@ public class ExperimentController extends UserController {
             return null;
 
         }
-        Experiment experiment= edao.getExperiment(experimentId);
-        req.setAttribute("crumbTrail",  breadCrumb.getCrumbTrailMap(req,study,experiment,null));
+
         List<String> labels=new ArrayList<>();
         Map<String, List<Double>> plotData=new HashMap<>();
         Map<String, List<Double>> deliveryPlot=new HashMap<>();
@@ -301,64 +295,79 @@ public class ExperimentController extends UserController {
         HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
         HashMap<Integer,List<Vector>> vectorMap = new HashMap<>();
 
-            for (ExperimentRecord record : records) {
+        List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByExpId(experimentId);
+        HashMap<Integer,List<ExperimentResultDetail>> experimentResultsMap = new HashMap<>();
+        for(ExperimentResultDetail er:experimentResults){
+            if(experimentResultsMap != null && experimentResultsMap.containsKey(er.getResultId()))
+                values = experimentResultsMap.get(er.getResultId());
+            else values = new ArrayList<>();
+
+            values.add(er);
+            experimentResultsMap.put(er.getResultId(),values);
+        }
+
+        HashMap<Integer,ExperimentRecord> recordMap = new HashMap<>();
+        for(ExperimentRecord rec:records)
+            recordMap.put(rec.getExperimentRecordId(),rec);
+
+        for (Integer resultId : experimentResultsMap.keySet()) {
+            resultDetail.put(resultId, experimentResultsMap.get(resultId));
+            int expRecId = experimentResultsMap.get(resultId).get(0).getExperimentRecordId();
+            guideMap.put(expRecId, dbService.getGuidesByExpRecId(expRecId));
+            vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
+
+            if (!experimentResultsMap.get(resultId).get(0).getUnits().contains("present")) {
+                ExperimentRecord record = recordMap.get(expRecId);
                 labels.add("\"" + record.getExperimentName() + "\"");
-                guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
-                vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
 
-                List<ExperimentResultDetail> experimentResults = dbService.getExperimentalResults(record.getExperimentRecordId());
-                resultDetail.put(record.getExperimentRecordId(), experimentResults);
                 double average = 0;
-                for (ExperimentResultDetail result : experimentResults) {
 
-                    noOfSamples = result.getNumberOfSamples();
-                    efficiency = "\"" + result.getResultType() + " in " + experimentResults.get(0).getUnits() + "\"";
-                    values = replicateResult.get(result.getReplicate());
-                    if (values == null)
-                        values = new ArrayList<>();
-                    if (result.getResult() == null || result.getResult().isEmpty())
-                        values.add(null);
-                    else {
-                        values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
-                        average += Double.valueOf(result.getResult());
-                    }
+                for (ExperimentResultDetail result : experimentResultsMap.get(resultId)) {
+                    efficiency = "\"" + result.getResultType() + " in " + result.getUnits() + "\"";
+                    if (result.getReplicate() != 0) {
+                        values = replicateResult.get(result.getReplicate());
+                        if (values == null)
+                            values = new ArrayList<>();
+                        if (result.getResult() == null || result.getResult().isEmpty())
+                            values.add(null);
+                        else {
+                            values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
+                        }
 
-                    replicateResult.put(result.getReplicate(), values);
-
-
+                        replicateResult.put(result.getReplicate(), values);
+                    } else average = Double.valueOf(result.getResult());
                 }
-
-                average = average / noOfSamples;
-                average = Math.round(average * 100.0) / 100.0;
                 mean.add(average);
-                resultMap.put(record.getExperimentRecordId(), average);
+                resultMap.put(resultId, average);
 
-                }
+            }
+        }
             plotData.put("Mean",mean);
 
             List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
             List<String> conditions = edao.getExperimentRecordConditionList(experimentId);
 
-
             req.setAttribute("tissues",tissues);
             req.setAttribute("conditions",conditions);
-            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/studies/search'>Studies</a> -> <a href='/toolkit/data/experiments/study/" + study.getStudyId() + "'>Experiments</a>");
+            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/study/" + study.getStudyId() + "'>Experiments</a>");
             req.setAttribute("replicateResult",replicateResult);
             req.setAttribute("experiments",labels);
             req.setAttribute("plotData",plotData);
             req.setAttribute("efficiency",efficiency);
-            req.setAttribute("experimentRecords", records);
+            req.setAttribute("experimentRecordsMap", recordMap);
             req.setAttribute("resultDetail",resultDetail);
             req.setAttribute("resultMap",resultMap);
             req.setAttribute("study", study);
             req.setAttribute("experiment",e);
             req.setAttribute("guideMap",guideMap);
             req.setAttribute("vectorMap",vectorMap);
+            req.setAttribute("resultType",resultType);
+            req.setAttribute("tissue",tissue);
+            req.setAttribute("cellType",cellType);
             req.setAttribute("action", "Experiment Records");
             req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
+
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-
-
 
         return null;
     }
@@ -371,7 +380,7 @@ public class ExperimentController extends UserController {
         if (!access.isLoggedIn()) {
             return "redirect:/";
         }
-
+        Experiment experiment = edao.getExperiment(experimentId);
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
 
@@ -381,7 +390,6 @@ public class ExperimentController extends UserController {
             return null;
 
         }
-        req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,study,records.get(0),null));
 
         req.setAttribute("experimentRecords", records);
         ExperimentRecord r = new ExperimentRecord();
@@ -412,8 +420,8 @@ public class ExperimentController extends UserController {
             req.setAttribute("editorList",editorList);
             req.setAttribute("guideList",guideList);
             req.setAttribute("vectorList",vectorList);
-            //req.setAttribute("experiment",e);
-            req.setAttribute("experiment", r);
+            req.setAttribute("experiment",experiment);
+            req.setAttribute("experimentRecord", r);
             req.setAttribute("model", m);
             req.setAttribute("reporterElements", reporterElements);
             req.setAttribute("experimentResults",experimentResults);
@@ -444,7 +452,7 @@ public class ExperimentController extends UserController {
             req.setAttribute("json", json);
 
         }
-        req.setAttribute("action", "Experiment Report");
+        req.setAttribute("action", "Condition Details");
 
         req.setAttribute("study", study);
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");

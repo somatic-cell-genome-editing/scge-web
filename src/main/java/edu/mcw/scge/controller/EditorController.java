@@ -9,7 +9,6 @@ import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.service.es.IndexServices;
 import edu.mcw.scge.web.UI;
-import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +28,6 @@ import java.util.List;
 @RequestMapping(value="/data/editors")
 public class EditorController {
 
-    BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     @RequestMapping(value="/search")
     public String getEditors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         EditorDao dao = new EditorDao();
@@ -76,9 +74,7 @@ public class EditorController {
 
         }
 
-        req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,editor,null,null));
-
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/editors/search'>Editors</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/editors/search'>Editors</a>");
         req.setAttribute("editor", editor);
         req.setAttribute("action", "Genome Editor: " + UI.replacePhiSymbol(editor.getSymbol()));
         req.setAttribute("page", "/WEB-INF/jsp/tools/editor");

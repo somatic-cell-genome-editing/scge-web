@@ -55,7 +55,7 @@ public class GuideController {
         }
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,guide,null,null));
 
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/guide/search'>Guides</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/guide/search'>Guides</a>");
         req.setAttribute("guide", guide);
         req.setAttribute("action", "Guide: " + guide.getGuide());
         req.setAttribute("page", "/WEB-INF/jsp/tools/guide");
