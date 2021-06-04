@@ -129,6 +129,52 @@
 
         </div>
     </c:if>
+    <c:if test="${fn:length(aggregations.editorSubTypeBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse13">
+                        ${category}&nbsp; Editor Subtype<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse13" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.editorSubTypeBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="editorSubTypeBkt" value="${subtype.key}" id="editorSubType-${subtype.key}">
+                            <label class="form-check-label" for="editorSubType-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.editorSpeciesBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse14">
+                        ${category}&nbsp; Editor Species<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse14" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.editorSpeciesBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="editorSpeciesBkt" value="${subtype.key}" id="editorSpecies-${subtype.key}">
+                            <label class="form-check-label" for="editorSpecies-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
     <c:if test="${fn:length(aggregations.deliveryBkts)>0}">
         <div class="accordion-group">
             <div class="accordion-heading card-header">
@@ -165,6 +211,52 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="modelTypeBkt" value="${subtype.key}" id="modelType-${subtype.key}">
                             <label class="form-check-label" for="modelType-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.modelSpeciesBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse11">
+                        ${category}&nbsp; Model Species<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse11" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.modelSpeciesBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="modelspeciesBkt" value="${subtype.key}" id="modelSpecies-${subtype.key}">
+                            <label class="form-check-label" for="modelSpecies-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.reporterBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse12">
+                        ${category}&nbsp; Model Reporter<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse12" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.reporterBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="reporterBkt" value="${subtype.key}" id="reporter-${subtype.key}">
+                            <label class="form-check-label" for="reporter-${subtype.key}">
                                 <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
                                     ${subtype.key} (${subtype.docCount})
                             </label>
@@ -220,7 +312,75 @@
 
         </div>
     </c:if>
+    <c:if test="${fn:length(aggregations.vectorTypeBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse15">
+                        ${category}&nbsp; Vector Type<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse15" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.vectorTypeBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="vectorTypeBkt" value="${subtype.key}" id="vectorType-${subtype.key}">
+                            <label class="form-check-label" for="vectorType-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
 
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.vectorSubTypeBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse16">
+                        ${category}&nbsp; Vector Subtype<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse16" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.vectorSubTypeBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="vectorSubTypeBkt" value="${subtype.key}" id="vectorSubType-${subtype.key}">
+                            <label class="form-check-label" for="vectorSubType-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.vectorBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse17">
+                        ${category}&nbsp; Vector <span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse17" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.vectorBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="vectorBkt" value="${subtype.key}" id="vector-${subtype.key}">
+                            <label class="form-check-label" for="vector-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
     <c:if test="${fn:length(aggregations.targetBkts)>0}">
         <div class="accordion-group">
             <div class="accordion-heading card-header">

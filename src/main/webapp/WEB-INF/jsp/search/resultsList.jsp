@@ -43,15 +43,33 @@
             </a>
             </h6>
             </c:if>
-            <span>Category:&nbsp;${hit.sourceAsMap.category}</span><br>
+            <!--span>Category:&nbsp;$-{hit.sourceAsMap.category}</span><br-->
+            <c:if test="${hit.sourceAsMap.study.study!=null}">
+                <span>Study:&nbsp;</span>${hit.sourceAsMap.study.study}<br>
+            </c:if>
             <c:if test="${hit.sourceAsMap.type!=null}">
-            <span>Type:&nbsp;${hit.sourceAsMap.type}</span><br>
+            <span>${hit.sourceAsMap.category}&nbsp;Type:&nbsp; ${hit.sourceAsMap.type}</span><br>
             </c:if>
             <c:if test="${hit.sourceAsMap.subType!=null}">
-            <span>SubType:&nbsp;${hit.sourceAsMap.subType}</span> <br>
+            <span>${hit.sourceAsMap.category}&nbsp;SubType:&nbsp;${hit.sourceAsMap.subType}</span> <br>
             </c:if>
             <c:if test="${hit.sourceAsMap.target!=null}">
-                <span>Target:&nbsp;${hit.sourceAsMap.target}</span> <br>
+                <c:set var="first" value="true"/>
+                <span>Target Tissue:
+                <c:forEach items="${hit.sourceAsMap.target}" var="item">
+                    <c:choose>
+                    <c:when test="${first=='true'}">
+                        ${item}
+                        <c:set var="first" value="false"/>
+
+                    </c:when>
+                        <c:otherwise>
+                           , ${item}
+
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                </span> <br>
             </c:if>
             <c:if test="${hit.sourceAsMap.species!=null}">
                 <span>Species:&nbsp;${hit.sourceAsMap.species}</span> <br>
