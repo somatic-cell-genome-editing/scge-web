@@ -66,7 +66,7 @@
                         <div class="form-check">
 
                             <input class="form-check-input" type="checkbox" name="typeBkt" value="${type.key}"
-                                   id="type-${type.key}" onclick= "searchByFilters('${type.key}')"/>
+                                   id="type-${type.key}"/>
                             <label class="form-check-label" for="type-${type.key}">
                                ${type.key}(${type.docCount})
 
@@ -232,7 +232,7 @@
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.modelSpeciesBkts}" var="subtype">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="modelspeciesBkt" value="${subtype.key}" id="modelSpecies-${subtype.key}">
+                            <input class="form-check-input" type="checkbox" name="modelSpeciesBkt" value="${subtype.key}" id="modelSpecies-${subtype.key}">
                             <label class="form-check-label" for="modelSpecies-${subtype.key}">
                                 <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
                                     ${subtype.key} (${subtype.docCount})
@@ -475,10 +475,24 @@
         var selectedEditorType=   $('input[name="editorTypeBkt"]:checked').map(function () {
             return this.value;
         }).get().join(',');
+        var selectedEditorSubType=   $('input[name="editorSubTypeBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+        var selectedEditorSpecies=   $('input[name="editorSpeciesBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+
         var selectedDsType=   $('input[name="dsTypeBkt"]:checked').map(function () {
             return this.value;
         }).get().join(',');
         var selectedModelType=   $('input[name="modelTypeBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+        var selectedModelOrganism=   $('input[name="modelSpeciesBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+
+        var selectedReporter=   $('input[name="reporterBkt"]:checked').map(function () {
             return this.value;
         }).get().join(',');
 
@@ -494,78 +508,197 @@
         var selectedGuideTargetLocus=   $('input[name="guideTargetLocusBkt"]:checked').map(function () {
             return this.value;
         }).get().join(',');
+        var selectedVector=   $('input[name="vectorBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+        var selectedVectorType=   $('input[name="vectorTypeBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+        var selectedVectorSubType=   $('input[name="vectorSubTypeBkt"]:checked').map(function () {
+            return this.value;
+        }).get().join(',');
+
         var searchTerm=$("#searchTerm")
         var category=$("#category")
-      /*  alert("SEARCH TERM:"+searchTerm.val()+"\n"+
-            "Category:"+category.val()+"\n"+
-        "TYPE:"+selectedType+"\n"+
-        "SUBTYPE:"+selectedSubtype);*/
         var url="/toolkit/data/search/results/"+category.val()+"?facetSearch=true&searchTerm="+searchTerm.val()+
-            "&type="+selectedType+"&subType="+selectedSubtype +
+            "&type="+selectedType+
+            "&subType="+selectedSubtype +
             "&editorType="+selectedEditorType +
+            "&editorSubType="+selectedEditorSubType +
+            "&editorSpecies="+selectedEditorSpecies +
             "&dsType="+selectedDsType+
             "&modelType="+ selectedModelType+
+            "&modelSpecies="+ selectedModelOrganism+
+            "&reporter="+ selectedReporter+
             "&speciesType="+ selectedSpeciesType+
             "&withExperiments="+ selectedWithExperiments+
             "&target="+ selectedTarget+
+            "&vector="+selectedVector +
+            "&vectorType="+selectedVectorType +
+            "&vectorSubType="+selectedVectorSubType +
             "&guideTargetLocus="+ selectedGuideTargetLocus;
 
 
             $.get(url, function (data, status) {
             $contentDiv.html(data);
             $.each($('input[name="typeBkt"]'), function(){
-                if(selectedType.includes($(this).val())){
-                    $(this).prop('checked',true)
-                }
+                var _this=$(this);
+                var val=_this.val();
+                $.each(selectedType.split(","), function (i,selected) {
+                    if(selected===val){
+                        _this.prop('checked',true)
+                    }
+                })
             });
             $.each($('input[name="subtypeBkt"]'), function(){
+            //    console.log(selectedSubtype+"\tthis.Val="+ $(this).val())
+               var _this=$(this);
+               var val=_this.val();
+                $.each(selectedSubtype.split(","), function (i,selected) {
+                    if(selected===val){
+                        _this.prop('checked',true)
+                    }
+                })
 
-                if(selectedSubtype.includes($(this).val())){
-                    $(this).prop('checked',true)
-                }
             });
             $.each($('input[name="editorTypeBkt"]'), function(){
-
-                if(selectedEditorType.includes($(this).val())){
-                    $(this).prop('checked',true)
-                }
+                var _this=$(this);
+                var val=_this.val();
+                $.each(selectedEditorType.split(","), function (i,selected) {
+                    if(selected===val){
+                        _this.prop('checked',true)
+                    }
+                })
             });
             $.each($('input[name="modelTypeBkt"]'), function(){
-
-                if(selectedModelType.includes($(this).val())){
-                    $(this).prop('checked',true)
-                }
+                var _this=$(this);
+                var val=_this.val();
+                $.each(selectedModelType.split(","), function (i,selected) {
+                    if(selected===val){
+                        _this.prop('checked',true)
+                    }
+                })
             });
             $.each($('input[name="speciesBkt"]'), function(){
 
-                if(selectedSpeciesType.includes($(this).val())){
-                    $(this).prop('checked',true)
-                }
+                var _this=$(this);
+                var val=_this.val();
+                $.each(selectedSpeciesType.split(","), function (i,selected) {
+                    if(selected===val){
+                        _this.prop('checked',true)
+                    }
+                })
             });
 
                 $.each($('input[name="targetBkt"]'), function(){
 
-                    if(selectedTarget.includes($(this).val())){
-                        $(this).prop('checked',true)
-                    }
+                    var _this=$(this);
+                    var val=_this.val();
+                    $.each(selectedTarget.split(","), function (i,selected) {
+                        if(selected===val){
+                            _this.prop('checked',true)
+                        }
+                    })
                 });
                 $.each($('input[name="guideTargetLocusBkt"]'), function(){
 
-                    if(selectedGuideTargetLocus.includes($(this).val())){
-                        $(this).prop('checked',true)
-                    }
+                    var _this=$(this);
+                    var val=_this.val();
+                    $.each(selectedGuideTargetLocus.split(","), function (i,selected) {
+                        if(selected===val){
+                            _this.prop('checked',true)
+                        }
+                    })
                 });
                 $.each($('input[name="withExperimentsBkt"]'), function(){
 
-                    if(selectedWithExperiments.includes($(this).val())){
-                        $(this).prop('checked',true)
-                    }
+                    var _this=$(this);
+                    var val=_this.val();
+                    $.each(selectedWithExperiments.split(","), function (i,selected) {
+                        if(selected===val){
+                            _this.prop('checked',true)
+                        }
+                    })
                 });
                 $.each($('input[name="dsTypeBkt"]'), function(){
 
-                    if(selectedDsType.includes($(this).val())){
-                        $(this).prop('checked',true)
-                    }
+                    var _this=$(this);
+                    var val=_this.val();
+                    $.each(selectedDsType.split(","), function (i,selected) {
+                        if(selected===val){
+                            _this.prop('checked',true)
+                        }
+                    })
+                });
+                $.each($('input[name="editorSubTypeBkt"]'), function(){
+
+                    var _this=$(this);
+                    var val=_this.val();
+                    $.each(selectedEditorSubType.split(","), function (i,selected) {
+                        if(selected===val){
+                            _this.prop('checked',true)
+                        }
+                    })
+                });
+                $.each($('input[name="editorSpeciesBkt"]'), function(){
+
+                    var _this=$(this);
+                    var val=_this.val();
+                    $.each(selectedEditorSpecies.split(","), function (i,selected) {
+                        if(selected===val){
+                            _this.prop('checked',true)
+                        }
+                    })
+                });
+                $.each($('input[name="modelSpeciesBkt"]'), function(){
+
+                    var _this=$(this);
+                    var val=_this.val();
+                    $.each(selectedModelOrganism.split(","), function (i,selected) {
+                        if(selected===val){
+                            _this.prop('checked',true)
+                        }
+                    })
+                });
+                $.each($('input[name="reporterBkt"]'), function(){
+
+                    var _this=$(this);
+                    var val=_this.val();
+                    $.each(selectedReporter.split(","), function (i,selected) {
+                        if(selected===val){
+                            _this.prop('checked',true)
+                        }
+                    })
+                });
+                $.each($('input[name="vectorBkt"]'), function(){
+
+                    var _this=$(this);
+                    var val=_this.val();
+                    $.each(selectedVector.split(","), function (i,selected) {
+                        if(selected===val){
+                            _this.prop('checked',true)
+                        }
+                    })
+                });
+                $.each($('input[name="vectorTypeBkt"]'), function(){
+
+                    var _this=$(this);
+                    var val=_this.val();
+                    $.each(selectedVectorType.split(","), function (i,selected) {
+                        if(selected===val){
+                            _this.prop('checked',true)
+                        }
+                    })
+                });
+                $.each($('input[name="vectorSubTypeBkt"]'), function(){
+
+                    var _this=$(this);
+                    var val=_this.val();
+                    $.each(selectedVectorSubType.split(","), function (i,selected) {
+                        if(selected===val){
+                            _this.prop('checked',true)
+                        }
+                    })
                 });
         })
     })

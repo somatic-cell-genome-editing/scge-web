@@ -119,8 +119,18 @@ public class SearchController{
         String type=req.getParameter("type");
         String subType=req.getParameter("subType");
         String editorType=req.getParameter("editorType");
+        String editorSubType=req.getParameter("editorSubType");
+        String editorSpecies=req.getParameter("editorSpecies");
+
         String dsType=req.getParameter("dsType");
         String modelType=req.getParameter("modelType");
+        String modelSpeices=req.getParameter("modelSpecies");
+        String reporter=req.getParameter("reporter");
+
+        String vector=req.getParameter("vector");
+        String vectorType=req.getParameter("vectorType");
+        String vectorSubType=req.getParameter("vectorSubType");
+
         String target=req.getParameter("target");
         String guideTargetLocus=req.getParameter("guideTargetLocus");
         String speciesType=req.getParameter("speciesType");
@@ -131,14 +141,22 @@ public class SearchController{
         if(type!=null && !type.equals(""))filterMap.put("type", type);
         if(subType!=null && !subType.equals(""))filterMap.put("subType", subType);
         if(editorType!=null && !editorType.equals(""))filterMap.put("editors.type", editorType);
+        if(editorSubType!=null && !editorSubType.equals(""))filterMap.put("editors.subType", editorSubType);
+        if(editorSpecies!=null && !editorSpecies.equals(""))filterMap.put("editors.species", editorSpecies);
+
         if(dsType!=null && !dsType.equals(""))filterMap.put("deliveries.type",dsType);
         if(modelType!=null && !modelType.equals(""))  filterMap.put("models.type", modelType);
+        if(modelSpeices!=null && !modelSpeices.equals(""))  filterMap.put("models.organism", modelSpeices);
+        if(reporter!=null && !reporter.equals(""))  filterMap.put("models.transgeneReporter", reporter);
 
         if(target!=null && !target.equals(""))  filterMap.put("target", target);
         if(guideTargetLocus!=null && !guideTargetLocus.equals(""))  filterMap.put("guides.targetLocus", guideTargetLocus);
         if(speciesType!=null && !speciesType.equals(""))  filterMap.put("species", speciesType);
         if(withExperiments!=null && !withExperiments.equals(""))  filterMap.put("withExperiments", withExperiments);
 
+        if(vector!=null && !vector.equals(""))filterMap.put("vectors.name", vector);
+        if(vectorSubType!=null && !vectorSubType.equals(""))filterMap.put("vectors.subtype", vectorSubType);
+        if(vectorType!=null && !vectorType.equals(""))filterMap.put("vectors.type", vectorType);
         return filterMap;
     }
 
