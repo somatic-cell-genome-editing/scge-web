@@ -49,7 +49,6 @@ public class EditController {
         service.insertTierUpdates(studyId, tier, userId, groupIdsJson );
         Study study= sdao.getStudyById(studyId).get(0);
         List<Person> p=pdao.getPersonById(study.getPiId());
-        System.out.println("STUDY:"+study.getStudyId()+"\tPI:"+ p.get(0).getEmail());
         String emailMsg=" Study:"+studyId+" - "+study.getStudy() +" is updated. These changes will get executed after 24 hours";
        // sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated",emailMsg);
      //   sendEmailNotification(p.get(0).getEmail(), "SCGE Study Updated",emailMsg);

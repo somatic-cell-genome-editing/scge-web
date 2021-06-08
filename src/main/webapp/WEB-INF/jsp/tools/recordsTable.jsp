@@ -29,7 +29,9 @@
             widgets: ['zebra','resizable', 'stickyHeaders'],
         });
         $("#myTable").tablesorter().bind("sortEnd", function (e, t) {
-            update();
+            if(dualAxis)
+                updateAxis();
+            else update();
         });
     });
 </script>
@@ -149,15 +151,32 @@
                                 fontStyle: 'bold',
                                 fontFamily: 'Calibri'
                             }
-                        },
-                        ],
+                        }],
                         yAxes: [{
+                            id: 'delivery',
+                            type: 'linear',
+                            position: 'left',
                             ticks: {
                                 beginAtZero: true
                             },
                             scaleLabel: {
                                 display: true,
-                                labelString: getLabelString(),
+                                labelString: getLabelString(null),
+                                fontSize: 14,
+                                fontStyle: 'bold',
+                                fontFamily: 'Calibri'
+                            }
+                        }, {
+                            id: 'editing',
+                            display: false,
+                            type: 'linear',
+                            position: 'right',
+                            ticks: {
+                                beginAtZero: true
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: getLabelString(null),
                                 fontSize: 14,
                                 fontStyle: 'bold',
                                 fontFamily: 'Calibri'
@@ -201,7 +220,6 @@
                 var yArray=[];
                 var rowLength = table.rows.length;
                 var j = 0;
-                var labelString;
 
                 var aveIndex = table.rows.item(0).cells.length -1;
 
@@ -219,21 +237,40 @@
                                 arr = myChart.data.datasets[k-aveIndex].data;
 
                             arr.push(cells.item(k).innerHTML);
-                            myChart.data.datasets[k-aveIndex].data = arr;
+                            var dataSet = {
+                                data: arr,
+                                label: "Replicate: "+(i+1),
+                                yAxisID: 'delivery',
+                                backgroundColor: 'rgba(255,99,132,1)',
+                                borderColor: 'rgba(255,99,132,1)',
+                                type: "scatter",
+                                showLine: false
+                            };
+                            myChart.data.datasets[k-aveIndex] = dataSet;
                         }
                         j++;
                     }
 
                 }
 
-                labelString = getLabelString();
+
+                var data={
+                    label: "Mean",
+                    data: yArray,
+                    yAxisID: 'delivery',
+                    backgroundColor: 'rgba(255, 206, 99, 0.6)',
+                    borderColor:    'rgba(255, 206, 99, 0.8)',
+                    borderWidth: 1
+                };
+
                 myChart.data.labels = xArray;
-                myChart.data.datasets[0].data = yArray;
-                myChart.options.scales.yAxes[0].scaleLabel.labelString = labelString;
+                myChart.data.datasets[0] = data;
+                myChart.options.scales.yAxes[1].display = false;
+                myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString(null);
                 myChart.update();
 
             }
-            function getLabelString(){
+            function getLabelString(result){
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var labelString;
 
@@ -242,8 +279,15 @@
                 for (var i = 1; i < rowLength; i++) {
                     if (table.rows.item(i).style.display != "none") {
                         var cells = table.rows.item(i).cells;
-                        labelString = cells.item(aveIndex - 2).innerText + ' in ' + cells.item(aveIndex - 1).innerText;
-                        break;
+                        if(result != null) {
+                            if( cells.item(aveIndex - 2).innerText.includes(result)) {
+                                labelString = cells.item(aveIndex - 2).innerText + ' in ' + cells.item(aveIndex - 1).innerText;
+                                break;
+                            }
+                        } else {
+                            labelString = cells.item(aveIndex - 2).innerText + ' in ' + cells.item(aveIndex - 1).innerText;
+                            break;
+                        }
                     }
                 }
                 return labelString;
@@ -281,7 +325,18 @@
                             }
                         }
                 }
-                update();
+                if(resultTypes.length > 1){
+                    dualAxis = true;
+                    for (var i = 0; i < resultTypes.length; i++) {
+                        console.log(document.getElementById((resultTypes[i])).checked);
+                        if(document.getElementById((resultTypes[i])).checked == false){
+                            dualAxis = false;
+                        }
+                    }
+                }
+                if(dualAxis)
+                        updateAxis();
+                else update();
             }
 
 
@@ -292,6 +347,7 @@
                 data.push({
                     label: "Mean",
                     data: ${plotData.get("Mean")},
+                    yAxisID: 'delivery',
                     backgroundColor: 'rgba(255, 206, 99, 0.6)',
                     borderColor:    'rgba(255, 206, 99, 0.8)',
                     borderWidth: 1
@@ -302,6 +358,7 @@
                     data.push({
                         data: dataSet[i],
                         label: "Replicate: "+(i+1),
+                        yAxisID: 'delivery',
                         backgroundColor: 'rgba(255,99,132,1)',
                         borderColor: 'rgba(255,99,132,1)',
                         type: "scatter",
@@ -316,6 +373,7 @@
             resultTypes= <%=JSONValue.toJSONString(resultTypeList)%>
             var cellTypes = [];
             cellTypes = <%= JSONValue.toJSONString(cellTypeList) %>;
+            var dualAxis = false;
             function load() {
                 for (var i = 0; i < tissues.length; i++) {
                     applyFilters(document.getElementById(tissues[i]));
@@ -328,6 +386,62 @@
                 }
             }
             window.onload=load();
+
+            function updateAxis(){
+                var table = document.getElementById('myTable'); //to remove filtered rows
+                var labels=[];
+                var editing=[];
+                var delivery=[];
+                var rowLength = table.rows.length;
+                var j = 0;
+
+                var aveIndex = table.rows.item(0).cells.length -1;
+
+                for (var i = 1; i < rowLength; i++){
+                    if(table.rows.item(i).style.display != 'none') {
+                        var cells = table.rows.item(i).cells;
+                        var cellLength = cells.length;
+                        var column = cells.item(0); //points to condition column
+                        var avg = cells.item(aveIndex);
+                        labels[j] = column.innerText;
+                        if(cells.item(aveIndex - 2).innerText == "Delivery Efficiency") {
+                            delivery[j] = avg.innerHTML;
+                            editing[j] = null;
+                            j++;
+                        } else {
+                            editing[j] = avg.innerHTML;
+                            delivery[j] = null;
+                            j++;
+                        }
+                    }
+                }
+
+                var data=[];
+                data.push({
+                    label: "delivery",
+                    data: delivery,
+                    yAxisID: 'delivery',
+                    backgroundColor: 'rgba(255,99,132,1)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    borderWidth: 1
+                });
+                data.push({
+                    label: "editing",
+                    data: editing,
+                    yAxisID: 'editing',
+                    backgroundColor:  'rgba(54, 162, 235, 1)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                });
+
+                myChart.data.labels = labels;
+                myChart.data.datasets = data;
+                myChart.options.scales.yAxes[1].display = true;
+                myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString('Delivery');
+                myChart.options.scales.yAxes[1].scaleLabel.labelString = getLabelString('Editing');
+                myChart.update();
+
+            }
         </script>
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
         <script>

@@ -40,6 +40,10 @@
     });
 </script>
 
+
+<% try { %>
+
+
 <div>
     <%
         Access access = new Access();
@@ -47,11 +51,9 @@
         Person p = access.getUser(request.getSession());
         List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
         Study study = null;
-        System.out.println("1");
         if (request.getAttribute("study") != null) {
             study = (Study) request.getAttribute("study");
         }
-        System.out.println("2");
 
     %>
 
@@ -119,3 +121,20 @@
     </table>
 
 
+            <%
+    int objectId = study.getStudyId();
+    String objectType="study";
+    String redirectURL = "/data/experiments/study/" + objectId;
+%>
+
+
+
+
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+
+
+    <% } catch (Exception es) {
+            es.printStackTrace();
+
+        } %>

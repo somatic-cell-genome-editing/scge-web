@@ -2,12 +2,20 @@ package edu.mcw.scge.storage;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-
+import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.CacheControl;
+import org.springframework.util.StringUtils;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.StudyDao;
@@ -22,10 +30,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.core.io.UrlResource;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 
 @Controller
@@ -51,7 +61,6 @@ public class FileUploadController {
 			req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 		}
 
-		//	storageService.loadAll().forEach(System.out::println);
 		req.setAttribute("message", message);
 
 		StudyDao sdao = new StudyDao();
@@ -93,6 +102,49 @@ public class FileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
+
+
+
+	@RequestMapping(value = "/store/{type}/{oid}/{filename}.{ext}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<byte[]>  getImageAsByteArray(@PathVariable String type,@PathVariable String oid,@PathVariable String filename,@PathVariable String ext) throws IOException {
+
+		Resource resource=null;
+		try {
+
+			Path file = new File(StorageProperties.rootLocation + "/" + type + "/" + oid + "/").toPath().resolve(filename + "." + ext);
+
+			//Path file = load(filename);
+			resource = new UrlResource(file.toUri());
+
+			if (resource.exists() || resource.isReadable()) {
+				//System.out.println("resource exists and is readable");
+			}
+			else {
+				throw new StorageFileNotFoundException(
+						"Could not read file: " + filename);
+
+			}
+		}
+		catch (MalformedURLException e) {
+			e.printStackTrace();
+			throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+		}
+
+		//Resource file = storageService.loadAsResource("naturezoom.jpeg");
+
+		HttpHeaders headers = new HttpHeaders();
+		InputStream in = resource.getInputStream();
+		byte[] media = IOUtils.toByteArray(in);
+		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+		headers.setContentType(MediaType.IMAGE_JPEG);
+		in.close();
+
+		return new ResponseEntity<byte[]>(media, headers, HttpStatus.OK);
+	}
+
+
+
 	@RequestMapping(value="/images")
 	public String getImages(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
 		req.setAttribute("action", "Images");
@@ -103,18 +155,63 @@ public class FileUploadController {
 	}
 
 	@PostMapping("/uploadFile")
-	public String handleFileUpload(@RequestParam("file") MultipartFile file,
-			RedirectAttributes redirectAttributes) {
+	public String handleFileUpload(HttpServletRequest req, HttpServletResponse res, @RequestParam("filename") MultipartFile file,
+								   RedirectAttributes redirectAttributes) throws Exception {
 
-		System.out.println("file name = " + file.getOriginalFilename());
+		String type=req.getParameter("type");
+		String id = req.getParameter("id");
+		String url = req.getParameter("url");
 
-		//removed upload for now
-		//storageService.store(file);
-		redirectAttributes.addFlashAttribute("message",
-				"You successfully uploaded " + file.getOriginalFilename() + "!");
+		String filename = StringUtils.cleanPath(file.getOriginalFilename());
+		try {
+			if (file.isEmpty()) {
+				throw new StorageException("Failed to store empty file " + filename);
+			}
+			if (filename.contains("..")) {
+				// This is a security check
+				throw new StorageException(
+						"Cannot store file with relative path outside current directory "
+								+ filename);
+			}
 
-		return "redirect:/uploadFile";
+			File f = new File(StorageProperties.rootLocation + "/" +  type + "/" + id);
+			if (!f.exists()) {
+				f.mkdirs();
+			}
+
+			Path rootLocation = f.toPath();
+
+
+			try (InputStream inputStream = file.getInputStream()) {
+				Files.copy(inputStream, rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+			}
+		}
+		catch (IOException e) {
+			throw new StorageException("Failed to store file " + filename, e);
+		}
+
+		return "redirect:" + url;
+
 	}
+
+
+	@PostMapping("/store/remove")
+	public String handleFileUpload(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
+		String type=req.getParameter("type");
+		String id = req.getParameter("id");
+		String url = req.getParameter("url");
+		String filename = req.getParameter("filename");
+
+		File f = new File(StorageProperties.rootLocation + "/" + type + "/" + id + "/" + filename);
+		if (!f.delete()) {
+			System.out.println("could not delete");
+		}
+
+		return "redirect:" + url;
+
+	}
+
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
 	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {

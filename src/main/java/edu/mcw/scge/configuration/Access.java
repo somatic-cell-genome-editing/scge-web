@@ -277,7 +277,7 @@ public class Access {
     }
 
     public boolean verifyUserExists( String principalName, String email) throws Exception {
-        System.out.println("EMAIL: "+ email);
+
         List<Person> people= (pdao.getPersonByEmail(email));
         if(people!=null && people.size()>0){
             Person p= people.get(0);

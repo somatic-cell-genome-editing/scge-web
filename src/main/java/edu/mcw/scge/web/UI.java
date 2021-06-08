@@ -1,5 +1,7 @@
 package edu.mcw.scge.web;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -138,9 +140,26 @@ public class UI {
         String map = "";
         return map;
 
+    }
 
+    public static String formatNumber(String number, int digits) {
 
+        int pos = number.indexOf(".");
 
+        if (pos == -1) {
+            return number;
+        }
+
+        System.out.println("number in = " + number);
+
+        //double d = Double.parseDouble(number);
+        BigDecimal bd = new BigDecimal(number);
+        bd = bd.round(new MathContext(pos + 3));
+        return bd.toPlainString();
+
+        //double rounded = bd.doubleValue();
+
+        //return String.format(number, "%.2f");
     }
 
 

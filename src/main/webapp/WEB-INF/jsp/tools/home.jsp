@@ -136,17 +136,17 @@
                             Guides &nbsp; <span class="object-count"><%=sdao.getGuideCount()%></span>                       </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/vector/search">
+                            <img src="/toolkit/images/guideIcon.png" width="30" height="30" alt="" />
+                            Vectors &nbsp; <span class="object-count"><%=sdao.getVectorCount()%></span>                       </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-secondary" href="/toolkit/data/experiments/search">
                             <img src="/toolkit/images/experimentIcon.png" width="30" height="30" alt="" />
                             Experiments&nbsp;<span class="object-count"><%=sdao.getExperimentCount()%></span>                        </a>
                     </li>
-                    <!--
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/experiments/experiment/experimentRecords">
-                            <img src="/toolkit/images/experimentIcon.png" width="30" height="30" alt="" />
-                            Experiment Records</a>
-                    </li>
-                    -->
+
+
                     <!--li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="bar-chart-2"></span>
