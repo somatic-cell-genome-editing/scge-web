@@ -61,7 +61,6 @@ public class FileUploadController {
 			req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 		}
 
-		//	storageService.loadAll().forEach(System.out::println);
 		req.setAttribute("message", message);
 
 		StudyDao sdao = new StudyDao();
@@ -117,11 +116,9 @@ public class FileUploadController {
 
 			//Path file = load(filename);
 			resource = new UrlResource(file.toUri());
-			System.out.println("resource = " + resource);
-			System.out.println("resource exists " + resource.exists());
 
 			if (resource.exists() || resource.isReadable()) {
-				System.out.println("resource exists and is readable");
+				//System.out.println("resource exists and is readable");
 			}
 			else {
 				throw new StorageFileNotFoundException(
@@ -186,18 +183,12 @@ public class FileUploadController {
 
 
 			try (InputStream inputStream = file.getInputStream()) {
-				System.out.println("about to store");
 				Files.copy(inputStream, rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
 			}
 		}
 		catch (IOException e) {
 			throw new StorageException("Failed to store file " + filename, e);
 		}
-
-//		redirectAttributes.addFlashAttribute("message",
-//				"You successfully uploaded " + file.getOriginalFilename() + "!");
-
-		//req.getRequestDispatcher("/WEB-INF/jsp/tools/editor").forward(req, res);
 
 		return "redirect:" + url;
 
@@ -212,15 +203,9 @@ public class FileUploadController {
 		String url = req.getParameter("url");
 		String filename = req.getParameter("filename");
 
-		System.out.println("about to remove " + StorageProperties.rootLocation + "/" + type + "/" + id + "/" + filename);
-
 		File f = new File(StorageProperties.rootLocation + "/" + type + "/" + id + "/" + filename);
-
-
 		if (!f.delete()) {
 			System.out.println("could not delete");
-		}else {
-			System.out.println("deleted");
 		}
 
 		return "redirect:" + url;
