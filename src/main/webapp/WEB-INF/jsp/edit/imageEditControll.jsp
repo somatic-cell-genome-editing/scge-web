@@ -12,7 +12,6 @@
     Person imageCheckPerson = imageCheckAccess.getUser(request.getSession());
 %>
 
-<% System.out.println("im here sddddsd");  %>
 
 <% if (imageCheckAccess.isAdmin(imageCheckPerson)) { %>
 <table cellpadding=4 style="border:1px solid #007BFF; background-color:#ECECF9; padding:2px; margin-top:10px; margin-bottom:5px;" align="center">
@@ -29,7 +28,6 @@
 </table>
 
 <% } %>
-<% System.out.println("im here dddsdfsd");  %>
 
 <table align="center">
     <%
@@ -58,5 +56,4 @@
 
     <% } %>
 </table>
-<% System.out.println("im here sddddddddddfsd");  %>
 

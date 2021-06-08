@@ -63,6 +63,7 @@ public class VectorController {
 
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByVector(v.getVectorId());
+
         req.setAttribute("experimentRecords",experimentRecords);
 
         HashMap<Integer,List<Guide>> guideMap = new HashMap<>();

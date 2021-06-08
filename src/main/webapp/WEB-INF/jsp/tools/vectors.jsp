@@ -53,7 +53,6 @@
         <th>Name</th>
         <th>Type</th>
         <th>Subtype</th>
-        <th>Alias</th>
         <th>SCGE ID</th>
     </tr>
     </thead>
@@ -63,7 +62,6 @@
         <td><a href="/toolkit/data/vector/format/?id=<%=d.getVectorId()%>"><%=d.getName()%></a></td>
         <td><%=d.getType()%></td>
         <td><%=d.getSubtype()%></td>
-        <td><%=SFN.parse(d.getAlias())%></td>
         <td><%=d.getVectorId()%></td>
     </tr>
         <% } %>

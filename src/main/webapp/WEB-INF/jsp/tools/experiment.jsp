@@ -33,7 +33,6 @@
 </script>
 <script src="https://d3js.org/d3.v4.js"></script>
 
-<% System.out.println("im here");  %>
 
 <style>
     /* disable text selection */
@@ -147,7 +146,6 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 //req.setAttribute("results", results);
 %>
 
-<% System.out.println("im here 4");  %>
 
 <div>
     <div>
@@ -208,7 +206,6 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
     </div>
     <hr>
 
-        <% System.out.println("im here 6");  %>
 
     <hr>
     <div>
@@ -245,7 +242,6 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
     </div>
     <hr>
     <hr>
-        <% System.out.println("im here a");  %>
 
 
     <div class="row">

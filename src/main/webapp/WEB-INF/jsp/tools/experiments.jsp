@@ -51,11 +51,9 @@
         Person p = access.getUser(request.getSession());
         List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
         Study study = null;
-        System.out.println("1");
         if (request.getAttribute("study") != null) {
             study = (Study) request.getAttribute("study");
         }
-        System.out.println("2");
 
     %>
 

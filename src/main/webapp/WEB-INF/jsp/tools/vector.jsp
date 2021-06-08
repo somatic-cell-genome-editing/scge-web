@@ -47,7 +47,7 @@
             <tr><td class="header"><strong>Name</strong></td><td><%=v.getName()%></td></tr>
             <tr><td class="header"><strong>Description</strong></td><td><%=SFN.parse(v.getDescription())%></td></tr>
             <tr><td class="header" width="150"><strong>Type</strong></td><td><%=v.getType()%></td></tr>
-            <tr><td class="header"><strong>Subtype</strong></td><td><%=v.getSubtype()%></td></tr>
+            <tr><td class="header"><strong>Subtype</strong></td><td><%=SFN.parse(v.getSubtype())%></td></tr>
             <tr><td class="header"><strong>Alias</strong></td><td></td></tr>
         </table>
         <hr>

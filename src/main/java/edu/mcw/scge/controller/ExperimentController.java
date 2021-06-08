@@ -445,7 +445,6 @@ public class ExperimentController extends UserController {
                 json.append("\"value\":" + value + "},");
             }
             json.append("]");
-            System.out.println("REGION LSIT"+regionList.size());
             Gson gson = new Gson();
             String regionListJson = gson.toJson(regionList);
             req.setAttribute("regionListJson", regionListJson);
