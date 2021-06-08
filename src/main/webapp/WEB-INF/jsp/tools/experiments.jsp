@@ -126,7 +126,7 @@
             <%
     int objectId = study.getStudyId();
     String objectType="study";
-    String redirectURL = "data/experiments/study/" + objectId;
+    String redirectURL = "/data/experiments/study/" + objectId;
 %>
 
 

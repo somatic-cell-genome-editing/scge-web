@@ -274,8 +274,6 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
         </tr>
     </table>
 
-        <% System.out.println("im here hh" +  experimentRecord.getExperimentRecordId());  %>
-
         <%
     int objectId = experimentRecord.getExperimentRecordId();
     String objectType="record";
@@ -283,8 +281,6 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 %>
 
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-        <% System.out.println("im here sdfsd");  %>
-
 
     <br>
         <table id="resultsTable" align="center" width="800">
