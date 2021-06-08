@@ -44,6 +44,20 @@
             </h6>
             </c:if>
             <!--span>Category:&nbsp;$-{hit.sourceAsMap.category}</span><br-->
+            <c:if test="${hit.sourceAsMap.studyNames!=null}">
+                <span>Study:&nbsp;</span>
+                <c:forEach items="${hit.sourceAsMap.studyNames}" var="map">
+                   <a href="/toolkit/data/experiments/study/${map.key}">${map.value}</a>&nbsp;
+                </c:forEach>
+                <br>
+            </c:if>
+            <c:if test="${hit.sourceAsMap.experimentNames!=null}">
+                <span>Experiment:&nbsp;</span>
+                <c:forEach items="${hit.sourceAsMap.experimentNames}" var="map">
+                    <a href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a>&nbsp;
+                </c:forEach>
+                <br>
+            </c:if>
             <c:if test="${hit.sourceAsMap.study.study!=null}">
                 <span>Study:&nbsp;</span>${hit.sourceAsMap.study.study}<br>
             </c:if>
