@@ -66,6 +66,14 @@
     <hr>
 </div>
 
+<%
+    int objectId = d.getId();
+    String objectType="delivery";
+    String redirectURL = "/data/delivery/system?id=" + objectId;
+%>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+
 <br>
 <jsp:include page="associatedStudies.jsp"/>
 <br>

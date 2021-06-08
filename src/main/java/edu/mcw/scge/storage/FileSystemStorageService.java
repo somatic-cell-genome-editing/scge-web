@@ -1,5 +1,6 @@
 package edu.mcw.scge.storage;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -44,9 +45,10 @@ public class FileSystemStorageService implements StorageService {
 						"Cannot store file with relative path outside current directory "
 								+ filename);
 			}
+
 			try (InputStream inputStream = file.getInputStream()) {
-				Files.copy(inputStream, this.rootLocation.resolve(filename),
-					StandardCopyOption.REPLACE_EXISTING);
+				System.out.println("about to store");
+				Files.copy(inputStream, this.rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
 			}
 		}
 		catch (IOException e) {
@@ -89,6 +91,10 @@ public class FileSystemStorageService implements StorageService {
 	@Override
 	public Resource loadAsResource(String filename) {
 		try {
+
+
+			Path p = new File("Users/jdepons/upload/editor/113").toPath().resolve(filename);
+
 			Path file = load(filename);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {

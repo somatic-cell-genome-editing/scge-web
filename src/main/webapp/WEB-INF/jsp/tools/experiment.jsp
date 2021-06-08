@@ -32,6 +32,9 @@
 
 </script>
 <script src="https://d3js.org/d3.v4.js"></script>
+
+<% System.out.println("im here");  %>
+
 <style>
     /* disable text selection */
     svg *::selection {
@@ -144,6 +147,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 //req.setAttribute("results", results);
 %>
 
+<% System.out.println("im here 4");  %>
 
 <div>
     <div>
@@ -172,9 +176,17 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
                     e=editorList.get(0);
 
                 String guide = "";
+
+                boolean first = true;
+
                 for(Guide g: guideList) {
+                    if (first==true) {
+                        first=false;
+                    }else {
+                        guide += ";\t";
+                    }
                     guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+g.getGuide()+"</a>";
-                    guide += ";\t";
+
                 }
 
                 String vector = "";
@@ -196,6 +208,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
     </div>
     <hr>
 
+        <% System.out.println("im here 6");  %>
 
     <hr>
     <div>
@@ -232,6 +245,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
     </div>
     <hr>
     <hr>
+        <% System.out.println("im here a");  %>
 
 
     <div class="row">
@@ -250,7 +264,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
             <td><b>Assay Description:</b> </td><td>&nbsp;&nbsp;</td><td><%=detail.getAssayDescription()%></td>
         </tr>
         <tr>
-            <td><b>Tissue Measured:</b></td><td>&nbsp;&nbsp;</td><td><%=experimentRecord.getTissueTerm()%></td>
+            <td><b>Tissue Measured:</b></td><td>&nbsp;&nbsp;</td><td><%=SFN.parse(experimentRecord.getTissueTerm())%></td>
         </tr>
         <tr>
             <td><b>Measurement Type:</b></td><td>&nbsp;&nbsp;</td><td><%=detail.getResultType()%></td>
@@ -259,17 +273,26 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
             <td><b>Measurment Units:</b></td><td>&nbsp;&nbsp;</td><td><%=detail.getUnits()%></td>
         </tr>
     </table>
+
+        <% System.out.println("im here hh" +  experimentRecord.getExperimentRecordId());  %>
+
+        <%
+    int objectId = experimentRecord.getExperimentRecordId();
+    String objectType="record";
+    String redirectURL = "/toolkit/data/experiments/experiment/13/record/" + objectId;
+%>
+
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+        <% System.out.println("im here sdfsd");  %>
+
+
     <br>
-
-
         <table id="resultsTable" align="center" width="800">
             <thead><tr>
                 <th>Replicate</th>
                 <th>Result</th>
-                <th></th>
             </tr></thead>
             <tbody>
-
               <% for (ExperimentResultDetail erd: experimentResults) { %>
                 <tr>
                     <% if (erd.getReplicate() == 0) { %>
@@ -279,9 +302,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
                     <td><%=erd.getReplicate()%></td>
 
                     <% } %>
-
-                    <td><%=erd.getResult()%></td>
-                    <td align="center"><img src="/toolkit/images/exampleImage.png" width="50" height="50"/></td>
+                    <td><%=UI.formatNumber(erd.getResult(),2)%></td>
                 </tr>
                 <% } %>
             </tbody>

@@ -40,6 +40,10 @@
     });
 </script>
 
+
+<% try { %>
+
+
 <div>
     <%
         Access access = new Access();
@@ -119,3 +123,20 @@
     </table>
 
 
+            <%
+    int objectId = study.getStudyId();
+    String objectType="study";
+    String redirectURL = "data/experiments/study/" + objectId;
+%>
+
+
+
+
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+
+
+    <% } catch (Exception es) {
+            es.printStackTrace();
+
+        } %>

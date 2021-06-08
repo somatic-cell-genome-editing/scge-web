@@ -73,6 +73,13 @@
     <hr>
 </div>
 
+<%
+    int objectId = m.getModelId();
+    String objectType="model";
+    String redirectURL = "/data/models/model?id=" + objectId;
+%>
+
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 <br>
 <jsp:include page="associatedStudies.jsp"/>
 <br>

@@ -6,6 +6,8 @@
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
+
+
 <h4 class="page-header" style="color:grey;">Associated SCGE Studies</h4>
 
 <% List<Study> studies = (List<Study>)request.getAttribute("studies");
