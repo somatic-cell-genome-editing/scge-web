@@ -35,6 +35,11 @@ Goals"/>
     <script src="/toolkit/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link href="/toolkit/css/scge.css" rel="stylesheet" type="text/css"/>
+
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <style>
         html {
             position: relative;
@@ -51,6 +56,7 @@ Goals"/>
             position: relative;
         }
     </style>
+
 </head>
 
 <body>
@@ -60,7 +66,7 @@ Goals"/>
         <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" width="70" height="50" ></a>
 
     <form  action="/toolkit/data/search/results" class="form w-100" >
-    <input class="form-control form-control-dark w-100" name="searchTerm" type="text" placeholder="Search" aria-label="Search">
+    <input class="form-control form-control-dark w-100  searchTerm" name="searchTerm" type="text" placeholder="Search" aria-label="Search">
     </form>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
@@ -191,7 +197,7 @@ Goals"/>
                                                     <td>
                                                         <div>
                                                         <form action="/toolkit/data/search/results"  class="form-inline my-2 my-lg-0">
-                                                            <input size=60 class="form-control "  name="searchTerm" type="search" placeholder="Search SCGE (Models, Editors, Delivery, Guides)" aria-label="Search">
+                                                            <input size=60 class="form-control searchTerm" id="searchTerm" name="searchTerm" type="search" placeholder="Search SCGE (Models, Editors, Delivery, Guides)" aria-label="Search">
                                                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                                                             <br>
                                                         </form>
@@ -252,7 +258,7 @@ Goals"/>
     <script>
         $.ajaxSetup({
             beforeSend : function(xhr, settings) {
-                if (settings.type == 'POST' || settings.type == 'PUT'
+                if ( settings.type == 'PUT'
                     || settings.type == 'DELETE') {
                     if (!(/^http:.*/.test(settings.url) || /^https:.*/
                         .test(settings.url))) {
@@ -263,6 +269,52 @@ Goals"/>
                 }
             }
         });
+        $(function () {
+
+            $("#searchTerm").autocomplete({
+
+            //    delay:500,
+                source: function(request, response) {
+                    $.ajax({
+                        url:"/toolkit/data/autocomplete?${_csrf.parameterName}=${_csrf.token}",
+                        type: "POST",
+                        data: {searchTerm: request.term
+                        },
+                        max: 100,
+                        dataType: "json",
+                        success: function(data) {
+                         response(data)
+                        }
+                    });
+                }
+
+            })
+            .autocomplete( "instance" )._renderItem = function( ul, item ) {
+                console.log(item);
+                return $( "<li>" )
+                    .attr( "data-value", item.value.replace("<strong>").replace("</strong>") )
+                    .append( "<div>" + item.label+"</div>" )
+                    .appendTo( ul );
+
+            };
+            $( "#searchTerm" ).on( "autocompleteclose", function() {
+                $(this).val(stripHTML($(this).val()))
+            } );
+
+
+         /*   $( "#searchTerm" ).autocomplete({
+
+                select: function( event, ui ) {
+                    var _item= ui.item.label.replace("<strong>", "")
+                    console.log("SEKECTED:"+_item.replace("</strong>", ""));
+                   return (_item);
+                }
+            });*/
+        });
+
+        function stripHTML(oldString) {
+            return oldString.replace(/(<([^>]+)>)/ig,"");
+        }
     </script>
 </footer>
 </body>

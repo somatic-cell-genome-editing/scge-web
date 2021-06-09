@@ -66,7 +66,7 @@
                         <div class="form-check">
 
                             <input class="form-check-input" type="checkbox" name="typeBkt" value="${type.key}"
-                                   id="type-${type.key}" onclick= "searchByFilters('${type.key}')"/>
+                                   id="type-${type.key}"/>
                             <label class="form-check-label" for="type-${type.key}">
                                ${type.key}(${type.docCount})
 
@@ -129,6 +129,52 @@
 
         </div>
     </c:if>
+    <c:if test="${fn:length(aggregations.editorSubTypeBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse13">
+                        ${category}&nbsp; Editor Subtype<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse13" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.editorSubTypeBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="editorSubTypeBkt" value="${subtype.key}" id="editorSubType-${subtype.key}">
+                            <label class="form-check-label" for="editorSubType-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.editorSpeciesBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse14">
+                        ${category}&nbsp; Editor Species<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse14" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.editorSpeciesBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="editorSpeciesBkt" value="${subtype.key}" id="editorSpecies-${subtype.key}">
+                            <label class="form-check-label" for="editorSpecies-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
     <c:if test="${fn:length(aggregations.deliveryBkts)>0}">
         <div class="accordion-group">
             <div class="accordion-heading card-header">
@@ -165,6 +211,52 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="modelTypeBkt" value="${subtype.key}" id="modelType-${subtype.key}">
                             <label class="form-check-label" for="modelType-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.modelSpeciesBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse11">
+                        ${category}&nbsp; Model Species<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse11" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.modelSpeciesBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="modelSpeciesBkt" value="${subtype.key}" id="modelSpecies-${subtype.key}">
+                            <label class="form-check-label" for="modelSpecies-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.reporterBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse12">
+                        ${category}&nbsp; Model Reporter<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse12" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.reporterBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="reporterBkt" value="${subtype.key}" id="reporter-${subtype.key}">
+                            <label class="form-check-label" for="reporter-${subtype.key}">
                                 <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
                                     ${subtype.key} (${subtype.docCount})
                             </label>
@@ -220,7 +312,75 @@
 
         </div>
     </c:if>
+    <c:if test="${fn:length(aggregations.vectorTypeBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse15">
+                        ${category}&nbsp; Vector Type<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse15" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.vectorTypeBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="vectorTypeBkt" value="${subtype.key}" id="vectorType-${subtype.key}">
+                            <label class="form-check-label" for="vectorType-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
 
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.vectorSubTypeBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse16">
+                        ${category}&nbsp; Vector Subtype<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse16" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.vectorSubTypeBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="vectorSubTypeBkt" value="${subtype.key}" id="vectorSubType-${subtype.key}">
+                            <label class="form-check-label" for="vectorSubType-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
+    <c:if test="${fn:length(aggregations.vectorBkts)>0}">
+        <div class="accordion-group">
+            <div class="accordion-heading card-header">
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse17">
+                        ${category}&nbsp; Vector <span class="float-right"><i class="fas fa-angle-down"></i></span>
+                </a>
+            </div>
+            <div id="collapse17" class="accordion-body collapse show">
+                <div class="accordion-inner">
+                    <c:forEach items="${aggregations.vectorBkts}" var="subtype">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="vectorBkt" value="${subtype.key}" id="vector-${subtype.key}">
+                            <label class="form-check-label" for="vector-${subtype.key}">
+                                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                    ${subtype.key} (${subtype.docCount})
+                            </label>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+        </div>
+    </c:if>
     <c:if test="${fn:length(aggregations.targetBkts)>0}">
         <div class="accordion-group">
             <div class="accordion-heading card-header">
@@ -269,145 +429,4 @@
     </c:if>
 </div>
 
-<script>
-
-    function searchByFilter(category, searchTerm, type, subType) {
-
-      //  var  $contentDiv=$('#results');
-        var  $contentDiv=$('#reloadResults');
-        var  $tmp=$contentDiv.html();
-        var currentURL=window.location.href
-        var url;
-        url="/toolkit/data/search/results/"+category+"?facetSearch=true&searchTerm="+searchTerm+"&type="+type+"&subType="+subType
-        var breadCrumbList=$("#breadcrumb");
-            breadCrumbList.html(
-                " <ol class=\"breadcrumb\">" +
-                "        <!--li class=\"breadcrumb-item active\" aria-current=\"page\">Home</li-->" +
-                "<!--li class=\"breadcrumb-item active\"><a onclick=\"+searchByFilter('','"+searchTerm+"','', '')\">Categories</a></li-->"+
-                "<li class=\"breadcrumb-item active\"><a href='"+currentURL+"'>Categories</a></li>"+
-                "<li class=\"breadcrumb-item \" aria-current=\"page\"><a onclick=\"+searchByFilter('"+category+"','"+searchTerm+"','"+type+"', '"+subType+"')\">"+category+"</a></li>"+
-                " </ol>"
-
-
-        )
-
-        $.get(url, function (data, status) {
-            if(category!== typeof undefined)
-            breadCrumbList.show();
-            else
-                breadCrumbList.setAttribute('display','none')
-
-            $contentDiv.html(data);
-        })
-
-    }
-
-    $( ":checkbox" ).click(function () {
-      //  alert("HELLo");
-     //   var  $contentDiv=$('#results');
-        var  $contentDiv=$('#reloadResults');
-        var selectedType=   $('input[name="typeBkt"]:checked').map(function () {
-            return this.value;
-        }).get().join(',');
-        var selectedSubtype=   $('input[name="subtypeBkt"]:checked').map(function () {
-            return this.value;
-        }).get().join(',');
-        var selectedEditorType=   $('input[name="editorTypeBkt"]:checked').map(function () {
-            return this.value;
-        }).get().join(',');
-        var selectedDsType=   $('input[name="dsTypeBkt"]:checked').map(function () {
-            return this.value;
-        }).get().join(',');
-        var selectedModelType=   $('input[name="modelTypeBkt"]:checked').map(function () {
-            return this.value;
-        }).get().join(',');
-
-        var selectedSpeciesType=   $('input[name="speciesBkt"]:checked').map(function () {
-            return this.value;
-        }).get().join(',');
-        var selectedWithExperiments=   $('input[name="withExperimentsBkt"]:checked').map(function () {
-            return this.value;
-        }).get().join(',');
-        var selectedTarget=   $('input[name="targetBkt"]:checked').map(function () {
-            return this.value;
-        }).get().join(',');
-        var selectedGuideTargetLocus=   $('input[name="guideTargetLocusBkt"]:checked').map(function () {
-            return this.value;
-        }).get().join(',');
-        var searchTerm=$("#searchTerm")
-        var category=$("#category")
-      /*  alert("SEARCH TERM:"+searchTerm.val()+"\n"+
-            "Category:"+category.val()+"\n"+
-        "TYPE:"+selectedType+"\n"+
-        "SUBTYPE:"+selectedSubtype);*/
-        var url="/toolkit/data/search/results/"+category.val()+"?facetSearch=true&searchTerm="+searchTerm.val()+
-            "&type="+selectedType+"&subType="+selectedSubtype +
-            "&editorType="+selectedEditorType +
-            "&dsType="+selectedDsType+
-            "&modelType="+ selectedModelType+
-            "&speciesType="+ selectedSpeciesType+
-            "&withExperiments="+ selectedWithExperiments+
-            "&target="+ selectedTarget+
-            "&guideTargetLocus="+ selectedGuideTargetLocus;
-
-
-            $.get(url, function (data, status) {
-            $contentDiv.html(data);
-            $.each($('input[name="typeBkt"]'), function(){
-                if(selectedType.includes($(this).val())){
-                    $(this).prop('checked',true)
-                }
-            });
-            $.each($('input[name="subtypeBkt"]'), function(){
-
-                if(selectedSubtype.includes($(this).val())){
-                    $(this).prop('checked',true)
-                }
-            });
-            $.each($('input[name="editorTypeBkt"]'), function(){
-
-                if(selectedEditorType.includes($(this).val())){
-                    $(this).prop('checked',true)
-                }
-            });
-            $.each($('input[name="modelTypeBkt"]'), function(){
-
-                if(selectedModelType.includes($(this).val())){
-                    $(this).prop('checked',true)
-                }
-            });
-            $.each($('input[name="speciesBkt"]'), function(){
-
-                if(selectedSpeciesType.includes($(this).val())){
-                    $(this).prop('checked',true)
-                }
-            });
-
-                $.each($('input[name="targetBkt"]'), function(){
-
-                    if(selectedTarget.includes($(this).val())){
-                        $(this).prop('checked',true)
-                    }
-                });
-                $.each($('input[name="guideTargetLocusBkt"]'), function(){
-
-                    if(selectedGuideTargetLocus.includes($(this).val())){
-                        $(this).prop('checked',true)
-                    }
-                });
-                $.each($('input[name="withExperimentsBkt"]'), function(){
-
-                    if(selectedWithExperiments.includes($(this).val())){
-                        $(this).prop('checked',true)
-                    }
-                });
-                $.each($('input[name="dsTypeBkt"]'), function(){
-
-                    if(selectedDsType.includes($(this).val())){
-                        $(this).prop('checked',true)
-                    }
-                });
-        })
-    })
-
-</script>
+<script src="/toolkit/js/search/facet.js"></script>

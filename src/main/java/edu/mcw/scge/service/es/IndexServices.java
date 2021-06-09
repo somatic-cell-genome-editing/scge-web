@@ -1,6 +1,7 @@
 package edu.mcw.scge.service.es;
 
 import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.*;
@@ -24,35 +25,47 @@ public class IndexServices {
         srb.query(this.buildBoolQuery(category, searchTerm, filterMap, DCCNIHMember));
         srb.aggregation(this.buildSearchAggregations("category", category));
         if(!category.equals("")) {
-            /*********************EXPERIMENT************************/
-            srb.aggregation(this.buildSearchAggregations("models.type", null));
-            srb.aggregation(this.buildSearchAggregations("deliveries.type", null));
-            srb.aggregation(this.buildSearchAggregations("editor.type", null));
-            srb.aggregation(this.buildSearchAggregations("guides.targetLocus", null));
-            /*********************common**************************/
-            srb.aggregation(this.buildSearchAggregations("type", null));
-            srb.aggregation(this.buildSearchAggregations("subType", null));
-            srb.aggregation(this.buildSearchAggregations("species", null));
-            srb.aggregation(this.buildSearchAggregations("target", null));
-            srb.aggregation(this.buildSearchAggregations("withExperiments", null));
-
-            /*********************guide**************************/
-            srb.aggregation(this.buildSearchAggregations("targetLocus", null));
-            srb.aggregation(this.buildSearchAggregations("externalId", null));
-
-
-
-
-
-
+          buildAggregations(srb);
         }
         srb.highlighter(this.buildHighlights());
         srb.size(1000);
-    //  SearchRequest searchRequest=new SearchRequest("scge_search_test");
        SearchRequest searchRequest=new SearchRequest("scge_search_test");
        searchRequest.source(srb);
 
         return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+
+    }
+    public void buildAggregations(SearchSourceBuilder srb){
+        /*********************EXPERIMENT************************/
+        srb.aggregation(this.buildSearchAggregations("models.type", null));
+        srb.aggregation(this.buildSearchAggregations("models.organism", null));
+        srb.aggregation(this.buildSearchAggregations("models.transgeneReporter", null));
+
+
+        srb.aggregation(this.buildSearchAggregations("deliveries.type", null));
+        srb.aggregation(this.buildSearchAggregations("deliveries.species", null));
+
+        srb.aggregation(this.buildSearchAggregations("editors.type", null));
+        srb.aggregation(this.buildSearchAggregations("editors.subType", null));
+        srb.aggregation(this.buildSearchAggregations("editors.species", null));
+
+        srb.aggregation(this.buildSearchAggregations("guides.targetLocus", null));
+        srb.aggregation(this.buildSearchAggregations("guides.species", null));
+
+        srb.aggregation(this.buildSearchAggregations(  "vectors.name", null));
+        srb.aggregation(this.buildSearchAggregations(  "vectors.type",null));
+        srb.aggregation(this.buildSearchAggregations(   "vectors.subtype", null));
+
+        /*********************common**************************/
+        srb.aggregation(this.buildSearchAggregations("type", null));
+        srb.aggregation(this.buildSearchAggregations("subType", null));
+        srb.aggregation(this.buildSearchAggregations("species", null));
+        srb.aggregation(this.buildSearchAggregations("target", null));
+        srb.aggregation(this.buildSearchAggregations("withExperiments", null));
+
+        /*********************guide**************************/
+        srb.aggregation(this.buildSearchAggregations("targetLocus", null));
+        srb.aggregation(this.buildSearchAggregations("externalId", null));
 
     }
     public HighlightBuilder buildHighlights(){
@@ -93,6 +106,18 @@ public class IndexServices {
                 "guides.guide",
                 "guides.source",
                 "guides.guideDescription",
+                "vectors.name",
+                "vectors.type",
+                "vectors.subtype",
+                "vectors.genomeSerotype",
+                "vectors.capsidSerotype",
+                "vectors.description",
+                "vectors.capsidVariant",
+                "vectors.source",
+                "vectors.labId",
+                "vectors.annotatedMap",
+                "vectors.titerMethod",
+                "vectors.tier",
                 "name.ngram"
         ));
 
@@ -131,11 +156,11 @@ public class IndexServices {
         AggregationBuilder aggs= null;
         if(fieldName!=null && !fieldName.equalsIgnoreCase("category") &&
                 !fieldName.equals("")){
-            if(fieldName.contains("models") || fieldName.equalsIgnoreCase("deliveries") || fieldName.equalsIgnoreCase("editors")|| fieldName.equalsIgnoreCase("guides"))
+       /*     if(fieldName.contains("models") || fieldName.equalsIgnoreCase("deliveries") || fieldName.equalsIgnoreCase("editors")|| fieldName.equalsIgnoreCase("guides"))
          //   aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
                 aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
 
-            else
+            else*/
             aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
 
          //   aggs= AggregationBuilders.terms(fieldName).field(fieldName+".type.keyword");
@@ -165,21 +190,64 @@ public class IndexServices {
     }
     public  Map<String, List<Terms.Bucket>> getSearchAggregations(SearchResponse sr){
         Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
+        /********************Category aggs*****************************/
         Terms categoryAggs=sr.getAggregations().get("category");
         if(categoryAggs!=null)
         aggregations.put("catBkts", (List<Terms.Bucket>) categoryAggs.getBuckets());
+        /********************Category specific aggs *****************************/
+        addAllCategorySpecificAggs(sr, aggregations);
+        /********************experiment aggs *****************************/
+        addAllModelAggs(sr, aggregations);
+        addAllEditorAggs(sr,aggregations);
+        addAllDeliveryAggs(sr,aggregations);
+        addAllGuideAggs(sr, aggregations);
+        addAllVectorAggs(sr,aggregations);
+        return aggregations;
+    }
+    public void addAllModelAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
         Terms modelAggs=sr.getAggregations().get("models.type");
         if(modelAggs!=null)
-        aggregations.put("modelBkts", (List<Terms.Bucket>) modelAggs.getBuckets());
+            aggregations.put("modelBkts", (List<Terms.Bucket>) modelAggs.getBuckets());
+        Terms modelSpeciesAggs=sr.getAggregations().get("models.organism");
+        if(modelSpeciesAggs!=null)
+            aggregations.put("modelSpeciesBkts", (List<Terms.Bucket>) modelSpeciesAggs.getBuckets());
+        Terms reporterAggs=sr.getAggregations().get("models.transgeneReporter");
+        if(reporterAggs!=null)
+            aggregations.put("reporterBkts", (List<Terms.Bucket>) reporterAggs.getBuckets());
+    }
+    public void addAllEditorAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
         Terms editorAggs=sr.getAggregations().get("editors.type");
         if(editorAggs!=null)
-        aggregations.put("editorBkts", (List<Terms.Bucket>) editorAggs.getBuckets());
+            aggregations.put("editorBkts", (List<Terms.Bucket>) editorAggs.getBuckets());
+        Terms editorSubTypeAggs=sr.getAggregations().get("editors.subType");
+        if(editorSubTypeAggs!=null)
+            aggregations.put("editorSubTypeBkts", (List<Terms.Bucket>) editorSubTypeAggs.getBuckets());
+        Terms editorSpeciesAggs=sr.getAggregations().get("editors.species");
+        if(editorSpeciesAggs!=null)
+            aggregations.put("editorSpeciesBkts", (List<Terms.Bucket>) editorSpeciesAggs.getBuckets());
+    }
+    public void addAllDeliveryAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
         Terms deliveyAggs=sr.getAggregations().get("deliveries.type");
         if(deliveyAggs!=null)
-        aggregations.put("deliveryBkts", (List<Terms.Bucket>) deliveyAggs.getBuckets());
+            aggregations.put("deliveryBkts", (List<Terms.Bucket>) deliveyAggs.getBuckets());
+    }
+    public void addAllGuideAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
         Terms guidesTargetLocusAggs=sr.getAggregations().get("guides.targetLocus");
         if(guidesTargetLocusAggs!=null)
             aggregations.put("guidesBkts", (List<Terms.Bucket>) guidesTargetLocusAggs.getBuckets());
+    }
+    public void addAllVectorAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
+        Terms vectorTypeAggs=sr.getAggregations().get("vectors.type");
+        if(vectorTypeAggs!=null)
+            aggregations.put("vectorTypeBkts", (List<Terms.Bucket>) vectorTypeAggs.getBuckets());
+        Terms vectorSubTypeAggs=sr.getAggregations().get("vectors.subtype");
+        if(vectorSubTypeAggs!=null)
+            aggregations.put("vectorSubTypeBkts", (List<Terms.Bucket>) vectorSubTypeAggs.getBuckets());
+        Terms vectorAggs=sr.getAggregations().get("vectors.name");
+        if(vectorAggs!=null)
+            aggregations.put("vectorBkts", (List<Terms.Bucket>) vectorAggs.getBuckets());
+    }
+    public void addAllCategorySpecificAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
         Terms typeAggs=sr.getAggregations().get("type");
         if(typeAggs!=null)
             aggregations.put("typeBkts", (List<Terms.Bucket>) typeAggs.getBuckets());
@@ -187,7 +255,6 @@ public class IndexServices {
         Terms subtypeAggs=sr.getAggregations().get("subType");
         if(subtypeAggs!=null)
             aggregations.put("subtypeBkts", (List<Terms.Bucket>) subtypeAggs.getBuckets());
-/***********************************************************************************************/
         Terms speciesAggs=sr.getAggregations().get("species");
         if(speciesAggs!=null)
             aggregations.put("speciesBkts", (List<Terms.Bucket>) speciesAggs.getBuckets());
@@ -204,27 +271,7 @@ public class IndexServices {
         if(withExperimentsAggs!=null)
             aggregations.put("withExperimentsBkts", (List<Terms.Bucket>) withExperimentsAggs.getBuckets());
 
-        //    List<Terms.Bucket> typeBkts=new ArrayList<>();
-    //    List<Terms.Bucket> subtypeBkts=new ArrayList<>();
-      /*   if(categoryAggs!=null)
-        for(Terms.Bucket b:categoryAggs.getBuckets()){
-         if(  b.getAggregations()!=null) {
-              Terms typeAggs = b.getAggregations().get("type");
-           //   System.out.println(b.getKey() + "\t" + b.getDocCount());
-              if (typeAggs != null) {
-                  typeBkts.addAll ((List<Terms.Bucket>) typeAggs.getBuckets());
-                  for (Terms.Bucket bkt : typeAggs.getBuckets()) {
-                      Terms subtypeAggs = bkt.getAggregations().get("subtype");
-                      subtypeBkts.addAll ((List<Terms.Bucket>) subtypeAggs.getBuckets());
-               //       System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() + "\tsubtypeAggsSize: " + subtypeAggs.getBuckets().size());
 
-                  }
-              }
-          }
-        }*/
-      /*  aggregations.put("typeBkts", typeBkts);
-        aggregations.put("subtypeBkts", subtypeBkts);*/
-        return aggregations;
     }
     public  Map<String, List<Terms.Bucket>> getSearchAggregationsBKUP(SearchResponse sr){
         Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
@@ -347,7 +394,18 @@ public class IndexServices {
 
                                     "guides.guide",
                                     "guides.source",
-                                    "guides.guideDescription").type(MultiMatchQueryBuilder.Type.CROSS_FIELDS).operator(Operator.AND)).filter(
+                                    "guides.guideDescription",
+                                    "vectors.name",
+                                    "vectors.type",
+                                    "vectors.subtype",
+                                    "vectors.genomeSerotype",
+                                    "vectors.capsidSerotype",
+                                    "vectors.description",
+                                    "vectors.capsidVariant",
+                                    "vectors.source",
+                                    "vectors.labId",
+                                    "vectors.annotatedMap",
+                                    "vectors.titerMethod").type(MultiMatchQueryBuilder.Type.CROSS_FIELDS).operator(Operator.AND)).filter(
                             QueryBuilders.termQuery("category.keyword", "Experiment")
                     )).boost(100);
           q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
@@ -387,15 +445,27 @@ public class IndexServices {
 
                   "guides.guide",
                   "guides.source",
-                  "guides.guideDescription").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).fuzziness(1).operator(Operator.AND).boost(20));
+                  "guides.guideDescription",
+
+                  "vectors.name",
+                  "vectors.type",
+                  "vectors.subtype",
+                  "vectors.genomeSerotype",
+                  "vectors.capsidSerotype",
+                  "vectors.description",
+                  "vectors.capsidVariant",
+                  "vectors.source",
+                  "vectors.labId",
+                  "vectors.annotatedMap",
+                  "vectors.titerMethod").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).fuzziness(1).operator(Operator.AND).boost(20));
             q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
                     "description", "experimentalTags", "externalId", "aliases",
                     "target", "species", "site", "sequence", "pam", "detectionMethod","target",
                     "name.ngram",
                     "study.study",
                     "study.labName" ,
-                    "study.pi"
-                    ,       "editors.type" ,
+                    "study.pi",
+                    "editors.type" ,
                     "editors.subType" ,
                     "editors.symbol" ,
                     "editors.alias" ,
@@ -425,7 +495,19 @@ public class IndexServices {
 
                     "guides.guide",
                     "guides.source",
-                    "guides.guideDescription").type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10));
+                    "guides.guideDescription",
+
+                    "vectors.name",
+                    "vectors.type",
+                    "vectors.subtype",
+                    "vectors.genomeSerotype",
+                    "vectors.capsidSerotype",
+                    "vectors.description",
+                    "vectors.capsidVariant",
+                    "vectors.source",
+                    "vectors.labId",
+                    "vectors.annotatedMap",
+                    "vectors.titerMethod").type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10));
         }else{
             q.add(QueryBuilders.matchAllQuery());
         }
