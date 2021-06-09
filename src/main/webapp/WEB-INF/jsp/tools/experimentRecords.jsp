@@ -77,10 +77,15 @@
     </table>
 
         <% if (( tissueList.size() > 0 && selectedResultType == null )) { %>
-            <hr><%@include file="tissueMap.jsp"%>
+            <hr>
+
+                <%@include file="tissueMap.jsp"%>
+
+
          <% }  %>
             <% if (tissueList.size() == 0 || selectedResultType != null) { %>
-        <hr><%@include file="recordsTable.jsp"%>
+        <hr>
+            <%@include file="recordsTable.jsp"%>
             <% }  %>
 
         </div>
