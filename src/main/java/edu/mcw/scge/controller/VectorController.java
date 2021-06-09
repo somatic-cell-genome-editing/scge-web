@@ -36,7 +36,7 @@ public class VectorController {
     @RequestMapping(value="/format")
     public String getVector(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         VectorDao dao = new VectorDao();
-        Vector v= dao.getVectorById(Integer.parseInt(req.getParameter("id"))).get(0);
+        Vector v= dao.getVectorById(Long.parseLong(req.getParameter("id"))).get(0);
         DBService dbService = new DBService();
         UserService userService = new UserService();
         Person p=userService.getCurrentUser(req.getSession());
