@@ -199,6 +199,32 @@
         </td>
         </tr>
         <% } %>
+        <% if (guideList.size() > 0) { %>
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td  ><div class="recordFilterTitle">Guides</div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="recordFilterBlock">
+                                <table>
+                                    <% for (String guide: guideList) { %>
+                                    <tr>
+                                        <td>
+                                            <input onclick="applyFilters(this)"  id="<%=guide%>" type="checkbox" checked>&nbsp;<%=guide%>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <% } %>
         <% if (deliverySystemList.size() > 0 ) { %>
         <tr>
         <td valign="top">

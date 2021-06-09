@@ -190,6 +190,9 @@
                                 return getDetails(index);
                             }
                         }
+                    },
+                    legend: {
+                        display: true
                     }
                 }
             });
@@ -267,6 +270,7 @@
                 myChart.data.datasets[0] = data;
                 myChart.options.scales.yAxes[1].display = false;
                 myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString(null);
+                myChart.options.legend.display = false;
                 myChart.update();
 
             }
@@ -439,6 +443,7 @@
                 myChart.options.scales.yAxes[1].display = true;
                 myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString('Delivery');
                 myChart.options.scales.yAxes[1].scaleLabel.labelString = getLabelString('Editing');
+                myChart.options.legend.display = true;
                 myChart.update();
 
             }
