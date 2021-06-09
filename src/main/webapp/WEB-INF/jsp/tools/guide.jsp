@@ -117,7 +117,7 @@
 </div>
 
 <%
-    int objectId = g.getGuide_id();
+    long objectId = g.getGuide_id();
     String objectType="guide";
     String redirectURL = "/data/guide/system?id=" + objectId;
 %>
