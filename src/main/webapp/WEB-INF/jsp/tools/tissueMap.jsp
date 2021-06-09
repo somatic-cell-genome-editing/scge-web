@@ -299,7 +299,7 @@
 </div>
 <hr>
 
-<div style="font-size:20px; color: #99BFE6;">Select a graph to explore the data set</div>
+<div style="font-size:20px; color: #0002FC;">Select a graph below to explore the data set</div>
     <table id="grid" class="table" style="width:600px;padding-left:20px;" >
         <thead>
         <th>Organ System</th>
