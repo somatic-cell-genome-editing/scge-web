@@ -144,8 +144,8 @@ public class ExperimentController extends UserController {
     }
     @RequestMapping(value="/experiment/compareExperiments/{experimentId1}/{experimentId2}")
     public String compareExperiments(HttpServletRequest req, HttpServletResponse res,
-                                     @PathVariable(required = false) int experimentId1,
-                                     @PathVariable(required = false) int experimentId2) throws Exception {
+                                     @PathVariable(required = false) long experimentId1,
+                                     @PathVariable(required = false) long experimentId2) throws Exception {
 
         Person p = userService.getCurrentUser(req.getSession());
 
@@ -242,7 +242,7 @@ public class ExperimentController extends UserController {
     }
     @RequestMapping(value="/experiment/{experimentId}")
     public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res,
-                                               @PathVariable(required = true) int experimentId
+                                               @PathVariable(required = true) long experimentId
     ) throws Exception {
 
         String resultType = req.getParameter("resultType");
@@ -373,8 +373,8 @@ public class ExperimentController extends UserController {
     }
     @RequestMapping(value="/experiment/{experimentId}/record/{expRecordId}")
     public String getExperimentRecords(HttpServletRequest req, HttpServletResponse res,
-                                       @PathVariable(required = false) int experimentId,
-                                       @PathVariable(required = false) int expRecordId) throws Exception {
+                                       @PathVariable(required = false) long experimentId,
+                                       @PathVariable(required = false) long expRecordId) throws Exception {
         Person p = userService.getCurrentUser(req.getSession());
 
         if (!access.isLoggedIn()) {
