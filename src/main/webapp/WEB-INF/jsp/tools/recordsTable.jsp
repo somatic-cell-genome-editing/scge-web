@@ -75,9 +75,9 @@
 
         <%
 
-            for (Integer resultId: resultDetail.keySet()) {
+            for (Long resultId: resultDetail.keySet()) {
                 List<ExperimentResultDetail> ers = resultDetail.get(resultId);
-                int expRecordId = ers.get(0).getExperimentRecordId();
+                long expRecordId = ers.get(0).getExperimentRecordId();
                 ExperimentRecord exp = experimentRecordsMap.get(expRecordId);
                 List<Guide> guides = guideMap.get(exp.getExperimentRecordId());
                 String guide = "";

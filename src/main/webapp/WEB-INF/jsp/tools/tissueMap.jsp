@@ -111,9 +111,9 @@
         if(vectorList != null && vectorList.size() == 1 && vectorMap.values().contains(null))
             uniqueObjects.add(vectorList.get(0));
 
-        for (Integer resultId: resultDetail.keySet()) {
+        for (Long resultId: resultDetail.keySet()) {
             List<ExperimentResultDetail> erdList = resultDetail.get(resultId);
-            int expRecordId = erdList.get(0).getExperimentRecordId();
+            long expRecordId = erdList.get(0).getExperimentRecordId();
             ExperimentRecord er = experimentRecordsMap.get(expRecordId);
             experimentRecordHashMap.put(er.getExperimentName(),er);
             if(uniqueObjects.contains(er.getEditorSymbol()))
@@ -258,7 +258,7 @@
             <% } %>
             <td style="font-size: small">
 
-                <%  int id = experimentRecordHashMap.get(condition).getExperimentRecordId();
+                <%  long id = experimentRecordHashMap.get(condition).getExperimentRecordId();
                     ExperimentRecord r = experimentRecordHashMap.get(condition);
                     List<Guide> guides = guideMap.get(id);
                     String guide = "";

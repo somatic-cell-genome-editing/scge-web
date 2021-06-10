@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
+import java.util.LongSummaryStatistics;
 
 @Controller
 @RequestMapping(value="/data/delivery")
@@ -39,7 +40,7 @@ public class DeliveryController {
     @RequestMapping(value="/system")
     public String getDeliverySystem(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         DeliveryDao dao = new DeliveryDao();
-        Delivery system= dao.getDeliverySystemsById(Integer.parseInt(req.getParameter("id"))).get(0);
+        Delivery system= dao.getDeliverySystemsById(Long.parseLong(req.getParameter("id"))).get(0);
         DBService dbService = new DBService();
 
         UserService userService = new UserService();
@@ -73,13 +74,13 @@ public class DeliveryController {
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByDeliverySystem(system.getId());
         req.setAttribute("experimentRecords",experimentRecords);
 
-        HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
+        HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
         }
         req.setAttribute("guideMap", guideMap);
 
-        HashMap<Integer,List<Vector>> vectorMap = new HashMap<>();
+        HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
         }

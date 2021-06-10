@@ -274,7 +274,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
     </table>
 
         <%
-    int objectId = experimentRecord.getExperimentRecordId();
+    long objectId = experimentRecord.getExperimentRecordId();
     String objectType= ImageTypes.RECORD;
     String redirectURL = "/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "/record/" + objectId;
     String bucket="main";

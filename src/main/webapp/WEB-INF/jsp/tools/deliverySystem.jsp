@@ -68,7 +68,7 @@
 </div>
 
 <%
-    int objectId = d.getId();
+    long objectId = d.getId();
     String objectType= ImageTypes.DELIVERY_SYSTEM;
     String redirectURL = "/data/delivery/system?id=" + objectId;
     String bucket="main";

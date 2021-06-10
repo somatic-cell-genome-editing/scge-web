@@ -109,7 +109,7 @@
 
 
 <%
-    int objectId = editor.getId();
+    long objectId = editor.getId();
     String objectType= ImageTypes.EDITOR;
     String redirectURL = "/data/editors/editor?id=" + objectId;
     String bucket="main";

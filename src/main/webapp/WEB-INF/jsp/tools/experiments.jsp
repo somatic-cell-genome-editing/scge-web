@@ -123,7 +123,7 @@
 
 
             <%
-    int objectId = study.getStudyId();
+    long objectId = study.getStudyId();
     String objectType= ImageTypes.STUDY;
     String redirectURL = "/data/experiments/study/" + objectId;
     String bucket="main";
