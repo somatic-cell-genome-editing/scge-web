@@ -83,7 +83,7 @@ public class DBService {
         return dao.getResultsByExperimentRecId(expRecId);
     }
 
-    public List<ExperimentResultDetail> getExpResultsByExpId(int expId) throws Exception{
+    public List<ExperimentResultDetail> getExpResultsByExpId(long expId) throws Exception{
         ExperimentResultDao dao = new ExperimentResultDao();
         return dao.getResultsByExperimentId(expId);
     }
@@ -92,7 +92,7 @@ public class DBService {
         return dao.getResultsByExpResType(expRecId,resultType);
     }
 
-    public List<String> getResultTypes(int expId) throws Exception{
+    public List<String> getResultTypes(long expId) throws Exception{
         ExperimentResultDao dao = new ExperimentResultDao();
         return dao.getResTypeByExpId(expId);
     }
