@@ -189,7 +189,7 @@ public class Access {
 
     }
 
-    public boolean hasRecordAccess(int recordId, Person p) throws Exception{
+    public boolean hasRecordAccess(long recordId, Person p) throws Exception{
         ExperimentRecordDao erd = new ExperimentRecordDao();
 
         List<ExperimentRecord> records =  erd.getExperimentRecordById(recordId);
