@@ -9,6 +9,7 @@
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
+<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -109,8 +110,10 @@
 
 <%
     int objectId = editor.getId();
-    String objectType="editor";
+    String objectType= ImageTypes.EDITOR;
     String redirectURL = "/data/editors/editor?id=" + objectId;
+    String bucket="main";
+
 %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 

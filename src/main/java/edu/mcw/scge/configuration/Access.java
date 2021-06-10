@@ -178,6 +178,33 @@ public class Access {
         //return modelDao.verifyModelAccess(m.getModelId(), p.getId());
     }
 
+    public boolean hasModelAccess(int modelId, Person p) throws Exception{
+        ModelDao mdao = new ModelDao();
+        Model m = mdao.getModelById(modelId);
+        return this.hasModelAccess(m,p);
+    }
+
+    public boolean hasRecordAccess(ExperimentRecord r, Person p) throws Exception{
+        return this.hasStudyAccess(r.getStudyId(),p.getId());
+
+    }
+
+    public boolean hasRecordAccess(int recordId, Person p) throws Exception{
+        ExperimentRecordDao erd = new ExperimentRecordDao();
+
+        List<ExperimentRecord> records =  erd.getExperimentRecordById(recordId);
+
+        System.out.println("RECORD SIZE + " + records.size());
+
+        if (records.size() > 0 ) {
+            return this.hasStudyAccess(records.get(0).getStudyId(),p.getId());
+        }
+
+        return false;
+
+    }
+
+
     public boolean hasEditorAccess(Editor e, Person p) throws Exception{
         if (e.getTier() == 4) {
             return true;

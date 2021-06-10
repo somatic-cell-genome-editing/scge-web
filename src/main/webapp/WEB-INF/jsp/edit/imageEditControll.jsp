@@ -19,6 +19,7 @@
         <input type="hidden" name="type" value="<%=objectType%>"/>
         <input type="hidden" name="id" value="<%=objectId%>"/>
         <input type="hidden" name="url" value="<%=redirectURL%>"/>
+        <input type="hidden" name="bucket" value="<%=bucket%>"/>
         <tr>
             <td><input type="file" id="myFile" name="filename"></td>
             <td>&nbsp;</td>
@@ -31,7 +32,7 @@
 
 <table align="center">
     <%
-        String[] images = ImageStore.getImages(objectType, "" + objectId);
+        String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
 
         for (int i=0; i< images.length; i++) {
 
@@ -44,13 +45,14 @@
                 <input type="hidden" name="id" value="<%=objectId%>"/>
                 <input type="hidden" name="url" value="<%=redirectURL%>"/>
                 <input type="hidden" name="filename" value="<%=images[i]%>"/>
+                <input type="hidden" name="bucket" value="<%=bucket%>"/>
                 <input style="color:red;" type="submit" value="X"/>
             </form>
     </tr>
     <% } %>
     <tr>
         <td align="center">
-            <img style="padding-bottom:10px;" src="/toolkit/store/<%=objectType%>/<%=objectId%>/<%=images[i]%>" />
+            <img style="padding-bottom:10px;" src="/toolkit/store/<%=objectType%>/<%=objectId%>/<%=bucket%>/<%=images[i]%>" />
         </td>
     </tr>
 

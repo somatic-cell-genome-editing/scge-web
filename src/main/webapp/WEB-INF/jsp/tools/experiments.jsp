@@ -6,6 +6,7 @@
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
+<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -123,8 +124,10 @@
 
             <%
     int objectId = study.getStudyId();
-    String objectType="study";
+    String objectType= ImageTypes.STUDY;
     String redirectURL = "/data/experiments/study/" + objectId;
+    String bucket="main";
+
 %>
 
 

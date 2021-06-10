@@ -4,6 +4,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.OffTarget" %>
+<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -118,8 +119,10 @@
 
 <%
     long objectId = g.getGuide_id();
-    String objectType="guide";
+    String objectType= ImageTypes.GUIDE;
     String redirectURL = "/data/guide/system?id=" + objectId;
+    String bucket="main";
+
 %>
 
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>

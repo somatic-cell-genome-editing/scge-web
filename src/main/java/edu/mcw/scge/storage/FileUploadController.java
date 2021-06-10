@@ -102,18 +102,51 @@ public class FileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
-
-
-
-	@RequestMapping(value = "/store/{type}/{oid}/{filename}.{ext}", method = RequestMethod.GET)
+	@RequestMapping(value = "/store/{type}/{oid}/{bucket}/{filename}.{ext}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<byte[]>  getImageAsByteArray(@PathVariable String type,@PathVariable String oid,@PathVariable String filename,@PathVariable String ext) throws IOException {
+	public ResponseEntity<byte[]>  getImageAsByteArray(HttpServletRequest req, HttpServletResponse res,@PathVariable String type,@PathVariable String oid,@PathVariable String bucket,@PathVariable String filename,@PathVariable String ext) throws Exception {
+
+		UserService userService=new UserService();
+		Access access= new Access();
+		Person p = userService.getCurrentUser(req.getSession());
+
+		System.out.println("here");
+		if (type.equals(ImageTypes.EDITOR)) {
+			if (!access.hasEditorAccess(Integer.parseInt(oid),p.getId())) {
+				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+			}
+		}else if (type.equals(ImageTypes.MODEL)) {
+			if (!access.hasModelAccess(Integer.parseInt(oid),p)) {
+				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+			}
+		}else if (type.equals(ImageTypes.DELIVERY_SYSTEM)) {
+			if (!access.hasDeliveryAccess(Integer.parseInt(oid),p.getId())) {
+				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+			}
+		}else if (type.equals(ImageTypes.GUIDE)) {
+			if (!access.hasGuideAccess(Integer.parseInt(oid),p.getId())) {
+				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+			}
+		}else if (type.equals(ImageTypes.RECORD)) {
+			if (!access.hasRecordAccess(Integer.parseInt(oid),p)) {
+				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+			}
+		}else if (type.equals(ImageTypes.STUDY)) {
+			if (!access.hasStudyAccess(Integer.parseInt(oid),p.getId())) {
+				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+			}
+		}else if (type.equals(ImageTypes.VECTOR)) {
+			if (!access.hasVectorAccess(Integer.parseInt(oid),p.getId())) {
+				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+			}
+		}
+		System.out.println("here2");
 
 		Resource resource=null;
 		try {
 
-			Path file = new File(StorageProperties.rootLocation + "/" + type + "/" + oid + "/").toPath().resolve(filename + "." + ext);
-
+			Path file = new File(StorageProperties.rootLocation + "/" + type + "/" + oid + "/" + bucket + "/").toPath().resolve(filename + "." + ext);
+			System.out.println(file.toString());
 			//Path file = load(filename);
 			resource = new UrlResource(file.toUri());
 
@@ -158,9 +191,18 @@ public class FileUploadController {
 	public String handleFileUpload(HttpServletRequest req, HttpServletResponse res, @RequestParam("filename") MultipartFile file,
 								   RedirectAttributes redirectAttributes) throws Exception {
 
+		UserService userService=new UserService();
+		Access access= new Access();
+		Person p = userService.getCurrentUser(req.getSession());
+
+		if (!access.isAdmin(p)) {
+			return null;
+		}
+
 		String type=req.getParameter("type");
 		String id = req.getParameter("id");
 		String url = req.getParameter("url");
+		String bucket = req.getParameter("bucket");
 
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
 		try {
@@ -174,7 +216,7 @@ public class FileUploadController {
 								+ filename);
 			}
 
-			File f = new File(StorageProperties.rootLocation + "/" +  type + "/" + id);
+			File f = new File(StorageProperties.rootLocation + "/" +  type + "/" + id + "/" + bucket);
 			if (!f.exists()) {
 				f.mkdirs();
 			}
@@ -198,12 +240,22 @@ public class FileUploadController {
 	@PostMapping("/store/remove")
 	public String handleFileUpload(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
+		UserService userService=new UserService();
+		Access access= new Access();
+		Person p = userService.getCurrentUser(req.getSession());
+
+		if (!access.isAdmin(p)) {
+			return null;
+		}
+
+
 		String type=req.getParameter("type");
 		String id = req.getParameter("id");
 		String url = req.getParameter("url");
 		String filename = req.getParameter("filename");
+		String bucket=req.getParameter("bucket");
 
-		File f = new File(StorageProperties.rootLocation + "/" + type + "/" + id + "/" + filename);
+		File f = new File(StorageProperties.rootLocation + "/" + type + "/" + id + "/" + bucket + "/" +  filename);
 		if (!f.delete()) {
 			System.out.println("could not delete");
 		}

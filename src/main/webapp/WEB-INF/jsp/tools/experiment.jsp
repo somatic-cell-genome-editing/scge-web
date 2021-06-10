@@ -3,6 +3,8 @@
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.dao.implementation.ExperimentResultDao" %>
+<%@ page import="com.sun.javafx.iio.ImageStorage" %>
+<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -153,6 +155,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 
             <tbody>
             <tr><td class="header"><strong>Experiment</strong></td><td><%=experiment.getName()%></td></tr>
+            <tr><td class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
 
             </tbody>
         </table>
@@ -272,14 +275,16 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 
         <%
     int objectId = experimentRecord.getExperimentRecordId();
-    String objectType="record";
-    String redirectURL = "/toolkit/data/experiments/experiment/13/record/" + objectId;
+    String objectType= ImageTypes.RECORD;
+    String redirectURL = "/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "/record/" + objectId;
+    String bucket="main";
+
 %>
 
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
     <br>
-        <table id="resultsTable" align="center" width="800">
+        <table width="800">
             <thead><tr>
                 <th>Replicate</th>
                 <th>Result</th>
