@@ -49,7 +49,7 @@
 
 
     </div>
-    <form action="/toolkit/data/search/results/${category}" method="get" onclick="applyFacetFilters()">
+    <form action="/toolkit/data/search/results/${category}" method="get" >
     <input type="hidden" name="searchTerm" value="${searchTerm}"/>
         <input type="hidden" name="facetSearch" value="true"/>
         <c:if test="${fn:length(aggregations.typeBkts)>0}">

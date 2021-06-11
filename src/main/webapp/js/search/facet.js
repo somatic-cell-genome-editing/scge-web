@@ -1,5 +1,8 @@
 $(function () {
     $("#breadcrumb").hide();
+    $(".form-check-input").on("change",function () {
+        $('form ').submit();
+    })
     $.each($('input[name="typeBkt"]'), function() {
             var _this = $(this);
             var val = _this.val();
@@ -236,6 +239,7 @@ function searchByFilter(category, searchTerm, type, subType) {
 
 }
 function applyFacetFilters(){
+    $(this).parentElement().
    $('form').submit();
 }
 /*$( ":checkbox" ).click(function () {
