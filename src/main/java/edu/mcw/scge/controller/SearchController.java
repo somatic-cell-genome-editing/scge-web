@@ -9,6 +9,9 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.security.user.User;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +22,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/search")
 public class SearchController{
+    private final RequestCache requestCache = new HttpSessionRequestCache();
     IndexServices services=new IndexServices();
     Access access=new Access();
     UserService userService=new UserService();
@@ -45,23 +48,38 @@ public class SearchController{
     public String getResults(HttpServletRequest req, HttpServletResponse res, @RequestParam(required = false) String searchTerm) throws Exception {
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
-
-        SearchResponse sr=services.getSearchResults("", searchTerm, null,DCCNIHMember);
+        SearchResponse sr=services.getSearchResults("", searchTerm, getFilterMap(req),DCCNIHMember);
         boolean facetSearch=false;
         if(req.getParameter("facetSearch")!=null)
-            facetSearch= req.getParameter("facetSearch").equals("true");        req.setAttribute("sr", sr);
+            facetSearch= req.getParameter("facetSearch").equals("true");
+        req.setAttribute("sr", sr);
         req.setAttribute("searchTerm", searchTerm);
-        req.setAttribute("aggregations",services.getSearchAggregations(sr));
-        if(facetSearch)
-         //   return "search/resultsTable";
-        //    return "search/resultsView";
-            return "search/resultsPage";
-        else {
+        Map<String, List<Terms.Bucket>>aggregations=services.getSearchAggregations(sr);
+
+        req.setAttribute("aggregations",aggregations);
+        if(facetSearch) {
+            //   return "search/resultsTable";
+            //    return "search/resultsView";
+            if(getFilterMap(req).size()==1){
+                SearchResponse searchResponse= services.getFilteredAggregations("",searchTerm,getFilterMap(req), DCCNIHMember);
+                if(searchResponse!=null) {
+                    Map<String, List<Terms.Bucket>> filtered = services.getSearchAggregations(searchResponse);
+                    aggregations.putAll(filtered);
+                    req.setAttribute("aggregations", aggregations);
+                    //   return "search/resultsView";
+                }
+
+            }
+       //     return "search/resultsPage";
+        }
+    //    else {
             req.setAttribute("action", "Search Results: " + sr.getHits().getTotalHits() + " for " + searchTerm);
             req.setAttribute("page", "/WEB-INF/jsp/search/results");
-            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        req.setAttribute("filterMap", getFilterMap(req));
+
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
           //  return "search/results";
-        }
+    //    }
         return null;
     }
     @RequestMapping(value="/results/{category}")
@@ -98,26 +116,65 @@ public class SearchController{
                }
 
             }
-            return "search/resultsPage";
+         //   return "search/resultsPage";
         }
-        else{
+      /*  else{
             if(filter){
-
-             //   return "search/resultsView";
                 return "search/resultsPage";
 
-            }else {
+            }else {*/
                 req.setAttribute("action", "Search Results");
                 req.setAttribute("page", "/WEB-INF/jsp/search/results");
+           //     req.setAttribute("filterMap", getFilterMap(req));
                 req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-            }
-        }
+         /*   }
+        }*/
         return null;
     }
     public Map<String, String> getFilterMap(HttpServletRequest req){
         Map<String, String> filterMap=new HashMap<>();
-        String type=req.getParameter("type");
-        String subType=req.getParameter("subType");
+        Map<String, String> mappings=new HashMap<>();
+        Map<String, String> selectedFilters=new HashMap<>();
+        mappings.put("typeBkt","type");
+        mappings.put("subtypeBkt","subType");
+        mappings.put( "editorTypeBkt","editors.type");
+        mappings.put("editorSubTypeBkt","editors.subType");
+        mappings.put("editorSpeciesBkt","editors.species");
+
+        mappings.put("dsTypeBkt","deliveries.type");
+       mappings.put("modelTypeBkt","models.type");
+        mappings.put("modelSpeciesBkt","models.organism");
+      mappings.put( "reporterBkt","models.transgeneReporter");
+
+       mappings.put("targetBkt", "target");
+        mappings.put("guideTargetLocusBkt","guides.targetLocus");
+       mappings.put("speciesBkt","species");
+       mappings.put("withExperimentsBkt","withExperiments");
+
+       mappings.put(  "vectorBkt","vectors.name");
+       mappings.put("vectorSubTypeBkt","vectors.subtype");
+       mappings.put("vectorTypeBkt","vectors.type");
+    /*    List<String> params=new ArrayList<>( Arrays.asList("typeBkt", "subtypeBkt",
+                "editorTypeBkt","editorSubTypeBkt", "editorSpeciesBkt"
+               , "dsTypeBkt", "modelTypeBkt", "modelSpeciesBkt", "reporterBkt",
+                "vectorBkt", "vectorTypeBkt","vectorSubTypeBkt",
+                "targetBkt", "guideTargetLocusBkt", "speciesBkt","withExperimentsBkt"));
+*/
+        for(Map.Entry e:mappings.entrySet())
+        {
+            String param= (String) e.getKey();
+            if (req.getParameterValues(param) != null) {
+                List<String> values = Arrays.asList(req.getParameterValues(param));
+                if (values.size() > 0) {
+                    filterMap.put((String) e.getValue(), String.join(",", values));
+                    selectedFilters.put((String) e.getKey(), String.join(",", values));
+                }
+                }
+            }
+        req.setAttribute("selectedFilters", selectedFilters);
+     /*   if(req.getParameterValues("subTypeBkt")!=null) {
+            List<String> subType = Arrays.asList(req.getParameter("subType"));
+        }
         String editorType=req.getParameter("editorType");
         String editorSubType=req.getParameter("editorSubType");
         String editorSpecies=req.getParameter("editorSpecies");
@@ -138,7 +195,6 @@ public class SearchController{
 
 
 
-        if(type!=null && !type.equals(""))filterMap.put("type", type);
         if(subType!=null && !subType.equals(""))filterMap.put("subType", subType);
         if(editorType!=null && !editorType.equals(""))filterMap.put("editors.type", editorType);
         if(editorSubType!=null && !editorSubType.equals(""))filterMap.put("editors.subType", editorSubType);
@@ -156,7 +212,7 @@ public class SearchController{
 
         if(vector!=null && !vector.equals(""))filterMap.put("vectors.name", vector);
         if(vectorSubType!=null && !vectorSubType.equals(""))filterMap.put("vectors.subtype", vectorSubType);
-        if(vectorType!=null && !vectorType.equals(""))filterMap.put("vectors.type", vectorType);
+        if(vectorType!=null && !vectorType.equals(""))filterMap.put("vectors.type", vectorType);*/
         return filterMap;
     }
 

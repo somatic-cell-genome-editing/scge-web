@@ -24,9 +24,9 @@ public class IndexServices {
         System.out.println("SEARCH TERM:"+searchTerm+"\tCategory:" +category);
         srb.query(this.buildBoolQuery(category, searchTerm, filterMap, DCCNIHMember));
         srb.aggregation(this.buildSearchAggregations("category", category));
-        if(!category.equals("")) {
+    //    if(!category.equals("")) {
           buildAggregations(srb);
-        }
+   //     }
         srb.highlighter(this.buildHighlights());
         srb.size(1000);
        SearchRequest searchRequest=new SearchRequest("scge_search_test");
@@ -316,13 +316,14 @@ public class IndexServices {
         q.must(buildQuery(searchTerm));
         if(category!=null && !category.equals("")) {
             q.filter(QueryBuilders.termQuery("category.keyword", category));
-            if(filterMap!=null && filterMap.size()>0)
+
+
+        }
+        if(filterMap!=null && filterMap.size()>0)
             for(String key:filterMap.keySet()){
                 q.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
 
             }
-
-        }
         if(!DCCNIHMember) {
             q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
                     should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));

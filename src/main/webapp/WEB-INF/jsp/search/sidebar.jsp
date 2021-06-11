@@ -49,7 +49,10 @@
 
 
     </div>
-    <c:if test="${fn:length(aggregations.typeBkts)>0}">
+    <form action="/toolkit/data/search/results/${category}" method="get" onclick="applyFacetFilters()">
+    <input type="hidden" name="searchTerm" value="${searchTerm}"/>
+        <input type="hidden" name="facetSearch" value="true"/>
+        <c:if test="${fn:length(aggregations.typeBkts)>0}">
 
 
     <div class="accordion-group">
@@ -427,6 +430,6 @@
 
         </div>
     </c:if>
+    </form>
 </div>
 
-<script src="/toolkit/js/search/facet.js"></script>
