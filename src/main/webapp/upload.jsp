@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form action="/toolkit/uploadFile" method="post" enctype="multipart/form-data">
+<form action="uploadFile?${_csrf.parameterName}=${_csrf.token}" method="POST" enctype="multipart/form-data">
     <input type="file" id="myFile" name="filename">
     <input type="submit">
 </form>

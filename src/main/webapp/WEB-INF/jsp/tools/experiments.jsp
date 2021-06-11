@@ -6,6 +6,7 @@
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
+<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -40,6 +41,10 @@
     });
 </script>
 
+
+<% try { %>
+
+
 <div>
     <%
         Access access = new Access();
@@ -47,11 +52,9 @@
         Person p = access.getUser(request.getSession());
         List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
         Study study = null;
-        System.out.println("1");
         if (request.getAttribute("study") != null) {
             study = (Study) request.getAttribute("study");
         }
-        System.out.println("2");
 
     %>
 
@@ -119,3 +122,22 @@
     </table>
 
 
+            <%
+    long objectId = study.getStudyId();
+    String objectType= ImageTypes.STUDY;
+    String redirectURL = "/data/experiments/study/" + objectId;
+    String bucket="main";
+
+%>
+
+
+
+
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+
+
+    <% } catch (Exception es) {
+            es.printStackTrace();
+
+        } %>

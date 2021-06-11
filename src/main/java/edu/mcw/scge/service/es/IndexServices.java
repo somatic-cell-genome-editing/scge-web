@@ -1,6 +1,7 @@
 package edu.mcw.scge.service.es;
 
 import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.*;
@@ -17,27 +18,54 @@ import java.io.IOException;
 import java.util.*;
 
 public class IndexServices {
-    public SearchResponse getSearchResults(String category, String searchTerm, String type, String subType,
-                          String editorType, String dsType,String modelType,boolean DCCNIHMember) throws IOException {
+    public SearchResponse getSearchResults(String category, String searchTerm, Map<String, String> filterMap,boolean DCCNIHMember) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
         System.out.println("SEARCH TERM:"+searchTerm+"\tCategory:" +category);
-        srb.query(this.buildBoolQuery(category, searchTerm, type, subType,editorType,dsType, modelType, DCCNIHMember));
+        srb.query(this.buildBoolQuery(category, searchTerm, filterMap, DCCNIHMember));
         srb.aggregation(this.buildSearchAggregations("category", category));
-        if(!category.equals("")) {
-            srb.aggregation(this.buildSearchAggregations("models", null));
-
-            srb.aggregation(this.buildSearchAggregations("deliveries", null));
-
-            srb.aggregation(this.buildSearchAggregations("editors", null));
-        }
+    //    if(!category.equals("")) {
+          buildAggregations(srb);
+   //     }
         srb.highlighter(this.buildHighlights());
         srb.size(1000);
-    //  SearchRequest searchRequest=new SearchRequest("scge_search_test");
-       SearchRequest searchRequest=new SearchRequest("scge_search_prod");
+       SearchRequest searchRequest=new SearchRequest("scge_search_test");
        searchRequest.source(srb);
 
         return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+
+    }
+    public void buildAggregations(SearchSourceBuilder srb){
+        /*********************EXPERIMENT************************/
+        srb.aggregation(this.buildSearchAggregations("models.type", null));
+        srb.aggregation(this.buildSearchAggregations("models.organism", null));
+        srb.aggregation(this.buildSearchAggregations("models.transgeneReporter", null));
+
+
+        srb.aggregation(this.buildSearchAggregations("deliveries.type", null));
+        srb.aggregation(this.buildSearchAggregations("deliveries.species", null));
+
+        srb.aggregation(this.buildSearchAggregations("editors.type", null));
+        srb.aggregation(this.buildSearchAggregations("editors.subType", null));
+        srb.aggregation(this.buildSearchAggregations("editors.species", null));
+
+        srb.aggregation(this.buildSearchAggregations("guides.targetLocus", null));
+        srb.aggregation(this.buildSearchAggregations("guides.species", null));
+
+        srb.aggregation(this.buildSearchAggregations(  "vectors.name", null));
+        srb.aggregation(this.buildSearchAggregations(  "vectors.type",null));
+        srb.aggregation(this.buildSearchAggregations(   "vectors.subtype", null));
+
+        /*********************common**************************/
+        srb.aggregation(this.buildSearchAggregations("type", null));
+        srb.aggregation(this.buildSearchAggregations("subType", null));
+        srb.aggregation(this.buildSearchAggregations("species", null));
+        srb.aggregation(this.buildSearchAggregations("target", null));
+        srb.aggregation(this.buildSearchAggregations("withExperiments", null));
+
+        /*********************guide**************************/
+        srb.aggregation(this.buildSearchAggregations("targetLocus", null));
+        srb.aggregation(this.buildSearchAggregations("externalId", null));
 
     }
     public HighlightBuilder buildHighlights(){
@@ -69,6 +97,27 @@ public class IndexServices {
                 "models.transgeneReporter" ,
                 "models.description" ,
                 "models.strainCode",
+                "guides.species",
+                "guides.targetLocus",
+                "guides.targetSequence",
+                "guides.pam",
+                "guides.grnaLabId",
+
+                "guides.guide",
+                "guides.source",
+                "guides.guideDescription",
+                "vectors.name",
+                "vectors.type",
+                "vectors.subtype",
+                "vectors.genomeSerotype",
+                "vectors.capsidSerotype",
+                "vectors.description",
+                "vectors.capsidVariant",
+                "vectors.source",
+                "vectors.labId",
+                "vectors.annotatedMap",
+                "vectors.titerMethod",
+                "vectors.tier",
                 "name.ngram"
         ));
 
@@ -107,55 +156,122 @@ public class IndexServices {
         AggregationBuilder aggs= null;
         if(fieldName!=null && !fieldName.equalsIgnoreCase("category") &&
                 !fieldName.equals("")){
-            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".type.keyword");
+       /*     if(fieldName.contains("models") || fieldName.equalsIgnoreCase("deliveries") || fieldName.equalsIgnoreCase("editors")|| fieldName.equalsIgnoreCase("guides"))
+         //   aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
+                aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
+
+            else*/
+            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
+
+         //   aggs= AggregationBuilders.terms(fieldName).field(fieldName+".type.keyword");
+
         }else {
                 fieldName="category";
             aggs = AggregationBuilders.terms(fieldName).field(fieldName + ".keyword");
         }
-        if(selectedCategory!=null && !selectedCategory.equals("")) {
+    /*    if(selectedCategory!=null && !selectedCategory.equals("")) {
             aggs.subAggregation(AggregationBuilders.terms("type").field("type.keyword")
                     .subAggregation(AggregationBuilders.terms("subtype").field("subType.keyword"))
             );
 
             // .order(BucketOrder.key(true));
 
-        }
+        }*/
+        return aggs;
+    }
+    public AggregationBuilder buildFilterAggregations(String fieldName, String selectedCategory){
+        AggregationBuilder aggs= null;
+
+            aggs= AggregationBuilders.terms(fieldName.replace(".type","").trim()).field(fieldName+".keyword");
+
+
+
         return aggs;
     }
     public  Map<String, List<Terms.Bucket>> getSearchAggregations(SearchResponse sr){
         Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
+        /********************Category aggs*****************************/
         Terms categoryAggs=sr.getAggregations().get("category");
+        if(categoryAggs!=null)
         aggregations.put("catBkts", (List<Terms.Bucket>) categoryAggs.getBuckets());
-        Terms modelAggs=sr.getAggregations().get("models");
-        if(modelAggs!=null)
-        aggregations.put("modelBkts", (List<Terms.Bucket>) modelAggs.getBuckets());
-        Terms editorAggs=sr.getAggregations().get("editors");
-        if(editorAggs!=null)
-        aggregations.put("editorBkts", (List<Terms.Bucket>) editorAggs.getBuckets());
-        Terms deliveyAggs=sr.getAggregations().get("deliveries");
-        if(deliveyAggs!=null)
-        aggregations.put("deliveryBkts", (List<Terms.Bucket>) deliveyAggs.getBuckets());
-
-        List<Terms.Bucket> typeBkts=new ArrayList<>();
-        List<Terms.Bucket> subtypeBkts=new ArrayList<>();
-        for(Terms.Bucket b:categoryAggs.getBuckets()){
-          if(  b.getAggregations()!=null) {
-              Terms typeAggs = b.getAggregations().get("type");
-           //   System.out.println(b.getKey() + "\t" + b.getDocCount());
-              if (typeAggs != null) {
-                  typeBkts.addAll ((List<Terms.Bucket>) typeAggs.getBuckets());
-                  for (Terms.Bucket bkt : typeAggs.getBuckets()) {
-                      Terms subtypeAggs = bkt.getAggregations().get("subtype");
-                      subtypeBkts.addAll ((List<Terms.Bucket>) subtypeAggs.getBuckets());
-               //       System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() + "\tsubtypeAggsSize: " + subtypeAggs.getBuckets().size());
-
-                  }
-              }
-          }
-        }
-        aggregations.put("typeBkts", typeBkts);
-        aggregations.put("subtypeBkts", subtypeBkts);
+        /********************Category specific aggs *****************************/
+        addAllCategorySpecificAggs(sr, aggregations);
+        /********************experiment aggs *****************************/
+        addAllModelAggs(sr, aggregations);
+        addAllEditorAggs(sr,aggregations);
+        addAllDeliveryAggs(sr,aggregations);
+        addAllGuideAggs(sr, aggregations);
+        addAllVectorAggs(sr,aggregations);
         return aggregations;
+    }
+    public void addAllModelAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
+        Terms modelAggs=sr.getAggregations().get("models.type");
+        if(modelAggs!=null)
+            aggregations.put("modelBkts", (List<Terms.Bucket>) modelAggs.getBuckets());
+        Terms modelSpeciesAggs=sr.getAggregations().get("models.organism");
+        if(modelSpeciesAggs!=null)
+            aggregations.put("modelSpeciesBkts", (List<Terms.Bucket>) modelSpeciesAggs.getBuckets());
+        Terms reporterAggs=sr.getAggregations().get("models.transgeneReporter");
+        if(reporterAggs!=null)
+            aggregations.put("reporterBkts", (List<Terms.Bucket>) reporterAggs.getBuckets());
+    }
+    public void addAllEditorAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
+        Terms editorAggs=sr.getAggregations().get("editors.type");
+        if(editorAggs!=null)
+            aggregations.put("editorBkts", (List<Terms.Bucket>) editorAggs.getBuckets());
+        Terms editorSubTypeAggs=sr.getAggregations().get("editors.subType");
+        if(editorSubTypeAggs!=null)
+            aggregations.put("editorSubTypeBkts", (List<Terms.Bucket>) editorSubTypeAggs.getBuckets());
+        Terms editorSpeciesAggs=sr.getAggregations().get("editors.species");
+        if(editorSpeciesAggs!=null)
+            aggregations.put("editorSpeciesBkts", (List<Terms.Bucket>) editorSpeciesAggs.getBuckets());
+    }
+    public void addAllDeliveryAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
+        Terms deliveyAggs=sr.getAggregations().get("deliveries.type");
+        if(deliveyAggs!=null)
+            aggregations.put("deliveryBkts", (List<Terms.Bucket>) deliveyAggs.getBuckets());
+    }
+    public void addAllGuideAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
+        Terms guidesTargetLocusAggs=sr.getAggregations().get("guides.targetLocus");
+        if(guidesTargetLocusAggs!=null)
+            aggregations.put("guidesBkts", (List<Terms.Bucket>) guidesTargetLocusAggs.getBuckets());
+    }
+    public void addAllVectorAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
+        Terms vectorTypeAggs=sr.getAggregations().get("vectors.type");
+        if(vectorTypeAggs!=null)
+            aggregations.put("vectorTypeBkts", (List<Terms.Bucket>) vectorTypeAggs.getBuckets());
+        Terms vectorSubTypeAggs=sr.getAggregations().get("vectors.subtype");
+        if(vectorSubTypeAggs!=null)
+            aggregations.put("vectorSubTypeBkts", (List<Terms.Bucket>) vectorSubTypeAggs.getBuckets());
+        Terms vectorAggs=sr.getAggregations().get("vectors.name");
+        if(vectorAggs!=null)
+            aggregations.put("vectorBkts", (List<Terms.Bucket>) vectorAggs.getBuckets());
+    }
+    public void addAllCategorySpecificAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
+        Terms typeAggs=sr.getAggregations().get("type");
+        if(typeAggs!=null)
+            aggregations.put("typeBkts", (List<Terms.Bucket>) typeAggs.getBuckets());
+
+        Terms subtypeAggs=sr.getAggregations().get("subType");
+        if(subtypeAggs!=null)
+            aggregations.put("subtypeBkts", (List<Terms.Bucket>) subtypeAggs.getBuckets());
+        Terms speciesAggs=sr.getAggregations().get("species");
+        if(speciesAggs!=null)
+            aggregations.put("speciesBkts", (List<Terms.Bucket>) speciesAggs.getBuckets());
+
+        Terms targetAggs=sr.getAggregations().get("target");
+        if(targetAggs!=null)
+            aggregations.put("targetBkts", (List<Terms.Bucket>) targetAggs.getBuckets());
+
+        Terms grnaLabIdAggs=sr.getAggregations().get("externalId");
+        if(grnaLabIdAggs!=null)
+            aggregations.put("grnaLabIdBkts", (List<Terms.Bucket>) grnaLabIdAggs.getBuckets());
+
+        Terms withExperimentsAggs=sr.getAggregations().get("withExperiments");
+        if(withExperimentsAggs!=null)
+            aggregations.put("withExperimentsBkts", (List<Terms.Bucket>) withExperimentsAggs.getBuckets());
+
+
     }
     public  Map<String, List<Terms.Bucket>> getSearchAggregationsBKUP(SearchResponse sr){
         Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
@@ -195,30 +311,19 @@ public class IndexServices {
         return aggregations;
     }
 
-    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm , String type, String subType,
-                                           String editorType, String dsType, String modelType, boolean DCCNIHMember){
+    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm , Map<String, String> filterMap, boolean DCCNIHMember){
         BoolQueryBuilder q=new BoolQueryBuilder();
         q.must(buildQuery(searchTerm));
         if(category!=null && !category.equals("")) {
             q.filter(QueryBuilders.termQuery("category.keyword", category));
 
-            if (type != null && !type.equals("")) {
 
-                q.filter(QueryBuilders.termsQuery("type.keyword", type.split(",")));
-            }
-            if (subType != null && !subType.equals("")) {
-                q.filter(QueryBuilders.termsQuery("subType.keyword", subType.split(",")));
-            }
-            if (editorType != null && !editorType.equals("")) {
-                q.filter(QueryBuilders.termsQuery("editors.type.keyword", editorType.split(",")));
-            }
-            if (dsType != null && !dsType.equals("")) {
-                q.filter(QueryBuilders.termsQuery("deliveries.type.keyword", dsType.split(",")));
-            }
-            if (modelType != null && !modelType.equals("")) {
-                q.filter(QueryBuilders.termsQuery("models.type.keyword", modelType.split(",")));
-            }
         }
+        if(filterMap!=null && filterMap.size()>0)
+            for(String key:filterMap.keySet()){
+                q.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
+
+            }
         if(!DCCNIHMember) {
             q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
                     should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
@@ -226,6 +331,26 @@ public class IndexServices {
 
    //    System.out.println(q);
         return q;
+    }
+    public SearchResponse getFilteredAggregations(String category, String searchTerm,
+                                                  Map<String, String> filterMap,boolean DCCNIHMember) throws IOException {
+
+        SearchSourceBuilder srb=new SearchSourceBuilder();
+        if(filterMap.size()==1) {
+            srb.query(this.buildBoolQuery(category, searchTerm, null, DCCNIHMember));
+         //   srb.aggregation(this.buildSearchAggregations("category", category));
+            System.out.println("IN FILTERED AGGS: field name:"+ filterMap.entrySet().iterator().next().getKey());
+            srb.aggregation(this.buildFilterAggregations(filterMap.entrySet().iterator().next().getKey(), ""));
+        }
+
+     //   srb.highlighter(this.buildHighlights());
+        srb.size(0);
+        //  SearchRequest searchRequest=new SearchRequest("scge_search_test");
+        SearchRequest searchRequest=new SearchRequest("scge_search_test");
+        searchRequest.source(srb);
+
+        return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+
     }
     public QueryBuilder buildQuery(String searchTerm){
         DisMaxQueryBuilder q=new DisMaxQueryBuilder();
@@ -261,7 +386,27 @@ public class IndexServices {
                             "models.transgene" ,
                             "models.transgeneReporter" ,
                             "models.description" ,
-                            "models.strainCode").type(MultiMatchQueryBuilder.Type.CROSS_FIELDS).operator(Operator.AND)).filter(
+                            "models.strainCode",
+                                    "guides.species",
+                                    "guides.targetLocus",
+                                    "guides.targetSequence",
+                                    "guides.pam",
+                                    "guides.grnaLabId",
+
+                                    "guides.guide",
+                                    "guides.source",
+                                    "guides.guideDescription",
+                                    "vectors.name",
+                                    "vectors.type",
+                                    "vectors.subtype",
+                                    "vectors.genomeSerotype",
+                                    "vectors.capsidSerotype",
+                                    "vectors.description",
+                                    "vectors.capsidVariant",
+                                    "vectors.source",
+                                    "vectors.labId",
+                                    "vectors.annotatedMap",
+                                    "vectors.titerMethod").type(MultiMatchQueryBuilder.Type.CROSS_FIELDS).operator(Operator.AND)).filter(
                             QueryBuilders.termQuery("category.keyword", "Experiment")
                     )).boost(100);
           q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
@@ -292,15 +437,36 @@ public class IndexServices {
                             "models.transgene" ,
                             "models.transgeneReporter" ,
                             "models.description" ,
-                            "models.strainCode").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).fuzziness(1).operator(Operator.AND).boost(20));
+                            "models.strainCode",
+                  "guides.species",
+                  "guides.targetLocus",
+                  "guides.targetSequence",
+                  "guides.pam",
+                  "guides.grnaLabId",
+
+                  "guides.guide",
+                  "guides.source",
+                  "guides.guideDescription",
+
+                  "vectors.name",
+                  "vectors.type",
+                  "vectors.subtype",
+                  "vectors.genomeSerotype",
+                  "vectors.capsidSerotype",
+                  "vectors.description",
+                  "vectors.capsidVariant",
+                  "vectors.source",
+                  "vectors.labId",
+                  "vectors.annotatedMap",
+                  "vectors.titerMethod").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).fuzziness(1).operator(Operator.AND).boost(20));
             q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
                     "description", "experimentalTags", "externalId", "aliases",
                     "target", "species", "site", "sequence", "pam", "detectionMethod","target",
                     "name.ngram",
                     "study.study",
                     "study.labName" ,
-                    "study.pi"
-                    ,       "editors.type" ,
+                    "study.pi",
+                    "editors.type" ,
                     "editors.subType" ,
                     "editors.symbol" ,
                     "editors.alias" ,
@@ -321,7 +487,28 @@ public class IndexServices {
                     "models.transgene" ,
                     "models.transgeneReporter" ,
                     "models.description" ,
-                    "models.strainCode").type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10));
+                    "models.strainCode",
+                    "guides.species",
+                    "guides.targetLocus",
+                    "guides.targetSequence",
+                    "guides.pam",
+                    "guides.grnaLabId",
+
+                    "guides.guide",
+                    "guides.source",
+                    "guides.guideDescription",
+
+                    "vectors.name",
+                    "vectors.type",
+                    "vectors.subtype",
+                    "vectors.genomeSerotype",
+                    "vectors.capsidSerotype",
+                    "vectors.description",
+                    "vectors.capsidVariant",
+                    "vectors.source",
+                    "vectors.labId",
+                    "vectors.annotatedMap",
+                    "vectors.titerMethod").type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10));
         }else{
             q.add(QueryBuilders.matchAllQuery());
         }

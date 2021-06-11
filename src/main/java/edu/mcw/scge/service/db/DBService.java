@@ -33,7 +33,7 @@ public class DBService {
         return   edao.getExperimentRecordById(expId);
         //  return   edao.getExperimentRecords();
     }*/
-    public Model getModelById(int modelId) throws Exception {
+    public Model getModelById(long modelId) throws Exception {
         ModelDao dao=new ModelDao();
         return dao.getModelById(modelId);
     }
@@ -45,27 +45,27 @@ public class DBService {
         AnimalTestingResultsDAO dao=new AnimalTestingResultsDAO();
         return dao.getResultsByExperimentRecId(experimentRecordId);
     }
-    public List<Delivery> getDeliveryVehicles(int deliveryId) throws Exception {
+    public List<Delivery> getDeliveryVehicles(long deliveryId) throws Exception {
         DeliveryDao dao=new DeliveryDao();
         return dao.getDeliverySystemsById(deliveryId);
     }
-    public List<Editor> getEditors(int editorId) throws Exception {
+    public List<Editor> getEditors(long editorId) throws Exception {
         EditorDao dao = new EditorDao();
         return dao.getEditorById(editorId);
     }
-    public List<Guide> getGuides(int guideId) throws Exception {
+    public List<Guide> getGuides(long guideId) throws Exception {
         GuideDao dao = new GuideDao();
         return dao.getGuideById(guideId);
     }
-    public List<Guide> getGuidesByExpRecId(int expRecId) throws Exception {
+    public List<Guide> getGuidesByExpRecId(long expRecId) throws Exception {
         GuideDao dao = new GuideDao();
         return dao.getGuidesByExpRecId(expRecId);
     }
-    public List<Vector> getVectors(int vectorId) throws Exception {
+    public List<Vector> getVectors(long vectorId) throws Exception {
         VectorDao dao = new VectorDao();
         return dao.getVectorById(vectorId);
     }
-    public List<Vector> getVectorsByExpRecId(int expRecId) throws Exception {
+    public List<Vector> getVectorsByExpRecId(long expRecId) throws Exception {
         VectorDao dao = new VectorDao();
         return dao.getVectorsByExpRecId(expRecId);
     }
@@ -73,22 +73,26 @@ public class DBService {
         ApplicationMethodDao dao=new ApplicationMethodDao();
         return dao.getApplicationMethod(applicationMethodId);
     }
-    public List<Sample> getSampleDetails(int resultId, int experimentRecId) throws Exception {
+    /*public List<Sample> getSampleDetails(int resultId, long experimentRecId) throws Exception {
         AnimalTestingResultsDAO dao=new AnimalTestingResultsDAO();
         return dao.getSampleDetailsByResultId(resultId,experimentRecId);
     }
-
-    public List<ExperimentResultDetail> getExperimentalResults(int expRecId) throws Exception{
+*/
+    public List<ExperimentResultDetail> getExperimentalResults(long expRecId) throws Exception{
         ExperimentResultDao dao = new ExperimentResultDao();
         return dao.getResultsByExperimentRecId(expRecId);
     }
 
-    public List<ExperimentResultDetail> getExpResultsByResultType(int expRecId,String resultType) throws Exception{
+    public List<ExperimentResultDetail> getExpResultsByExpId(long expId) throws Exception{
+        ExperimentResultDao dao = new ExperimentResultDao();
+        return dao.getResultsByExperimentId(expId);
+    }
+    public List<ExperimentResultDetail> getExpResultsByResultType(long expRecId,String resultType) throws Exception{
         ExperimentResultDao dao = new ExperimentResultDao();
         return dao.getResultsByExpResType(expRecId,resultType);
     }
 
-    public List<String> getResultTypes(int expId) throws Exception{
+    public List<String> getResultTypes(long expId) throws Exception{
         ExperimentResultDao dao = new ExperimentResultDao();
         return dao.getResTypeByExpId(expId);
     }

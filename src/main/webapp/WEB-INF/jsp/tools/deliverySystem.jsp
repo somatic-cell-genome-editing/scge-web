@@ -1,6 +1,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ page import="edu.mcw.scge.datamodel.Delivery" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -65,6 +66,15 @@
     </div>
     <hr>
 </div>
+
+<%
+    long objectId = d.getId();
+    String objectType= ImageTypes.DELIVERY_SYSTEM;
+    String redirectURL = "/data/delivery/system?id=" + objectId;
+    String bucket="main";
+%>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
 
 <br>
 <jsp:include page="associatedStudies.jsp"/>

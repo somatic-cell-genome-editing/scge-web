@@ -297,7 +297,6 @@ public class AdminController extends LoginController{
 
         PersonDao pdao = new PersonDao();
         Person p = pdao.getPersonById(Integer.parseInt(req.getParameter("id"))).get(0);
-        System.out.println("in remove");
 
         pdao.deletePersonInfo(p.getId(),groupId);
 

@@ -36,7 +36,7 @@ public class VectorController {
     @RequestMapping(value="/format")
     public String getVector(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         VectorDao dao = new VectorDao();
-        Vector v= dao.getVectorById(Integer.parseInt(req.getParameter("id"))).get(0);
+        Vector v= dao.getVectorById(Long.parseLong(req.getParameter("id"))).get(0);
         DBService dbService = new DBService();
         UserService userService = new UserService();
         Person p=userService.getCurrentUser(req.getSession());
@@ -63,15 +63,16 @@ public class VectorController {
 
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByVector(v.getVectorId());
+
         req.setAttribute("experimentRecords",experimentRecords);
 
-        HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
+        HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
         }
         req.setAttribute("guideMap", guideMap);
 
-        HashMap<Integer,List<Vector>> vectorMap = new HashMap<>();
+        HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
         }

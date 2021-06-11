@@ -57,7 +57,7 @@ public class EditorController {
     @RequestMapping(value="/editor")
     public String getEditor(HttpServletRequest req, HttpServletResponse res) throws Exception {
         EditorDao dao = new EditorDao();
-        Editor editor= dao.getEditorById(Integer.parseInt(req.getParameter("id"))).get(0);
+        Editor editor= dao.getEditorById(Long.parseLong(req.getParameter("id"))).get(0);
         DBService dbService = new DBService();
         UserService userService = new UserService();
         Person p=userService.getCurrentUser(req.getSession());
@@ -74,7 +74,7 @@ public class EditorController {
 
         }
 
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/editors/search'>Editors</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/editors/search'>Editors</a>");
         req.setAttribute("editor", editor);
         req.setAttribute("action", "Genome Editor: " + UI.replacePhiSymbol(editor.getSymbol()));
         req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
@@ -87,7 +87,7 @@ public class EditorController {
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByEditor(editor.getId());
         req.setAttribute("experimentRecords",experimentRecords);
 
-        HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
+        HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
         }
@@ -97,7 +97,7 @@ public class EditorController {
         req.setAttribute("guides", guides);
         req.setAttribute("guideMap", guideMap);
 
-        HashMap<Integer,List<Vector>> vectorMap = new HashMap<>();
+        HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
         }

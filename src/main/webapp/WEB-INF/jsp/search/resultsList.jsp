@@ -20,12 +20,12 @@
     <tr><td>
         <div>
             <c:if test="${hit.sourceAsMap.name!=null}">
-            <h5><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></h5>
+            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></h6>
             </c:if>
             <c:if test="${hit.sourceAsMap.symbol!=null}">
-            <h5><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
+            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
                 <c:choose>
-                    <c:when test="${hit.sourceAsMap.subType=='Cas12'}">
+                    <c:when test="${hit.sourceAsMap.subType=='Cas12j'}">
                         <c:if test="${fn:contains(hit.sourceAsMap.symbol,'-1')}">
                             cas&#934;-1
                         </c:if>
@@ -41,19 +41,62 @@
                     </c:otherwise>
                 </c:choose>
             </a>
-            </h5>
+            </h6>
             </c:if>
-            <span><strong>Category:</strong>&nbsp;${hit.sourceAsMap.category}</span><br>
+            <!--span>Category:&nbsp;$-{hit.sourceAsMap.category}</span><br-->
+            <c:if test="${hit.sourceAsMap.studyNames!=null}">
+                <span>Study:&nbsp;</span>
+                <c:forEach items="${hit.sourceAsMap.studyNames}" var="map">
+                   <a href="/toolkit/data/experiments/study/${map.key}">${map.value}</a>&nbsp;
+                </c:forEach>
+                <br>
+            </c:if>
+            <c:if test="${hit.sourceAsMap.experimentNames!=null}">
+                <span>Experiment:&nbsp;</span>
+                <c:forEach items="${hit.sourceAsMap.experimentNames}" var="map">
+                    <a href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a>&nbsp;
+                </c:forEach>
+                <br>
+            </c:if>
+            <c:if test="${hit.sourceAsMap.study.study!=null}">
+                <span>Study:&nbsp;</span>
+                <a href="/toolkit/data/experiments/study/${hit.sourceAsMap.study.studyId}">${hit.sourceAsMap.study.study}</a><br>
+            </c:if>
             <c:if test="${hit.sourceAsMap.type!=null}">
-            <span><strong>Type:</strong>&nbsp;${hit.sourceAsMap.type}</span><br>
+            <span>${hit.sourceAsMap.category}&nbsp;Type:&nbsp; ${hit.sourceAsMap.type}</span><br>
             </c:if>
             <c:if test="${hit.sourceAsMap.subType!=null}">
-            <span><strong>SubType:</strong>&nbsp;${hit.sourceAsMap.subType}</span> <br>
+            <span>${hit.sourceAsMap.category}&nbsp;SubType:&nbsp;${hit.sourceAsMap.subType}</span> <br>
+            </c:if>
+            <c:if test="${hit.sourceAsMap.target!=null}">
+                <c:set var="first" value="true"/>
+                <span>Target :
+                <c:forEach items="${hit.sourceAsMap.target}" var="item">
+                    <c:choose>
+                    <c:when test="${first=='true'}">
+                        ${item}
+                        <c:set var="first" value="false"/>
+
+                    </c:when>
+                        <c:otherwise>
+                           , ${item}
+
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                </span> <br>
+            </c:if>
+            <c:if test="${hit.sourceAsMap.species!=null}">
+                <span>Species:&nbsp;${hit.sourceAsMap.species}</span> <br>
             </c:if>
 
             <c:if test="${hit.sourceAsMap.description!=null}">
-                <span><strong>Description:</strong>&nbsp;${hit.sourceAsMap.description}</span>
+                <span>Description:&nbsp;${hit.sourceAsMap.description}</span><br>
             </c:if>
+            <!--c:if test="$-{hit.sourceAsMap.experimentCount>0}"-->
+                <!--i class="fas fa-eye"></i-->
+                <!--span><a href="$-{hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">Associated Experiments:&nbsp;${hit.sourceAsMap.experimentCount}</a></span> <br-->
+            <!--/c:if-->
 
                 <!--div  class="more hideContent" style="overflow-y: auto">
                     <strong style="text-decoration: underline">Matched on:</strong>

@@ -4,6 +4,12 @@
 <%@ page import="edu.mcw.scge.datamodel.Editor" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="edu.mcw.scge.storage.ImageStore" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.configuration.UserService" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
+<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -99,6 +105,18 @@
     </div>
     <hr>
 </div>
+
+
+
+<%
+    long objectId = editor.getId();
+    String objectType= ImageTypes.EDITOR;
+    String redirectURL = "/data/editors/editor?id=" + objectId;
+    String bucket="main";
+
+%>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
 
 <br>
 <jsp:include page="associatedStudies.jsp"/>

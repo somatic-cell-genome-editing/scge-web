@@ -4,6 +4,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.OffTarget" %>
+<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -70,8 +71,8 @@
             <tr ><td class="header"><strong>Target Sequence + PAM</strong></td><td><%=SFN.parse(g.getPam())%></td></tr>
             <tr ><td class="header"><strong>Assembly</strong></td><td><%=SFN.parse(g.getAssembly())%></td></tr>
             <tr ><td class="header"><strong>Chromosome</strong></td><td><%=SFN.parse(g.getChr())%></td></tr>
-            <tr ><td class="header"><strong>Chromosome Start</strong></td><td><%=SFN.parse(g.getStart())%></td></tr>
-            <tr ><td class="header"><strong>Chromosome Stop</strong></td><td><%=SFN.parse(g.getStop())%></td></tr>
+            <tr ><td class="header"><strong>Chromosome Start</strong></td><td><%=UI.formatNumber(SFN.parse(g.getStart()),3)%></td></tr>
+            <tr ><td class="header"><strong>Chromosome Stop</strong></td><td><%=UI.formatNumber(SFN.parse(g.getStop()),3)%></td></tr>
             <tr ><td class="header"><strong>Strand</strong></td><td><%=SFN.parse(g.getStrand())%></td></tr>
         </table>
         <hr>
@@ -115,6 +116,16 @@
     </div>
     <hr>
 </div>
+
+<%
+    long objectId = g.getGuide_id();
+    String objectType= ImageTypes.GUIDE;
+    String redirectURL = "/data/guide/system?id=" + objectId;
+    String bucket="main";
+
+%>
+
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
 <br>
 <jsp:include page="associatedStudies.jsp"/>

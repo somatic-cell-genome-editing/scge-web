@@ -5,6 +5,7 @@ import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
+import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value="/data/guide")
 public class GuideController {
+    BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
 
     @RequestMapping(value="/search")
     public String getGuides(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
@@ -34,7 +36,7 @@ public class GuideController {
     @RequestMapping(value="/system")
     public String getGuide(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         GuideDao dao = new GuideDao();
-        Guide guide= dao.getGuideById(Integer.parseInt(req.getParameter("id"))).get(0);
+        Guide guide= dao.getGuideById(Long.parseLong(req.getParameter("id"))).get(0);
 
         DBService dbService = new DBService();
         UserService userService = new UserService();
@@ -51,8 +53,9 @@ public class GuideController {
             return null;
 
         }
+        req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,guide,null,null));
 
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> -> <a href='/toolkit/data/guide/search'>Guides</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/guide/search'>Guides</a>");
         req.setAttribute("guide", guide);
         req.setAttribute("action", "Guide: " + guide.getGuide());
         req.setAttribute("page", "/WEB-INF/jsp/tools/guide");
@@ -73,13 +76,13 @@ public class GuideController {
         List<OffTarget> offTargets = offTargetDao.getOffTargetByGuide(guide.getGuide_id());
         req.setAttribute("offTargets",offTargets);
 
-        HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
+        HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
         }
         req.setAttribute("guideMap", guideMap);
 
-        HashMap<Integer,List<Vector>> vectorMap = new HashMap<>();
+        HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
         }
