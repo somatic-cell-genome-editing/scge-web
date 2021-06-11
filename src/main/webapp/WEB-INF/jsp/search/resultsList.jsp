@@ -93,10 +93,10 @@
             <c:if test="${hit.sourceAsMap.description!=null}">
                 <span>Description:&nbsp;${hit.sourceAsMap.description}</span><br>
             </c:if>
-            <c:if test="${hit.sourceAsMap.experimentCount>0}">
-                <i class="fas fa-eye"></i>
-                <span><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">Associated Experiments:&nbsp;${hit.sourceAsMap.experimentCount}</a></span> <br>
-            </c:if>
+            <!--c:if test="$-{hit.sourceAsMap.experimentCount>0}"-->
+                <!--i class="fas fa-eye"></i-->
+                <!--span><a href="$-{hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">Associated Experiments:&nbsp;${hit.sourceAsMap.experimentCount}</a></span> <br-->
+            <!--/c:if-->
 
                 <!--div  class="more hideContent" style="overflow-y: auto">
                     <strong style="text-decoration: underline">Matched on:</strong>
