@@ -111,9 +111,9 @@
         if(vectorList != null && vectorList.size() == 1 && vectorMap.values().contains(null))
             uniqueObjects.add(vectorList.get(0));
 
-        for (Integer resultId: resultDetail.keySet()) {
+        for (Long resultId: resultDetail.keySet()) {
             List<ExperimentResultDetail> erdList = resultDetail.get(resultId);
-            int expRecordId = erdList.get(0).getExperimentRecordId();
+            long expRecordId = erdList.get(0).getExperimentRecordId();
             ExperimentRecord er = experimentRecordsMap.get(expRecordId);
             experimentRecordHashMap.put(er.getExperimentName(),er);
             if(uniqueObjects.contains(er.getEditorSymbol()))
@@ -258,14 +258,14 @@
             <% } %>
             <td style="font-size: small">
 
-                <%  int id = experimentRecordHashMap.get(condition).getExperimentRecordId();
+                <%  long id = experimentRecordHashMap.get(condition).getExperimentRecordId();
                     ExperimentRecord r = experimentRecordHashMap.get(condition);
                     List<Guide> guides = guideMap.get(id);
                     String guide = "";
                     boolean fst = true;
                     for(Guide g: guides) {
                         if (!fst) { guide += ";"; }
-                        guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+SFN.parse(g.getGuide())+"</a>";
+                        guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">g("+SFN.parse(g.getGuide())+")</a>";
                         fst = false;
                     }
                     List<Vector> vectors = vectorMap.get(id);
@@ -273,17 +273,17 @@
                     fst=true;
                     for(Vector v: vectors) {
                         if (!fst) { vector += ";"; }
-                        vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">"+SFN.parse(v.getName())+"</a>";
+                        vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">v("+SFN.parse(v.getName())+")</a>";
                         fst=false;
                     }
                     if(r.getEditorSymbol() != null && noOfEditors != noOfRecords) {
                 %>
 
-                <a href="/toolkit/data/editors/editor?id=<%=r.getEditorId()%>"><%=SFN.parse(r.getEditorSymbol())%></a>&nbsp;&nbsp;
+                <a href="/toolkit/data/editors/editor?id=<%=r.getEditorId()%>">e(<%=SFN.parse(r.getEditorSymbol())%>)</a>&nbsp;&nbsp;
                 <% } if(r.getDeliverySystemType() != null && noOfDelivery != noOfRecords) {%>
-                <a href="/toolkit/data/delivery/system?id=<%=r.getDeliverySystemId()%>"><%=SFN.parse(r.getDeliverySystemType())%></a>&nbsp;&nbsp;
+                <a href="/toolkit/data/delivery/system?id=<%=r.getDeliverySystemId()%>">ds(<%=SFN.parse(r.getDeliverySystemType())%>)</a>&nbsp;&nbsp;
                 <% } if(r.getModelName() != null && noOfModel != noOfRecords) {%>
-                <a href="/toolkit/data/models/model?id=<%=r.getModelId()%>"><%=SFN.parse(r.getModelName())%></a>&nbsp;&nbsp;
+                <a href="/toolkit/data/models/model?id=<%=r.getModelId()%>">m(<%=SFN.parse(r.getModelName())%>)</a>&nbsp;&nbsp;
                 <% } if(guide != "") {%>
                 <%=guide%>&nbsp;&nbsp;
                 <% } if(vector != "") {%>
@@ -298,8 +298,9 @@
 
 </div>
 <hr>
-<div>
-    <table id="grid" class="table" style="width:600px;">
+
+<div style="font-size:20px; color: #0002FC;">Select a graph below to explore the data set</div>
+    <table id="grid" class="table" style="width:600px;padding-left:20px;" >
         <thead>
         <th>Organ System</th>
         <th>Delivery</th>
@@ -382,7 +383,8 @@
     </tr>
 <%}%>
 </table>
-</div>
+
+
 <script>
 
    var tissueDeliveryConditions = [];

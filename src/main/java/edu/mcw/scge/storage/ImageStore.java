@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class ImageStore {
 
-    public static String[] getImages(String type, String id) {
+    public static String[] getImages(String type, String id, String bucket) {
 
-        File f = new File(StorageProperties.rootLocation+ "/" + type + "/" + id);
+        File f = new File(StorageProperties.rootLocation+ "/" + type + "/" + id + "/" + bucket);
 
         String[] files = new String[0];
 

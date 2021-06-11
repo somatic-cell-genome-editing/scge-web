@@ -31,18 +31,18 @@
     <%
 
         ExperimentDao edao = new ExperimentDao();
-        HashMap<Integer,ExperimentRecord> experimentRecordsMap = (HashMap<Integer,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
+        HashMap<Long,ExperimentRecord> experimentRecordsMap = (HashMap<Long,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
         List<ExperimentRecord> experimentRecords = new ArrayList<>(experimentRecordsMap.values());
-        HashMap<Integer,Double> resultMap = (HashMap<Integer, Double>) request.getAttribute("resultMap");
+        HashMap<Long,Double> resultMap = (HashMap<Long, Double>) request.getAttribute("resultMap");
         Study study = (Study) request.getAttribute("study");
         Access access = new Access();
         Person p = access.getUser(request.getSession());
         Experiment ex = (Experiment) request.getAttribute("experiment");
         //out.println(experiments.size());
 
-        HashMap<Integer,List<ExperimentResultDetail>> resultDetail= (HashMap<Integer, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
-            HashMap<Integer,List<Guide>> guideMap = (HashMap<Integer,List<Guide>>)request.getAttribute("guideMap");
-            HashMap<Integer,List<Vector>> vectorMap = (HashMap<Integer,List<Vector>>)request.getAttribute("vectorMap");
+        HashMap<Long,List<ExperimentResultDetail>> resultDetail= (HashMap<Long, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
+            HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
+            HashMap<Long,List<Vector>> vectorMap = (HashMap<Long,List<Vector>>)request.getAttribute("vectorMap");
         ExperimentResultDao erdao = new ExperimentResultDao();
        List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
 
@@ -77,10 +77,15 @@
     </table>
 
         <% if (( tissueList.size() > 0 && selectedResultType == null )) { %>
-            <hr><%@include file="tissueMap.jsp"%>
+            <hr>
+
+                <%@include file="tissueMap.jsp"%>
+
+
          <% }  %>
             <% if (tissueList.size() == 0 || selectedResultType != null) { %>
-        <hr><%@include file="recordsTable.jsp"%>
+        <hr>
+            <%@include file="recordsTable.jsp"%>
             <% }  %>
 
         </div>

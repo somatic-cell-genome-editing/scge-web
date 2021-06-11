@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.scge.datamodel.Model" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -74,9 +75,11 @@
 </div>
 
 <%
-    int objectId = m.getModelId();
-    String objectType="model";
+    long objectId = m.getModelId();
+    String objectType= ImageTypes.MODEL;
     String redirectURL = "/data/models/model?id=" + objectId;
+    String bucket="main";
+
 %>
 
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>

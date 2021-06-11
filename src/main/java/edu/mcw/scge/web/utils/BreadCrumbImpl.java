@@ -22,9 +22,9 @@ public class BreadCrumbImpl implements Crumb {
         TreeMap<Integer, Map<String, String>> crumbTrail=new TreeMap<>();
         Map<String, String> trailNLink=new HashMap<>();
         String parentCrumb=new String();
-        int parentId=0;
+        long parentId=0;
         String childCrumb=new String();
-        int childId=0;
+        long childId=0;
         String parentUrl=new String();
         String childUrl=new String();
         if(parent instanceof Study){

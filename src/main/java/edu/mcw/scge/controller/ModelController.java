@@ -39,7 +39,7 @@ public class ModelController {
     @RequestMapping(value="/model")
     public String getModel(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ModelDao dao = new ModelDao();
-        edu.mcw.scge.datamodel.Model mod= dao.getModelById(Integer.parseInt(req.getParameter("id")));
+        edu.mcw.scge.datamodel.Model mod= dao.getModelById(Long.parseLong(req.getParameter("id")));
 
         DBService dbService = new DBService();
         UserService userService = new UserService();
@@ -70,13 +70,13 @@ public class ModelController {
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByModel(mod.getModelId());
         req.setAttribute("experimentRecords",experimentRecords);
-        HashMap<Integer,List<Guide>> guideMap = new HashMap<>();
+        HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
         }
         req.setAttribute("guideMap", guideMap);
 
-        HashMap<Integer,List<Vector>> vectorMap = new HashMap<>();
+        HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
         }
