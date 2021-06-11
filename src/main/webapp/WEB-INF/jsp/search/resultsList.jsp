@@ -70,7 +70,7 @@
             </c:if>
             <c:if test="${hit.sourceAsMap.target!=null}">
                 <c:set var="first" value="true"/>
-                <span>Target Tissue:
+                <span>Target :
                 <c:forEach items="${hit.sourceAsMap.target}" var="item">
                     <c:choose>
                     <c:when test="${first=='true'}">
