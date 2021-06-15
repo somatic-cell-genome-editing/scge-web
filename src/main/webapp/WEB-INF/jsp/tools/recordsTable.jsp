@@ -225,7 +225,7 @@
                 var j = 0;
 
                 var aveIndex = table.rows.item(0).cells.length -1;
-
+                var replicate = [];
                 for (var i = 1; i < rowLength; i++){
                     if(table.rows.item(i).style.display != 'none') {
                         var cells = table.rows.item(i).cells;
@@ -236,20 +236,10 @@
                         yArray[j] = avg.innerHTML;
                         for(var k = aveIndex+1;k<cellLength;k++){
                             var arr = [];
-                            if(j != 0)
-                                arr = myChart.data.datasets[k-aveIndex].data;
-
+                            if(j != 0 && replicate[k-aveIndex-1] != null)
+                                    arr = replicate[k-aveIndex-1];
                             arr.push(cells.item(k).innerHTML);
-                            var dataSet = {
-                                data: arr,
-                                label: "Replicate: "+(i+1),
-                                yAxisID: 'delivery',
-                                backgroundColor: 'rgba(255,99,132,1)',
-                                borderColor: 'rgba(255,99,132,1)',
-                                type: "scatter",
-                                showLine: false
-                            };
-                            myChart.data.datasets[k-aveIndex] = dataSet;
+                            replicate[k-aveIndex-1] = arr;
                         }
                         j++;
                     }
@@ -265,9 +255,22 @@
                     borderColor:    'rgba(255, 206, 99, 0.8)',
                     borderWidth: 1
                 };
-
                 myChart.data.labels = xArray;
                 myChart.data.datasets[0] = data;
+
+                for(var i = 0;i < replicate.length;i++){
+                    var dataSet = {
+                        data: replicate[i],
+                        label: "Replicate: "+(i+1),
+                        yAxisID: 'delivery',
+                        backgroundColor: 'rgba(255,99,132,1)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        type: "scatter",
+                        showLine: false
+                    };
+                    myChart.data.datasets[i+1] = dataSet;
+                }
+
                 myChart.options.scales.yAxes[1].display = false;
                 myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString(null);
                 myChart.options.legend.display = false;
@@ -332,7 +335,6 @@
                 if(resultTypes.length > 1){
                     dualAxis = true;
                     for (var i = 0; i < resultTypes.length; i++) {
-                        console.log(document.getElementById((resultTypes[i])).checked);
                         if(document.getElementById((resultTypes[i])).checked == false){
                             dualAxis = false;
                         }
@@ -380,6 +382,7 @@
             var dualAxis = false;
             function load() {
                 for (var i = 0; i < tissues.length; i++) {
+                    console.log(tissues[i]);
                     applyFilters(document.getElementById(tissues[i]));
                 }
                 for (var i = 0; i < resultTypes.length; i++) {
@@ -389,7 +392,7 @@
                     applyFilters(document.getElementById(cellTypes[i]));
                 }
             }
-            window.onload=load();
+
 
             function updateAxis(){
                 var table = document.getElementById('myTable'); //to remove filtered rows
@@ -447,6 +450,7 @@
                 myChart.update();
 
             }
+            window.onload=load();
         </script>
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
         <script>
