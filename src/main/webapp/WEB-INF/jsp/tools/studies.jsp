@@ -62,7 +62,7 @@
         <td align="center"><img height="100" width="100" src="/toolkit/images/studyIcon.png" border="0"/></td>
         <td align="center">
             <form class="form-inline my-2 my-lg-0">
-                <input size=60 class="form-control " type="search" placeholder="Search Studies" aria-label="Search">
+                <input size=60 class="form-control " name="searchTerm" type="search" placeholder="Search Studies" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </td>
