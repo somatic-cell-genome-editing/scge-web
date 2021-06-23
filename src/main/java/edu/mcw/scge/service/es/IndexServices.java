@@ -16,8 +16,10 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import javax.management.Query;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class IndexServices {
+    private static String searchIndex="scge_search_dev";
     public SearchResponse getSearchResults(String category, String searchTerm, Map<String, String> filterMap,boolean DCCNIHMember) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
@@ -28,8 +30,8 @@ public class IndexServices {
           buildAggregations(srb);
    //     }
         srb.highlighter(this.buildHighlights());
-        srb.size(1000);
-       SearchRequest searchRequest=new SearchRequest("scge_search_test");
+        srb.size(10000);
+       SearchRequest searchRequest=new SearchRequest(searchIndex);
        searchRequest.source(srb);
 
         return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
@@ -161,13 +163,13 @@ public class IndexServices {
                 aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
 
             else*/
-            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
+            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword") .size(10000);
 
          //   aggs= AggregationBuilders.terms(fieldName).field(fieldName+".type.keyword");
 
         }else {
                 fieldName="category";
-            aggs = AggregationBuilders.terms(fieldName).field(fieldName + ".keyword");
+            aggs = AggregationBuilders.terms(fieldName).field(fieldName + ".keyword") .size(10000);
         }
     /*    if(selectedCategory!=null && !selectedCategory.equals("")) {
             aggs.subAggregation(AggregationBuilders.terms("type").field("type.keyword")
@@ -346,7 +348,7 @@ public class IndexServices {
      //   srb.highlighter(this.buildHighlights());
         srb.size(0);
         //  SearchRequest searchRequest=new SearchRequest("scge_search_test");
-        SearchRequest searchRequest=new SearchRequest("scge_search_test");
+        SearchRequest searchRequest=new SearchRequest(searchIndex);
         searchRequest.source(srb);
 
         return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
@@ -356,163 +358,78 @@ public class IndexServices {
         DisMaxQueryBuilder q=new DisMaxQueryBuilder();
         if(searchTerm!=null && !searchTerm.equals("")) {
             q.add(QueryBuilders.
-                    boolQuery()
-                    .must(
-                            QueryBuilders.multiMatchQuery(searchTerm,
-                            "name", "type", "subType", "symbol",
-                            "description", "experimentalTags", "externalId", "aliases",
-                            "target", "species", "site", "sequence", "pam", "detectionMethod","target",
-                            "name.ngram", "study.study",
-                            "study.labName" ,
-                            "study.pi"
-                            ,"editors.type" ,
-                            "editors.subType" ,
-                            "editors.symbol" ,
-                            "editors.alias" ,
-                            "editors.species" ,
-                            "editors.pamPreference" ,
-                            "editors.substrateTarget" ,
-                            "editors.activity" ,
-                            "editors.fusion" ,
-                            "editors.dsbCleavageType" ,
-                            "editors.source" ,
-                            "deliveries.type" ,
-                            "deliveries.name" ,
-                            "deliveries.source" ,
-                            "deliveries.description" ,
-                            "models.type" ,
-                            "models.name" ,
-                            "models.organism" ,
-                            "models.transgene" ,
-                            "models.transgeneReporter" ,
-                            "models.description" ,
-                            "models.strainCode",
-                                    "guides.species",
-                                    "guides.targetLocus",
-                                    "guides.targetSequence",
-                                    "guides.pam",
-                                    "guides.grnaLabId",
-
-                                    "guides.guide",
-                                    "guides.source",
-                                    "guides.guideDescription",
-                                    "vectors.name",
-                                    "vectors.type",
-                                    "vectors.subtype",
-                                    "vectors.genomeSerotype",
-                                    "vectors.capsidSerotype",
-                                    "vectors.description",
-                                    "vectors.capsidVariant",
-                                    "vectors.source",
-                                    "vectors.labId",
-                                    "vectors.annotatedMap",
-                                    "vectors.titerMethod").type(MultiMatchQueryBuilder.Type.CROSS_FIELDS).operator(Operator.AND)).filter(
-                            QueryBuilders.termQuery("category.keyword", "Experiment")
-                    )).boost(100);
-          q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
-                    "description", "experimentalTags", "externalId", "aliases",
-                    "target", "species", "site", "sequence", "pam", "detectionMethod","target",
-                        "name.ngram",
-                            "study.study",
-                            "study.labName" ,
-                            "study.pi"
-                    ,       "editors.type" ,
-                            "editors.subType" ,
-                            "editors.symbol" ,
-                            "editors.alias" ,
-                            "editors.species" ,
-                            "editors.pamPreference" ,
-                            "editors.substrateTarget" ,
-                            "editors.activity" ,
-                            "editors.fusion" ,
-                            "editors.dsbCleavageType" ,
-                            "editors.source" ,
-                            "deliveries.type" ,
-                            "deliveries.name" ,
-                            "deliveries.source" ,
-                            "deliveries.description" ,
-                            "models.type" ,
-                            "models.name" ,
-                            "models.organism" ,
-                            "models.transgene" ,
-                            "models.transgeneReporter" ,
-                            "models.description" ,
-                            "models.strainCode",
-                  "guides.species",
-                  "guides.targetLocus",
-                  "guides.targetSequence",
-                  "guides.pam",
-                  "guides.grnaLabId",
-
-                  "guides.guide",
-                  "guides.source",
-                  "guides.guideDescription",
-
-                  "vectors.name",
-                  "vectors.type",
-                  "vectors.subtype",
-                  "vectors.genomeSerotype",
-                  "vectors.capsidSerotype",
-                  "vectors.description",
-                  "vectors.capsidVariant",
-                  "vectors.source",
-                  "vectors.labId",
-                  "vectors.annotatedMap",
-                  "vectors.titerMethod").type(MultiMatchQueryBuilder.Type.BEST_FIELDS).fuzziness(1).operator(Operator.AND).boost(20));
-            q.add(QueryBuilders.multiMatchQuery(searchTerm, "name", "type", "subType", "symbol",
-                    "description", "experimentalTags", "externalId", "aliases",
-                    "target", "species", "site", "sequence", "pam", "detectionMethod","target",
-                    "name.ngram",
-                    "study.study",
-                    "study.labName" ,
-                    "study.pi",
-                    "editors.type" ,
-                    "editors.subType" ,
-                    "editors.symbol" ,
-                    "editors.alias" ,
-                    "editors.species" ,
-                    "editors.pamPreference" ,
-                    "editors.substrateTarget" ,
-                    "editors.activity" ,
-                    "editors.fusion" ,
-                    "editors.dsbCleavageType" ,
-                    "editors.source" ,
-                    "deliveries.type" ,
-                    "deliveries.name" ,
-                    "deliveries.source" ,
-                    "deliveries.description" ,
-                    "models.type" ,
-                    "models.name" ,
-                    "models.organism" ,
-                    "models.transgene" ,
-                    "models.transgeneReporter" ,
-                    "models.description" ,
-                    "models.strainCode",
-                    "guides.species",
-                    "guides.targetLocus",
-                    "guides.targetSequence",
-                    "guides.pam",
-                    "guides.grnaLabId",
-
-                    "guides.guide",
-                    "guides.source",
-                    "guides.guideDescription",
-
-                    "vectors.name",
-                    "vectors.type",
-                    "vectors.subtype",
-                    "vectors.genomeSerotype",
-                    "vectors.capsidSerotype",
-                    "vectors.description",
-                    "vectors.capsidVariant",
-                    "vectors.source",
-                    "vectors.labId",
-                    "vectors.annotatedMap",
-                    "vectors.titerMethod").type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10));
+                    boolQuery().must(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0])
+                            ).type(MultiMatchQueryBuilder.Type.CROSS_FIELDS).operator(Operator.AND))
+                    .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
+                    ).boost(100);
+          q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                  .type(MultiMatchQueryBuilder.Type.BEST_FIELDS).fuzziness(1).operator(Operator.AND).boost(20));
+           q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                    .type(MultiMatchQueryBuilder.Type.PHRASE).boost(10));
+            q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                    .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(20));
+          q.add(QueryBuilders.termsQuery(searchTerm, IndexServices.searchFields()
+                  .stream().map(s->s+".keyword").collect(Collectors.toList()))
+                  .boost(200));
         }else{
             q.add(QueryBuilders.matchAllQuery());
         }
+
         return q;
     }
+    public static List<String> searchFields(){
 
+       List<String> fields= Arrays.asList(
+                "name", "type", "subType", "symbol",
+                "description", "experimentalTags", "externalId", "aliases",
+                "target", "species", "site", "sequence", "pam", "detectionMethod","target",
+                "name.ngram", "study.study",
+                "study.labName" ,
+                "study.pi"
+                ,"editors.type" ,
+                "editors.subType" ,
+                "editors.symbol" ,
+                "editors.alias" ,
+                "editors.species" ,
+                "editors.pamPreference" ,
+                "editors.substrateTarget" ,
+                "editors.activity" ,
+                "editors.fusion" ,
+                "editors.dsbCleavageType" ,
+                "editors.source" ,
+                "deliveries.type" ,
+                "deliveries.name" ,
+                "deliveries.source" ,
+                "deliveries.description" ,
+                "models.type" ,
+                "models.name" ,
+                "models.organism" ,
+                "models.transgene" ,
+                "models.transgeneReporter" ,
+                "models.description" ,
+                "models.strainCode",
+                "guides.species",
+                "guides.targetLocus",
+                "guides.targetSequence",
+                "guides.pam",
+                "guides.grnaLabId",
+
+                "guides.guide",
+                "guides.source",
+                "guides.guideDescription",
+                "vectors.name",
+                "vectors.type",
+                "vectors.subtype",
+                "vectors.genomeSerotype",
+                "vectors.capsidSerotype",
+                "vectors.description",
+                "vectors.capsidVariant",
+                "vectors.source",
+                "vectors.labId",
+                "vectors.annotatedMap",
+                "vectors.titerMethod"
+        );
+    //   return fields.toArray(new String[0]);
+        return fields;
+    }
 }
