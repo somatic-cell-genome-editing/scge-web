@@ -51,9 +51,14 @@
     List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
 %>
 
+
+<table width="95%">
+    <tr>
+        <td width="50%">
+
 <div>
     <div>
-        <table  style="width:80%">
+        <table  style="width:100%">
 
 
             <tr ><td class="header"><strong>SCGE ID</strong></td><td><%=g.getGuide_id()%></td></tr>
@@ -64,7 +69,7 @@
             <tr ><td class="header" width="150"><strong>Alias</strong></td><td></td></tr>
         </table>
         <hr>
-        <table style="width:80%">
+        <table style="width:100%">
             <tr ><td class="header"><strong>Species</strong></td><td><%=SFN.parse(g.getSpecies())%></td></tr>
             <tr ><td class="header"><strong>Target Locus</strong></td><td><%=SFN.parse(g.getTargetLocus())%></td></tr>
             <tr ><td class="header"><strong>Target Sequence</strong></td><td><%=SFN.parse(g.getTargetSequence())%></td></tr>
@@ -76,7 +81,7 @@
             <tr ><td class="header"><strong>Strand</strong></td><td><%=SFN.parse(g.getStrand())%></td></tr>
         </table>
         <hr>
-        <table style="width:80%">
+        <table style="width:100%">
             <tr ><td class="header"><strong>Spacer Sequence</strong></td><td><%=SFN.parse(g.getSpacerSequence())%></td></tr>
             <tr ><td class="header"><strong>Spacer Length</strong></td><td><%=SFN.parse(g.getSpacerLength())%></td></tr>
             <tr ><td class="header"><strong>Modifications</strong></td><td><%=SFN.parse(g.getModifications())%></td></tr>
@@ -87,7 +92,7 @@
             <tr ><td class="header"><strong>Stemloop 3 Sequence</strong></td><td><%=SFN.parse(g.getStemloop3Sequence())%></td></tr>
         </table>
         <hr>
-        <table style="width:80%">
+        <table style="width:100%">
             <tr><td class="header"><strong>Related Editors</strong></td>
                 <td>
                     <%for (Editor relatedEditor: relatedEditors) { %>
@@ -104,7 +109,7 @@
             <tr ><td class="header"><strong>Specificity Ratio</strong></td><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
         </table>
         <hr>
-        <table style="width:80%">
+        <table style="width:100%">
             <tr><td class="header"><strong>Off Targets</strong></td>
                 <td>
                     <%for (OffTarget offTarget: offTargets) { %>
@@ -117,11 +122,26 @@
     <hr>
 </div>
 
+        </td>
+        <td valign="top">
+            <%
+                long objectId = g.getGuide_id();
+                String objectType= ImageTypes.GUIDE;
+                String redirectURL = "/data/guide/system?id=" + objectId;
+                String bucket="topRight";
+
+            %>
+            <br><br>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+        </td>
+    </tr>
+</table>
+
 <%
-    long objectId = g.getGuide_id();
-    String objectType= ImageTypes.GUIDE;
-    String redirectURL = "/data/guide/system?id=" + objectId;
-    String bucket="main";
+    //long objectId = g.getGuide_id();
+    //String objectType= ImageTypes.GUIDE;
+    //String redirectURL = "/data/guide/system?id=" + objectId;
+    bucket="main";
 
 %>
 
