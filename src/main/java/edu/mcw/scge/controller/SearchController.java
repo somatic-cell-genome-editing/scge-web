@@ -49,6 +49,7 @@ public class SearchController{
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
         SearchResponse sr=services.getSearchResults("", searchTerm, getFilterMap(req),DCCNIHMember);
+
         boolean facetSearch=false;
         if(req.getParameter("facetSearch")!=null)
             facetSearch= req.getParameter("facetSearch").equals("true");
