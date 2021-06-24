@@ -124,11 +124,11 @@ public class FileUploadController {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}else if (type.equals(ImageTypes.GUIDE)) {
-			if (!access.hasGuideAccess(Integer.parseInt(oid),p.getId())) {
+			if (!access.hasGuideAccess(Long.parseLong(oid),p.getId())) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}else if (type.equals(ImageTypes.RECORD)) {
-			if (!access.hasRecordAccess(Integer.parseInt(oid),p)) {
+			if (!access.hasRecordAccess(Long.parseLong(oid),p)) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}else if (type.equals(ImageTypes.STUDY)) {

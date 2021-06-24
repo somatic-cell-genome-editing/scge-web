@@ -7,6 +7,7 @@
 
 
 <%
+    {
     UserService imageCheckUserService=new UserService();
     Access imageCheckAccess= new Access();
     Person imageCheckPerson = imageCheckAccess.getUser(request.getSession());
@@ -56,6 +57,8 @@
         </td>
     </tr>
 
-    <% } %>
+    <% }
+    %>
 </table>
 
+<% } %>

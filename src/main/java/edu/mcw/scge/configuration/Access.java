@@ -271,7 +271,7 @@ public class Access {
         return adao.verifyVectorAccess(v,p);
     }
 
-    public boolean hasGuideAccess(int guideId, int personId) throws Exception{
+    public boolean hasGuideAccess(long guideId, int personId) throws Exception{
         GuideDao edao = new GuideDao();
         Guide g = edao.getGuideById(guideId).get(0);
         PersonDao personDao = new PersonDao();

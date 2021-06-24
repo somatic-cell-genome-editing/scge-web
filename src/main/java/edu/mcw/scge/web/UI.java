@@ -150,8 +150,6 @@ public class UI {
             return number;
         }
 
-        System.out.println("number in = " + number);
-
         //double d = Double.parseDouble(number);
         BigDecimal bd = new BigDecimal(number);
         bd = bd.round(new MathContext(pos + 3));
