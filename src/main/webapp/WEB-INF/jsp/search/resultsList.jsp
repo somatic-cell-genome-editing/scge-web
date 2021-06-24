@@ -25,7 +25,7 @@
             <c:if test="${hit.sourceAsMap.symbol!=null}">
             <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
                 <c:choose>
-                    <c:when test="${hit.sourceAsMap.subType=='Cas12j'}">
+                    <c:when test="${fn:contains(hit.sourceAsMap.aliases,'Cas12j')}">
                         <c:if test="${fn:contains(hit.sourceAsMap.symbol,'-1')}">
                             cas&#934;-1
                         </c:if>

@@ -19,7 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class IndexServices {
-    private static String searchIndex="scge_search_dev";
+    private static String searchIndex="scge_search_test";
     public SearchResponse getSearchResults(String category, String searchTerm, Map<String, String> filterMap,boolean DCCNIHMember) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
@@ -359,18 +359,21 @@ public class IndexServices {
         if(searchTerm!=null && !searchTerm.equals("")) {
             q.add(QueryBuilders.
                     boolQuery().must(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0])
-                            ).type(MultiMatchQueryBuilder.Type.CROSS_FIELDS).operator(Operator.AND))
-                    .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
+                            )
+                            //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                            .type(MultiMatchQueryBuilder.Type.PHRASE).analyzer("pattern").operator(Operator.AND))
+                  //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
                     ).boost(100);
-          q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                  .type(MultiMatchQueryBuilder.Type.BEST_FIELDS).fuzziness(1).operator(Operator.AND).boost(20));
-           q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                    .type(MultiMatchQueryBuilder.Type.PHRASE).boost(10));
+       /* q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                 .type(MultiMatchQueryBuilder.Type.BEST_FIELDS)
+                .analyzer("pattern")
+                 .fuzziness(1)
+                  .operator(Operator.AND).boost(20));*/
+         /*    q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                    .type(MultiMatchQueryBuilder.Type.PHRASE).boost(120));
             q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                    .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(20));
-          q.add(QueryBuilders.termsQuery(searchTerm, IndexServices.searchFields()
-                  .stream().map(s->s+".keyword").collect(Collectors.toList()))
-                  .boost(200));
+                    .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(150));*/
+
         }else{
             q.add(QueryBuilders.matchAllQuery());
         }
