@@ -146,17 +146,10 @@
                             },
                             ticks: {
                                 autoSkip: false,
-                                maxRotation: 90,
-                                minRotation: 90,
-                                fontColor: "purple",
                                 fontSize: 10,
                                 stepSize: 1,
                                 beginAtZero: true
-                               /* callback: function(t) {
-                                    var maxLabelLength = 9;
-                                    if (t.length > maxLabelLength) return t.substr(0, maxLabelLength) + '...';
-                                    else return t;
-                                }*/
+
                             },
                             barPercentage: 0.4,
                             scaleLabel: {
