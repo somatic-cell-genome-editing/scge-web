@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/experiments")
@@ -283,7 +284,7 @@ public class ExperimentController extends UserController {
         HashMap<Integer,Double> deliveryMap = new HashMap<>();
         HashMap<Integer,Double> editingMap = new HashMap<>();
 
-        HashMap<Long,List<ExperimentResultDetail>> resultDetail = new HashMap<>();
+        TreeMap<Long,List<ExperimentResultDetail>> resultDetail = new TreeMap<>();
         HashMap<Integer,List<ExperimentResultDetail>> deliveryDetail = new HashMap<>();
         HashMap<Integer,List<ExperimentResultDetail>> editingDetail = new HashMap<>();
 
@@ -303,6 +304,7 @@ public class ExperimentController extends UserController {
             else values = new ArrayList<>();
 
             values.add(er);
+            System.out.println(er.getResultId());
             experimentResultsMap.put(er.getResultId(),values);
         }
 
@@ -342,6 +344,7 @@ public class ExperimentController extends UserController {
 
             }
         }
+
             plotData.put("Mean",mean);
 
             List<String> tissues = edao.getExperimentRecordTissueList(experimentId);

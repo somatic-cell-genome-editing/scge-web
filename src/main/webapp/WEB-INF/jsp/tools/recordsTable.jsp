@@ -144,8 +144,24 @@
                             gridLines: {
                                 offsetGridLines: true // à rajouter
                             },
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 90,
+                                minRotation: 90,
+                                fontColor: "purple",
+                                fontSize: 10,
+                                stepSize: 1,
+                                beginAtZero: true
+                               /* callback: function(t) {
+                                    var maxLabelLength = 9;
+                                    if (t.length > maxLabelLength) return t.substr(0, maxLabelLength) + '...';
+                                    else return t;
+                                }*/
+                            },
+                            barPercentage: 0.4,
                             scaleLabel: {
                                 display: true,
+
                                 labelString: 'Experiment Conditions',
                                 fontSize: 14,
                                 fontStyle: 'bold',
@@ -188,6 +204,9 @@
                             afterLabel: function(tooltipItem, data) {
                                 var index = tooltipItem.index;
                                 return getDetails(index);
+                            },
+                            title: function(t, d) {
+                                return d.labels[t[0].index];
                             }
                         }
                     },
@@ -203,9 +222,9 @@
                 var detail = [];
                 var rowLength = table.rows.length;
                 var avgIndex = table.rows.item(0).cells.length -1;
-                for (i = 2; i < rowLength; i++) {
-                    if (table.rows.item(i).style.display != 'none') {
-                        if (j == index) {
+                for (i = 1; i < rowLength; i++) {
+                    if (table.rows.item(i).style.display !== 'none') {
+                        if (j === index) {
                             for(k = 1;k < avgIndex-2;k++){
                                 var label = table.rows.item(0).cells.item(k).innerText;
                                 var value = table.rows.item(i).cells.item(k).innerText;
@@ -284,7 +303,7 @@
                 var aveIndex = table.rows.item(0).cells.length -1;
                 var rowLength = table.rows.length;
                 for (var i = 1; i < rowLength; i++) {
-                    if (table.rows.item(i).style.display != "none") {
+                    if (table.rows.item(i).style.display !== "none") {
                         var cells = table.rows.item(i).cells;
                         if(result != null) {
                             if( cells.item(aveIndex - 2).innerText.includes(result)) {
@@ -451,6 +470,7 @@
 
             }
             window.onload=load();
+
         </script>
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
         <script>
