@@ -40,7 +40,7 @@
         Experiment ex = (Experiment) request.getAttribute("experiment");
         //out.println(experiments.size());
 
-        HashMap<Long,List<ExperimentResultDetail>> resultDetail= (HashMap<Long, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
+        TreeMap<Long,List<ExperimentResultDetail>> resultDetail= (TreeMap<Long, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
             HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
             HashMap<Long,List<Vector>> vectorMap = (HashMap<Long,List<Vector>>)request.getAttribute("vectorMap");
         ExperimentResultDao erdao = new ExperimentResultDao();

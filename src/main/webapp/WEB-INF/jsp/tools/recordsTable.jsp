@@ -203,7 +203,7 @@
                 var detail = [];
                 var rowLength = table.rows.length;
                 var avgIndex = table.rows.item(0).cells.length -1;
-                for (i = 2; i < rowLength; i++) {
+                for (i = 1; i < rowLength; i++) {
                     if (table.rows.item(i).style.display != 'none') {
                         if (j == index) {
                             for(k = 1;k < avgIndex-2;k++){
