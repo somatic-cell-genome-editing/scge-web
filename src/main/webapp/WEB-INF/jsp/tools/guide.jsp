@@ -51,7 +51,14 @@
     List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
 %>
 
-
+<%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){%>
+<script>
+    var range="13:32315508..32400268";
+    //  var range="<%=g.getChr().replace("chr", "")+":"+g.getStart()+".."+g.getStop()%>";
+    console.log("RANGE:"+range);
+</script>
+<%@include file="sequenceViewer.jsp"%>
+<%}%>
 <table width="95%">
     <tr>
         <td width="50%">
