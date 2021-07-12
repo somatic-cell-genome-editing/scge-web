@@ -40,10 +40,12 @@
   regulatory_region_variant: { impact: 'MODIFIER', color: '#a52a2a'},
   feature_truncation: { impact: 'MODIFIER', color: '#7f7f7f'},
   intergenic_variant: { impact: 'MODIFIER', color: '#636363'},
+    gRNA: { impact: 'MODIFIER', color: '#636363'},
+
 });
 
 function getColorForConsequence(consequence) {
-
+console.log("CONSEQUENCE: "+consequence);
   if(!consequence) return 'black';
 
   if(consequence.split(" ").length>1) return 'hotpink';

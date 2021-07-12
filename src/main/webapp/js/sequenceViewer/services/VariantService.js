@@ -220,41 +220,41 @@ fmax,
   let returnString = '';
   const location = description.location ;
   const [start,stop] = location.split(':')[1].split('..');
-  let alt_allele = description.alternative_alleles;
-  let ref_allele = description.reference_allele;
-  let length;
-  if(description.type === 'SNV'){
-    length = "1bp";
-  }
-  else if (description.type === 'deletion'){
-    length = ref_allele.length-1+'bp deleted';
-  }
-  else if(description.type === 'insertion'){
-    if(alt_allele === 'ALT_MISSING'){length = "unknown length inserted";alt_allele = 'n+';}
-    else{length = alt_allele.length-1 +"bp inserted";}
-  }
-  else if(description.type === 'MNV'){
-    length = ref_allele.length +"bp";
-  }
-  else if(description.type === 'delins'){
-    let del = ref_allele.length-1+"bp deleted";
-    let ins;
-    if(alt_allele === 'ALT_MISSING'){ins="unknown length inserted";alt_allele = 'n+';}
-    else{
-      ins = alt_allele.length -1+"bp inserted";
-    }
-    length = del + "; "+ins;
-  }
-  else{
+     /*  let alt_allele = description.alternative_alleles;
+       let ref_allele = description.reference_allele;
+       let length;
+       if(description.type === 'SNV'){
+         length = "1bp";
+       }
+       else if (description.type === 'deletion'){
+         length = ref_allele.length-1+'bp deleted';
+       }
+       else if(description.type === 'insertion'){
+         if(alt_allele === 'ALT_MISSING'){length = "unknown length inserted";alt_allele = 'n+';}
+         else{length = alt_allele.length-1 +"bp inserted";}
+       }
+       else if(description.type === 'MNV'){
+         length = ref_allele.length +"bp";
+       }
+       else if(description.type === 'delins'){
+         let del = ref_allele.length-1+"bp deleted";
+         let ins;
+         if(alt_allele === 'ALT_MISSING'){ins="unknown length inserted";alt_allele = 'n+';}
+         else{
+           ins = alt_allele.length -1+"bp inserted";
+         }
+         length = del + "; "+ins;
+       }
+       else{*/
     length = stop-start + "bp";
-  }
-  if (ref_allele.length > 20) {
+ // }
+/*  if (ref_allele.length > 20) {
       ref_allele = ref_allele.substring(0,1).toLowerCase()+ref_allele.substring(1,8).toUpperCase()+ '...' +ref_allele.substring(ref_allele.length-8).toUpperCase();
   }
   else {
       ref_allele = ref_allele.substring(0,1).toLowerCase()+ref_allele.substring(1).toUpperCase();
-  }
-  if(alt_allele.length >20){
+  }*/
+ /* if(alt_allele.length >20){
     alt_allele=alt_allele.substring(0,1).toLowerCase()+alt_allele.substring(1,8).toUpperCase()+"..."+alt_allele.substring(alt_allele.length-8).toUpperCase();
   }
   else {
@@ -273,32 +273,34 @@ fmax,
   }
   else {
        change = ref_allele + '->' + alt_allele;
-  }
+  }*/
   returnString += `<table class="tooltip-table"><tbody>`;
-  returnString += `<tr><th>Symbol</th><td>${description.symbolDetail}</td></tr>`;
+  returnString += `<tr><th>Name</th><td>${description.name}</td></tr>`;
   returnString += `<tr><th>Type</th><td>${description.type}</td></tr>`;
-  returnString += `<tr><th>Consequence</th><td>${description.consequence}</td></tr>`;
-  if(description.impact){
-    returnString += `<tr><th>Impact</th><td>${description.impact.length>descriptionWidth ? description.impact.substr(0,descriptionWidth) : description.impact}</td></tr>`;
+  returnString += `<tr><th>Target Locus</th><td>${description.targetLocus}</td></tr>`;
+  if(description.tragetSequence){
+    returnString += `<tr><th>Target Sequence</th><td>${description.tragetSequence}</td></tr>`;
   }
   returnString += `<tr><th>Length</th><td>${length}</td></tr>`;
-  if(description.name!==description.symbol){
-    returnString += `<tr><th>Name</th><td>${description.name}</td></tr>`;
-  }
-  if(description.geneId && description.geneSymbol){
-    returnString += `<tr><th>Allele of Genes</th><td> ${description.geneSymbol>descriptionWidth ? description.geneSymbol.substr(0,descriptionWidth) : description.geneSymbol} (${description.geneId})</td></tr>`;
-  }
-  else
-  if(description.allele_of_genes){
-    returnString += `<tr><th>Allele of Genes</th><td>${description.allele_of_genes.length>descriptionWidth ? description.allele_of_genes.substr(0,descriptionWidth) : description.allele_of_genes}</td></tr>`;
-  }
+  returnString += `<tr><th>PAM</th><td>${description.pam}</td></tr>`;
+  returnString += `<tr><th>Location</th><td>${description.location}</td></tr>`;
+     returnString += `<tr><th>Strand</th><td>${description.strand}</td></tr>`;
+     returnString += `<tr><th>Assembly</th><td>${description.assembly}</td></tr>`;
+
+     /*  if(description.geneId && description.geneSymbol){
+         returnString += `<tr><th>Allele of Genes</th><td> ${description.geneSymbol>descriptionWidth ? description.geneSymbol.substr(0,descriptionWidth) : description.geneSymbol} (${description.geneId})</td></tr>`;
+       }
+       else
+       if(description.allele_of_genes){
+         returnString += `<tr><th>Allele of Genes</th><td>${description.allele_of_genes.length>descriptionWidth ? description.allele_of_genes.substr(0,descriptionWidth) : description.allele_of_genes}</td></tr>`;
+       }*/
   // if(description.alleles){
   //   returnString += `<tr><th>Alleles</th><td>${description.alleles.length>descriptionWidth ? description.alleles.substr(0,descriptionWidth) : description.alleles}</td></tr>`;
   // }
-  if(description.alternative_alleles){
+ /* if(description.alternative_alleles){
     returnString += `<tr><th>Sequence Change</th><td>${change}</td></tr>`;
     // returnString += `<tr><th>Alternative Alleles</th><td>${description.alternative_alleles.length>descriptionWidth ? description.alternative_alleles.substr(0,descriptionWidth) : description.alternative_alleles}</td></tr>`;
-  }
+  }*/
 
 
 
@@ -309,7 +311,7 @@ fmax,
  function getVariantDescriptions(variant){
   return variant.variants.map( v => {
     let description = getVariantDescription(v)
-    description.consequence = description.consequence ? description.consequence : 'UNKNOWN';
+    description.type = description.type ? description.type : 'UNKNOWN';
     return description;
   })
 }
@@ -317,7 +319,7 @@ fmax,
  function getVariantAlleles(variant){
   let returnObj=[];
   variant.variants.forEach((val) => {
-    let allele = val.allele_ids.values[0].replace(/"/g,"");
+    let allele = val.guide_ids.values[0].replace(/"/g,"");
     if(allele.split(',').length>1){
       allele.split(',').forEach((val2) => {
         returnObj.push(val2.replace(/\[|\]| /g,""))})
@@ -345,11 +347,15 @@ fmax,
  function getConsequence(variant){
   let consequence = 'UNKNOWN';
 
-  if(variant.geneLevelConsequence && variant.geneLevelConsequence.values && variant.geneLevelConsequence.values.length > 0){
+  /*if(variant.geneLevelConsequence && variant.geneLevelConsequence.values && variant.geneLevelConsequence.values.length > 0){
     consequence = variant.geneLevelConsequence.values[0].replace(/\|/g," ").replace(/\"/g,"");
-  }
+  }*/
+     if(variant.type && variant.type.length > 0){
+         consequence = variant.type;
+     }
   return consequence;
 }
+
 
 /**
  * Returns an object
@@ -361,17 +367,23 @@ fmax,
   returnObject.symbol= getVariantSymbol(variant) ;
   returnObject.symbolDetail = getVariantSymbolDetail(variant) ;
   returnObject.location = `${variant.seqId}:${variant.fmin}..${variant.fmax}`;
-  returnObject.consequence =  getConsequence(variant);
+//  returnObject.consequence =  getConsequence(variant);
+  returnObject.targetLocus =  variant.targetLocus;
+  returnObject.tragetSequence= variant.targetSequence;
   returnObject.type =  variant.type;
   returnObject.name =  variant.name;
   returnObject.description =  variant.description;
-  returnObject.reference_allele =  variant.reference_allele;
+  returnObject.pam =  variant.pam;
+    returnObject.strand =  variant.strand;
+    returnObject.assembly =  variant.assembly;
 
-  returnObject.geneId = variant.allele_of_gene_ids ? variant.allele_of_gene_ids.values[0].replace(/"/g,"") : undefined
-  returnObject.geneSymbol  = variant.allele_of_gene_symbols ? variant.allele_of_gene_symbols.values[0].replace(/"/g,"") : undefined
 
 
-  if(variant.allele_of_genes){
+    /*  returnObject.geneId = variant.allele_of_gene_ids ? variant.allele_of_gene_ids.values[0].replace(/"/g,"") : undefined
+      returnObject.geneSymbol  = variant.allele_of_gene_symbols ? variant.allele_of_gene_symbols.values[0].replace(/"/g,"") : undefined
+
+    */
+ /* if(variant.allele_of_genes){
     if(variant.allele_of_genes.values && variant.allele_of_genes.values.length>0){
       returnObject.allele_of_genes =  (Array.isArray(variant.allele_of_genes.values) ? variant.allele_of_genes.values.join(' ') : variant.allele_of_genes.values).replace(/"/g,"");
     }
@@ -402,7 +414,7 @@ fmax,
     else{
       returnObject.impact = variant.impact;
     }
-  }
+  }*/
 
   return returnObject ;
 }
@@ -417,13 +429,13 @@ fmax,
     }
   }
   // note that using the html version of this gets swallowed in the text svg
-  if(variant.allele_symbols && variant.allele_symbols.values){
+  if(variant.targetLocus){
 
-    if(variant.allele_symbols.values[0].split(",").length>1){
+    if(variant.targetLocus.split(",").length>1){
       try{
         let text_array = [];
-        const clean_text = variant.allele_symbols.values[0].replace(/"|\[|\]/g,'')
-        const clean_ids = variant.allele_ids.values[0].replace(/"|\[|\]/g,'')
+        const clean_text = variant.targetLocus.replace(/"|\[|\]/g,'')
+        const clean_ids = variant.targetLocus.replace(/"|\[|\]/g,'')
         const clean_text_array = clean_text.split(",")
         const clean_id_array = clean_ids.split(",")
         for(let i in clean_text.split(",")){
@@ -434,12 +446,12 @@ fmax,
       }
       catch(e){
         console.error(e)
-        return variant.allele_symbols.values[0].split(",").length
+        return variant.targetLocus.length
       }
     }
     else{
-      const clean_text = variant.allele_symbols.values[0].replace(/"/g,"")
-      return clean_text + '(' +variant.allele_ids.values[0].replace(/"|\[|\]/g,'') +')'
+      const clean_text = variant.targetLocus.replace(/"/g,"")
+      return clean_text + '(' +variant.targetLocus.replace(/"|\[|\]/g,'') +')'
     }
 
 
@@ -457,13 +469,10 @@ fmax,
     }
   }
   // note that using the html version of this gets swallowed in the text svg
-  if(variant.allele_symbols_text && variant.allele_symbols_text.values){
-    if(variant.allele_symbols_text.values[0].split(",").length>1){
-      return variant.allele_symbols_text.values[0].split(",").length;
-    }
-    else{
-      return variant.allele_symbols_text.values[0].replace(/"/g,"");
-    }
+  if(variant.targetLocus){
+
+      return variant.targetLocus;
+
 
 
   }
@@ -478,6 +487,9 @@ fmax,
     }
     else if (variant.type.toLowerCase() === 'snv' || variant.type.toLowerCase() === 'point_mutation') {
       presentVariants.push('snv');
+    }
+    else if (variant.type.toLowerCase() === 'grna' ) {
+        presentVariants.push('grna');
     }
     else if (variant.type.toLowerCase() === 'insertion') {
       presentVariants.push('insertion');

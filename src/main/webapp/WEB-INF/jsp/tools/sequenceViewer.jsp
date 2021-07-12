@@ -1,8 +1,7 @@
 <div id="like_button_container"></div>
-<h3>Required: <%=g.getChr().replace("chr", "")+":"+g.getStart()+".."+g.getStop()%></h3>
-<hr>
-<div class="viewer-border">
-    <h3>13:32315508..32400268</h3>
+
+<div class="container">
+    <div id="range" style="text-align: center"></div>
     <svg className="viewer" id="viewerActnFly"/>
 </div>
 <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
@@ -17,7 +16,6 @@
 </script>
 <link rel="stylesheet" href="/toolkit/js/sequenceViewer/GenomeFeatureViewer.css">
 
-<link href="/toolkit/js/sequenceViewer/GenomeFeatureViewer.css" type="text/css">
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="/toolkit/js/sequenceViewer/RenderFunctions.js"></script>

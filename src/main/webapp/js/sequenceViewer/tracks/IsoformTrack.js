@@ -153,7 +153,8 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
 
 
                 // For each isoform..
-                featureChildren.forEach(function (featureChild) {
+                 featureChildren.forEach(function (featureChild) {
+                    if(featureChild.name.includes("NM")){
                     let featureType = featureChild.type;
 
                     if (display_feats.indexOf(featureType) >= 0) {
@@ -204,7 +205,7 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
                             let label_offset = x(featureChild.fmin) > 0 ? x(featureChild.fmin) : 0;
                             let text_label = isoform.append('text')
                                 .attr('class', 'transcriptLabel')
-                                .attr('fill', selected ? 'sandybrown' : 'gray')
+                                .attr('fill', selected ? 'sandybrown' : 'darkorange')
                                 .attr('opacity', selected ? 1 : 0.5)
                                 .attr('height', isoform_title_height)
                                 .attr("transform", "translate(" + label_offset+ ",0)")
@@ -358,7 +359,8 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
                                 .html(link);
                         }
                     }
-                });
+                }
+            });
             }
         }
 

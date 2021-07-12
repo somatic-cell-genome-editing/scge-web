@@ -32,7 +32,7 @@
                 });
             </script>
 
-            <table id="associatedExperiments" class="table tablesorter table-striped">
+            <table id="associatedExperiments" class="table tablesorter table-striped table-responsive">
         <thead>
         <tr>
             <th>Study</th>

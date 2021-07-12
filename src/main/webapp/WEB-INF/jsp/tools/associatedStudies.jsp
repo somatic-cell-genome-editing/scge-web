@@ -15,14 +15,6 @@
    Person localStudyPerson = new UserService().getCurrentUser(request.getSession());
     GrantDao grantDao = new GrantDao();
 %>
-
-<% if (studies.size() ==0) { %>
-<tr>
-    <td>0 Studies associated</td>
-</tr>
-
-<%} else { %>
-
 <script>
     $(function() {
         $("#associatedStudies").tablesorter({
@@ -32,8 +24,16 @@
     });
 </script>
 
+<% if (studies.size() ==0) { %>
+<tr>
+    <td>0 Studies associated</td>
+</tr>
 
-<table id="associatedStudies" class="table tablesorter table-striped">
+<%} else { %>
+
+
+
+<table id="associatedStudies" class="table tablesorter table-striped table-responsive">
     <thead>
     <tr><!--th>Select</th-->
         <!--th>Action</th-->
