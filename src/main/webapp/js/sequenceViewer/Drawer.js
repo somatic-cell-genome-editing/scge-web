@@ -69,6 +69,7 @@ const LABEL_OFFSET = 100 ;
         let htpVariant = options["htpVariant"] ? options["htpVariant"] : '';
         let start = sequenceOptions["start"];
         let end = sequenceOptions["end"];
+        let guide=options["guide"];
 
       // Draw our reference if it's local for now.
         const referenceTrack = new ReferenceTrack(viewer,
@@ -100,6 +101,7 @@ const LABEL_OFFSET = 100 ;
           track["chromosome"] = chromosome;
           track["variant_filter"] = variantFilter;
           track["isoform_filter"] = isoformFilter;
+          track["guide"]=guide;
           if(track.type === TRACK_TYPE.ISOFORM_AND_VARIANT)
           {
             const isoformVariantTrack = new IsoformAndVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter,binRatio,isoformFilter);

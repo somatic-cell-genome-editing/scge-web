@@ -5,6 +5,7 @@
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.OffTarget" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
+<%@ page import="com.google.gson.Gson" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -54,19 +55,20 @@
 
 <script>
   //  var range="13:32315508..32400268";
-  var range="19:55090912..55117637";
+
     //  var range="<%--=g.getChr().replace("chr", "")+":"+g.getStart()+".."+g.getStop()--%>";
-  $(function () {
-      $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
-  });
+
+ var chr='<%=g.getChr().replace("chr", "")%>';
+ var start="<%=g.getStart()%>";
+ var stop="<%=g.getStop()%>";
+ var guide='<%=new Gson().toJson(g)%>';
+
 </script>
 <%
     long objectId = g.getGuide_id();
     String objectType= ImageTypes.GUIDE;
     String redirectURL = "/data/guide/system?id=" + objectId;
     String bucket="topRight";
-    Access imageCheckAccess= new Access();
-    Person imageCheckPerson = imageCheckAccess.getUser(request.getSession());
     String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
 
 
@@ -194,7 +196,10 @@
     </table>
     </div>
     <hr>
-    <%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){%>
+    <%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){
+
+    %>
+
     <div id="sequenceViewer">
         <h4 class="page-header" style="color:grey;">Sequence Viewer</h4>
         <%@include file="sequenceViewer.jsp"%>

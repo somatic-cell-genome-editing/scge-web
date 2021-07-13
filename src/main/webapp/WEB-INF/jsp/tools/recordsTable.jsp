@@ -144,17 +144,9 @@
                             gridLines: {
                                 offsetGridLines: true // à rajouter
                             },
-                            ticks: {
-                                autoSkip: false,
-                                fontSize: 10,
-                                stepSize: 1,
-                                beginAtZero: true
 
-                            },
-                            barPercentage: 0.4,
                             scaleLabel: {
                                 display: true,
-
                                 labelString: 'Experiment Conditions',
                                 fontSize: 14,
                                 fontStyle: 'bold',

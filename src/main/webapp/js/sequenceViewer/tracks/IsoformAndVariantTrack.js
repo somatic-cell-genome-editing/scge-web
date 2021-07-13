@@ -15,6 +15,7 @@ import {
 import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
 // import {description} from "d3/dist/package";
 import {ApolloService} from "../services/ApolloService";*/
+
 let apolloService = new ApolloService();
 
 // TODO: make configurable and a const / default
@@ -226,7 +227,7 @@ let apolloService = new ApolloService();
                 //    let viewer_height= viewer.node().getBBox().height-22.5;
               })
               .on("mouseover", function(d){
-                let theVariant = d.variant;
+               let theVariant = d.variant;
                 d3.selectAll(".variant-SNV")
                     .filter(function(d){return d.variant === theVariant})
                     .style("stroke" , "black");
@@ -715,24 +716,21 @@ let apolloService = new ApolloService();
       '\n' +
       '"uniqueID":"NC_004354.4:g.2025701T>A"'+
       '}]') ;*/
+    const guide=JSON.parse(track["guide"]);
     this.variantData=JSON.parse('[{\n' +
-        '"targetSequence":"GTCCCTAGTGGCCCCACTGT",' +
-        '"targetLocus":"AAVS1",' +
-        '"description":"Guide",' +
-        '"type":"gRNA", ' +
-        '"fmax":55115788,' +
-        '"pam":"NGG",\n' +
-        '"strand":"+",\n' +
-        '"assembly":"hg38",\n' +
-        '"name":"AAVS1_site_02",\n' +
-        '\n' +
+        '"targetSequence":"'+ guide["targetSequence"] +'",' +
+        '"targetLocus":"'+ guide["targetLocus"] +'",' +
+        '"description":"'+ guide["description"] +'",' +
+        '"type":"'+ "gRNA" +'", ' +
+        '"fmax":'+ guide["stop"] +',' +
+        '"pam":"'+ guide["pam"] +'",\n' +
+        '"strand":"'+ guide["strand"] +'",\n' +
+        '"assembly":"'+ guide["assembly"] +'",\n' +
+        '"name":"'+ guide["guide"] +'",\n' +
         '"guide_ids":{"meta":{"number":[-1],"description":["The ID of the Guide"],"id":["guide_ids"],"type":["UNBOUNDED"]},"values":["\\"AAVS1_site_02\\""]},\n' +
-        '\n' +
-        '"fmin":55115765,\n' +
-        '\n' +
-        '"seqId":"19",\n' +
-        '\n' +
-        '"scge_id":"10000000090"'+
+        '"fmin":'+ guide["start"] +',\n' +
+        '"seqId":"'+ guide["chr"] +'",\n' +
+        '"scge_id":"'+ guide["guide_id"] +'"'+
         '}]') ;
 
   }

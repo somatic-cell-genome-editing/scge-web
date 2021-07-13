@@ -17,7 +17,6 @@
 <link rel="stylesheet" href="/toolkit/js/sequenceViewer/GenomeFeatureViewer.css">
 
 
-<script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="/toolkit/js/sequenceViewer/RenderFunctions.js"></script>
 
 <script src="/toolkit/js/sequenceViewer/services/ApolloService.js"></script>
@@ -43,3 +42,4 @@
 <script src="/toolkit/js/sequenceViewer/Drawer.js"></script>
 <script src="/toolkit/js/sequenceViewer/GenomeFeatureViewer.js"></script>
 <script src="/toolkit/js/sequenceViewer/demo/index.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>

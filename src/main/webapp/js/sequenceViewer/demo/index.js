@@ -19,6 +19,7 @@ const BASE_URL = 'https://build.alliancegenome.org/apollo';
 //covidExamples();
 currentExamples();
 
+
 function getTranscriptTypes(){
  return ['mRNA', 'ncRNA', 'piRNA', 'lincRNA', 'miRNA', 'pre_miRNA', 'snoRNA', 'lnc_RNA', 'tRNA', 'snRNA', 'rRNA', 'ARS', 'antisense_RNA', 'C_gene_segment', 'V_gene_segment', 'pseudogene_attribute','snoRNA_gene','polypeptide_region','mature_protein_region'];
 }
@@ -26,10 +27,11 @@ function getTranscriptTypes(){
 function covidExamples(){
   createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
 }
-
+var range="";
 function currentExamples(){
 //    createIsoformExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM, false);
-    createExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,null,null);
+    var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/38";
+    getGenomeInfo(url, guide);
 
 //   createExample("X:2023822..2042311", "fly", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,["FB:FBal0212726","FB:FBal0000277","FB:FBal0000276"],['FBtr0070344','FBtr0070346']);
   //createExample("8:57320983..57324517", "mouse", "viewerHand2Mouse", TRACK_TYPE.ISOFORM_AND_VARIANT, false,[],['ENSMUST00000185635']);
@@ -37,7 +39,36 @@ function currentExamples(){
   //createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
   //createHTPExample("X:2023822..2042311", "fly", "viewerActnHTPFly", TRACK_TYPE.ISOFORM, false,[],'Actn','X:2037135');
 }
+function getGenomeInfo(url){
 
+    $.ajax({
+        url:url,
+        type:"GET",
+        success:function (geneInfo) {
+            const mappedGeneChr=geneInfo[0].chromosome;
+            const mappedGeneStart=geneInfo[0].start;
+            const mappedGeneStop=geneInfo[0].stop;
+            console.log(mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop);
+            range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
+            $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
+            createExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,null,null, guide);
+
+        }
+    });
+
+}
+getGenome=  async () => {
+    var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/38";
+    const response = await fetch(url);
+    const geneInfo=   await response.json(); //extract JSON from the http response
+    console.log(geneInfo);
+   const mappedGeneChr=geneInfo[0].chromosome;
+   const mappedGeneStart=geneInfo[0].start;
+   const mappedGeneStop=geneInfo[0].stop;
+    console.log(mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop);
+    range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
+    $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
+};
 function flyExamples() {
     // 2L:132412..230018
 // http://localhost:8080/apollo/vcf/remotefly/Phenotypic%20Variants/2L:132412..230018.json?includeGenotypes=false&ignoreCache=true
@@ -102,7 +133,7 @@ function isoformExamples() {
     createIsoformExample("25:15029041..15049781", "zebrafish", "zebrafishExampleIsoformOnly", TRACK_TYPE.ISOFORM, true);
 }
 
-function createExample(range, genome, divId, type, showLabel, variantFilter,isoformFilter) {
+function createExample(range, genome, divId, type, showLabel, variantFilter,isoformFilter,guide) {
     const chromosome = range.split(":")[0];
     const [start, end] = range.split(":")[1].split("..");
     const ratio = 0.01;
@@ -116,6 +147,7 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
       "isoformFilter": isoformFilter || [],
       "variantFilter": variantFilter || [],
         "binRatio": ratio,
+        "guide":guide,
         "tracks": [
             {
                 "id": 12,
@@ -130,7 +162,7 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
                     `${BASE_URL}/vcf/`,
                     "/Variants/",
                     ".json"
-                ],
+                ]
 
             },
         ]
