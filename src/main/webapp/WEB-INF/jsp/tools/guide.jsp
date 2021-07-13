@@ -53,17 +53,7 @@
 %>
 
 
-<script>
-  //  var range="13:32315508..32400268";
 
-    //  var range="<%--=g.getChr().replace("chr", "")+":"+g.getStart()+".."+g.getStop()--%>";
-
- var chr='<%=g.getChr().replace("chr", "")%>';
- var start="<%=g.getStart()%>";
- var stop="<%=g.getStop()%>";
- var guide='<%=new Gson().toJson(g)%>';
-
-</script>
 <%
     long objectId = g.getGuide_id();
     String objectType= ImageTypes.GUIDE;
@@ -199,7 +189,17 @@
     <%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){
 
     %>
+    <script>
+        //  var range="13:32315508..32400268";
 
+        //  var range="<%--=g.getChr().replace("chr", "")+":"+g.getStart()+".."+g.getStop()--%>";
+
+        var chr='<%=g.getChr().replace("chr", "")%>';
+        var start="<%=g.getStart()%>";
+        var stop="<%=g.getStop()%>";
+        var guide='<%=new Gson().toJson(g)%>';
+
+    </script>
     <div id="sequenceViewer">
         <h4 class="page-header" style="color:grey;">Sequence Viewer</h4>
         <%@include file="sequenceViewer.jsp"%>
