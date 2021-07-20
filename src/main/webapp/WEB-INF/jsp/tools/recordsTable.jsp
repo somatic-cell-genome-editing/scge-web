@@ -306,13 +306,10 @@
             function applyFilters(obj)  {
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
-
-
                 for (i = 1; i < rowLength; i++){
                         var cells = table.rows.item(i).cells;
                         for (k=0; k<cells.length;k++ ) {
-
-                            if (cells.item(k).innerHTML == obj.id || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+                            if (cells.item(k).innerHTML.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                                if (obj.checked) {
                                    cells.item(k).off=false;
                                    var somethingOff = false;
