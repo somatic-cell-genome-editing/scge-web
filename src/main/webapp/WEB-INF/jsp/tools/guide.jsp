@@ -177,7 +177,7 @@
         <% } %>
         <tr>
             <td align="center">
-                <img height="100" width="150" style="padding-bottom:10px;" src="/toolkit/store/<%=objectType%>/<%=objectId%>/<%=bucket%>/<%=images[i]%>" />
+                <img  style="padding-bottom:10px;" src="/toolkit/store/<%=objectType%>/<%=objectId%>/<%=bucket%>/<%=images[i]%>" />
             </td>
         </tr>
 
