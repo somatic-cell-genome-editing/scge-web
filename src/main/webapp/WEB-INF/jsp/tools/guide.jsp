@@ -238,7 +238,6 @@
             <tr ><td >Vector Type</td><td><%=SFN.parse(g.getVectorType())%></td></tr>
 
             <tr ><td >Annotated Map</td><td><%=SFN.parse(g.getAnnotatedMap())%></td></tr>
-            <tr ><td >Specificity Ratio</td><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
 
         </table>
     </div>
@@ -257,6 +256,11 @@
                 </td>
             </tr>
             <% } %>
+        </table>
+        <h4 class="page-header" style="color:grey;">Specificity</h4>
+        <table class="table">
+            <tr ><th >Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
+
         </table>
     </div>
     <hr>
