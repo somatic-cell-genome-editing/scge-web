@@ -158,7 +158,7 @@
                         if (tissueDeliveryConditions == null || !tissueDeliveryConditions.containsKey(tissueName))
                             labelDetails = new TreeSet<>();
                         else labelDetails = tissueDeliveryConditions.get(tissueName);
-                        labelDetails.add("\"" + er.getExperimentName() + "\"");
+                        labelDetails.add("\"" + er.getExperimentName().toLowerCase().replace(er.getTissueTerm().toLowerCase(),"") + "\"");
                         tissueDeliveryConditions.put(tissueName, labelDetails);
                     }
                     if(erd.getUnits().contains("present")){
@@ -182,7 +182,7 @@
                         if(tissueEditingConditions == null || !tissueEditingConditions.containsKey(tissueName))
                             labelDetails = new TreeSet<>();
                         else  labelDetails = tissueEditingConditions.get(tissueName);
-                        labelDetails.add("\""+er.getExperimentName()+"\"");
+                        labelDetails.add("\""+er.getExperimentName().toLowerCase().replace(er.getTissueTerm().toLowerCase(),"")+"\"");
                         tissueEditingConditions.put(tissueName,labelDetails);
                     }
                     if(erd.getUnits().contains("present")){

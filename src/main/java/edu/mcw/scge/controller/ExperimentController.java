@@ -241,7 +241,7 @@ public class ExperimentController extends UserController {
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
     }
-    @RequestMapping(value="/experiment/{experimentId}")
+ /*   @RequestMapping(value="/experiment/{experimentId}")
     public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res,
                                                @PathVariable(required = true) long experimentId
     ) throws Exception {
@@ -258,6 +258,8 @@ public class ExperimentController extends UserController {
 
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
+        GrantDao grantDao=new GrantDao();
+        Grant grant=grantDao.getGrantByGroupId(study.getGroupId());
         Experiment e = edao.getExperiment(experimentId);
 
         if (!access.hasStudyAccess(study,p)) {
@@ -266,30 +268,13 @@ public class ExperimentController extends UserController {
             return null;
 
         }
-
         List<String> labels=new ArrayList<>();
         Map<String, List<Double>> plotData=new HashMap<>();
-        Map<String, List<Double>> deliveryPlot=new HashMap<>();
-        Map<String, List<Double>> editingPlot=new HashMap<>();
-
         HashMap<Integer,List<Integer>> replicateResult = new HashMap<>();
-        HashMap<Integer,List<Integer>> deliveryReplicate = new HashMap<>();
-        HashMap<Integer,List<Integer>> editingReplicate = new HashMap<>();
-
         List mean = new ArrayList<>();
-        List deliveryMean = new ArrayList<>();
-        List editingMean = new ArrayList<>();
-
         HashMap<Long,Double> resultMap = new HashMap<>();
-        HashMap<Integer,Double> deliveryMap = new HashMap<>();
-        HashMap<Integer,Double> editingMap = new HashMap<>();
-
         TreeMap<Long,List<ExperimentResultDetail>> resultDetail = new TreeMap<>();
-        HashMap<Integer,List<ExperimentResultDetail>> deliveryDetail = new HashMap<>();
-        HashMap<Integer,List<ExperimentResultDetail>> editingDetail = new HashMap<>();
-
-        String efficiency = null,deliveryEfficiency=null,editingEfficiency=null;
-        int noOfSamples = 0,deliverySamples=0,editingSamples=0;
+        String efficiency = null;
         int i=0;
         List values = new ArrayList<>();
         List<String> resultTypes = dbService.getResultTypes(experimentId);
@@ -307,21 +292,24 @@ public class ExperimentController extends UserController {
             System.out.println(er.getResultId());
             experimentResultsMap.put(er.getResultId(),values);
         }
-
         HashMap<Long,ExperimentRecord> recordMap = new HashMap<>();
+        Map<String, Integer> objectSizeMap=getObjectSizeMap(records);
+        objectSizeMap.put("resultTypes", resultTypes.size());
         for(ExperimentRecord rec:records)
             recordMap.put(rec.getExperimentRecordId(),rec);
-
         for (Long resultId : experimentResultsMap.keySet()) {
-            resultDetail.put(resultId, experimentResultsMap.get(resultId));
+            List<ExperimentResultDetail> erdList=experimentResultsMap.get(resultId);
+         //   resultDetail.put(resultId, experimentResultsMap.get(resultId));
+            resultDetail.put(resultId, erdList);
             long expRecId = experimentResultsMap.get(resultId).get(0).getExperimentRecordId();
             guideMap.put(expRecId, dbService.getGuidesByExpRecId(expRecId));
             vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
 
             if (!experimentResultsMap.get(resultId).get(0).getUnits().contains("present")) {
                 ExperimentRecord record = recordMap.get(expRecId);
-                labels.add("\"" + record.getExperimentName() + "\"");
-
+                StringBuilder label=getLabel(record, grant.getGrantInitiative(),objectSizeMap);
+                labels.add("\"" + label + "\"");
+                record.setExperimentName(label.toString());
                 double average = 0;
 
                 for (ExperimentResultDetail result : experimentResultsMap.get(resultId)) {
@@ -348,7 +336,8 @@ public class ExperimentController extends UserController {
             plotData.put("Mean",mean);
 
             List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
-            List<String> conditions = edao.getExperimentRecordConditionList(experimentId);
+      //      List<String> conditions = edao.getExperimentRecordConditionList(experimentId);
+        List<String> conditions = labels.stream().map(l->l.replaceAll("\"","")).distinct().collect(Collectors.toList());
 
             req.setAttribute("tissues",tissues);
             req.setAttribute("conditions",conditions);
@@ -369,11 +358,774 @@ public class ExperimentController extends UserController {
             req.setAttribute("cellType",cellType);
             req.setAttribute("action", "Experiment Records");
             req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
-
+            req.setAttribute("objectSizeMap", objectSizeMap);
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
+    }*/
+    @RequestMapping(value="/experiment/{experimentId}")
+    public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res,
+                                               @PathVariable(required = true) long experimentId
+    ) throws Exception {
+
+        String resultType = req.getParameter("resultType");
+        String tissue = req.getParameter("tissue");
+        String cellType = req.getParameter("cellType");
+
+        Person p=userService.getCurrentUser(req.getSession());
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+        List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
+
+        Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
+        GrantDao grantDao=new GrantDao();
+        Grant grant=grantDao.getGrantByGroupId(study.getGroupId());
+        Map<String, Integer> objectSizeMap=getObjectSizeMap(records);
+        Experiment e = edao.getExperiment(experimentId);
+        if (!access.hasStudyAccess(study,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+        List<String> uniqueFields=getLabelFields(records, objectSizeMap, grant.getGrantInitiative());
+        System.out.print("UNIQUE FIELDS:"+ uniqueFields.toString());
+        List<String> labels=new ArrayList<>();
+        Map<String, List<Double>> plotData=new HashMap<>();
+        HashMap<Integer,List<Integer>> replicateResult = new HashMap<>();
+        List mean = new ArrayList<>();
+        Map<String, List<Double>> meanMap=new HashMap<>();
+        HashMap<Long,Double> resultMap = new HashMap<>();
+        TreeMap<Long,List<ExperimentResultDetail>> resultDetail = new TreeMap<>();
+        String efficiency = null;
+        int i=0;
+        List values = new ArrayList<>();
+        List<String> resultTypes = dbService.getResultTypes(experimentId);
+        HashMap<Long,List<Guide>> guideMap = new HashMap<>();
+        HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
+
+        List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByExpId(experimentId);
+        HashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new HashMap<>();
+        for(ExperimentResultDetail er:experimentResults){
+            if(experimentResultsMap != null && experimentResultsMap.containsKey(er.getResultId()))
+                values = experimentResultsMap.get(er.getResultId());
+            else values = new ArrayList<>();
+
+            values.add(er);
+            System.out.println(er.getResultId());
+            experimentResultsMap.put(er.getResultId(),values);
+        }
+        HashMap<Long,ExperimentRecord> recordMap = new HashMap<>();
+        objectSizeMap.put("resultTypes", resultTypes.size());
+        for(ExperimentRecord rec:records)
+            recordMap.put(rec.getExperimentRecordId(),rec);
+        for (Long resultId : experimentResultsMap.keySet()) {
+            List<ExperimentResultDetail> erdList=experimentResultsMap.get(resultId);
+            //   resultDetail.put(resultId, experimentResultsMap.get(resultId));
+            resultDetail.put(resultId, erdList);
+            long expRecId = experimentResultsMap.get(resultId).get(0).getExperimentRecordId();
+            guideMap.put(expRecId, dbService.getGuidesByExpRecId(expRecId));
+            vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
+
+            if (!experimentResultsMap.get(resultId).get(0).getUnits().contains("present")) {
+                ExperimentRecord record = recordMap.get(expRecId);
+                if(experimentId!=18000000014L) {
+                    StringBuilder label = getLabel(record, grant.getGrantInitiative(), objectSizeMap, uniqueFields);
+                    labels.add("\"" + label + "\"");
+                    record.setExperimentName(label.toString());
+
+                }else{
+                    labels.add("\"" + record.getExperimentName() + "\"");
+                    record.setExperimentName(record.getExperimentName());
+
+                }
+                double average = 0;
+
+                for (ExperimentResultDetail result : experimentResultsMap.get(resultId)) {
+                    efficiency = "\"" + result.getResultType() + " in " + result.getUnits() + "\"";
+                    if (result.getReplicate() != 0) {
+                        values = replicateResult.get(result.getReplicate());
+                        if (values == null)
+                            values = new ArrayList<>();
+                        if (result.getResult() == null || result.getResult().isEmpty())
+                            values.add(null);
+                        else {
+                            values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
+                        }
+
+                        replicateResult.put(result.getReplicate(), values);
+                    } else average = Double.valueOf(result.getResult());
+                }
+                mean.add(average);
+                resultMap.put(resultId, average);
+
+            }
+        }
+
+        plotData.put("Mean",mean);
+
+        List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
+        //      List<String> conditions = edao.getExperimentRecordConditionList(experimentId);
+        List<String> conditions = labels.stream().map(l->l.replaceAll("\"","")).distinct().collect(Collectors.toList());
+
+        req.setAttribute("tissues",tissues);
+        req.setAttribute("conditions",conditions);
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/study/" + study.getStudyId() + "'>Experiments</a>");
+        req.setAttribute("replicateResult",replicateResult);
+        req.setAttribute("experiments",labels);
+        req.setAttribute("plotData",plotData);
+        req.setAttribute("efficiency",efficiency);
+        req.setAttribute("experimentRecordsMap", recordMap);
+        req.setAttribute("resultDetail",resultDetail);
+        req.setAttribute("resultMap",resultMap);
+        req.setAttribute("study", study);
+        req.setAttribute("experiment",e);
+        req.setAttribute("guideMap",guideMap);
+        req.setAttribute("vectorMap",vectorMap);
+        req.setAttribute("resultType",resultType);
+        req.setAttribute("tissue",tissue);
+        req.setAttribute("cellType",cellType);
+        req.setAttribute("action", "Experiment Records");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
+        req.setAttribute("objectSizeMap", objectSizeMap);
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
     }
+    public List<String> getLabelFields(List<ExperimentRecord> records, Map<String, Integer> objectSizeMap, String initiative) throws Exception {
+        List<String> uniqueFields=new ArrayList<>();
+        boolean flag=false;
+        for(Map.Entry e:objectSizeMap.entrySet()){
+            int value= (int) e.getValue();
+            String field= (String) e.getKey();
+            if(value==records.size()){
+                uniqueFields.add(field);
+                flag=true;
+                break;
+            }
+        }
+        if(flag)
+        return uniqueFields;
+        else{
+
+            for (String s : objectSizeMap.keySet()) {
+                Set<String> uniqueLabels=new HashSet<>();
+
+                for(ExperimentRecord record: records) {
+                            if (objectSizeMap.get(s) > 1) {
+                                    if(s.equalsIgnoreCase("delivery"))
+                                    uniqueLabels.add(record.getDeliverySystemName());
+                                if(s.equalsIgnoreCase("editor"))
+                                    uniqueLabels.add(record.getEditorSymbol());
+                                if(s.equalsIgnoreCase("vector")) {
+                                    String vector=new String();
+                                    for(Vector v: dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                                       vector+=v.getName() + " ";
+                                    uniqueLabels.add(vector);
+                                }
+                                if(s.equalsIgnoreCase("guide")) {
+                                    String guide = new String();
+                                    for (Guide g : dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                                        // labels.add("\"" + record.getExperimentName() + "\"");
+                                       guide+=(g.getGuide())+" ";
+                                    uniqueLabels.add(guide);
+                                }
+                                if(s.equalsIgnoreCase("applicationMethod") ){
+                                    uniqueLabels.add(record.getInjectionFrequency()+" "+record.getDosage());
+
+                                }
+                                if(s.equalsIgnoreCase("model")){
+                                    uniqueLabels.add(String.valueOf(record.getModelId()));
+
+                                }
+                                if(s.equalsIgnoreCase("tissue")){
+                                    uniqueLabels.add( record.getTissueTerm() + " ");
+
+                                }
+                                }
+                            }
+                        if(uniqueLabels.size()==records.size()){
+                            uniqueFields.add(s);
+                            return uniqueFields;
+                        }
+
+                        }
+
+
+                for (String s : objectSizeMap.keySet()) {
+                    if (objectSizeMap.get(s) > 1) {
+                    for (String t : objectSizeMap.keySet()) {
+                        if (objectSizeMap.get(t) > 1 && !s.equalsIgnoreCase(t)) {
+                            Set<String> uniqueLabels=new HashSet<>();
+                        for (ExperimentRecord record : records) {
+                            if (s.equalsIgnoreCase("delivery")) {
+                                if (t.equalsIgnoreCase("editor"))
+                                    uniqueLabels.add(record.getDeliverySystemName()+" "+record.getEditorSymbol());
+                                if (t.equalsIgnoreCase("vector")) {
+                                    String vector = new String();
+                                    for (Vector v : dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                                        vector += v.getName() + " ";
+                                    uniqueLabels.add(record.getDeliverySystemName()+" "+vector);
+                                }
+                                if (t.equalsIgnoreCase("guide")) {
+                                    String guide = new String();
+                                    for (Guide g : dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                                        // labels.add("\"" + record.getExperimentName() + "\"");
+                                        guide += (g.getGuide()) + " ";
+                                    uniqueLabels.add(record.getDeliverySystemName()+" "+guide);
+                                }
+                                if(t.equalsIgnoreCase("applicationMethod") ){
+                                    uniqueLabels.add(record.getDeliverySystemName()+" "+record.getInjectionFrequency()+"-"+record.getDosage());
+
+                                }
+                                if(t.equalsIgnoreCase("model")){
+                                    uniqueLabels.add(record.getDeliverySystemName()+" "+String.valueOf(record.getModelId()));
+
+                                }
+                                if(t.equalsIgnoreCase("tissue")){
+                                    uniqueLabels.add( record.getDeliverySystemName()+" "+record.getTissueTerm());
+
+                                }
+                            }
+                            if (s.equalsIgnoreCase("editor")) {
+                                if (t.equalsIgnoreCase("delivery"))
+                                    uniqueLabels.add(record.getEditorSymbol()+" "+ record.getDeliverySystemName());
+                                if (t.equalsIgnoreCase("vector")) {
+                                    String vector = new String();
+                                    for (Vector v : dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                                        vector += v.getName() + " ";
+                                    uniqueLabels.add(record.getEditorSymbol()+" "+vector);
+                                }
+                                if (t.equalsIgnoreCase("guide")) {
+                                    String guide = new String();
+                                    for (Guide g : dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                                        // labels.add("\"" + record.getExperimentName() + "\"");
+                                        guide += (g.getGuide()) + " ";
+                                    uniqueLabels.add(record.getEditorSymbol()+" "+guide);
+                                }
+                                if(t.equalsIgnoreCase("applicationMethod") ){
+                                    uniqueLabels.add(record.getEditorSymbol()+" "+record.getInjectionFrequency()+"-"+record.getDosage());
+
+                                }
+                                if(t.equalsIgnoreCase("model")){
+                                    uniqueLabels.add(record.getEditorSymbol()+" "+String.valueOf(record.getModelId()));
+
+                                }
+                                if(t.equalsIgnoreCase("tissue")){
+                                    uniqueLabels.add(record.getEditorSymbol()+" "+ record.getTissueTerm() + " ");
+
+                                }
+                            }
+                            if (s.equalsIgnoreCase("vector")) {
+                                String vector = new String();
+                                for (Vector v : dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                                    vector += v.getName() + " ";
+                                if (t.equalsIgnoreCase("delivery"))
+                                    uniqueLabels.add(vector+" "+ record.getDeliverySystemName());
+                                if (t.equalsIgnoreCase("guide")) {
+                                    String guide = new String();
+                                    for (Guide g : dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                                        // labels.add("\"" + record.getExperimentName() + "\"");
+                                        guide += (g.getGuide()) + " ";
+                                    uniqueLabels.add(vector+" "+guide);
+                                }
+                                if (t.equalsIgnoreCase("editor"))
+                                    uniqueLabels.add(vector+" "+record.getEditorSymbol());
+                                if(t.equalsIgnoreCase("applicationMethod") ){
+                                    uniqueLabels.add(vector+" "+record.getInjectionFrequency()+" "+record.getDosage());
+
+                                }
+                                if(t.equalsIgnoreCase("model")){
+                                    uniqueLabels.add(vector+" "+String.valueOf(record.getModelId()));
+
+                                }
+                                if(t.equalsIgnoreCase("tissue")){
+                                    uniqueLabels.add( vector+" "+record.getTissueTerm());
+
+                                }
+                            }
+                            if (s.equalsIgnoreCase("guide")) {
+                                String guide = new String();
+                                for (Guide g : dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                                    // labels.add("\"" + record.getExperimentName() + "\"");
+                                    guide += (g.getGuide()) + " ";
+                                if (t.equalsIgnoreCase("editor"))
+                                    uniqueLabels.add(guide+" "+record.getEditorSymbol());
+                                if (t.equalsIgnoreCase("vector")) {
+                                    String vector = new String();
+                                    for (Vector v : dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                                        vector += v.getName() + " ";
+                                    uniqueLabels.add(guide+" "+vector);
+                                }
+                                if (t.equalsIgnoreCase("delivery"))
+                                    uniqueLabels.add(guide+" "+ record.getDeliverySystemName());
+                                if(t.equalsIgnoreCase("applicationMethod") ){
+                                    uniqueLabels.add(guide+" "+record.getInjectionFrequency()+" "+record.getDosage());
+
+                                }
+                                if(t.equalsIgnoreCase("model")){
+                                    uniqueLabels.add(guide+" "+String.valueOf(record.getModelId()));
+
+                                }
+                                if(t.equalsIgnoreCase("tissue")){
+                                    uniqueLabels.add( guide+" "+record.getTissueTerm());
+
+                                }
+                            }
+                            if (s.equalsIgnoreCase("model")) {
+                                if (t.equalsIgnoreCase("guide")) {
+                                    String guide = new String();
+                                    for (Guide g : dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                                        // labels.add("\"" + record.getExperimentName() + "\"");
+                                        guide += (g.getGuide()) + " ";
+                                    uniqueLabels.add(record.getModelId()+" "+guide);
+                                }
+                                if (t.equalsIgnoreCase("editor"))
+                                    uniqueLabels.add(record.getModelId()+" "+record.getEditorSymbol());
+                                if (t.equalsIgnoreCase("vector")) {
+                                    String vector = new String();
+                                    for (Vector v : dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                                        vector += v.getName() + " ";
+                                    uniqueLabels.add(record.getModelId()+" "+vector);
+                                }
+                                if (t.equalsIgnoreCase("delivery"))
+                                    uniqueLabels.add(record.getModelId()+" "+ record.getDeliverySystemName());
+                                if(t.equalsIgnoreCase("applicationMethod") ){
+                                    uniqueLabels.add(record.getModelId()+" "+record.getInjectionFrequency()+" "+record.getDosage());
+
+                                }
+
+                                if(t.equalsIgnoreCase("tissue")){
+                                    uniqueLabels.add( record.getModelId()+" "+record.getTissueTerm());
+
+                                }
+                            }
+                            if (s.equalsIgnoreCase("applicationMethod")) {
+                                String dosage=new String();
+                                if(record.getInjectionFrequency()!=null && !record.getInjectionFrequency().equals(""))
+                                dosage=record.getInjectionFrequency()+" ";
+                                dosage+=record.getDosage();
+                                if (t.equalsIgnoreCase("guide")) {
+                                    String guide = new String();
+                                    for (Guide g : dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                                        // labels.add("\"" + record.getExperimentName() + "\"");
+                                        guide += (g.getGuide()) + " ";
+                                    uniqueLabels.add(dosage+" "+guide);
+                                }
+                                if (t.equalsIgnoreCase("editor"))
+                                    uniqueLabels.add(dosage+" "+record.getEditorSymbol());
+                                if (t.equalsIgnoreCase("vector")) {
+                                    String vector = new String();
+                                    for (Vector v : dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                                        vector += v.getName() + " ";
+                                    uniqueLabels.add(dosage+" "+vector);
+                                }
+                                if (t.equalsIgnoreCase("delivery"))
+                                    uniqueLabels.add(dosage+" "+ record.getDeliverySystemName());
+                                if(t.equalsIgnoreCase("model") ){
+                                    uniqueLabels.add(dosage+" "+record.getModelId());
+
+                                }
+
+                                if(t.equalsIgnoreCase("tissue")){
+                                    uniqueLabels.add( dosage+" "+record.getTissueTerm());
+
+                                }
+                            }
+                            if (s.equalsIgnoreCase("tissue")) {
+                                if (t.equalsIgnoreCase("guide")) {
+                                    String guide = new String();
+                                    for (Guide g : dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                                        // labels.add("\"" + record.getExperimentName() + "\"");
+                                        guide += (g.getGuide()) + " ";
+                                    uniqueLabels.add(record.getTissueTerm()+" "+guide);
+                                }
+                                if (t.equalsIgnoreCase("editor"))
+                                    uniqueLabels.add(record.getTissueTerm()+" "+record.getEditorSymbol());
+                                if (t.equalsIgnoreCase("vector")) {
+                                    String vector = new String();
+                                    for (Vector v : dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                                        vector += v.getName() + " ";
+                                    uniqueLabels.add(record.getTissueTerm()+" "+vector);
+                                }
+                                if (t.equalsIgnoreCase("delivery"))
+                                    uniqueLabels.add(record.getTissueTerm()+" "+ record.getDeliverySystemName());
+                                if(t.equalsIgnoreCase("model") ){
+                                    uniqueLabels.add(record.getTissueTerm()+" "+record.getModelId());
+
+                                }
+
+                                if(t.equalsIgnoreCase("applicationMethod")){
+                                    uniqueLabels.add( record.getTissueTerm()+" "+record.getInjectionFrequency()+" "+record.getDosage());
+
+                                }
+                            }
+                        }
+                            if (uniqueLabels.size() == records.size()) {
+                                uniqueFields.add(s);
+                                uniqueFields.add(t);
+                                return uniqueFields;
+                            }
+                    }
+                    }
+
+                }
+                }
+
+
+
+        }
+        return uniqueFields;
+    }
+    public Map<String, Integer> getObjectSizeMap(List<ExperimentRecord> records){
+        Map<String, Integer> objectSizeMap=new HashMap<>();
+        Set<Long> editors=records.stream().map(r->r.getEditorId()).collect(Collectors.toSet());
+        Set<Long> deliveries=records.stream().map(d->d.getDeliverySystemId()).collect(Collectors.toSet());
+        Set<Long> models=records.stream().map(d->d.getModelId()).collect(Collectors.toSet());
+        Set<String> tissueIds=records.stream().map(d->d.getTissueId()).collect(Collectors.toSet());
+
+        Set<Integer> applicationMethods=records.stream().map(r->r.getApplicationMethodId()).collect(Collectors.toSet());
+        Set<String> dosage=records.stream().map(r->r.getDosage()).filter(p->p!=null && !p.equals("")).collect(Collectors.toSet());
+
+        Set<Long> guides= records.stream().map(x -> {
+            try {
+                return dbService.getGuidesByExpRecId(x.getExperimentRecordId()).stream()
+                        .map(Guide::getGuide_id)
+                        .collect(Collectors.toSet());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }).filter(Objects::nonNull).flatMap(Set::stream).collect(Collectors.toSet());
+        Set<String> targetLocus= records.stream().map(x -> {
+            try {
+                return dbService.getGuidesByExpRecId(x.getExperimentRecordId()).stream()
+                        .map(Guide::getTargetLocus)
+                        .collect(Collectors.toSet());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }).filter(Objects::nonNull).flatMap(Set::stream).collect(Collectors.toSet());
+        Set<Long> vectors= records.stream().map(x -> {
+            try {
+                return dbService.getVectorsByExpRecId(x.getExperimentRecordId()).stream()
+                        .map(g -> g.getVectorId())
+                        .collect(Collectors.toSet())
+                        ;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }).filter(Objects::nonNull).flatMap(Set::stream).collect(Collectors.toSet());
+
+        if(editors.size()>0){
+            objectSizeMap.put("editor", editors.size());
+        }
+        if(deliveries.size()>0){
+            objectSizeMap.put("delivery", deliveries.size());
+        }
+        if(guides.size()>0){
+            objectSizeMap.put("guide", guides.size());
+        }
+        if(models.size()>0){
+            objectSizeMap.put("model", models.size());
+        }
+        if(vectors.size()>0){
+            objectSizeMap.put("vector", vectors.size());
+        }
+        if(applicationMethods.size()>0){
+            objectSizeMap.put("applicationMethod", applicationMethods.size());
+        }
+        if(dosage.size()>0){
+            objectSizeMap.put("dosage", dosage.size());
+        }
+        if(tissueIds.size()>0){
+            objectSizeMap.put("tissue", tissueIds.size());
+        }
+        if(targetLocus.size()>0){
+            objectSizeMap.put("targetLocus", targetLocus.size());
+        }
+        return objectSizeMap;
+    }
+    public StringBuilder getLabel(ExperimentRecord record,String initiative, Map<String, Integer> objectMapSize) throws Exception {
+        StringBuilder label=new StringBuilder();
+        System.out.println("INITIATIVE:"+ initiative);
+        switch (initiative.toLowerCase()){
+            case "delivery vehicle initiative":
+                if(objectMapSize.get("delivery")!=null && objectMapSize.get("delivery")>1){
+                    label.append( record.getDeliverySystemName()+" ");
+
+                }
+                if(objectMapSize.get("applicationMethod")!=null && objectMapSize.get("applicationMethod")>1){
+                    label.append(record.getDosage() + " ");
+
+                }
+                if(objectMapSize.get("editor")!=null && objectMapSize.get("editor")>1){
+                    label.append(record.getEditorSymbol() + " ");
+
+                }
+                if(objectMapSize.get("guide")!=null && objectMapSize.get("guide")>1) {
+                    for(Guide g: dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                        // labels.add("\"" + record.getExperimentName() + "\"");
+                        label.append(g.getGuide()).append(" ");
+
+                }
+
+                if(objectMapSize.get("vector")!=null && objectMapSize.get("vector")>1){
+                    for(Vector v: dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                        label.append( v.getName() + " ");
+
+                }
+                if(objectMapSize.get("model")!=null && objectMapSize.get("model")>1){
+                        label.append( record.getModelId() + " ");
+
+                }
+
+                if(objectMapSize.get("tissue")!=null && objectMapSize.get("tissue")>1){
+                    label.append( record.getTissueTerm() + " ");
+
+                }
+                break;
+            case "new editors initiative":
+                if(objectMapSize.get("editor")!=null && objectMapSize.get("editor")>1){
+                    label.append(record.getEditorSymbol() + " ");
+
+                }
+                if(objectMapSize.get("guide")!=null && objectMapSize.get("guide")>1) {
+                    for(Guide g: dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                        // labels.add("\"" + record.getExperimentName() + "\"");
+                        label.append(g.getGuide()).append(" ");
+
+                }
+
+                if(objectMapSize.get("vector")!=null && objectMapSize.get("vector")>1){
+                    for(Vector v: dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                        label.append( v.getName() + " ");
+
+                }
+                if(objectMapSize.get("delivery")!=null && objectMapSize.get("delivery")>1){
+                    label.append( record.getDeliverySystemType()+" ");
+
+                }
+                if(objectMapSize.get("applicationMethod")!=null && objectMapSize.get("applicationMethod")>1){
+                    label.append(record.getDosage());
+
+                }
+                break;
+             default:
+                if(objectMapSize.get("guide")!=null && objectMapSize.get("guide")>1) {
+                    for(Guide g: dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                        // labels.add("\"" + record.getExperimentName() + "\"");
+                        label.append(g.getGuide()).append(" ");
+
+                }
+                if(objectMapSize.get("editor")!=null && objectMapSize.get("editor")>1){
+                    label.append(record.getEditorSymbol() + " ");
+
+                }
+                if(objectMapSize.get("vector")!=null && objectMapSize.get("vector")>1){
+                    for(Vector v: dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                        label.append( v.getName() + " ");
+
+                }
+                if(objectMapSize.get("delivery") !=null && objectMapSize.get("delivery")>1){
+                    label.append( record.getDeliverySystemType()+" ");
+
+                }
+                if(objectMapSize.get("applicationMethod")!=null && objectMapSize.get("applicationMethod")>1){
+                    label.append(record.getDosage());
+
+                }
+                 if(objectMapSize.get("model")!=null && objectMapSize.get("model")>1){
+                     label.append(record.getModelId());
+
+                 }
+                 if(objectMapSize.get("tissue")!=null && objectMapSize.get("tissue")>1){
+                     label.append( record.getTissueTerm() + " ");
+
+                 }
+        }
+
+        System.out.println("label:"+label);
+        return label;
+    }
+    public StringBuilder getLabel(ExperimentRecord record,String initiative, Map<String, Integer> objectMapSize, List<String> uniqueFields) throws Exception {
+        StringBuilder label=new StringBuilder();
+        switch (initiative.toLowerCase()){
+            case "rodent testing center":
+            case "delivery vehicle initiative":
+                System.out.println("CASE: "+ initiative);
+                if(uniqueFields.contains("delivery")) {
+                    label.append(record.getDeliverySystemName() + " ");
+                }
+                    for(String s:uniqueFields) {
+                        if (s.equalsIgnoreCase("editor")){
+                            label.append(record.getEditorSymbol() + " ");
+
+                        }
+                        if (s.equalsIgnoreCase("guide") || s.equalsIgnoreCase("targetLocus")){
+                            for(Guide g: dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                                // labels.add("\"" + record.getExperimentName() + "\"");
+                                label.append(g.getGuide()).append(" ");
+                        }
+                        if (s.equalsIgnoreCase("vector")){
+                            for(Vector v: dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                                label.append( v.getName() + " ");
+
+                        }
+                        if(s.equalsIgnoreCase("applicationMethod") || s.equalsIgnoreCase("dosage") ){
+
+                            if(record.getInjectionFrequency()!=null) {
+
+                                label.append(record.getInjectionFrequency());
+                                label.append(" ");
+                            }
+                            label.append(record.getDosage());
+                        }
+                        if(s.equalsIgnoreCase("model")){
+                            label.append(record.getModelId());
+
+                        }
+                        if(s.equalsIgnoreCase("tissue")){
+                            label.append( record.getTissueTerm() + " ");
+
+                        }
+                    }
+
+                break;
+            case "new editors initiative":
+                System.out.println("CASE: "+ initiative);
+
+                if(uniqueFields.contains("editor")) {
+                    label.append(record.getEditorSymbol() + " ");
+                }
+                    for (String s : uniqueFields) {
+                        if (s.equalsIgnoreCase("delivery")) {
+                            label.append(record.getDeliverySystemType() + " ");
+                        }
+                        if (s.equalsIgnoreCase("guide") || s.equalsIgnoreCase("targetLocus")) {
+                            for (Guide g : dbService.getGuidesByExpRecId(record.getExperimentRecordId())) {
+                                    // labels.add("\"" + record.getExperimentName() + "\"");
+                                    label.append(g.getGuide()).append(" ");
+
+                                }
+                            }
+                            if (s.equalsIgnoreCase("vector")) {
+                                for (Vector v : dbService.getVectorsByExpRecId(record.getExperimentRecordId())) {
+
+                                    label.append(v.getName() + " ");
+                                }
+
+                            }
+                        if(s.equalsIgnoreCase("applicationMethod") || s.equalsIgnoreCase("dosage") ){
+
+                            if(record.getInjectionFrequency()!=null) {
+
+                                label.append(record.getInjectionFrequency());
+                                label.append(" ");
+                            }
+                            label.append(record.getDosage());
+                        }
+                        if(s.equalsIgnoreCase("model")){
+                            label.append(record.getModelId());
+
+                        }
+                        if(s.equalsIgnoreCase("tissue")){
+                            label.append( record.getTissueTerm() + " ");
+
+                        }
+
+                    }
+
+                break;
+            default:
+                System.out.println("CASE: DEFAULT:"+ initiative);
+
+                for (String s : uniqueFields) {
+                    if (s.equalsIgnoreCase("delivery")) {
+                        label.append(record.getDeliverySystemType() + " ");
+                    }
+                    if (s.equalsIgnoreCase("editor")) {
+                        label.append(record.getEditorSymbol() + " ");
+                    }
+                        if (s.equalsIgnoreCase("guide") || s.equalsIgnoreCase("targetLocus")) {
+                            for (Guide g : dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                                // labels.add("\"" + record.getExperimentName() + "\"");
+                                label.append(g.getGuide()).append(" ");
+                        }
+                        if (s.equalsIgnoreCase("vector")) {
+                            for (Vector v : dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                                label.append(v.getName() + " ");
+
+                        }
+                    if(s.equalsIgnoreCase("applicationMethod") || s.equalsIgnoreCase("dosage")){
+
+                        if(record.getInjectionFrequency()!=null) {
+
+                            label.append(record.getInjectionFrequency());
+                            label.append(" ");
+                        }
+                        label.append(record.getDosage());
+                    }
+                    if(s.equalsIgnoreCase("model")){
+                        label.append(record.getModelId());
+
+                    }
+                    if(s.equalsIgnoreCase("tissue")){
+                        label.append( record.getTissueTerm() + " ");
+
+                    }
+                    }
+        }
+        if(label.toString().equals("")){
+            System.out.println("LABEL EMPTY: "+ initiative);
+
+            for (String s : uniqueFields) {
+                if (s.equalsIgnoreCase("delivery")) {
+                    label.append(record.getDeliverySystemType() + " ");
+                }
+                if (s.equalsIgnoreCase("editor")) {
+                    label.append(record.getEditorSymbol() + " ");
+                }
+                if (s.equalsIgnoreCase("guide") || s.equalsIgnoreCase("targetLocus")) {
+                    for (Guide g : dbService.getGuidesByExpRecId(record.getExperimentRecordId()))
+                        // labels.add("\"" + record.getExperimentName() + "\"");
+                        label.append(g.getGuide()).append(" ");
+                }
+                if (s.equalsIgnoreCase("vector")) {
+                    for (Vector v : dbService.getVectorsByExpRecId(record.getExperimentRecordId()))
+                        label.append(v.getName() + " ");
+
+                }
+                if(s.equalsIgnoreCase("applicationMethod") || s.equalsIgnoreCase("dosage")){
+                    if(record.getInjectionFrequency()!=null) {
+
+                        label.append(record.getInjectionFrequency());
+                        label.append(" ");
+                    }
+                    label.append(record.getDosage());
+
+                }
+                if(s.equalsIgnoreCase("model")){
+                    label.append(record.getModelId());
+
+                }
+                if(s.equalsIgnoreCase("tissue")){
+                    label.append( record.getTissueTerm() + " ");
+
+                }
+            }
+
+
+
+        }
+        System.out.println("label:"+label);
+        return label;
+    }
+
     @RequestMapping(value="/experiment/{experimentId}/record/{expRecordId}")
     public String getExperimentRecords(HttpServletRequest req, HttpServletResponse res,
                                        @PathVariable(required = false) long experimentId,

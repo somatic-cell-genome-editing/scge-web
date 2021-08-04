@@ -53,10 +53,11 @@
         List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
         List<String> unitList = erdao.getUnitsByExpId(ex.getExperimentId());
         List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
+        List<String> guideTargetLocusList=edao.getExperimentRecordGuideTargetLocusList(ex.getExperimentId());
         List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
         List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
-      List<String> tissues = (List<String>)request.getAttribute("tissues");
-    List<String> conditions = (List<String>) request.getAttribute("conditions");
+        List<String> tissues = (List<String>)request.getAttribute("tissues");
+        List<String> conditions = (List<String>) request.getAttribute("conditions");
         String selectedTissue = (String)request.getAttribute("tissue");
         String selectedCellType = (String)request.getAttribute("cellType");
         String selectedResultType = (String)request.getAttribute("resultType");
