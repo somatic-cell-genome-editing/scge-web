@@ -378,6 +378,7 @@ public class ExperimentController extends UserController {
             return "redirect:/";
         }
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
+        List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
 
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
         GrantDao grantDao=new GrantDao();
@@ -433,9 +434,21 @@ public class ExperimentController extends UserController {
                 ExperimentRecord record = recordMap.get(expRecId);
                 if(experimentId!=18000000014L) {
                     StringBuilder label = getLabel(record, grant.getGrantInitiative(), objectSizeMap, uniqueFields);
-                    labels.add("\"" + label + "\"");
-                    record.setExperimentName(label.toString());
+                    if(tissue!=null && !tissue.equals("") || tissues.size()>0) {
+                        String labelTrimmed=new String();
+                        if(record.getCellType()!=null && record.getTissueTerm()!=null)
+                            labelTrimmed= label.toString().replace(record.getTissueTerm(), "").replace(record.getCellType(),"");
+                        else if(record.getTissueTerm()!=null)
+                            labelTrimmed= label.toString().replace(record.getTissueTerm(), "");
+                        else labelTrimmed= label.toString();
+                        labels.add("\"" +  labelTrimmed + "\"");
+                        record.setExperimentName(labelTrimmed);
+                    }
+                    else {
+                        labels.add("\"" + label + "\"");
 
+                        record.setExperimentName(label.toString());
+                    }
                 }else{
                     labels.add("\"" + record.getExperimentName() + "\"");
                     record.setExperimentName(record.getExperimentName());
@@ -466,7 +479,6 @@ public class ExperimentController extends UserController {
 
         plotData.put("Mean",mean);
 
-        List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
         //      List<String> conditions = edao.getExperimentRecordConditionList(experimentId);
         List<String> conditions = labels.stream().map(l->l.replaceAll("\"","")).distinct().collect(Collectors.toList());
 
@@ -825,7 +837,17 @@ public class ExperimentController extends UserController {
             }
             return null;
         }).filter(Objects::nonNull).flatMap(Set::stream).collect(Collectors.toSet());
-
+        Set<Integer> samples=records.stream().map(x -> {
+            try {
+                return dbService.getExperimentalResults(x.getExperimentRecordId()).stream()
+                        .map(r -> r.getNumberOfSamples())
+                        .collect(Collectors.toSet())
+                        ;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }).filter(Objects::nonNull).flatMap(Set::stream).collect(Collectors.toSet());
         if(editors.size()>0){
             objectSizeMap.put("editor", editors.size());
         }
@@ -855,6 +877,9 @@ public class ExperimentController extends UserController {
         }
         if(targetLocus.size()>0){
             objectSizeMap.put("targetLocus", targetLocus.size());
+        }
+        if(samples.size()>0){
+            objectSizeMap.put("samples", samples.size());
         }
         return objectSizeMap;
     }
@@ -1017,6 +1042,10 @@ public class ExperimentController extends UserController {
                             label.append( record.getCellType() + " ");
 
                         }
+                        if(s.equalsIgnoreCase("samples")){
+                            label.append( dbService.getExperimentalResults(record.getExperimentRecordId()).get(0).getNumberOfSamples() + " Samples ");
+
+                        }
                     }
 
                 break;
@@ -1065,6 +1094,10 @@ public class ExperimentController extends UserController {
                             label.append( record.getCellType() + " ");
 
                         }
+                        if(s.equalsIgnoreCase("samples")){
+                            label.append( dbService.getExperimentalResults(record.getExperimentId()).get(0).getNumberOfSamples() + " Samples ");
+
+                        }
                     }
 
                 break;
@@ -1109,6 +1142,10 @@ public class ExperimentController extends UserController {
                         label.append( record.getCellType() + " ");
 
                     }
+                    if(s.equalsIgnoreCase("samples")){
+                        label.append( dbService.getExperimentalResults(record.getExperimentId()).get(0).getNumberOfSamples() + " Samples ");
+
+                    }
                     }
         }
         if(label.toString().equals("")){
@@ -1150,6 +1187,10 @@ public class ExperimentController extends UserController {
                 }
                 if(s.equalsIgnoreCase("cellType")){
                     label.append( record.getCellType() + " ");
+
+                }
+                if(s.equalsIgnoreCase("samples")){
+                    label.append( dbService.getExperimentalResults(record.getExperimentId()).get(0).getNumberOfSamples() + " Samples ");
 
                 }
             }
