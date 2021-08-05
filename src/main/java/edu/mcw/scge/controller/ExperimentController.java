@@ -775,7 +775,11 @@ public class ExperimentController extends UserController {
                 }
 
 
-
+        }
+        for(Map.Entry field:objectSizeMap.entrySet()){
+            if((int) field.getValue()>1){
+                uniqueFields.add((String) field.getKey());
+            }
         }
         return uniqueFields;
     }
@@ -785,6 +789,7 @@ public class ExperimentController extends UserController {
         Set<Long> deliveries=records.stream().map(d->d.getDeliverySystemId()).collect(Collectors.toSet());
         Set<Long> models=records.stream().map(d->d.getModelId()).collect(Collectors.toSet());
         Set<String> tissueIds=records.stream().map(d->d.getTissueId()).collect(Collectors.toSet());
+        Set<String> cellTypes=records.stream().map(d->d.getCellType()).collect(Collectors.toSet());
 
         Set<Integer> applicationMethods=records.stream().map(r->r.getApplicationMethodId()).collect(Collectors.toSet());
         Set<String> dosage=records.stream().map(r->r.getDosage()).filter(p->p!=null && !p.equals("")).collect(Collectors.toSet());
@@ -845,6 +850,9 @@ public class ExperimentController extends UserController {
         if(tissueIds.size()>0){
             objectSizeMap.put("tissue", tissueIds.size());
         }
+        if(cellTypes.size()>0){
+            objectSizeMap.put("cellType", cellTypes.size());
+        }
         if(targetLocus.size()>0){
             objectSizeMap.put("targetLocus", targetLocus.size());
         }
@@ -888,6 +896,10 @@ public class ExperimentController extends UserController {
                     label.append( record.getTissueTerm() + " ");
 
                 }
+                if(objectMapSize.get("cellType")!=null && objectMapSize.get("cellType")>1){
+                    label.append( record.getCellType() + " ");
+
+                }
                 break;
             case "new editors initiative":
                 if(objectMapSize.get("editor")!=null && objectMapSize.get("editor")>1){
@@ -912,6 +924,10 @@ public class ExperimentController extends UserController {
                 }
                 if(objectMapSize.get("applicationMethod")!=null && objectMapSize.get("applicationMethod")>1){
                     label.append(record.getDosage());
+
+                }
+                if(objectMapSize.get("cellType")!=null && objectMapSize.get("cellType")>1){
+                    label.append( record.getCellType() + " ");
 
                 }
                 break;
@@ -945,6 +961,10 @@ public class ExperimentController extends UserController {
                  }
                  if(objectMapSize.get("tissue")!=null && objectMapSize.get("tissue")>1){
                      label.append( record.getTissueTerm() + " ");
+
+                 }
+                 if(objectMapSize.get("cellType")!=null && objectMapSize.get("cellType")>1){
+                     label.append( record.getCellType() + " ");
 
                  }
         }
@@ -993,6 +1013,10 @@ public class ExperimentController extends UserController {
                             label.append( record.getTissueTerm() + " ");
 
                         }
+                        if(s.equalsIgnoreCase("cellType")){
+                            label.append( record.getCellType() + " ");
+
+                        }
                     }
 
                 break;
@@ -1037,7 +1061,10 @@ public class ExperimentController extends UserController {
                             label.append( record.getTissueTerm() + " ");
 
                         }
+                        if(s.equalsIgnoreCase("cellType")){
+                            label.append( record.getCellType() + " ");
 
+                        }
                     }
 
                 break;
@@ -1076,6 +1103,10 @@ public class ExperimentController extends UserController {
                     }
                     if(s.equalsIgnoreCase("tissue")){
                         label.append( record.getTissueTerm() + " ");
+
+                    }
+                    if(s.equalsIgnoreCase("cellType")){
+                        label.append( record.getCellType() + " ");
 
                     }
                     }
@@ -1117,9 +1148,11 @@ public class ExperimentController extends UserController {
                     label.append( record.getTissueTerm() + " ");
 
                 }
+                if(s.equalsIgnoreCase("cellType")){
+                    label.append( record.getCellType() + " ");
+
+                }
             }
-
-
 
         }
         System.out.println("label:"+label);
