@@ -43,7 +43,7 @@
 <hr>
         <table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table>
        <% if(resultMap != null && resultMap.size()!= 0) {%>
-        <div class="chart-container" style="position: relative; height:80vh; width:80vw;background-color: lightcyan">
+        <div class="chart-container" style="position: relative; height:80vh; width:80vw;">
     <canvas id="resultChart"></canvas>
 
         </div>
