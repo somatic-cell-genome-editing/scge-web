@@ -62,7 +62,7 @@ Goals"/>
 <body>
 <div id="wrapper">
 <nav class="navbar  sticky-top flex-md-nowrap p-0 shadow" style="ackground-color: #1a80b6;background-color: black;">
-    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="https://scge.mcw.edu/toolkit">
+    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/toolkit/loginSuccess">
         <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" width="70" height="50" ></a>
 
     <form  action="/toolkit/data/search/results" class="form w-100" >
