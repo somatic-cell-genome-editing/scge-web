@@ -282,10 +282,11 @@ let apolloService = new ApolloService();
           variantContainer.append('polygon')
             .attr('class', 'variant-delins')
             .attr('id', 'variant-'+fmin)
-            .attr('points', generateDelinsPoint(x(fmin)))
+         //   .attr('points', generateDelinsPoint(x(fmin)))
+              .attr('points', generateSnvPoints(x(fmin)))
             .attr('x', x(fmin))
             .attr('transform', 'translate(0,'+VARIANT_HEIGHT*distinctVariants.indexOf("delins")+')')
-            .attr('fill', consequenceColor)
+            .attr('fill', 'blue')
             .attr('z-index', 30)
             .on("click", d => {
               renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
@@ -717,7 +718,8 @@ let apolloService = new ApolloService();
       '"uniqueID":"NC_004354.4:g.2025701T>A"'+
       '}]') ;*/
     const guide=JSON.parse(track["guide"]);
-    this.variantData=JSON.parse('[{\n' +
+    this.variantData=JSON.parse(track["otherGuides"])
+  /*  this.variantData=JSON.parse('[{\n' +
         '"targetSequence":"'+ guide["targetSequence"] +'",' +
         '"targetLocus":"'+ guide["targetLocus"] +'",' +
         '"description":"'+ guide["description"] +'",' +
@@ -731,8 +733,23 @@ let apolloService = new ApolloService();
         '"fmin":'+ guide["start"] +',\n' +
         '"seqId":"'+ guide["chr"] +'",\n' +
         '"scge_id":"'+ guide["guide_id"] +'"'+
+        '},' +
+        '{\n' +
+    '"targetSequence":"'+ guide["targetSequence"] +'",' +
+    '"targetLocus":"'+ guide["targetLocus"] +'",' +
+    '"description":"'+ guide["description"] +'",' +
+    '"type":"'+ "insertion" +'", ' +
+    '"fmax":'+ guide["stop"] +',' +
+    '"pam":"'+ guide["pam"] +'",\n' +
+    '"strand":"'+ guide["strand"] +'",\n' +
+    '"assembly":"'+ guide["assembly"] +'",\n' +
+    '"name":"'+ guide["guide"] +'",\n' +
+    '"guide_ids":{"meta":{"number":[-1],"description":["The ID of the Guide"],"id":["guide_ids"],"type":["UNBOUNDED"]},"values":["\\"AAVS1_site_02\\""]},\n' +
+    '"fmin":'+ guide["start"] +',\n' +
+    '"seqId":"'+ guide["chr"] +'",\n' +
+    '"scge_id":"'+ guide["guide_id"] +'"'+
         '}]') ;
-
+*/
   }
   //chr19:55115765..55115788
 }
