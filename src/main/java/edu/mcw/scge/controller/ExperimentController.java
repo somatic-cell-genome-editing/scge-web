@@ -430,7 +430,7 @@ public class ExperimentController extends UserController {
             guideMap.put(expRecId, dbService.getGuidesByExpRecId(expRecId));
             vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
 
-            if (!experimentResultsMap.get(resultId).get(0).getUnits().contains("present")) {
+            if (!experimentResultsMap.get(resultId).get(0).getUnits().contains("signal")) {
                 ExperimentRecord record = recordMap.get(expRecId);
                 if(experimentId!=18000000014L) {
                     StringBuilder label = getLabel(record, grant.getGrantInitiative(), objectSizeMap, uniqueFields);
