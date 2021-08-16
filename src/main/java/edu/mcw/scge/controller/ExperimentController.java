@@ -264,7 +264,7 @@ public class ExperimentController extends UserController {
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
         GrantDao grantDao=new GrantDao();
         Grant grant=grantDao.getGrantByGroupId(study.getGroupId());
-        Map<String, Integer> objectSizeMap=customLabels. getObjectSizeMap(records);
+        Map<String, Integer> objectSizeMap=customLabels.getObjectSizeMap(records);
         Experiment e = edao.getExperiment(experimentId);
         if (!access.hasStudyAccess(study,p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
@@ -278,7 +278,6 @@ public class ExperimentController extends UserController {
         Map<String, List<Double>> plotData=new HashMap<>();
         HashMap<Integer,List<Integer>> replicateResult = new HashMap<>();
         List mean = new ArrayList<>();
-        Map<String, List<Double>> meanMap=new HashMap<>();
         HashMap<Long,Double> resultMap = new HashMap<>();
         TreeMap<Long,List<ExperimentResultDetail>> resultDetail = new TreeMap<>();
         String efficiency = null;
@@ -310,31 +309,33 @@ public class ExperimentController extends UserController {
             long expRecId = experimentResultsMap.get(resultId).get(0).getExperimentRecordId();
             guideMap.put(expRecId, dbService.getGuidesByExpRecId(expRecId));
             vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
+            String labelTrimmed=new String();
+            ExperimentRecord record = recordMap.get(expRecId);
+            if(experimentId!=18000000014L) {
+                StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(), objectSizeMap, uniqueFields, resultId));
 
-            if (!experimentResultsMap.get(resultId).get(0).getUnits().contains("signal")) {
-                ExperimentRecord record = recordMap.get(expRecId);
-                if(experimentId!=18000000014L) {
-                    StringBuilder label = customLabels.getLabel(record, grant.getGrantInitiative(), objectSizeMap, uniqueFields);
-                    if(tissue!=null && !tissue.equals("") || tissues.size()>0) {
-                        String labelTrimmed=new String();
-                        if(record.getCellType()!=null && record.getTissueTerm()!=null)
-                            labelTrimmed= label.toString().replace(record.getTissueTerm(), "").replace(record.getCellType(),"");
-                        else if(record.getTissueTerm()!=null)
-                            labelTrimmed= label.toString().replace(record.getTissueTerm(), "");
-                        else labelTrimmed= label.toString();
-                        labels.add("\"" +  labelTrimmed + "\"");
-                        record.setExperimentName(labelTrimmed);
-                    }
-                    else {
-                        labels.add("\"" + label + "\"");
-
-                        record.setExperimentName(label.toString());
-                    }
-                }else{
-                    labels.add("\"" + record.getExperimentName() + "\"");
-                    record.setExperimentName(record.getExperimentName());
+                if(tissue!=null && !tissue.equals("") || tissues.size()>0) {
+                    if(record.getCellType()!=null && record.getTissueTerm()!=null)
+                        labelTrimmed= label.toString().replace(record.getTissueTerm(), "").replace(record.getCellType(),"");
+                    else if(record.getTissueTerm()!=null)
+                        labelTrimmed= label.toString().replace(record.getTissueTerm(), "");
+                    else labelTrimmed= label.toString();
+                    labels.add("\"" +  labelTrimmed + "\"");
+                    record.setExperimentName(labelTrimmed);
 
                 }
+                else {
+                    labels.add("\"" + label + "\"");
+
+                    record.setExperimentName(label.toString());
+                }
+            }else{
+                labels.add("\"" + record.getExperimentName() + "\"");
+                record.setExperimentName(record.getExperimentName());
+
+            }
+            if (!experimentResultsMap.get(resultId).get(0).getUnits().contains("signal")) {
+
                 double average = 0;
 
                 for (ExperimentResultDetail result : experimentResultsMap.get(resultId)) {
@@ -383,6 +384,7 @@ public class ExperimentController extends UserController {
         req.setAttribute("action", "Experiment Records");
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.setAttribute("objectSizeMap", objectSizeMap);
+        req.setAttribute("uniqueFields", uniqueFields);
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
