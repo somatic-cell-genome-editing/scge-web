@@ -161,7 +161,7 @@
                         labelDetails.add("\"" + er.getExperimentName() + "\"");
                         tissueDeliveryConditions.put(tissueName, labelDetails);
                     }
-                    if(erd.getUnits().contains("present")){
+                    if(erd.getUnits().contains("signal")){
                         if (qualDeliveryResults == null || !qualDeliveryResults.containsKey(tissueName))
                             qualResults = new ArrayList<>();
                         else qualResults = qualDeliveryResults.get(tissueName);
@@ -185,7 +185,7 @@
                         labelDetails.add("\""+er.getExperimentName()+"\"");
                         tissueEditingConditions.put(tissueName,labelDetails);
                     }
-                    if(erd.getUnits().contains("present")){
+                    if(erd.getUnits().contains("signal")){
                         if (qualEditingResults == null || !qualEditingResults.containsKey(tissueName))
                             qualResults = new ArrayList<>();
                         else qualResults = qualEditingResults.get(tissueName);
@@ -214,7 +214,7 @@
 </table>
 <div>Organ System Overview</div>
 <br><br>
-<div style="position:relative;">
+<div>
     <table width="5000">
         <tr>
             <td width="40">&nbsp;</td>
@@ -434,7 +434,26 @@
                labels: tissueDeliveryConditions[i],
                datasets: generateDeliveryData(i)
            },
-           options: { events: [] }
+           options: {
+               events: [],
+
+               scales:{
+                   xAxes:[{
+                       gridLines: {
+                           color: "rgba(0, 0, 0, 0)"
+                       },
+                       ticks:{
+                           fontColor: "rgb(0,75,141)",
+                           callback: function(t) {
+                               var maxLabelLength = 30;
+                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
+                               else return t;
+
+                           }
+                       }
+                   }]
+               }
+           }
        });
    }
    for(var i = 0;i<tissuesEditing.length;i++) {
