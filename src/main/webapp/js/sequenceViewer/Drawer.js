@@ -70,6 +70,7 @@ const LABEL_OFFSET = 100 ;
         let start = sequenceOptions["start"];
         let end = sequenceOptions["end"];
         let guide=options["guide"];
+        let otherGuides=options["otherGuides"];
 
       // Draw our reference if it's local for now.
         const referenceTrack = new ReferenceTrack(viewer,
@@ -102,6 +103,8 @@ const LABEL_OFFSET = 100 ;
           track["variant_filter"] = variantFilter;
           track["isoform_filter"] = isoformFilter;
           track["guide"]=guide;
+          track["otherGuides"]=otherGuides;
+
           if(track.type === TRACK_TYPE.ISOFORM_AND_VARIANT)
           {
             const isoformVariantTrack = new IsoformAndVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter,binRatio,isoformFilter);

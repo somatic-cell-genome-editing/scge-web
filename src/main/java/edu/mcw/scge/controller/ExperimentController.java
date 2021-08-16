@@ -430,7 +430,7 @@ public class ExperimentController extends UserController {
             guideMap.put(expRecId, dbService.getGuidesByExpRecId(expRecId));
             vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
 
-            if (!experimentResultsMap.get(resultId).get(0).getUnits().contains("present")) {
+            if (!experimentResultsMap.get(resultId).get(0).getUnits().contains("signal")) {
                 ExperimentRecord record = recordMap.get(expRecId);
                 if(experimentId!=18000000014L) {
                     StringBuilder label = getLabel(record, grant.getGrantInitiative(), objectSizeMap, uniqueFields);
@@ -805,7 +805,7 @@ public class ExperimentController extends UserController {
 
         Set<Integer> applicationMethods=records.stream().map(r->r.getApplicationMethodId()).collect(Collectors.toSet());
         Set<String> dosage=records.stream().map(r->r.getDosage()).filter(p->p!=null && !p.equals("")).collect(Collectors.toSet());
-
+        Set<String> sex=records.stream().map(d->d.getSex()).collect(Collectors.toSet());
         Set<Long> guides= records.stream().map(x -> {
             try {
                 return dbService.getGuidesByExpRecId(x.getExperimentRecordId()).stream()
@@ -878,8 +878,11 @@ public class ExperimentController extends UserController {
         if(targetLocus.size()>0){
             objectSizeMap.put("targetLocus", targetLocus.size());
         }
-        if(samples.size()>0){
+       /* if(samples.size()>0){
             objectSizeMap.put("samples", samples.size());
+        }*/
+        if(sex.size()>0){
+            objectSizeMap.put("sex", sex.size());
         }
         return objectSizeMap;
     }
@@ -1046,6 +1049,12 @@ public class ExperimentController extends UserController {
                             label.append( dbService.getExperimentalResults(record.getExperimentRecordId()).get(0).getNumberOfSamples() + " Samples ");
 
                         }
+                        if(s.equalsIgnoreCase("sex")){
+                            if(record.getSex()!=null && record.getSex().equalsIgnoreCase("F"))
+                                label.append(  "Female ");
+                            if(record.getSex()!=null && record.getSex().equalsIgnoreCase("M"))
+                                label.append(  "Male ");
+                        }
                     }
 
                 break;
@@ -1098,6 +1107,12 @@ public class ExperimentController extends UserController {
                             label.append( dbService.getExperimentalResults(record.getExperimentId()).get(0).getNumberOfSamples() + " Samples ");
 
                         }
+                        if(s.equalsIgnoreCase("sex")){
+                            if(record.getSex()!=null && record.getSex().equalsIgnoreCase("F"))
+                                label.append(  "Female ");
+                            if(record.getSex()!=null && record.getSex().equalsIgnoreCase("M"))
+                                label.append(  "Male ");
+                        }
                     }
 
                 break;
@@ -1146,6 +1161,12 @@ public class ExperimentController extends UserController {
                         label.append( dbService.getExperimentalResults(record.getExperimentId()).get(0).getNumberOfSamples() + " Samples ");
 
                     }
+                    if(s.equalsIgnoreCase("sex")){
+                        if(record.getSex()!=null && record.getSex().equalsIgnoreCase("F"))
+                            label.append(  "Female ");
+                        if(record.getSex()!=null && record.getSex().equalsIgnoreCase("M"))
+                            label.append(  "Male ");
+                    }
                     }
         }
         if(label.toString().equals("")){
@@ -1188,6 +1209,12 @@ public class ExperimentController extends UserController {
                 if(s.equalsIgnoreCase("cellType")){
                     label.append( record.getCellType() + " ");
 
+                }
+                if(s.equalsIgnoreCase("sex")){
+                    if(record.getSex()!=null && record.getSex().equalsIgnoreCase("F"))
+                    label.append(  "Female ");
+                    if(record.getSex()!=null && record.getSex().equalsIgnoreCase("M"))
+                        label.append(  "Male ");
                 }
                 if(s.equalsIgnoreCase("samples")){
                     label.append( dbService.getExperimentalResults(record.getExperimentId()).get(0).getNumberOfSamples() + " Samples ");

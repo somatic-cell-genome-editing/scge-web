@@ -63,6 +63,7 @@
 
 
 %>
+<input type="hidden" id="otherGuides" value=""></div>
 <div class="col-md-2 sidenav bg-light">
 
         <a href="#summary">Summary</a>
@@ -197,6 +198,7 @@
         var chr='<%=g.getChr().replace("chr", "")%>';
         var start="<%=g.getStart()%>";
         var stop="<%=g.getStop()%>";
+        var guideId=<%=g.getGuide_id()%>
         var guide='<%=new Gson().toJson(g)%>';
 
     </script>

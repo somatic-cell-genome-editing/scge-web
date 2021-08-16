@@ -30,6 +30,7 @@ function covidExamples(){
 var range="";
 function currentExamples(){
 //    createIsoformExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM, false);
+
     var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/38";
     getGenomeInfo(url, guide);
 
@@ -39,6 +40,7 @@ function currentExamples(){
   //createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
   //createHTPExample("X:2023822..2042311", "fly", "viewerActnHTPFly", TRACK_TYPE.ISOFORM, false,[],'Actn','X:2037135');
 }
+var  otherGuides="";
 function getGenomeInfo(url){
 
     $.ajax({
@@ -50,11 +52,33 @@ function getGenomeInfo(url){
             const mappedGeneStop=geneInfo[0].stop;
             console.log(mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop);
             range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
+             getOtherGuidesJson(mappedGeneStart, mappedGeneStop, range, guideId);
+                console.log("OTHER: "+ otherGuides);
             $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
-            createExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,null,null, guide);
 
         }
     });
+
+}
+
+function getOtherGuidesJson(mappedGeneStart, mappedGeneStop, range, guideId){
+    var url="/toolkit/data/guide/guides/"+mappedGeneStart+"/"+mappedGeneStop+"/"+guideId;
+
+    $.ajax({
+        url:url,
+        type:"GET",
+        dataType: 'json',
+        success:function (data) {
+         handle(data,range);
+        }
+    });
+
+}
+function handle(data, range){
+   var otherGuides=JSON.stringify(data);
+    console.log("DATA HANDLER:"+JSON.stringify(data));
+    createExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,null,null, guide,otherGuides);
+
 
 }
 getGenome=  async () => {
@@ -133,7 +157,7 @@ function isoformExamples() {
     createIsoformExample("25:15029041..15049781", "zebrafish", "zebrafishExampleIsoformOnly", TRACK_TYPE.ISOFORM, true);
 }
 
-function createExample(range, genome, divId, type, showLabel, variantFilter,isoformFilter,guide) {
+function createExample(range, genome, divId, type, showLabel, variantFilter,isoformFilter,guide, otherGuides) {
     const chromosome = range.split(":")[0];
     const [start, end] = range.split(":")[1].split("..");
     const ratio = 0.01;
@@ -148,6 +172,7 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
       "variantFilter": variantFilter || [],
         "binRatio": ratio,
         "guide":guide,
+        "otherGuides":otherGuides,
         "tracks": [
             {
                 "id": 12,
@@ -164,7 +189,7 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
                     ".json"
                 ]
 
-            },
+            }
         ]
     };
     console.log(configGlobal1);

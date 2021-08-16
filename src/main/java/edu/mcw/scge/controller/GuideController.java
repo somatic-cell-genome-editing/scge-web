@@ -1,24 +1,33 @@
 package edu.mcw.scge.controller;
 
+import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@RestController
 @Controller
 @RequestMapping(value="/data/guide")
 public class GuideController {
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
+    GuideDao guideDao = new GuideDao();
 
     @RequestMapping(value="/search")
     public String getGuides(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
@@ -35,8 +44,7 @@ public class GuideController {
 
     @RequestMapping(value="/system")
     public String getGuide(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        GuideDao dao = new GuideDao();
-        Guide guide= dao.getGuideById(Long.parseLong(req.getParameter("id"))).get(0);
+        Guide guide= guideDao.getGuideById(Long.parseLong(req.getParameter("id"))).get(0);
 
         DBService dbService = new DBService();
         UserService userService = new UserService();
@@ -93,4 +101,35 @@ public class GuideController {
         return null;
     }
 
+    @RequestMapping(value = "/guides/{start}/{stop}/{guideId}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getGuidesOfRange(@PathVariable("start")int start, @PathVariable("stop") int stop, @PathVariable("guideId") long guideId) throws Exception {
+       List<Guide> guides= guideDao.getAllGuidesByRange(start, stop);
+       Guide guide=guideDao.getGuideById(guideId).get(0);
+       List<GuideSequenceViewer> allSequenceViewerGuides=new ArrayList<>();
+       for(Guide g:guides){
+           GuideSequenceViewer viewer=new GuideSequenceViewer();
+           viewer.setAssembly(g.getAssembly());
+           viewer.setDescription(g.getGuideDescription());
+           viewer.setFmax(g.getStop());
+           viewer.setFmin(g.getStart());
+           Map<String, String> guide_ids=new HashMap<>();
+           guide_ids.put("values", g.getGrnaLabId());
+           viewer.setGuide_ids(guide_ids);
+           viewer.setName(g.getGuide());
+           viewer.setPam(g.getPam());
+           viewer.setScge_id(g.getGuide_id());
+           viewer.setStrand(g.getStrand());
+           viewer.setSeqId(g.getChr());
+           viewer.setTargetLocus(g.getTargetLocus());
+           viewer.setTargetSequence(g.getTargetSequence());
+           if(guide.getStart().equals(g.getStart()) && guide.getStop().equals(g.getStop()))
+           viewer.setType("gRNA");
+           else
+               viewer.setType("substitution");
+           allSequenceViewerGuides.add(viewer);
+       }
+       Gson gson=new Gson();
+        return gson.toJson(allSequenceViewerGuides);
+    }
 }
