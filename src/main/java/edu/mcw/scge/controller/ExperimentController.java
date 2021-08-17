@@ -62,7 +62,7 @@ public class ExperimentController extends UserController {
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
         req.setAttribute("experiments", records);
         req.setAttribute("study", study);
-        req.setAttribute("action", "Experiments");
+        req.setAttribute("action", study.getStudy());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
@@ -392,12 +392,10 @@ public class ExperimentController extends UserController {
 
         }
         List<String> uniqueFields=getLabelFields(records, objectSizeMap, grant.getGrantInitiative());
-        System.out.print("UNIQUE FIELDS:"+ uniqueFields.toString());
         List<String> labels=new ArrayList<>();
         Map<String, List<Double>> plotData=new HashMap<>();
         HashMap<Integer,List<Integer>> replicateResult = new HashMap<>();
         List mean = new ArrayList<>();
-        Map<String, List<Double>> meanMap=new HashMap<>();
         HashMap<Long,Double> resultMap = new HashMap<>();
         TreeMap<Long,List<ExperimentResultDetail>> resultDetail = new TreeMap<>();
         String efficiency = null;
