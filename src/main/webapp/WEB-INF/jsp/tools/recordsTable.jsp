@@ -60,7 +60,7 @@
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
-        <th>Name</th>
+        <th>Condition<%=request.getAttribute("uniqueFields").toString()%></th>
         <% if (tissueList.size() > 0 ) { %><th>Tissue</th><% } %>
         <% if (cellTypeList.size() > 0) { %><th>Cell Type</th><% } %>
         <% if (editorList.size() > 0 ) { %><th>Editor</th><% } %>
@@ -86,6 +86,11 @@
                 List<ExperimentResultDetail> ers = resultDetail.get(resultId);
                 long expRecordId = ers.get(0).getExperimentRecordId();
                 ExperimentRecord exp = experimentRecordsMap.get(expRecordId);
+                String experimentName=exp.getExperimentName();
+                if(resultTypeList.size()>1) {
+                    experimentName+=" ("+ers.get(0).getResultType()+") ";
+                }
+
                 List<Guide> guides = guideMap.get(exp.getExperimentRecordId());
                 String guide = "";
                 String targetLocus="";
@@ -112,7 +117,7 @@
         <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) {
         %>
         <tr>
-        <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
+        <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(experimentName)%></a></td>
         <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
         <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
         <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td><% } %>
