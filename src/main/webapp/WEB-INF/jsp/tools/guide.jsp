@@ -213,7 +213,7 @@
    <% if(relatedEditors!=null && relatedEditors.size()>0){%>
     <div id="editor">
     <h4 class="page-header" style="color:grey;">Related Editor</h4>
-    <table class="table">
+    <table class="table" style="width: 62%">
         <tr><td >Related Editors</td>
             <td>
                 <%for (Editor relatedEditor: relatedEditors) { %>
@@ -253,16 +253,13 @@
             <%for (OffTarget offTarget: offTargets) { %>
             <tr>
                 <td><%=offTarget.getDetectionMethod()%></td>
-                <td><%=offTarget.getNoOfSitesDetected()%><br>
-
-                </td>
+                <td><%=offTarget.getNoOfSitesDetected()%></td>
             </tr>
             <% } %>
         </table>
         <h4 class="page-header" style="color:grey;">Specificity</h4>
-        <table class="table">
-            <tr ><th >Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
-
+        <table class="table" style="width: 62%">
+            <tr><th >Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
         </table>
     </div>
     <hr>
