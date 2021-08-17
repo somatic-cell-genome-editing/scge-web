@@ -142,7 +142,9 @@ Goals"/>
                     <c:choose>
                         <c:when test="${action!=null}">
                             <h4 class="page-header" style="color:#1A80B6;font-size:30px;">${action}  </h4>
-                            <hr>
+                    <c:if test="${study!=null && study.pi!=null}">
+                    <small class="text-muted">PI: <a href="">${study.pi}</a>&nbsp;<span style="font-weight: bold;color:orange">Submission Date:</span> ${study.submissionDate} &nbsp;<span style="color:orange; font-weight: bold">Publication ID:</span><a href="">XXXXXXXX</a></small>
+                    </c:if>     <hr>
                             <c:if test="${action=='Dashboard'}">
                                 <div align="right">
                                     <c:forEach items="${personInfoList}" var="i">
