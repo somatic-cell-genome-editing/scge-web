@@ -198,8 +198,8 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
                     a = methods.get(0);
             %>
                 <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=<%=e.getId()%>"><%=SFN.parse(e.getSymbol())%></a></td></tr>
-                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=SFN.parse(d.getType())%></a></td></tr>
-                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=SFN.parse(d.getSubtype())%></td></tr>
+                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=SFN.parse(d.getName())%></a></td></tr>
+                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=SFN.parse(d.getType())%></td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td><%=guide%></td></tr>
             <tr><td class="header"><strong>Vector</strong></td><td><%=vector%></td></tr>
             </tbody>

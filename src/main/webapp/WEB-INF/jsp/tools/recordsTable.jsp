@@ -14,6 +14,7 @@
   Time: 4:37 PM
   To change this template use File | Settings | File Templates.
 --%>
+<script src="/toolkit/common/js/jquery.tabletoCSV.js"> </script>
 
 <style>
     td{
@@ -35,6 +36,9 @@
             else update();
         });
     });
+	function download(){
+        $("#myTable").tableToCSV();
+    }
 </script>
 
 <% try {  %>
@@ -53,7 +57,7 @@
     <table width="90%">
         <tr>
             <td><h3>Results</h3></td>
-            <td align="right"><a href="#">Download Table Data</a></td>
+            <td align="right"><button onclick="download()">Download Table Data</button></td>
         </tr>
     </table>
 
@@ -161,6 +165,7 @@
                 },
                 options: {
                     responsive: true,
+                    scaleShowValues: true,
                     scales: {
                         xAxes: [{
                             gridLines: {
@@ -178,6 +183,8 @@
 
                             ticks:{
                                 fontColor: "rgb(0,75,141)",
+                                fontSize: 10,
+                                autoSkip: false,
                                 callback: function(t) {
                                    var maxLabelLength = 40;
                                    if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
