@@ -165,6 +165,7 @@
                 },
                 options: {
                     responsive: true,
+                    scaleShowValues: true,
                     scales: {
                         xAxes: [{
                             gridLines: {
@@ -182,6 +183,8 @@
 
                             ticks:{
                                 fontColor: "rgb(0,75,141)",
+                                fontSize: 10,
+                                autoSkip: false,
                                 callback: function(t) {
                                    var maxLabelLength = 40;
                                    if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
