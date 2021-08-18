@@ -152,11 +152,12 @@
         </table>
             </div>
         </div>
-        <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
     </div>
 
 </div>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
     <div id="images">
     <table align="center">
         <%
