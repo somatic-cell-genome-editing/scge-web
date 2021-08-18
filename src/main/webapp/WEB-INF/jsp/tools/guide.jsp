@@ -247,7 +247,6 @@
     </div>
     <hr>
     <%}%>
-    <%if(offTargets!=null && offTargets.size()>0){%>
     <%HashMap<String,Integer> offTargetData = new HashMap<>();
         if(offTargets!=null && offTargets.size()>0){
 
