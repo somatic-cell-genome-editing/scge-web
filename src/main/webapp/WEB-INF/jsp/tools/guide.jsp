@@ -1,11 +1,11 @@
-<%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
-<%@ page import="edu.mcw.scge.datamodel.Editor" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
-<%@ page import="edu.mcw.scge.datamodel.OffTarget" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="com.google.gson.Gson" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="edu.mcw.scge.datamodel.*" %>
+<%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -50,6 +50,7 @@
 <% Guide g = (Guide) request.getAttribute("guide"); %>
 <% List<Editor> relatedEditors = (List<Editor>) request.getAttribute("editors");
     List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
+    List<OffTargetSite> offTargetSites = (List<OffTargetSite>) request.getAttribute("offTargetSites");
 %>
 
 
@@ -247,6 +248,17 @@
     <hr>
     <%}%>
     <%if(offTargets!=null && offTargets.size()>0){%>
+    <%HashMap<String,Integer> offTargetData = new HashMap<>();
+        if(offTargets!=null && offTargets.size()>0){
+
+
+    for(OffTargetSite o:offTargetSites){
+    if(o.getSeqType().equalsIgnoreCase("Change_seq")) {
+            String label = o.getChromosome() +"-"+ o.getStart() +"-"+ o.getStop();
+            offTargetData.put(label, o.getNoOfReads());
+    }
+    }
+    %>
     <div id="offTargets">
         <h4 class="page-header" style="color:grey;">Off Targets</h4>
         <table class="table" >
@@ -262,7 +274,12 @@
         <table class="table" style="width: 62%">
             <tr><th >Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
         </table>
+
     </div>
+    <div class="chart-container" style="position: relative; height:80vh; width:80vw;">
+        <canvas id="offTargetChart"></canvas>
+    </div>
+
     <hr>
     <%}%>
     <div id="associatedStudies">
@@ -272,3 +289,39 @@
     <jsp:include page="associatedExperiments.jsp"/>
     </div>
 </main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+<script>
+    var ctx = document.getElementById("offTargetChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: <%= JSONValue.toJSONString(offTargetData.keySet()) %>,
+            datasets: [
+                {
+                    label: 'No of ChangeSeq Reads',
+                    data: <%=offTargetData.values()%>,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        offsetGridLines: true
+                    }
+                },
+                ],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
