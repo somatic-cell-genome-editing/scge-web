@@ -121,8 +121,8 @@ Goals"/>
                             <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Study Tier Updates</a>
                         </div>
                     </li>
-                    <!--li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
-                    </li-->
+                    <li class="nav-item" style="padding-top: 5px"><a href="/toolkit/data/dataSubmission"><button type="button" class="btn btn-sm">Upload Docs</button></a>
+                    </li>
                 </c:if>
 
                 <li class="nav-item">
