@@ -6,6 +6,7 @@
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
 <%@ page import="edu.mcw.scge.dao.implementation.ExperimentRecordDao" %>
+<%@ page import="java.util.HashMap" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -41,16 +42,19 @@
 </style>
 <script>
     $(function() {
-        $("#myTable").tablesorter({
-            theme : 'blue'
+        for(var i=1;i<10; i++) {
+            $("#myTable-"+i).tablesorter({
+                theme: 'blue'
 
-        });
+            });
+        }
     });
 </script>
 <script src="/toolkit/js/edit.js"></script>
 
 
 <% List<Study> studies = (List<Study>) request.getAttribute("studies");
+    Map<String, Map<Integer, List<Study>>> sortedStudies= (Map<String, Map<Integer, List<Study>>>) request.getAttribute("sortedStudies");
     Map<Integer, Integer> tierUpdateMap= (Map<Integer, Integer>) request.getAttribute("tierUpdateMap");
     Person person = (Person) request.getAttribute("person");
     GrantDao grantDao = new GrantDao();
@@ -70,15 +74,19 @@
 </table>
 </c:if>
 <br>
-
-
+<div class="container">
+<%  int id=1;
+    for(Map.Entry entry:sortedStudies.entrySet()){
+    String grantInitiative= (String) entry.getKey();
+    Map<Integer, List<Study>> groupedStudies= (Map<Integer, List<Study>>) entry.getValue();
+    %>
 <div>
-    <table id="myTable" class="tablesorter">
+    <h4><%=grantInitiative%></h4>
+    <table id="myTable-<%=id%>" class="tablesorter">
         <thead>
         <tr><th></th>
             <th width="20">Tier</th>
             <th>Grant Title</th>
-            <th>Initiative</th>
             <th>Contact PI</th>
             <th>Institution</th>
 
@@ -90,8 +98,11 @@
         <%
             Access access = new Access();
         %>
-
-        <% for (Study s: studies) { %>
+  <%  for(Map.Entry e:groupedStudies.entrySet()){
+        int groupId= (int) e.getKey();
+        List<Study> studies1= (List<Study>) e.getValue();
+        %>
+        <% for (Study s: studies1) { %>
         <tr>
             <td>
                 <% if (access.canUpdateTier(person,s)){%>
@@ -127,7 +138,7 @@
                       hasRecords=true;
                }
             %>
-            <td>
+            <td width="40%">
 
                 <%if(access.hasStudyAccess(s,person)) {  %>
                     <%-- if (!hasRecords) { %>
@@ -141,8 +152,9 @@
                     <%=s.getStudy()%>
                 <% } %>
             </td>
-            <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())%></td>
-            <td style="white-space: nowrap"><%=UI.formatName(s.getPi())%></td><td><%=s.getLabName()%></td>
+            <!--td><%--=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())--%></td-->
+            <td style="white-space: nowrap;width:15%"><%=UI.formatName(s.getPi())%></td>
+            <td width="20%"><%=s.getLabName()%></td>
             <td><%=UI.formatDate(s.getSubmissionDate())%></td>
             <td>
                 <%if( s.getLastModifiedDate()!=null){%>
@@ -151,6 +163,8 @@
             </td>
 
         </tr>
-        <%}%>
+        <%}}%>
     </table>
+</div>
+<%id++;}%>
 </div>
