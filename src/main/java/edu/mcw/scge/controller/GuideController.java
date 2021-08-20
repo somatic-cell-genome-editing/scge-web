@@ -84,6 +84,10 @@ public class GuideController {
         List<OffTarget> offTargets = offTargetDao.getOffTargetByGuide(guide.getGuide_id());
         req.setAttribute("offTargets",offTargets);
 
+        OffTargetSiteDao offTargetSiteDao = new OffTargetSiteDao();
+        List<OffTargetSite> offTargetSites = offTargetSiteDao.getOffTargetSitesByGuide(guide.getGuide_id());
+        req.setAttribute("offTargetSites",offTargetSites);
+
         HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
