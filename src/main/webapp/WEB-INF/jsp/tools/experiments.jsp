@@ -60,7 +60,7 @@
 
 
         <div class="card">
-            <div class="card-header scge-details-label">Study - SCGE:<%=study.getStudyId()%></div>
+            <div class="card-header scge-details-label">Submission - SCGE:<%=study.getStudyId()%></div>
             <div class="card-body">
                 <table id="scge-details">
                     <tr ><td class="scge-details-label">PI</td><td>: <%=study.getPi()%></td></tr>

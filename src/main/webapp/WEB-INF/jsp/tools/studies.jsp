@@ -80,7 +80,10 @@
             <th>Grant Title</th>
             <th>Initiative</th>
             <th>Contact PI</th>
+            <th>Institution</th>
+
             <th>Submission Date</th>
+            <th>Last Updated Date</th>
         </tr>
         </thead>
 
@@ -127,20 +130,26 @@
             <td>
 
                 <%if(access.hasStudyAccess(s,person)) {  %>
-                    <% if (!hasRecords) { %>
+                    <%-- if (!hasRecords) { %>
                     <%=s.getStudy()%>
                         <span style="font-size:10px;">(Submission Received: Processing)</span>
-                    <% } else { %>
+                    <% } else { --%>
                         <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a>
-                    <% } %>
+                    <%-- } --%>
 
                 <%} else { %>
                     <%=s.getStudy()%>
                 <% } %>
             </td>
             <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())%></td>
-            <td><%=s.getPi()%><br>(<%=s.getLabName()%>)</td>
+            <td style="white-space: nowrap"><%=UI.formatName(s.getPi())%></td><td><%=s.getLabName()%></td>
             <td><%=UI.formatDate(s.getSubmissionDate())%></td>
+            <td>
+                <%if( s.getLastModifiedDate()!=null){%>
+                <%=UI.formatDate(s.getLastModifiedDate())%>
+                <%}%>
+            </td>
+
         </tr>
         <%}%>
     </table>
