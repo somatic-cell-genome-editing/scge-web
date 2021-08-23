@@ -38,16 +38,52 @@
        color:#1A80B6;
         font-weight: bold
     }
-
+    td{
+        display:table-cell
+    }
 </style>
 <script>
     $(function() {
         for(var i=1;i<10; i++) {
             $("#myTable-"+i).tablesorter({
-                theme: 'blue'
+                theme: 'blue',
+                cssChildRow:"tablesorter-childRow",
 
             });
         }
+        $("#myTable-"+i).find( '.tablesorter-childRow td' ).addClass( 'hidden' );
+        $(".toggle").on('click', function () {
+            if($(this).find('.fa').hasClass("fa-plus-circle")){
+                $(this).find('.fa').removeClass("fa-plus-circle");
+                $(this).find('.fa').addClass("fa-minus-circle");
+                $(this).find('.fa').css('color', 'red');
+                $(this).find('.fa').prop('title', 'Click to collapse');
+            }else{
+                $(this).find('.fa').removeClass("fa-minus-circle");
+                $(this).find('.fa').addClass("fa-plus-circle");
+                $(this).find('.fa').css('color', 'green');
+                $(this).find('.fa').prop('title', 'Click to expand');
+            }
+            if($(this).closest( 'tr' )
+                .next( 'tr.header1' )
+                .find( 'td' ).hasClass('hidden')){
+                $(this).closest( 'tr' )
+                    .next( 'tr.header1' )
+                    .find( 'td' ).removeClass('hidden');
+                $(this).closest( 'tr' )
+                    .nextUntil( 'tr.header1' )
+                    .find( 'td' ).show()
+            }else{
+                $(this).closest( 'tr' )
+                    .next( 'tr.header1' )
+                    .find( 'td' ).addClass('hidden');
+                $(this).closest( 'tr' )
+                    .next( 'tr.header1' )
+                    .find( 'td' ).hide()
+            }
+        })
+
+
     });
 </script>
 <script src="/toolkit/js/edit.js"></script>
@@ -100,12 +136,27 @@
         %>
   <%  for(Map.Entry e:groupedStudies.entrySet()){
         int groupId= (int) e.getKey();
-        List<Study> studies1= (List<Study>) e.getValue();
-        %>
-        <% for (Study s: studies1) { %>
-        <tr>
-            <td>
-                <% if (access.canUpdateTier(person,s)){%>
+        List<Study> studies1= (List<Study>) e.getValue();%>
+     <% if(studies1.size()>1){%>
+
+            <tr class="header1" style="display:table-row;">
+                <td></td>
+                <td class="toggleTableRows" style="cursor:pointer;text-align:center;" width="20"><i class="fa fa-plus-circle expand" aria-hidden="true" style="font-size:medium;color:green" title="Click to expand"></i></td>
+                <td width="40%" ><%=studies1.get(0).getStudy()%></td>
+                <td width="15%"><%=studies1.get(0).getPi()%></td>
+                <td width="20%"><%=studies1.get(0).getLabName()%></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+    <%}%>
+        <% for (Study s: studies1) {
+            if(studies1.size()>1) {%>
+        <tr class="tablesorter-childRow" style="display:none">
+                <%}else{%>
+        <tr class="header1" style="display:table-row;">
+        <%}%>
+        <td><% if (access.canUpdateTier(person,s)){%>
                     <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="edit/access">
                         <div class="col  tiers">
                             <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=tierUpdateMap.get(s.getStudyId())%>"/>
@@ -163,7 +214,10 @@
             </td>
 
         </tr>
-        <%}}%>
+
+        <%}%>
+
+            <%}%>
     </table>
 </div>
 <%id++;}%>
