@@ -6,6 +6,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
+<%@ page import="java.util.Set" %>
 <%@ page import="java.util.TreeSet" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -248,6 +249,7 @@
     </div>
     <hr>
     <%}%>
+    <%HashMap<String,Integer> changeSeq = new HashMap<>();
         Set<String> labels = new TreeSet<>();
         HashMap<String,Integer> guideSeq = new HashMap<>();
         if(offTargets!=null && offTargets.size()>0){
