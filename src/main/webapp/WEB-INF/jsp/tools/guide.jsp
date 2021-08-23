@@ -160,7 +160,6 @@
 
 </div>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
     <div id="images">
     <table align="center">
         <%
@@ -286,7 +285,8 @@
         </table>
 
     </div>
-    <div class="chart-container" style="position: relative; height:80vh; width:80vw;">
+    <div class="chart-container" style="position: relative; height:60vh; width:50vw;">
+        <h4 class="page-header" style="color:grey;">Off Target Sites</h4>
         <canvas id="offTargetChart"></canvas>
     </div>
 
