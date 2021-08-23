@@ -6,6 +6,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
+<%@ page import="java.util.TreeSet" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -247,15 +248,23 @@
     </div>
     <hr>
     <%}%>
-    <%HashMap<String,Integer> offTargetData = new HashMap<>();
+        Set<String> labels = new TreeSet<>();
+        HashMap<String,Integer> guideSeq = new HashMap<>();
         if(offTargets!=null && offTargets.size()>0){
 
 
     for(OffTargetSite o:offTargetSites){
-    if(o.getSeqType().equalsIgnoreCase("Change_seq")) {
-            String label = o.getChromosome() +"-"+ o.getStart() +"-"+ o.getStop();
-            offTargetData.put(label, o.getNoOfReads());
-    }
+        String label = o.getChromosome() +"-"+ o.getStart();
+        if(o.getSeqType().equalsIgnoreCase("Change_seq")) {
+            changeSeq.put(label, o.getNoOfReads());
+            if(!guideSeq.containsKey(label))
+                guideSeq.put(label,null);
+        } else {
+            guideSeq.put(label,o.getNoOfReads());
+            if(!changeSeq.containsKey(label))
+                changeSeq.put(label,null);
+        }
+        labels.add(label);
     }
     %>
     <div id="offTargets">
@@ -295,12 +304,19 @@
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: <%= JSONValue.toJSONString(offTargetData.keySet()) %>,
+            labels: <%= JSONValue.toJSONString(labels) %>,
             datasets: [
                 {
                     label: 'No of ChangeSeq Reads',
-                    data: <%=offTargetData.values()%>,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    data: <%=changeSeq.values()%>,
+                    backgroundColor: 'rgba(6,69,121,1)',
+                    borderColor: 'rgba(6,69,121,1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'No of GuideSeq Reads',
+                    data: <%=guideSeq.values()%>,
+                    backgroundColor: 'rgba(255,99,132,1)',
                     borderColor: 'rgba(255,99,132,1)',
                     borderWidth: 1
                 }
