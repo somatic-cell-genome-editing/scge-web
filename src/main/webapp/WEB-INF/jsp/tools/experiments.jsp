@@ -67,13 +67,19 @@
                     <tr ><td class="scge-details-label">Submission Date</td><td>: <%=study.getSubmissionDate()%></td></tr>
                     <tr ><td class="scge-details-label" >Publication ID</td><td>: <%=study.getReference()%></td></tr>
                     <tr ><td class="scge-details-label">Status</td><td>
+                        <% if(access.isInDCCorNIHGroup(p)){%>
                         <select class="form-control" id="statusControlSelect">
-                            <option selected>Completed</option>
+                            <option selected>Verified</option>
                             <option>Received</option>
                             <option>In Processing</option>
                             <option>DCC Review</option>
                             <option>PI Review</option>
-                        </select></td></tr>
+                        </select>
+                        <%}
+                        else{
+                            if(experiments.size()>0){%><span>DCC Review</span>
+                        <%}else{%><span>Received</span><%}}%>
+                    </td></tr>
                     <tr ><td class="scge-details-label">Last Updated Date</td><td>: <%=study.getSubmissionDate()%></td></tr>
 
                 </table>
