@@ -105,19 +105,13 @@
 </table>
 </c:if>
 <br>
-<div class="container">
-<%  int id=1;
-    for(Map.Entry entry:sortedStudies.entrySet()){
-    String grantInitiative= (String) entry.getKey();
-    Map<Integer, List<Study>> groupedStudies= (Map<Integer, List<Study>>) entry.getValue();
-    %>
-<div>
-    <h5><%=grantInitiative%></h5>
-    <table id="myTable-<%=id%>" class="tablesorter">
+<div >
+    <table id="myTable-1" class="tablesorter">
         <thead>
         <tr><th></th>
             <th width="20">Tier</th>
             <th>Grant Title</th>
+            <th>Initiative</th>
             <th>Contact PI</th>
             <th>Institution</th>
 
@@ -125,6 +119,13 @@
             <th>Last Updated Date</th>
         </tr>
         </thead>
+<%  int id=1;
+    for(Map.Entry entry:sortedStudies.entrySet()){
+    String grantInitiative= (String) entry.getKey();
+    Map<Integer, List<Study>> groupedStudies= (Map<Integer, List<Study>>) entry.getValue();
+    %>
+<div>
+
 
         <%
             Access access = new Access();
@@ -137,9 +138,10 @@
             <tr class="header1" style="display:table-row;">
                 <td class="toggle" style="cursor:pointer;text-align:center;" width="20"><i class="fa fa-plus-circle expand" aria-hidden="true" style="font-size:medium;color:green" title="Click to expand"></i></td>
                 <td></td>
-                <td width="40%" ><%=studies1.get(0).getStudy()%><span style="color:orange;font-weight: bold"><%="("+studies1.size()+" submissions)"%></span></td>
-                <td width="15%"><%=UI.formatName(studies1.get(0).getPi())%></td>
-                <td width="20%"><%=studies1.get(0).getLabName()%></td>
+                <td ><%=studies1.get(0).getStudy()%><span style="color:orange;font-weight: bold"><%="("+studies1.size()+" submissions)"%></span></td>
+                <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantInitiative())%></td>
+                <td><%=UI.formatName(studies1.get(0).getPi())%></td>
+                <td><%=studies1.get(0).getLabName()%></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -184,7 +186,7 @@
                       hasRecords=true;
                }
             %>
-            <td width="40%">
+            <td>
 
                 <%if(access.hasStudyAccess(s,person)) {if(studies1.size()>1) { %>
                     <%-- if (!hasRecords) { %>
@@ -204,13 +206,17 @@
 
                 <% } %>
             </td>
-            <!--td><%--=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())--%></td-->
+            <td>
+                <%if(studies1.size()<=1){ %>
+                <%=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())%>
+                <%}%>
+            </td>
             <td style="white-space: nowrap;width:15%">
                 <%if(studies1.size()<=1){ %>
                 <%=UI.formatName(s.getPi())%>
                 <%}%>
             </td>
-            <td width="20%">
+            <td>
                 <%if(studies1.size()<=1){ %>
                 <%=s.getLabName()%>
                 <%}%>
@@ -227,7 +233,8 @@
         <%}%>
 
             <%}%>
-    </table>
+
 </div>
-<%id++;}%>
+<%}%>
+    </table>
 </div>
