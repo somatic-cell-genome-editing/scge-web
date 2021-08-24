@@ -64,8 +64,8 @@ public class FileUploadController {
 
 		req.setAttribute("message", message);
 		StorageProperties properties=new StorageProperties();
-		properties.setLocation("C:/tmp/upload-dir" );
-				//"/data/scge_submissions");
+		//properties.setLocation("C:/tmp/upload-dir" );
+		properties.setLocation("/data/scge_submissions");
 		FileSystemStorageService service=new FileSystemStorageService(properties);
 		storageService.init();
 		StudyDao sdao = new StudyDao();
@@ -101,8 +101,8 @@ public class FileUploadController {
 			return null;
 		}
 		StorageProperties properties=new StorageProperties();
-		properties.setLocation("C:/tmp/upload-dir" );
-		//"/data/scge_submissions");
+	//	properties.setLocation("C:/tmp/upload-dir" );
+		properties.setLocation("/data/scge_submissions");
 		FileSystemStorageService service=new FileSystemStorageService(properties);
 
 		Resource file = service.loadAsResource(studyId + "/" + filename);
