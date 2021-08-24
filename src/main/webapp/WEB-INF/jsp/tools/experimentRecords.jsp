@@ -65,7 +65,7 @@
 
     %>
         <div id="recordTableContent" style="position:relative; left:0px; top:00px;">
-    <table>
+    <!--table>
         <tr>
             <td class="desc" style="font-weight:700;"><%=study.getStudy()%>:</td>
             <td>&nbsp;&nbsp;&nbsp;</td>
@@ -75,17 +75,17 @@
             <td class="desc"  style="font-weight:700;">Submission Date:</td>
             <td class="desc" ><%=study.getSubmissionDate()%></td>
         </tr>
-    </table>
+    </table-->
 
         <% if (( tissueList.size() > 0 && selectedResultType == null )) { %>
-            <hr>
+
 
                 <%@include file="tissueMap.jsp"%>
 
 
          <% }  %>
             <% if (tissueList.size() == 0 || selectedResultType != null) { %>
-        <hr>
+
             <%@include file="recordsTable.jsp"%>
             <% }  %>
 

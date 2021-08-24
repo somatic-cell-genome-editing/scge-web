@@ -64,7 +64,7 @@ public class ExperimentController extends UserController {
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
         req.setAttribute("experiments", records);
         req.setAttribute("study", study);
-        req.setAttribute("action", "Experiments");
+        req.setAttribute("action", study.getStudy());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
@@ -381,7 +381,7 @@ public class ExperimentController extends UserController {
         req.setAttribute("resultType",resultType);
         req.setAttribute("tissue",tissue);
         req.setAttribute("cellType",cellType);
-        req.setAttribute("action", "Experiment Records");
+        req.setAttribute("action", e.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.setAttribute("objectSizeMap", objectSizeMap);
         req.setAttribute("uniqueFields", uniqueFields);

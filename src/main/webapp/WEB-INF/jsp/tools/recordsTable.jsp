@@ -44,8 +44,8 @@
 <% try {  %>
 
         <%@include file="recordFilters.jsp"%>
-<hr>
-        <table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table>
+
+        <!--table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table-->
        <% if(resultMap != null && resultMap.size()!= 0) {%>
         <div class="chart-container" >
     <canvas id="resultChart" style="position: relative; height:80vh; width:80vw;"></canvas>

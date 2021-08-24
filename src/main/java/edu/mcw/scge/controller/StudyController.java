@@ -3,10 +3,7 @@ package edu.mcw.scge.controller;
 import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.ExperimentDao;
-import edu.mcw.scge.dao.implementation.ExperimentRecordDao;
-import edu.mcw.scge.dao.implementation.PersonDao;
-import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.Data;
 import edu.mcw.scge.service.DataAccessService;
@@ -20,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value="/data/studies")
@@ -32,6 +27,7 @@ public class StudyController{
     UserService userService=new UserService();
     Access access= new Access();
     StudyDao sdao=new StudyDao();
+    GrantDao grantDao=new GrantDao();
 
     @RequestMapping(value="/search")
     public String getStudies( HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -78,6 +74,28 @@ public class StudyController{
                 req.setAttribute("tierUpdateMap", tierUpdateMap);
             }else {
                 studies = sdao.getStudies();
+                TreeMap<String, Map<Integer, List<Study>>> sortedStudies=new TreeMap<>();
+                Map<Integer, String> groupGrantMap=new HashMap<>();
+                for(Study study:studies){
+                  String grantInitiative=  grantDao.getGrantByGroupId(study.getGroupId()).getGrantInitiative();
+                  groupGrantMap.put(study.getGroupId(), grantInitiative);
+                  sortedStudies.put(grantInitiative, new HashMap<>());
+                }
+                for(Study study:studies){
+                    String grantInitiative=groupGrantMap.get(study.getGroupId());
+                    Map<Integer, List<Study>> groupStudiesMap=sortedStudies.get(grantInitiative);
+                    List<Study> grantStudies=new ArrayList<>();
+                    grantStudies.add(study);
+                        if (groupStudiesMap.get(study.getGroupId()) != null) {
+                            grantStudies.addAll(groupStudiesMap.get(study.getGroupId()));
+                        }
+
+                        groupStudiesMap.put(study.getGroupId(), grantStudies);
+
+                    sortedStudies.put(grantInitiative, groupStudiesMap);
+                }
+
+                req.setAttribute("sortedStudies", sortedStudies);
 
                 req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
                 req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
@@ -102,7 +120,7 @@ public class StudyController{
                 req.setAttribute("action", "Studies: " + initiativeTitle);
 
             }else {
-                req.setAttribute("action", "Studies");
+                req.setAttribute("action", "Studies by initiative");
 
             }
 

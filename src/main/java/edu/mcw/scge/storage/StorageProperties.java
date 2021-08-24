@@ -18,14 +18,13 @@ public class StorageProperties {
 	 * Folder location for storing files
 	 */
 	//private String location = "/data/scge_submissions";
-	private String location = this.rootLocation;
 	//private String location = "/Users/jdepons/upload-dir";
 	public String getLocation() {
-		return location;
+		return rootLocation;
 	}
 
 	public void setLocation(String location) {
-		this.location = location;
+		rootLocation = location;
 	}
 
 }
