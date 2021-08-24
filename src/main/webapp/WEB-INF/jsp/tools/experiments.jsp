@@ -69,11 +69,22 @@
                     <tr ><td class="scge-details-label">Status</td><td>
                         <% if(access.isInDCCorNIHGroup(p)){%>
                         <select class="form-control" id="statusControlSelect">
-                            <option selected>Verified</option>
+                            <option >Verified</option>
+                            <%if(experiments.size()>0){%>
+                            <option selected>DCC Review</option>
                             <option>Received</option>
                             <option>In Processing</option>
-                            <option>DCC Review</option>
                             <option>PI Review</option>
+                            <option>Verified</option>
+
+                            <%}else{%>
+                            <option >DCC Review</option>
+                            <option selected>Received</option>
+                            <option>In Processing</option>
+                            <option>PI Review</option>
+                            <option>Verified</option>
+                            <%}%>
+
                         </select>
                         <%}
                         else{
@@ -101,9 +112,9 @@
     </table>
 
     <% } %>
-
-        <h4 class="page-header" style="color:grey;">Study Overview</h4>
         <%if(study.getStudyId()==1026){%>
+        <h4 class="page-header" style="color:grey;">Study Overview</h4>
+
         <div class="card" style="border:1px solid white">
             Specific aims: 1) to predict which unintended editing sites have biological effects on human T-cells by integrating large-scale genome-wide activity and epigenomic profiles with state-of-the-art deep learning models and 2) to develop a human primary T-cell platform to detect functional effects of genome editing by measuring clonal representation, off-target mutation frequencies, immunogenicity, or gene expression.
             <div class="container">
@@ -138,6 +149,7 @@
 
             <hr>
         <%}%>
+        <%if(experiments.size()>0){%>
         <h4 class="page-header" style="color:grey;">Experiments</h4>
 
     <table class="table tablesorter table-striped">
@@ -169,6 +181,8 @@
         <% } %>
         <% } %>
     </table>
+        <%}%>
+        <%if(study.getStudyId()==1026){%>
         <hr>
         <h4 class="page-header" style="color:grey;">Protocols</h4>
 
@@ -182,5 +196,6 @@
 
             <!--embed src="/toolkit/images/CRISPR-CAS.pdf" type="application/pdf" width="100%" height="600px" /-->
         </div>
+        <%}%>
     </main>
 </div>

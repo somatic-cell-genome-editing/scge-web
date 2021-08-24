@@ -112,7 +112,7 @@
     Map<Integer, List<Study>> groupedStudies= (Map<Integer, List<Study>>) entry.getValue();
     %>
 <div>
-    <h4><%=grantInitiative%></h4>
+    <h5><%=grantInitiative%></h5>
     <table id="myTable-<%=id%>" class="tablesorter">
         <thead>
         <tr><th></th>
