@@ -41,6 +41,9 @@
     td{
         display:table-cell
     }
+    .tablesorter-childRow td{
+        background-color: lightcyan;
+    }
 </style>
 <script>
     $(function() {
@@ -50,9 +53,11 @@
                 cssChildRow:"tablesorter-childRow",
 
             });
+
         }
-        $("#myTable-"+i).find( '.tablesorter-childRow td' ).addClass( 'hidden' );
-        $(".toggle").on('click', function () {
+        $('.tablesorter-childRow td').hide();
+
+        $('.tablesorter').delegate('.toggle', 'click' ,function() {
             if($(this).find('.fa').hasClass("fa-plus-circle")){
                 $(this).find('.fa').removeClass("fa-plus-circle");
                 $(this).find('.fa').addClass("fa-minus-circle");
@@ -64,25 +69,15 @@
                 $(this).find('.fa').css('color', 'green');
                 $(this).find('.fa').prop('title', 'Click to expand');
             }
-            if($(this).closest( 'tr' )
-                .next( 'tr.header1' )
-                .find( 'td' ).hasClass('hidden')){
-                $(this).closest( 'tr' )
-                    .next( 'tr.header1' )
-                    .find( 'td' ).removeClass('hidden');
-                $(this).closest( 'tr' )
-                    .nextUntil( 'tr.header1' )
-                    .find( 'td' ).show()
-            }else{
-                $(this).closest( 'tr' )
-                    .next( 'tr.header1' )
-                    .find( 'td' ).addClass('hidden');
-                $(this).closest( 'tr' )
-                    .next( 'tr.header1' )
-                    .find( 'td' ).hide()
-            }
-        })
+            // use "nextUntil" to toggle multiple child rows
+            // toggle table cells instead of the row
+            $(this).closest('tr').nextUntil('tr:not(.tablesorter-childRow)').find('td').toggle();
+            // in v2.5.12, the parent row now has the class tablesorter-hasChildRow
+            // so you can use this code as well
+            // $(this).closest('tr').nextUntil('tr.tablesorter-hasChildRow').find('td').toggle();
 
+            return false;
+        });
 
     });
 </script>
@@ -140,10 +135,10 @@
      <% if(studies1.size()>1){%>
 
             <tr class="header1" style="display:table-row;">
+                <td class="toggle" style="cursor:pointer;text-align:center;" width="20"><i class="fa fa-plus-circle expand" aria-hidden="true" style="font-size:medium;color:green" title="Click to expand"></i></td>
                 <td></td>
-                <td class="toggleTableRows" style="cursor:pointer;text-align:center;" width="20"><i class="fa fa-plus-circle expand" aria-hidden="true" style="font-size:medium;color:green" title="Click to expand"></i></td>
-                <td width="40%" ><%=studies1.get(0).getStudy()%></td>
-                <td width="15%"><%=studies1.get(0).getPi()%></td>
+                <td width="40%" ><%=studies1.get(0).getStudy()%><span style="color:orange;font-weight: bold"><%="("+studies1.size()+" submissions)"%></span></td>
+                <td width="15%"><%=UI.formatName(studies1.get(0).getPi())%></td>
                 <td width="20%"><%=studies1.get(0).getLabName()%></td>
                 <td></td>
                 <td></td>
@@ -152,7 +147,7 @@
     <%}%>
         <% for (Study s: studies1) {
             if(studies1.size()>1) {%>
-        <tr class="tablesorter-childRow" style="display:none">
+        <tr class="tablesorter-childRow" >
                 <%}else{%>
         <tr class="header1" style="display:table-row;">
         <%}%>
@@ -191,21 +186,35 @@
             %>
             <td width="40%">
 
-                <%if(access.hasStudyAccess(s,person)) {  %>
+                <%if(access.hasStudyAccess(s,person)) {if(studies1.size()>1) { %>
                     <%-- if (!hasRecords) { %>
                     <%=s.getStudy()%>
                         <span style="font-size:10px;">(Submission Received: Processing)</span>
                     <% } else { --%>
-                        <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a>
+                        <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>">Submission SCGE-<%=s.getStudyId()%></a>
                     <%-- } --%>
+                    <%}else{%>
+                    <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a>
 
-                <%} else { %>
-                    <%=s.getStudy()%>
+                <%}%>
+                <%} else { if(studies1.size()>1){ %>
+                    Submission SCGE-<%=s.getStudyId()%>
+                <%}else%>
+                <%=s.getStudy()%>
+
                 <% } %>
             </td>
             <!--td><%--=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())--%></td-->
-            <td style="white-space: nowrap;width:15%"><%=UI.formatName(s.getPi())%></td>
-            <td width="20%"><%=s.getLabName()%></td>
+            <td style="white-space: nowrap;width:15%">
+                <%if(studies1.size()<=1){ %>
+                <%=UI.formatName(s.getPi())%>
+                <%}%>
+            </td>
+            <td width="20%">
+                <%if(studies1.size()<=1){ %>
+                <%=s.getLabName()%>
+                <%}%>
+            </td>
             <td><%=UI.formatDate(s.getSubmissionDate())%></td>
             <td>
                 <%if( s.getLastModifiedDate()!=null){%>
