@@ -285,9 +285,9 @@
         </table>
 
     </div>
-    <div class="chart-container" style="position: relative; height:60vh; width:50vw;">
+    <div class="chart-container" >
         <h4 class="page-header" style="color:grey;">Off Target Sites</h4>
-        <canvas id="offTargetChart"></canvas>
+        <canvas id="offTargetChart" style="position: relative; height:60vh; width:65vw;"></canvas>
     </div>
 
     <hr>
@@ -309,14 +309,14 @@
             labels: <%= JSONValue.toJSONString(labels) %>,
             datasets: [
                 {
-                    label: 'No of ChangeSeq Reads',
+                    label: 'ChangeSeq',
                     data: <%=changeSeq.values()%>,
                     backgroundColor: 'rgba(6,69,121,1)',
                     borderColor: 'rgba(6,69,121,1)',
                     borderWidth: 1
                 },
                 {
-                    label: 'No of GuideSeq Reads',
+                    label: 'GuideSeq',
                     data: <%=guideSeq.values()%>,
                     backgroundColor: 'rgba(255,99,132,1)',
                     borderColor: 'rgba(255,99,132,1)',
@@ -330,13 +330,27 @@
                 xAxes: [{
                     gridLines: {
                         offsetGridLines: true
-                    }
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Off target sites',
+                        fontSize: 14,
+                        fontStyle: 'bold',
+                        fontFamily: 'Calibri'
+                    },
                 },
                 ],
                 yAxes: [{
                     ticks: {
                         beginAtZero: true
-                    }
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'No of Reads',
+                        fontSize: 14,
+                        fontStyle: 'bold',
+                        fontFamily: 'Calibri'
+                    },
                 }]
             }
         }
