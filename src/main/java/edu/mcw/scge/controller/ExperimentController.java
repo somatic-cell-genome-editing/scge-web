@@ -43,30 +43,38 @@ public class ExperimentController extends UserController {
 
     }
 
-    @RequestMapping(value="/study/{studyId}")
+    @RequestMapping(value="/study/{groupId}")
     public String getExperimentsByStudyId( HttpServletRequest req, HttpServletResponse res,
-                                           @PathVariable(required = false) int studyId) throws Exception {
+                                           @PathVariable(required = false) int groupId) throws Exception {
         Person p=userService.getCurrentUser(req.getSession());
-        Study study = sdao.getStudyById(studyId).get(0);
+        List<Study> studies = sdao.getStudiesByGroupId(groupId);
 
         if(!access.isLoggedIn()) {
             return "redirect:/";
         }
+        Map<Study, List<Experiment>> studyExperimentMap=new HashMap<>();
+        for(Study study:studies) {
+            if (!access.hasStudyAccess(study, p)) {
+                req.setAttribute("page", "/WEB-INF/jsp/error");
+                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+                return null;
 
-        if (!access.hasStudyAccess(study,p)) {
-            req.setAttribute("page", "/WEB-INF/jsp/error");
-            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-            return null;
+            }
 
+            List<Experiment> records = edao.getExperimentsByStudy(study.getStudyId());
+            studyExperimentMap.put(study, records);
         }
+            req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
+           /* req.setAttribute("experiments", records);
+            req.setAttribute("study", study);*/
+           if(studies.size()==1){
+               req.setAttribute("study", studies.get(0));
+           }
+           req.setAttribute("studyExperimentMap", studyExperimentMap);
+            req.setAttribute("action", studies.get(0).getStudy());
+            req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
-        List<Experiment> records = edao.getExperimentsByStudy(studyId);
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
-        req.setAttribute("experiments", records);
-        req.setAttribute("study", study);
-        req.setAttribute("action", study.getStudy());
-        req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
     }
     @RequestMapping(value="/experiment/experimentRecords")

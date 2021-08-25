@@ -45,42 +45,7 @@
         background-color: lightcyan;
     }
 </style>
-<script>
-    $(function() {
-        for(var i=1;i<10; i++) {
-            $("#myTable-"+i).tablesorter({
-                theme: 'blue',
-                cssChildRow:"tablesorter-childRow",
-
-            });
-
-        }
-        $('.tablesorter-childRow td').hide();
-
-        $('.tablesorter').delegate('.toggle', 'click' ,function() {
-            if($(this).find('.fa').hasClass("fa-plus-circle")){
-                $(this).find('.fa').removeClass("fa-plus-circle");
-                $(this).find('.fa').addClass("fa-minus-circle");
-                $(this).find('.fa').css('color', 'red');
-                $(this).find('.fa').prop('title', 'Click to collapse');
-            }else{
-                $(this).find('.fa').removeClass("fa-minus-circle");
-                $(this).find('.fa').addClass("fa-plus-circle");
-                $(this).find('.fa').css('color', 'green');
-                $(this).find('.fa').prop('title', 'Click to expand');
-            }
-            // use "nextUntil" to toggle multiple child rows
-            // toggle table cells instead of the row
-            $(this).closest('tr').nextUntil('tr:not(.tablesorter-childRow)').find('td').toggle();
-            // in v2.5.12, the parent row now has the class tablesorter-hasChildRow
-            // so you can use this code as well
-            // $(this).closest('tr').nextUntil('tr.tablesorter-hasChildRow').find('td').toggle();
-
-            return false;
-        });
-
-    });
-</script>
+<script src="/toolkit/js/study/tablefilters.js"></script>
 <script src="/toolkit/js/edit.js"></script>
 
 
@@ -105,18 +70,21 @@
 </table>
 </c:if>
 <br>
+
 <div >
     <table id="myTable-1" class="tablesorter">
         <thead>
-        <tr><th></th>
-            <th width="20">Tier</th>
-            <th>Grant Title</th>
-            <th>Initiative</th>
-            <th>Contact PI</th>
-            <th>Institution</th>
+        <tr><th class="tablesorter-header filter-false"></th>
+            <th class="tablesorter-header filter-false" width="20">Tier</th>
+            <th class="tablesorter-header">Grant Title</th>
+            <th class="tablesorter-header filter-false">No. of Submissions</th>
+            <th class="tablesorter-header">Initiative</th>
+            <th class="tablesorter-header">Contact PI</th>
+            <th class="tablesorter-header">Institution</th>
 
-            <th>Submission Date</th>
-            <th>Last Updated Date</th>
+            <th class="tablesorter-header filter-false" >Submission Date</th>
+            <th class="tablesorter-header filter-false" >Last Updated Date</th>
+            <th class="tablesorter-header filter-false" >Status</th>
         </tr>
         </thead>
 <%  int id=1;
@@ -138,10 +106,12 @@
             <tr class="header1" style="display:table-row;">
                 <td class="toggle" style="cursor:pointer;text-align:center;" width="20"><i class="fa fa-plus-circle expand" aria-hidden="true" style="font-size:medium;color:green" title="Click to expand"></i></td>
                 <td></td>
-                <td ><%=studies1.get(0).getStudy()%><span style="color:orange;font-weight: bold"><%="("+studies1.size()+" submissions)"%></span></td>
+                <td ><a href="/toolkit/data/experiments/study/<%=studies1.get(0).getGroupId()%>"><%=studies1.get(0).getStudy()%></a></td>
+                <td><%=studies1.size()%></td>
                 <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantInitiative())%></td>
                 <td><%=UI.formatName(studies1.get(0).getPi())%></td>
                 <td><%=studies1.get(0).getLabName()%></td>
+                <td></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -193,10 +163,10 @@
                     <%=s.getStudy()%>
                         <span style="font-size:10px;">(Submission Received: Processing)</span>
                     <% } else { --%>
-                        <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>">Submission SCGE-<%=s.getStudyId()%></a>
+                        Submission SCGE-<%=s.getStudyId()%>
                     <%-- } --%>
                     <%}else{%>
-                    <a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a>
+                    <a href="/toolkit/data/experiments/study/<%=s.getGroupId()%>"><%=s.getStudy()%></a>
 
                 <%}%>
                 <%} else { if(studies1.size()>1){ %>
@@ -205,6 +175,11 @@
                 <%=s.getStudy()%>
 
                 <% } %>
+            </td>
+            <td>
+                <%if(studies1.size()<=1){ %>
+                <%=studies1.size()%>
+                <%}%>
             </td>
             <td>
                 <%if(studies1.size()<=1){ %>
@@ -227,14 +202,20 @@
                 <%=UI.formatDate(s.getLastModifiedDate())%>
                 <%}%>
             </td>
+            <td>
+            <%if (!hasRecords) { %>
+                Received
+                <%}else{%>
+                <span style="color:green" >Processed</span>
+               <%} %>
+</td>
+</tr>
 
-        </tr>
+<%}%>
 
-        <%}%>
-
-            <%}%>
+<%}%>
 
 </div>
 <%}%>
-    </table>
+</table>
 </div>
