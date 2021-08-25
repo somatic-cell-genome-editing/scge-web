@@ -63,18 +63,16 @@ public class StudyController{
             initiativeName="New Editors Initiative";
             initiativeTitle="Genome Editors Initiative";
         }
-
+        TreeMap<String, Map<Integer, List<Study>>> sortedStudies=new TreeMap<>();
         Person p=userService.getCurrentUser(req.getSession());
         if(p!=null) {
             List<Study> studies = null;
             if (initiative > 0) {
                 studies = sdao.getStudiesByInitiative(initiativeName);
-                Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
-                req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
-                req.setAttribute("tierUpdateMap", tierUpdateMap);
+
             }else {
                 studies = sdao.getStudies();
-                TreeMap<String, Map<Integer, List<Study>>> sortedStudies=new TreeMap<>();
+            }
                 Map<Integer, String> groupGrantMap=new HashMap<>();
                 for(Study study:studies){
                   String grantInitiative=  grantDao.getGrantByGroupId(study.getGroupId()).getGrantInitiative();
@@ -109,7 +107,7 @@ public class StudyController{
                 Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
                 req.setAttribute("tierUpdateMap", tierUpdateMap);
 
-            }
+
 
             req.setAttribute("status", req.getParameter("status"));
 
