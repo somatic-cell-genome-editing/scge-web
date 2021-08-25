@@ -43,8 +43,34 @@ public class ExperimentController extends UserController {
 
     }
 
-    @RequestMapping(value="/study/{groupId}")
+    @RequestMapping(value="/study/{studyId}")
     public String getExperimentsByStudyId( HttpServletRequest req, HttpServletResponse res,
+                                           @PathVariable(required = false) int studyId) throws Exception {
+        Person p=userService.getCurrentUser(req.getSession());
+        Study study = sdao.getStudyById(studyId).get(0);
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.hasStudyAccess(study,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
+        List<Experiment> records = edao.getExperimentsByStudy(studyId);
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
+        req.setAttribute("experiments", records);
+        req.setAttribute("study", study);
+        req.setAttribute("action", "Experiments");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        return null;
+    }
+    @RequestMapping(value="/group/{groupId}")
+    public String getExperimentsByGroupId( HttpServletRequest req, HttpServletResponse res,
                                            @PathVariable(required = false) int groupId) throws Exception {
         Person p=userService.getCurrentUser(req.getSession());
         List<Study> studies = sdao.getStudiesByGroupId(groupId);
@@ -64,16 +90,16 @@ public class ExperimentController extends UserController {
             List<Experiment> records = edao.getExperimentsByStudy(study.getStudyId());
             studyExperimentMap.put(study, records);
         }
-            req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
+        req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
            /* req.setAttribute("experiments", records);
             req.setAttribute("study", study);*/
-           if(studies.size()==1){
-               req.setAttribute("study", studies.get(0));
-           }
-           req.setAttribute("studyExperimentMap", studyExperimentMap);
-            req.setAttribute("action", studies.get(0).getStudy());
-            req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
-            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        req.setAttribute("study", studies.get(0));
+
+        req.setAttribute("studyExperimentMap", studyExperimentMap);
+        req.setAttribute("action", studies.get(0).getStudy());
+        req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
     }
@@ -374,7 +400,7 @@ public class ExperimentController extends UserController {
 
         req.setAttribute("tissues",tissues);
         req.setAttribute("conditions",conditions);
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/study/" + study.getStudyId() + "'>Experiments</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Experiments</a>");
         req.setAttribute("replicateResult",replicateResult);
         req.setAttribute("experiments",labels);
         req.setAttribute("plotData",plotData);

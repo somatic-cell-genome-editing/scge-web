@@ -106,7 +106,7 @@
             <tr class="header1" style="display:table-row;">
                 <td class="toggle" style="cursor:pointer;text-align:center;" width="20"><i class="fa fa-plus-circle expand" aria-hidden="true" style="font-size:medium;color:green" title="Click to expand"></i></td>
                 <td></td>
-                <td ><a href="/toolkit/data/experiments/study/<%=studies1.get(0).getGroupId()%>"><%=studies1.get(0).getStudy()%></a></td>
+                <td ><a href="/toolkit/data/experiments/group/<%=studies1.get(0).getGroupId()%>"><%=studies1.get(0).getStudy()%></a></td>
                 <td><%=studies1.size()%></td>
                 <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantInitiative())%></td>
                 <td><%=UI.formatName(studies1.get(0).getPi())%></td>
@@ -166,7 +166,7 @@
                         Submission SCGE-<%=s.getStudyId()%>
                     <%-- } --%>
                     <%}else{%>
-                    <a href="/toolkit/data/experiments/study/<%=s.getGroupId()%>"><%=s.getStudy()%></a>
+                    <a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a>
 
                 <%}%>
                 <%} else { if(studies1.size()>1){ %>
