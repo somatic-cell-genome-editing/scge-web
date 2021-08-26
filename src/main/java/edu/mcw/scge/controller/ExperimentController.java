@@ -43,7 +43,7 @@ public class ExperimentController extends UserController {
 
     }
 
-    @RequestMapping(value="/study/{studyId}")
+/*    @RequestMapping(value="/study/{studyId}")
     public String getExperimentsByStudyId( HttpServletRequest req, HttpServletResponse res,
                                            @PathVariable(required = false) int studyId) throws Exception {
         Person p=userService.getCurrentUser(req.getSession());
@@ -69,6 +69,8 @@ public class ExperimentController extends UserController {
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
     }
+
+ */
     @RequestMapping(value="/group/{groupId}")
     public String getExperimentsByGroupId( HttpServletRequest req, HttpServletResponse res,
                                            @PathVariable(required = false) int groupId) throws Exception {

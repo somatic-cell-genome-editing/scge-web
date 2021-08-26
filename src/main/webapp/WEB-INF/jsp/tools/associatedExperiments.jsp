@@ -76,7 +76,7 @@
                     <tr>
                         <!--td><input class="form" type="checkbox"></td-->
 
-                        <td><a href="/toolkit/data/experiments/study/<%=exp.getStudyId()%>"><%=SFN.parse(s.getStudy())%></a></td>
+                        <td><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=SFN.parse(s.getStudy())%></a></td>
                         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>"><%=SFN.parse(exp.getExperimentName())%></a></td>
                         <td><%=SFN.parse(exp.getTissueId())%></td>
                         <td><%=SFN.parse(exp.getCellType())%></td>

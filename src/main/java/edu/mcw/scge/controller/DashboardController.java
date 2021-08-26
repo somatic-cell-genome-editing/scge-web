@@ -2,13 +2,16 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.UserService;
 
+import edu.mcw.scge.dao.implementation.GrantDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.datamodel.Experiment;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.PersonInfo;
 import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.Data;
 import edu.mcw.scge.service.DataAccessService;
 
+import edu.mcw.scge.service.ProcessUtils;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,7 @@ import java.util.*;
 public class DashboardController extends LoginController {
     DataAccessService service=new DataAccessService();
     StudyDao sdao = new StudyDao();
+    ProcessUtils processUtils=new ProcessUtils();
     UserService userService=new UserService();
 
     @RequestMapping(value="")
@@ -36,6 +40,10 @@ public class DashboardController extends LoginController {
             req.setAttribute("status", req.getParameter("status"));
 
             List<Study> studies =sdao.getStudies(p);
+            TreeMap<String, Map<Integer, List<Study>>> sortedStudies=processUtils.getSortedStudiesByInitiative(studies);
+
+            req.setAttribute("sortedStudies", sortedStudies);
+
 
             List<PersonInfo> personInfoRecords= access.getPersonInfoRecords(p.getId());
             req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
@@ -50,6 +58,7 @@ public class DashboardController extends LoginController {
             req.setAttribute("person",p);
             req.setAttribute("personInfoRecords", personInfoRecords);
             req.setAttribute("studies", studies);
+            req.setAttribute("sortedStudies",sortedStudies );
 
             List<Study> sharedStudies = sdao.getSharedTier2Studies(p.getId());
 

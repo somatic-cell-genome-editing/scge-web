@@ -49,7 +49,7 @@
     <% if (localStudyAccess.hasStudyAccess(s,localStudyPerson)) { %>
         <tr>
             <td><%=s.getTier()%>
-            <td><a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
+            <td><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a></td>
             <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())%></td>
             <td><%=s.getPi()%><br>(<%=s.getLabName()%>)</td>
             <%
