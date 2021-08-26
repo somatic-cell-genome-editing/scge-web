@@ -71,6 +71,27 @@ public class ExperimentController extends UserController {
     }
 
  */
+@RequestMapping(value="/study/{studyId}")
+public String getExperimentsByStudyId( HttpServletRequest req, HttpServletResponse res,
+                                       @PathVariable(required = false) int studyId) throws Exception {
+    Person p=userService.getCurrentUser(req.getSession());
+    Study study = sdao.getStudyById(studyId).get(0);
+
+    if(!access.isLoggedIn()) {
+        return "redirect:/";
+    }
+
+    if (!access.hasStudyAccess(study,p)) {
+        req.setAttribute("page", "/WEB-INF/jsp/error");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        return null;
+
+    }
+
+
+    return "redirect:/data/experiments/group/"+study.getGroupId();
+}
+
     @RequestMapping(value="/group/{groupId}")
     public String getExperimentsByGroupId( HttpServletRequest req, HttpServletResponse res,
                                            @PathVariable(required = false) int groupId) throws Exception {

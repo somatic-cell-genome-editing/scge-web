@@ -23,25 +23,7 @@
             <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></h6>
             </c:if>
             <c:if test="${hit.sourceAsMap.symbol!=null}">
-            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
-                <c:choose>
-                    <c:when test="${fn:contains(hit.sourceAsMap.aliases,'Cas12j')}">
-                        <c:if test="${fn:contains(hit.sourceAsMap.symbol,'-1')}">
-                            cas&#934;-1
-                        </c:if>
-                        <c:if test="${fn:contains(hit.sourceAsMap.symbol,'-3')}">
-                            cas&#934;-3
-                        </c:if>
-                        <c:if test="${fn:contains(hit.sourceAsMap.symbol,'-2')}">
-                            cas&#934;-2
-                        </c:if>
-                    </c:when>
-                    <c:otherwise>
-                        ${hit.sourceAsMap.symbol}
-                    </c:otherwise>
-                </c:choose>
-            </a>
-            </h6>
+            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a></h6>
             </c:if>
             <!--span>Category:&nbsp;$-{hit.sourceAsMap.category}</span><br-->
             <c:if test="${hit.sourceAsMap.studyNames!=null}">
