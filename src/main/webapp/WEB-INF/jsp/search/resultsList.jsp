@@ -19,13 +19,19 @@
     <c:forEach items="${sr.hits.hits}" var="hit">
     <tr><td>
         <div>
+            <div class="row">
+                <div class="col-10">
             <c:if test="${hit.sourceAsMap.name!=null}">
-            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></h6>
+            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp;</h6>
             </c:if>
             <c:if test="${hit.sourceAsMap.symbol!=null}">
             <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a></h6>
             </c:if>
-            <span>Category:&nbsp;${hit.sourceAsMap.category}</span><br>
+                </div>
+                <div class="col-2" align="right">
+                <small class="text-muted">${hit.sourceAsMap.category}</small>
+                </div>
+            </div>
             <c:if test="${hit.sourceAsMap.studyNames!=null}">
                 <span>Study:&nbsp;</span>
                 <c:forEach items="${hit.sourceAsMap.studyNames}" var="map">
