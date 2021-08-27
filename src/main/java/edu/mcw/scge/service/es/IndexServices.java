@@ -387,7 +387,7 @@ public class IndexServices {
                         //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
                 ).boost(100);
             }
-         
+
        /* q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                  .type(MultiMatchQueryBuilder.Type.BEST_FIELDS)
                 .analyzer("pattern")
