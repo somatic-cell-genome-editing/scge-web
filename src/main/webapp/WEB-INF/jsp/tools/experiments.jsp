@@ -16,14 +16,7 @@
   Time: 4:25 PM
   To change this template use File | Settings | File Templates.
 --%>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<link href="/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-<link href="/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-<link href="/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
 
-<script src="/common/tableSorter/js/tablesorter.js"> </script>
-<script src="/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <style>
    #scge-details td{
@@ -59,14 +52,14 @@
 
 %>
     <%if(study.getStudyId()==1026){%>
-    <h4 class="page-header" style="color:grey;">Study Overview</h4>
+    <!--h4 class="page-header" style="color:grey;">Study Overview</h4>
 
     <div class="card" style="border:1px solid white">
         Specific aims: 1) to predict which unintended editing sites have biological effects on human T-cells by integrating large-scale genome-wide activity and epigenomic profiles with state-of-the-art deep learning models and 2) to develop a human primary T-cell platform to detect functional effects of genome editing by measuring clonal representation, off-target mutation frequencies, immunogenicity, or gene expression.
 
     </div>
 
-    <hr>
+    <hr-->
     <%}%>
 <div>
 
@@ -84,7 +77,7 @@
         <table width="95%">
         <tr>
             <td align="right">
-                <button class="btn btn-primary" type="button" onclick="javascript:location.href='/toolkit/download/<%=study.getStudyId()%>'"><i class='fas fa-download'></i>&nbsp;Download Submitted Data</button>
+                <button class="btn btn-primary btn-sm" type="button" onclick="javascript:location.href='/toolkit/download/<%=study.getStudyId()%>'"><i class='fas fa-download'></i>&nbsp;Download Submitted Data</button>
             </td>
         </tr>
         </table>
@@ -94,7 +87,7 @@
         <%if(experiments.size()>0){%>
         <h4 class="page-header" style="color:grey;">Experiments</h4>
 
-        <table class="table tablesorter table-striped">
+        <table class="table table-sm tablesorter table-striped">
         <thead>
         <tr>
         <th>Tier</th>

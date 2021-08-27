@@ -121,8 +121,8 @@ Goals"/>
                             <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Study Tier Updates</a>
                         </div>
                     </li>
-                    <li class="nav-item" style="padding-top: 5px"><a href="/toolkit/data/dataSubmission"><button type="button" class="btn btn-sm">Upload Docs</button></a>
-                    </li>
+                    <!--li class="nav-item" style="padding-top: 5px"><a href="/toolkit/data/dataSubmission"><button type="button" class="btn btn-sm">Upload Docs</button></a>
+                    </li-->
                 </c:if>
 
                 <li class="nav-item">
@@ -143,7 +143,7 @@ Goals"/>
                         <c:when test="${action!=null}">
                             <h4 class="page-header" style="color:#1A80B6;font-size:30px;">${action}  </h4>
                     <c:if test="${study!=null && study.pi!=null}">
-                    <small class="text-muted">PI: <a href="">${study.pi}</a>&nbsp; &nbsp;<span style="color:orange; font-weight: bold">Publication ID:</span><a href="">XXXXXXXX</a></small>
+                    <small class="text-muted">PI: <a href="#">${study.pi}</a>&nbsp; &nbsp;<!--span style="color:orange; font-weight: bold">Publication ID:</span><a href="">XXXXXXXX</a></small-->
                     </c:if>     <hr>
                             <c:if test="${action=='Dashboard'}">
                                 <div align="right">

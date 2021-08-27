@@ -72,7 +72,7 @@
 <br>
 
 <div >
-    <table id="myTable-1" class="tablesorter">
+    <table id="myTable-1" class="tablesorter table table-sm">
         <thead>
         <tr><th class="tablesorter-header filter-false"></th>
             <th class="tablesorter-header filter-false" width="20">Tier</th>
