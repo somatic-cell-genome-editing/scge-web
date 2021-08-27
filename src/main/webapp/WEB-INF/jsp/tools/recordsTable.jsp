@@ -98,13 +98,16 @@
                 List<Guide> guides = guideMap.get(exp.getExperimentRecordId());
                 String guide = "";
                 String targetLocus="";
+                Set<String> targetLocusSet=new HashSet<>();
                 boolean fst = true;
                 for(Guide g: guides) {
                     if (!fst) { guide += ";"; targetLocus+=";"; }
                     guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+SFN.parse(g.getGuide())+"</a>";
                    if( g.getTargetLocus()!=null)
-                    targetLocus += SFN.parse(g.getTargetLocus())+"</a>";
-
+                    if(! targetLocusSet.contains(g.getTargetLocus())) {
+                        targetLocusSet.add(g.getTargetLocus());
+                        targetLocus += SFN.parse(g.getTargetLocus()) + "</a>";
+                    }
                     fst = false;
                 }
                 List<Vector> vectors = vectorMap.get(exp.getExperimentRecordId());
