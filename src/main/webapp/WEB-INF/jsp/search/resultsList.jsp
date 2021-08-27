@@ -25,7 +25,7 @@
             <c:if test="${hit.sourceAsMap.symbol!=null}">
             <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a></h6>
             </c:if>
-            <!--span>Category:&nbsp;$-{hit.sourceAsMap.category}</span><br-->
+            <span>Category:&nbsp;${hit.sourceAsMap.category}</span><br>
             <c:if test="${hit.sourceAsMap.studyNames!=null}">
                 <span>Study:&nbsp;</span>
                 <c:forEach items="${hit.sourceAsMap.studyNames}" var="map">

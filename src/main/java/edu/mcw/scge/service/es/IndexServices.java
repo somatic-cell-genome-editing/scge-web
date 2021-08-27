@@ -357,13 +357,37 @@ public class IndexServices {
     public QueryBuilder buildQuery(String searchTerm){
         DisMaxQueryBuilder q=new DisMaxQueryBuilder();
         if(searchTerm!=null && !searchTerm.equals("")) {
-            q.add(QueryBuilders.
-                    boolQuery().must(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0])
+            List<String> searchTerms=new ArrayList<>();
+            if(searchTerm.toLowerCase().contains("and")){
+                q.add(QueryBuilders.multiMatchQuery(String.join(" ", searchTerm.toLowerCase().split(" and ")), IndexServices.searchFields().toArray(new String[0]))
+                                //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                                .operator(Operator.AND)
+                        //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
+                ).boost(100);
+            }
+            if(searchTerm.toLowerCase().contains("or")){
+             //   searchTerms= Arrays.asList(searchTerm.toLowerCase().split(" or "));
+                q.add(QueryBuilders.multiMatchQuery(String.join(" ", searchTerm.toLowerCase().split(" or ")), IndexServices.searchFields().toArray(new String[0]))
+                                //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                                .operator(Operator.OR)
+                        //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
+                ).boost(100);
+            }
+            q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0])
                             )
                             //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                            .type(MultiMatchQueryBuilder.Type.PHRASE).analyzer("pattern").operator(Operator.AND))
+                            .type(MultiMatchQueryBuilder.Type.PHRASE).analyzer("pattern")
                   //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
                     ).boost(100);
+
+            if(!searchTerm.toLowerCase().contains("and") && searchTerm.toLowerCase().contains(" ") ) {
+                q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                                //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                                .operator(Operator.AND)
+                        //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
+                ).boost(100);
+            }
+         
        /* q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                  .type(MultiMatchQueryBuilder.Type.BEST_FIELDS)
                 .analyzer("pattern")
