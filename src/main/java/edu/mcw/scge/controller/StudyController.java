@@ -95,7 +95,7 @@ public class StudyController{
                 req.setAttribute("action", "Studies: " + initiativeTitle);
 
             }else {
-                req.setAttribute("action", "Studies by initiative");
+                req.setAttribute("action", "Studies");
 
             }
 
