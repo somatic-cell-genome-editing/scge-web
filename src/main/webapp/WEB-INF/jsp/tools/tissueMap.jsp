@@ -240,7 +240,7 @@
 
         <% for (String condition: conditions) { %>
         <tr>
-            <td><%=condition%></td>
+            <td  width="65"></td>
 
             <% for (String tissueKey: rootTissues.keySet()) {
                 String tissue=rootTissues.get(tissueKey);
@@ -258,37 +258,7 @@
             <% } %>
             <td style="font-size: small">
 
-                <%  long id = experimentRecordHashMap.get(condition).getExperimentRecordId();
-                    ExperimentRecord r = experimentRecordHashMap.get(condition);
-                    List<Guide> guides = guideMap.get(id);
-                    String guide = "";
-                    boolean fst = true;
-                    for(Guide g: guides) {
-                        if (!fst) { guide += ";"; }
-                        guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">g("+SFN.parse(g.getGuide())+")</a>";
-                        fst = false;
-                    }
-                    List<Vector> vectors = vectorMap.get(id);
-                    String vector = "";
-                    fst=true;
-                    for(Vector v: vectors) {
-                        if (!fst) { vector += ";"; }
-                        vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">v("+SFN.parse(v.getName())+")</a>";
-                        fst=false;
-                    }
-                    if(r.getEditorSymbol() != null && noOfEditors != noOfRecords) {
-                %>
-
-                <a href="/toolkit/data/editors/editor?id=<%=r.getEditorId()%>">e(<%=SFN.parse(r.getEditorSymbol())%>)</a>&nbsp;&nbsp;
-                <% } if(r.getDeliverySystemType() != null && noOfDelivery != noOfRecords) {%>
-                <a href="/toolkit/data/delivery/system?id=<%=r.getDeliverySystemId()%>">ds(<%=SFN.parse(r.getDeliverySystemType())%>)</a>&nbsp;&nbsp;
-                <% } if(r.getModelName() != null && noOfModel != noOfRecords) {%>
-                <a href="/toolkit/data/models/model?id=<%=r.getModelId()%>">m(<%=SFN.parse(r.getModelName())%>)</a>&nbsp;&nbsp;
-                <% } if(guide != "") {%>
-                <%=guide%>&nbsp;&nbsp;
-                <% } if(vector != "") {%>
-                <%=vector%>
-                <% } %>
+                <%=condition%>
             </td>
         </tr>
         <% } // end conditions %>
