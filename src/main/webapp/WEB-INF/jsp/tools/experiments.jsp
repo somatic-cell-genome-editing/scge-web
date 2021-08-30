@@ -117,21 +117,7 @@
         <% } %>
         </table>
         <%}%>
-        <%if(study.getStudyId()==1026){%>
-        <hr>
-        <h4 class="page-header" style="color:grey;">Protocols</h4>
 
-        <div class="container">
-        <ul>
-            <li><a href="/toolkit/images/1026/CHANGEseq_Protocol_Tsai_lab.pdf"><i class="fas fa-file-pdf" style="color:red;font-size: medium"></i>&nbsp;CHANGEseq Protocol</a>
-            </li>
-            <!--li> <a href="/toolkit/images/1026/Data_for_SCGE_toolkit.xlsx"><i class="fas fa-file-excel" style="color:green;font-size: medium"></i>&nbsp;Data for the toolkit</a>
-            </li-->
-        </ul>
-
-            <!--embed src="/toolkit/images/CRISPR-CAS.pdf" type="application/pdf" width="100%" height="600px" /-->
-        </div>
-        <%}%>
     </div>
     </div>
 </div>
