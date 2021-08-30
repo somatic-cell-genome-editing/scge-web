@@ -109,7 +109,7 @@
                 <td ><a href="/toolkit/data/experiments/group/<%=studies1.get(0).getGroupId()%>"><%=studies1.get(0).getStudy()%></a></td>
                 <td><%=studies1.size()%></td>
                 <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantInitiative())%></td>
-                <td><%=UI.formatName(studies1.get(0).getPi())%></td>
+                <td><%=studies1.get(0).getPi()%></td>
                 <td><%=studies1.get(0).getLabName()%></td>
                 <td></td>
                 <td></td>
