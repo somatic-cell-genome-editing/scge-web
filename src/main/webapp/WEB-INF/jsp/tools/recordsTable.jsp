@@ -57,7 +57,6 @@
     <table width="90%">
         <tr>
             <td><h3>Results</h3></td>
-            <td align="right"><button class="btn btn-primary btn-sm" onclick="download()"><i class='fas fa-download'></i>&nbsp;Download Table Data</button></td>
         </tr>
     </table>
 
