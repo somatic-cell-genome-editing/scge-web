@@ -188,7 +188,7 @@
             </td>
             <td style="white-space: nowrap;width:15%">
                 <%if(studies1.size()<=1){ %>
-                <%=UI.formatName(s.getPi())%>
+                <%=s.getPi()%>
                 <%}%>
             </td>
             <td>
