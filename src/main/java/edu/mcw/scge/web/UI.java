@@ -89,10 +89,31 @@ public class UI {
 
     public static String formatDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        if(date!=null)
         return sdf.format(date);
+        return "";
 
     }
+    public static String formatName(String name){
+        String formattedName=new String();
+        if(name!=null){
 
+            Pattern p = Pattern.compile(".*,\\s*(.*)");
+            Matcher m = p.matcher(name);
+
+            if (m.find()){
+               name= name.replace(m.group(1), "").replace(",","");
+
+                System.out.println(m.group(1)+"\t" +name +"\tLast Name:"+ name.trim().substring(name.trim().lastIndexOf(" ") + 1));
+                formattedName= (name.trim().substring(name.trim().lastIndexOf(" ") + 1))
+                        +", "
+                        +name.substring(0,name.trim().lastIndexOf(" ")) ;
+            }
+        }
+        if(!formattedName.equals(""))
+            return formattedName;
+        else return name;
+    }
 
     public static String getRGBValue(String scale, int currentValue, int maxValue) {
 

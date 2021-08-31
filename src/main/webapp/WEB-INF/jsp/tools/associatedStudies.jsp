@@ -7,7 +7,14 @@
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
 
+<script>
+    $(function() {
+        $("#myTable-1").tablesorter({
+            theme : 'blue'
 
+        });
+    });
+</script>
 <h4 class="page-header" style="color:grey;">Associated SCGE Studies</h4>
 
 <% List<Study> studies = (List<Study>)request.getAttribute("studies");
@@ -15,25 +22,7 @@
    Person localStudyPerson = new UserService().getCurrentUser(request.getSession());
     GrantDao grantDao = new GrantDao();
 %>
-
-<% if (studies.size() ==0) { %>
-<tr>
-    <td>0 Studies associated</td>
-</tr>
-
-<%} else { %>
-
-<script>
-    $(function() {
-        $("#associatedStudies").tablesorter({
-            theme : 'blue'
-
-        });
-    });
-</script>
-
-
-<table id="associatedStudies" class="table tablesorter table-striped">
+<table id="myTable-1" class="tablesorter">
     <thead>
     <tr><!--th>Select</th-->
         <!--th>Action</th-->
@@ -44,12 +33,12 @@
         <th>Submission Date</th>
     </tr>
     </thead>
-
+    <tbody>
     <% for (Study s: studies) { %>
     <% if (localStudyAccess.hasStudyAccess(s,localStudyPerson)) { %>
         <tr>
             <td><%=s.getTier()%>
-            <td><a href="/toolkit/data/experiments/study/<%=s.getStudyId()%>"><%=s.getStudy()%></a></td>
+            <td><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a></td>
             <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())%></td>
             <td><%=s.getPi()%><br>(<%=s.getLabName()%>)</td>
             <%
@@ -60,7 +49,6 @@
         </tr>
     <% } %>
     <% } %>
-
+    </tbody>
 </table>
 
-<% } %>

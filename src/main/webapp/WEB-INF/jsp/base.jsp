@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,7 +61,7 @@ Goals"/>
 
 <body>
 <div id="wrapper">
-<nav class="navbar  sticky-top flex-md-nowrap p-0 shadow" style="ackground-color: #1a80b6;background-color: black;">
+<nav class="navbar  flex-md-nowrap p-0 shadow" style="ackground-color: #1a80b6;background-color: black;">
     <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/toolkit/loginSuccess">
         <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" width="70" height="50" ></a>
 
@@ -121,7 +121,7 @@ Goals"/>
                             <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Study Tier Updates</a>
                         </div>
                     </li>
-                    <!--li class="nav-item" style="padding-top: 5px"><a href="dataSubmission"><button type="button" class="btn btn-sm">Submit Data</button></a>
+                    <!--li class="nav-item" style="padding-top: 5px"><a href="/toolkit/data/dataSubmission"><button type="button" class="btn btn-sm">Upload Docs</button></a>
                     </li-->
                 </c:if>
 
@@ -142,7 +142,9 @@ Goals"/>
                     <c:choose>
                         <c:when test="${action!=null}">
                             <h4 class="page-header" style="color:#1A80B6;font-size:30px;">${action}  </h4>
-                            <hr>
+                    <c:if test="${study!=null && study.pi!=null}">
+                    <small class="text-muted">PI: <a href="#">${study.pi}</a>&nbsp; &nbsp;<!--span style="color:orange; font-weight: bold">Publication ID:</span><a href="">XXXXXXXX</a></small-->
+                    </c:if>     <hr>
                             <c:if test="${action=='Dashboard'}">
                                 <div align="right">
                                     <c:forEach items="${personInfoList}" var="i">

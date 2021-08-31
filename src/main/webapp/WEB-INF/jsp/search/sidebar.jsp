@@ -4,7 +4,7 @@
     $(document).ready(function(){
         // Add down arrow icon for collapse element which is open by default
         $(".collapse.show").each(function(){
-            $(this).prev(".card-header").find(".fas").addClass("fa-angle-down").removeClass("fa-angle-up");
+          $(this).prev(".card-header").find(".fas").addClass("fa-angle-down").removeClass("fa-angle-up");
         });
 
         // Toggle right and down arrow icon on show hide of collapse element
@@ -52,7 +52,7 @@
     <form action="/toolkit/data/search/results/${category}" method="get" >
     <input type="hidden" name="searchTerm" value="${searchTerm}"/>
         <input type="hidden" name="facetSearch" value="true"/>
-        <c:if test="${fn:length(aggregations.typeBkts)>0}">
+        <c:if test="${fn:length(aggregations.typeBkts)>0 && fn:length(aggregations.catBkts)==1}">
 
 
     <div class="accordion-group">
@@ -87,7 +87,7 @@
     <div class="accordion-group">
         <div class="accordion-heading card-header">
             <a class="accordion-toggle" data-toggle="collapse" href="#collapseThree">
-                    ${category}&nbsp; Subtype<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                    ${category}&nbsp; Subtype<span class="float-right"><i class="fas fa-angle-up"></i></span>
             </a>
         </div>
         <div id="collapseThree" class="accordion-body collapse show">
@@ -113,10 +113,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseFour">
-                        ${category}&nbsp; Editor<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                        Genome Editor<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseFour" class="accordion-body collapse show">
+            <div id="collapseFour" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.editorBkts}" var="subtype">
                         <div class="form-check">
@@ -136,10 +136,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapse13">
-                        ${category}&nbsp; Editor Subtype<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                        Genome Editor Subtype<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse13" class="accordion-body collapse show">
+            <div id="collapse13" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.editorSubTypeBkts}" var="subtype">
                         <div class="form-check">
@@ -159,10 +159,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapse14">
-                        ${category}&nbsp; Editor Species<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                        Genome Editor Species<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse14" class="accordion-body collapse show">
+            <div id="collapse14" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.editorSpeciesBkts}" var="subtype">
                         <div class="form-check">
@@ -182,10 +182,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseFive">
-                        ${category}&nbsp;Delivery System<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                       Delivery System<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseFive" class="accordion-body collapse show">
+            <div id="collapseFive" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.deliveryBkts}" var="subtype">
                         <div class="form-check">
@@ -205,10 +205,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseSix">
-                        ${category}&nbsp; Model<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                    Model System<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseSix" class="accordion-body collapse show">
+            <div id="collapseSix" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.modelBkts}" var="subtype">
                         <div class="form-check">
@@ -228,10 +228,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapse11">
-                        ${category}&nbsp; Model Species<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                       Model Species<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse11" class="accordion-body collapse show">
+            <div id="collapse11" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.modelSpeciesBkts}" var="subtype">
                         <div class="form-check">
@@ -251,10 +251,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapse12">
-                        ${category}&nbsp; Model Reporter<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                       Model Reporter<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse12" class="accordion-body collapse show">
+            <div id="collapse12" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.reporterBkts}" var="subtype">
                         <div class="form-check">
@@ -274,10 +274,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseNine">
-                        ${category}&nbsp; Guide Target<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                       Guide Target Locus<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseNine" class="accordion-body collapse show">
+            <div id="collapseNine" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.guidesBkts}" var="subtype">
                         <div class="form-check">
@@ -297,10 +297,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseSeven">
-                        ${category}&nbsp; Species<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                       Species<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseSeven" class="accordion-body collapse show">
+            <div id="collapseSeven" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.speciesBkts}" var="subtype">
                         <div class="form-check">
@@ -319,10 +319,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapse15">
-                        ${category}&nbsp; Vector Type<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                  Vector Type<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse15" class="accordion-body collapse show">
+            <div id="collapse15" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.vectorTypeBkts}" var="subtype">
                         <div class="form-check">
@@ -342,10 +342,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapse16">
-                        ${category}&nbsp; Vector Subtype<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                      Vector Subtype<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse16" class="accordion-body collapse show">
+            <div id="collapse16" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.vectorSubTypeBkts}" var="subtype">
                         <div class="form-check">
@@ -365,10 +365,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapse17">
-                        ${category}&nbsp; Vector <span class="float-right"><i class="fas fa-angle-down"></i></span>
+                      Vector <span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse17" class="accordion-body collapse show">
+            <div id="collapse17" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.vectorBkts}" var="subtype">
                         <div class="form-check">
@@ -388,10 +388,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseEight">
-                        ${category}&nbsp; Target<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                       Target<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseEight" class="accordion-body collapse show">
+            <div id="collapseEight" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.targetBkts}" var="subtype">
                         <div class="form-check">
@@ -411,10 +411,10 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseTen">
-                  ${category} with Experiments<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                  ${category} with Experiments<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseTen" class="accordion-body collapse show">
+            <div id="collapseTen" class="accordion-body collapse show ">
                 <div class="accordion-inner">
                     <c:forEach items="${aggregations.withExperimentsBkts}" var="subtype">
                         <div class="form-check">

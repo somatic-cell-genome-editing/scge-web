@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.stream.Collectors;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
@@ -62,11 +63,15 @@ public class FileUploadController {
 		}
 
 		req.setAttribute("message", message);
-
+		StorageProperties properties=new StorageProperties();
+		//properties.setLocation("C:/tmp/upload-dir" );
+		properties.setLocation("/data/scge_submissions");
+		FileSystemStorageService service=new FileSystemStorageService(properties);
+		storageService.init();
 		StudyDao sdao = new StudyDao();
 
 		try {
-			req.setAttribute("files", storageService.loadAll(studyId).map(
+			req.setAttribute("files", service.loadAll(studyId).map(
 					path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
 							"serveFile", req, path.getFileName().toString(), studyId).build().toUri().toString())
 					.collect(Collectors.toList()));
@@ -77,7 +82,7 @@ public class FileUploadController {
 		req.setAttribute("study",sdao.getStudyById(Integer.parseInt(studyId)).get(0));
 		req.setAttribute("destination", "dataSubmission");
 		req.setAttribute("page", "/WEB-INF/jsp/submissions/download");
-		req.setAttribute("groupRoleMap",req.getSession().getAttribute("groupRoleMap"));
+	//	req.setAttribute("groupRoleMap",req.getSession().getAttribute("groupRoleMap"));
 		req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
 		//	return "submissions/uploadForm";
@@ -95,8 +100,12 @@ public class FileUploadController {
 		if (!access.hasStudyAccess(Integer.parseInt(studyId),p.getId())) {
 			return null;
 		}
+		StorageProperties properties=new StorageProperties();
+	//	properties.setLocation("C:/tmp/upload-dir" );
+		properties.setLocation("/data/scge_submissions");
+		FileSystemStorageService service=new FileSystemStorageService(properties);
 
-		Resource file = storageService.loadAsResource(studyId + "/" + filename);
+		Resource file = service.loadAsResource(studyId + "/" + filename);
 
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);

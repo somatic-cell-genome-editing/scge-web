@@ -3,13 +3,11 @@ package edu.mcw.scge.controller;
 import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.ExperimentDao;
-import edu.mcw.scge.dao.implementation.ExperimentRecordDao;
-import edu.mcw.scge.dao.implementation.PersonDao;
-import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.Data;
 import edu.mcw.scge.service.DataAccessService;
+import edu.mcw.scge.service.ProcessUtils;
 import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value="/data/studies")
@@ -30,14 +26,11 @@ public class StudyController{
     DBService dbService=new DBService();
     DataAccessService service=new DataAccessService();
     UserService userService=new UserService();
-    Access access= new Access();
+    ProcessUtils processUtils=new ProcessUtils();
     StudyDao sdao=new StudyDao();
 
     @RequestMapping(value="/search")
     public String getStudies( HttpServletRequest req, HttpServletResponse res) throws Exception {
-
-
-
         int initiative = 0;
         String initiativeName="";
         String initiativeTitle="";
@@ -67,17 +60,17 @@ public class StudyController{
             initiativeName="New Editors Initiative";
             initiativeTitle="Genome Editors Initiative";
         }
-
         Person p=userService.getCurrentUser(req.getSession());
         if(p!=null) {
             List<Study> studies = null;
             if (initiative > 0) {
                 studies = sdao.getStudiesByInitiative(initiativeName);
-                Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
-                req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
-                req.setAttribute("tierUpdateMap", tierUpdateMap);
+
             }else {
                 studies = sdao.getStudies();
+            }
+            TreeMap<String, Map<Integer, List<Study>>> sortedStudies=processUtils.getSortedStudiesByInitiative(studies);
+            req.setAttribute("sortedStudies", sortedStudies);
 
                 req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
                 req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
@@ -91,7 +84,7 @@ public class StudyController{
                 Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
                 req.setAttribute("tierUpdateMap", tierUpdateMap);
 
-            }
+
 
             req.setAttribute("status", req.getParameter("status"));
 
