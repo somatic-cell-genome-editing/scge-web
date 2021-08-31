@@ -103,15 +103,15 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         }
         Map<Study, List<Experiment>> studyExperimentMap=new HashMap<>();
         for(Study study:studies) {
-            if (!access.hasStudyAccess(study, p)) {
-                req.setAttribute("page", "/WEB-INF/jsp/error");
-                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-                return null;
-
+            if (access.hasStudyAccess(study, p)) {
+                List<Experiment> records = edao.getExperimentsByStudy(study.getStudyId());
+                studyExperimentMap.put(study, records);
             }
-
-            List<Experiment> records = edao.getExperimentsByStudy(study.getStudyId());
-            studyExperimentMap.put(study, records);
+        }
+        if(studyExperimentMap.size()==0){
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
         }
         req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
            /* req.setAttribute("experiments", records);
