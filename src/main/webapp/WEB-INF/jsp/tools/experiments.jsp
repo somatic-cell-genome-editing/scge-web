@@ -116,7 +116,16 @@
         <% } %>
         <% } %>
         </table>
-        <%}%>
+            <hr>
+            <%}%>
+            <%
+                long objectId = study.getStudyId();
+                String objectType= ImageTypes.STUDY;
+                String redirectURL = "/data/experiments/study/" + objectId;
+                String bucket="main";
+            %>
+
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
     </div>
     </div>
