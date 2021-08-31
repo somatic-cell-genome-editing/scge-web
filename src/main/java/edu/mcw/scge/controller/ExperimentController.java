@@ -43,7 +43,35 @@ public class ExperimentController extends UserController {
 
     }
 
-/*    @RequestMapping(value="/study/{studyId}")
+    /*    @RequestMapping(value="/study/{studyId}")
+        public String getExperimentsByStudyId( HttpServletRequest req, HttpServletResponse res,
+                                               @PathVariable(required = false) int studyId) throws Exception {
+            Person p=userService.getCurrentUser(req.getSession());
+            Study study = sdao.getStudyById(studyId).get(0);
+
+            if(!access.isLoggedIn()) {
+                return "redirect:/";
+            }
+
+            if (!access.hasStudyAccess(study,p)) {
+                req.setAttribute("page", "/WEB-INF/jsp/error");
+                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+                return null;
+
+            }
+
+            List<Experiment> records = edao.getExperimentsByStudy(studyId);
+            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
+            req.setAttribute("experiments", records);
+            req.setAttribute("study", study);
+            req.setAttribute("action", "Experiments");
+            req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+        }
+
+     */
+    @RequestMapping(value="/study/{studyId}")
     public String getExperimentsByStudyId( HttpServletRequest req, HttpServletResponse res,
                                            @PathVariable(required = false) int studyId) throws Exception {
         Person p=userService.getCurrentUser(req.getSession());
@@ -60,37 +88,9 @@ public class ExperimentController extends UserController {
 
         }
 
-        List<Experiment> records = edao.getExperimentsByStudy(studyId);
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
-        req.setAttribute("experiments", records);
-        req.setAttribute("study", study);
-        req.setAttribute("action", "Experiments");
-        req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-        return null;
+
+        return "redirect:/data/experiments/group/"+study.getGroupId();
     }
-
- */
-@RequestMapping(value="/study/{studyId}")
-public String getExperimentsByStudyId( HttpServletRequest req, HttpServletResponse res,
-                                       @PathVariable(required = false) int studyId) throws Exception {
-    Person p=userService.getCurrentUser(req.getSession());
-    Study study = sdao.getStudyById(studyId).get(0);
-
-    if(!access.isLoggedIn()) {
-        return "redirect:/";
-    }
-
-    if (!access.hasStudyAccess(study,p)) {
-        req.setAttribute("page", "/WEB-INF/jsp/error");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-        return null;
-
-    }
-
-
-    return "redirect:/data/experiments/group/"+study.getGroupId();
-}
 
     @RequestMapping(value="/group/{groupId}")
     public String getExperimentsByGroupId( HttpServletRequest req, HttpServletResponse res,
@@ -103,17 +103,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         }
         Map<Study, List<Experiment>> studyExperimentMap=new HashMap<>();
         for(Study study:studies) {
-<<<<<<< HEAD
-            if (!access.hasStudyAccess(study, p)) {
-                req.setAttribute("page", "/WEB-INF/jsp/error");
-                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-                return null;
-
-            }
-
-            List<Experiment> records = edao.getExperimentsByStudy(study.getStudyId());
-            studyExperimentMap.put(study, records);
-=======
             if (access.hasStudyAccess(study, p)) {
                 List<Experiment> records = edao.getExperimentsByStudy(study.getStudyId());
                 studyExperimentMap.put(study, records);
@@ -123,7 +112,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
->>>>>>> dev
         }
         req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
            /* req.setAttribute("experiments", records);
@@ -207,7 +195,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("experimentRecords", records);
         req.setAttribute("resultDetail",resultDetail);
         req.setAttribute("resultMap",resultMap);
-       // req.setAttribute("study", study);
+        // req.setAttribute("study", study);
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
         req.setAttribute("action", "All Experiment Records");
         req.setAttribute("page", "/WEB-INF/jsp/tools/allExperimentRecords");
@@ -512,13 +500,13 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             req.setAttribute("experiment",experiment);
             req.setAttribute("experimentRecord", r);
             req.setAttribute("model", m);
-           // req.setAttribute("reporterElements", reporterElements);
+            // req.setAttribute("reporterElements", reporterElements);
             req.setAttribute("experimentResults",experimentResults);
             //req.setAttribute("results", results);
             System.out.println("Applications: "+ applicationMethod.size()+
                     "\ndelivery lsit: "+deliveryList.size()+
-            "\nexperimentRecords: "+records.size()+
-            "\nmodel:" +m.getName()+
+                    "\nexperimentRecords: "+records.size()+
+                    "\nmodel:" +m.getName()+
                     "\nresults:"+experimentResults.size());
 
          /*   List<String> regionList = new ArrayList<>();
