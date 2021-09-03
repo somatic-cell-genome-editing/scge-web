@@ -7,6 +7,7 @@
 
     Access imageCheckAccess= new Access();
     Person imageCheckPerson = imageCheckAccess.getUser(request.getSession());
+    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
 
     if (imageCheckAccess.isAdmin(imageCheckPerson)) { %>
 
@@ -29,3 +30,32 @@
 <% } %>
 
 
+<div id="images">
+    <table align="center">
+        <%
+            for (int i=0; i< images.length; i++) {
+
+                if (imageCheckAccess.isAdmin(imageCheckPerson)) {
+        %>
+        <tr>
+            <td align="right">
+                <form action="/toolkit/store/remove?${_csrf.parameterName}=${_csrf.token}" method="POST">
+                    <input type="hidden" name="type" value="<%=objectType%>"/>
+                    <input type="hidden" name="id" value="<%=objectId%>"/>
+                    <input type="hidden" name="url" value="<%=redirectURL%>"/>
+                    <input type="hidden" name="filename" value="<%=images[i]%>"/>
+                    <input type="hidden" name="bucket" value="<%=bucket%>"/>
+                    <input style="color:red;" type="submit" value="X"/>
+                </form>
+        </tr>
+        <% } %>
+        <tr>
+            <td align="center">
+                <img  style="padding-bottom:10px;" src="/toolkit/store/<%=objectType%>/<%=objectId%>/<%=bucket%>/<%=images[i]%>" />
+            </td>
+        </tr>
+
+        <% }
+        %>
+    </table>
+</div>

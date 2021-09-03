@@ -62,7 +62,7 @@
     String objectType= ImageTypes.GUIDE;
     String redirectURL = "/data/guide/system?id=" + objectId;
     String bucket="topRight";
-    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
+    String[] images1 = ImageStore.getImages(objectType, "" + objectId, bucket);
 
 
 %>
@@ -70,7 +70,7 @@
 <div class="col-md-2 sidenav bg-light">
 
         <a href="#summary">Summary</a>
-        <%if(images!=null && images.length>0){%>
+        <%if(images1!=null && images1.length>0){%>
         <a href="images">Images</a>
         <%}%>
     <%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){%>
@@ -160,35 +160,7 @@
 
 </div>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-    <div id="images">
-    <table align="center">
-        <%
-            for (int i=0; i< images.length; i++) {
 
-                if (imageCheckAccess.isAdmin(imageCheckPerson)) {
-        %>
-        <tr>
-            <td align="right">
-                <form action="/toolkit/store/remove?${_csrf.parameterName}=${_csrf.token}" method="POST">
-                    <input type="hidden" name="type" value="<%=objectType%>"/>
-                    <input type="hidden" name="id" value="<%=objectId%>"/>
-                    <input type="hidden" name="url" value="<%=redirectURL%>"/>
-                    <input type="hidden" name="filename" value="<%=images[i]%>"/>
-                    <input type="hidden" name="bucket" value="<%=bucket%>"/>
-                    <input style="color:red;" type="submit" value="X"/>
-                </form>
-        </tr>
-        <% } %>
-        <tr>
-            <td align="center">
-                <img  style="padding-bottom:10px;" src="/toolkit/store/<%=objectType%>/<%=objectId%>/<%=bucket%>/<%=images[i]%>" />
-            </td>
-        </tr>
-
-        <% }
-        %>
-    </table>
-    </div>
     <hr>
     <%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){
 
