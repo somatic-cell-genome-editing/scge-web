@@ -5,7 +5,8 @@
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: hsnalabolu
@@ -13,6 +14,7 @@
   Time: 4:37 PM
   To change this template use File | Settings | File Templates.
 --%>
+<script src="/toolkit/common/js/jquery.tabletoCSV.js"> </script>
 
 <style>
     td{
@@ -34,16 +36,19 @@
             else update();
         });
     });
+	function download(){
+        $("#myTable").tableToCSV();
+    }
 </script>
 
 <% try {  %>
 
         <%@include file="recordFilters.jsp"%>
-<hr>
-        <table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table>
+
+        <!--table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table-->
        <% if(resultMap != null && resultMap.size()!= 0) {%>
-        <div class="chart-container" style="position: relative; height:80vh; width:80vw">
-    <canvas id="resultChart"></canvas>
+        <div class="chart-container" >
+    <canvas id="resultChart" style="position: relative; height:80vh; width:80vw;"></canvas>
 
         </div>
 <% }%>
@@ -62,21 +67,26 @@
     <table width="90%">
         <tr>
             <td><h3>Results</h3></td>
-            <td align="right"><a href="#">Download Table Data</a></td>
         </tr>
     </table>
 
-    <table id="myTable" class="table tablesorter table-striped">
+    <table id="myTable" class="table tablesorter table-striped table-sm">
     <thead>
     <tr>
-        <th>Name</th>
+        <th>Condition<%=request.getAttribute("uniqueFields").toString()%></th>
         <% if (tissueList.size() > 0 ) { %><th>Tissue</th><% } %>
         <% if (cellTypeList.size() > 0) { %><th>Cell Type</th><% } %>
         <% if (editorList.size() > 0 ) { %><th>Editor</th><% } %>
         <% if (modelList.size() > 0 ) { %><th>Model</th><% } %>
         <% if (deliverySystemList.size() > 0 ) { %><th>Delivery System</th><% } %>
+        <% if (guideList.size() > 0 ) { %><th>Target Locus</th> <% } %>
         <% if (guideList.size() > 0 ) { %><th>Guide</th> <% } %>
+
         <% if (vectorList.size() > 0 ) { %><th>Vector</th><% } %>
+        <c:if test="${objectSizeMap['dosage']>0}">
+
+        <td>Dosage</td>
+        </c:if>
         <% if (resultTypeList.size() > 0 ) { %><th>Result Type</th><% } %>
         <% if (unitList.size() > 0 ) { %><th>Units</th><% } %>
         <th id="result">Result</th>
@@ -89,12 +99,24 @@
                 List<ExperimentResultDetail> ers = resultDetail.get(resultId);
                 long expRecordId = ers.get(0).getExperimentRecordId();
                 ExperimentRecord exp = experimentRecordsMap.get(expRecordId);
+                String experimentName=exp.getExperimentName();
+                if(resultTypeList.size()>1) {
+                    experimentName+=" ("+ers.get(0).getResultType()+") ";
+                }
+
                 List<Guide> guides = guideMap.get(exp.getExperimentRecordId());
                 String guide = "";
+                String targetLocus="";
+                Set<String> targetLocusSet=new HashSet<>();
                 boolean fst = true;
                 for(Guide g: guides) {
-                    if (!fst) { guide += ";"; }
+                    if (!fst) { guide += ";"; targetLocus+=";"; }
                     guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+SFN.parse(g.getGuide())+"</a>";
+                   if( g.getTargetLocus()!=null)
+                    if(! targetLocusSet.contains(g.getTargetLocus())) {
+                        targetLocusSet.add(g.getTargetLocus());
+                        targetLocus += SFN.parse(g.getTargetLocus()) + "</a>";
+                    }
                     fst = false;
                 }
                 List<Vector> vectors = vectorMap.get(exp.getExperimentRecordId());
@@ -111,14 +133,20 @@
         <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) {
         %>
         <tr>
-        <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(exp.getExperimentName())%></a></td>
+        <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(experimentName)%></a></td>
         <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
         <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
         <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td><% } %>
         <% if (modelList.size() > 0 ) { %><td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td><% } %>
-        <% if (deliverySystemList.size() > 0 ) { %><td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td><% } %>
-        <% if (guideList.size() > 0 ) { %><td><%=guide%></td><% } %>
+        <% if (deliverySystemList.size() > 0 ) { %><td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemName())%></a></td><% } %>
+            <% if (guideList.size() > 0 ) { %><td><%=targetLocus%></td><% } %>
+
+            <% if (guideList.size() > 0 ) { %><td><%=guide%></td><% } %>
         <% if (vectorList.size() > 0 ) { %><td><%=vector%></td><% } %>
+        <c:if test="${objectSizeMap['dosage']>0 }">
+
+        <td><%=exp.getDosage()%></td>
+        </c:if>
         <% if (resultTypeList.size() > 0 ) { %><td><%=ers.get(0).getResultType()%></td><% } %>
         <% if (unitList.size() > 0 ) { %><td><%=ers.get(0).getUnits()%></td><% } %>
         <% if(resultMap != null && resultMap.size() != 0) {%>
@@ -159,10 +187,11 @@
                 },
                 options: {
                     responsive: true,
+                    scaleShowValues: true,
                     scales: {
                         xAxes: [{
                             gridLines: {
-                                offsetGridLines: true // à rajouter
+                                color: "rgba(0, 0, 0, 0)"
                             },
 
                             scaleLabel: {
@@ -171,6 +200,19 @@
                                 fontSize: 14,
                                 fontStyle: 'bold',
                                 fontFamily: 'Calibri'
+                            },
+
+
+                            ticks:{
+                                fontColor: "rgb(0,75,141)",
+                                fontSize: 10,
+                                autoSkip: false,
+                                callback: function(t) {
+                                   var maxLabelLength = 40;
+                                   if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
+                                   else return t;
+
+                               }
                             }
                         }],
                         yAxes: [{
@@ -205,16 +247,24 @@
                         }]
                     },
                     tooltips: {
+
                         callbacks: {
-                            afterLabel: function(tooltipItem, data) {
+                            title: function(tooltipItem) {
+                                return this._data.labels[tooltipItem[0].index];
+                            },
+                            afterLabel: function(tooltipItem) {
                                 var index = tooltipItem.index;
                                 return getDetails(index);
-                            },
-                            title: function(t, d) {
-                                return d.labels[t[0].index];
                             }
+
                         }
+
                     },
+
+                hover: {
+                    mode: 'index',
+                    intersect: false
+                },
                     legend: {
                         display: true
                     }
@@ -323,7 +373,25 @@
                 }
                 return labelString;
             }
+            function applyAllFilters(_this, name) {
+                var table = document.getElementById('myTable'); //to remove filtered rows
+                var rowLength = table.rows.length;
+                for (i = 1; i < rowLength; i++){
+                    if(_this.checked)
+
+                        table.rows.item(i).style.display = '';
+
+                    else {
+                        table.rows.item(i).style.display = 'none';
+                    }
+                }
+                update();
+
+                $('input[name='+name+']').prop('checked', _this.checked);
+
+            }
             function applyFilters(obj)  {
+
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
                 for (i = 1; i < rowLength; i++){
@@ -346,9 +414,11 @@
                                        table.rows.item(i).style.display = "";
                                    }
 
+
                                }else {
                                    cells.item(k).off = true;
                                    table.rows.item(i).style.display = "none";
+
                                }
                             }
                         }
@@ -386,7 +456,7 @@
                         data: dataSet[i],
                         label: "Replicate: "+(i+1),
                         yAxisID: 'delivery',
-                        backgroundColor: 'rgba(255,99,132,1)',
+                        backgroundColor: 'rgba(220,220,220,0.5)',
                         borderColor: 'rgba(255,99,132,1)',
                         type: "scatter",
                         showLine: false

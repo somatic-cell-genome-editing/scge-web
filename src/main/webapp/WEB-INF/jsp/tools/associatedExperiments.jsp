@@ -6,10 +6,16 @@
 <%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="java.util.HashMap" %>
-<h4 class="page-header" style="color:grey;">Associated SCGE Experiment Records</h4>
+<script>
+    $(function() {
+        $("#myTable-2").tablesorter({
+            theme : 'blue'
 
-<div>
-        <%
+        });
+    });
+</script>
+<h4 class="page-header" style="color:grey;">Associated SCGE Experiment Records</h4>
+<%
         List<ExperimentRecord> experiments = (List<ExperimentRecord>) request.getAttribute("experimentRecords");
         Study study = (Study) request.getAttribute("study");
         Access localStudyAccess = new Access();
@@ -17,22 +23,8 @@
         StudyDao sdao = new StudyDao();
 
         //out.println(experiments.size());
-    %>
-
-     <% if (experiments.size() ==0) { %>
-           0 Experiments Associated
-     <%} else { %>
-
-            <script>
-                $(function() {
-                    $("#associatedExperiments").tablesorter({
-                        theme : 'blue'
-
-                    });
-                });
-            </script>
-
-            <table id="associatedExperiments" class="table tablesorter table-striped table-responsive">
+        %>
+    <table id="myTable-2" class="tablesorter">
         <thead>
         <tr>
             <th>Study</th>
@@ -47,7 +39,7 @@
             <th>Record ID</th>
         </tr>
         </thead>
-
+        <tbody>
         <% HashMap<Integer,List<Guide>> guideMap = (HashMap<Integer,List<Guide>>)request.getAttribute("guideMap");
         HashMap<Integer,List<Vector>> vectorMap = (HashMap<Integer,List<Vector>>)request.getAttribute("vectorMap");
             for (ExperimentRecord exp: experiments) {
@@ -76,7 +68,7 @@
                     <tr>
                         <!--td><input class="form" type="checkbox"></td-->
 
-                        <td><a href="/toolkit/data/experiments/study/<%=exp.getStudyId()%>"><%=SFN.parse(s.getStudy())%></a></td>
+                        <td><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=SFN.parse(s.getStudy())%></a></td>
                         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>"><%=SFN.parse(exp.getExperimentName())%></a></td>
                         <td><%=SFN.parse(exp.getTissueId())%></td>
                         <td><%=SFN.parse(exp.getCellType())%></td>
@@ -90,6 +82,6 @@
                 <% } %>
                 <% } %>
         <% } %>
+        </tbody>
     </table>
 
-    <% } %>

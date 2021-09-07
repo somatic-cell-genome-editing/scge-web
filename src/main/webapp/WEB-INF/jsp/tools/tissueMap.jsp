@@ -161,7 +161,7 @@
                         labelDetails.add("\"" + er.getExperimentName() + "\"");
                         tissueDeliveryConditions.put(tissueName, labelDetails);
                     }
-                    if(erd.getUnits().contains("present")){
+                    if(erd.getUnits().contains("signal")){
                         if (qualDeliveryResults == null || !qualDeliveryResults.containsKey(tissueName))
                             qualResults = new ArrayList<>();
                         else qualResults = qualDeliveryResults.get(tissueName);
@@ -185,7 +185,7 @@
                         labelDetails.add("\""+er.getExperimentName()+"\"");
                         tissueEditingConditions.put(tissueName,labelDetails);
                     }
-                    if(erd.getUnits().contains("present")){
+                    if(erd.getUnits().contains("signal")){
                         if (qualEditingResults == null || !qualEditingResults.containsKey(tissueName))
                             qualResults = new ArrayList<>();
                         else qualResults = qualEditingResults.get(tissueName);
@@ -214,7 +214,7 @@
 </table>
 <div>Organ System Overview</div>
 <br><br>
-<div style="position:relative;">
+<div>
     <table width="5000">
         <tr>
             <td width="40">&nbsp;</td>
@@ -240,7 +240,7 @@
 
         <% for (String condition: conditions) { %>
         <tr>
-            <td><%=condition%></td>
+            <td  width="65"></td>
 
             <% for (String tissueKey: rootTissues.keySet()) {
                 String tissue=rootTissues.get(tissueKey);
@@ -258,37 +258,7 @@
             <% } %>
             <td style="font-size: small">
 
-                <%  long id = experimentRecordHashMap.get(condition).getExperimentRecordId();
-                    ExperimentRecord r = experimentRecordHashMap.get(condition);
-                    List<Guide> guides = guideMap.get(id);
-                    String guide = "";
-                    boolean fst = true;
-                    for(Guide g: guides) {
-                        if (!fst) { guide += ";"; }
-                        guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">g("+SFN.parse(g.getGuide())+")</a>";
-                        fst = false;
-                    }
-                    List<Vector> vectors = vectorMap.get(id);
-                    String vector = "";
-                    fst=true;
-                    for(Vector v: vectors) {
-                        if (!fst) { vector += ";"; }
-                        vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">v("+SFN.parse(v.getName())+")</a>";
-                        fst=false;
-                    }
-                    if(r.getEditorSymbol() != null && noOfEditors != noOfRecords) {
-                %>
-
-                <a href="/toolkit/data/editors/editor?id=<%=r.getEditorId()%>">e(<%=SFN.parse(r.getEditorSymbol())%>)</a>&nbsp;&nbsp;
-                <% } if(r.getDeliverySystemType() != null && noOfDelivery != noOfRecords) {%>
-                <a href="/toolkit/data/delivery/system?id=<%=r.getDeliverySystemId()%>">ds(<%=SFN.parse(r.getDeliverySystemType())%>)</a>&nbsp;&nbsp;
-                <% } if(r.getModelName() != null && noOfModel != noOfRecords) {%>
-                <a href="/toolkit/data/models/model?id=<%=r.getModelId()%>">m(<%=SFN.parse(r.getModelName())%>)</a>&nbsp;&nbsp;
-                <% } if(guide != "") {%>
-                <%=guide%>&nbsp;&nbsp;
-                <% } if(vector != "") {%>
-                <%=vector%>
-                <% } %>
+                <%=condition%>
             </td>
         </tr>
         <% } // end conditions %>
@@ -434,7 +404,26 @@
                labels: tissueDeliveryConditions[i],
                datasets: generateDeliveryData(i)
            },
-           options: { events: [] }
+           options: {
+               events: [],
+
+               scales:{
+                   xAxes:[{
+                       gridLines: {
+                           color: "rgba(0, 0, 0, 0)"
+                       },
+                       ticks:{
+                           fontColor: "rgb(0,75,141)",
+                           callback: function(t) {
+                               var maxLabelLength = 30;
+                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
+                               else return t;
+
+                           }
+                       }
+                   }]
+               }
+           }
        });
    }
    for(var i = 0;i<tissuesEditing.length;i++) {

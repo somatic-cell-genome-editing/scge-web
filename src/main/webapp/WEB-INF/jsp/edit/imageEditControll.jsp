@@ -17,7 +17,7 @@
         <input type="hidden" name="bucket" value="<%=bucket%>"/>
         <table cellpadding=4 style="border:1px solid #007BFF; padding:2px; margin-top:10px; margin-bottom:5px;" align="center">
         <tr>
-            <td><input type="file" id="myFile" name="filename"></td>
+            <td><input type="file" id="myFile<%=objectId%>" name="filename"></td>
             <td>&nbsp;</td>
             <td><input type="submit" value="Upload"></td>
         </tr>

@@ -1,11 +1,13 @@
-<%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
-<%@ page import="edu.mcw.scge.datamodel.Editor" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
-<%@ page import="edu.mcw.scge.datamodel.OffTarget" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="com.google.gson.Gson" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="edu.mcw.scge.datamodel.*" %>
+<%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.TreeSet" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -50,6 +52,7 @@
 <% Guide g = (Guide) request.getAttribute("guide"); %>
 <% List<Editor> relatedEditors = (List<Editor>) request.getAttribute("editors");
     List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
+    List<OffTargetSite> offTargetSites = (List<OffTargetSite>) request.getAttribute("offTargetSites");
 %>
 
 
@@ -63,6 +66,7 @@
 
 
 %>
+<input type="hidden" id="otherGuides" value=""></div>
 <div class="col-md-2 sidenav bg-light">
 
         <a href="#summary">Summary</a>
@@ -152,7 +156,6 @@
             </div>
         </div>
 
-
     </div>
 
 </div>
@@ -211,6 +214,7 @@
         var chr='<%=g.getChr().replace("chr", "")%>';
         var start="<%=g.getStart()%>";
         var stop="<%=g.getStop()%>";
+        var guideId=<%=g.getGuide_id()%>
         var guide='<%=new Gson().toJson(g)%>';
 
     </script>
@@ -225,7 +229,7 @@
    <% if(relatedEditors!=null && relatedEditors.size()>0){%>
     <div id="editor">
     <h4 class="page-header" style="color:grey;">Related Editor</h4>
-    <table class="table">
+    <table class="table" style="width: 62%">
         <tr><td >Related Editors</td>
             <td>
                 <%for (Editor relatedEditor: relatedEditors) { %>
@@ -277,12 +281,32 @@
     </div>
     <hr>
     <%}%>
-    <%if(offTargets!=null && offTargets.size()>0){%>
+    <%HashMap<String,Integer> changeSeq = new HashMap<>();
+        Set<String> labels = new TreeSet<>();
+        HashMap<String,Integer> guideSeq = new HashMap<>();
+        if(offTargets!=null && offTargets.size()>0){
+
+
+    for(OffTargetSite o:offTargetSites){
+        String label = o.getChromosome() +"-"+ o.getStart();
+        if(o.getSeqType().equalsIgnoreCase("Change_seq")) {
+            changeSeq.put(label, o.getNoOfReads());
+            if(!guideSeq.containsKey(label))
+                guideSeq.put(label,null);
+        } else {
+            guideSeq.put(label,o.getNoOfReads());
+            if(!changeSeq.containsKey(label))
+                changeSeq.put(label,null);
+        }
+        labels.add(label);
+    }
+    %>
     <div id="offTargets">
         <h4 class="page-header" style="color:grey;">Off Targets</h4>
 
         <table width="95%">
             <tr>
+
                 <td>
                     <table class="table" >
                         <tr><th>Detection Method</th><th>No. of sites detected</th></tr>
@@ -315,7 +339,13 @@
             </tr>
         </table>
 
+
     </div>
+    <div class="chart-container" >
+        <h4 class="page-header" style="color:grey;">Off Target Sites</h4>
+        <canvas id="offTargetChart" style="position: relative; height:60vh; width:65vw;"></canvas>
+    </div>
+
     <hr>
     <%}%>
     <div id="associatedStudies">
@@ -325,3 +355,60 @@
     <jsp:include page="associatedExperiments.jsp"/>
     </div>
 </main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+<script>
+    var ctx = document.getElementById("offTargetChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: <%= JSONValue.toJSONString(labels) %>,
+            datasets: [
+                {
+                    label: 'ChangeSeq',
+                    data: <%=changeSeq.values()%>,
+                    backgroundColor: 'rgba(6,69,121,1)',
+                    borderColor: 'rgba(6,69,121,1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'GuideSeq',
+                    data: <%=guideSeq.values()%>,
+                    backgroundColor: 'rgba(255,99,132,1)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        offsetGridLines: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Off target sites',
+                        fontSize: 14,
+                        fontStyle: 'bold',
+                        fontFamily: 'Calibri'
+                    },
+                },
+                ],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'No of Reads',
+                        fontSize: 14,
+                        fontStyle: 'bold',
+                        fontFamily: 'Calibri'
+                    },
+                }]
+            }
+        }
+    });
+</script>

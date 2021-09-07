@@ -110,9 +110,9 @@ function findVariantBinIndexForPosition(variantBins,variant,buffer) {
     else{
       const newBin = {
         fmin,
-fmax,
-type,
-consequence,
+        fmax,
+        type,
+        consequence,
         variantSet: [{
           variants:[variant],
           type,
@@ -176,15 +176,14 @@ consequence,
     else{
       const newBin = {
         fmin,
-fmax,
-type,
-consequence,
+        fmax,
+        type,
+        consequence,
         variantSet: [{
           variants:[variant],
           type,
           consequence,
-          fmin,
-fmax,
+          fmin, fmax,
         }],
         variants: [variant]
       };
