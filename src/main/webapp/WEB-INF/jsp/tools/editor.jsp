@@ -108,7 +108,7 @@
     String objectType= ImageTypes.EDITOR;
     String redirectURL = "/data/editors/editor?id=" + objectId;
     String bucket="main";
-
+    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
 %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 

@@ -7,7 +7,7 @@
 
     Access imageCheckAccess= new Access();
     Person imageCheckPerson = imageCheckAccess.getUser(request.getSession());
-    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
+ //  String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
 
     if (imageCheckAccess.isAdmin(imageCheckPerson)) { %>
 

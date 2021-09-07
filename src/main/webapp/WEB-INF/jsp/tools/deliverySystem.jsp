@@ -72,6 +72,8 @@
     String objectType= ImageTypes.DELIVERY_SYSTEM;
     String redirectURL = "/data/delivery/system?id=" + objectId;
     String bucket="main";
+    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
+
 %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 

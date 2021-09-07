@@ -74,7 +74,7 @@
     String objectType= ImageTypes.MODEL;
     String redirectURL = "/data/models/model?id=" + objectId;
     String bucket="main";
-
+    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
 %>
 
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>

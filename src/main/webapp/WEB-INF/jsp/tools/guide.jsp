@@ -62,7 +62,7 @@
     String objectType= ImageTypes.GUIDE;
     String redirectURL = "/data/guide/system?id=" + objectId;
     String bucket="topRight";
-    String[] images1 = ImageStore.getImages(objectType, "" + objectId, bucket);
+    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
 
 
 %>
@@ -70,7 +70,7 @@
 <div class="col-md-2 sidenav bg-light">
 
         <a href="#summary">Summary</a>
-        <%if(images1!=null && images1.length>0){%>
+        <%if(images!=null && images.length>0){%>
         <a href="images">Images</a>
         <%}%>
     <%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){%>
