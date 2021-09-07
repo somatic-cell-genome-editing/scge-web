@@ -140,7 +140,6 @@ public class FileUploadController {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}
-		System.out.println("here2");
 
 		Resource resource=null;
 		try {

@@ -49,6 +49,16 @@
 <% }%>
 <div>
 <hr>
+
+    <%
+        long objectId = ex.getExperimentId();
+        String objectType= ImageTypes.EXPERIMENT;
+        String redirectURL = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=" + selectedResultType + "&tissue=" + selectedTissue + "&cellType=" + selectedCellType;
+        String bucket="aboveExperimentTable";
+
+    %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
     <table width="90%">
         <tr>
             <td><h3>Results</h3></td>
@@ -128,6 +138,16 @@
         </tr>
      <% }} %>
 </table>
+
+    <%
+        //objectId = ex.getExperimentId();
+        //objectType= ImageTypes.EXPERIMENT;
+        //redirectURL = "/data/editors/editor?id=" + objectId;
+        bucket="belowExperimentTable";
+
+    %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
 </div>
         <script>
             var ctx = document.getElementById("resultChart");

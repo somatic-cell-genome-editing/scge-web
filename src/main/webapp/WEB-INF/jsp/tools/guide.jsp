@@ -151,17 +151,31 @@
         </table>
             </div>
         </div>
-        <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
 
     </div>
 
 </div>
+
+    <%
+        objectId = g.getGuide_id();
+        objectType= ImageTypes.GUIDE;
+        redirectURL = "/data/guide/system?id=" + objectId;
+        bucket="topRight";
+    %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+
     <div id="images">
-    <table align="center">
+
+        <table align="center">
         <%
+            Access access= new Access();
+            Person person = access.getUser(request.getSession());
+
             for (int i=0; i< images.length; i++) {
 
-                if (imageCheckAccess.isAdmin(imageCheckPerson)) {
+                if (access.isAdmin(person)) {
         %>
         <tr>
             <td align="right">
@@ -229,39 +243,78 @@
     <%if(!SFN.parse(g.getVectorId()).equals("")){%>
     <div id="vector">
         <h4 class="page-header" style="color:grey;">Vector Details</h4>
-            <table class="table">
+            <table width="95%">
+                <tr>
+                    <td>
+                        <table class="table">
 
-            <tr ><td >Ivt Construct Source</td><td><%=SFN.parse(g.getIvtConstructSource())%></td></tr>
-            <tr ><td >Vector Id</td><td><%=SFN.parse(g.getVectorId())%></td></tr>
-            <tr ><td >Vector Name</td><td><%=SFN.parse(g.getVectorName())%></td></tr>
-            <tr ><td >Vector Description</td><td><%=SFN.parse(g.getVectorDescription())%></td></tr>
-            <tr ><td >Vector Type</td><td><%=SFN.parse(g.getVectorType())%></td></tr>
+                            <tr ><td >Ivt Construct Source</td><td><%=SFN.parse(g.getIvtConstructSource())%></td></tr>
+                            <tr ><td >Vector Id</td><td><%=SFN.parse(g.getVectorId())%></td></tr>
+                            <tr ><td >Vector Name</td><td><%=SFN.parse(g.getVectorName())%></td></tr>
+                            <tr ><td >Vector Description</td><td><%=SFN.parse(g.getVectorDescription())%></td></tr>
+                            <tr ><td >Vector Type</td><td><%=SFN.parse(g.getVectorType())%></td></tr>
 
-            <tr ><td >Annotated Map</td><td><%=SFN.parse(g.getAnnotatedMap())%></td></tr>
+                            <tr ><td >Annotated Map</td><td><%=SFN.parse(g.getAnnotatedMap())%></td></tr>
 
-        </table>
+                        </table>
+
+                    </td>
+                    <td align="center">
+
+                        <%
+                            objectId = g.getGuide_id();
+                            objectType= ImageTypes.GUIDE;
+                            redirectURL = "/data/guide/system?id=" + objectId;
+                            bucket="vectorDetails";
+                        %>
+                        <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+
+                    </td>
+                </tr>
+            </table>
+
     </div>
     <hr>
     <%}%>
     <%if(offTargets!=null && offTargets.size()>0){%>
     <div id="offTargets">
         <h4 class="page-header" style="color:grey;">Off Targets</h4>
-        <table class="table" >
-            <tr><th>Detection Method</th><th>No. of sites detected</th></tr>
-            <%for (OffTarget offTarget: offTargets) { %>
+
+        <table width="95%">
             <tr>
-                <td><%=offTarget.getDetectionMethod()%></td>
-                <td><%=offTarget.getNoOfSitesDetected()%><br>
+                <td>
+                    <table class="table" >
+                        <tr><th>Detection Method</th><th>No. of sites detected</th></tr>
+                        <%for (OffTarget offTarget: offTargets) { %>
+                        <tr>
+                            <td><%=offTarget.getDetectionMethod()%></td>
+                            <td><%=offTarget.getNoOfSitesDetected()%><br>
+
+                            </td>
+                        </tr>
+                        <% } %>
+                    </table>
+                    <h4 class="page-header" style="color:grey;">Specificity</h4>
+                    <table class="table">
+                        <tr ><th >Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
+
+                    </table>
+
+                </td>
+                <td>
+                    <%
+                        objectId = g.getGuide_id();
+                        objectType= ImageTypes.GUIDE;
+                        redirectURL = "/data/guide/system?id=" + objectId;
+                        bucket="offTargets";
+                    %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
                 </td>
             </tr>
-            <% } %>
         </table>
-        <h4 class="page-header" style="color:grey;">Specificity</h4>
-        <table class="table">
-            <tr ><th >Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
 
-        </table>
     </div>
     <hr>
     <%}%>

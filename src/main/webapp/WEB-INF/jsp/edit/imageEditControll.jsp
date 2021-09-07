@@ -4,7 +4,7 @@
 <%@ page import="edu.mcw.scge.storage.ImageStore" %>
 
 <%
-
+    {
     Access imageCheckAccess= new Access();
     Person imageCheckPerson = imageCheckAccess.getUser(request.getSession());
 
@@ -26,6 +26,6 @@
     </form>
 
 
-<% } %>
+<% }} %>
 
 
