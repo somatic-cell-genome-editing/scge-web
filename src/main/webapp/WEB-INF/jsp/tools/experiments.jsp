@@ -133,7 +133,7 @@
                     <%
                         for (int i=0; i< images.length; i++) {
 
-                            if (imageCheckAccess.isAdmin(imageCheckPerson)) {
+                            if (access.isAdmin(p)) {
                     %>
                     <tr>
                         <td align="right">
