@@ -79,6 +79,7 @@
 
 <% List<Guide> relatedGuides = (List<Guide>) request.getAttribute("guides");
     Editor editor = (Editor) request.getAttribute("editor");
+    List<Editor> comparableEditors= (List<Editor>) request.getAttribute("comparableEditors");
 
 %>
 <%
@@ -97,6 +98,9 @@
 
     <%if(images!=null && images.length>0){%>
     <a href="images">Images</a>
+    <%}%>
+    <% if(comparableEditors!=null && comparableEditors.size()>0){%>
+    <a href="#comparable">Comparable Editors</a>
     <%}%>
     <% if(relatedGuides!=null && relatedGuides.size()>0){%>
     <a href="#relatedGuides">Related Guides</a>
@@ -179,22 +183,38 @@
     <div id="proteinSequence">
         <h4 class="page-header" style="color:grey;">Protein Sequence</h4>
         <div class="container" align="center">
-            <table style="">
+            <table style="width: 80%">
 
-                <tr ><td></td><td><pre><%=UI.formatFASTA(editor.getProteinSequence())%></pre></td></tr>
+                <tr ><td style="width: 10%"></td><td><pre><%=UI.formatFASTA(editor.getProteinSequence())%></pre></td></tr>
 
             </table>
         </div>
     </div>
     <hr>
     <%}%>
-
+    <%if(comparableEditors!=null && comparableEditors.size()>0){%>
+    <div id="comparable">
+        <h4 class="page-header" style="color:grey;">Comparable Editors</h4>
+        <div class="container" align="center">
+            <table style="width: 80%">
+                <tr><td style="width: 10%"></td>
+                    <td>
+                        <%for (Editor cEditor: comparableEditors) { %>
+                        <a href="/toolkit/data/editors/editor?id=<%=cEditor.getId()%>"><%=cEditor.getSymbol()%></a><br>
+                        <% } %>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <hr>
+    <%}%>
     <%if(relatedGuides!=null && relatedGuides.size()>0){%>
     <div id="relatedGuides">
         <h4 class="page-header" style="color:grey;">Related Guides (<%=relatedGuides.size()%>)</h4>
         <div class="container" align="center">
             <table style="width:80%">
-                <tr><td></td>
+                <tr><td style="width: 10%"></td>
                     <td>
                         <%for (Guide relatedGuide: relatedGuides) { %>
                         <a href="/toolkit/data/guide/system?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence().toUpperCase()%></a><br>
