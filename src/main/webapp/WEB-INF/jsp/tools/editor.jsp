@@ -235,7 +235,7 @@
     </div>
 
     <div id="associatedExperiments">
-        <jsp:include page="associatedExperiments.jsp"/>
+        <jsp:include page="associatedExperiment.jsp"/>
     </div>
     <div id="publications">
         <h4 class="page-header" style="color:grey;">Related Publications</h4>
