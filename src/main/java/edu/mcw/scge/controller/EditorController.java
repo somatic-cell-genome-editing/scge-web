@@ -23,14 +23,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/editors")
 public class EditorController {
+    EditorDao editorDao = new EditorDao();
 
     @RequestMapping(value="/search")
     public String getEditors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        EditorDao dao = new EditorDao();
         Access access = new Access();
         UserService us = new UserService();
         Person p = us.getCurrentUser(req.getSession());
@@ -39,9 +41,9 @@ public class EditorController {
 
 
         if (access.isInDCCorNIHGroup(p)) {
-            records = dao.getAllEditors();
+            records = editorDao.getAllEditors();
         }else {
-            records = dao.getAllEditors(us.getCurrentUser(req.getSession()).getId());
+            records = editorDao.getAllEditors(us.getCurrentUser(req.getSession()).getId());
         }
 
 
@@ -102,6 +104,24 @@ public class EditorController {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
         }
         req.setAttribute("vectorMap", vectorMap);
+        /*************************************************************/
+        if(studies!=null && studies.size()>0) {
+            List<Object> comparableEditors=new ArrayList<>();
+            List<Experiment> experiments=new ArrayList<>();
+            for (Study study : studies) {
+                 experiments.addAll(experimentDao.getExperimentsByStudy(study.getStudyId()));
+                for (Experiment experiment : experiments) {
+                    List<Editor> otherEditorsOfThis=editorDao
+                            .getEditorByExperimentId(experiment.getExperimentId());
+                     comparableEditors=otherEditorsOfThis.stream().filter(o->o.getId()!=editor.getId()).collect(Collectors.toList());
+
+
+                }
+            }
+            req.setAttribute("experiments", experiments);
+            req.setAttribute("comparableEditors", comparableEditors);
+        }
+        /*************************************************************/
 
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
