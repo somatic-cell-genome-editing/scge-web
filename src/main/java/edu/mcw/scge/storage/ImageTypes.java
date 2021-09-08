@@ -10,5 +10,6 @@ public class ImageTypes {
     public static final String RECORD = "record";
     public static final String STUDY = "study";
     public static final String VECTOR = "vector";
+    public static final String EXPERIMENT = "experiment";
 
 }

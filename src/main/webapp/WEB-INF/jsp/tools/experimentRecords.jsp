@@ -4,6 +4,7 @@
 <%@ page import="edu.mcw.scge.dao.implementation.ExperimentResultDao" %>
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
+<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 
 
 <%--
@@ -85,8 +86,12 @@
 
          <% }  %>
             <% if (tissueList.size() == 0 || selectedResultType != null) { %>
+        <hr>
+
+
 
             <%@include file="recordsTable.jsp"%>
+
             <% }  %>
 
         </div>
