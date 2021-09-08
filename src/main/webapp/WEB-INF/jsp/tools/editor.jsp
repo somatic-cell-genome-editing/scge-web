@@ -79,9 +79,6 @@
 
 <% List<Guide> relatedGuides = (List<Guide>) request.getAttribute("guides");
     Editor editor = (Editor) request.getAttribute("editor");
-    //  String resultType= (String) request.getAttribute("resultType");
-    List<edu.mcw.scge.datamodel.Plot> plots= (List<Plot>) request.getAttribute("plots");
-    List<Editor> comparableEditors= (List<Editor>) request.getAttribute("comparableEditors");
 
 %>
 <%
@@ -97,9 +94,7 @@
     <%if(editor.getProteinSequence()!=null && !editor.getProteinSequence().equals("")){%>
     <a href="#proteinSequence">Protein Sequence</a>
     <%}%>
-    <% if(comparableEditors!=null && comparableEditors.size()>0){%>
-    <a href="#comparable">Comparable Editors</a>
-    <%}%>
+
     <%if(images!=null && images.length>0){%>
     <a href="images">Images</a>
     <%}%>
@@ -108,9 +103,7 @@
     <%}%>
 
 
-    <% if(plots!=null && plots.size()>0){%>
-    <a href="#resultType"><%=plots.get(0).getTitle()%></a>
-    <%}%>
+
     <a href="#associatedStudies">Associated Studies</a>
     <a href="#associatedExperiments">Associated Experiments</a>
     <a href="#publications">Related Publications</a>
@@ -195,23 +188,7 @@
     </div>
     <hr>
     <%}%>
-    <%if(comparableEditors!=null && comparableEditors.size()>0){%>
-    <div id="comparable">
-        <h4 class="page-header" style="color:grey;">Comparable Editors</h4>
-        <div class="container" align="center">
-            <table style="">
-                <tr><td class="header"></td>
-                    <td>
-                        <%for (Editor cEditor: comparableEditors) { %>
-                        <a href="/toolkit/data/editors/editor?id=<%=cEditor.getId()%>"><%=cEditor.getSymbol()%></a><br>
-                        <% } %>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <hr>
-    <%}%>
+   
     <%if(relatedGuides!=null && relatedGuides.size()>0){%>
     <div id="relatedGuides">
         <h4 class="page-header" style="color:grey;">Related Guides (<%=relatedGuides.size()%>)</h4>
