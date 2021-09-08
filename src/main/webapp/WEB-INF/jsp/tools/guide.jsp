@@ -141,7 +141,6 @@
         </table>
             </div>
         </div>
-        <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
     </div>
 
