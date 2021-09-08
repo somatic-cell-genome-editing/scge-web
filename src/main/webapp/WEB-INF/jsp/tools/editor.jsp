@@ -188,13 +188,13 @@
     </div>
     <hr>
     <%}%>
-   
+
     <%if(relatedGuides!=null && relatedGuides.size()>0){%>
     <div id="relatedGuides">
         <h4 class="page-header" style="color:grey;">Related Guides (<%=relatedGuides.size()%>)</h4>
         <div class="container" align="center">
             <table style="width:80%">
-                <tr><td class="header"></td>
+                <tr><td></td>
                     <td>
                         <%for (Guide relatedGuide: relatedGuides) { %>
                         <a href="/toolkit/data/guide/system?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence().toUpperCase()%></a><br>
