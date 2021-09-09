@@ -123,11 +123,9 @@
                 String objectType= ImageTypes.STUDY;
                 String redirectURL = "/data/experiments/study/" + objectId;
                 String bucket="main";
-                String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
-
             %>
-
             <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
 
     </div>
     </div>

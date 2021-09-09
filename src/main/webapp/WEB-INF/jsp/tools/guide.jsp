@@ -1,13 +1,11 @@
+<%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="edu.mcw.scge.datamodel.Editor" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.datamodel.OffTarget" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="com.google.gson.Gson" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="edu.mcw.scge.datamodel.*" %>
-<%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
-<%@ page import="java.util.Set" %>
-<%@ page import="java.util.TreeSet" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -52,27 +50,15 @@
 <% Guide g = (Guide) request.getAttribute("guide"); %>
 <% List<Editor> relatedEditors = (List<Editor>) request.getAttribute("editors");
     List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
-    List<OffTargetSite> offTargetSites = (List<OffTargetSite>) request.getAttribute("offTargetSites");
 %>
 
 
 
-<%
-    long objectId = g.getGuide_id();
-    String objectType= ImageTypes.GUIDE;
-    String redirectURL = "/data/guide/system?id=" + objectId;
-    String bucket="topRight";
-    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
 
-
-%>
-<input type="hidden" id="otherGuides" value=""></div>
 <div class="col-md-2 sidenav bg-light">
 
         <a href="#summary">Summary</a>
-        <%if(images!=null && images.length>0){%>
-        <a href="images">Images</a>
-        <%}%>
+
     <%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){%>
     <a href="#sequenceViewer">Sequence Viewer</a>
     <%}%>
@@ -159,9 +145,19 @@
     </div>
 
 </div>
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
     <hr>
+
+
+    <%
+        long objectId = g.getGuide_id();
+        String objectType= ImageTypes.GUIDE;
+        String redirectURL = "/data/guide/system?id=" + objectId;
+        String bucket="main";
+    %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+
     <%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){
 
     %>
@@ -173,7 +169,6 @@
         var chr='<%=g.getChr().replace("chr", "")%>';
         var start="<%=g.getStart()%>";
         var stop="<%=g.getStop()%>";
-        var guideId=<%=g.getGuide_id()%>
         var guide='<%=new Gson().toJson(g)%>';
 
     </script>
@@ -188,7 +183,7 @@
    <% if(relatedEditors!=null && relatedEditors.size()>0){%>
     <div id="editor">
     <h4 class="page-header" style="color:grey;">Related Editor</h4>
-    <table class="table" style="width: 62%">
+    <table class="table">
         <tr><td >Related Editors</td>
             <td>
                 <%for (Editor relatedEditor: relatedEditors) { %>
@@ -206,62 +201,76 @@
     <%if(!SFN.parse(g.getVectorId()).equals("")){%>
     <div id="vector">
         <h4 class="page-header" style="color:grey;">Vector Details</h4>
-            <table class="table">
+        <table>
+            <tr>
+                <td>
+                    <table class="table">
 
-            <tr ><td >Ivt Construct Source</td><td><%=SFN.parse(g.getIvtConstructSource())%></td></tr>
-            <tr ><td >Vector Id</td><td><%=SFN.parse(g.getVectorId())%></td></tr>
-            <tr ><td >Vector Name</td><td><%=SFN.parse(g.getVectorName())%></td></tr>
-            <tr ><td >Vector Description</td><td><%=SFN.parse(g.getVectorDescription())%></td></tr>
-            <tr ><td >Vector Type</td><td><%=SFN.parse(g.getVectorType())%></td></tr>
+                        <tr ><td >Ivt Construct Source</td><td><%=SFN.parse(g.getIvtConstructSource())%></td></tr>
+                        <tr ><td >Vector Id</td><td><%=SFN.parse(g.getVectorId())%></td></tr>
+                        <tr ><td >Vector Name</td><td><%=SFN.parse(g.getVectorName())%></td></tr>
+                        <tr ><td >Vector Description</td><td><%=SFN.parse(g.getVectorDescription())%></td></tr>
+                        <tr ><td >Vector Type</td><td><%=SFN.parse(g.getVectorType())%></td></tr>
 
-            <tr ><td >Annotated Map</td><td><%=SFN.parse(g.getAnnotatedMap())%></td></tr>
+                        <tr ><td >Annotated Map</td><td><%=SFN.parse(g.getAnnotatedMap())%></td></tr>
 
+                    </table>
+                </td>
+                <td>
+                    <%
+                        objectId = g.getGuide_id();
+                        objectType= ImageTypes.GUIDE;
+                        redirectURL = "/data/guide/system?id=" + objectId;
+                        bucket="vectorDetails";
+                    %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+                </td>
+            </tr>
         </table>
+
+
     </div>
     <hr>
     <%}%>
-    <%HashMap<String,Integer> changeSeq = new HashMap<>();
-        Set<String> labels = new TreeSet<>();
-        HashMap<String,Integer> guideSeq = new HashMap<>();
-        if(offTargets!=null && offTargets.size()>0){
-
-
-    for(OffTargetSite o:offTargetSites){
-        String label = o.getChromosome() +"-"+ o.getStart();
-        if(o.getSeqType().equalsIgnoreCase("Change_seq")) {
-            changeSeq.put(label, o.getNoOfReads());
-            if(!guideSeq.containsKey(label))
-                guideSeq.put(label,null);
-        } else {
-            guideSeq.put(label,o.getNoOfReads());
-            if(!changeSeq.containsKey(label))
-                changeSeq.put(label,null);
-        }
-        labels.add(label);
-    }
-    %>
+    <%if(offTargets!=null && offTargets.size()>0){%>
     <div id="offTargets">
         <h4 class="page-header" style="color:grey;">Off Targets</h4>
-        <table class="table" >
-            <tr><th>Detection Method</th><th>No. of sites detected</th></tr>
-            <%for (OffTarget offTarget: offTargets) { %>
+        <table>
             <tr>
-                <td><%=offTarget.getDetectionMethod()%></td>
-                <td><%=offTarget.getNoOfSitesDetected()%></td>
+                <td>
+                    <table class="table" >
+                        <tr><th>Detection Method</th><th>No. of sites detected</th></tr>
+                        <%for (OffTarget offTarget: offTargets) { %>
+                        <tr>
+                            <td><%=offTarget.getDetectionMethod()%></td>
+                            <td><%=offTarget.getNoOfSitesDetected()%><br>
+
+                            </td>
+                        </tr>
+                        <% } %>
+                    </table>
+
+                </td>
+                <td>
+                    <%
+                        objectId = g.getGuide_id();
+                        objectType= ImageTypes.GUIDE;
+                        redirectURL = "/data/guide/system?id=" + objectId;
+                        bucket="offTargets";
+                    %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+                </td>
             </tr>
-            <% } %>
         </table>
+
         <h4 class="page-header" style="color:grey;">Specificity</h4>
-        <table class="table" style="width: 62%">
-            <tr><th >Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
+        <table class="table">
+            <tr ><th >Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
+
         </table>
-
     </div>
-    <div class="chart-container" >
-        <h4 class="page-header" style="color:grey;">Off Target Sites</h4>
-        <canvas id="offTargetChart" style="position: relative; height:60vh; width:65vw;"></canvas>
-    </div>
-
     <hr>
     <%}%>
     <div id="associatedStudies">
@@ -271,60 +280,3 @@
     <jsp:include page="associatedExperiments.jsp"/>
     </div>
 </main>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-
-<script>
-    var ctx = document.getElementById("offTargetChart");
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: <%= JSONValue.toJSONString(labels) %>,
-            datasets: [
-                {
-                    label: 'ChangeSeq',
-                    data: <%=changeSeq.values()%>,
-                    backgroundColor: 'rgba(6,69,121,1)',
-                    borderColor: 'rgba(6,69,121,1)',
-                    borderWidth: 1
-                },
-                {
-                    label: 'GuideSeq',
-                    data: <%=guideSeq.values()%>,
-                    backgroundColor: 'rgba(255,99,132,1)',
-                    borderColor: 'rgba(255,99,132,1)',
-                    borderWidth: 1
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        offsetGridLines: true
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Off target sites',
-                        fontSize: 14,
-                        fontStyle: 'bold',
-                        fontFamily: 'Calibri'
-                    },
-                },
-                ],
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'No of Reads',
-                        fontSize: 14,
-                        fontStyle: 'bold',
-                        fontFamily: 'Calibri'
-                    },
-                }]
-            }
-        }
-    });
-</script>

@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileSystemStorageService implements StorageService {
 
 	private final Path rootLocation;
+	private Path subLocation = Paths.get("/data/scge_submissions");;
 
 	@Autowired
 	public FileSystemStorageService(StorageProperties properties) {
@@ -70,7 +71,7 @@ public class FileSystemStorageService implements StorageService {
 	}
 
 	public Stream<Path> loadAll(String studyId) {
-		Path studyPath = this.rootLocation.resolve(studyId);
+		Path studyPath = this.subLocation.resolve(studyId);
 		try {
 			return Files.walk(studyPath, 1)
 					.filter(path -> !path.equals(studyPath))

@@ -119,6 +119,7 @@ public class FileUploadController {
 		Access access= new Access();
 		Person p = userService.getCurrentUser(req.getSession());
 
+		System.out.println("here");
 		if (type.equals(ImageTypes.EDITOR)) {
 			if (!access.hasEditorAccess(Long.parseLong(oid),p.getId())) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);

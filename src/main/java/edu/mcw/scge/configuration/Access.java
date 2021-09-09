@@ -156,7 +156,7 @@ public class Access {
         return sdao.verifyStudyAccessByPesonId(s.getStudyId(),p.getId());
     }
 
-    public boolean hasExperimentAccess(int experimentId, int personId) throws Exception{
+    public boolean hasExperimentAccess(long experimentId, int personId) throws Exception{
         return sdao.getStudyByExperimentId(experimentId, personId).size()>0;
     }
 
