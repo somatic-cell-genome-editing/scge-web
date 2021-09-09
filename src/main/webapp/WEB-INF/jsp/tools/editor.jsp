@@ -87,7 +87,7 @@
     String objectType= ImageTypes.EDITOR;
     String redirectURL = "/data/editors/editor?id=" + objectId;
     String bucket="main";
-    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
+//    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
 
 %>
 <div class="col-md-2 sidenav bg-light">
@@ -96,9 +96,6 @@
     <a href="#proteinSequence">Protein Sequence</a>
     <%}%>
 
-    <%if(images!=null && images.length>0){%>
-    <a href="images">Images</a>
-    <%}%>
     <% if(comparableEditors!=null && comparableEditors.size()>0){%>
     <a href="#comparable">Comparable Editors</a>
     <%}%>
