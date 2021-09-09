@@ -58,7 +58,7 @@
         padding:5px;
         position:fixed;
         top:400px;
-        left:0px;
+        left:5px;
         z-index:100;
         color:orange;
         -webkit-transform: rotate(-90deg);
