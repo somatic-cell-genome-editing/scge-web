@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/models")
 public class ModelController {
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
 
+    ExperimentDao experimentDao=new ExperimentDao();
     @RequestMapping(value="/search")
     public String getModels(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ModelDao dao = new ModelDao();
@@ -66,7 +69,12 @@ public class ModelController {
         StudyDao sdao = new StudyDao();
         List<Study> studies = sdao.getStudiesByModel(mod.getModelId());
         req.setAttribute("studies", studies);
-
+        if(studies!=null && studies.size()>0) {
+            List<Experiment> experiments=new ArrayList<>();
+            for (Study study : studies) {
+                experiments.addAll(experimentDao.getExperimentsByStudy(study.getStudyId()));
+            }
+            req.setAttribute("experiments", experiments);}
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByModel(mod.getModelId());
         req.setAttribute("experimentRecords",experimentRecords);
