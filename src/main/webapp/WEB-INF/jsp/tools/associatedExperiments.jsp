@@ -23,7 +23,7 @@
 </script>
 <h4 class="page-header" style="color:grey;">Associated SCGE Experiments</h4>
 <%
-    List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
+    List<Experiment> experiments = (List<Experiment>) request.getAttribute("associatedExperiments");
     if(experiments!=null && experiments.size()>0){
 
         //out.println(experiments.size());

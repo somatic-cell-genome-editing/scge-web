@@ -69,12 +69,7 @@ public class ModelController {
         StudyDao sdao = new StudyDao();
         List<Study> studies = sdao.getStudiesByModel(mod.getModelId());
         req.setAttribute("studies", studies);
-        if(studies!=null && studies.size()>0) {
-            List<Experiment> experiments=new ArrayList<>();
-            for (Study study : studies) {
-                experiments.addAll(experimentDao.getExperimentsByStudy(study.getStudyId()));
-            }
-            req.setAttribute("experiments", experiments);}
+
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByModel(mod.getModelId());
         req.setAttribute("experimentRecords",experimentRecords);
@@ -89,7 +84,14 @@ public class ModelController {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
         }
         req.setAttribute("vectorMap", vectorMap);
+        if(studies!=null && studies.size()>0) {
+            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
+            List<Experiment> assocatedExperiments=new ArrayList<>();
 
+            for(long id:associatedExperimentIds){
+                assocatedExperiments.add(experimentDao.getExperiment(id));
+            }
+            req.setAttribute("associatedExperiments", assocatedExperiments);}
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/models/search'>Models</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 

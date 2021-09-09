@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.LongSummaryStatistics;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/delivery")
@@ -87,11 +88,13 @@ public class DeliveryController {
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
-            List<Experiment> experiments=new ArrayList<>();
-            for (Study study : studies) {
-                experiments.addAll(experimentDao.getExperimentsByStudy(study.getStudyId()));
+            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
+            List<Experiment> assocatedExperiments=new ArrayList<>();
+
+            for(long id:associatedExperimentIds){
+                assocatedExperiments.add(experimentDao.getExperiment(id));
             }
-            req.setAttribute("experiments", experiments);}
+            req.setAttribute("associatedExperiments", assocatedExperiments);}
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
