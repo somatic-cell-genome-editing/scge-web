@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/models")
 public class ModelController {
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
 
+    ExperimentDao experimentDao=new ExperimentDao();
     @RequestMapping(value="/search")
     public String getModels(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ModelDao dao = new ModelDao();
@@ -81,7 +84,14 @@ public class ModelController {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
         }
         req.setAttribute("vectorMap", vectorMap);
+        if(studies!=null && studies.size()>0) {
+            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
+            List<Experiment> assocatedExperiments=new ArrayList<>();
 
+            for(long id:associatedExperimentIds){
+                assocatedExperiments.add(experimentDao.getExperiment(id));
+            }
+            req.setAttribute("associatedExperiments", assocatedExperiments);}
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/models/search'>Models</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
