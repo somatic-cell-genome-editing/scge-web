@@ -156,7 +156,7 @@ public class Access {
         return sdao.verifyStudyAccessByPesonId(s.getStudyId(),p.getId());
     }
 
-    public boolean hasExperimentAccess(int experimentId, int personId) throws Exception{
+    public boolean hasExperimentAccess(long experimentId, int personId) throws Exception{
         return sdao.getStudyByExperimentId(experimentId, personId).size()>0;
     }
 
@@ -178,7 +178,7 @@ public class Access {
         //return modelDao.verifyModelAccess(m.getModelId(), p.getId());
     }
 
-    public boolean hasModelAccess(int modelId, Person p) throws Exception{
+    public boolean hasModelAccess(long modelId, Person p) throws Exception{
         ModelDao mdao = new ModelDao();
         Model m = mdao.getModelById(modelId);
         return this.hasModelAccess(m,p);
@@ -223,7 +223,7 @@ public class Access {
         //return editorDao.verifyEditorAccess(e.getId(), p.getId());
     }
 
-    public boolean hasEditorAccess(int editorId, int personId) throws Exception{
+    public boolean hasEditorAccess(long editorId, int personId) throws Exception{
         EditorDao edao = new EditorDao();
         Editor e = edao.getEditorById(editorId).get(0);
         PersonDao personDao = new PersonDao();
@@ -247,7 +247,7 @@ public class Access {
         return adao.verifyGuideAccess(g,p);
     }
 
-    public boolean hasVectorAccess(int vectorId, int personId) throws Exception{
+    public boolean hasVectorAccess(long vectorId, int personId) throws Exception{
         VectorDao edao = new VectorDao();
         Vector v = edao.getVectorById(vectorId).get(0);
         PersonDao personDao = new PersonDao();
@@ -297,7 +297,7 @@ public class Access {
         //return deliveryDao.verifyDeliveryAccess(d.getId(), p.getId());
     }
 
-    public boolean hasDeliveryAccess(int deliveryId, int personId) throws Exception{
+    public boolean hasDeliveryAccess(long deliveryId, int personId) throws Exception{
         DeliveryDao ddao = new DeliveryDao();
         PersonDao pdao = new PersonDao();
         return this.hasDeliveryAccess(ddao.getDeliverySystemsById(deliveryId).get(0),pdao.getPersonById(personId).get(0));

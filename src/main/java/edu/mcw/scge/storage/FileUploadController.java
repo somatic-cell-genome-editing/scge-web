@@ -121,15 +121,15 @@ public class FileUploadController {
 
 		System.out.println("here");
 		if (type.equals(ImageTypes.EDITOR)) {
-			if (!access.hasEditorAccess(Integer.parseInt(oid),p.getId())) {
+			if (!access.hasEditorAccess(Long.parseLong(oid),p.getId())) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}else if (type.equals(ImageTypes.MODEL)) {
-			if (!access.hasModelAccess(Integer.parseInt(oid),p)) {
+			if (!access.hasModelAccess(Long.parseLong(oid),p)) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}else if (type.equals(ImageTypes.DELIVERY_SYSTEM)) {
-			if (!access.hasDeliveryAccess(Integer.parseInt(oid),p.getId())) {
+			if (!access.hasDeliveryAccess(Long.parseLong(oid),p.getId())) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}else if (type.equals(ImageTypes.GUIDE)) {
@@ -145,7 +145,7 @@ public class FileUploadController {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}else if (type.equals(ImageTypes.VECTOR)) {
-			if (!access.hasVectorAccess(Integer.parseInt(oid),p.getId())) {
+			if (!access.hasVectorAccess(Long.parseLong(oid),p.getId())) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}
