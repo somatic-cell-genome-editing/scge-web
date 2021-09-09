@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -77,6 +78,12 @@ public class VectorController {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
         }
         req.setAttribute("vectorMap", vectorMap);
+        if(studies!=null && studies.size()>0) {
+            List<Experiment> experiments=new ArrayList<>();
+            for (Study study : studies) {
+                experiments.addAll(experimentDao.getExperimentsByStudy(study.getStudyId()));
+            }
+            req.setAttribute("experiments", experiments);}
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

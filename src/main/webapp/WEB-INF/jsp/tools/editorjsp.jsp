@@ -28,16 +28,9 @@
         border-color: transparent;
 
     }
-    .header{
-        width:30%;
+    .summary tr th{
+        width:50%;
         background-color: aliceblue;
-        padding-left: 20px;
-        font-weight: bold;
-    }
-    .summary tr th, .summary tr td{
-
-        padding-top: 0;
-        padding-bottom: 0;
     }
     .sidenav {
         width: auto;
@@ -79,6 +72,8 @@
 
 <% List<Guide> relatedGuides = (List<Guide>) request.getAttribute("guides");
     Editor editor = (Editor) request.getAttribute("editor");
+    //  String resultType= (String) request.getAttribute("resultType");
+    List<edu.mcw.scge.datamodel.Plot> plots= (List<Plot>) request.getAttribute("plots");
     List<Editor> comparableEditors= (List<Editor>) request.getAttribute("comparableEditors");
 
 %>
@@ -87,7 +82,7 @@
     String objectType= ImageTypes.EDITOR;
     String redirectURL = "/data/editors/editor?id=" + objectId;
     String bucket="main";
-//    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
+    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
 
 %>
 <div class="col-md-2 sidenav bg-light">
@@ -95,16 +90,20 @@
     <%if(editor.getProteinSequence()!=null && !editor.getProteinSequence().equals("")){%>
     <a href="#proteinSequence">Protein Sequence</a>
     <%}%>
-
     <% if(comparableEditors!=null && comparableEditors.size()>0){%>
     <a href="#comparable">Comparable Editors</a>
+    <%}%>
+    <%if(images!=null && images.length>0){%>
+    <a href="images">Images</a>
     <%}%>
     <% if(relatedGuides!=null && relatedGuides.size()>0){%>
     <a href="#relatedGuides">Related Guides</a>
     <%}%>
 
 
-
+    <% if(plots!=null && plots.size()>0){%>
+    <a href="#resultType"><%=plots.get(0).getTitle()%></a>
+    <%}%>
     <a href="#associatedStudies">Associated Studies</a>
     <a href="#associatedExperiments">Associated Experiments</a>
     <a href="#publications">Related Publications</a>
@@ -112,27 +111,26 @@
 
 </div>
 <main role="main" class="col-md-10 ml-sm-auto px-4"  >
-    <div id="summary">
-        <h4 class="page-header" style="color:grey;">Summary</h4>
+    <h4 class="page-header" style="color:grey;">Summary</h4>
 
-    <div class="d-flex bg-light" >
+    <div class="d-flex " id="summary" style="background-color: aliceblue">
 
-        <div class="col-7">
+        <div class="p-10">
             <table class="table table-sm summary" >
-                <tr ><td class="header" >Symbol</td><td>&nbsp;<%=SFN.parse(editor.getSymbol())%></td></tr>
-                <tr ><td class="header">Species</td><td>&nbsp;<%=SFN.parse(editor.getSpecies())%></td></tr>
+                <tr ><th >Symbol</th><td>&nbsp;<%=SFN.parse(editor.getSymbol())%></td></tr>
+                <tr ><th >Species</th><td>&nbsp;<%=SFN.parse(editor.getSpecies())%></td></tr>
                 <%if(editor.getEditorDescription()!=null && !editor.getEditorDescription().equals("")){%>
-                <tr ><td class="header" >Description</td><td><%=SFN.parse(editor.getEditorDescription())%></td></tr>
+                <tr ><th class="header" >Description</th><td><%=SFN.parse(editor.getEditorDescription())%></td></tr>
                 <%}%>
                 <%if(editor.getType()!=null && !editor.getType().equals("")){%>
-                <tr ><td class="header">Type</td><td style="white-space: nowrap"><%=editor.getType()%></td></tr>
+                <tr ><th class="header">Type</th><td style="white-space: nowrap"><%=editor.getType()%></td></tr>
                 <%}%>
                 <%if(editor.getSubType()!=null && !editor.getSubType().equals("")){%>
-                <tr ><td class="header">Subtype</td><td style="white-space: nowrap"><%=editor.getSubType()%></td></tr>
+                <tr ><th class="header">Subtype</th><td style="white-space: nowrap"><%=editor.getSubType()%></td></tr>
                 <%}%>
-                <%if(editor.getAlias()!=null && !editor.getAlias().trim().equals("")){%>
+                <%if(editor.getAlias()!=null && !editor.getAlias().equals("")){%>
 
-                <tr ><td class="header">Alias</td><td style="white-space: nowrap"><%=editor.getAlias()%></td></tr>
+                <tr ><th class="header">Alias</th><td style="white-space: nowrap"><%=editor.getAlias()%></td></tr>
                 <%}%>
                 <%if(editor.getPamPreference()!=null && !editor.getPamPreference().equals("")){%>
 
@@ -140,26 +138,26 @@
                 <%}%>
                 <%if(editor.getEditorVariant()!=null && !editor.getEditorVariant().equals("")){%>
 
-                <tr ><td class="header">Variant</td><td style="white-space: nowrap"><%=editor.getEditorVariant()%></td></tr>
+                <tr ><th class="header">Variant</th><td style="white-space: nowrap"><%=editor.getEditorVariant()%></td></tr>
                 <%}%>
                 <%if(editor.getActivity()!=null && !editor.getActivity().equals("")){%>
 
-                <tr ><td class="header">Activity</td><td style="white-space: nowrap"><%=editor.getActivity()%></td></tr>
+                <tr ><th class="header">Activity</th><td style="white-space: nowrap"><%=editor.getActivity()%></td></tr>
                 <%}%>
                 <%if(editor.getDsbCleavageType()!=null && !editor.getDsbCleavageType().equals("")){%>
 
-                <tr ><td class="header">Cleavage Type</td><td style="white-space: nowrap"><%=editor.getDsbCleavageType()%></td></tr>
+                <tr ><th class="header">Cleavage Type</th><td style="white-space: nowrap"><%=editor.getDsbCleavageType()%></td></tr>
                 <%}%>
                 <%if(editor.getSource()!=null && !editor.getSource().equals("")){%>
 
-                <tr ><td class="header">Source</td><td style="white-space: nowrap"><%=editor.getSource()%></td></tr>
+                <tr ><th class="header">Source</th><td style="white-space: nowrap"><%=editor.getSource()%></td></tr>
                 <%}%>
 
             </table>
 
 
         </div>
-        <div class="ml-auto col-3" style="margin-right: 5%">
+        <div class="ml-auto p-4" style="margin-right: 5%">
 
             <div class="card">
                 <div class="card-header">Genome Editor</div>
@@ -173,16 +171,15 @@
 
         </div>
     </div>
-</div>
     <hr>
     <%if(editor.getProteinSequence()!=null && !editor.getProteinSequence().equals("")){%>
 
     <div id="proteinSequence">
         <h4 class="page-header" style="color:grey;">Protein Sequence</h4>
         <div class="container" align="center">
-            <table style="width: 80%">
+            <table style="">
 
-                <tr ><td style="width: 10%"></td><td><pre><%=UI.formatFASTA(editor.getProteinSequence())%></pre></td></tr>
+                <tr ><td class="header"></td><td><pre><%=UI.formatFASTA(editor.getProteinSequence())%></pre></td></tr>
 
             </table>
         </div>
@@ -193,8 +190,8 @@
     <div id="comparable">
         <h4 class="page-header" style="color:grey;">Comparable Editors</h4>
         <div class="container" align="center">
-            <table style="width: 80%">
-                <tr><td style="width: 10%"></td>
+            <table style="">
+                <tr><td class="header"></td>
                     <td>
                         <%for (Editor cEditor: comparableEditors) { %>
                         <a href="/toolkit/data/editors/editor?id=<%=cEditor.getId()%>"><%=cEditor.getSymbol()%></a><br>
@@ -211,7 +208,7 @@
         <h4 class="page-header" style="color:grey;">Related Guides (<%=relatedGuides.size()%>)</h4>
         <div class="container" align="center">
             <table style="width:80%">
-                <tr><td style="width: 10%"></td>
+                <tr><td class="header"></td>
                     <td>
                         <%for (Guide relatedGuide: relatedGuides) { %>
                         <a href="/toolkit/data/guide/system?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence().toUpperCase()%></a><br>
@@ -226,7 +223,51 @@
 
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
     <hr>
+    <% if(plots!=null && plots.size()>0){%>
+    <div id="resultType">
+        <%
+            java.util.Set<String> resulTypes=new HashSet<>();
+            for(Plot p:plots){
+                if(p.getTitle()!=null){
+                    resulTypes.add(p.getTitle());
+                }
+            }
+            StringBuilder resultTitle=new StringBuilder();
+            boolean first=true;
+            for(String r:resulTypes){
+                if(first) {
+                    resultTitle.append(r);
+                    first=false;
+                }
+                else resultTitle.append("/").append(r);
+            }
+            if(resultTitle.equals("")){
+                resultTitle.append("Efficiency");
+            }
+        %>
+        <h4 class="page-header" style="color:grey;"><%=resultTitle.toString()%></h4>
+        <%   for(Plot plot:plots){
+            String resultType=plot.getTitle();
+            if(resultType!=null && !resultType.equals("")){%>
 
+        <h6 style="color:#2a6496;">Experiment: <a href="/toolkit/data/experiments/experiment/<%=plot.getExperiment().getExperimentId()%>"><%=plot.getExperiment().getName()%></a></h6>
+        <%if(plot.getComparableObjects().size()>0){%>
+        <div>Comparable Editors:
+
+            <%     for(Object object:plot.getComparableObjects()){
+                if( object instanceof Editor){
+                    Editor cEditor= (Editor) object;
+            %>
+            <a href="/toolkit/data/editors/editor?id=<%=cEditor.getId()%>"><%=cEditor.getSymbol()%></a>&nbsp;
+            <% } }%>
+        </div>
+        <% }%>
+        <%@include file="plot.jsp"%>
+        <hr>
+        <%}}%>
+    </div>
+
+    <%  }%>
     <div id="associatedStudies">
         <jsp:include page="associatedStudies.jsp"/>
     </div>
