@@ -91,15 +91,19 @@
 <script>
     function openNav() {
         if (document.getElementById("mySidenav").style.width == "300px") {
-            document.getElementById("recordTableContent").style.left="0px";
-            document.getElementById("recordTableContent").style.width="100%";
+            //document.getElementById("recordTableContent").style.left="0px";
+            //document.getElementById("recordTableContent").style.width="100%";
+            document.getElementById("site-wrapper").style.left="0px";
+            document.getElementById("site-wrapper").style.width="100%";
             document.getElementById("filterOpen").style.visibility="visible";
             document.getElementById("filterClose").style.visibility="hidden";
             closeNav();
         }else {
             document.getElementById("mySidenav").style.width = "300px";
-            document.getElementById("recordTableContent").style.left="300px";
-            document.getElementById("recordTableContent").style.width="75%";
+            //document.getElementById("recordTableContent").style.left="300px";
+            //document.getElementById("recordTableContent").style.width="75%";
+            document.getElementById("site-wrapper").style.left="300px";
+            document.getElementById("site-wrapper").style.width="75%";
             document.getElementById("filterClose").style.visibility="visible";
             document.getElementById("filterOpen").style.visibility="hidden";
         }
@@ -116,9 +120,13 @@
 
 <style>
     .recordFilterBlock {
-        eight:250px;
+        max-height:250px;
+        width: 200px;
         border: 0px solid #818181;
-        padding:5px;
+        padding-left:5px;
+        padding-right:5px;
+        padding-top:7px;
+        padding-bottom:12px;
         overflow-y:auto;
 
     }

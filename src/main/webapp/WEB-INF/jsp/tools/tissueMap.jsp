@@ -95,6 +95,7 @@
         List<Double> resultDetails = new ArrayList<>();
         Set<String> labelDetails = new TreeSet<>();
         HashMap<String,String> tissueNames = new HashMap<>();
+        HashMap<String,String> tissueLabels = new HashMap<>();
         List<ExperimentResultDetail> qualResults = new ArrayList<>();
         int noOfRecords = experimentRecords.size();
         int noOfEditors = 0;
@@ -136,11 +137,18 @@
             }
             String tissueTerm = er.getTissueTerm();
             String cellType = er.getCellTypeTerm();
+
+
             String tissueName = "\"" + organSystem + ">" + tissueTerm + ">";
             if (cellType != null && !cellType.equals(""))
                 tissueName += cellType + "\"";
             else tissueName += "\"";
             tissueNames.put(tissueName,er.getTissueTerm()+","+er.getCellTypeTerm());
+
+            String tissueLabel = organSystem + "<br><br>" + tissueTerm + "<br><br>";
+            if (cellType != null && !cellType.equals(""))
+                tissueLabel += cellType;
+            tissueLabels.put(tissueName,tissueLabel);
 
 
             for (ExperimentResultDetail erd : erdList) {
@@ -226,10 +234,10 @@
                     for (String tissue: rootTissues.keySet()) {
                 %>
                 <% if (first) { %>
-                <div class="tissue-control-header-first"><a href=""><%=tissue%></a></div>
+                <div class="tissue-control-header-first"><%=tissue%></div>
                 <% first = false; %>
                 <% } else { %>
-                <div class="tissue-control-header"><a href=""><%=tissue%></a></div>
+                <div class="tissue-control-header"><%=tissue%></div>
                 <% } %>
                 <%  } %>
             </td>
@@ -288,7 +296,7 @@
             }
     %>
     <tr>
-        <td><b><%=tissueName%></b></td>
+        <td width="250"><span style="font-size:16px; font-weight:700;"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span></td>
         <td>
             <% if (tissueDeliveryConditions.containsKey(tissueName)) {%>
             <a href= "<%=deliveryurl%>">
