@@ -140,11 +140,13 @@
                             <img src="/toolkit/images/guideIcon.png" width="30" height="30" alt="" />
                             Vectors &nbsp; <span class="object-count"><%=sdao.getVectorCount()%></span>                       </a>
                     </li>
+                    <!--
                     <li class="nav-item">
                         <a class="nav-link text-secondary" href="/toolkit/data/experiments/search">
                             <img src="/toolkit/images/experimentIcon.png" width="30" height="30" alt="" />
                             Experiments&nbsp;<span class="object-count"><%=sdao.getExperimentCount()%></span>                        </a>
                     </li>
+                    -->
 
 
                     <!--li class="nav-item">
@@ -165,6 +167,7 @@
         <!-- end studies by initiative card -->
     </div>
 </div>
+<!--
 <div class="row">
     <div class=" col-sm-3">
 <div class="card " >
@@ -172,7 +175,7 @@
         Quick Links
     </div>
     <div class="card-body">
-        <!--ul class="nav flex-column mb-2">
+        ul class="nav flex-column mb-2">
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <span data-feather="layers"></span>
@@ -197,7 +200,7 @@
                 </a>
             </li>
 
-        </ul-->
+        </ul>
     </div>
 </div>
     </div>
@@ -207,7 +210,7 @@
             Updates/Upcoming Features ..
         </div>
         <div class="card-body">
-            <!--ul class="nav flex-column mb-2">
+            ul class="nav flex-column mb-2">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <span data-feather="layers"></span>
@@ -227,11 +230,12 @@
                     </a>
                 </li>
 
-            </ul-->
+            </ul>
         </div>
     </div>
     </div>
 </div>
+-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 
 <script>
