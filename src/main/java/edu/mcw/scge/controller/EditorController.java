@@ -105,9 +105,19 @@ public class EditorController {
         }
         req.setAttribute("vectorMap", vectorMap);
         /*************************************************************/
+
         if(studies!=null && studies.size()>0) {
+            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
+            List<Experiment> assocatedExperiments=new ArrayList<>();
+
+            for(long id:associatedExperimentIds){
+                assocatedExperiments.add(experimentDao.getExperiment(id));
+            }
+            req.setAttribute("associatedExperiments", assocatedExperiments);
+
             List<Object> comparableEditors=new ArrayList<>();
             List<Experiment> experiments=new ArrayList<>();
+
             for (Study study : studies) {
                  experiments.addAll(experimentDao.getExperimentsByStudy(study.getStudyId()));
                 for (Experiment experiment : experiments) {
@@ -118,7 +128,7 @@ public class EditorController {
 
                 }
             }
-            req.setAttribute("experiments", experiments);
+
             req.setAttribute("comparableEditors", comparableEditors);
         }
         /*************************************************************/

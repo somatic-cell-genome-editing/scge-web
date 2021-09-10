@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: jthota
+  Date: 9/8/2021
+  Time: 3:16 PM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
@@ -14,74 +21,27 @@
         });
     });
 </script>
-<h4 class="page-header" style="color:grey;">Associated SCGE Experiment Records</h4>
+<h4 class="page-header" style="color:grey;">Associated SCGE Experiments</h4>
 <%
-        List<ExperimentRecord> experiments = (List<ExperimentRecord>) request.getAttribute("experimentRecords");
-        Study study = (Study) request.getAttribute("study");
-        Access localStudyAccess = new Access();
-        Person localStudyPerson = new UserService().getCurrentUser(request.getSession());
-        StudyDao sdao = new StudyDao();
+    List<Experiment> experiments = (List<Experiment>) request.getAttribute("associatedExperiments");
+    if(experiments!=null && experiments.size()>0){
 
         //out.println(experiments.size());
-        %>
-    <table id="myTable-2" class="tablesorter">
-        <thead>
-        <tr>
-            <th>Study</th>
-            <th>Name</th>
-            <th>Tissue</th>
-            <th>Cell Type</th>
-            <th>Editor</th>
-            <th>Model</th>
-            <th>Delivery System</th>
-            <th>Vector</th>
-            <th>Guide</th>
-            <th>Record ID</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% HashMap<Integer,List<Guide>> guideMap = (HashMap<Integer,List<Guide>>)request.getAttribute("guideMap");
-        HashMap<Integer,List<Vector>> vectorMap = (HashMap<Integer,List<Vector>>)request.getAttribute("vectorMap");
-            for (ExperimentRecord exp: experiments) {
-                List<Guide> guideList = guideMap.get(exp.getExperimentRecordId());
-                String guide = "";
-                for(Guide g: guideList) {
-                    System.out.println("here 3");
-                    guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+SFN.parse(g.getGuide())+"</a>";
-                    guide += ";\t";
-                }
-                List<Vector> vectorList = vectorMap.get(exp.getExperimentRecordId());
-                String vector = "";
-                for(Vector v: vectorList) {
+%>
+<table id="myTable-2" class="tablesorter">
+    <thead>
+    <tr>
+        <th>Experiment Name</th>
 
-                    vector += "<a href=\"/toolkit/data/vector/format?id="+v.getVectorId()+"\">"+SFN.parse(v.getName())+"</a>";
-                    vector += ";\t";
-                }
-        %>
-                <%
-                    List<Study> studies = sdao.getStudyById(exp.getStudyId());
 
-                    if (studies.size() > 0 ) {
+    </tr>
+    </thead>
+    <tbody>
+    <%
+        for (Experiment exp: experiments) {%>
+    <tr><td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td></tr>
+    <% } %>
+    </tbody>
+</table>
 
-                    Study s = studies.get(0);%>
-                <% if(localStudyAccess.hasStudyAccess(s,localStudyPerson)) { %>
-                    <tr>
-                        <!--td><input class="form" type="checkbox"></td-->
-
-                        <td><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=SFN.parse(s.getStudy())%></a></td>
-                        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>"><%=SFN.parse(exp.getExperimentName())%></a></td>
-                        <td><%=SFN.parse(exp.getTissueId())%></td>
-                        <td><%=SFN.parse(exp.getCellType())%></td>
-                        <td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td>
-                        <td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td>
-                        <td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemType())%></a></td>
-                        <td><%=vector%></td>
-                        <td><%=guide%></td>
-                        <td><%=exp.getExperimentRecordId()%></td>
-                    </tr>
-                <% } %>
-                <% } %>
-        <% } %>
-        </tbody>
-    </table>
-
+<%}%>

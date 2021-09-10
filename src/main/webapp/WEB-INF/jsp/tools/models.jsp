@@ -54,7 +54,6 @@
         <th>Name</th>
         <th>Model Type</th>
         <th>Subtype</th>
-        <th>Alias</th>
         <th>Species</th>
         <th>SCGE ID</th>
     </tr>
@@ -75,7 +74,6 @@
         <td><%=model.getType()%></td>
         <td><%=SFN.parse(model.getSubtype())%></td>
         <td><%=model.getOrganism()%></td>
-        <td></td>
         <td><%=model.getModelId()%></td>
     </tr>
     <% } %>

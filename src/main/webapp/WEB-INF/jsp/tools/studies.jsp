@@ -57,7 +57,7 @@
     ExperimentRecordDao erdao = new ExperimentRecordDao();
 %>
 <c:if test="${action!='Dashboard'}">
-<table align="center">
+<!--table align="center">
     <tr>
         <td align="center"><img height="100" width="100" src="/toolkit/images/studyIcon.png" border="0"/></td>
         <td align="center">
@@ -67,7 +67,7 @@
             </form>
         </td>
     </tr>
-</table>
+</table-->
 </c:if>
 <br>
 
