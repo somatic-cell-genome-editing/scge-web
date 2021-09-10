@@ -60,7 +60,7 @@
 
     <a href="#associatedStudies">Associated Studies</a>
     <a href="#associatedExperiments">Associated Experiments</a>
-    <a href="#publications">Related Publications</a>
+    <!--a href="#publications">Related Publications</a-->
 
 
 </div>
@@ -187,8 +187,8 @@
     <div id="associatedExperiments">
         <jsp:include page="associatedExperiments.jsp"/>
     </div>
-    <div id="publications">
+    <!--div id="publications">
         <h4 class="page-header" style="color:grey;">Related Publications</h4>
         Coming soon...
-    </div>
+    </div-->
 </main>
