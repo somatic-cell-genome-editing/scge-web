@@ -19,55 +19,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-<style>
-    .table{
-        border:1px solid white;
-    }
-    .table td, .table th{
+<link href="/toolkit/css/reportPage.css" rel="stylesheet" type="text/css"/>
 
-        border-color: transparent;
-
-    }
-    .header{
-        width:30%;
-        background-color: aliceblue;
-        padding-left: 20px;
-        font-weight: bold;
-    }
-    .summary tr th, .summary tr td{
-
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-    .sidenav {
-        width: auto;
-        position: fixed;
-        z-index: 1;
-        overflow-x: hidden;
-
-    }
-
-    .sidenav a {
-        padding: 6px 8px 6px 16px;
-        text-decoration: none;
-        font-size: 15px;
-        color: #2196F3;
-        display: block;
-    }
-
-    .sidenav a:hover {
-        color: #064579;
-    }
-    .header{
-        white-space: nowrap;
-
-    }
-    .scge-details-label{
-        color:#2a6496;
-        font-weight: bold;
-    }
-
-</style>
 <script>
     $(function() {
         $("#myTable").tablesorter({
