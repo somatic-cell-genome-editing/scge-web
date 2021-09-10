@@ -83,9 +83,10 @@
 
 </div>
 <main role="main" class="col-md-10 ml-sm-auto px-4"  >
-
-<div class="d-flex bg-light" id="summary" >
+    <div id="summary">
     <h4 class="page-header" style="color:grey;">Summary</h4>
+
+<div class="d-flex bg-light" >
 
     <div class="p-2">
         <table class="table table-sm summary">
@@ -157,7 +158,7 @@
     </div>
 
 </div>
-
+</div>
     <hr>
 
 
@@ -306,7 +307,7 @@
         <% } %>
         <h4 class="page-header" style="color:grey;">Specificity</h4>
         <table class="table" style="width:80%">
-            <tr ><td style="width:50%">
+            <tr > <td style="width:50%">
                 <table class="table report-section">
                     <tr><th style="width:50%">Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
             </table>
