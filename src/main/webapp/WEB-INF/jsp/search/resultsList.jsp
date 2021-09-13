@@ -27,7 +27,7 @@
             }
 
         })
-            $('.btn').on("focus", function () {
+            .on("focus", function () {
             $(this).popover("show");
         }).on("focusout", function () {
             var _this = this;
@@ -165,7 +165,7 @@
                 <!--span><a href="$-{hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">Associated Experiments:&nbsp;${hit.sourceAsMap.experimentCount}</a></span> <br-->
             <!--/c:if-->
 
-                <!--div  class="more hideContent" style="overflow-y: auto">
+                <div  class="more hideContent" style="overflow-y: auto">
                     <strong style="text-decoration: underline">Matched on:</strong>
                     <c:set value="true" var="first"/>
                     <c:forEach items="${hit.highlightFields}" var="hf">
@@ -175,7 +175,7 @@
                         </c:forEach>
                         <br>
                     </c:forEach>
-                </div-->
+                </div>
 
         </div>
     </td></tr>
