@@ -7,7 +7,8 @@
 --%>
 <style>
     .header{
-        font-weight: bold;
+        font-size: .9rem;
+        color:slategrey;
     }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -15,39 +16,70 @@
 <script>
     $(function() {
         $("#myTable").tablesorter({
-            theme : 'blue'
+            theme: 'blue'
 
         });
         $('[data-toggle="popover"]').popover({
-            html : true
+            html: true,
+            content: function () {
+                var content = $(this).attr("data-popover-content");
+                return $(content).children(".popover-body").html();
+            }
 
         })
-    });
+            $('.btn').on("focus", function () {
+            $(this).popover("show");
+        }).on("focusout", function () {
+            var _this = this;
+            if (!$(".popover:hover").length) {
+                $(this).popover("hide");
+            } else {
+                $('.popover').mouseleave(function () {
+                    $(_this).popover("hide");
+                    $(this).off('mouseleave');
+                });
+            }
+        });
+    })
+
 </script>
 <h4>${sr.hits.totalHits} <c:if test="${category!=null}">&nbsp;in ${category}</c:if> </h4>
 <table class="table table-striped">
     <c:forEach items="${sr.hits.hits}" var="hit">
     <tr><td>
         <div>
-            <div class="row">
-                <div class="col-10">
+            <div>
+                <div >
             <c:if test="${hit.sourceAsMap.name!=null}">
-            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp;</h6>
+            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
+            <c:if test="${hit.sourceAsMap.type!=null}">
+               -  ${hit.sourceAsMap.type}
+            </c:if>
+            </small></h6>
             </c:if>
             <c:if test="${hit.sourceAsMap.symbol!=null}">
-            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a></h6>
+            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
+            </small></h6>
             </c:if>
                 </div>
-                <div class="col-2" align="right">
-                <small class="text-muted">${hit.sourceAsMap.category}</small>
-                </div>
+
             </div>
             <c:if test="${hit.sourceAsMap.description!=null}">
-                <span><span class="header">Description:</span>&nbsp;${hit.sourceAsMap.description}</span><br>
+                <span><span class="header"><strong>Description:</strong></span>&nbsp;${hit.sourceAsMap.description}</span><br>
+            </c:if>
+            <!--c:if test="$-{hit.sourceAsMap.type!=null}"-->
+                <!--span><span class="header">$-{hit.sourceAsMap.category}&nbsp;Type:&nbsp;</span> $-{hit.sourceAsMap.type}</span><br-->
+            <!--/c:if-->
+            <c:if test="${hit.sourceAsMap.subType!=null}">
+                <span><span class="header"><strong>${hit.sourceAsMap.category}&nbsp;SubType:</strong></span>&nbsp;${hit.sourceAsMap.subType}</span> <br>
+            </c:if>
+
+            <c:if test="${hit.sourceAsMap.species!=null}">
+                <span><span class="header"><strong>Species:</strong></span>&nbsp;${hit.sourceAsMap.species}</span> <br>
             </c:if>
             <c:if test="${hit.sourceAsMap.target!=null}">
                 <c:set var="first" value="true"/>
-                <span><span class="header">Target :</span>
+                <span><span class="header"><strong>Target :</strong></span>
                 <c:forEach items="${hit.sourceAsMap.target}" var="item">
                     <c:choose>
                         <c:when test="${first=='true'}">
@@ -64,37 +96,68 @@
                 </span> <br>
             </c:if>
             <c:if test="${hit.sourceAsMap.studyNames!=null}">
-                <span><span class="header">Associated Studies:</span>&nbsp;<a href="">${fn:length(hit.sourceAsMap.studyNames)}</a></span>
+                <span class="header"><strong>Associated Studies:</strong></span>
 
-                <br>
+                <button type="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.id}" title="Studies" style="background-color: transparent">
+                    <span style="text-decoration:underline">${fn:length(hit.sourceAsMap.studyNames)}</span>
+                </button>
+                <div style="display: none" id="popover-study-${hit.sourceAsMap.id}">
+                    <div class="popover-body">
+                        <c:set var="first" value="true"/>
+                        <c:forEach items="${hit.sourceAsMap.studyNames}" var="map">
+                            <c:choose>
+                                <c:when test="${first=='true'}">
+                                    <a href="/toolkit/data/experiments/study/${map.key}">${map.value}</a>
+                                    <c:set var="first" value="false"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <hr>
+                                    <a href="/toolkit/data/experiments/study/${map.key}">${map.value}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </div>
+                </div>
             </c:if>
             <c:if test="${hit.sourceAsMap.experimentNames!=null}">
-                <span class="header">Associated Experiments:&nbsp;</span>&nbsp;<a href="">${fn:length(hit.sourceAsMap.experimentNames)}</a>
-                <div id="popover-content">
-                <c:forEach items="${hit.sourceAsMap.experimentNames}" var="map">
-                    <a href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a>&nbsp;
-                </c:forEach>
-                <br>
-                </div>
-                <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom" data-content='
-                <a href="/toolkit/data/experiments/experiment/18000000013">Experiment</a>'>
-                    Popover on bottom
+                <span class="header"><strong>Associated Experiments:</strong></span>
+                <!--a  data-placement="top" data-popover-content="#popover-${hit.sourceAsMap.id}" data-toggle="popover" data-trigger="focus" href="" tabindex="0"> $-{fn:length(hit.sourceAsMap.experimentNames)}</a-->
+
+                <button type="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${hit.sourceAsMap.id}" title="Experiments" style="background-color: transparent">
+                    <span style="text-decoration:underline">${fn:length(hit.sourceAsMap.experimentNames)}</span>
                 </button>
+                <div style="display: none" id="popover-${hit.sourceAsMap.id}">
+                    <div class="popover-body">
+                        <c:set var="first" value="true"/>
+                        <c:forEach items="${hit.sourceAsMap.experimentNames}" var="map">
+                            <c:choose>
+                            <c:when test="${first=='true'}">
+                            <a href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a>
+                                <c:set var="first" value="false"/>
+                            </c:when>
+                                <c:otherwise>
+                                    <hr>
+                                    <a href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </div>
+                </div>
             </c:if>
             <c:if test="${hit.sourceAsMap.study.study!=null}">
-                <span class="header">Study:&nbsp;</span>
-                <a href="/toolkit/data/experiments/study/${hit.sourceAsMap.study.studyId}">${hit.sourceAsMap.study.study}</a><br>
-            </c:if>
-            <c:if test="${hit.sourceAsMap.type!=null}">
-                <span><span class="header">${hit.sourceAsMap.category}&nbsp;Type:&nbsp;</span> ${hit.sourceAsMap.type}</span><br>
-            </c:if>
-            <c:if test="${hit.sourceAsMap.subType!=null}">
-                <span><span class="header">${hit.sourceAsMap.category}&nbsp;SubType:</span>&nbsp;${hit.sourceAsMap.subType}</span> <br>
+                <span class="header"><strong>Associated Studies:</strong></span>
+                <!--a href="/toolkit/data/experiments/study/$-{hit.sourceAsMap.study.studyId}">$-{hit.sourceAsMap.study.study}</a><br-->
+                <button type="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.study.studyId}" title="Studies" style="background-color: transparent">
+                    <span style="text-decoration:underline">1</span>
+                </button>
+                <div style="display: none" id="popover-study-${hit.sourceAsMap.study.studyId}">
+                    <div class="popover-body">
+                        <a href="/toolkit/data/experiments/study/${hit.sourceAsMap.study.studyId}">${hit.sourceAsMap.study.study}</a>
+
+                    </div>
+                </div>
             </c:if>
 
-            <c:if test="${hit.sourceAsMap.species!=null}">
-                <span><span class="header">Species:</span>&nbsp;${hit.sourceAsMap.species}</span> <br>
-            </c:if>
 
 
             <!--c:if test="$-{hit.sourceAsMap.experimentCount>0}"-->
