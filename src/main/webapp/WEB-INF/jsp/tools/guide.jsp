@@ -1,11 +1,13 @@
-<%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
-<%@ page import="edu.mcw.scge.datamodel.Editor" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
-<%@ page import="edu.mcw.scge.datamodel.OffTarget" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="com.google.gson.Gson" %>
+<%@ page import="edu.mcw.scge.datamodel.*" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.TreeSet" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -15,8 +17,9 @@
   Time: 4:25 PM
   To change this template use File | Settings | File Templates.
 --%>
+<link href="/toolkit/css/reportPage.css" rel="stylesheet" type="text/css"/>
 
-<style>
+<!--style>
     .table{
         border:1px solid white;
     }
@@ -45,17 +48,20 @@
         color: #064579;
     }
 
-</style>
+</style-->
 
 <% Guide g = (Guide) request.getAttribute("guide"); %>
 <% List<Editor> relatedEditors = (List<Editor>) request.getAttribute("editors");
     List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
+    List<OffTargetSite> offTargetSites = (List<OffTargetSite>) request.getAttribute("offTargetSites");
+
 %>
 
 
 
 
 <div class="col-md-2 sidenav bg-light">
+    <input type="hidden" id="otherGuides" value="">
 
         <a href="#summary">Summary</a>
 
@@ -77,54 +83,62 @@
 
 </div>
 <main role="main" class="col-md-10 ml-sm-auto px-4"  >
+    <div id="summary">
     <h4 class="page-header" style="color:grey;">Summary</h4>
 
-<div class="d-flex bg-light" id="summary" >
+<div class="d-flex bg-light" >
+
     <div class="p-2">
-        <table class="table">
+        <table class="table table-sm summary">
+            <%if(!SFN.parse(g.getGrnaLabId()).equals("")){%>
+            <tr ><th class="header">Lab Id</th><td>&nbsp;<%=SFN.parse(g.getGrnaLabId())%></td></tr>
+            <%}%>
+            <%if(!SFN.parse(g.getSpecies()).equals("")){%>
+            <tr ><th class="header">Species</th><td>&nbsp;<%=SFN.parse(g.getSpecies())%></td></tr>
+            <%}%>
             <%if(!SFN.parse(g.getTargetLocus()).equals("")){%>
-        <tr ><th  class="field-name" >Target Locus</th><td>&nbsp;<%=SFN.parse(g.getTargetLocus())%></td></tr>
+        <tr ><th  class="header" >Target Locus</th><td>&nbsp;<%=SFN.parse(g.getTargetLocus())%></td></tr>
         <%}%>
             <%if(!SFN.parse(g.getTargetSequence()).equals("")){%>
-            <tr ><th>Target Sequence</th><td>&nbsp;<%=SFN.parse(g.getTargetSequence())%></td></tr>
+            <tr ><th class="header">Target Sequence</th><td>&nbsp;<%=SFN.parse(g.getTargetSequence())%></td></tr>
             <%}%>
             <%if(!SFN.parse(g.getPam()).equals("")){%>
 
-            <tr ><th style=" white-space: nowrap;">Target Sequence&nbsp;+ PAM</th><td>&nbsp;<%=SFN.parse(g.getPam())%></td></tr>
+            <tr ><th class="header" style=" white-space: nowrap;">Target Sequence&nbsp;+ PAM</th><td>&nbsp;<%=SFN.parse(g.getPam())%></td></tr>
             <%}%>
             <%if(!SFN.parse(g.getAssembly()).equals("")){%>
-            <tr ><th>Assembly</th><td>&nbsp;<%=SFN.parse(g.getAssembly())%></td></tr>
+            <tr ><th class="header">Assembly</th><td>&nbsp;<%=SFN.parse(g.getAssembly())%></td></tr>
             <%}%>
                 <%if(!SFN.parse(g.getStrand()).equals("")){%>
-            <tr ><th >Strand</th><td>&nbsp;<%=SFN.parse(g.getStrand())%></td></tr>
+            <tr ><th class="header" >Strand</th><td>&nbsp;<%=SFN.parse(g.getStrand())%></td></tr>
             <%}%>
             <% if(g.getChr()!=null && g.getStart()!=null && g.getStop()!=null){%>
 
-            <tr><th>Guide Location:</th><td>&nbsp;<%=g.getChr()+":"+g.getStart()+".."+g.getStop()%></td></tr>
+            <tr><th class="header">Guide Location:</th><td>&nbsp;<%=g.getChr()+":"+g.getStart()+".."+g.getStop()%></td></tr>
             <%}%>
             <% if(g.getGuideDescription()!=null && !g.getGuideDescription().equals("")){%>
         <tr ><th >Description</th><td>&nbsp;<%=SFN.parse(g.getGuideDescription())%></td></tr>
         <%}%>
 
-                <tr ><th >Spacer Sequence</th><td>&nbsp;<%=SFN.parse(g.getSpacerSequence())%></td></tr>
-                <tr ><th >Spacer Length</th><td>&nbsp;<%=SFN.parse(g.getSpacerLength())%></td></tr>
+                <tr ><th class="header" >Spacer Sequence</th><td>&nbsp;<%=SFN.parse(g.getSpacerSequence())%></td></tr>
+                <tr ><th class="header">Spacer Length</th><td>&nbsp;<%=SFN.parse(g.getSpacerLength())%></td></tr>
                 <% if(!SFN.parse(g.getModifications()).equals("")){%>
-                <tr ><th >Modifications</th><td>&nbsp;<%=SFN.parse(g.getModifications())%></td></tr>
+                <tr ><th class="header" >Modifications</th><td>&nbsp;<%=SFN.parse(g.getModifications())%></td></tr>
                 <%}%>
                 <% if(!SFN.parse(g.getRepeatSequence()).equals("")){%>
-                <tr ><th >Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getRepeatSequence())%></td></tr>
+                <tr ><th class="header">Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getRepeatSequence())%></td></tr>
                 <%}%>
                 <% if(!SFN.parse(g.getAntiRepeatSequence()).equals("")){%>
-                <tr ><th >Anti-Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getAntiRepeatSequence())%></td></tr>
+                <tr ><th class="header">Anti-Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getAntiRepeatSequence())%></td></tr>
                 <%}%>
                 <% if(!SFN.parse(g.getStemloop1Sequence()).equals("")){%>
-                <tr ><th >Stemloop 1 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop1Sequence())%></td></tr>
+                <tr ><th class="header">Stemloop 1 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop1Sequence())%></td></tr>
                 <%}%>
                 <% if(!SFN.parse(g.getStemloop2Sequence()).equals("")){%>
-                <tr ><th >Stemloop 2 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop2Sequence())%></td></tr>
+                <tr ><th class="header">Stemloop 2 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop2Sequence())%></td></tr>
                 <%}%>
                 <% if(!SFN.parse(g.getStemloop3Sequence()).equals("")){%>
-                <tr ><th >Stemloop 3 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop3Sequence())%></td></tr>
+                <tr ><th class="header">Stemloop 3 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop3Sequence())%></td></tr>
                 <%}%>
 
     </table>
@@ -135,9 +149,8 @@
             <div class="card-header">Guide</div>
             <div class="card-body">
         <table >
-            <tr ><th >SCGE ID</th><td>&nbsp;<%=g.getGuide_id()%></td></tr>
-            <tr ><th >Name</th><td>&nbsp;<%=SFN.parse(g.getGrnaLabId())%></td></tr>
-            <tr ><th >Species</th><td>&nbsp;<%=SFN.parse(g.getSpecies())%></td></tr>
+            <tr ><th class="scge-details-label">SCGE ID</th><td>&nbsp;<%=g.getGuide_id()%></td></tr>
+
         </table>
             </div>
         </div>
@@ -145,7 +158,7 @@
     </div>
 
 </div>
-
+</div>
     <hr>
 
 
@@ -169,6 +182,7 @@
         var chr='<%=g.getChr().replace("chr", "")%>';
         var start="<%=g.getStart()%>";
         var stop="<%=g.getStop()%>";
+        var guideId="<%=g.getGuide_id()%>";
         var guide='<%=new Gson().toJson(g)%>';
 
     </script>
@@ -183,13 +197,21 @@
    <% if(relatedEditors!=null && relatedEditors.size()>0){%>
     <div id="editor">
     <h4 class="page-header" style="color:grey;">Related Editor</h4>
-    <table class="table">
-        <tr><td >Related Editors</td>
-            <td>
-                <%for (Editor relatedEditor: relatedEditors) { %>
-                <a href="/toolkit/data/editors/editor?id=<%=relatedEditor.getId()%>" ><%=UI.replacePhiSymbol(relatedEditor.getSymbol())%></a><br>
-                <% } %>
+    <table class="table report-section" style="width:80%">
+        <tr>
+            <td style="width:50%" >
+                <table class="table report-section" style="width:100%">
+                    <tr>
+                        <td style="width:50%"> Related Editors</td>
+                        <td >
+                                <%for (Editor relatedEditor: relatedEditors) { %>
+                            <a href="/toolkit/data/editors/editor?id=<%=relatedEditor.getId()%>" ><%=UI.replacePhiSymbol(relatedEditor.getSymbol())%></a><br>
+                            <% } %>
+                        </td>
+                    </tr>
+                </table>
             </td>
+            <td style="width:50%" ></td>
         </tr>
     </table>
 
@@ -197,26 +219,25 @@
     <hr>
     <%}%>
 
-
     <%if(!SFN.parse(g.getVectorId()).equals("")){%>
     <div id="vector">
         <h4 class="page-header" style="color:grey;">Vector Details</h4>
-        <table>
+        <table style="width:80%">
             <tr>
-                <td>
-                    <table class="table">
+                <td style="width:50%">
+                    <table class="table report-section" style="width:100%">
 
-                        <tr ><td >Ivt Construct Source</td><td><%=SFN.parse(g.getIvtConstructSource())%></td></tr>
-                        <tr ><td >Vector Id</td><td><%=SFN.parse(g.getVectorId())%></td></tr>
-                        <tr ><td >Vector Name</td><td><%=SFN.parse(g.getVectorName())%></td></tr>
-                        <tr ><td >Vector Description</td><td><%=SFN.parse(g.getVectorDescription())%></td></tr>
-                        <tr ><td >Vector Type</td><td><%=SFN.parse(g.getVectorType())%></td></tr>
+                        <tr ><td style="width:50%" >Ivt Construct Source</td><td><%=SFN.parse(g.getIvtConstructSource())%></td></tr>
+                        <tr ><td style="width:50%" >Vector Id</td><td><%=SFN.parse(g.getVectorId())%></td></tr>
+                        <tr ><td style="width:50%">Vector Name</td><td><%=SFN.parse(g.getVectorName())%></td></tr>
+                        <tr ><td style="width:50%">Vector Description</td><td><%=SFN.parse(g.getVectorDescription())%></td></tr>
+                        <tr ><td style="width:50%">Vector Type</td><td><%=SFN.parse(g.getVectorType())%></td></tr>
 
-                        <tr ><td >Annotated Map</td><td><%=SFN.parse(g.getAnnotatedMap())%></td></tr>
+                        <tr ><td style="width:50%" >Annotated Map</td><td><%=SFN.parse(g.getAnnotatedMap())%></td></tr>
 
                     </table>
                 </td>
-                <td>
+                <td style="width:50%">
                     <%
                         objectId = g.getGuide_id();
                         objectType= ImageTypes.GUIDE;
@@ -233,14 +254,34 @@
     </div>
     <hr>
     <%}%>
+    <%HashMap<String,Integer> changeSeq = new HashMap<>();
+        Set<String> labels = new TreeSet<>();
+        HashMap<String,Integer> guideSeq = new HashMap<>();
+		boolean guideData = false;
+        if(offTargets!=null && offTargets.size()>0){
+            for(OffTargetSite o:offTargetSites){
+                String label = o.getChromosome() +"-"+ o.getStart();
+                if(o.getSeqType().equalsIgnoreCase("Change_seq")) {
+                    changeSeq.put(label, o.getNoOfReads());
+                    if(!guideSeq.containsKey(label))
+                        guideSeq.put(label,null);
+                } else {
+					guideData = true;
+                    guideSeq.put(label,o.getNoOfReads());
+                    if(!changeSeq.containsKey(label))
+                        changeSeq.put(label,null);
+                }
+                labels.add(label);
+            }
+    %>
     <%if(offTargets!=null && offTargets.size()>0){%>
     <div id="offTargets">
         <h4 class="page-header" style="color:grey;">Off Targets</h4>
-        <table>
+        <table style="width:80%">
             <tr>
-                <td>
-                    <table class="table" >
-                        <tr><th>Detection Method</th><th>No. of sites detected</th></tr>
+                <td style="width:50%">
+                    <table class="table report-section" >
+                        <tr><th style="width:50%">Detection Method</th><th style="width:50%">No. of sites detected</th></tr>
                         <%for (OffTarget offTarget: offTargets) { %>
                         <tr>
                             <td><%=offTarget.getDetectionMethod()%></td>
@@ -252,7 +293,7 @@
                     </table>
 
                 </td>
-                <td>
+                <td style="width:50%">
                     <%
                         objectId = g.getGuide_id();
                         objectType= ImageTypes.GUIDE;
@@ -263,16 +304,27 @@
 
                 </td>
             </tr>
-        </table>
 
+        </table>
+        <% } %>
         <h4 class="page-header" style="color:grey;">Specificity</h4>
-        <table class="table">
-            <tr ><th >Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
+        <table class="table" style="width:80%">
+            <tr > <td style="width:50%">
+                <table class="table report-section">
+                    <tr><th style="width:50%">Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
+            </table>
+            </td>
+                <td style="width:50%"></td>
+            </tr>
 
         </table>
     </div>
     <hr>
     <%}%>
+    <div class="chart-container" >
+        <h4 class="page-header" style="color:grey;">Off Target Sites</h4>
+        <canvas id="offTargetChart" style="position: relative; height:60vh; width:65vw;"></canvas>
+    </div>
     <div id="associatedStudies">
     <jsp:include page="associatedStudies.jsp"/>
     </div>
@@ -280,3 +332,83 @@
     <jsp:include page="associatedExperiments.jsp"/>
     </div>
 </main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+<script>
+    var ctx = document.getElementById("offTargetChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: <%= JSONValue.toJSONString(labels) %>,
+            datasets: [
+                {
+                    label: 'ChangeSeq',
+                    data: <%=changeSeq.values()%>,
+                    yAxisID: 'changeSeq',
+                    backgroundColor: 'rgba(6,69,121,1)',
+                    borderColor: 'rgba(6,69,121,1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'GuideSeq',
+                    data: <%=guideSeq.values()%>,
+                    yAxisID: 'guideSeq',
+                    backgroundColor: 'rgba(255,99,132,1)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        offsetGridLines: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Off target sites',
+                        fontSize: 14,
+                        fontStyle: 'bold',
+                        fontFamily: 'Calibri'
+                    },
+                },
+                ],
+                yAxes: [{
+                    id: 'changeSeq',
+                    type: 'linear',
+                    position: 'left',
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'No of Reads',
+                        fontSize: 14,
+                        fontStyle: 'bold',
+                        fontFamily: 'Calibri'
+                    },
+                },
+                    {
+                        id: 'guideSeq',
+                        type: 'linear',
+                        position: 'right',
+                        display: <%=guideData%>,
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'No of Reads',
+                            fontSize: 14,
+                            fontStyle: 'bold',
+                            fontFamily: 'Calibri'
+                        },
+                    }
+                ]
+            }
+        }
+    });
+</script>

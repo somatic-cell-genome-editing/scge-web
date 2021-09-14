@@ -58,7 +58,14 @@
                 <div  class="more hideContent" style="overflow-y: auto">
                     <c:set value="true" var="first"/>
                     <c:forEach items="${hit.highlightFields}" var="hf">
-                        <span style="font-weight: bold">${hf.key} -></span>
+                        <c:choose>
+                            <c:when test="${hf.key=='name.ngram'}">
+                                <span class="header" style="color:#2a6496;"><strong>Name -></strong></span>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="header" style="color:#2a6496;"><strong>${hf.key} -></strong></span>
+                            </c:otherwise>
+                        </c:choose>
                         <c:forEach items="${hf.value.fragments}" var="f">
                             ${f} ;
                         </c:forEach>
