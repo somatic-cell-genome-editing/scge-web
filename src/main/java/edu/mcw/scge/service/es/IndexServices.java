@@ -1,5 +1,6 @@
 package edu.mcw.scge.service.es;
 
+import edu.mcw.scge.web.SCGEContext;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -19,9 +20,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class IndexServices {
-    private static String searchIndex="scge_search_test";
+    private static String searchIndex;
     public SearchResponse getSearchResults(String category, String searchTerm, Map<String, String> filterMap,boolean DCCNIHMember) throws IOException {
-
+        searchIndex= SCGEContext.getESIndexName();
         SearchSourceBuilder srb=new SearchSourceBuilder();
         System.out.println("SEARCH TERM:"+searchTerm+"\tCategory:" +category);
         srb.query(this.buildBoolQuery(category, searchTerm, filterMap, DCCNIHMember));
