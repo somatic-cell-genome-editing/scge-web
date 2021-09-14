@@ -257,6 +257,7 @@
     <%HashMap<String,Integer> changeSeq = new HashMap<>();
         Set<String> labels = new TreeSet<>();
         HashMap<String,Integer> guideSeq = new HashMap<>();
+		boolean guideData = false;
         if(offTargets!=null && offTargets.size()>0){
             for(OffTargetSite o:offTargetSites){
                 String label = o.getChromosome() +"-"+ o.getStart();
@@ -265,6 +266,7 @@
                     if(!guideSeq.containsKey(label))
                         guideSeq.put(label,null);
                 } else {
+					guideData = true;
                     guideSeq.put(label,o.getNoOfReads());
                     if(!changeSeq.containsKey(label))
                         changeSeq.put(label,null);
@@ -343,6 +345,7 @@
                 {
                     label: 'ChangeSeq',
                     data: <%=changeSeq.values()%>,
+                    yAxisID: 'changeSeq',
                     backgroundColor: 'rgba(6,69,121,1)',
                     borderColor: 'rgba(6,69,121,1)',
                     borderWidth: 1
@@ -350,6 +353,7 @@
                 {
                     label: 'GuideSeq',
                     data: <%=guideSeq.values()%>,
+                    yAxisID: 'guideSeq',
                     backgroundColor: 'rgba(255,99,132,1)',
                     borderColor: 'rgba(255,99,132,1)',
                     borderWidth: 1
@@ -373,6 +377,9 @@
                 },
                 ],
                 yAxes: [{
+                    id: 'changeSeq',
+                    type: 'linear',
+                    position: 'left',
                     ticks: {
                         beginAtZero: true
                     },
@@ -383,7 +390,24 @@
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
                     },
-                }]
+                },
+                    {
+                        id: 'guideSeq',
+                        type: 'linear',
+                        position: 'right',
+                        display: <%=guideData%>,
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'No of Reads',
+                            fontSize: 14,
+                            fontStyle: 'bold',
+                            fontFamily: 'Calibri'
+                        },
+                    }
+                ]
             }
         }
     });
