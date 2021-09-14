@@ -320,11 +320,12 @@
         </table>
     </div>
     <hr>
-    <%}%>
+
     <div class="chart-container" >
         <h4 class="page-header" style="color:grey;">Off Target Sites</h4>
         <canvas id="offTargetChart" style="position: relative; height:60vh; width:65vw;"></canvas>
     </div>
+    <%}%>
     <div id="associatedStudies">
     <jsp:include page="associatedStudies.jsp"/>
     </div>
