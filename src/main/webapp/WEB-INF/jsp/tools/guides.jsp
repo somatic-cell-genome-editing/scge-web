@@ -17,7 +17,10 @@
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <style>
     td{
-        font-size: 12px;
+        display:table-cell
+    }
+    .tablesorter-childRow td{
+        background-color: lightcyan;
     }
 </style>
 <script>
@@ -55,9 +58,8 @@
     <tr>
         <th>Tier</th>
     <th>Name</th>
-    <th>Type</th>
-    <th>Subtype</th>
-    <td>Alias</td>
+    <th>Description</th>
+    <th>Format</th>
     <th>Target Locus</th>
     <td>Species</td>
     <td>SCGE ID</td>
@@ -70,9 +72,8 @@
     <tr>
         <td width="10"><%=g.getTier()%></td>
         <td><a href="/toolkit/data/guide/system?id=<%=g.getGuide_id()%>"><%=g.getGuide()%></a></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><%=SFN.parse(g.getGuideDescription())%></td>
+        <td><%=SFN.parse(g.getGuideFormat())%></td>
         <td><%=SFN.parse(g.getTargetLocus())%></td>
         <td><%=SFN.parse(g.getSpecies())%></td>
         <td><%=g.getGuide_id()%></td>
