@@ -40,6 +40,11 @@
                 });
             }
         });
+        $(".collapse").on('show.bs.collapse', function(){
+            $(this).prev(".card-header").find(".fas").removeClass("fa-angle-up").addClass("fa-angle-down");
+        }).on('hide.bs.collapse', function(){
+            $(this).prev(".card-header").find(".fas").removeClass("fa-angle-down").addClass("fa-angle-up");
+        });
     })
 
 </script>
@@ -55,12 +60,21 @@
             <c:if test="${hit.sourceAsMap.type!=null}">
                -  ${hit.sourceAsMap.type}
             </c:if>
-            </small></h6>
+            </small><button class="btn btn-sm" type="button" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
+                <i class="fas fa-angle-up"></i>
+            </button></h6>
             </c:if>
             <c:if test="${hit.sourceAsMap.symbol!=null}">
             <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
-            </small></h6>
+            </small><button class="btn  btn-sm" type="button" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
+                <i class="fas fa-angle-up"></i>
+            </button></h6>
             </c:if>
+                    <div class="collapse" id="highlights-${hit.sourceAsMap.id}">
+                        <div class="card card-body">
+                    <%@include file="highlights.jsp"%>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -165,17 +179,6 @@
                 <!--span><a href="$-{hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">Associated Experiments:&nbsp;${hit.sourceAsMap.experimentCount}</a></span> <br-->
             <!--/c:if-->
 
-                <div  class="more hideContent" style="overflow-y: auto">
-                    <strong style="text-decoration: underline">Matched on:</strong>
-                    <c:set value="true" var="first"/>
-                    <c:forEach items="${hit.highlightFields}" var="hf">
-                        <span style="font-weight: bold">${hf.key} -></span>
-                        <c:forEach items="${hf.value.fragments}" var="f">
-                            ${f} ;
-                        </c:forEach>
-                        <br>
-                    </c:forEach>
-                </div>
 
         </div>
     </td></tr>
