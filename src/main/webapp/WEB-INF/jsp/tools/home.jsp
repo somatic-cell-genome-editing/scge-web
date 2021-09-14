@@ -298,6 +298,11 @@
 
                     gridLines: {
                         offsetGridLines: true // à rajouter
+                    },
+                    ticks:{
+                        fontColor: "rgb(0,75,141)",
+                        autoSkip: false
+
                     }
                 },
                 ],
