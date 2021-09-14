@@ -60,14 +60,16 @@
             <c:if test="${hit.sourceAsMap.type!=null}">
                -  ${hit.sourceAsMap.type}
             </c:if>
-            </small><button class="btn btn-sm" type="button" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
-                <i class="fas fa-angle-up"></i>
+            </small>
+                
+                <button class="btn btn-sm" type="button" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
+              +
             </button></h6>
             </c:if>
             <c:if test="${hit.sourceAsMap.symbol!=null}">
             <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
             </small><button class="btn  btn-sm" type="button" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
-                <i class="fas fa-angle-up"></i>
+                +
             </button></h6>
             </c:if>
                     <div class="collapse" id="highlights-${hit.sourceAsMap.id}">
