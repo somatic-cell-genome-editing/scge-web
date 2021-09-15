@@ -3,6 +3,8 @@
 <%@ page import="edu.mcw.scge.datamodel.Delivery" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
+<%@ page import="edu.mcw.scge.configuration.UserService" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -56,13 +58,21 @@
         <th>SCGE ID</th>
     </tr>
     </thead>
+        <%
+            Access access = new Access();
+            UserService userService = new UserService();
 
-    <% for (Vector d: systems) { %>
+            for (Vector vector: systems) {
+
+      if (access.hasVectorAccess(vector, userService.getCurrentUser(request.getSession()))) {%>
+
+
     <tr>
-        <td><a href="/toolkit/data/vector/format/?id=<%=d.getVectorId()%>"><%=d.getName()%></a></td>
-        <td><%=d.getType()%></td>
-        <td><%=d.getSubtype()%></td>
-        <td><%=d.getVectorId()%></td>
+        <td><a href="/toolkit/data/vector/format/?id=<%=vector.getVectorId()%>"><%=vector.getName()%></a></td>
+        <td><%=vector.getType()%></td>
+        <td><%=vector.getSubtype()%></td>
+        <td><%=vector.getVectorId()%></td>
     </tr>
-        <% } %>
+        <% }
+            } %>
 </table>
