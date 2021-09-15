@@ -15,7 +15,10 @@
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <style>
     td{
-        font-size: 12px;
+        display:table-cell
+    }
+    .tablesorter-childRow td{
+        background-color: lightcyan;
     }
 </style>
 <script>
@@ -51,7 +54,7 @@
     <thead>
     <tr>
         <th>Name</th>
-        <th>Type</th>
+        <th>Source</th>
         <th>Subtype</th>
         <th>SCGE ID</th>
     </tr>
@@ -60,7 +63,7 @@
     <% for (Vector d: systems) { %>
     <tr>
         <td><a href="/toolkit/data/vector/format/?id=<%=d.getVectorId()%>"><%=d.getName()%></a></td>
-        <td><%=d.getType()%></td>
+        <td><%=d.getSource()%></td>
         <td><%=d.getSubtype()%></td>
         <td><%=d.getVectorId()%></td>
     </tr>

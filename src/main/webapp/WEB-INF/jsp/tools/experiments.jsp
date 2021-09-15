@@ -97,7 +97,7 @@
 
         <th>Name</th>
         <th>Type</th>
-        <!--th>Contact PI</th-->
+        <th>Description</th>
         <th>SCGE ID</th>
         </tr>
         </thead>
@@ -113,7 +113,7 @@
             <td width="10"><%=s.getTier()%></td>
             <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td>
             <td style="white-space: nowrap"><%=exp.getType()%></td>
-            <!--td><%=s.getPi()%></td-->
+            <td><%=exp.getDescription()%></td>
             <td><%=exp.getExperimentId()%></td>
         </tr>
         <% } %>
