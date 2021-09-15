@@ -58,7 +58,7 @@
     <%
         long objectId = ex.getExperimentId();
         String objectType= ImageTypes.EXPERIMENT;
-        String redirectURL = "/toolkit/data/experiments/experiment/" + ex.getExperimentId();
+        String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=" + selectedResultType + "&tissue=" + selectedTissue + "&cellType=" + selectedCellType;
         String bucket="aboveExperimentTable";
 
     %>
