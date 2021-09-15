@@ -29,6 +29,9 @@
        color:#2a6496;
          font-weight: bold;
    }
+   table tr, table tr td{
+       background-color: transparent;
+   }
 </style>
 <script>
     $(function() {
@@ -87,7 +90,7 @@
         <%if(experiments.size()>0){%>
         <h4 class="page-header" style="color:grey;">Experiments</h4>
 
-        <table class="table table-sm tablesorter table-striped">
+        <table class="table bg-light" >
         <thead>
         <tr>
         <th>Tier</th>
