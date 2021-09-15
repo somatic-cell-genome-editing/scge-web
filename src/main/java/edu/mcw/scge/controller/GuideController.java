@@ -128,7 +128,7 @@ public class GuideController {
            Map<String, String> guide_ids=new HashMap<>();
            guide_ids.put("values", g.getGrnaLabId());
            viewer.setGuide_ids(guide_ids);
-           viewer.setName(g.getGuide());
+           viewer.setName("<a href='/toolkit/data/guide/system?id="+ g.getGuide_id()+"'>"+g.getGuide()+"</a>");
            viewer.setPam(g.getPam());
            viewer.setScge_id(g.getGuide_id());
            viewer.setStrand(g.getStrand());
