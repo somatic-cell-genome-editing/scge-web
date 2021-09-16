@@ -113,7 +113,7 @@
             <td width="10"><%=s.getTier()%></td>
             <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td>
             <td style="white-space: nowrap"><%=exp.getType()%></td>
-            <td><%=exp.getDescription()%></td>
+            <td><%=SFN.parse(exp.getDescription())%></td>
             <td><%=exp.getExperimentId()%></td>
         </tr>
         <% } %>
