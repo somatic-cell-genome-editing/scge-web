@@ -3,6 +3,8 @@
 <%@ page import="edu.mcw.scge.datamodel.Delivery" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
+<%@ page import="edu.mcw.scge.configuration.UserService" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -15,10 +17,7 @@
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <style>
     td{
-        display:table-cell
-    }
-    .tablesorter-childRow td{
-        background-color: lightcyan;
+        font-size: 12px;
     }
 </style>
 <script>
@@ -54,18 +53,26 @@
     <thead>
     <tr>
         <th>Name</th>
-        <th>Source</th>
+        <th>Type</th>
         <th>Subtype</th>
         <th>SCGE ID</th>
     </tr>
     </thead>
+        <%
+            Access access = new Access();
+            UserService userService = new UserService();
 
-    <% for (Vector d: systems) { %>
+            for (Vector vector: systems) {
+
+      if (access.hasVectorAccess(vector, userService.getCurrentUser(request.getSession()))) {%>
+
+
     <tr>
-        <td><a href="/toolkit/data/vector/format/?id=<%=d.getVectorId()%>"><%=d.getName()%></a></td>
-        <td><%=d.getSource()%></td>
-        <td><%=d.getSubtype()%></td>
-        <td><%=d.getVectorId()%></td>
+        <td><a href="/toolkit/data/vector/format/?id=<%=vector.getVectorId()%>"><%=vector.getName()%></a></td>
+        <td><%=vector.getType()%></td>
+        <td><%=vector.getSubtype()%></td>
+        <td><%=vector.getVectorId()%></td>
     </tr>
-        <% } %>
+        <% }
+            } %>
 </table>
