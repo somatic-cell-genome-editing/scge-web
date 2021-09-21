@@ -149,7 +149,9 @@
         </c:if>
         <% if (resultTypeList.size() > 0 ) { %><td><%=ers.get(0).getResultType()%></td><% } %>
         <% if (unitList.size() > 0 ) { %><td><%=ers.get(0).getUnits()%></td><% } %>
-        <% if(resultMap != null && resultMap.size() != 0) {%>
+        <% if(resultMap != null && resultMap.size() != 0 && resultMap.containsKey(resultId)) {
+        %>
+
         <td><%=resultMap.get(resultId)%></td>
             <%
                 for(ExperimentResultDetail e:ers) {
