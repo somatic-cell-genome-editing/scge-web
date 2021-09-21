@@ -55,6 +55,7 @@
             <tr><td class="header"><strong>Parental&nbsp;Origin</strong></td><td><%=SFN.parse(m.getParentalOrigin())%></td></tr>
             <tr><td class="header"><strong>Organism</strong></td><td><%=m.getOrganism()%></td></tr>
             <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(m.getSource())%></td></tr>
+            <tr><td class="header"><strong>RRID</strong></td><td><%=SFN.parse(m.getRrid())%></td></tr>
         </table>
         <hr>
 
