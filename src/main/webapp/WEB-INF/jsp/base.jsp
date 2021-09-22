@@ -52,8 +52,16 @@ Goals"/>
             overflow:auto;
             padding-bottom:150px; /* this needs to be bigger than footer height*/
         }
-        footer{
-            position: relative;
+        #body {
+            padding:10px;
+            padding-bottom:60px;   /* Height of the footer */
+        }
+        #footer {
+            position:absolute;
+            bottom:0;
+            width:100%;
+            height:60px;   /* Height of the footer */
+            background:#6cf;
         }
     </style>
 
@@ -247,7 +255,7 @@ Goals"/>
 </div>
 
 
-<footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+<footer id="footer" class="py-4 bg-dark text-white-50">
     <div class="container text-center">
         <small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2019 SCGE | All Rights Reserved</small>
     </div>
