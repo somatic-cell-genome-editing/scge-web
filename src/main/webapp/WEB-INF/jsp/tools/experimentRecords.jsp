@@ -86,6 +86,8 @@
 
          <% }  %>
             <% if (tissueList.size() == 0 || selectedResultType != null) { %>
+            <b> <%=ex.getDescription()%></b>
+            <b><%=request.getAttribute("assay")%></b>
         <hr>
 
 

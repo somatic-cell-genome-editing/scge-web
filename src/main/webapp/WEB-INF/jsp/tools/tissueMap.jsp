@@ -304,6 +304,7 @@
                 <canvas id="canvasDelivery<%=i%>"></canvas>
             </div></a>
             <%  i++;} else if(qualDeliveryResults.containsKey(tissueName)) { %>
+            <a href= "<%=deliveryurl%>">
             <div>
                 <table class="table tablesorter table-striped">
                 <thead><tr>
@@ -324,7 +325,7 @@
              <% } %>
                 </tbody>
                 </table>
-                </div>
+                </div></a>
             <%  } else %> <b>NO DATA</b>
         </td>
         <td>
@@ -335,6 +336,7 @@
             </div>
             </a>
             <%   j++;} else if(qualEditingResults.containsKey(tissueName)) { %>
+            <a href= "<%=editingurl%>">
             <div>
                 <table class="table tablesorter table-striped">
                     <thead><tr>
@@ -355,7 +357,7 @@
                     <% } %>
                     </tbody>
                 </table>
-            </div>
+            </div></a>
             <%  } else %> <b>NO DATA</b>
         </td>
     </tr>

@@ -304,20 +304,23 @@
                 var replicate = [];
                 for (var i = 1; i < rowLength; i++){
                     if(table.rows.item(i).style.display != 'none') {
-                        var cells = table.rows.item(i).cells;
-                        var cellLength = cells.length;
-                        var column = cells.item(0); //points to condition column
-                        var avg = cells.item(aveIndex);
-                        xArray[j] = column.innerText;
-                        yArray[j] = avg.innerHTML;
-                        for(var k = aveIndex+1;k<cellLength;k++){
-                            var arr = [];
-                            if(j != 0 && replicate[k-aveIndex-1] != null)
-                                    arr = replicate[k-aveIndex-1];
-                            arr.push(cells.item(k).innerHTML);
-                            replicate[k-aveIndex-1] = arr;
-                        }
-                        j++;
+
+                            var cells = table.rows.item(i).cells;
+                            if (cells.item(aveIndex - 1).innerText != "signal") {
+                            var cellLength = cells.length;
+                            var column = cells.item(0); //points to condition column
+                            var avg = cells.item(aveIndex);
+                            xArray[j] = column.innerText;
+                            yArray[j] = avg.innerHTML;
+                            for (var k = aveIndex + 1; k < cellLength; k++) {
+                                var arr = [];
+                                if (j != 0 && replicate[k - aveIndex - 1] != null)
+                                    arr = replicate[k - aveIndex - 1];
+                                arr.push(cells.item(k).innerHTML);
+                                replicate[k - aveIndex - 1] = arr;
+                            }
+                            j++;
+                            }
                     }
 
                 }
