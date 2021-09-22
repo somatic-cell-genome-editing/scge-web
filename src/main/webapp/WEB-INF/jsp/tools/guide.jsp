@@ -386,7 +386,7 @@
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: 'No of Reads',
+                        labelString: 'No of ChangeSeq Reads',
                         fontSize: 14,
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
@@ -402,7 +402,7 @@
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: 'No of Reads',
+                            labelString: 'No of GuideSeq Reads',
                             fontSize: 14,
                             fontStyle: 'bold',
                             fontFamily: 'Calibri'
