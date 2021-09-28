@@ -149,22 +149,13 @@
         </c:if>
         <% if (resultTypeList.size() > 0 ) { %><td><%=ers.get(0).getResultType()%></td><% } %>
         <% if (unitList.size() > 0 ) { %><td><%=ers.get(0).getUnits()%></td><% } %>
-        <% if(resultMap != null && resultMap.size() != 0 && resultMap.containsKey(resultId)) {
-        %>
-
-        <td><%=resultMap.get(resultId)%></td>
-            <%
-                for(ExperimentResultDetail e:ers) {
-                    if(e.getReplicate() != 0) {
-            %>
-        <td style="display: none"><%=e.getResult()%></td>
-            <%} %>
-
-        <%  }} else { %> <td>
-         <%   for(ExperimentResultDetail e:ers) { %>
-            <%=e.getResult()%>
-        <% } %></td>
-        <% }%>
+            <% for(ExperimentResultDetail e:ers) {
+                    if(e.getReplicate() == 0) { %>
+            <td><%=e.getResult()%></td>
+            <% } } for(ExperimentResultDetail e:ers) {
+                    if(e.getReplicate() != 0) { %>
+            <td style="display: none"><%=e.getResult()%></td>
+            <%}}%>
         </tr>
      <% }} %>
 </table>
