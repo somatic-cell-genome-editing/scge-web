@@ -169,7 +169,7 @@
                         labelDetails.add("\"" + er.getExperimentName() + "\"");
                         tissueDeliveryConditions.put(tissueName, labelDetails);
                     }
-                    if(erd.getUnits().contains("signal") && erd.getReplicate() != 0){
+                    if(erd.getUnits().contains("signal") && erd.getReplicate() == 0){
                         if (qualDeliveryResults == null || !qualDeliveryResults.containsKey(tissueName))
                             qualResults = new ArrayList<>();
                         else qualResults = qualDeliveryResults.get(tissueName);
@@ -193,7 +193,7 @@
                         labelDetails.add("\""+er.getExperimentName()+"\"");
                         tissueEditingConditions.put(tissueName,labelDetails);
                     }
-                    if(erd.getUnits().contains("signal") && erd.getReplicate() != 0){
+                    if(erd.getUnits().contains("signal") && erd.getReplicate() == 0){
                         if (qualEditingResults == null || !qualEditingResults.containsKey(tissueName))
                             qualResults = new ArrayList<>();
                         else qualResults = qualEditingResults.get(tissueName);
@@ -310,7 +310,7 @@
                 <thead><tr>
                 <th>Experiment Record Id</th>
                 <th>Units</th>
-                <th>Replicate</th>
+                <th>No of Replicates</th>
                 <th>Result</th>
                 </tr></thead>
                 <tbody>
@@ -319,7 +319,7 @@
                 <tr>
                 <td><%=e.getExperimentRecordId()%></td>
                 <td><%=e.getUnits()%></td>
-                <td><%=e.getReplicate()%></td>
+                <td><%=e.getNumberOfSamples()%></td>
                 <td><%=e.getResult()%></td>
                 </tr>
              <% } %>
@@ -342,7 +342,7 @@
                     <thead><tr>
                         <th>Experiment Record Id</th>
                         <th>Units</th>
-                        <th>Replicate</th>
+                        <th>No of Replicates</th>
                         <th>Result</th>
                     </tr></thead>
                     <tbody>
@@ -351,7 +351,7 @@
                     <tr>
                         <td><%=e.getExperimentRecordId()%></td>
                         <td><%=e.getUnits()%></td>
-                        <td><%=e.getReplicate()%></td>
+                        <td><%=e.getNumberOfSamples()%></td>
                         <td><%=e.getResult()%></td>
                     </tr>
                     <% } %>
