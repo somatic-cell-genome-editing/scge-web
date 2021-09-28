@@ -159,7 +159,7 @@
                     if (tissueDeliveryResults == null || !tissueDeliveryResults.containsKey(tissueName))
                         resultDetails = new ArrayList<>();
                     else resultDetails = tissueDeliveryResults.get(tissueName);
-                    if (erd.getReplicate() == 0) {
+                    if (erd.getReplicate() == 0 && !erd.getUnits().equalsIgnoreCase("signal")) {
                         resultDetails.add(Double.valueOf(erd.getResult()));
                         tissueDeliveryResults.put(tissueName, resultDetails);
 
@@ -169,7 +169,7 @@
                         labelDetails.add("\"" + er.getExperimentName() + "\"");
                         tissueDeliveryConditions.put(tissueName, labelDetails);
                     }
-                    if(erd.getUnits().contains("signal")){
+                    if(erd.getUnits().contains("signal") && erd.getReplicate() != 0){
                         if (qualDeliveryResults == null || !qualDeliveryResults.containsKey(tissueName))
                             qualResults = new ArrayList<>();
                         else qualResults = qualDeliveryResults.get(tissueName);
@@ -183,7 +183,7 @@
                     if(tissueEditingResults == null || !tissueEditingResults.containsKey(tissueName))
                         resultDetails = new ArrayList<>();
                     else  resultDetails = tissueEditingResults.get(tissueName);
-                    if (erd.getReplicate() == 0) {
+                    if (erd.getReplicate() == 0 && !erd.getUnits().equalsIgnoreCase("signal")) {
                         resultDetails.add(Double.valueOf(erd.getResult()));
                         tissueEditingResults.put(tissueName, resultDetails);
 
@@ -193,7 +193,7 @@
                         labelDetails.add("\""+er.getExperimentName()+"\"");
                         tissueEditingConditions.put(tissueName,labelDetails);
                     }
-                    if(erd.getUnits().contains("signal")){
+                    if(erd.getUnits().contains("signal") && erd.getReplicate() != 0){
                         if (qualEditingResults == null || !qualEditingResults.containsKey(tissueName))
                             qualResults = new ArrayList<>();
                         else qualResults = qualEditingResults.get(tissueName);
