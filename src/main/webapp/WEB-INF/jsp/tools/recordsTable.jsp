@@ -46,12 +46,12 @@
         <%@include file="recordFilters.jsp"%>
 
         <!--table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table-->
-       <% if(resultMap != null && resultMap.size()!= 0) {%>
-        <div class="chart-container" >
+       <% //if(resultMap != null && resultMap.size()!= 0) {%>
+        <div class="chart-container" id = "chartDiv">
     <canvas id="resultChart" style="position: relative; height:80vh; width:80vw;"></canvas>
 
         </div>
-<% }%>
+<% //}%>
 <div>
 <hr>
 
@@ -316,7 +316,7 @@
 
                 }
 
-
+                if(xArray.length > 0) {
                 var data={
                     label: "Mean",
                     data: yArray,
@@ -345,6 +345,12 @@
                 myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString(null);
                 myChart.options.legend.display = false;
                 myChart.update();
+                    document.getElementById("chartDiv").style.display = "block";
+                    document.getElementById("resultChart").style.display = "block";
+                } else {
+                    document.getElementById("chartDiv").style.display = "none";
+                    document.getElementById("resultChart").style.display = "none";
+                }
 
             }
             function getLabelString(result){
@@ -493,51 +499,69 @@
 
                 for (var i = 1; i < rowLength; i++){
                     if(table.rows.item(i).style.display != 'none') {
+
                         var cells = table.rows.item(i).cells;
-                        var cellLength = cells.length;
-                        var column = cells.item(0); //points to condition column
-                        var avg = cells.item(aveIndex);
-                        labels[j] = column.innerText;
-                        if(cells.item(aveIndex - 2).innerText == "Delivery Efficiency") {
-                            delivery[j] = avg.innerHTML;
-                            editing[j] = null;
-                            j++;
-                        } else {
-                            editing[j] = avg.innerHTML;
-                            delivery[j] = null;
-                            j++;
+                        if (cells.item(aveIndex - 1).innerText != "signal") {
+                            var cellLength = cells.length;
+                            var column = cells.item(0); //points to condition column
+                            var avg = cells.item(aveIndex);
+                            labels[j] = column.innerText;
+                            if (cells.item(aveIndex - 2).innerText == "Delivery Efficiency") {
+                                delivery[j] = avg.innerHTML;
+                                editing[j] = null;
+                                j++;
+                            } else {
+                                editing[j] = avg.innerHTML;
+                                delivery[j] = null;
+                                j++;
+                            }
                         }
                     }
                 }
 
-                var data=[];
-                data.push({
-                    label: "delivery",
-                    data: delivery,
-                    yAxisID: 'delivery',
-                    backgroundColor: 'rgba(255,99,132,1)',
-                    borderColor: 'rgba(255,99,132,1)',
-                    borderWidth: 1
-                });
-                data.push({
-                    label: "editing",
-                    data: editing,
-                    yAxisID: 'editing',
-                    backgroundColor:  'rgba(54, 162, 235, 1)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                });
+                if(labels.length > 0) {
+                    var data = [];
+                    data.push({
+                        label: "delivery",
+                        data: delivery,
+                        yAxisID: 'delivery',
+                        backgroundColor: 'rgba(255,99,132,1)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        borderWidth: 1
+                    });
+                    data.push({
+                        label: "editing",
+                        data: editing,
+                        yAxisID: 'editing',
+                        backgroundColor: 'rgba(54, 162, 235, 1)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    });
 
-                myChart.data.labels = labels;
-                myChart.data.datasets = data;
-                myChart.options.scales.yAxes[1].display = true;
-                myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString('Delivery');
-                myChart.options.scales.yAxes[1].scaleLabel.labelString = getLabelString('Editing');
-                myChart.options.legend.display = true;
-                myChart.update();
-
+                    myChart.data.labels = labels;
+                    myChart.data.datasets = data;
+                    myChart.options.scales.yAxes[1].display = true;
+                    myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString('Delivery');
+                    myChart.options.scales.yAxes[1].scaleLabel.labelString = getLabelString('Editing');
+                    myChart.options.legend.display = true;
+                    myChart.update();
+                    document.getElementById("chartDiv").style.display = "block";
+                    document.getElementById("resultChart").style.display = "block";
+                } else {
+                    document.getElementById("chartDiv").style.display = "none";
+                    document.getElementById("resultChart").style.display = "none";
+                }
             }
             window.onload=load();
+            var quantitative = 0;
+            quantitative = <%=resultMap.size()%>;
+            console.log(quantitative);
+            if(quantitative == 0) {
+                document.getElementById("chartDiv").style.display = "none";
+                document.getElementById("resultChart").style.display = "none";
+            }
+
+
 
         </script>
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
