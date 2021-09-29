@@ -354,7 +354,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
             values.add(er);
             assayDesc = er.getAssayDescription();
-            System.out.println(er.getResultId());
             experimentResultsMap.put(er.getResultId(),values);
         }
         HashMap<Long,ExperimentRecord> recordMap = new HashMap<>();
@@ -363,8 +362,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         for(ExperimentRecord rec:records)
             recordMap.put(rec.getExperimentRecordId(),rec);
         for (Long resultId : experimentResultsMap.keySet()) {
-            List<ExperimentResultDetail> erdList=experimentResultsMap.get(resultId);
-            //   resultDetail.put(resultId, experimentResultsMap.get(resultId));
+            List<ExperimentResultDetail> erdList=experimentResultsMap.get(resultId); //multiple replicate values for each result
             resultDetail.put(resultId, erdList);
             long expRecId = experimentResultsMap.get(resultId).get(0).getExperimentRecordId();
             guideMap.put(expRecId, dbService.getGuidesByExpRecId(expRecId));
@@ -394,28 +392,33 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 record.setExperimentName(record.getExperimentName());
 
             }
-            if (!experimentResultsMap.get(resultId).get(0).getUnits().contains("signal")) {
+
 
                 double average = 0;
 
                 for (ExperimentResultDetail result : experimentResultsMap.get(resultId)) {
-                    efficiency = "\"" + result.getResultType() + " in " + result.getUnits() + "\"";
-                    if (result.getReplicate() != 0) {
-                        values = replicateResult.get(result.getReplicate());
-                        if (values == null)
-                            values = new ArrayList<>();
-                        if (result.getResult() == null || result.getResult().isEmpty())
-                            values.add(null);
-                        else {
-                            values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
+                    System.out.println(result.getUnits());
+                    if(resultType == null || result.getResultType().contains(resultType)) {
+                        if (!result.getUnits().equalsIgnoreCase("signal")) {
+
+                            efficiency = "\"" + result.getResultType() + " in " + result.getUnits() + "\"";
+                            if (result.getReplicate() != 0) {
+                                values = replicateResult.get(result.getReplicate());
+                                if (values == null)
+                                    values = new ArrayList<>();
+                                if (result.getResult() == null || result.getResult().isEmpty())
+                                    values.add(null);
+                                else {
+                                    values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
+                                }
+
+                                replicateResult.put(result.getReplicate(), values);
+                            } else average = Double.valueOf(result.getResult());
+
+                            mean.add(average);
+                            resultMap.put(resultId, average);
                         }
-
-                        replicateResult.put(result.getReplicate(), values);
-                    } else average = Double.valueOf(result.getResult());
-                }
-                mean.add(average);
-                resultMap.put(resultId, average);
-
+                    }
             }
         }
 
