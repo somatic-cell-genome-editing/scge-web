@@ -1,13 +1,10 @@
 <%@ page import="edu.mcw.scge.web.SFN" %>
-<%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.TreeSet" %>
-<%@ page import="java.util.Set" %>
 <%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
+<%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -255,7 +252,7 @@
     <hr>
     <%}%>
     <%HashMap<String,Integer> changeSeq = new HashMap<>();
-        Set<String> labels = new TreeSet<>();
+        List<String> labels = new ArrayList<>();
         HashMap<String,Integer> guideSeq = new HashMap<>();
 		boolean guideData = false;
         if(offTargets!=null && offTargets.size()>0){
