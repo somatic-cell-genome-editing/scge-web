@@ -48,7 +48,7 @@
             <tr><td class="header"><strong>Description</strong></td><td><%=SFN.parse(d.getDescription())%></td></tr>
             <tr><td class="header" width="150"><strong>Type</strong></td><td><%=SFN.parse(d.getType())%></td></tr>
             <tr><td class="header"><strong>Subtype</strong></td><td><%=SFN.parse(d.getSubtype())%></td></tr>
-            <tr><td class="header"><strong>Sequence</strong></td><%=SFN.parse(d.getSequence())%><td></td></tr>
+            <tr><td class="header"><strong>Sequence</strong></td><td><%=SFN.parse(d.getSequence())%></td></tr>
             <tr><td class="header"><strong>Annotated&nbsp;Map</strong></td><%=SFN.parse(d.getAnnotatedMap())%><td></td></tr>
 
 
