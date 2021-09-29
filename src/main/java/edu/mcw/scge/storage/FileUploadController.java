@@ -119,7 +119,6 @@ public class FileUploadController {
 		Access access= new Access();
 		Person p = userService.getCurrentUser(req.getSession());
 
-		System.out.println("here");
 		if (type.equals(ImageTypes.EDITOR)) {
 			if (!access.hasEditorAccess(Long.parseLong(oid),p.getId())) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
@@ -148,7 +147,12 @@ public class FileUploadController {
 			if (!access.hasVectorAccess(Long.parseLong(oid),p.getId())) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
+		}else if (type.equals(ImageTypes.EXPERIMENT)) {
+			if (!access.hasExperimentAccess(Long.parseLong(oid),p.getId())) {
+				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+			}
 		}
+
 
 		Resource resource=null;
 		try {
@@ -159,17 +163,18 @@ public class FileUploadController {
 			resource = new UrlResource(file.toUri());
 
 			if (resource.exists() || resource.isReadable()) {
-				//System.out.println("resource exists and is readable");
+				System.out.println("IMAGE: resource exists and is readable");
 			}
 			else {
+				System.out.println("Could not read file " + file.toUri().toString());
 				throw new StorageFileNotFoundException(
-						"Could not read file: " + filename);
+						"IMAGE: Could not read file: " + filename);
 
 			}
 		}
 		catch (MalformedURLException e) {
 			e.printStackTrace();
-			throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+			throw new StorageFileNotFoundException("IMAGE: Could not read file: " + filename, e);
 		}
 
 		//Resource file = storageService.loadAsResource("naturezoom.jpeg");
