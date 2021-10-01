@@ -157,7 +157,13 @@ public class Access {
     }
 
     public boolean hasExperimentAccess(long experimentId, int personId) throws Exception{
-        return sdao.getStudyByExperimentId(experimentId, personId).size()>0;
+        List<Study> studies = sdao.getStudyByExperimentId(experimentId);
+        if (studies.size()==0) {
+            return false;
+        }
+
+        return hasStudyAccess(studies.get(0).getStudyId(),personId);
+
     }
 
 
