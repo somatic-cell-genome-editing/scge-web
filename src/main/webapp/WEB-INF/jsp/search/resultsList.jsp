@@ -1,4 +1,5 @@
-<%--
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 1/22/2021
@@ -48,6 +49,15 @@
     })
 
 </script>
+<%
+    Access access=new Access();
+    Person person = null;
+    try {
+        person = access.getUser(request.getSession());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+%>
 <h4>${sr.hits.totalHits} <c:if test="${category!=null}">&nbsp;in ${category}</c:if> </h4>
 <table class="table table-striped">
     <c:forEach items="${sr.hits.hits}" var="hit">
@@ -61,16 +71,21 @@
                -  ${hit.sourceAsMap.type}
             </c:if>
             </small>
-                
+               <%if(access.isAdmin(person)){%>
                 <button class="btn btn-sm" type="button" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
               +
-            </button></h6>
+            </button>
+            <%}%></h6>
             </c:if>
             <c:if test="${hit.sourceAsMap.symbol!=null}">
             <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
-            </small><button class="btn  btn-sm" type="button" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
+            </small>
+                <%if(access.isAdmin(person)){%>
+                <button class="btn  btn-sm" type="button" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
                 +
-            </button></h6>
+            </button>
+            <%}%>
+            </h6>
             </c:if>
                     <div class="collapse" id="highlights-${hit.sourceAsMap.id}">
                         <div class="card card-body">
@@ -78,10 +93,13 @@
                         </div>
                     </div>
                 </div>
-            <small>${hit.sourceAsMap.study.pi}</small>
+            <small>${hit.sourceAsMap.pi}</small>
             </div>
             <c:if test="${hit.sourceAsMap.description!=null}">
                 <span><span class="header"></span>&nbsp;${hit.sourceAsMap.description}</span><br>
+            </c:if>
+            <c:if test="${hit.sourceAsMap.generatedDescription!=null}">
+                <span><span class="header">Generated Description</span>&nbsp;${hit.sourceAsMap.generatedDescription}</span><br>
             </c:if>
             <!--c:if test="$-{hit.sourceAsMap.type!=null}"-->
                 <!--span><span class="header">$-{hit.sourceAsMap.category}&nbsp;Type:&nbsp;</span> $-{hit.sourceAsMap.type}</span><br-->
@@ -90,13 +108,13 @@
                 <span><span class="header"><strong>${hit.sourceAsMap.category}&nbsp;SubType:</strong></span>&nbsp;${hit.sourceAsMap.subType}</span> <br>
             </c:if>
 
-            <c:if test="${hit.sourceAsMap.species!=null}">
-                <span><span class="header"><strong>Species:</strong></span>&nbsp;${hit.sourceAsMap.species}</span> <br>
+            <c:if test="${hit.sourceAsMap.modelOrganism!=null}">
+                <span><span class="header"><strong>Species:</strong></span>&nbsp;${hit.sourceAsMap.modelOrganism}</span> <br>
             </c:if>
             <c:if test="${hit.sourceAsMap.target!=null && hit.sourceAsMap.category=='Experiment'}">
                 <c:set var="first" value="true"/>
                 <span><span class="header">Target Tissue :</span>
-                <c:forEach items="${hit.sourceAsMap.target}" var="item">
+                <c:forEach items="${hit.sourceAsMap.tissueTerm}" var="item">
                     <c:choose>
                         <c:when test="${first=='true'}">
                             ${item}
@@ -117,12 +135,12 @@
                 <c:forEach items="${hit.sourceAsMap.guides}" var="guide">
                     <c:choose>
                         <c:when test="${first=='true'}">
-                            ${guide.targetLocus}
+                            ${guide.guideTargetLocus}
                             <c:set var="first" value="false"/>
 
                         </c:when>
                         <c:otherwise>
-                            , ${guide.targetLocus}
+                            , ${guide.guideTargetLocus}
 
                         </c:otherwise>
                     </c:choose>
@@ -178,15 +196,15 @@
                     </div>
                 </div>
             </c:if>
-            <c:if test="${hit.sourceAsMap.study.study!=null}">
+            <c:if test="${hit.sourceAsMap.study!=null}">
                 <span class="header"><strong>Associated Studies:</strong></span>
                 <!--a href="/toolkit/data/experiments/study/$-{hit.sourceAsMap.study.studyId}">$-{hit.sourceAsMap.study.study}</a><br-->
-                <button type="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.study.studyId}" title="Studies" style="background-color: transparent">
+                <button type="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.studyId}" title="Studies" style="background-color: transparent">
                     <span style="text-decoration:underline">1</span>
                 </button>
-                <div style="display: none" id="popover-study-${hit.sourceAsMap.study.studyId}">
+                <div style="display: none" id="popover-study-${hit.sourceAsMap.studyId}">
                     <div class="popover-body">
-                        <a href="/toolkit/data/experiments/study/${hit.sourceAsMap.study.studyId}">${hit.sourceAsMap.study.study}</a>
+                        <a href="/toolkit/data/experiments/study/${hit.sourceAsMap.studyId}">${hit.sourceAsMap.study}</a>
 
                     </div>
                 </div>

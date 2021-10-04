@@ -40,24 +40,24 @@ public class IndexServices {
     }
     public void buildAggregations(SearchSourceBuilder srb){
         /*********************EXPERIMENT************************/
-        srb.aggregation(this.buildSearchAggregations("models.type", null));
-        srb.aggregation(this.buildSearchAggregations("models.organism", null));
-        srb.aggregation(this.buildSearchAggregations("models.transgeneReporter", null));
+        srb.aggregation(this.buildSearchAggregations("modelType", null));
+        srb.aggregation(this.buildSearchAggregations("modelOrganism", null));
+        srb.aggregation(this.buildSearchAggregations("transgeneReporter", null));
 
 
-        srb.aggregation(this.buildSearchAggregations("deliveries.type", null));
-        srb.aggregation(this.buildSearchAggregations("deliveries.species", null));
+        srb.aggregation(this.buildSearchAggregations("deliveryType", null));
+        srb.aggregation(this.buildSearchAggregations("deliverySpecies", null));
 
-        srb.aggregation(this.buildSearchAggregations("editors.type", null));
-        srb.aggregation(this.buildSearchAggregations("editors.subType", null));
-        srb.aggregation(this.buildSearchAggregations("editors.species", null));
+        srb.aggregation(this.buildSearchAggregations("editorType", null));
+        srb.aggregation(this.buildSearchAggregations("editorSubType", null));
+        srb.aggregation(this.buildSearchAggregations("editorSpecies", null));
 
-        srb.aggregation(this.buildSearchAggregations("guides.targetLocus", null));
-        srb.aggregation(this.buildSearchAggregations("guides.species", null));
+        srb.aggregation(this.buildSearchAggregations("tissueTerm", null));
+        srb.aggregation(this.buildSearchAggregations("guideSpecies", null));
 
-        srb.aggregation(this.buildSearchAggregations(  "vectors.name", null));
-        srb.aggregation(this.buildSearchAggregations(  "vectors.type",null));
-        srb.aggregation(this.buildSearchAggregations(   "vectors.subtype", null));
+        srb.aggregation(this.buildSearchAggregations(  "vectorName", null));
+        srb.aggregation(this.buildSearchAggregations(  "vectorType",null));
+        srb.aggregation(this.buildSearchAggregations(   "vectorSubtype", null));
 
         /*********************common**************************/
         srb.aggregation(this.buildSearchAggregations("type", null));
@@ -67,61 +67,60 @@ public class IndexServices {
         srb.aggregation(this.buildSearchAggregations("withExperiments", null));
 
         /*********************guide**************************/
-        srb.aggregation(this.buildSearchAggregations("targetLocus", null));
-        srb.aggregation(this.buildSearchAggregations("externalId", null));
+        srb.aggregation(this.buildSearchAggregations("guideTargetLocus", null));
+   //     srb.aggregation(this.buildSearchAggregations("externalId", null));
 
     }
     public HighlightBuilder buildHighlights(){
         List<String> fields=new ArrayList<>(Arrays.asList(
                "name", "type", "subType","aliases","externalId","symbol","additionalData", "experimentalTags",
-                "species","pam","description","site", "detectionMethod","sequence","target",
-                "study.study",
-                "study.labName" ,
-                "study.pi",
-                "editors.type" ,
-                "editors.subType" ,
-                "editors.symbol" ,
-                "editors.alias" ,
-                "editors.species" ,
-                "editors.pamPreference" ,
-                "editors.substrateTarget" ,
-                "editors.activity" ,
-                "editors.fusion" ,
-                "editors.dsbCleavageType" ,
-                "editors.source" ,
-                "deliveries.type" ,
-                "deliveries.name" ,
-                "deliveries.source" ,
-                "deliveries.description" ,
-                "models.type" ,
-                "models.name" ,
-                "models.organism" ,
-                "models.transgene" ,
-                "models.transgeneReporter" ,
-                "models.description" ,
-                "models.strainCode",
-                "guides.species",
-                "guides.targetLocus",
-                "guides.targetSequence",
-                "guides.pam",
-                "guides.grnaLabId",
+                "species","pam","description","site", "detectionMethod","sequence","target","tissueTerm",
+                "study",
+                "labName" ,
+                "pi",
+                "editorType" ,
+                "editorSubType" ,
+                "editorSymbol" ,
+                "editorAlias" ,
+                "editorSpecies" ,
+                "editorPamPreference" ,
+                "substrateTarget" ,
+                "activity" ,
+                "fusion" ,
+                "dsbCleavageType" ,
+                "editorSource" ,
+                "deliveryType" ,
+                "deliveryName" ,
+                "deliverSource" ,
+                "deliverDescription" ,
+                "modelType" ,
+                "modelName" ,
+                "modelOrganism" ,
+                "transgene" ,
+                "transgeneReporter" ,
+                "modelDescription" ,
+                "modelStrainCode",
+                "guideSpecies",
+                "guideTargetLocus",
+                "guideTargetSequence",
+                "guidePam",
+                "grnaLabId",
 
-                "guides.guide",
-                "guides.source",
-                "guides.guideDescription",
-                "vectors.name",
-                "vectors.type",
-                "vectors.subtype",
-                "vectors.genomeSerotype",
-                "vectors.capsidSerotype",
-                "vectors.description",
-                "vectors.capsidVariant",
-                "vectors.source",
-                "vectors.labId",
-                "vectors.annotatedMap",
-                "vectors.titerMethod",
-                "vectors.tier",
-                "name.ngram"
+                "guide",
+                "guideSource",
+                "guideDescription",
+                "vectorName",
+                "vectorType",
+                "vectorSubtype",
+                "vectorGenomeSerotype",
+                "vectorCapsidSerotype",
+                "vectorDescription",
+                "vectorCapsidVariant",
+                "vectorSource",
+                "vectorLabId",
+                "vectorAnnotatedMap",
+                "titerMethod"
+             //   "name.ngram"
         ));
 
         HighlightBuilder hb=new HighlightBuilder();
@@ -208,45 +207,45 @@ public class IndexServices {
         return aggregations;
     }
     public void addAllModelAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms modelAggs=sr.getAggregations().get("models.type");
+        Terms modelAggs=sr.getAggregations().get("modelType");
         if(modelAggs!=null)
             aggregations.put("modelBkts", (List<Terms.Bucket>) modelAggs.getBuckets());
-        Terms modelSpeciesAggs=sr.getAggregations().get("models.organism");
+        Terms modelSpeciesAggs=sr.getAggregations().get("modelOrganism");
         if(modelSpeciesAggs!=null)
             aggregations.put("modelSpeciesBkts", (List<Terms.Bucket>) modelSpeciesAggs.getBuckets());
-        Terms reporterAggs=sr.getAggregations().get("models.transgeneReporter");
+        Terms reporterAggs=sr.getAggregations().get("transgeneReporter");
         if(reporterAggs!=null)
             aggregations.put("reporterBkts", (List<Terms.Bucket>) reporterAggs.getBuckets());
     }
     public void addAllEditorAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms editorAggs=sr.getAggregations().get("editors.type");
+        Terms editorAggs=sr.getAggregations().get("editorType");
         if(editorAggs!=null)
             aggregations.put("editorBkts", (List<Terms.Bucket>) editorAggs.getBuckets());
-        Terms editorSubTypeAggs=sr.getAggregations().get("editors.subType");
+        Terms editorSubTypeAggs=sr.getAggregations().get("editorSubType");
         if(editorSubTypeAggs!=null)
             aggregations.put("editorSubTypeBkts", (List<Terms.Bucket>) editorSubTypeAggs.getBuckets());
-        Terms editorSpeciesAggs=sr.getAggregations().get("editors.species");
+        Terms editorSpeciesAggs=sr.getAggregations().get("editorSpecies");
         if(editorSpeciesAggs!=null)
             aggregations.put("editorSpeciesBkts", (List<Terms.Bucket>) editorSpeciesAggs.getBuckets());
     }
     public void addAllDeliveryAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms deliveyAggs=sr.getAggregations().get("deliveries.type");
+        Terms deliveyAggs=sr.getAggregations().get("deliveryType");
         if(deliveyAggs!=null)
             aggregations.put("deliveryBkts", (List<Terms.Bucket>) deliveyAggs.getBuckets());
     }
     public void addAllGuideAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms guidesTargetLocusAggs=sr.getAggregations().get("guides.targetLocus");
+        Terms guidesTargetLocusAggs=sr.getAggregations().get("guideTargetLocus");
         if(guidesTargetLocusAggs!=null)
             aggregations.put("guidesBkts", (List<Terms.Bucket>) guidesTargetLocusAggs.getBuckets());
     }
     public void addAllVectorAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms vectorTypeAggs=sr.getAggregations().get("vectors.type");
+        Terms vectorTypeAggs=sr.getAggregations().get("vectorType");
         if(vectorTypeAggs!=null)
             aggregations.put("vectorTypeBkts", (List<Terms.Bucket>) vectorTypeAggs.getBuckets());
-        Terms vectorSubTypeAggs=sr.getAggregations().get("vectors.subtype");
+        Terms vectorSubTypeAggs=sr.getAggregations().get("vectorSubtype");
         if(vectorSubTypeAggs!=null)
             aggregations.put("vectorSubTypeBkts", (List<Terms.Bucket>) vectorSubTypeAggs.getBuckets());
-        Terms vectorAggs=sr.getAggregations().get("vectors.name");
+        Terms vectorAggs=sr.getAggregations().get("vectorName");
         if(vectorAggs!=null)
             aggregations.put("vectorBkts", (List<Terms.Bucket>) vectorAggs.getBuckets());
     }
@@ -262,7 +261,7 @@ public class IndexServices {
         if(speciesAggs!=null)
             aggregations.put("speciesBkts", (List<Terms.Bucket>) speciesAggs.getBuckets());
 
-        Terms targetAggs=sr.getAggregations().get("target");
+        Terms targetAggs=sr.getAggregations().get("tissueTerm");
         if(targetAggs!=null)
             aggregations.put("targetBkts", (List<Terms.Bucket>) targetAggs.getBuckets());
 
@@ -358,7 +357,6 @@ public class IndexServices {
     public QueryBuilder buildQuery(String searchTerm){
         DisMaxQueryBuilder q=new DisMaxQueryBuilder();
         if(searchTerm!=null && !searchTerm.equals("")) {
-            List<String> searchTerms=new ArrayList<>();
             if(searchTerm.toLowerCase().contains("and")){
                 q.add(QueryBuilders.multiMatchQuery(String.join(" ", searchTerm.toLowerCase().split(" and ")), IndexServices.searchFields().toArray(new String[0]))
                                 //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
@@ -409,53 +407,51 @@ public class IndexServices {
 
        List<String> fields= Arrays.asList(
                 "name", "type", "subType", "symbol",
-                "description", "experimentalTags", "externalId", "aliases",
-                "target", "species", "site", "sequence", "pam", "detectionMethod","target",
-                "name.ngram", "study.study",
-                "study.labName" ,
-                "study.pi"
-                ,"editors.type" ,
-                "editors.subType" ,
-                "editors.symbol" ,
-                "editors.alias" ,
-                "editors.species" ,
-                "editors.pamPreference" ,
-                "editors.substrateTarget" ,
-                "editors.activity" ,
-                "editors.fusion" ,
-                "editors.dsbCleavageType" ,
-                "editors.source" ,
-                "deliveries.type" ,
-                "deliveries.name" ,
-                "deliveries.source" ,
-                "deliveries.description" ,
-                "models.type" ,
-                "models.name" ,
-                "models.organism" ,
-                "models.transgene" ,
-                "models.transgeneReporter" ,
-                "models.description" ,
-                "models.strainCode",
-                "guides.species",
-                "guides.targetLocus",
-                "guides.targetSequence",
-                "guides.pam",
-                "guides.grnaLabId",
+                "description", "experimentalTags", "externalId", "aliases", "generatedDescription",
+                "tissueTerm", "species", "site", "sequence", "pam", "detectionMethod","target",
+                "name.ngram", "study",
+                "labName" ,
+                "pi",
+               "editorType" ,
+                "editorSubType" ,
+                "editorSymbol" ,
+                "editorAlias" ,
+                "editorSpecies" ,
+                "editorPamPreference" ,
+                "substrateTarget" ,
+                "activity" ,
+                "fusion" ,
+                "dsbCleavageType" ,
+                "editorSource" ,
+                "deliveryType" ,
+                "deliveryName" ,
+                "deliverySource" ,
+                "generatedDescription" ,
+                "modelType" ,
+                "modelName" ,
+                "modelOrganism" ,
+                "transgene" ,
+                "transgeneReporter" ,
+                "strainCode",
+                "guideSpecies",
+                "guideTargetLocus",
+                "guideTargetSequence",
+                "guidePam",
+                "grnaLabId",
 
-                "guides.guide",
-                "guides.source",
-                "guides.guideDescription",
-                "vectors.name",
-                "vectors.type",
-                "vectors.subtype",
-                "vectors.genomeSerotype",
-                "vectors.capsidSerotype",
-                "vectors.description",
-                "vectors.capsidVariant",
-                "vectors.source",
-                "vectors.labId",
-                "vectors.annotatedMap",
-                "vectors.titerMethod"
+                "guide",
+                "guideSource",
+                "vectorName",
+                "vectorType",
+                "vectorSubtype",
+                "genomeSerotype",
+                "capsidSerotype",
+                "description",
+                "capsidVariant",
+                "vectorSource",
+                "vectorLabId",
+                "vectorAnnotatedMap",
+                "titerMethod"
         );
     //   return fields.toArray(new String[0]);
         return fields;
