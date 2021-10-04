@@ -78,10 +78,10 @@
                         </div>
                     </div>
                 </div>
-
+            <small>${hit.sourceAsMap.study.pi}</small>
             </div>
             <c:if test="${hit.sourceAsMap.description!=null}">
-                <span><span class="header"><strong>Description:</strong></span>&nbsp;${hit.sourceAsMap.description}</span><br>
+                <span><span class="header"></span>&nbsp;${hit.sourceAsMap.description}</span><br>
             </c:if>
             <!--c:if test="$-{hit.sourceAsMap.type!=null}"-->
                 <!--span><span class="header">$-{hit.sourceAsMap.category}&nbsp;Type:&nbsp;</span> $-{hit.sourceAsMap.type}</span><br-->
@@ -93,9 +93,9 @@
             <c:if test="${hit.sourceAsMap.species!=null}">
                 <span><span class="header"><strong>Species:</strong></span>&nbsp;${hit.sourceAsMap.species}</span> <br>
             </c:if>
-            <c:if test="${hit.sourceAsMap.target!=null}">
+            <c:if test="${hit.sourceAsMap.target!=null && hit.sourceAsMap.category=='Experiment'}">
                 <c:set var="first" value="true"/>
-                <span><span class="header"><strong>Target :</strong></span>
+                <span><span class="header">Target Tissue :</span>
                 <c:forEach items="${hit.sourceAsMap.target}" var="item">
                     <c:choose>
                         <c:when test="${first=='true'}">
@@ -111,8 +111,26 @@
                 </c:forEach>
                 </span> <br>
             </c:if>
+            <c:if test="${hit.sourceAsMap.guides!=null && hit.sourceAsMap.category=='Experiment'}">
+                <c:set var="first" value="true"/>
+                <span><span class="header">Target Locus :</span>
+                <c:forEach items="${hit.sourceAsMap.guides}" var="guide">
+                    <c:choose>
+                        <c:when test="${first=='true'}">
+                            ${guide.targetLocus}
+                            <c:set var="first" value="false"/>
+
+                        </c:when>
+                        <c:otherwise>
+                            , ${guide.targetLocus}
+
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                </span> <br>
+            </c:if>
             <c:if test="${hit.sourceAsMap.studyNames!=null}">
-                <span class="header"><strong>Associated Studies:</strong></span>
+                <span class="header">Associated Studies:</span>
 
                 <button type="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.id}" title="Studies" style="background-color: transparent">
                     <span style="text-decoration:underline">${fn:length(hit.sourceAsMap.studyNames)}</span>
@@ -136,7 +154,7 @@
                 </div>
             </c:if>
             <c:if test="${hit.sourceAsMap.experimentNames!=null}">
-                <span class="header"><strong>Associated Experiments:</strong></span>
+                <span class="header">Associated Experiments:</span>
                 <!--a  data-placement="top" data-popover-content="#popover-${hit.sourceAsMap.id}" data-toggle="popover" data-trigger="focus" href="" tabindex="0"> $-{fn:length(hit.sourceAsMap.experimentNames)}</a-->
 
                 <button type="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${hit.sourceAsMap.id}" title="Experiments" style="background-color: transparent">
