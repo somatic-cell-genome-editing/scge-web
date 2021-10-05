@@ -112,7 +112,7 @@
                 <td ><a href="/toolkit/data/experiments/group/<%=studies1.get(0).getGroupId()%>"><%=grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle()%></a></td>
                 <td><%=studies1.size()%></td>
                 <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantInitiative())%></td>
-                <td><%=studyDao.getStudiesByGroupId(groupId).get(0).getPi()%></td>
+                <td><%=studyDao.getStudiesByGroupId(groupId).get(0).getPiLastName()%>,&nbsp;<%=studyDao.getStudiesByGroupId(groupId).get(0).getPiFirstName()%></td>
                 <td><%=studyDao.getStudiesByGroupId(groupId).get(0).getLabName()%></td>
                 <td></td>
                 <td></td>
@@ -197,7 +197,7 @@
             </td>
             <td style="white-space: nowrap;width:15%">
                 <%if(studies1.size()<=1){ %>
-                <%=s.getPi()%>
+                <%=s.getPiLastName()%>,&nbsp;<%=s.getPiFirstName()%>
                 <%}%>
             </td>
             <td>
