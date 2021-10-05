@@ -120,7 +120,8 @@ public class IndexServices {
                 "vectorLabId",
                 "vectorAnnotatedMap",
                 "titerMethod",
-               "name.ngram"
+               "name.ngram",
+                "termSynonyms"
         ));
 
         HighlightBuilder hb=new HighlightBuilder();

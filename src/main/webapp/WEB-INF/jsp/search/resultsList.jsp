@@ -204,19 +204,7 @@
                     </div>
                 </div>
             </c:if>
-            <c:if test="${hit.sourceAsMap.study!=null}">
-                <span class="header">Associated Studies:</span>
-                <!--a href="/toolkit/data/experiments/study/$-{hit.sourceAsMap.study.studyId}">$-{hit.sourceAsMap.study.study}</a><br-->
-                <button type="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.studyId}" title="Studies" style="background-color: transparent">
-                    <span style="text-decoration:underline">1</span>
-                </button>
-                <div style="display: none" id="popover-study-${hit.sourceAsMap.studyId}">
-                    <div class="popover-body">
-                        <a href="/toolkit/data/experiments/study/${hit.sourceAsMap.studyId}">${hit.sourceAsMap.study}</a>
 
-                    </div>
-                </div>
-            </c:if>
 
 
 

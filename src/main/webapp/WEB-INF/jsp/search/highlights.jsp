@@ -15,15 +15,42 @@
             <c:when test="${(hf.key=='name.ngram' ||hf.key=='name') && first=='true' }">
                 <span class="header" style="color:#2a6496;"><strong>Name -></strong></span>
                 <c:set var="first" value="false"/>
+                <c:set var="fragmentsFirst" value="true"/>
                 <c:forEach items="${hf.value.fragments}" var="f">
-                    &nbsp;${f}
+                    <c:choose>
+                        <c:when test="${fragmentsFirst=='true'}">
+                            <c:set var="fragmentsFirst" value="false"/>
+                            &nbsp;${f}
+                        </c:when>
+                        <c:otherwise>
+                            ;&nbsp;${f}
+                        </c:otherwise>
+                    </c:choose>
+
                 </c:forEach>
             </c:when>
             <c:otherwise>
                 <c:if test="${(hf.key!='name.ngram' && hf.key!='name')}">
-                <span class="header" style="color:#2a6496;"><strong>${hf.key} -></strong></span>
+                    <c:if test="${hf.key=='termSynonyms'}">
+                        <span class="header" style="color:#2a6496;"><strong>Tissue/CellType Term Synonyms -></strong></span>
+
+                    </c:if>
+                    <c:if test="${hf.key!='termSynonyms'}">
+                        <span class="header" style="color:#2a6496;"><strong>${hf.key} -></strong></span>
+
+                    </c:if>
+                    <c:set var="fragmentsFirst" value="true"/>
                     <c:forEach items="${hf.value.fragments}" var="f">
-                        &nbsp;${f}
+                        <c:choose>
+                            <c:when test="${fragmentsFirst=='true'}">
+                                <c:set var="fragmentsFirst" value="false"/>
+                                &nbsp;${f}
+                            </c:when>
+                            <c:otherwise>
+                                ;&nbsp;${f}
+                            </c:otherwise>
+                        </c:choose>
+
                     </c:forEach>
                 </c:if>
             </c:otherwise>
