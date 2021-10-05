@@ -119,8 +119,8 @@ public class IndexServices {
                 "vectorSource",
                 "vectorLabId",
                 "vectorAnnotatedMap",
-                "titerMethod"
-             //   "name.ngram"
+                "titerMethod",
+               "name.ngram"
         ));
 
         HighlightBuilder hb=new HighlightBuilder();
@@ -372,20 +372,28 @@ public class IndexServices {
                         //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
                 ).boost(100);
             }
-            q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0])
-                            )
-                            //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                            .type(MultiMatchQueryBuilder.Type.PHRASE).analyzer("pattern")
-                  //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
-                    ).boost(100);
-
             if(!searchTerm.toLowerCase().contains("and") && searchTerm.toLowerCase().contains(" ") ) {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                                 //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.AND)
                         //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
                 ).boost(100);
-            }
+            }else
+                q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0])
+                        )
+                               .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
+                              //  .type(MultiMatchQueryBuilder.Type.PHRASE).analyzer("pattern")
+                            //    .analyzer("pattern")
+                        //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
+                ).boost(100);
+         /*   q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                            //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                          //  .operator(Operator.AND)
+                    //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
+            ).boost(50);*/
+
+
+
 
        /* q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                  .type(MultiMatchQueryBuilder.Type.BEST_FIELDS)
@@ -451,7 +459,8 @@ public class IndexServices {
                 "vectorSource",
                 "vectorLabId",
                 "vectorAnnotatedMap",
-                "titerMethod"
+                "titerMethod",
+               "termSynonyms"
         );
     //   return fields.toArray(new String[0]);
         return fields;

@@ -12,15 +12,22 @@
     <c:set value="true" var="first"/>
     <c:forEach items="${hit.highlightFields}" var="hf">
         <c:choose>
-            <c:when test="${hf.key=='name.ngram'}">
+            <c:when test="${(hf.key=='name.ngram' ||hf.key=='name') && first=='true' }">
                 <span class="header" style="color:#2a6496;"><strong>Name -></strong></span>
+                <c:set var="first" value="false"/>
+                <c:forEach items="${hf.value.fragments}" var="f">
+                    &nbsp;${f}
+                </c:forEach>
             </c:when>
             <c:otherwise>
+                <c:if test="${(hf.key!='name.ngram' && hf.key!='name')}">
                 <span class="header" style="color:#2a6496;"><strong>${hf.key} -></strong></span>
+                    <c:forEach items="${hf.value.fragments}" var="f">
+                        &nbsp;${f}
+                    </c:forEach>
+                </c:if>
             </c:otherwise>
         </c:choose>
-        <c:forEach items="${hf.value.fragments}" var="f">
-            &nbsp;${f}
-        </c:forEach>
+
     </c:forEach>
 </div>

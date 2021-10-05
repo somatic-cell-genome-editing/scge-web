@@ -11,6 +11,14 @@
         font-size: .9rem;
         color:slategrey;
     }
+    h6{
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+        background-color:   #f7f9fc;
+    }
+    #fafcff
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
@@ -61,10 +69,10 @@
 <h4>${sr.hits.totalHits} <c:if test="${category!=null}">&nbsp;in ${category}</c:if> </h4>
 <table class="table table-striped">
     <c:forEach items="${sr.hits.hits}" var="hit">
-    <tr><td>
+    <tr><td style="border-color: transparent">
         <div>
             <div>
-                <div >
+                <div style="padding-bottom: 0;margin-bottom: 0">
             <c:if test="${hit.sourceAsMap.name!=null}">
             <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
             <c:if test="${hit.sourceAsMap.type!=null}">
@@ -72,48 +80,48 @@
             </c:if>
             </small>
                <%if(access.isAdmin(person)){%>
-                <button class="btn btn-sm" type="button" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
+                <a style="text-decoration: none;cursor: pointer" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
               +
-            </button>
+            </a>
             <%}%></h6>
             </c:if>
             <c:if test="${hit.sourceAsMap.symbol!=null}">
             <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
             </small>
                 <%if(access.isAdmin(person)){%>
-                <button class="btn  btn-sm" type="button" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
+                <a style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
                 +
-            </button>
+            </a>
             <%}%>
             </h6>
             </c:if>
-                    <div class="collapse" id="highlights-${hit.sourceAsMap.id}">
-                        <div class="card card-body">
+                    <div class="collapse" id="highlights-${hit.sourceAsMap.id}" style="padding: 0; margin: 0">
+                        <div class="card card-body" style="margin-bottom: 0;padding-bottom: 0">
                     <%@include file="highlights.jsp"%>
                         </div>
                     </div>
                 </div>
-            <small>${hit.sourceAsMap.pi}</small>
+            <small>${hit.sourceAsMap.pi.get(0)}</small>
             </div>
             <c:if test="${hit.sourceAsMap.description!=null}">
-                <span><span class="header"></span>&nbsp;${hit.sourceAsMap.description}</span><br>
+                <span>${hit.sourceAsMap.description}</span><br>
             </c:if>
             <c:if test="${hit.sourceAsMap.generatedDescription!=null}">
-                <span><span class="header">Generated Description</span>&nbsp;${hit.sourceAsMap.generatedDescription}</span><br>
+                <!--span><span class="header">Generated Description</span>&nbsp;${hit.sourceAsMap.generatedDescription}</span><br-->
             </c:if>
             <!--c:if test="$-{hit.sourceAsMap.type!=null}"-->
                 <!--span><span class="header">$-{hit.sourceAsMap.category}&nbsp;Type:&nbsp;</span> $-{hit.sourceAsMap.type}</span><br-->
             <!--/c:if-->
             <c:if test="${hit.sourceAsMap.subType!=null}">
-                <span><span class="header"><strong>${hit.sourceAsMap.category}&nbsp;SubType:</strong></span>&nbsp;${hit.sourceAsMap.subType}</span> <br>
+                <span><span class="header">${hit.sourceAsMap.category}&nbsp;SubType:</span>&nbsp;${hit.sourceAsMap.subType}</span> <br>
             </c:if>
 
-            <c:if test="${hit.sourceAsMap.modelOrganism!=null}">
-                <span><span class="header"><strong>Species:</strong></span>&nbsp;${hit.sourceAsMap.modelOrganism}</span> <br>
-            </c:if>
+            <!--c:if test="${hit.sourceAsMap.modelOrganism!=null}"-->
+                <!--span><span class="header">Species:</span>&nbsp;${hit.sourceAsMap.modelOrganism}</span> <br-->
+            <!--/c:if-->
             <c:if test="${hit.sourceAsMap.target!=null && hit.sourceAsMap.category=='Experiment'}">
                 <c:set var="first" value="true"/>
-                <span><span class="header">Target Tissue :</span>
+                <span><span class="header">Tissue :</span>
                 <c:forEach items="${hit.sourceAsMap.tissueTerm}" var="item">
                     <c:choose>
                         <c:when test="${first=='true'}">
@@ -197,7 +205,7 @@
                 </div>
             </c:if>
             <c:if test="${hit.sourceAsMap.study!=null}">
-                <span class="header"><strong>Associated Studies:</strong></span>
+                <span class="header">Associated Studies:</span>
                 <!--a href="/toolkit/data/experiments/study/$-{hit.sourceAsMap.study.studyId}">$-{hit.sourceAsMap.study.study}</a><br-->
                 <button type="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.studyId}" title="Studies" style="background-color: transparent">
                     <span style="text-decoration:underline">1</span>
@@ -219,7 +227,8 @@
 
 
         </div>
-    </td></tr>
+    </td>
+    </tr>
     </c:forEach>
 </table>
 
