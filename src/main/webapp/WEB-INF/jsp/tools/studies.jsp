@@ -7,6 +7,8 @@
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
 <%@ page import="edu.mcw.scge.dao.implementation.ExperimentRecordDao" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
+<%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -91,6 +93,7 @@
     for(Map.Entry entry:sortedStudies.entrySet()){
     String grantInitiative= (String) entry.getKey();
     Map<Integer, List<Study>> groupedStudies= (Map<Integer, List<Study>>) entry.getValue();
+        StudyDao studyDao=new StudyDao();
     %>
 <div>
 
@@ -101,16 +104,16 @@
   <%  for(Map.Entry e:groupedStudies.entrySet()){
         int groupId= (int) e.getKey();
         List<Study> studies1= (List<Study>) e.getValue();%>
-     <% if(studies1.size()>1){%>
+     <% if(studies1.size()>1 || studies1.get(0).getGroupId()==1410){%>
 
             <tr class="header1" style="display:table-row;">
                 <td class="toggle" style="cursor:pointer;text-align:center;" width="20"><i class="fa fa-plus-circle expand" aria-hidden="true" style="font-size:medium;color:green" title="Click to expand"></i></td>
                 <td></td>
-                <td ><a href="/toolkit/data/experiments/group/<%=studies1.get(0).getGroupId()%>"><%=studies1.get(0).getStudy()%></a></td>
+                <td ><a href="/toolkit/data/experiments/group/<%=studies1.get(0).getGroupId()%>"><%=grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle()%></a></td>
                 <td><%=studies1.size()%></td>
                 <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantInitiative())%></td>
-                <td><%=studies1.get(0).getPiLastName()%>,&nbsp;<%=studies1.get(0).getPiFirstName()%></td>
-                <td><%=studies1.get(0).getLabName()%></td>
+                <td><%=studyDao.getStudiesByGroupId(groupId).get(0).getPi()%></td>
+                <td><%=studyDao.getStudiesByGroupId(groupId).get(0).getLabName()%></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -118,7 +121,7 @@
 
     <%}%>
         <% for (Study s: studies1) {
-            if(studies1.size()>1) {%>
+            if(studies1.size()>1 || studies1.get(0).getGroupId()==1410) {%>
         <tr class="tablesorter-childRow" >
                 <%}else{%>
         <tr class="header1" style="display:table-row;">
@@ -158,16 +161,22 @@
             %>
             <td>
 
-                <%if(access.hasStudyAccess(s,person)) {if(studies1.size()>1) { %>
+                <%if(access.hasStudyAccess(s,person)) {if(studies1.size()>1 && studies1.get(0).getGroupId()!=1410) { %>
                     <%-- if (!hasRecords) { %>
                     <%=s.getStudy()%>
                         <span style="font-size:10px;">(Submission Received: Processing)</span>
                     <% } else { --%>
                         Submission SCGE-<%=s.getStudyId()%>
                     <%-- } --%>
-                    <%}else{%>
+                    <%}else
+                        if(studies1.get(0).getGroupId()==1410){
+                            if(s.getStudy().equalsIgnoreCase(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle())){%>
+                                        <%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                           <% }else{%>
+                <strong>VALIDATION - </strong><%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                          <%  }%>
+                <%}else{%>
                     <a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a>
-
                 <%}%>
                 <%} else { if(studies1.size()>1){ %>
                     Submission SCGE-<%=s.getStudyId()%>
@@ -188,7 +197,7 @@
             </td>
             <td style="white-space: nowrap;width:15%">
                 <%if(studies1.size()<=1){ %>
-                <%=s.getPiLastName()%>,&nbsp;<%=s.getPiFirstName()%>
+                <%=s.getPi()%>
                 <%}%>
             </td>
             <td>
