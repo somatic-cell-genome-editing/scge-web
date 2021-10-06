@@ -388,7 +388,7 @@
         <div class="accordion-group">
             <div class="accordion-heading card-header">
                 <a class="accordion-toggle" data-toggle="collapse" href="#collapseEight">
-                       Target<span class="float-right"><i class="fas fa-angle-up"></i></span>
+                       Tissue<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
             <div id="collapseEight" class="accordion-body collapse show ">

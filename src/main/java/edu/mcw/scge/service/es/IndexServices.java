@@ -121,6 +121,7 @@ public class IndexServices {
                 "vectorAnnotatedMap",
                 "titerMethod",
                "name.ngram",
+                "editorSymbol.ngram",
                 "termSynonyms"
         ));
 
@@ -383,12 +384,14 @@ public class IndexServices {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0])
                         )
                                .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
-                              //  .type(MultiMatchQueryBuilder.Type.PHRASE).analyzer("pattern")
+                               .type(MultiMatchQueryBuilder.Type.PHRASE).analyzer("pattern")
                             //    .analyzer("pattern")
                         //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
                 ).boost(100);
-         /*   q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                            //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+        /*   q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                           .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
+                            .analyzer("")
+                   //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                           //  .operator(Operator.AND)
                     //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
             ).boost(50);*/
@@ -415,7 +418,7 @@ public class IndexServices {
     public static List<String> searchFields(){
 
        List<String> fields= Arrays.asList(
-                "name", "type", "subType", "symbol",
+                "name", "type", "subType", "symbol","symbol.ngram",
                 "description", "experimentalTags", "externalId", "aliases", "generatedDescription",
                 "tissueTerm", "species", "site", "sequence", "pam", "detectionMethod","target",
                 "name.ngram", "study",
@@ -424,6 +427,7 @@ public class IndexServices {
                "editorType" ,
                 "editorSubType" ,
                 "editorSymbol" ,
+                "editorSymbol.ngram",
                 "editorAlias" ,
                 "editorSpecies" ,
                 "editorPamPreference" ,

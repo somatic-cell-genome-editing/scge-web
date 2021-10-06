@@ -113,11 +113,11 @@
                 <!--span><span class="header">$-{hit.sourceAsMap.category}&nbsp;Type:&nbsp;</span> $-{hit.sourceAsMap.type}</span><br-->
             <!--/c:if-->
             <c:if test="${hit.sourceAsMap.subType!=null}">
-                <span><span class="header">${hit.sourceAsMap.category}&nbsp;SubType:</span>&nbsp;${hit.sourceAsMap.subType}</span> <br>
+                <!--span><span class="header">$-{hit.sourceAsMap.category}&nbsp;SubType:</span>&nbsp;$-{hit.sourceAsMap.subType}</span> <br-->
             </c:if>
 
             <!--c:if test="${hit.sourceAsMap.modelOrganism!=null}"-->
-                <!--span><span class="header">Species:</span>&nbsp;${hit.sourceAsMap.modelOrganism}</span> <br-->
+                <!--span><span class="header">Species:</span>&nbsp;-$-{hit.sourceAsMap.modelOrganism}</span> <br-->
             <!--/c:if-->
             <c:if test="${hit.sourceAsMap.target!=null && hit.sourceAsMap.category=='Experiment'}">
                 <c:set var="first" value="true"/>
