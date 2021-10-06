@@ -158,13 +158,13 @@
 
                     if (tissueDeliveryResults == null || !tissueDeliveryResults.containsKey(tissueName))
                         resultDetails = new ArrayList<>();
-                    else resultDetails = tissueDeliveryResults.get(tissueName);
+                    else resultDetails=tissueDeliveryResults.get(tissueName);
                     if (erd.getReplicate() == 0 && !erd.getUnits().equalsIgnoreCase("signal")) {
                         resultDetails.add(Double.valueOf(erd.getResult()));
                         tissueDeliveryResults.put(tissueName, resultDetails);
 
                         if (tissueDeliveryConditions == null || !tissueDeliveryConditions.containsKey(tissueName))
-                            labelDetails = new TreeSet<>();
+                            labelDetails = new LinkedHashSet<>();
                         else labelDetails = tissueDeliveryConditions.get(tissueName);
                         labelDetails.add("\"" + er.getExperimentName() + "\"");
                         tissueDeliveryConditions.put(tissueName, labelDetails);
@@ -188,7 +188,7 @@
                         tissueEditingResults.put(tissueName, resultDetails);
 
                         if(tissueEditingConditions == null || !tissueEditingConditions.containsKey(tissueName))
-                            labelDetails = new TreeSet<>();
+                            labelDetails = new LinkedHashSet<>();
                         else  labelDetails = tissueEditingConditions.get(tissueName);
                         labelDetails.add("\""+er.getExperimentName()+"\"");
                         tissueEditingConditions.put(tissueName,labelDetails);
