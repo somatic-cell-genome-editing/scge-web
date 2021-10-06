@@ -82,21 +82,29 @@
 
 
     <%
-        HashMap<String, Boolean> tissueEditingMap = new HashMap<String, Boolean>();
-        HashMap<String, Boolean> tissueDeliveryMap = new HashMap<String, Boolean>();
-        HashMap<String,List<Double>> tissueEditingResults = new HashMap<>();
-        HashMap<String,List<Double>> tissueDeliveryResults = new HashMap<>();
-        HashMap<String,Set<String>> tissueDeliveryConditions = new HashMap<>();
-        HashMap<String,Set<String>> tissueEditingConditions = new HashMap<>();
-        HashMap<String,List<ExperimentResultDetail>> qualEditingResults = new HashMap<>();
-        HashMap<String,List<ExperimentResultDetail>> qualDeliveryResults = new HashMap<>();
-        HashMap<String,ExperimentRecord> experimentRecordHashMap = new HashMap<>();
+        LinkedHashMap<String, Boolean> tissueEditingMap = new LinkedHashMap<String, Boolean>();
+        LinkedHashMap<String, Boolean> tissueDeliveryMap = new LinkedHashMap<String, Boolean>();
+        LinkedHashMap<String,Set<Double>> tissueEditingResults = new LinkedHashMap<>();
+        LinkedHashMap<String,Set<Double>> tissueDeliveryResults = new LinkedHashMap<>();
+        LinkedHashMap<String,Set<String>> tissueDeliveryConditions = new LinkedHashMap<>();
+        LinkedHashMap<String,Set<String>> tissueEditingConditions = new LinkedHashMap<>();
+        LinkedHashMap<String,List<ExperimentResultDetail>> qualEditingResults = new LinkedHashMap<>();
+        LinkedHashMap<String,List<ExperimentResultDetail>> qualDeliveryResults = new LinkedHashMap<>();
+        LinkedHashMap<String,ExperimentRecord> experimentRecordHashMap = new LinkedHashMap<>();
         List<String> uniqueObjects = new ArrayList<>();
-        List<Double> resultDetails = new ArrayList<>();
+        Set<Double> resultDetails = new TreeSet<>();
         Set<String> labelDetails = new TreeSet<>();
-        HashMap<String,String> tissueNames = new HashMap<>();
-        HashMap<String,String> tissueLabels = new HashMap<>();
+        LinkedHashMap<String,String> tissueNames = new LinkedHashMap<>();
+        LinkedHashMap<String,String> tissueLabels = new LinkedHashMap<>();
         List<ExperimentResultDetail> qualResults = new ArrayList<>();
+
+        List<Set<String>> deliveryConditions = new ArrayList<>();
+        List<Set<String>> editingConditions = new ArrayList<>();
+        List<String> deliveryNames = new ArrayList<>();
+        List<String> editingNames = new ArrayList<>();
+        List<Set<Double>> deliveryResults = new ArrayList<>();
+        List<Set<Double>> editingResults = new ArrayList<>();
+
         int noOfRecords = experimentRecords.size();
         int noOfEditors = 0;
         int noOfDelivery = 0;
@@ -157,7 +165,7 @@
 
 
                     if (tissueDeliveryResults == null || !tissueDeliveryResults.containsKey(tissueName))
-                        resultDetails = new ArrayList<>();
+                        resultDetails = new TreeSet<>();
                     else resultDetails = tissueDeliveryResults.get(tissueName);
                     if (erd.getReplicate() == 0 && !erd.getUnits().equalsIgnoreCase("signal")) {
                         resultDetails.add(Double.valueOf(erd.getResult()));
@@ -181,7 +189,7 @@
                     tissueEditingMap.put(tissue + "-" + er.getExperimentName(), true);
 
                     if(tissueEditingResults == null || !tissueEditingResults.containsKey(tissueName))
-                        resultDetails = new ArrayList<>();
+                        resultDetails = new TreeSet<>();
                     else  resultDetails = tissueEditingResults.get(tissueName);
                     if (erd.getReplicate() == 0 && !erd.getUnits().equalsIgnoreCase("signal")) {
                         resultDetails.add(Double.valueOf(erd.getResult()));
@@ -294,11 +302,16 @@
                 deliveryurl += terms[1];
                 editingurl += terms[1];
             }
+
     %>
     <tr>
         <td width="250"><span style="font-size:16px; font-weight:700;"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span></td>
         <td>
-            <% if (tissueDeliveryConditions.containsKey(tissueName)) {%>
+            <% if (tissueDeliveryConditions.containsKey(tissueName)) {
+                    deliveryConditions.add(tissueDeliveryConditions.get(tissueName));
+                deliveryResults.add(tissueDeliveryResults.get(tissueName));
+                deliveryNames.add(tissueName);
+            %>
             <a href= "<%=deliveryurl%>">
             <div class="chart-container">
                 <canvas id="canvasDelivery<%=i%>"></canvas>
@@ -329,7 +342,11 @@
             <%  } else %> <b>NO DATA</b>
         </td>
         <td>
-            <% if (tissueEditingConditions.containsKey(tissueName)) {%>
+            <% if (tissueEditingConditions.containsKey(tissueName)) {
+                editingConditions.add(tissueEditingConditions.get(tissueName));
+                editingResults.add(tissueEditingResults.get(tissueName));
+                editingNames.add(tissueName);
+            %>
             <a href= "<%=editingurl%>">
             <div class="chart-container">
                 <canvas id="canvasEditing<%=j%>"></canvas>
@@ -371,12 +388,15 @@
    var tissuesDelivery = [];
    var tissuesEditing = [];
    var tissueEditingConditions = [];
-   var tissueDeliveryData = <%=tissueDeliveryResults.values()%>;
-   tissueDeliveryConditions = <%=tissueDeliveryConditions.values()%>;
-   tissuesDelivery = <%=tissueDeliveryResults.keySet()%>;
-   var tissueEditingData = <%=tissueEditingResults.values()%>;
-   tissueEditingConditions = <%=tissueEditingConditions.values()%>;
-   tissuesEditing = <%=tissueEditingResults.keySet()%>;
+
+   var tissueDeliveryData = <%=deliveryResults%>; //data
+   tissueDeliveryConditions = <%=deliveryConditions%>; //labels
+   tissuesDelivery = <%=deliveryNames%>; //each tissue
+
+
+   var tissueEditingData = <%=editingResults%>;
+   tissueEditingConditions = <%=editingConditions%>;
+   tissuesEditing = <%=editingNames%>;
 
    function generateDeliveryData(index){
        var data=[];
