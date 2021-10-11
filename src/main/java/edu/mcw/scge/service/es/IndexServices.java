@@ -377,7 +377,7 @@ public class IndexServices {
                  "deliveryType" , "deliveryName" ,"deliverySource" ,
                  "modelType" , "modelName" , "modelOrganism" , "transgene" , "transgeneReporter" , "strainCode",
 
-                 "guideSpecies", "guideTargetLocus", "guideTargetLocus.ngram", "guideTargetSequence", "guidePam", "grnaLabId", "guide", "guideSource",
+                 "guideSpecies", "guideTargetLocus", "guideTargetLocus.ngram", "guideTargetSequence", "guidePam", "grnaLabId","grnaLabId.ngram", "guide", "guideSource",
 
                  "vectorName", "vectorType", "vectorSubtype", "genomeSerotype", "capsidSerotype", "capsidVariant", "vectorSource", "vectorLabId",
                 "vectorAnnotatedMap", "titerMethod", "modifications", "proteinSequence",
