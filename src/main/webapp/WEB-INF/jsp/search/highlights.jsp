@@ -14,40 +14,11 @@
     <c:set value="true" var="editorType"/>
     <c:set value="true" var="esitorSubType"/>
     <c:set value="true" var="grnaLabId"/>
+    <c:set value="true" var="guideTargetLocus"/>
     <c:forEach items="${hit.highlightFields}" var="hf">
         <c:if test="${(hf.key=='name.ngram' ||hf.key=='name') && name=='true' }">
                 <span class="header" style="color:#2a6496;"><strong>Name -></strong></span>
             <c:set value="false" var="name"/>
-
-        </c:if>
-        <c:if test="${(hf.key=='editorType.ngram' ||hf.key=='editorType') && editorType=='true' }">
-            <span class="header" style="color:#2a6496;"><strong>Editor Type -></strong></span>
-            <c:set value="false" var="editorType"/>
-
-        </c:if>
-        <c:if test="${(hf.key=='editorSubType.ngram' ||hf.key=='editorSubType') && esitorSubType=='true' }">
-            <span class="header" style="color:#2a6496;"><strong>Editor SubType -></strong></span>
-            <c:set value="false" var="esitorSubType"/>
-
-        </c:if>
-        <c:if test="${(hf.key=='grnaLabId.ngram' ||hf.key=='grnaLabId') && grnaLabId=='true' }">
-            <span class="header" style="color:#2a6496;"><strong>grnaLabId -></strong></span>
-            <c:set value="false" var="grnaLabId"/>
-
-        </c:if>
-        <c:if test="${(hf.key!='name.ngram' && hf.key!='name' &&
-                hf.key!='editorType.ngram' && hf.key!='editorType' &&
-                hf.key!='editorSubType.ngram' && hf.key!='editorSubType' &&
-                hf.key!='grnaLabId.ngram' && hf.key!='grnaLabId')}">
-                    <c:if test="${hf.key=='termSynonyms'}">
-                        <span class="header" style="color:#2a6496;"><strong>Tissue/CellType Term Synonyms -></strong></span>
-
-                    </c:if>
-                    <c:if test="${hf.key!='termSynonyms'}">
-                        <span class="header" style="color:#2a6496;"><strong>${hf.key} -></strong></span>
-
-                    </c:if>
-        </c:if>
             <c:set var="fragmentsFirst" value="true"/>
             <c:forEach items="${hf.value.fragments}" var="f">
                 <c:choose>
@@ -61,7 +32,102 @@
                 </c:choose>
 
             </c:forEach>
+        </c:if>
+        <c:if test="${(hf.key=='editorType.ngram' ||hf.key=='editorType') && editorType=='true' }">
+            <span class="header" style="color:#2a6496;"><strong>Editor Type -></strong></span>
+            <c:set value="false" var="editorType"/>
+            <c:set var="fragmentsFirst" value="true"/>
+            <c:forEach items="${hf.value.fragments}" var="f">
+                <c:choose>
+                    <c:when test="${fragmentsFirst=='true'}">
+                        <c:set var="fragmentsFirst" value="false"/>
+                        &nbsp;${f}
+                    </c:when>
+                    <c:otherwise>
+                        ;&nbsp;${f}
+                    </c:otherwise>
+                </c:choose>
 
+            </c:forEach>
+        </c:if>
+        <c:if test="${(hf.key=='editorSubType.ngram' ||hf.key=='editorSubType') && esitorSubType=='true' }">
+            <span class="header" style="color:#2a6496;"><strong>Editor SubType -></strong></span>
+            <c:set value="false" var="esitorSubType"/>
+            <c:set var="fragmentsFirst" value="true"/>
+            <c:forEach items="${hf.value.fragments}" var="f">
+                <c:choose>
+                    <c:when test="${fragmentsFirst=='true'}">
+                        <c:set var="fragmentsFirst" value="false"/>
+                        &nbsp;${f}
+                    </c:when>
+                    <c:otherwise>
+                        ;&nbsp;${f}
+                    </c:otherwise>
+                </c:choose>
+
+            </c:forEach>
+        </c:if>
+        <c:if test="${(hf.key=='grnaLabId.ngram' ||hf.key=='grnaLabId') && grnaLabId=='true' }">
+            <span class="header" style="color:#2a6496;"><strong>grnaLabId -></strong></span>
+            <c:set value="false" var="grnaLabId"/>
+            <c:set var="fragmentsFirst" value="true"/>
+            <c:forEach items="${hf.value.fragments}" var="f">
+                <c:choose>
+                    <c:when test="${fragmentsFirst=='true'}">
+                        <c:set var="fragmentsFirst" value="false"/>
+                        &nbsp;${f}
+                    </c:when>
+                    <c:otherwise>
+                        ;&nbsp;${f}
+                    </c:otherwise>
+                </c:choose>
+
+            </c:forEach>
+        </c:if>
+        <c:if test="${(hf.key=='guideTargetLocus.ngram' ||hf.key=='guideTargetLocus') && guideTargetLocus=='true' }">
+            <span class="header" style="color:#2a6496;"><strong>Guide Target Locus -></strong></span>
+            <c:set value="false" var="guideTargetLocus"/>
+            <c:set var="fragmentsFirst" value="true"/>
+            <c:forEach items="${hf.value.fragments}" var="f">
+                <c:choose>
+                    <c:when test="${fragmentsFirst=='true'}">
+                        <c:set var="fragmentsFirst" value="false"/>
+                        &nbsp;${f}
+                    </c:when>
+                    <c:otherwise>
+                        ;&nbsp;${f}
+                    </c:otherwise>
+                </c:choose>
+
+            </c:forEach>
+        </c:if>
+        <c:if test="${(hf.key!='name.ngram' && hf.key!='name' &&
+                hf.key!='editorType.ngram' && hf.key!='editorType' &&
+                hf.key!='editorSubType.ngram' && hf.key!='editorSubType' &&
+                hf.key!='grnaLabId.ngram' && hf.key!='grnaLabId')}">
+                    <c:if test="${hf.key=='termSynonyms'}">
+                        <span class="header" style="color:#2a6496;"><strong>Tissue/CellType Term Synonyms -></strong></span>
+
+                    </c:if>
+                    <c:if test="${hf.key!='termSynonyms'}">
+                        <span class="header" style="color:#2a6496;"><strong>${hf.key} -></strong></span>
+
+                    </c:if>
+
+            <c:set var="fragmentsFirst" value="true"/>
+            <c:forEach items="${hf.value.fragments}" var="f">
+                <c:choose>
+                    <c:when test="${fragmentsFirst=='true'}">
+                        <c:set var="fragmentsFirst" value="false"/>
+                        &nbsp;${f}
+                    </c:when>
+                    <c:otherwise>
+                        ;&nbsp;${f}
+                    </c:otherwise>
+                </c:choose>
+
+            </c:forEach>
+        </c:if>
 
 
 
