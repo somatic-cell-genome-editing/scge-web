@@ -72,57 +72,7 @@ public class IndexServices {
 
     }
     public HighlightBuilder buildHighlights(){
-        List<String> fields=new ArrayList<>(Arrays.asList(
-               "name", "type", "subType","aliases","externalId","symbol","additionalData", "experimentalTags",
-                "species","pam","description","site", "detectionMethod","sequence","target","tissueTerm",
-                "study",
-                "labName" ,
-                "pi",
-                "editorType" ,
-                "editorSubType" ,
-                "editorSymbol" ,
-                "editorAlias" ,
-                "editorSpecies" ,
-                "editorPamPreference" ,
-                "substrateTarget" ,
-                "activity" ,
-                "fusion" ,
-                "dsbCleavageType" ,
-                "editorSource" ,
-                "deliveryType" ,
-                "deliveryName" ,
-                "deliverSource" ,
-                "deliverDescription" ,
-                "modelType" ,
-                "modelName" ,
-                "modelOrganism" ,
-                "transgene" ,
-                "transgeneReporter" ,
-                "modelDescription" ,
-                "modelStrainCode",
-                "guideSpecies",
-                "guideTargetLocus",
-                "guideTargetSequence",
-                "guidePam",
-                "grnaLabId",
-
-                "guide",
-                "guideSource",
-                "guideDescription",
-                "vectorName",
-                "vectorType",
-                "vectorSubtype",
-                "vectorGenomeSerotype",
-                "vectorCapsidSerotype",
-                "vectorDescription",
-                "vectorCapsidVariant",
-                "vectorSource",
-                "vectorLabId",
-                "vectorAnnotatedMap",
-                "titerMethod",
-               "name.ngram",
-                "termSynonyms"
-        ));
+        List<String> fields=searchFields();
 
         HighlightBuilder hb=new HighlightBuilder();
         for(String field:fields){
@@ -360,35 +310,36 @@ public class IndexServices {
         if(searchTerm!=null && !searchTerm.equals("")) {
             if(searchTerm.toLowerCase().contains("and")){
                 q.add(QueryBuilders.multiMatchQuery(String.join(" ", searchTerm.toLowerCase().split(" and ")), IndexServices.searchFields().toArray(new String[0]))
-                                //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.AND)
                         //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
                 ).boost(100);
             }
             if(searchTerm.toLowerCase().contains("or")){
-             //   searchTerms= Arrays.asList(searchTerm.toLowerCase().split(" or "));
                 q.add(QueryBuilders.multiMatchQuery(String.join(" ", searchTerm.toLowerCase().split(" or ")), IndexServices.searchFields().toArray(new String[0]))
-                                //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.OR)
                         //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
                 ).boost(100);
             }
             if(!searchTerm.toLowerCase().contains("and") && searchTerm.toLowerCase().contains(" ") ) {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                                //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.AND)
                         //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
                 ).boost(100);
             }else
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0])
                         )
-                               .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
-                              //  .type(MultiMatchQueryBuilder.Type.PHRASE).analyzer("pattern")
-                            //    .analyzer("pattern")
+                               .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                               .type(MultiMatchQueryBuilder.Type.PHRASE)
+                              .analyzer("pattern")
                         //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
                 ).boost(100);
-         /*   q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                            //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+        /*   q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                           .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
+                            .analyzer("")
+                   //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                           //  .operator(Operator.AND)
                     //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
             ).boost(50);*/
@@ -413,57 +364,29 @@ public class IndexServices {
         return q;
     }
     public static List<String> searchFields(){
+        return Arrays.asList(
+                "name", "name.ngram", "symbol", "symbol.ngram",
+                "type", "subType","type.ngram", "subType.ngram","description",
+                "species", "sex",
+                "study", "labName" , "pi",
+                 "externalId", "aliases", "generatedDescription",
 
-       List<String> fields= Arrays.asList(
-                "name", "type", "subType", "symbol",
-                "description", "experimentalTags", "externalId", "aliases", "generatedDescription",
-                "tissueTerm", "species", "site", "sequence", "pam", "detectionMethod","target",
-                "name.ngram", "study",
-                "labName" ,
-                "pi",
-               "editorType" ,
-                "editorSubType" ,
-                "editorSymbol" ,
-                "editorAlias" ,
-                "editorSpecies" ,
-                "editorPamPreference" ,
-                "substrateTarget" ,
-                "activity" ,
-                "fusion" ,
-                "dsbCleavageType" ,
-                "editorSource" ,
-                "deliveryType" ,
-                "deliveryName" ,
-                "deliverySource" ,
-                "generatedDescription" ,
-                "modelType" ,
-                "modelName" ,
-                "modelOrganism" ,
-                "transgene" ,
-                "transgeneReporter" ,
-                "strainCode",
-                "guideSpecies",
-                "guideTargetLocus",
-                "guideTargetSequence",
-                "guidePam",
-                "grnaLabId",
+                "editorType" , "editorSubType" ,"editorType.ngram", "editorSubType.ngram",  "editorSymbol" , "editorSymbol.ngram", "editorAlias" , "editorSpecies" ,
+                 "editorPamPreference" , "substrateTarget" , "activity" , "fusion" , "dsbCleavageType" , "editorSource" ,
 
-                "guide",
-                "guideSource",
-                "vectorName",
-                "vectorType",
-                "vectorSubtype",
-                "genomeSerotype",
-                "capsidSerotype",
-                "description",
-                "capsidVariant",
-                "vectorSource",
-                "vectorLabId",
-                "vectorAnnotatedMap",
-                "titerMethod",
-               "termSynonyms"
-        );
-    //   return fields.toArray(new String[0]);
-        return fields;
+                 "deliveryType" , "deliveryName" ,"deliverySource" ,
+                 "modelType" , "modelName" , "modelOrganism" , "transgene" , "transgeneReporter" , "strainCode",
+
+                 "guideSpecies", "guideTargetLocus", "guideTargetLocus.ngram", "guideTargetSequence", "guidePam", "grnaLabId", "guide", "guideSource",
+
+                 "vectorName", "vectorType", "vectorSubtype", "genomeSerotype", "capsidSerotype", "capsidVariant", "vectorSource", "vectorLabId",
+                "vectorAnnotatedMap", "titerMethod", "modifications", "proteinSequence",
+
+                "tissueIds","tissueTerm",   "termSynonyms","site", "sequence", "pam", "detectionMethod","target",
+                "studyNames", "experimentNames"
+
+
+
+         );
     }
 }
