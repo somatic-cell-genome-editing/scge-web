@@ -50,7 +50,7 @@ public class SCGEContext {
         } catch( UnknownHostException e ) {
             return null;
         }
-        return "scge_search_dev";
+        return "scge_search_test";
     }
 
 }
