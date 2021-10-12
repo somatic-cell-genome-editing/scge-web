@@ -366,15 +366,15 @@ public class IndexServices {
     public static List<String> searchFields(){
         return Arrays.asList(
                 "name", "name.ngram", "symbol", "symbol.ngram",
-                "type", "subType","type.ngram", "subType.ngram","description",
+                "type", "subType","description",
                 "species", "sex",
                 "study", "labName" , "pi",
                  "externalId", "aliases", "generatedDescription",
 
-                "editorType" , "editorSubType" ,"editorType.ngram", "editorSubType.ngram",  "editorSymbol" , "editorSymbol.ngram", "editorAlias" , "editorSpecies" ,
+                "editorType" , "editorSubType" ,  "editorSymbol" ,  "editorAlias" , "editorSpecies" ,
                  "editorPamPreference" , "substrateTarget" , "activity" , "fusion" , "dsbCleavageType" , "editorSource" ,
 
-                 "deliveryType" , "deliverySystemName","deliverySystemName.ngram" ,"deliverySource" ,
+                 "deliveryType" , "deliverySystemName","deliverySource" ,
                  "modelType" , "modelName" , "modelOrganism" , "transgene" , "transgeneReporter" , "strainCode",
 
                  "guideSpecies", "guideTargetLocus", "guideTargetLocus.ngram", "guideTargetSequence", "guidePam", "grnaLabId","grnaLabId.ngram", "guide", "guideSource",
