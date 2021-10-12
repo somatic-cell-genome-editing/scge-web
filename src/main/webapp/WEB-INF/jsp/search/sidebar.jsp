@@ -34,12 +34,26 @@
                         <ul class="nav flex-column">
                             <c:forEach items="${aggregations.catBkts}" var="bkt">
                                 <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
+                                <c:if test="${bkt.key=='Experiment'}">
                                 <li class="nav-item">
 
                                     <a class="nav-link" href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}" style="padding-left: 0">
                                         ${bkt.key}&nbsp;(${bkt.docCount})</a>
 
                                 </li>
+                            </c:if>
+
+                            </c:forEach>
+                            <c:forEach items="${aggregations.catBkts}" var="bkt">
+                            <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
+                            <c:if test="${bkt.key!='Experiment'}">
+                                <li class="nav-item">
+
+                                    <a class="nav-link" href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}" style="padding-left: 0">
+                                            ${bkt.key}&nbsp;(${bkt.docCount})</a>
+
+                                </li>
+                            </c:if>
                             </c:forEach>
                         </ul>
                     </div>
