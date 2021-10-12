@@ -18,6 +18,7 @@ import javax.management.Query;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class IndexServices {
     private static String searchIndex;
@@ -72,8 +73,7 @@ public class IndexServices {
 
     }
     public HighlightBuilder buildHighlights(){
-        List<String> fields=searchFields();
-
+        List<String> fields= Stream.concat(searchFields().stream(), mustFields().stream()).collect(Collectors.toList());
         HighlightBuilder hb=new HighlightBuilder();
         for(String field:fields){
             hb.field(field);
@@ -312,30 +312,85 @@ public class IndexServices {
                 q.add(QueryBuilders.multiMatchQuery(String.join(" ", searchTerm.toLowerCase().split(" and ")), IndexServices.searchFields().toArray(new String[0]))
                                 .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.AND)
+                                .analyzer("pattern")
                         //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
-                ).boost(100);
+                );
+                q.add(QueryBuilders.multiMatchQuery(searchTerm)
+                        .field("symbol", 100.0f)
+                        .field("type", 100.0f)
+                        .field("subType", 100.0f)
+                        .field("name.ngram", 100.0f)
+                        .field("name", 100.0f)
+                        .field("symbol.ngram", 100.0f)
+                        .field("tissueTerm", 100.0f)
+                        .field("termSynonyms", 50.0f)
+                        .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
+                        .type(MultiMatchQueryBuilder.Type.PHRASE)
+                        .operator(Operator.AND)
+                        .analyzer("pattern")).boost(100);
             }
             if(searchTerm.toLowerCase().contains("or")){
                 q.add(QueryBuilders.multiMatchQuery(String.join(" ", searchTerm.toLowerCase().split(" or ")), IndexServices.searchFields().toArray(new String[0]))
                                 .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.OR)
-                        //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
-                ).boost(100);
+                                .analyzer("pattern")
+                );
+                q.add(QueryBuilders.multiMatchQuery(searchTerm)
+                        .field("symbol", 100.0f)
+                        .field("type", 100.0f)
+                        .field("subType", 100.0f)
+                        .field("name.ngram", 100.0f)
+                        .field("name", 100.0f)
+                        .field("symbol.ngram", 100.0f)
+                        .field("tissueTerm", 100.0f)
+                        .field("termSynonyms", 50.0f)
+                        .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
+                        .type(MultiMatchQueryBuilder.Type.PHRASE)
+                        .operator(Operator.OR)
+                        .analyzer("pattern")).boost(100);
             }
-            if(!searchTerm.toLowerCase().contains("and") && searchTerm.toLowerCase().contains(" ") ) {
+
+
+        if(!searchTerm.toLowerCase().contains("and") && searchTerm.toLowerCase().contains(" ") ) {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                                 .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.AND)
-                        //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
-                ).boost(100);
-            }else
-                q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0])
-                        )
-                               .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                               .type(MultiMatchQueryBuilder.Type.PHRASE)
-                              .analyzer("pattern")
-                        //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
-                ).boost(100);
+                                .analyzer("pattern")
+                );
+            q.add(QueryBuilders.multiMatchQuery(searchTerm)
+                    .field("symbol", 100.0f)
+                    .field("type", 100.0f)
+                    .field("subType", 100.0f)
+                    .field("name.ngram", 100.0f)
+                    .field("name", 100.0f)
+                    .field("symbol.ngram", 100.0f)
+                    .field("tissueTerm", 100.0f)
+                    .field("termSynonyms", 50.0f)
+                    .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
+                    .type(MultiMatchQueryBuilder.Type.PHRASE)
+                    .operator(Operator.AND)
+                    .analyzer("pattern")).boost(100);
+
+            }else {
+                q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                                .type(MultiMatchQueryBuilder.Type.PHRASE)
+                                .analyzer("pattern")
+                );
+                q.add(QueryBuilders.multiMatchQuery(searchTerm)
+                        .field("symbol", 100.0f)
+                        .field("type", 100.0f)
+                        .field("subType", 100.0f)
+                        .field("name.ngram", 100.0f)
+                        .field("name", 100.0f)
+                        .field("symbol.ngram", 100.0f)
+                        .field("tissueTerm", 100.0f)
+                        .field("termSynonyms", 50.0f)
+                        .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
+                        .type(MultiMatchQueryBuilder.Type.PHRASE)
+                        .analyzer("pattern")).boost(100);
+
+            }
         /*   q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                            .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
                             .analyzer("")
@@ -363,18 +418,29 @@ public class IndexServices {
 
         return q;
     }
+    public static List<String> mustFields(){
+        return Arrays.asList(
+              "name", "name.ngram", "symbol", "symbol.ngram",
+                "type", "subType","tissueTerm",
+                "termSynonyms"
+
+
+
+        );
+    }
     public static List<String> searchFields(){
         return Arrays.asList(
-                "name", "name.ngram", "symbol", "symbol.ngram",
-                "type", "subType","type.ngram", "subType.ngram","description",
+              // "name", "name.ngram", "symbol", "symbol.ngram",
+              //  "type", "subType",
                 "species", "sex",
+                "description",
                 "study", "labName" , "pi",
                  "externalId", "aliases", "generatedDescription",
 
-                "editorType" , "editorSubType" ,"editorType.ngram", "editorSubType.ngram",  "editorSymbol" , "editorSymbol.ngram", "editorAlias" , "editorSpecies" ,
+                "editorType" , "editorSubType" ,  "editorSymbol" ,  "editorAlias" , "editorSpecies" ,
                  "editorPamPreference" , "substrateTarget" , "activity" , "fusion" , "dsbCleavageType" , "editorSource" ,
 
-                 "deliveryType" , "deliverySystemName","deliverySystemName.ngram" ,"deliverySource" ,
+                 "deliveryType" , "deliverySystemName","deliverySource" ,
                  "modelType" , "modelName" , "modelOrganism" , "transgene" , "transgeneReporter" , "strainCode",
 
                  "guideSpecies", "guideTargetLocus", "guideTargetLocus.ngram", "guideTargetSequence", "guidePam", "grnaLabId","grnaLabId.ngram", "guide", "guideSource",
@@ -382,8 +448,10 @@ public class IndexServices {
                  "vectorName", "vectorType", "vectorSubtype", "genomeSerotype", "capsidSerotype", "capsidVariant", "vectorSource", "vectorLabId",
                 "vectorAnnotatedMap", "titerMethod", "modifications", "proteinSequence",
 
-                "tissueIds","tissueTerm",   "termSynonyms","site", "sequence", "pam", "detectionMethod","target",
-                "studyNames", "experimentNames"
+             "tissueIds",
+            //    "tissueTerm", "termSynonyms",
+                "site", "sequence", "pam", "detectionMethod","target",
+               "studyNames", "experimentNames"
 
 
 
