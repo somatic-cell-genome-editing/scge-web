@@ -374,7 +374,7 @@ public class IndexServices {
                 "editorType" , "editorSubType" ,"editorType.ngram", "editorSubType.ngram",  "editorSymbol" , "editorSymbol.ngram", "editorAlias" , "editorSpecies" ,
                  "editorPamPreference" , "substrateTarget" , "activity" , "fusion" , "dsbCleavageType" , "editorSource" ,
 
-                 "deliveryType" , "deliveryName" ,"deliverySource" ,
+                 "deliveryType" , "deliverySystemName","deliverySystemName.ngram" ,"deliverySource" ,
                  "modelType" , "modelName" , "modelOrganism" , "transgene" , "transgeneReporter" , "strainCode",
 
                  "guideSpecies", "guideTargetLocus", "guideTargetLocus.ngram", "guideTargetSequence", "guidePam", "grnaLabId","grnaLabId.ngram", "guide", "guideSource",
