@@ -86,8 +86,8 @@
 
          <% }  %>
             <% if (tissueList.size() == 0 || selectedResultType != null) { %>
-            <span style="color:#1A80B6;font-size:16px;font-weight: bold">Experiment Description: </span><span style="font-size:14px;font-weight: bold"> <%=ex.getDescription()%><br>
-            <span style="color:#1A80B6;font-size:16px;font-weight: bold">Assay Description:</span> <span style="font-size:14px;font-weight: bold"><%=request.getAttribute("assay")%></span>
+            <h6 style="color:#1A80B6;">Experiment Description:&nbsp;<small style="color:black"><%=ex.getDescription()%></small> </h6>
+            <h6 style="color:#1A80B6;">Assay Description:&nbsp;<small style="color:black;"><%=request.getAttribute("assay")%></small></h6>
         <hr>
 
 

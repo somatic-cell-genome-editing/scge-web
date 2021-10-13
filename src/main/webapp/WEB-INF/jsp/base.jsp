@@ -142,7 +142,7 @@ Goals"/>
                     <!--h1 class="page-header">Dashboard</h1-->
                     <c:choose>
                         <c:when test="${action!=null}">
-                            <h4 class="page-header" style="color:#1A80B6;font-size:30px;">${action}  </h4>
+                            <h4 style="color:#1A80B6;">${action}  </h4>
                     <c:if test="${study!=null && study.pi!=null}">
                     <small><strong>PI:</strong> ${study.pi}&nbsp; &nbsp;<!--span style="color:orange; font-weight: bold">Publication ID:</span><a href="">XXXXXXXX</a></small-->
                     </c:if>     <hr>
