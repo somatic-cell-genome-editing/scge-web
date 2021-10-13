@@ -307,69 +307,35 @@ public class IndexServices {
     }
     public QueryBuilder buildQuery(String searchTerm){
         DisMaxQueryBuilder q=new DisMaxQueryBuilder();
+
         if(searchTerm!=null && !searchTerm.equals("")) {
             if(searchTerm.toLowerCase().contains("and")){
-                q.add(QueryBuilders.multiMatchQuery(String.join(" ", searchTerm.toLowerCase().split(" and ")), IndexServices.searchFields().toArray(new String[0]))
+                String searchString=String.join(" ", searchTerm.toLowerCase().split(" and "));
+                q.add(QueryBuilders.multiMatchQuery(searchString)
                                 .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.AND)
                                 .analyzer("pattern")
-                        //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
                 );
-                q.add(QueryBuilders.multiMatchQuery(searchTerm)
-                        .field("symbol", 100.0f)
-                        .field("type", 100.0f)
-                        .field("subType", 100.0f)
-                        .field("name.ngram", 100.0f)
-                        .field("name", 100.0f)
-                        .field("symbol.ngram", 100.0f)
-                        .field("tissueTerm", 100.0f)
-                        .field("termSynonyms", 50.0f)
-                        .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
-                        .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .operator(Operator.AND)
-                        .analyzer("pattern")).boost(100);
+
             }
             if(searchTerm.toLowerCase().contains("or")){
-                q.add(QueryBuilders.multiMatchQuery(String.join(" ", searchTerm.toLowerCase().split(" or ")), IndexServices.searchFields().toArray(new String[0]))
+                String searchString=String.join(" ", searchTerm.toLowerCase().split(" or "));
+                q.add(QueryBuilders.multiMatchQuery(searchString)
                                 .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.OR)
                                 .analyzer("pattern")
                 );
-                q.add(QueryBuilders.multiMatchQuery(searchTerm)
-                        .field("symbol", 100.0f)
-                        .field("type", 100.0f)
-                        .field("subType", 100.0f)
-                        .field("name.ngram", 100.0f)
-                        .field("name", 100.0f)
-                        .field("symbol.ngram", 100.0f)
-                        .field("tissueTerm", 100.0f)
-                        .field("termSynonyms", 50.0f)
-                        .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
-                        .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .operator(Operator.OR)
-                        .analyzer("pattern")).boost(100);
+
             }
 
 
         if(!searchTerm.toLowerCase().contains("and") && searchTerm.toLowerCase().contains(" ") ) {
-                q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                q.add(QueryBuilders.multiMatchQuery(searchTerm)
                                 .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.AND)
                                 .analyzer("pattern")
                 );
-            q.add(QueryBuilders.multiMatchQuery(searchTerm)
-                    .field("symbol", 100.0f)
-                    .field("type", 100.0f)
-                    .field("subType", 100.0f)
-                    .field("name.ngram", 100.0f)
-                    .field("name", 100.0f)
-                    .field("symbol.ngram", 100.0f)
-                    .field("tissueTerm", 100.0f)
-                    .field("termSynonyms", 50.0f)
-                    .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
-                    .type(MultiMatchQueryBuilder.Type.PHRASE)
-                    .operator(Operator.AND)
-                    .analyzer("pattern")).boost(100);
+
 
             }else {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
