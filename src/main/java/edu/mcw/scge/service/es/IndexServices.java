@@ -75,9 +75,10 @@ public class IndexServices {
     public HighlightBuilder buildHighlights(){
         List<String> fields= Stream.concat(searchFields().stream(), mustFields().stream()).collect(Collectors.toList());
         HighlightBuilder hb=new HighlightBuilder();
-        for(String field:fields){
+       /* for(String field:fields){
             hb.field(field);
-        }
+        }*/
+       hb.field("*");
         return hb;
     }
 
@@ -316,6 +317,13 @@ public class IndexServices {
                                 .operator(Operator.AND)
                                 .analyzer("pattern")
                 );
+                q.add(QueryBuilders.multiMatchQuery(searchString)
+                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                        .operator(Operator.AND)
+                        .type(MultiMatchQueryBuilder.Type.PHRASE)
+                        .analyzer("pattern")
+                        .boost(1000)
+                );
 
             }
             if(searchTerm.toLowerCase().contains("or")){
@@ -335,7 +343,13 @@ public class IndexServices {
                                 .operator(Operator.AND)
                                 .analyzer("pattern")
                 );
-
+            q.add(QueryBuilders.multiMatchQuery(searchTerm)
+                    .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                    .operator(Operator.AND)
+                    .type(MultiMatchQueryBuilder.Type.PHRASE)
+                    .analyzer("pattern")
+                    .boost(1000)
+            );
 
             }else {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
@@ -417,7 +431,8 @@ public class IndexServices {
              "tissueIds",
             //    "tissueTerm", "termSynonyms",
                 "site", "sequence", "pam", "detectionMethod","target",
-               "studyNames", "experimentNames"
+               "studyNames"
+                //, "experimentNames"
 
 
 
