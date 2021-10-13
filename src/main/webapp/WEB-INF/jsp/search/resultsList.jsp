@@ -158,7 +158,7 @@
             <c:if test="${hit.sourceAsMap.studyNames!=null}">
                 <span class="header">Associated Studies:</span>
 
-                <button type="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.id}" title="Studies" style="background-color: transparent">
+                <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.id}" title="Studies" style="background-color: transparent">
                     <span style="text-decoration:underline">${fn:length(hit.sourceAsMap.studyNames)}</span>
                 </button>
                 <div style="display: none" id="popover-study-${hit.sourceAsMap.id}">
@@ -183,7 +183,7 @@
                 <span class="header">Associated Experiments:</span>
                 <!--a  data-placement="top" data-popover-content="#popover-${hit.sourceAsMap.id}" data-toggle="popover" data-trigger="focus" href="" tabindex="0"> $-{fn:length(hit.sourceAsMap.experimentNames)}</a-->
 
-                <button type="button" class="btn btn-light btn-sm" data-container="body" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${hit.sourceAsMap.id}" title="Experiments" style="background-color: transparent">
+                <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${hit.sourceAsMap.id}" title="Experiments" style="background-color: transparent">
                     <span style="text-decoration:underline">${fn:length(hit.sourceAsMap.experimentNames)}</span>
                 </button>
                 <div style="display: none" id="popover-${hit.sourceAsMap.id}">
