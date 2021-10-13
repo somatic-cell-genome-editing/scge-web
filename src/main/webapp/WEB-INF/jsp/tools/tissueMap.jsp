@@ -228,6 +228,18 @@
     <% } %>
 </tr>
 </table>
+<div style="width:20%;float:right">
+    <table>
+        <tr>
+            <td> <div style="border-color:blue;background-color: blue;width:20px;height:20px "></div></td><td>Delivery Efficiency</td>
+        </tr>
+        <tr>
+            <td><div style="border-color:orange;background-color: orange;width:20px;height:20px "></div></td><td>Editing Efficiency</td>
+        </tr>
+    </table>
+
+
+</div>
 <div>Organ System Overview</div>
 <br><br>
 <div>
