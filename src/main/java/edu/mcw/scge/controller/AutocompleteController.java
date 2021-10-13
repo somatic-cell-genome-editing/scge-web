@@ -2,6 +2,7 @@ package edu.mcw.scge.controller;
 
 import com.google.gson.Gson;
 import edu.mcw.scge.service.es.ESClient;
+import edu.mcw.scge.web.SCGEContext;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -26,7 +27,7 @@ import java.util.*;
 @Controller
 @RequestMapping(value="/data/")
 public class AutocompleteController {
-    @RequestMapping(value="autocomplete" , method = RequestMethod.POST)
+    @RequestMapping(value="autocomplete" , method = RequestMethod.GET)
     public String getAutocompleteTerms(HttpServletRequest req, HttpServletResponse res){
         List<String> autocompleteList=new ArrayList<>();
         String searchTerm=req.getParameter("searchTerm");
@@ -37,21 +38,19 @@ public class AutocompleteController {
             DisMaxQueryBuilder qb = new DisMaxQueryBuilder();
             BoolQueryBuilder query = new BoolQueryBuilder();
             query.must(qb);
-            qb.add(QueryBuilders.multiMatchQuery( searchTerm,
-                    "type.ngram", "subtype.ngram",
-                    "name.ngram", "symbol.ngram"));
-
+            qb.add(QueryBuilders.multiMatchQuery( searchTerm));
+                    /*,
+                    "type", "subtype",
+                    "name.ngram", "symbol", "species", "sex", "tissueTerm", "tissueIds", "termSynonyms", "cellType"));
+*/
 
             query.must(qb);
-      /*  if(aspect.equals("D") || aspect.equals("N")){
-            query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
-        }*/
-            SearchSourceBuilder srb = new SearchSourceBuilder();
+          SearchSourceBuilder srb = new SearchSourceBuilder();
             srb.query(query);
             srb.highlighter(this.buildHighlights());
 
             srb.size(1000);
-            SearchRequest searchRequest = new SearchRequest("scge_search_test");
+            SearchRequest searchRequest = new SearchRequest(SCGEContext.getESIndexName());
             searchRequest.source(srb);
             SearchResponse sr = null;
             try {
@@ -69,7 +68,7 @@ public class AutocompleteController {
                             String str = s.toString().replace("<em>", "<strong>")
                                     .replace("</em>", "</strong>");
                             if (!autocompleteList.contains(str))
-                                autocompleteList.add(str);
+                               autocompleteList.add(str);
                         }
                     }
                 }
@@ -91,9 +90,10 @@ public class AutocompleteController {
                 "type.ngram", "subtype.ngram", "name.ngram", "symbol.ngram"
         ));
         HighlightBuilder hb=new HighlightBuilder();
-        for(String field:fields){
+      /*  for(String field:fields){
             hb.field(field);
-        }
+        }*/
+      hb.field("*");
         return hb;
     }
 }
