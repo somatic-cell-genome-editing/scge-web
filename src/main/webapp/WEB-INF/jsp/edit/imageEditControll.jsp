@@ -25,7 +25,7 @@
             <input type="hidden" name="bucket" value="<%=bucket%>"/>
             <table cellpadding=4 style="border:1px solid #007BFF; padding:2px; margin-top:10px; margin-bottom:5px;" align="center">
                 <tr>
-                    <td colspan="3" align="center"><input type="text" size=55 name="title" placeholder="Title"/></td>
+                    <td colspan="3" align="center"><input type="text" size=52 name="title" placeholder="Title"/></td>
                 </tr>
                 <tr>
                     <td><input type="file" id="myFile<%=objectId%>" name="filename"></td>
