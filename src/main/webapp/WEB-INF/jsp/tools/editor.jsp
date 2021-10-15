@@ -37,11 +37,8 @@
 %>
 <%
     long objectId = editor.getId();
-    String objectType= ImageTypes.EDITOR;
     String redirectURL = "/data/editors/editor?id=" + objectId;
     String bucket="main";
-//    String[] images = ImageStore.getImages(objectType, "" + objectId, bucket);
-
 %>
 <div class="col-md-2 sidenav bg-light">
     <a href="#summary">Summary</a>

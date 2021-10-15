@@ -161,7 +161,6 @@
 
     <%
         long objectId = g.getGuide_id();
-        String objectType= ImageTypes.GUIDE;
         String redirectURL = "/data/guide/system?id=" + objectId;
         String bucket="main";
     %>
@@ -237,7 +236,6 @@
                 <td style="width:50%">
                     <%
                         objectId = g.getGuide_id();
-                        objectType= ImageTypes.GUIDE;
                         redirectURL = "/data/guide/system?id=" + objectId;
                         bucket="vectorDetails";
                     %>
@@ -293,7 +291,6 @@
                 <td style="width:50%">
                     <%
                         objectId = g.getGuide_id();
-                        objectType= ImageTypes.GUIDE;
                         redirectURL = "/data/guide/system?id=" + objectId;
                         bucket="offTargets";
                     %>

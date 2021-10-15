@@ -57,10 +57,8 @@
 
     <%
         long objectId = ex.getExperimentId();
-        String objectType= ImageTypes.EXPERIMENT;
         String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
         String bucket="aboveExperimentTable";
-
     %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
@@ -161,11 +159,7 @@
 </table>
 
     <%
-        //objectId = ex.getExperimentId();
-        //objectType= ImageTypes.EXPERIMENT;
-        //redirectURL = "/data/editors/editor?id=" + objectId;
         bucket="belowExperimentTable";
-
     %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 

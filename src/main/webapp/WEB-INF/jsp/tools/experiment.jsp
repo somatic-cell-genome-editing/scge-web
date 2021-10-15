@@ -273,12 +273,9 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 
         <%
     long objectId = experimentRecord.getExperimentRecordId();
-    String objectType= ImageTypes.RECORD;
     String redirectURL = "/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "/record/" + objectId;
     String bucket="main";
-
 %>
-
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
     <br>

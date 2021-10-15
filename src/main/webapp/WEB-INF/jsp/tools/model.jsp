@@ -72,7 +72,6 @@
 
 <%
     long objectId = m.getModelId();
-    String objectType= ImageTypes.MODEL;
     String redirectURL = "/data/models/model?id=" + objectId;
     String bucket="main";
 
