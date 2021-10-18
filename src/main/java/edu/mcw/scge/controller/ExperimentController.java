@@ -101,11 +101,19 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         if(!access.isLoggedIn()) {
             return "redirect:/";
         }
-        Map<Study, List<Experiment>> studyExperimentMap=new HashMap<>();
+        LinkedHashMap<Study, List<Experiment>> studyExperimentMap=new LinkedHashMap<>();
         for(Study study:studies) {
             if (access.hasStudyAccess(study, p)) {
-                List<Experiment> records = edao.getExperimentsByStudy(study.getStudyId());
-                studyExperimentMap.put(study, records);
+                List<Experiment> experiments = edao.getExperimentsByStudy(study.getStudyId());
+                if(experiments.size()>0)
+                studyExperimentMap.put(study, experiments);
+            }
+        }
+        for(Study study:studies) {
+            if (access.hasStudyAccess(study, p)) {
+                List<Experiment> experiments = edao.getExperimentsByStudy(study.getStudyId());
+                if(experiments.size()==0)
+                    studyExperimentMap.put(study, experiments);
             }
         }
         if(studyExperimentMap.size()==0){
@@ -370,7 +378,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             String labelTrimmed=new String();
             ExperimentRecord record = recordMap.get(expRecId);
             if(experimentId!=18000000014L) {
-                StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(), objectSizeMap, uniqueFields, resultId));
+                StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(),objectSizeMap, uniqueFields,resultId));
 
                 if(tissue!=null && !tissue.equals("") || tissues.size()>0) {
                     if(record.getCellType()!=null && record.getTissueTerm()!=null)

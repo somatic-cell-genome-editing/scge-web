@@ -161,7 +161,7 @@
             %>
             <td>
 
-                <%if(access.hasStudyAccess(s,person)) {if(studies1.size()>1 && studies1.get(0).getGroupId()!=1410) { %>
+                <%if(access.hasStudyAccess(s,person)) {if(studies1.size()>1 && studies1.get(0).getGroupId()!=1410 && studies1.get(0).getGroupId()!=1412 ) { %>
                     <%-- if (!hasRecords) { %>
                     <%=s.getStudy()%>
                         <span style="font-size:10px;">(Submission Received: Processing)</span>
@@ -169,7 +169,7 @@
                         Submission SCGE-<%=s.getStudyId()%>
                     <%-- } --%>
                     <%}else
-                        if(studies1.get(0).getGroupId()==1410){
+                        if(studies1.get(0).getGroupId()==1410 || studies1.get(0).getGroupId()==1412){
                             if(s.getStudy().equalsIgnoreCase(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle())){%>
                                         <%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
                            <% }else{%>
