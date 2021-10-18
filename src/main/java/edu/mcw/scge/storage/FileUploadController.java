@@ -3,6 +3,7 @@ package edu.mcw.scge.storage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -11,6 +12,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.stream.Collectors;
+
+import edu.mcw.scge.dao.implementation.ImageDao;
+import edu.mcw.scge.datamodel.Image;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -111,10 +115,12 @@ public class FileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
-	@RequestMapping(value = "/store/{type}/{oid}/{bucket}/{filename}.{ext}", method = RequestMethod.GET)
+//	@RequestMapping(value = "/store/{type}/{oid}/{bucket}/{filename}.{ext}", method = RequestMethod.GET)
+	@RequestMapping(value = "/store/{oid}/{bucket}/{filename}.{ext}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<byte[]>  getImageAsByteArray(HttpServletRequest req, HttpServletResponse res,@PathVariable String type,@PathVariable String oid,@PathVariable String bucket,@PathVariable String filename,@PathVariable String ext) throws Exception {
+	public ResponseEntity<byte[]>  getImageAsByteArray(HttpServletRequest req, HttpServletResponse res,@PathVariable String oid,@PathVariable String bucket,@PathVariable String filename,@PathVariable String ext) throws Exception {
 
+		/*
 		UserService userService=new UserService();
 		Access access= new Access();
 		Person p = userService.getCurrentUser(req.getSession());
@@ -152,14 +158,13 @@ public class FileUploadController {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}
-
-
+*/
+/*
 		Resource resource=null;
 		try {
 
 			Path file = new File(StorageProperties.rootLocation + "/" + type + "/" + oid + "/" + bucket + "/").toPath().resolve(filename + "." + ext);
 			System.out.println(file.toString());
-			//Path file = load(filename);
 			resource = new UrlResource(file.toUri());
 
 			if (resource.exists() || resource.isReadable()) {
@@ -177,14 +182,29 @@ public class FileUploadController {
 			throw new StorageFileNotFoundException("IMAGE: Could not read file: " + filename, e);
 		}
 
+ */
+
 		//Resource file = storageService.loadAsResource("naturezoom.jpeg");
 
+		ImageDao idao = new ImageDao();
+
+		System.out.println("oid = " + oid);
+		System.out.println("bucket = " + bucket);
+
+
+		Image image = idao.getImage(Long.parseLong(oid),bucket).get(0);
+
+		System.out.println("image length = " + image.getImage().length);
+
+
 		HttpHeaders headers = new HttpHeaders();
-		InputStream in = resource.getInputStream();
-		byte[] media = IOUtils.toByteArray(in);
+		//InputStream in = resource.getInputStream();
+		//byte[] media = IOUtils.toByteArray(in);
+		byte[] media = image.getImage();
+
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
 		headers.setContentType(MediaType.IMAGE_JPEG);
-		in.close();
+		//in.close();
 
 		return new ResponseEntity<byte[]>(media, headers, HttpStatus.OK);
 	}
@@ -204,6 +224,9 @@ public class FileUploadController {
 	public String handleFileUpload(HttpServletRequest req, HttpServletResponse res, @RequestParam("filename") MultipartFile file,
 								   RedirectAttributes redirectAttributes) throws Exception {
 
+		ImageDao idao = new ImageDao();
+
+
 		UserService userService=new UserService();
 		Access access= new Access();
 		Person p = userService.getCurrentUser(req.getSession());
@@ -212,7 +235,9 @@ public class FileUploadController {
 			return null;
 		}
 
+		String legend=req.getParameter("legend");
 		String type=req.getParameter("type");
+		String title=req.getParameter("title");
 		String id = req.getParameter("id");
 		String url = req.getParameter("url");
 		String bucket = req.getParameter("bucket");
@@ -229,17 +254,30 @@ public class FileUploadController {
 								+ filename);
 			}
 
-			File f = new File(StorageProperties.rootLocation + "/" +  type + "/" + id + "/" + bucket);
-			if (!f.exists()) {
-				f.mkdirs();
-			}
+			Image image = new Image();
 
-			Path rootLocation = f.toPath();
+			image.setPosIndex(1);
+			image.setFileType(type);
+			image.setTitle(title);
+			image.setLegend(legend);
+			image.setBucket(bucket);
+			image.setImage(file.getBytes());
+			image.setScgeId(Long.parseLong(id));
+			image.setFileName(filename);
+
+			idao.insertImage(image);
+
+			//File f = new File(StorageProperties.rootLocation + "/" +  type + "/" + id + "/" + bucket);
+			//if (!f.exists()) {
+		//		f.mkdirs();
+			//}
+
+			//Path rootLocation = f.toPath();
 
 
-			try (InputStream inputStream = file.getInputStream()) {
-				Files.copy(inputStream, rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-			}
+			//try (InputStream inputStream = file.getInputStream()) {
+		//		Files.copy(inputStream, rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+		//	}
 		}
 		catch (IOException e) {
 			throw new StorageException("Failed to store file " + filename, e);
@@ -262,17 +300,19 @@ public class FileUploadController {
 		}
 
 
-		String type=req.getParameter("type");
 		String id = req.getParameter("id");
 		String url = req.getParameter("url");
-		String filename = req.getParameter("filename");
 		String bucket=req.getParameter("bucket");
 
+		ImageDao idao = new ImageDao();
+		idao.deleteImage(Long.parseLong(id), bucket);
+
+		/*
 		File f = new File(StorageProperties.rootLocation + "/" + type + "/" + id + "/" + bucket + "/" +  filename);
 		if (!f.delete()) {
 			System.out.println("could not delete");
 		}
-
+*/
 		return "redirect:" + url;
 
 	}

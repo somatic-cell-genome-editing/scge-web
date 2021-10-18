@@ -161,12 +161,18 @@
 
     <%
         long objectId = g.getGuide_id();
-        String objectType= ImageTypes.GUIDE;
         String redirectURL = "/data/guide/system?id=" + objectId;
-        String bucket="main";
+        String bucket="main1";
     %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+    <% bucket="main2"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main3"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main4"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main5"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
     <%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){
 
@@ -237,12 +243,18 @@
                 <td style="width:50%">
                     <%
                         objectId = g.getGuide_id();
-                        objectType= ImageTypes.GUIDE;
                         redirectURL = "/data/guide/system?id=" + objectId;
-                        bucket="vectorDetails";
+                        bucket="vectorDetails1";
                     %>
                     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+                    <% bucket="vectorDetails2"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="vectorDetails3"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="vectorDetails4"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="vectorDetails5"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
                 </td>
             </tr>
         </table>
@@ -293,12 +305,18 @@
                 <td style="width:50%">
                     <%
                         objectId = g.getGuide_id();
-                        objectType= ImageTypes.GUIDE;
                         redirectURL = "/data/guide/system?id=" + objectId;
-                        bucket="offTargets";
+                        bucket="offTargets1";
                     %>
                     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+                    <% bucket="offTargets2"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="offTargets3"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="offTargets4"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="offTargets5"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
                 </td>
             </tr>
 

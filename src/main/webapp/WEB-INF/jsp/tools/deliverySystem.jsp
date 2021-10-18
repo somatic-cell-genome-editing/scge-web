@@ -74,12 +74,18 @@
 
 <%
     long objectId = d.getId();
-    String objectType= ImageTypes.DELIVERY_SYSTEM;
     String redirectURL = "/data/delivery/system?id=" + objectId;
-    String bucket="main";
+    String bucket="main1";
 %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+<% bucket="main2"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main3"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main4"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main5"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
 <br>
 <jsp:include page="associatedStudies.jsp"/>

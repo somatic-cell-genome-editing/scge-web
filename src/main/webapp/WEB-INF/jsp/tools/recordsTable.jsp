@@ -57,11 +57,17 @@
 
     <%
         long objectId = ex.getExperimentId();
-        String objectType= ImageTypes.EXPERIMENT;
         String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
-        String bucket="aboveExperimentTable";
-
+        String bucket="aboveExperimentTable1";
     %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="aboveExperimentTable2"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="aboveExperimentTable3"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="aboveExperimentTable4"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="aboveExperimentTable5"; %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
     <table width="90%">
@@ -161,14 +167,17 @@
 </table>
 
     <%
-        //objectId = ex.getExperimentId();
-        //objectType= ImageTypes.EXPERIMENT;
-        //redirectURL = "/data/editors/editor?id=" + objectId;
-        bucket="belowExperimentTable";
-
+        bucket="belowExperimentTable1";
     %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+    <% bucket="belowExperimentTable2"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="belowExperimentTable3"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="belowExperimentTable4"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="belowExperimentTable5"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 </div>
         <script>
             var ctx = document.getElementById("resultChart");
