@@ -8,6 +8,7 @@
 <%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.LinkedHashMap" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -48,7 +49,7 @@
     StudyDao sdao = new StudyDao();
     Person p = access.getUser(request.getSession());
 //    List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
-    Map<Study, List<Experiment>> studyExperimentMap= (Map<Study, List<Experiment>>) request.getAttribute("studyExperimentMap");
+    LinkedHashMap<Study, List<Experiment>> studyExperimentMap= (LinkedHashMap<Study, List<Experiment>>) request.getAttribute("studyExperimentMap");
     for(Map.Entry entry:studyExperimentMap.entrySet()) {
         Study study = ((Study) entry.getKey());
         List<Experiment> experiments= (List<Experiment>) entry.getValue();
