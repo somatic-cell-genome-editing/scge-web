@@ -162,10 +162,17 @@
     <%
         long objectId = g.getGuide_id();
         String redirectURL = "/data/guide/system?id=" + objectId;
-        String bucket="main";
+        String bucket="main1";
     %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+    <% bucket="main2"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main3"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main4"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main5"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
     <%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){
 
@@ -237,10 +244,17 @@
                     <%
                         objectId = g.getGuide_id();
                         redirectURL = "/data/guide/system?id=" + objectId;
-                        bucket="vectorDetails";
+                        bucket="vectorDetails1";
                     %>
                     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+                    <% bucket="vectorDetails2"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="vectorDetails3"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="vectorDetails4"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="vectorDetails5"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
                 </td>
             </tr>
         </table>
@@ -292,10 +306,17 @@
                     <%
                         objectId = g.getGuide_id();
                         redirectURL = "/data/guide/system?id=" + objectId;
-                        bucket="offTargets";
+                        bucket="offTargets1";
                     %>
                     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+                    <% bucket="offTargets2"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="offTargets3"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="offTargets4"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="offTargets5"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
                 </td>
             </tr>
 

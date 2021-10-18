@@ -15,10 +15,11 @@
 
     List<Image> images = imageCheckIDao.getImage(objectId,bucket);
 
-
       if (imageCheckAccess.isAdmin(imageCheckPerson)) { %>
 
         <% if (images.size() == 0) {%>
+
+        <div id="<%=bucket%>form" style="display:none;">
         <form action="/toolkit/uploadFile?${_csrf.parameterName}=${_csrf.token}" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<%=objectId%>"/>
             <input type="hidden" name="url" value="<%=redirectURL%>"/>
@@ -37,16 +38,17 @@
                 </tr>
             </table>
         </form>
+        </div>
+        <table align="center"><tr><td><a href="javascript:return false" onclick="document.getElementById('<%=bucket%>form').style.display='block'; this.style.display='none';">Add image...</a></td></tr>
         <% } %>
 
     <% } %>
-
 
 <% if (images.size() > 0) {
     Image image = images.get(0);
 %>
 <div id="images">
-    <table align="center">
+    <table align="center" width="100px">
         <%
             if (imageCheckAccess.isAdmin(imageCheckPerson)) {
         %>
@@ -75,8 +77,10 @@
             <td><div style="border:1px solid black;padding:5px;"><%=image.getLegend()%></div></td>
         </tr>
         <% } %>
-
     </table>
 </div>
+
+
+
 <% } %>
 <% } %>

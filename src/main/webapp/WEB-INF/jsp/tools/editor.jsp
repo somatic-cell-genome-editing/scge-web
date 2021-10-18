@@ -35,11 +35,7 @@
     List<Editor> comparableEditors= (List<Editor>) request.getAttribute("comparableEditors");
 
 %>
-<%
-    long objectId = editor.getId();
-    String redirectURL = "/data/editors/editor?id=" + objectId;
-    String bucket="main";
-%>
+
 <div class="col-md-2 sidenav bg-light">
     <a href="#summary">Summary</a>
     <%if(editor.getProteinSequence()!=null && !editor.getProteinSequence().equals("")){%>
@@ -173,7 +169,19 @@
     </div>
     <hr>
     <%}%>
-
+    <%
+        long objectId = editor.getId();
+        String redirectURL = "/data/editors/editor?id=" + objectId;
+        String bucket="main1";
+    %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main2"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main3"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main4"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main5"; %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
     <hr>
 

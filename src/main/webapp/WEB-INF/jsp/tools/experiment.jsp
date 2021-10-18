@@ -274,10 +274,17 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
         <%
     long objectId = experimentRecord.getExperimentRecordId();
     String redirectURL = "/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "/record/" + objectId;
-    String bucket="main";
+    String bucket="main1";
 %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+        <% bucket="main2"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+        <% bucket="main3"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+        <% bucket="main4"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+        <% bucket="main5"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
     <br>
         <table width="800">
             <thead><tr>
