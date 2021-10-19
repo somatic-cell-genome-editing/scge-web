@@ -351,7 +351,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         List<String> resultTypes = dbService.getResultTypes(experimentId);
         HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
-
+        Set<String> conditions=new HashSet<>();
         List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByExpId(experimentId);
         HashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new HashMap<>();
         String assayDesc = null;
@@ -381,20 +381,20 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(),objectSizeMap, uniqueFields,resultId));
 
                 if(tissue!=null && !tissue.equals("") || tissues.size()>0) {
-                    if(record.getCellType()!=null && record.getTissueTerm()!=null)
-                        labelTrimmed= label.toString().replace(record.getTissueTerm(), "").replace(record.getCellType(),"");
+                    if(record.getCellTypeTerm()!=null && record.getTissueTerm()!=null)
+                        labelTrimmed= label.toString().replace(record.getTissueTerm(), "").replace(record.getCellTypeTerm(),"");
                     else if(record.getTissueTerm()!=null)
                         labelTrimmed= label.toString().replace(record.getTissueTerm(), "");
                     else labelTrimmed= label.toString();
-                    labels.add("\"" +  labelTrimmed + "\"");
-                    record.setExperimentName(labelTrimmed);
-
+                   // labels.add("\"" +  labelTrimmed + "\"");
+                  //  record.setExperimentName(labelTrimmed);
+                    conditions.add(labelTrimmed);
                 }
-                else {
+              //  else {*/
                     labels.add("\"" + label + "\"");
 
                     record.setExperimentName(label.toString());
-                }
+             //   }
             }else{
                 labels.add("\"" + record.getExperimentName() + "\"");
                 record.setExperimentName(record.getExperimentName());
@@ -433,10 +433,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         plotData.put("Mean",mean);
 
         //      List<String> conditions = edao.getExperimentRecordConditionList(experimentId);
-        List<String> conditions = labels.stream().map(l->l.replaceAll("\"","")).distinct().collect(Collectors.toList());
+      //  List<String> conditions = labels.stream().map(l->l.replaceAll("\"","")).distinct().collect(Collectors.toList());
 
         req.setAttribute("tissues",tissues);
-        req.setAttribute("conditions",conditions);
+        req.setAttribute("conditions",new ArrayList<>(conditions));
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Experiments</a>");
         req.setAttribute("replicateResult",replicateResult);
         req.setAttribute("experiments",labels);

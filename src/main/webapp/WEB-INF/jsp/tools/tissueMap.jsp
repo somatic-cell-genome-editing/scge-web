@@ -125,6 +125,15 @@
             long expRecordId = erdList.get(0).getExperimentRecordId();
             ExperimentRecord er = experimentRecordsMap.get(expRecordId);
             experimentRecordHashMap.put(er.getExperimentName(),er);
+            String labelTrimmed=new String();
+
+                if(er.getCellTypeTerm()!=null && er.getTissueTerm()!=null)
+                    labelTrimmed= er.getExperimentName().toString().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(),"");
+                else if(er.getTissueTerm()!=null)
+                    labelTrimmed= er.getExperimentName().toString().replace(er.getTissueTerm(), "");
+                else labelTrimmed= er.getExperimentName().toString();
+
+
             if(uniqueObjects.contains(er.getEditorSymbol()))
                 noOfEditors++;
             if(uniqueObjects.contains(er.getDeliverySystemType()))
@@ -161,7 +170,7 @@
 
             for (ExperimentResultDetail erd : erdList) {
                 if (erd.getResultType().equals("Delivery Efficiency")) {
-                    tissueDeliveryMap.put(tissue + "-" + er.getExperimentName(), true);
+                    tissueDeliveryMap.put(tissue + "-" + labelTrimmed, true);
 
 
                     if (tissueDeliveryResults == null || !tissueDeliveryResults.containsKey(tissueName))
@@ -186,7 +195,7 @@
                     }
                 }
                 if (erd.getResultType().equals("Editing Efficiency")) {
-                    tissueEditingMap.put(tissue + "-" + er.getExperimentName(), true);
+                    tissueEditingMap.put(tissue + "-" + labelTrimmed, true);
 
                     if(tissueEditingResults == null || !tissueEditingResults.containsKey(tissueName))
                         resultDetails = new TreeSet<>();
