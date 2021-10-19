@@ -39,7 +39,7 @@
             </table>
         </form>
         </div>
-<table align="center"><tr><td><a href="javascript:return void(0)" onclick="document.getElementById('<%=bucket%>form').style.display='block'; this.style.display='none';">Add image...</a></td></tr></table>
+<table align="center"><tr><td><a href="javascript:return void(0)" onclick="document.getElementById('<%=bucket%>form').style.display='block'; this.style.display='none';">Add&nbsp;image...</a></td></tr></table>
         <% } %>
 
     <% } %>
