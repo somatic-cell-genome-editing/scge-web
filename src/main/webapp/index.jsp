@@ -288,7 +288,7 @@
 
 <div style="position:absolute; top:10px; left:10px; color:#ED7D17; font-size:16px;padding: 15px;margin:10px;background-color:#ECE8E5;" >
   The SCGE Toolkit is currently available to consortium members by invitation only<br>
-  A public release of the toolkit is scheduled for early 2022<br>
+  A public release of the toolkit is scheduled for mid 2022<br>
   Questions regarding access can be mailed to scge@mcw.edu
 </div>
 
