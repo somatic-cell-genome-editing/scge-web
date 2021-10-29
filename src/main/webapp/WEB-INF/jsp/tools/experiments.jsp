@@ -8,6 +8,7 @@
 <%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.LinkedHashMap" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -48,7 +49,7 @@
     StudyDao sdao = new StudyDao();
     Person p = access.getUser(request.getSession());
 //    List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
-    Map<Study, List<Experiment>> studyExperimentMap= (Map<Study, List<Experiment>>) request.getAttribute("studyExperimentMap");
+    LinkedHashMap<Study, List<Experiment>> studyExperimentMap= (LinkedHashMap<Study, List<Experiment>>) request.getAttribute("studyExperimentMap");
     for(Map.Entry entry:studyExperimentMap.entrySet()) {
         Study study = ((Study) entry.getKey());
         List<Experiment> experiments= (List<Experiment>) entry.getValue();
@@ -97,7 +98,7 @@
 
         <th>Name</th>
         <th>Type</th>
-        <!--th>Contact PI</th-->
+        <th>Description</th>
         <th>SCGE ID</th>
         </tr>
         </thead>
@@ -113,7 +114,7 @@
             <td width="10"><%=s.getTier()%></td>
             <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td>
             <td style="white-space: nowrap"><%=exp.getType()%></td>
-            <!--td><%=s.getPi()%></td-->
+            <td><%=SFN.parse(exp.getDescription())%></td>
             <td><%=exp.getExperimentId()%></td>
         </tr>
         <% } %>
@@ -123,10 +124,17 @@
             <%}%>
             <%
                 long objectId = study.getStudyId();
-                String objectType= ImageTypes.STUDY;
                 String redirectURL = "/data/experiments/study/" + objectId;
-                String bucket="main";
+                String bucket="main1";
             %>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+            <% bucket="main2"; %>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+            <% bucket="main3"; %>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+            <% bucket="main4"; %>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+            <% bucket="main5"; %>
             <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
 

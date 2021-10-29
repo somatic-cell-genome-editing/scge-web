@@ -138,23 +138,24 @@ public class SearchController{
         Map<String, String> selectedFilters=new HashMap<>();
         mappings.put("typeBkt","type");
         mappings.put("subtypeBkt","subType");
-        mappings.put( "editorTypeBkt","editors.type");
-        mappings.put("editorSubTypeBkt","editors.subType");
-        mappings.put("editorSpeciesBkt","editors.species");
+        mappings.put( "editorTypeBkt","editorType");
+        mappings.put("editorSubTypeBkt","editorSubType");
+        mappings.put("editorSpeciesBkt","editorSpecies");
 
-        mappings.put("dsTypeBkt","deliveries.type");
-       mappings.put("modelTypeBkt","models.type");
-        mappings.put("modelSpeciesBkt","models.organism");
-      mappings.put( "reporterBkt","models.transgeneReporter");
+        mappings.put("dsTypeBkt","deliveryType");
 
-       mappings.put("targetBkt", "target");
-        mappings.put("guideTargetLocusBkt","guides.targetLocus");
-       mappings.put("speciesBkt","species");
+       mappings.put("modelTypeBkt","modelType");
+       mappings.put("modelSpeciesBkt","modelOrganism");
+       mappings.put( "reporterBkt","transgeneReporter");
+
+       mappings.put("targetBkt", "tissueTerm");
+        mappings.put("guideTargetLocusBkt","guideTargetLocus");
+       mappings.put("speciesBkt","modelOrganism");
        mappings.put("withExperimentsBkt","withExperiments");
 
-       mappings.put(  "vectorBkt","vectors.name");
-       mappings.put("vectorSubTypeBkt","vectors.subtype");
-       mappings.put("vectorTypeBkt","vectors.type");
+       mappings.put(  "vectorBkt","vectorName");
+       mappings.put("vectorSubTypeBkt","vectorSubtype");
+       mappings.put("vectorTypeBkt","vectorType");
     /*    List<String> params=new ArrayList<>( Arrays.asList("typeBkt", "subtypeBkt",
                 "editorTypeBkt","editorSubTypeBkt", "editorSpeciesBkt"
                , "dsTypeBkt", "modelTypeBkt", "modelSpeciesBkt", "reporterBkt",
@@ -214,6 +215,7 @@ public class SearchController{
         if(vector!=null && !vector.equals(""))filterMap.put("vectors.name", vector);
         if(vectorSubType!=null && !vectorSubType.equals(""))filterMap.put("vectors.subtype", vectorSubType);
         if(vectorType!=null && !vectorType.equals(""))filterMap.put("vectors.type", vectorType);*/
+     System.out.println("filter Map:" + filterMap.toString());
         return filterMap;
     }
 

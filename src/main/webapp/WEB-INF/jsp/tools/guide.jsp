@@ -1,13 +1,10 @@
 <%@ page import="edu.mcw.scge.web.SFN" %>
-<%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.TreeSet" %>
-<%@ page import="java.util.Set" %>
 <%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
+<%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -164,12 +161,18 @@
 
     <%
         long objectId = g.getGuide_id();
-        String objectType= ImageTypes.GUIDE;
         String redirectURL = "/data/guide/system?id=" + objectId;
-        String bucket="main";
+        String bucket="main1";
     %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+    <% bucket="main2"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main3"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main4"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main5"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
     <%if(g.getSpecies()!=null && g.getSpecies().equalsIgnoreCase("human")){
 
@@ -240,12 +243,18 @@
                 <td style="width:50%">
                     <%
                         objectId = g.getGuide_id();
-                        objectType= ImageTypes.GUIDE;
                         redirectURL = "/data/guide/system?id=" + objectId;
-                        bucket="vectorDetails";
+                        bucket="vectorDetails1";
                     %>
                     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+                    <% bucket="vectorDetails2"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="vectorDetails3"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="vectorDetails4"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="vectorDetails5"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
                 </td>
             </tr>
         </table>
@@ -255,7 +264,7 @@
     <hr>
     <%}%>
     <%HashMap<String,Integer> changeSeq = new HashMap<>();
-        Set<String> labels = new TreeSet<>();
+        List<String> labels = new ArrayList<>();
         HashMap<String,Integer> guideSeq = new HashMap<>();
 		boolean guideData = false;
         if(offTargets!=null && offTargets.size()>0){
@@ -296,12 +305,18 @@
                 <td style="width:50%">
                     <%
                         objectId = g.getGuide_id();
-                        objectType= ImageTypes.GUIDE;
                         redirectURL = "/data/guide/system?id=" + objectId;
-                        bucket="offTargets";
+                        bucket="offTargets1";
                     %>
                     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+                    <% bucket="offTargets2"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="offTargets3"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="offTargets4"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="offTargets5"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
                 </td>
             </tr>
 
@@ -386,7 +401,7 @@
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: 'No of Reads',
+                        labelString: 'No of ChangeSeq Reads',
                         fontSize: 14,
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
@@ -402,7 +417,7 @@
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: 'No of Reads',
+                            labelString: 'No of GuideSeq Reads',
                             fontSize: 14,
                             fontStyle: 'bold',
                             fontFamily: 'Calibri'

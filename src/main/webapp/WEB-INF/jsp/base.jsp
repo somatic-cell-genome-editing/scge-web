@@ -40,6 +40,7 @@ Goals"/>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <style>
         html {
             position: relative;
@@ -66,7 +67,7 @@ Goals"/>
         <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" width="70" height="50" ></a>
 
     <form  action="/toolkit/data/search/results" class="form w-100" >
-    <input class="form-control form-control-dark w-100  searchTerm" name="searchTerm" type="text" placeholder="Search" aria-label="Search">
+    <input class="form-control form-control-dark w-100  searchTerm" id="commonSearchTerm" name="searchTerm" type="text" placeholder="Search" aria-label="Search">
     </form>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
@@ -141,9 +142,9 @@ Goals"/>
                     <!--h1 class="page-header">Dashboard</h1-->
                     <c:choose>
                         <c:when test="${action!=null}">
-                            <h4 class="page-header" style="color:#1A80B6;font-size:30px;">${action}  </h4>
+                            <h4 style="color:#1A80B6;">${action}  </h4>
                     <c:if test="${study!=null && study.pi!=null}">
-                    <small><strong>PI:</strong>${study.pi}&nbsp; &nbsp;<!--span style="color:orange; font-weight: bold">Publication ID:</span><a href="">XXXXXXXX</a></small-->
+                    <small><strong>PI:</strong> ${study.pi}&nbsp; &nbsp;<!--span style="color:orange; font-weight: bold">Publication ID:</span><a href="">XXXXXXXX</a></small-->
                     </c:if>     <hr>
                             <c:if test="${action=='Dashboard'}">
                                 <div align="right">
@@ -271,53 +272,10 @@ Goals"/>
                 }
             }
         });
-        $(function () {
 
-            $("#searchTerm").autocomplete({
-
-            //    delay:500,
-                source: function(request, response) {
-                    $.ajax({
-                        url:"/toolkit/data/autocomplete?${_csrf.parameterName}=${_csrf.token}",
-                        type: "POST",
-                        data: {searchTerm: request.term
-                        },
-                        max: 100,
-                        dataType: "json",
-                        success: function(data) {
-                         response(data)
-                        }
-                    });
-                }
-
-            })
-            .autocomplete( "instance" )._renderItem = function( ul, item ) {
-                console.log(item);
-                return $( "<li>" )
-                    .attr( "data-value", item.value.replace("<strong>").replace("</strong>") )
-                    .append( "<div>" + item.label+"</div>" )
-                    .appendTo( ul );
-
-            };
-            $( "#searchTerm" ).on( "autocompleteclose", function() {
-                $(this).val(stripHTML($(this).val()))
-            } );
-
-
-         /*   $( "#searchTerm" ).autocomplete({
-
-                select: function( event, ui ) {
-                    var _item= ui.item.label.replace("<strong>", "")
-                    console.log("SEKECTED:"+_item.replace("</strong>", ""));
-                   return (_item);
-                }
-            });*/
-        });
-
-        function stripHTML(oldString) {
-            return oldString.replace(/(<([^>]+)>)/ig,"");
-        }
     </script>
+    <script src="/toolkit/js/search/autocomplete.js"></script>
+
 </footer>
 </body>
 </html>

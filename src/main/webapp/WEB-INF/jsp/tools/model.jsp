@@ -55,6 +55,7 @@
             <tr><td class="header"><strong>Parental&nbsp;Origin</strong></td><td><%=SFN.parse(m.getParentalOrigin())%></td></tr>
             <tr><td class="header"><strong>Organism</strong></td><td><%=m.getOrganism()%></td></tr>
             <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(m.getSource())%></td></tr>
+            <tr><td class="header"><strong>RRID</strong></td><td><%=SFN.parse(m.getRrid())%></td></tr>
         </table>
         <hr>
 
@@ -71,12 +72,19 @@
 
 <%
     long objectId = m.getModelId();
-    String objectType= ImageTypes.MODEL;
     String redirectURL = "/data/models/model?id=" + objectId;
-    String bucket="main";
+    String bucket="main1";
 
 %>
 
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main2"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main3"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main4"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main5"; %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 <br>
 <jsp:include page="associatedStudies.jsp"/>

@@ -16,7 +16,10 @@
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <style>
     td{
-        font-size: 12px;
+        display:table-cell
+    }
+    .tablesorter-childRow td{
+        background-color: lightcyan;
     }
 </style>
 <script>
@@ -57,7 +60,7 @@
         <th>Name</th>
         <th>Type</th>
         <th>Subtype</th>
-        <th>Alias</th>
+        <th>Description</th>
         <th>SCGE ID</th>
     </tr>
     </thead>
@@ -70,7 +73,7 @@
             <td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=d.getName()%></a></td>
         <td><%=d.getType()%></td>
         <td><%=SFN.parse(d.getSubtype())%></td>
-        <td></td>
+        <td><%=SFN.parse(d.getDescription())%></td>
         <td><%=d.getId()%></td>
             <% } %>
     </tr>
