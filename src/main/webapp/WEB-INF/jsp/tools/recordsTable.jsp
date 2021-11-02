@@ -385,12 +385,12 @@
                 return labelString;
             }
             function applyAllFilters(_this, name) {
+
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
                 for (i = 1; i < rowLength; i++){
                     if(_this.checked)
-
-                        table.rows.item(i).style.display = '';
+                      table.rows.item(i).style.display = '';
 
                     else {
                         table.rows.item(i).style.display = 'none';
@@ -402,6 +402,7 @@
 
             }
             function applyFilters(obj)  {
+                alert("called apply filters");
 
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
