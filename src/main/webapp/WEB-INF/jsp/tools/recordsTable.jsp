@@ -385,7 +385,6 @@
                 return labelString;
             }
             function applyAllFilters(_this, name) {
-                alert("called applyAllFilters" + this.id + " " + this.name);
 
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
