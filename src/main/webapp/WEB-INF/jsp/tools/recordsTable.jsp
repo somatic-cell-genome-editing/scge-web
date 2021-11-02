@@ -402,7 +402,6 @@
 
             }
             function applyFilters(obj)  {
-                alert("called apply filters");
 
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
