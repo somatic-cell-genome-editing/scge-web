@@ -128,10 +128,10 @@
             String labelTrimmed=new String();
 
                 if(er.getCellTypeTerm()!=null && er.getTissueTerm()!=null)
-                    labelTrimmed= er.getExperimentName().toString().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(),"");
+                    labelTrimmed= er.getExperimentName().toString().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(),"").trim();
                 else if(er.getTissueTerm()!=null)
-                    labelTrimmed= er.getExperimentName().toString().replace(er.getTissueTerm(), "");
-                else labelTrimmed= er.getExperimentName().toString();
+                    labelTrimmed= er.getExperimentName().toString().replace(er.getTissueTerm(), "").trim();
+                else labelTrimmed= er.getExperimentName().toString().trim();
 
 
             if(uniqueObjects.contains(er.getEditorSymbol()))
@@ -464,6 +464,7 @@
                            color: "rgba(0, 0, 0, 0)"
                        },
                        ticks:{
+                           display:false,
                            fontColor: "rgb(0,75,141)",
                            callback: function(t) {
                                var maxLabelLength = 30;
@@ -485,7 +486,26 @@
                labels: tissueEditingConditions[i],
                datasets: generateEditingData(i)
            },
-           options: { events: [] }
+           options: {
+               events: [],
+               scales:{
+                   xAxes:[{
+                       gridLines: {
+                           color: "rgba(0, 0, 0, 0)"
+                       },
+                       ticks:{
+                           display:false,
+                           fontColor: "rgb(0,75,141)",
+                           callback: function(t) {
+                               var maxLabelLength = 30;
+                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
+                               else return t;
+
+                           }
+                       }
+                   }]
+               }
+           }
        });
    }
    function generateTissuePage(resultType,selectedTissue) {
