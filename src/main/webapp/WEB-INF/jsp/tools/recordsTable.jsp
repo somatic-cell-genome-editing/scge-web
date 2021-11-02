@@ -390,8 +390,7 @@
                 var rowLength = table.rows.length;
                 for (i = 1; i < rowLength; i++){
                     if(_this.checked)
-
-                        table.rows.item(i).style.display = '';
+                      table.rows.item(i).style.display = '';
 
                     else {
                         table.rows.item(i).style.display = 'none';
