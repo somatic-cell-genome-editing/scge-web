@@ -385,7 +385,9 @@
                 return labelString;
             }
             function applyAllFilters(_this, name) {
+               // alert(elms);
 
+/*
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
                 for (i = 1; i < rowLength; i++){
@@ -396,13 +398,30 @@
                         table.rows.item(i).style.display = 'none';
                     }
                 }
-                update();
+  */
+                //update();
 
-                $('input[name='+name+']').prop('checked', _this.checked);
+              //  $('input[name='+name+']').prop('checked', _this.checked);
+
+                var elms = document.getElementsByName(name);
+                if (_this.checked) {
+                    elms.forEach(function(ele) {
+                        ele.checked=true;
+                        applyFilters(ele);
+                    });
+
+                }else {
+                    elms.forEach(function(ele) {
+                        ele.checked=false;
+                        applyFilters(ele);
+                    });
+
+                }
+
+
 
             }
             function applyFilters(obj)  {
-
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
                 for (i = 1; i < rowLength; i++){
