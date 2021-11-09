@@ -140,13 +140,12 @@
                             <img src="/toolkit/images/guideIcon.png" width="30" height="30" alt="" />
                             Vectors &nbsp; <span class="object-count"><%=sdao.getVectorCount()%></span>                       </a>
                     </li>
-                    <!--
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/experiments/search">
-                            <img src="/toolkit/images/experimentIcon.png" width="30" height="30" alt="" />
-                            Experiments&nbsp;<span class="object-count"><%=sdao.getExperimentCount()%></span>                        </a>
+                        <a class="nav-link text-secondary" href="/toolkit/data/protocols/search">
+                            <img src="/toolkit/images/protocolIcon.png" width="30" height="30" alt="" />
+                            Experiments&nbsp;<span class="object-count"><%=sdao.getProtocolCount()%></span>                        </a>
                     </li>
-                    -->
+
 
 
                     <!--li class="nav-item">
