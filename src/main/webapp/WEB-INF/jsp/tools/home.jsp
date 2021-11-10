@@ -142,8 +142,8 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-secondary" href="/toolkit/data/protocols/search">
-                            <img src="/toolkit/images/protocolIcon.png" width="30" height="30" alt="" />
-                            Experiments&nbsp;<span class="object-count"><%=sdao.getProtocolCount()%></span>                        </a>
+                            <img src="/toolkit/images/protocolIcon.jpg" width="30" height="30" alt="" />
+                            Protocols&nbsp;<span class="object-count"><%=sdao.getProtocolCount()%></span>                        </a>
                     </li>
 
 
