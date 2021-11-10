@@ -370,7 +370,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         for(ExperimentRecord rec:records)
             recordMap.put(rec.getExperimentRecordId(),rec);
-
         for (Long resultId : experimentResultsMap.keySet()) {
             List<ExperimentResultDetail> erdList=experimentResultsMap.get(resultId); //multiple replicate values for each result
             resultDetail.put(resultId, erdList);
@@ -401,12 +400,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     labels.add("\"" + label + "\"");
 
                     record.setExperimentName(label.toString());
-                recordMap.put(record.getExperimentRecordId(),record);
              //   }
             }else{
                 labels.add("\"" + record.getExperimentName() + "\"");
                 record.setExperimentName(record.getExperimentName());
-                recordMap.put(record.getExperimentRecordId(),record);
 
             }
 

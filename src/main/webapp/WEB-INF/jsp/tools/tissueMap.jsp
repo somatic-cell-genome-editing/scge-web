@@ -467,8 +467,8 @@
                            display:false,
                            fontColor: "rgb(0,75,141)",
                            callback: function(t) {
-                               var maxLabelLength = 20;
-                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-10) + '...';
+                               var maxLabelLength = 30;
+                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
                                else return t;
 
                            }
@@ -486,14 +486,14 @@
                labels: tissueEditingConditions[i],
                datasets: generateEditingData(i)
            },
-           options: { events: [],
+           options: {
+               events: [],
                scales:{
                    xAxes:[{
                        gridLines: {
                            color: "rgba(0, 0, 0, 0)"
                        },
                        ticks:{
-                           display:false,
                            fontColor: "rgb(0,75,141)",
                            callback: function(t) {
                                var maxLabelLength = 20;
@@ -503,7 +503,8 @@
                            }
                        }
                    }]
-               }}
+               }
+           }
        });
    }
    function generateTissuePage(resultType,selectedTissue) {
