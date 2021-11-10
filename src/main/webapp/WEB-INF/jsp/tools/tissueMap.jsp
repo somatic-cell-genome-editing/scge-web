@@ -464,7 +464,6 @@
                            color: "rgba(0, 0, 0, 0)"
                        },
                        ticks:{
-                           display:false,
                            fontColor: "rgb(0,75,141)",
                            callback: function(t) {
                                var maxLabelLength = 30;
