@@ -188,6 +188,46 @@
         </td>
         </tr>
         <% } %>
+
+        <% if (cellTypeList.size() > 0 ) { %>
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td  ><div class="recordFilterTitle">
+                            <% if (cellTypeList.size() > 1) { %>
+                            <input onchange="applyAllFilters(this, 'checkcelltype')" id="allCellTypes"  type="checkbox" checked>&nbsp; 
+                            <%}%>
+                            Cell Types</div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="recordFilterBlock">
+                                <table>
+                                    <% for (String cellType: cellTypeList) { if(selectedCellType == null || cellType.equalsIgnoreCase(selectedCellType)) {
+                                    %>
+                                    <tr>
+                                        <td>
+                                            <input onclick="applyFilters(this)"  name="checkcelltype" id="<%=cellType%>" type="checkbox" checked>&nbsp;<%=cellType%>
+                                        </td>
+                                    </tr>
+                                    <%} else { %>
+                                    <tr>
+                                        <td>
+                                            <input onclick="applyFilters(this)"  id="<%=cellType%>" type="checkbox" unchecked>&nbsp; <%=cellType%>
+                                        </td>
+                                    </tr>
+                                    <% }} %>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        <% } %>
+
         <% if (editorList.size() > 0) { %>
         <tr>
         <td valign="top">
@@ -342,6 +382,38 @@
         </td>
         </tr>
         <% } %>
+        <% if (sexList.size() > 0 ) { %>
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td  ><div class="recordFilterTitle">
+                            <% if (sexList.size() > 1) { %>
+                            <input onchange="applyAllFilters(this, 'checksex')" id="allSex"  type="checkbox" checked>&nbsp; 
+                            <%}%>
+                            Sex</div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="recordFilterBlock">
+                                <table>
+                                    <% for (String sex: sexList) { %>
+                                    <tr>
+                                        <td>
+                                            <input onclick="applyFilters(this)" name="checksex"  id="<%=sex%>" type="checkbox" checked>&nbsp;<%=sex%>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                </table>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        <% } %>
         <% if (resultTypeList.size() > 0 ) { %>
         <tr>
             <td valign="top">
@@ -408,45 +480,6 @@
                 </table>
 
             </td>
-        </tr>
-        <% } %>
-
-        <% if (cellTypeList.size() > 0 ) { %>
-        <tr>
-        <td valign="top">
-            <table>
-                <tr>
-                    <td  ><div class="recordFilterTitle">
-                        <% if (cellTypeList.size() > 1) { %>
-                        <input onchange="applyAllFilters(this, 'checkcelltype')" id="allCellTypes"  type="checkbox" checked>&nbsp;
-                        <%}%>
-                        Cell Types</div></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="recordFilterBlock">
-                            <table>
-                                <% for (String cellType: cellTypeList) { if(selectedCellType == null || cellType.equalsIgnoreCase(selectedCellType)) {
-                                %>
-                                <tr>
-                                    <td>
-                                        <input onclick="applyFilters(this)"  name="checkcelltype" id="<%=cellType%>" type="checkbox" checked>&nbsp;<%=cellType%>
-                                    </td>
-                                </tr>
-                                <%} else { %>
-                                <tr>
-                                    <td>
-                                        <input onclick="applyFilters(this)"  id="<%=cellType%>" type="checkbox" unchecked>&nbsp;<%=cellType%>
-                                    </td>
-                                </tr>
-                                <% }} %>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-
-        </td>
         </tr>
         <% } %>
 

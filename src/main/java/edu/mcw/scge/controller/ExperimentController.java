@@ -378,7 +378,12 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             String labelTrimmed=new String();
             ExperimentRecord record = recordMap.get(expRecId);
         //    if(experimentId!=18000000004L && experimentId!=18000000003L) {
-                StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(),objectSizeMap, uniqueFields,resultId));
+            List<String> modifiedLabels = uniqueFields;
+            if(uniqueFields.contains("guide") && (objectSizeMap.get("guide") == guideMap.get(expRecId).size()))
+                modifiedLabels.remove("guide");
+            if(uniqueFields.contains("vector") && (objectSizeMap.get("vector") == vectorMap.get(expRecId).size()))
+                modifiedLabels.remove("vector");
+                StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(),objectSizeMap, modifiedLabels,resultId));
 
                 if(tissue!=null && !tissue.equals("") || tissues.size()>0) {
                     if(record.getCellTypeTerm()!=null && record.getTissueTerm()!=null)

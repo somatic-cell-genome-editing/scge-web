@@ -57,6 +57,7 @@
         List<String> guideTargetLocusList=edao.getExperimentRecordGuideTargetLocusList(ex.getExperimentId());
         List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
         List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
+        List<String> sexList = edao.getExperimentRecordSexList(ex.getExperimentId());
         List<String> tissues = (List<String>)request.getAttribute("tissues");
         List<String> conditions = (List<String>) request.getAttribute("conditions");
         String selectedTissue = (String)request.getAttribute("tissue");

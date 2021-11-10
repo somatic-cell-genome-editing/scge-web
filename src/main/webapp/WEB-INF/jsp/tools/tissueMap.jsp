@@ -464,7 +464,6 @@
                            color: "rgba(0, 0, 0, 0)"
                        },
                        ticks:{
-                           display:false,
                            fontColor: "rgb(0,75,141)",
                            callback: function(t) {
                                var maxLabelLength = 30;
@@ -494,11 +493,10 @@
                            color: "rgba(0, 0, 0, 0)"
                        },
                        ticks:{
-                           display:false,
                            fontColor: "rgb(0,75,141)",
                            callback: function(t) {
-                               var maxLabelLength = 30;
-                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
+                               var maxLabelLength = 20;
+                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-10) + '...';
                                else return t;
 
                            }
