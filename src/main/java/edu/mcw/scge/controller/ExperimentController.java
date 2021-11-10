@@ -330,6 +330,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         GrantDao grantDao=new GrantDao();
         Grant grant=grantDao.getGrantByGroupId(study.getGroupId());
         Map<String, Integer> objectSizeMap=customLabels.getObjectSizeMap(records);
+        System.out.println(objectSizeMap);
         Experiment e = edao.getExperiment(experimentId);
         if (!access.hasStudyAccess(study,p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
@@ -369,6 +370,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         for(ExperimentRecord rec:records)
             recordMap.put(rec.getExperimentRecordId(),rec);
+
         for (Long resultId : experimentResultsMap.keySet()) {
             List<ExperimentResultDetail> erdList=experimentResultsMap.get(resultId); //multiple replicate values for each result
             resultDetail.put(resultId, erdList);
@@ -377,8 +379,13 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
             String labelTrimmed=new String();
             ExperimentRecord record = recordMap.get(expRecId);
-        //    if(experimentId!=18000000004L && experimentId!=18000000003L) {
-                StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(),objectSizeMap, uniqueFields,resultId));
+            if(experimentId!=18000000014L) {
+                List<String> modifiedFields = uniqueFields;
+                if(uniqueFields.contains("guide") && (objectSizeMap.get("guide") == guideMap.get(expRecId).size()))
+                    modifiedFields.remove("guide");
+                if(uniqueFields.contains("vector") && (objectSizeMap.get("vector") == vectorMap.get(expRecId).size()))
+                    modifiedFields.remove("vector");
+                StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(),objectSizeMap, modifiedFields,resultId));
 
                 if(tissue!=null && !tissue.equals("") || tissues.size()>0) {
                     if(record.getCellTypeTerm()!=null && record.getTissueTerm()!=null)
@@ -388,18 +395,20 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     else labelTrimmed= label.toString();
                    // labels.add("\"" +  labelTrimmed + "\"");
                   //  record.setExperimentName(labelTrimmed);
-                    conditions.add(labelTrimmed.trim());
+                    conditions.add(labelTrimmed);
                 }
               //  else {*/
                     labels.add("\"" + label + "\"");
 
                     record.setExperimentName(label.toString());
+                recordMap.put(record.getExperimentRecordId(),record);
              //   }
-          /*  }else{
+            }else{
                 labels.add("\"" + record.getExperimentName() + "\"");
                 record.setExperimentName(record.getExperimentName());
+                recordMap.put(record.getExperimentRecordId(),record);
 
-            }*/
+            }
 
 
                 double average = 0;
@@ -434,7 +443,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         //      List<String> conditions = edao.getExperimentRecordConditionList(experimentId);
       //  List<String> conditions = labels.stream().map(l->l.replaceAll("\"","")).distinct().collect(Collectors.toList());
-System.out.println("conditions:"+conditions);
+
         req.setAttribute("tissues",tissues);
         req.setAttribute("conditions",new ArrayList<>(conditions));
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Experiments</a>");
@@ -456,7 +465,7 @@ System.out.println("conditions:"+conditions);
         req.setAttribute("action", e.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.setAttribute("objectSizeMap", objectSizeMap);
-        req.setAttribute("uniqueFields", uniqueFields);
+        req.setAttribute("uniqueFields",uniqueFields );
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
