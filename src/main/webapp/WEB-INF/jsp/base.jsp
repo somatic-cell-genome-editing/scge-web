@@ -61,6 +61,19 @@ Goals"/>
 </head>
 
 <body>
+
+<div id="devSystemWarning" style="display:none; background-color: #FFE2E8;font-size:26px;width:100%;padding:5px;">Development System</div>
+
+<script>
+    if (location.href.indexOf("dev.") > 0) {
+        document.getElementById("devSystemWarning").style.display="block";
+    }
+    if (location.href.indexOf("localhost") > 0) {
+        document.getElementById("devSystemWarning").innerHTML="localhost";
+        document.getElementById("devSystemWarning").style.display="block";
+    }
+</script>
+
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
 <nav class="navbar  flex-md-nowrap p-0 shadow" style="ackground-color: #1a80b6;background-color: black;">
     <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/toolkit/loginSuccess">

@@ -6,6 +6,13 @@
 <%@ page import="edu.mcw.scge.datamodel.Image" %>
 <%@ page import="java.util.List" %>
 
+
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+<!-- Theme included stylesheets -->
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
 <%
     {
 
@@ -20,7 +27,7 @@
         <% if (images.size() == 0) {%>
 
         <div id="<%=bucket%>form" style="display:none;">
-        <form action="/toolkit/uploadFile?${_csrf.parameterName}=${_csrf.token}" method="POST" enctype="multipart/form-data">
+        <form action="/toolkit/uploadFile?${_csrf.parameterName}=${_csrf.token}" method="POST" onsubmit="return <%=bucket%>addLegend()" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<%=objectId%>"/>
             <input type="hidden" name="url" value="<%=redirectURL%>"/>
             <input type="hidden" name="bucket" value="<%=bucket%>"/>
@@ -29,17 +36,46 @@
                     <td colspan="3" align="center"><input type="text" size=52 name="title" placeholder="Title"/></td>
                 </tr>
                 <tr>
-                    <td><input type="file" id="myFile<%=objectId%>" name="filename"></td>
+                    <td><input type="file" id="<%=bucket%>file" name="filename"></td>
                     <td>&nbsp;</td>
                     <td><input type="submit" value="Upload"></td>
                 </tr>
+                <input type="hidden" id="<%=bucket%>Legend" name="legend" value="">
                 <tr>
-                    <td colspan="3"><textarea name="legend" rows="5" cols="50" placeholder="Legend"></textarea></td>
+                    <td colspan="3"><div id="<%=bucket%>Editor"></div></td>
                 </tr>
             </table>
         </form>
         </div>
 <table align="center"><tr><td><a href="javascript:return void(0)" onclick="document.getElementById('<%=bucket%>form').style.display='block'; this.style.display='none';">Add&nbsp;image...</a></td></tr></table>
+<script>
+//var <%=bucket%>editor = new Quill('.<%=bucket%>Editor');  // First matching element will be used
+var <%=bucket%>container = document.getElementById('<%=bucket%>Editor');
+
+var <%=bucket%>options = {
+    debug: 'info',
+    modules: {
+        //toolbar: '#toolbar'
+    },
+    placeholder: 'Compose a legend...',
+    //readOnly: false,
+    theme: 'snow'
+};
+
+function <%=bucket%>addLegend() {
+    if (document.getElementById("<%=bucket%>file").value == "") {
+        alert("Please select a file");
+        return false;
+    }
+
+    document.getElementById("<%=bucket%>Legend").value=<%=bucket%>editor.root.innerHTML;
+    return true;
+}
+
+
+var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
+</script>
+
         <% } %>
 
     <% } %>

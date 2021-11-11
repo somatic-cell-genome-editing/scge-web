@@ -66,7 +66,22 @@
     <hr>
 </div>
 
-<br>
+<%
+    long objectId = v.getVectorId();
+    String redirectURL = "/data/vectors/vector?id=" + objectId;
+    String bucket="main1";
+%>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main2"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main3"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main4"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main5"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<hr>
+
 <jsp:include page="associatedStudies.jsp"/>
 <br>
 <hr>
