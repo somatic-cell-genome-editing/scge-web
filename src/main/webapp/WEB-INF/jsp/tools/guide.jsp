@@ -119,6 +119,9 @@
 
                 <tr ><th class="header" >Spacer Sequence</th><td>&nbsp;<%=SFN.parse(g.getSpacerSequence())%></td></tr>
                 <tr ><th class="header">Spacer Length</th><td>&nbsp;<%=SFN.parse(g.getSpacerLength())%></td></tr>
+                <% if(!SFN.parse(g.getFullGuide()).equals("")){%>
+                    <tr ><th class="header" >Guide Sequence</th><td>&nbsp;<%=SFN.parse(g.getFullGuide())%></td></tr>
+                <%}%>
                 <% if(!SFN.parse(g.getModifications()).equals("")){%>
                 <tr ><th class="header" >Modifications</th><td>&nbsp;<%=SFN.parse(g.getModifications())%></td></tr>
                 <%}%>
