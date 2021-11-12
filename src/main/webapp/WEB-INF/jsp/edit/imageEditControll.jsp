@@ -108,7 +108,7 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
                 <img  style="padding-bottom:10px;" src="/toolkit/store/<%=image.getScgeId()%>/<%=image.getBucket()%>/<%=image.getFileName()%>" />
             </td>
         </tr>
-        <% if (image.getLegend() != null && image.getLegend().length() > 0) { %>
+        <% if (image.getLegend() != null && image.getLegend().trim().length() > 0) { %>
         <tr>
             <td><div style="border:1px solid black;padding:5px;"><%=image.getLegend()%></div></td>
         </tr>
