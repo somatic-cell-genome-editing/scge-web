@@ -68,7 +68,7 @@
 
 <%
     long objectId = v.getVectorId();
-    String redirectURL = "/data/vectors/vector?id=" + objectId;
+    String redirectURL = "/data/vector/format?id=" + objectId;
     String bucket="main1";
 %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
