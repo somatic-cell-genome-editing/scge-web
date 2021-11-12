@@ -68,7 +68,7 @@ function <%=bucket%>addLegend() {
         return false;
     }
 
-    if (document.getElementById("<%=bucket%>Legend").value != "<p><br></p>") {
+    if (<%=bucket%>editor.getText().trim() != "") {
         document.getElementById("<%=bucket%>Legend").value=<%=bucket%>editor.root.innerHTML;
     }
 
