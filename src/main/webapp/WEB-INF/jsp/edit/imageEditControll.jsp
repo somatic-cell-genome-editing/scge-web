@@ -68,7 +68,10 @@ function <%=bucket%>addLegend() {
         return false;
     }
 
-    document.getElementById("<%=bucket%>Legend").value=<%=bucket%>editor.root.innerHTML;
+    if (document.getElementById("<%=bucket%>Legend").value != "<p><br></p>") {
+        document.getElementById("<%=bucket%>Legend").value=<%=bucket%>editor.root.innerHTML;
+    }
+
     return true;
 }
 
