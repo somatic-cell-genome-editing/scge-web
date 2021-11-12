@@ -62,7 +62,7 @@ Goals"/>
 
 <body>
 
-<div id="devSystemWarning" style="display:none; background-color: #FFE2E8;font-size:26px;width:100%;padding:5px;">Development System</div>
+<div id="devSystemWarning" style="display:none; color:white; background-color: #770C0E;font-size:26px;width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System</div>
 
 <script>
     if (location.href.indexOf("dev.") > 0) {
