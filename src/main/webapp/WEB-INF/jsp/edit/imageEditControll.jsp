@@ -54,8 +54,28 @@ var <%=bucket%>container = document.getElementById('<%=bucket%>Editor');
 
 var <%=bucket%>options = {
     debug: 'info',
+
     modules: {
         //toolbar: '#toolbar'
+        toolbar: [
+            [{ "font": [] }, { "size": ["small", false, "large", "huge"] }], // custom dropdown
+
+            ["bold", "italic", "underline", "strike"],
+
+            [{ "color": [] }, { "background": [] }],
+
+            [{ "script": "sub" }, { "script": "super" }],
+
+            [{ "header": 1 }, { "header": 2 }, "blockquote", "code-block"],
+
+            [{ "list": "ordered" }, { "list": "bullet" }, { "indent": "-1" }, { "indent": "+1" }],
+
+            [{ "direction": "rtl" }, { "align": [] }],
+
+            ["link", "image", "video", "formula"],
+
+            ["clean"]
+        ]
     },
     placeholder: 'Compose a legend...',
     //readOnly: false,

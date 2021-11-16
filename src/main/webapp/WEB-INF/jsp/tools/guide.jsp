@@ -344,6 +344,9 @@
         <canvas id="offTargetChart" style="position: relative; height:60vh; width:65vw;"></canvas>
     </div>
     <%}%>
+    <br>
+    <jsp:include page="associatedProtocols.jsp"/>
+
     <div id="associatedStudies">
     <jsp:include page="associatedStudies.jsp"/>
     </div>

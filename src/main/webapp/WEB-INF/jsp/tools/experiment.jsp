@@ -241,9 +241,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
             </tbody>
         </table>
     </div>
-    <hr>
-    <hr>
-
+    <jsp:include page="associatedProtocols.jsp"/>
 
     <div class="row">
         <div class="col-lg-3">

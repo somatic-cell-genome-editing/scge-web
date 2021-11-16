@@ -326,6 +326,11 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
         List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
 
+        ProtocolDao pdao = new ProtocolDao();
+        List<Protocol> protocols = pdao.getProtocolsForObject(experimentId);
+        req.setAttribute("protocols", protocols);
+
+
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
         GrantDao grantDao=new GrantDao();
         Grant grant=grantDao.getGrantByGroupId(study.getGroupId());
@@ -486,6 +491,10 @@ System.out.println("conditions:"+conditions);
             return null;
 
         }
+
+        ProtocolDao pdao = new ProtocolDao();
+        List<Protocol> protocols = pdao.getProtocolsForObject(expRecordId);
+        req.setAttribute("protocols", protocols);
 
         req.setAttribute("experimentRecords", records);
         ExperimentRecord r = new ExperimentRecord();

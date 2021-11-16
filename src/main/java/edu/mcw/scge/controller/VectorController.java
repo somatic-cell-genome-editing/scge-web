@@ -2,10 +2,7 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.DeliveryDao;
-import edu.mcw.scge.dao.implementation.ExperimentDao;
-import edu.mcw.scge.dao.implementation.StudyDao;
-import edu.mcw.scge.dao.implementation.VectorDao;
+import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
@@ -62,6 +59,10 @@ public class VectorController {
         StudyDao sdao = new StudyDao();
         List<Study> studies = sdao.getStudiesByVector(v.getVectorId());
         req.setAttribute("studies", studies);
+
+        ProtocolDao pdao = new ProtocolDao();
+        List<Protocol> protocols = pdao.getProtocolsForObject(v.getVectorId());
+        req.setAttribute("protocols", protocols);
 
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByVector(v.getVectorId());

@@ -21,10 +21,14 @@
         });
     });
 </script>
-<h4 class="page-header" style="color:grey;">Associated SCGE Experiments</h4>
 <%
     List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
     if(experiments!=null && experiments.size()>0){
+        %>
+
+<hr>
+<h4 class="page-header" style="color:grey;">Associated SCGE Experiments</h4>
+<%
 
         //out.println(experiments.size());
 %>

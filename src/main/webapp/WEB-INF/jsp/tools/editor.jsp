@@ -185,13 +185,19 @@
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
     <hr>
 
+    <div id="associatedProtocols">
+        <jsp:include page="associatedProtocols.jsp"/>
+    </div>
     <div id="associatedStudies">
         <jsp:include page="associatedStudies.jsp"/>
     </div>
-
     <div id="associatedExperiments">
         <jsp:include page="associatedExperiments.jsp"/>
     </div>
+
+
+
+
     <!--div id="publications">
         <h4 class="page-header" style="color:grey;">Related Publications</h4>
         Coming soon...

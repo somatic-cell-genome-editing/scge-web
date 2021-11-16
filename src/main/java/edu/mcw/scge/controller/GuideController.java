@@ -73,6 +73,10 @@ public class GuideController {
         List<Study> studies = sdao.getStudiesByGuide(guide.getGuide_id());
         req.setAttribute("studies", studies);
 
+        ProtocolDao pdao = new ProtocolDao();
+        List<Protocol> protocols = pdao.getProtocolsForObject(guide.getGuide_id());
+        req.setAttribute("protocols", protocols);
+
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByGuide(guide.getGuide_id());
         req.setAttribute("experimentRecords",experimentRecords);

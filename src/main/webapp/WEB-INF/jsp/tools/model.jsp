@@ -87,7 +87,8 @@
 <% bucket="main5"; %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 <br>
+ <jsp:include page="associatedProtocols.jsp"/>
+<br>
 <jsp:include page="associatedStudies.jsp"/>
 <br>
-<hr>
 <jsp:include page="associatedExperiments.jsp"/>

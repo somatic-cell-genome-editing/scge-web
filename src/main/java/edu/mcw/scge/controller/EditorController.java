@@ -1,10 +1,7 @@
 package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.EditorDao;
-import edu.mcw.scge.dao.implementation.ExperimentDao;
-import edu.mcw.scge.dao.implementation.GuideDao;
-import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.service.es.IndexServices;
@@ -84,6 +81,11 @@ public class EditorController {
         StudyDao sdao = new StudyDao();
         List<Study> studies = sdao.getStudiesByEditor(editor.getId());
         req.setAttribute("studies", studies);
+
+        ProtocolDao pdao = new ProtocolDao();
+        List<Protocol> protocols = pdao.getProtocolsForObject(editor.getId());
+        req.setAttribute("protocols", protocols);
+
 
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByEditor(editor.getId());

@@ -190,6 +190,30 @@ public class Access {
         return this.hasModelAccess(m,p);
     }
 
+    public boolean hasProtocolAccess(Protocol protocol, Person p) throws Exception{
+        if (protocol.getTier() == 4) {
+            return true;
+        }
+
+        if (protocol.getTier() == 3) {
+            return true;
+        }
+
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
+        return true;
+        //return protocolDao.verifyProtocolAccess(protocol,p);
+        //return modelDao.verifyModelAccess(m.getModelId(), p.getId());
+    }
+
+    public boolean hasProtocolAccess(long protocolId, Person p) throws Exception{
+        ProtocolDao pdao = new ProtocolDao();
+        Protocol protocol= pdao.getProtocolById(protocolId);
+        return this.hasProtocolAccess(protocol,p);
+    }
+
     public boolean hasRecordAccess(ExperimentRecord r, Person p) throws Exception{
         return this.hasStudyAccess(r.getStudyId(),p.getId());
 

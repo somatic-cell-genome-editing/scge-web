@@ -2,10 +2,7 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.EditorDao;
-import edu.mcw.scge.dao.implementation.ExperimentDao;
-import edu.mcw.scge.dao.implementation.ModelDao;
-import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
@@ -69,6 +66,10 @@ public class ModelController {
         StudyDao sdao = new StudyDao();
         List<Study> studies = sdao.getStudiesByModel(mod.getModelId());
         req.setAttribute("studies", studies);
+
+        ProtocolDao pdao = new ProtocolDao();
+        List<Protocol> protocols = pdao.getProtocolsForObject(mod.getModelId());
+        req.setAttribute("protocols", protocols);
 
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByModel(mod.getModelId());
