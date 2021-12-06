@@ -1,8 +1,12 @@
 package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.*;
+import edu.mcw.scge.dao.implementation.EditorDao;
+import edu.mcw.scge.dao.implementation.ExperimentDao;
+import edu.mcw.scge.dao.implementation.GuideDao;
+import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.service.es.IndexServices;
 import edu.mcw.scge.web.UI;
@@ -10,6 +14,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import edu.mcw.scge.configuration.Access;
 
@@ -17,10 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -139,5 +141,97 @@ public class EditorController {
 
         return null;
     }
+    @RequestMapping("/create")
+    public String createEditor(HttpServletRequest req,HttpServletResponse res,@ModelAttribute("editor") Editor editor) throws Exception {
 
+
+        long id = editor.getId();
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isInDCCorNIHGroup(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+        if(editor.getId() == 0) {
+            id = editorDao.getEditorId(editor);
+            if(id == 0) {
+                id = editorDao.insertEditor(editor);
+                editor.setId(id);
+                editorDao.insertGenomeInfo(editor);
+            }
+            else {
+                //return "redirect:/data/models/model?id="+modelId;
+            }
+        }else {
+            editorDao.updateEditor(editor);
+            editorDao.updateGenomeInfo(editor);
+        }
+
+        return "redirect:/data/editors/editor?id="+id;
+    }
+    @RequestMapping(value = "/edit")
+    public String getEditorForm(HttpServletRequest req, HttpServletResponse res,Editor editor) throws Exception{
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isInDCCorNIHGroup(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
+        if(req.getParameter("id") != null) {
+            Editor e = editorDao.getEditorById(Long.parseLong(req.getParameter("id"))).get(0);
+            req.setAttribute("editor",e);
+            req.setAttribute("action","Update Editor");
+        }else {
+            req.setAttribute("editor", new Editor());
+            req.setAttribute("action", "Create Editor");
+        }
+
+        List<Editor> records = editorDao.getAllEditors();
+        Set<String> types = records.stream().map(Editor::getType).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> subTypes = records.stream().map(Editor::getSubType).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> species = records.stream().map(Editor::getSpecies).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> pam = records.stream().map(Editor::getPamPreference).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> variant = records.stream().map(Editor::getEditorVariant).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> fusion = records.stream().map(Editor::getFusion).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> cleavage = records.stream().map(Editor::getDsbCleavageType).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> source = records.stream().map(Editor::getSource).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> symbol = records.stream().map(Editor::getSymbol).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> substrate = records.stream().map(Editor::getSubstrateTarget).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> activity = records.stream().map(Editor::getActivity).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+
+        req.setAttribute("types",types);
+        req.setAttribute("subTypes",subTypes);
+        req.setAttribute("species",species);
+        req.setAttribute("pam",pam);
+        req.setAttribute("variant",variant);
+        req.setAttribute("fusion",fusion);
+        req.setAttribute("cleavage",cleavage);
+        req.setAttribute("source",source);
+        req.setAttribute("symbol",symbol);
+        req.setAttribute("substrate",substrate);
+        req.setAttribute("activity",activity);
+        req.setAttribute("page", "/WEB-INF/jsp/edit/editEditor");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/editors/search'>Editors</a>");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }
 }
