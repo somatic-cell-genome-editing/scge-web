@@ -96,6 +96,7 @@ public class VectorController {
 
         return null;
     }
+    @RequestMapping(value = "/edit")
     public String getVectorForm(HttpServletRequest req, HttpServletResponse res,Vector vector) throws Exception{
 
         UserService userService = new UserService();
