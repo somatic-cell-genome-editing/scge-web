@@ -8,6 +8,7 @@ import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +23,10 @@ import java.util.stream.Collectors;
 @RequestMapping(value="/data/delivery")
 public class DeliveryController {
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
-
+    DeliveryDao dao = new DeliveryDao();
     @RequestMapping(value="/search")
     public String getDeliverySystems(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        DeliveryDao dao = new DeliveryDao();
+
         List<Delivery> records= dao.getDeliverySystems();
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
         req.setAttribute("systems", records);
@@ -38,7 +39,7 @@ public class DeliveryController {
 
     @RequestMapping(value="/system")
     public String getDeliverySystem(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        DeliveryDao dao = new DeliveryDao();
+
         Delivery system= dao.getDeliverySystemsById(Long.parseLong(req.getParameter("id"))).get(0);
         DBService dbService = new DBService();
 
@@ -99,6 +100,80 @@ public class DeliveryController {
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
+    }
+    @RequestMapping(value = "/edit")
+    public String getModelForm(HttpServletRequest req, HttpServletResponse res,Delivery delivery) throws Exception{
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isInDCCorNIHGroup(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
+        if(req.getParameter("id") != null) {
+            Delivery d = dao.getDeliverySystemsById(Long.parseLong(req.getParameter("id"))).get(0);
+            req.setAttribute("delivery",d);
+            req.setAttribute("action","Update Delivery System");
+        }else {
+            req.setAttribute("delivery", new Delivery());
+            req.setAttribute("action", "Create Delivery System");
+        }
+
+        List<Delivery> records = dao.getDeliverySystems();
+        Set<String> name = records.stream().map(Delivery::getName).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> type = records.stream().map(Delivery::getType).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> subtype = records.stream().map(Delivery::getSubtype).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> labId = records.stream().map(Delivery::getLabId).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> source = records.stream().map(Delivery::getSource).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+
+        req.setAttribute("name",name);
+        req.setAttribute("type",type);
+        req.setAttribute("source",source);
+        req.setAttribute("subtype",subtype);
+        req.setAttribute("labId",labId);
+        req.setAttribute("page", "/WEB-INF/jsp/edit/editDelivery");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/delivery/search'>Delivery</a>");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }
+    @RequestMapping("/create")
+    public String createModel(HttpServletRequest req,HttpServletResponse res,@ModelAttribute("delivery") Delivery delivery) throws Exception {
+
+        long deliveryId = delivery.getId();
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isInDCCorNIHGroup(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+        if(delivery.getId() == 0) {
+            deliveryId = dao.getDeliveryId(delivery);
+            if(deliveryId == 0)
+                deliveryId = dao.insertDelivery(delivery);
+            else {
+                //return "redirect:/data/models/model?id="+modelId;
+            }
+        }else dao.updateDelivery(delivery);
+
+        return "redirect:/data/delivery/system?id="+deliveryId;
     }
 
 }

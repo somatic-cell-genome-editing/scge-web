@@ -37,6 +37,7 @@
 </script>
 
 <% Delivery d = (Delivery) request.getAttribute("system"); %>
+<div align="right"><a href="/toolkit/data/delivery/edit?id=<%=d.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
 
 <div>
     <div>
