@@ -42,6 +42,7 @@
 </table>
 <br>
 
+<div align="right"><a href="/toolkit/data/vector/edit"><button class="btn btn-primary">Add Vector</button></a></div>
 
 
 <div>

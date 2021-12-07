@@ -55,6 +55,7 @@
 %>
 
 
+<div align="right"><a href="/toolkit/data/guide/edit?id=<%=g.getGuide_id()%>"><button class="btn btn-primary">Edit</button></a></div>
 
 
 <div class="col-md-2 sidenav bg-light">

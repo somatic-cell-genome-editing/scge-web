@@ -5,22 +5,17 @@ import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -147,5 +142,88 @@ public class GuideController {
        }
        Gson gson=new Gson();
         return gson.toJson(allSequenceViewerGuides);
+    }
+    @RequestMapping("/create")
+    public String createGuide(HttpServletRequest req,HttpServletResponse res,@ModelAttribute("guide") Guide guide) throws Exception {
+
+
+        long id = guide.getGuide_id();
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isInDCCorNIHGroup(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+        if(id == 0) {
+            id = guideDao.getGuideId(guide);
+            if(id == 0) {
+                id = guideDao.insertGuide(guide);
+                guide.setGuide_id(id);
+                guideDao.insertGenomeInfo(guide);
+            } else {
+                //return "redirect:/data/models/model?id="+modelId;
+            }
+        }else {
+            guideDao.updateGuide(guide);
+            guideDao.updateGenomeInfo(guide);
+        }
+
+        return "redirect:/data/guide/system?id="+id;
+    }
+    @RequestMapping(value = "/edit")
+    public String getEditorForm(HttpServletRequest req, HttpServletResponse res,Guide guide) throws Exception{
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isInDCCorNIHGroup(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
+        if(req.getParameter("id") != null) {
+            Guide g = guideDao.getGuideById(Long.parseLong(req.getParameter("id"))).get(0);
+            req.setAttribute("guide",g);
+            req.setAttribute("action","Update Guide");
+        }else {
+            req.setAttribute("guide", new Guide());
+            req.setAttribute("action", "Create Guide");
+        }
+
+        List<Guide> records = guideDao.getGuides();
+        Set<String> guides = records.stream().map(Guide::getGuide).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> grnaLabId = records.stream().map(Guide::getGrnaLabId).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> species = records.stream().map(Guide::getSpecies).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> targetLocus = records.stream().map(Guide::getTargetLocus).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> source = records.stream().map(Guide::getSource).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> guideFormat = records.stream().map(Guide::getGuideFormat).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+
+        req.setAttribute("guides",guides);
+        req.setAttribute("species",species);
+        req.setAttribute("source",source);
+        req.setAttribute("grnaLabId",grnaLabId);
+        req.setAttribute("targetLocus",targetLocus);
+        req.setAttribute("guideFormat",guideFormat);
+
+        req.setAttribute("page", "/WEB-INF/jsp/edit/editGuide");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/guide/search'>Guides</a>");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
     }
 }
