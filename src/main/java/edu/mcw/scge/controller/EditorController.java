@@ -166,16 +166,19 @@ public class EditorController {
                 id = editorDao.insertEditor(editor);
                 editor.setId(id);
                 editorDao.insertGenomeInfo(editor);
+                req.setAttribute("status"," <span style=\"color: blue\">Editor added successfully</span>");
             }
             else {
-                //return "redirect:/data/models/model?id="+modelId;
+                req.setAttribute("status"," <span style=\"color: red\">Editor already exists</span>");
             }
         }else {
             editorDao.updateEditor(editor);
             editorDao.updateGenomeInfo(editor);
+            req.setAttribute("status"," <span style=\"color: blue\">Editor updated successfully</span>");
         }
 
-        return "redirect:/data/editors/editor?id="+id;
+        req.getRequestDispatcher( "/data/editors/editor?id="+id).forward(req,res);
+        return null;
     }
     @RequestMapping(value = "/edit")
     public String getEditorForm(HttpServletRequest req, HttpServletResponse res,Editor editor) throws Exception{

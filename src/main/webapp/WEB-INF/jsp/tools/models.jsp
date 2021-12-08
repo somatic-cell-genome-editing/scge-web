@@ -49,6 +49,7 @@
 
 <% List<Model> models = (List<Model>) request.getAttribute("models"); %>
 
+<div align="right"><a href="/toolkit/data/models/edit"><button class="btn btn-primary">Add Model</button></a></div>
 
 <table id="myTable" class="table tablesorter table-striped">
         <thead>

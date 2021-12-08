@@ -248,8 +248,9 @@ Goals"/>
                             </div-->
                         </c:otherwise>
                     </c:choose>
-
-
+                        <c:if test="${status!=null}">
+                           <strong>${status}</strong><hr>
+                        </c:if>
                         <c:if test="${page!=null}">
                         <c:import url="${page}.jsp" />
                         </c:if>

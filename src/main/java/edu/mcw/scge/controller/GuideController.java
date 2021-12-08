@@ -168,15 +168,18 @@ public class GuideController {
                 id = guideDao.insertGuide(guide);
                 guide.setGuide_id(id);
                 guideDao.insertGenomeInfo(guide);
+                req.setAttribute("status"," <span style=\"color: blue\">Guide added successfully</span>");
             } else {
-                //return "redirect:/data/models/model?id="+modelId;
+                req.setAttribute("status"," <span style=\"color: red\">Guide already exits</span>");
             }
         }else {
             guideDao.updateGuide(guide);
             guideDao.updateGenomeInfo(guide);
+            req.setAttribute("status"," <span style=\"color: blue\">Guide updated successfully</span>");
         }
 
-        return "redirect:/data/guide/system?id="+id;
+        req.getRequestDispatcher("/data/guide/system?id="+id).forward(req,res);
+        return null;
     }
     @RequestMapping(value = "/edit")
     public String getEditorForm(HttpServletRequest req, HttpServletResponse res,Guide guide) throws Exception{

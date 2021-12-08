@@ -170,14 +170,19 @@ public class VectorController {
         }
         if(vectorId == 0) {
             vectorId = dao.getVectorId(vector);
-            if(vectorId == 0)
+            if(vectorId == 0) {
                 vectorId = dao.insertVector(vector);
-            else {
-                //return "redirect:/data/models/model?id="+modelId;
+                req.setAttribute("status"," <span style=\"color: blue\">Vector inserted successfully</span>");
+            }else {
+                req.setAttribute("status"," <span style=\"color: red\">Vector already exists</span>");
             }
-        }else dao.updateVector(vector);
+        }else{
+            dao.updateVector(vector);
+            req.setAttribute("status"," <span style=\"color: blue\">Vector updated successfully</span>");
+        }
 
-        return "redirect:/data/vector/format?id="+vectorId;
+        req.getRequestDispatcher("/data/vector/format?id="+vectorId).forward(req,res);
+        return null;
     }
 
 }

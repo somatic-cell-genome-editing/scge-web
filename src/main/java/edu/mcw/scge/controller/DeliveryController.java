@@ -2,8 +2,12 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.*;
+import edu.mcw.scge.dao.implementation.DeliveryDao;
+import edu.mcw.scge.dao.implementation.EditorDao;
+import edu.mcw.scge.dao.implementation.ExperimentDao;
+import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
@@ -13,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.LongSummaryStatistics;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -141,6 +142,7 @@ public class DeliveryController {
         req.setAttribute("subtype",subtype);
         req.setAttribute("labId",labId);
         req.setAttribute("page", "/WEB-INF/jsp/edit/editDelivery");
+
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/delivery/search'>Delivery</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
@@ -166,14 +168,20 @@ public class DeliveryController {
         }
         if(delivery.getId() == 0) {
             deliveryId = dao.getDeliveryId(delivery);
-            if(deliveryId == 0)
+            if(deliveryId == 0) {
                 deliveryId = dao.insertDelivery(delivery);
-            else {
-                //return "redirect:/data/models/model?id="+modelId;
+                req.setAttribute("status"," <span style=\"color: blue\">Delivery added successfully</span>");
+            }else {
+                req.setAttribute("status","<span style=\"color: red\">Delivery already exists</span>");
             }
-        }else dao.updateDelivery(delivery);
+        }else{
+            dao.updateDelivery(delivery);
+            req.setAttribute("status"," <span style=\"color: blue\">Delivery updated successfully</span>");
+        }
 
-        return "redirect:/data/delivery/system?id="+deliveryId;
+
+        req.getRequestDispatcher("/data/delivery/system?id="+deliveryId).forward(req,res);
+        return null;
     }
 
 }

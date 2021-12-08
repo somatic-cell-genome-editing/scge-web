@@ -2,12 +2,16 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.*;
+import edu.mcw.scge.dao.implementation.EditorDao;
+import edu.mcw.scge.dao.implementation.ExperimentDao;
+import edu.mcw.scge.dao.implementation.ModelDao;
+import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -96,6 +100,75 @@ public class ModelController {
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/models/search'>Models</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
+        return null;
+    }
+
+    @RequestMapping(value = "/edit")
+    public String getModelForm(HttpServletRequest req, HttpServletResponse res,Model model) throws Exception{
+        ModelDao dao = new ModelDao();
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isInDCCorNIHGroup(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
+        if(req.getParameter("id") != null) {
+            edu.mcw.scge.datamodel.Model mod = dao.getModelById(Long.parseLong(req.getParameter("id")));
+            req.setAttribute("model",mod);
+            req.setAttribute("action","Update Model");
+        }else {
+            req.setAttribute("model", new edu.mcw.scge.datamodel.Model());
+            req.setAttribute("action", "Create Model");
+        }
+        req.setAttribute("page", "/WEB-INF/jsp/edit/editModel");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/models/search'>Models</a>");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }
+    @RequestMapping("/create")
+    public String createModel(HttpServletRequest req,HttpServletResponse res,@ModelAttribute("model") edu.mcw.scge.datamodel.Model model) throws Exception {
+
+        ModelDao dao = new ModelDao();
+        long modelId = model.getModelId();
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isInDCCorNIHGroup(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+        if(model.getModelId() == 0) {
+            modelId = dao.getModelId(model);
+            if(modelId == 0) {
+                modelId = dao.insertModel(model);
+                req.setAttribute("status"," <span style=\"color: blue\">Model added successfully</span>");
+            }else {
+                req.setAttribute("status"," <span style=\"color: red\">Model already exists</span>");
+            }
+        }else {
+            dao.updateModel(model);
+            req.setAttribute("status"," <span style=\"color: blue\">Model updated successfully</span>");
+        }
+
+        req.getRequestDispatcher("/data/models/model?id="+modelId).forward(req,res);
         return null;
     }
 

@@ -38,7 +38,7 @@
 
 <% Model m = (Model) request.getAttribute("model"); %>
 
-
+<div align="right"><a href="/toolkit/data/models/edit?id=<%=m.getModelId()%>"><button class="btn btn-primary">Edit</button></a></div>
 <div>
     <div>
         <table  style="width:80%">
