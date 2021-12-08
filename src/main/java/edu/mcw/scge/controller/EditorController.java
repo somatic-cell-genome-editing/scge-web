@@ -1,10 +1,7 @@
 package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.EditorDao;
-import edu.mcw.scge.dao.implementation.ExperimentDao;
-import edu.mcw.scge.dao.implementation.GuideDao;
-import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.service.db.DBService;
