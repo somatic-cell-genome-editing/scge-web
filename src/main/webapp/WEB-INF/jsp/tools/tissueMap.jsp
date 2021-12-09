@@ -64,6 +64,8 @@
 </script>
 <%
 
+    ImageDao idao = new ImageDao();
+
     LinkedHashMap<String,String> rootTissues = new LinkedHashMap<String,String>();
     rootTissues.put("Reproductive System", "UBERON:0000990");
     rootTissues.put("Renal/Urinary System", "UBERON:0001008");
@@ -314,6 +316,7 @@
         <th>Editing</th>
         </thead>
     <% int i = 0,j=0;
+        int rowCount=1;
         for (String tissueName: tissueNames.keySet()) {
             String term = tissueNames.get(tissueName);
             String[] terms = term.split(",");
@@ -351,7 +354,15 @@
 
              <%  for(ExperimentResultDetail e: qualDeliveryResults.get(tissueName) ) { %>
                 <tr>
-                <td><%=e.getExperimentRecordId()%></td>
+                    <%
+                        List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
+                        if (images.size() > 0) {
+                    %>
+                    <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <% rowCount++;
+                        }else { %>
+                    <td><%=e.getExperimentRecordId()%></td>
+                    <%}%>
                 <td><%=e.getUnits()%></td>
                 <td><%=e.getNumberOfSamples()%></td>
                 <td><%=e.getResult()%></td>
@@ -387,12 +398,22 @@
 
                     <%  for(ExperimentResultDetail e: qualEditingResults.get(tissueName) ) { %>
                     <tr>
-                        <td><%=e.getExperimentRecordId()%></td>
+                        <%
+                            List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
+                            if (images.size() > 0) {
+                        %>
+                        <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                        <% }else { %>
+                            <td>hello<%=e.getExperimentRecordId()%></td>
+                        <%}%>
+
                         <td><%=e.getUnits()%></td>
                         <td><%=e.getNumberOfSamples()%></td>
                         <td><%=e.getResult()%></td>
                     </tr>
-                    <% } %>
+                    <%
+                    rowCount++;
+                    } %>
                     </tbody>
                 </table>
             </div></a>
@@ -401,6 +422,45 @@
     </tr>
 <%}%>
 </table>
+
+<script>
+    function resizeImages() {
+
+        //var found=true;
+        var count=1;
+        while(true) {
+            var img = document.getElementById("img" + count);
+            if (img) {
+                //alert(img.clientWidth);
+                //get the height to 60
+                var goal=75;
+                var height = img.naturalHeight;
+                var diff = height - goal;
+                var percentDiff = 1 - (diff / height);
+                img.height=goal;
+                img.width=parseInt(img.naturalWidth * percentDiff);
+
+            }else {
+                break;
+            }
+            count++;
+        }
+
+    }
+
+    function imageMouseOver(img) {
+        img.height=img.naturalHeight;
+        img.width=img.naturalWidth;
+    }
+    function imageMouseOut(img) {
+        img.height=75;
+        img.width=75;
+
+    }
+
+
+   // resizeImages();
+</script>
 
 
 <script>

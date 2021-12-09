@@ -41,6 +41,9 @@
     }
 </script>
 
+<% ImageDao idao = new ImageDao(); %>
+
+
 <% try {  %>
 
         <%@include file="recordFilters.jsp"%>
@@ -80,6 +83,7 @@
     <thead>
     <tr>
         <th>Condition<%=request.getAttribute("uniqueFields").toString()%></th>
+        <th></th>
         <% if (tissueList.size() > 0 ) { %><th>Tissue</th><% } %>
         <% if (cellTypeList.size() > 0) { %><th>Cell Type</th><% } %>
         <% if (sexList.size() > 0) { %><th>Sex</th><% } %>
@@ -101,7 +105,7 @@
     </thead>
 
         <%
-
+            int rowCount =1;
             for (Long resultId: resultDetail.keySet()) {
                 List<ExperimentResultDetail> ers = resultDetail.get(resultId);
                 long expRecordId = ers.get(0).getExperimentRecordId();
@@ -141,7 +145,17 @@
         %>
         <tr>
         <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(experimentName)%></a></td>
-        <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
+
+        <%
+            List<Image> images = idao.getImage(exp.getExperimentRecordId(),"main1");
+            if (images.size() > 0) {
+        %>
+                <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
+         <% }else { %>
+              <td></td>
+         <%}%>
+
+            <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
         <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
             <% if (sexList.size() > 0) { %><td><%=SFN.parse(exp.getSex())%></td><% } %>
         <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td><% } %>
@@ -165,6 +179,7 @@
             <td style="display: none"><%=e.getResult()%></td>
             <%}}%>
         </tr>
+        <% rowCount++; %>
      <% }} %>
 </table>
 
@@ -181,7 +196,49 @@
     <% bucket="belowExperimentTable5"; %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 </div>
-        <script>
+
+
+<script>
+    function resizeImages() {
+
+        //var found=true;
+        var count=1;
+        while(true) {
+            var img = document.getElementById("img" + count);
+            if (img) {
+                //alert(img.clientWidth);
+                //get the height to 60
+                var goal=75;
+                var height = img.naturalHeight;
+                var diff = height - goal;
+                var percentDiff = 1 - (diff / height);
+                img.height=goal;
+                img.width=parseInt(img.naturalWidth * percentDiff);
+
+            }else {
+                break;
+            }
+            count++;
+        }
+
+    }
+
+    function imageMouseOver(img) {
+        img.height=img.naturalHeight;
+        img.width=img.naturalWidth;
+    }
+    function imageMouseOut(img) {
+        img.height=75;
+        img.width=75;
+
+    }
+
+
+    resizeImages();
+</script>
+
+
+<script>
             var ctx = document.getElementById("resultChart");
             var myChart = new Chart(ctx, {
                 type: 'bar',

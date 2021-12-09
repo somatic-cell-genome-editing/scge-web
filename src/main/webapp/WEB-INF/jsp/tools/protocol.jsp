@@ -42,7 +42,7 @@
 
 <div>
         <table  style="width:80%">
-            <tr ><td class="header"><strong>Title</strong></td><td><%=p.getTitle()%></td></tr>
+            <tr><td class="header"><strong>Title</strong></td><td><%=p.getTitle()%></td></tr>
             <tr><td class="header"><strong>Description</strong></td><td><%=p.getDescription()%></td></tr>
             <tr><td class="header"><strong>SCGE ID</strong></td><td><%=p.getId()%></td></tr>
             <tr><td class="header"><strong>Tier</strong></td><td><%=p.getTier()%></td></tr>
