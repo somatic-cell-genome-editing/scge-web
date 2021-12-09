@@ -343,11 +343,11 @@
             <%  i++;} else if(qualDeliveryResults.containsKey(tissueName)) { %>
             <a href= "<%=deliveryurl%>">
             <div>
-                <table class="table tablesorter table-striped">
+                <table >
                 <thead><tr>
-                <th>Experiment Record Id</th>
+                <th>&nbsp;</th>
                 <th>Units</th>
-                <th>No of Replicates</th>
+                <th>No&nbsp;of&nbsp;Replicates</th>
                 <th>Result</th>
                 </tr></thead>
                 <tbody>
@@ -425,13 +425,10 @@
 
 <script>
     function resizeImages() {
-
-        //var found=true;
         var count=1;
         while(true) {
             var img = document.getElementById("img" + count);
             if (img) {
-                //alert(img.clientWidth);
                 //get the height to 60
                 var goal=75;
                 var height = img.naturalHeight;
@@ -449,17 +446,22 @@
     }
 
     function imageMouseOver(img) {
+        //img.style.position="absolute";
         img.height=img.naturalHeight;
         img.width=img.naturalWidth;
     }
-    function imageMouseOut(img) {
-        img.height=75;
-        img.width=75;
 
+    function imageMouseOut(img) {
+        //img.position="relative";
+        var goal=75;
+        var height = img.naturalHeight;
+        var diff = height - goal;
+        var percentDiff = 1 - (diff / height);
+        img.height=goal;
+        img.width=parseInt(img.naturalWidth * percentDiff);
     }
 
-
-   // resizeImages();
+    setTimeout("resizeImages()",1000);
 </script>
 
 

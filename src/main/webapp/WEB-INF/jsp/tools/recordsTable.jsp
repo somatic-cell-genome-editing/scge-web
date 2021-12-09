@@ -200,13 +200,10 @@
 
 <script>
     function resizeImages() {
-
-        //var found=true;
         var count=1;
         while(true) {
             var img = document.getElementById("img" + count);
             if (img) {
-                //alert(img.clientWidth);
                 //get the height to 60
                 var goal=75;
                 var height = img.naturalHeight;
@@ -227,14 +224,18 @@
         img.height=img.naturalHeight;
         img.width=img.naturalWidth;
     }
-    function imageMouseOut(img) {
-        img.height=75;
-        img.width=75;
 
+    function imageMouseOut(img) {
+        var goal=75;
+        var height = img.naturalHeight;
+        var diff = height - goal;
+        var percentDiff = 1 - (diff / height);
+        img.height=goal;
+        img.width=parseInt(img.naturalWidth * percentDiff);
     }
 
+    setTimeout("resizeImages()",1000);
 
-    resizeImages();
 </script>
 
 
