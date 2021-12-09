@@ -271,7 +271,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 
         <%
     long objectId = experimentRecord.getExperimentRecordId();
-    String redirectURL = "/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "/record/" + objectId;
+    String redirectURL = "/data/experiments/experiment/" + experiment.getExperimentId() + "/record/" + objectId;
     String bucket="main1";
 %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
