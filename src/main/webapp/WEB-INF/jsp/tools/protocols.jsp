@@ -75,6 +75,7 @@
         <td><%=protocol.getDescription()%></td>
         <td><a href="/toolkit/files/protocol/<%=protocol.getFilename()%>"><%=protocol.getFilename()%></a></td>
         <td><%=protocol.getId()%></td>
+        <td><input type="button">Edit</td></td>
     </tr>
         <% }
             } %>

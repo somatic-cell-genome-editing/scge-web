@@ -40,6 +40,12 @@
                             Study Tier Updates
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/toolkit/admin/seccheck">
+                            <span data-feather="file"></span>
+                            Security Check
+                        </a>
+                    </li>
 
                 </ul>
 
