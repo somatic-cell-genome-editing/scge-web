@@ -8,6 +8,17 @@
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.Protocol" %>
 
+<% List<Protocol> protocols = (List<Protocol>)request.getAttribute("protocols");
+    Access localStudyAccess = new Access();
+    Person localStudyPerson = new UserService().getCurrentUser(request.getSession());
+    GrantDao grantDao = new GrantDao();
+
+    if (protocols.size() > 0) {
+
+%>
+
+
+
 <script>
     $(function() {
         $("#myTable-1").tablesorter({
@@ -16,13 +27,8 @@
         });
     });
 </script>
-<h4 class="page-header" style="color:grey;">Protocols</h4>
 
-<% List<Protocol> protocols = (List<Protocol>)request.getAttribute("protocols");
-   Access localStudyAccess = new Access();
-   Person localStudyPerson = new UserService().getCurrentUser(request.getSession());
-    GrantDao grantDao = new GrantDao();
-%>
+<h4 class="page-header" style="color:grey;">Protocols</h4>
 <table id="myTable-1" class="tablesorter">
     <thead>
     <tr>
@@ -48,3 +54,4 @@
     </tbody>
 </table>
 
+<% } %>
