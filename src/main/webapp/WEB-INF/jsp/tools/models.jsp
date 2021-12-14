@@ -74,7 +74,7 @@
 
     <tr>
         <td width="10"><%=model.getTier()%></td>
-        <td><a href="/toolkit/data/models/model/?id=<%=model.getModelId()%>"><%=model.getName()%></a></td>
+        <td><a href="/toolkit/data/models/model/?id=<%=model.getModelId()%>"><%=model.getDisplayName()%></a></td>
         <td><%=model.getType()%></td>
         <td><%=SFN.parse(model.getSubtype())%></td>
         <td><%=model.getOrganism()%></td>

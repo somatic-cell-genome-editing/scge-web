@@ -43,7 +43,7 @@
     <div>
         <table  style="width:80%">
             <tr ><td class="header"><strong>SCGE ID</strong></td><td><%=m.getModelId()%></td></tr>
-            <tr><td class="header"><strong>Name</strong></td><td><%=m.getName()%></td></tr>
+            <tr><td class="header"><strong>Name</strong></td><td><%=m.getDisplayName()%></td></tr>
             <tr><td class="header"><strong>Description</strong></td><td><%=SFN.parse(m.getDescription())%></td></tr>
             <tr><td class="header"><strong>Type</strong></td><td><%=m.getType()%></td></tr>
             <tr><td class="header"><strong>Subtype</strong></td><td><%=SFN.parse(m.getSubtype())%></td></tr>
