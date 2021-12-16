@@ -55,7 +55,7 @@ public class ProtocolController {
         req.setAttribute("protocol", protocol);
         req.setAttribute("action","Protocol: " + protocol.getTitle());
         req.setAttribute("page", "/WEB-INF/jsp/tools/protocol");
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/models/search'>Models</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/protocols/search'>Protocols</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
@@ -110,6 +110,7 @@ public class ProtocolController {
             return null;
 
         }
+
         String filename = StringUtils.cleanPath(protocol.getFile().getOriginalFilename());
         protocol.setFilename(filename);
         if(protocolId == 0) {
