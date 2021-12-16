@@ -51,6 +51,7 @@
     <%
         List<Protocol> protocols = (List<Protocol>) request.getAttribute("protocols");
     %>
+        <div align="right"><a href="/toolkit/data/protocols/edit"><button class="btn btn-primary">Add Protocol</button></a></div>
 
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
@@ -75,7 +76,6 @@
         <td><%=protocol.getDescription()%></td>
         <td><a href="/toolkit/files/protocol/<%=protocol.getFilename()%>"><%=protocol.getFilename()%></a></td>
         <td><%=protocol.getId()%></td>
-        <td><input type="button">Edit</td></td>
     </tr>
         <% }
             } %>
