@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,11 +80,6 @@ public class ProtocolController {
 
         if(req.getParameter("id") != null) {
            Protocol pro = protocolDao.getProtocolById(Long.parseLong(req.getParameter("id")));
-            StorageProperties properties = new StorageProperties();
-            properties.setLocation("/data/scge_protocols");
-            FileSystemStorageService service = new FileSystemStorageService(properties);
-            MultipartFile file = (MultipartFile) service.loadAsResource(pro.getFilename());
-            pro.setFile(file);
             req.setAttribute("protocol",pro);
             req.setAttribute("action","Update Protocol");
         }else {
@@ -117,8 +111,9 @@ public class ProtocolController {
         }
 
         String filename = StringUtils.cleanPath(protocol.getFile().getOriginalFilename());
-
-        protocol.setFilename(filename);
+        System.out.println(filename);
+        if(filename != null )
+            protocol.setFilename(filename);
         if(protocolId == 0) {
             protocolId = protocolDao.getProtocolId(protocol);
             if(protocolId == 0) {
