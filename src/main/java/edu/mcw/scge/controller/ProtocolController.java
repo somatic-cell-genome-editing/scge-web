@@ -119,11 +119,12 @@ public class ProtocolController {
             protocolId = protocolDao.getProtocolId(protocol);
             if(protocolId == 0) {
                 protocolId = protocolDao.insertProtocol(protocol);
-                StorageProperties properties=new StorageProperties();
-                properties.setLocation("/data/scge_protocols");
-                FileSystemStorageService service=new FileSystemStorageService(properties);
-                service.store(protocol.getFile());
-
+                if(protocol.getFilename() != null) {
+                    StorageProperties properties = new StorageProperties();
+                    properties.setLocation("/data/scge_protocols");
+                    FileSystemStorageService service = new FileSystemStorageService(properties);
+                    service.store(protocol.getFile());
+                }
                 req.setAttribute("status"," <span style=\"color: blue\">Protocol added successfully</span>");
             }else {
                 req.setAttribute("status"," <span style=\"color: red\">Protocol already exists</span>");
@@ -132,11 +133,13 @@ public class ProtocolController {
             Protocol old = protocolDao.getProtocolById(protocolId);
             if(protocol.getFilename() == null)
                 protocol.setFilename(old.getFilename());
+            else {
+                StorageProperties properties = new StorageProperties();
+                properties.setLocation("/data/scge_protocols");
+                FileSystemStorageService service = new FileSystemStorageService(properties);
+                service.store(protocol.getFile());
+            }
             protocolDao.updateProtocol(protocol);
-            StorageProperties properties=new StorageProperties();
-            properties.setLocation("/data/scge_protocols");
-            FileSystemStorageService service=new FileSystemStorageService(properties);
-            service.store(protocol.getFile());
             req.setAttribute("status"," <span style=\"color: blue\">Protocol updated successfully</span>");
         }
 
