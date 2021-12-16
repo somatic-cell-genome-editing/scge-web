@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<form:form action="/toolkit/data/protocols/create" modelAttribute="protocol" method="post" >
+<form:form action="/toolkit/data/protocols/create" modelAttribute="protocol" method="post" enctype="multipart/form-data">
   <div align="right"><form:button class="btn btn-primary">Submit</form:button></div>
 <table width="80%">
     <tr>
