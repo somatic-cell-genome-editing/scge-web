@@ -45,6 +45,8 @@
 </script>
 <div class="container">
 <%
+    ImageDao idao = new ImageDao();
+    int rowCount=1;
     Access access = new Access();
     StudyDao sdao = new StudyDao();
     Person p = access.getUser(request.getSession());
@@ -65,8 +67,10 @@
 
     <hr-->
     <%}%>
-<div>
+    <div id="imageViewer" style="border:1px solid black;position:fixed;top:0px; left:0px;z-index:1000;"></div>
 
+
+    <div>
 
     <div class="card" style="margin-top: 1%" >
 
@@ -100,10 +104,12 @@
         <th>Type</th>
         <th>Description</th>
         <th>SCGE ID</th>
+         <th></th>
         </tr>
         </thead>
 
-        <% for (Experiment exp: experiments) {
+        <%
+            for (Experiment exp: experiments) {
             System.out.println(exp.getStudyId());
             Study s = sdao.getStudyById(exp.getStudyId()).get(0);
         %>
@@ -116,6 +122,16 @@
             <td style="white-space: nowrap"><%=exp.getType()%></td>
             <td><%=SFN.parse(exp.getDescription())%></td>
             <td><%=exp.getExperimentId()%></td>
+            <%
+                List<Image> images = idao.getImage(exp.getExperimentId(),"belowExperimentTable1");
+                if (images.size() > 0) {
+            %>
+            <td><a href=""><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
+            <% rowCount++;
+                }else { %>
+            <td></td>
+            <%}%>
+
         </tr>
         <% } %>
         <% } %>
@@ -136,6 +152,8 @@
             <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
             <% bucket="main5"; %>
             <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+            <% bucket="main6"; %>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
 
     </div>
@@ -143,3 +161,40 @@
 </div>
 <%}%>
 </div>
+
+<script>
+    function resizeImages() {
+        var count=1;
+        while(true) {
+            var img = document.getElementById("img" + count);
+            if (img) {
+                //get the height to 60
+                var goal=75;
+                var height = img.naturalHeight;
+                var diff = height - goal;
+                var percentDiff = 1 - (diff / height);
+                img.height=goal;
+                img.width=parseInt(img.naturalWidth * percentDiff);
+
+            }else {
+                break;
+            }
+            count++;
+        }
+
+    }
+
+    function imageMouseOver(img) {
+        var sourceImage = document.createElement('img'),
+            imgContainer = document.getElementById("imageViewer");
+        sourceImage.src = img.src;
+        imgContainer.appendChild(sourceImage);
+    }
+
+    function imageMouseOut(img) {
+        document.getElementById("imageViewer").innerHTML="";
+    }
+
+    setTimeout("resizeImages()",1000);
+
+</script>

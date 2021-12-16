@@ -58,20 +58,8 @@
 <div>
 <hr>
 
-    <%
-        long objectId = ex.getExperimentId();
-        String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
-        String bucket="aboveExperimentTable1";
-    %>
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-    <% bucket="aboveExperimentTable2"; %>
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-    <% bucket="aboveExperimentTable3"; %>
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-    <% bucket="aboveExperimentTable4"; %>
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-    <% bucket="aboveExperimentTable5"; %>
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+    <div id="imageViewer" style="border:1px solid black;position:fixed;top:0px; left:0px;z-index:1000;"></div>
 
     <table width="90%">
         <tr>
@@ -83,7 +71,6 @@
     <thead>
     <tr>
         <th>Condition<%=request.getAttribute("uniqueFields").toString()%></th>
-        <th></th>
         <% if (tissueList.size() > 0 ) { %><th>Tissue</th><% } %>
         <% if (cellTypeList.size() > 0) { %><th>Cell Type</th><% } %>
         <% if (sexList.size() > 0) { %><th>Sex</th><% } %>
@@ -101,6 +88,7 @@
         <% if (resultTypeList.size() > 0 ) { %><th>Result Type</th><% } %>
         <% if (unitList.size() > 0 ) { %><th>Units</th><% } %>
         <th id="result">Result</th>
+        <th></th>
     </tr>
     </thead>
 
@@ -146,14 +134,6 @@
         <tr>
         <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(experimentName)%></a></td>
 
-        <%
-            List<Image> images = idao.getImage(exp.getExperimentRecordId(),"main1");
-            if (images.size() > 0) {
-        %>
-                <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
-         <% }else { %>
-              <td></td>
-         <%}%>
 
             <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
         <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
@@ -178,14 +158,30 @@
                     if(e.getReplicate() != 0) { %>
             <td style="display: none"><%=e.getResult()%></td>
             <%}}%>
+            <%
+                List<Image> images = idao.getImage(exp.getExperimentRecordId(),"main1");
+                if (images.size() > 0) {
+            %>
+            <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
+            <% }else { %>
+            <td></td>
+            <%}%>
+
         </tr>
+
+
+
         <% rowCount++; %>
      <% }} %>
 </table>
 
+
     <%
-        bucket="belowExperimentTable1";
+        long objectId = ex.getExperimentId();
+        String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
+        String bucket="belowExperimentTable1";
     %>
+
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
     <% bucket="belowExperimentTable2"; %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
@@ -221,17 +217,14 @@
     }
 
     function imageMouseOver(img) {
-        img.height=img.naturalHeight;
-        img.width=img.naturalWidth;
-    }
+        var sourceImage = document.createElement('img'),
+        imgContainer = document.getElementById("imageViewer");
+        sourceImage.src = img.src;
+        imgContainer.appendChild(sourceImage);
+   }
 
     function imageMouseOut(img) {
-        var goal=75;
-        var height = img.naturalHeight;
-        var diff = height - goal;
-        var percentDiff = 1 - (diff / height);
-        img.height=goal;
-        img.width=parseInt(img.naturalWidth * percentDiff);
+        document.getElementById("imageViewer").innerHTML="";
     }
 
     setTimeout("resizeImages()",1000);

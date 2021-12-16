@@ -415,7 +415,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 double average = 0;
 
                 for (ExperimentResultDetail result : experimentResultsMap.get(resultId)) {
-                    System.out.println(result.getUnits());
                     if(resultType == null || result.getResultType().contains(resultType)) {
                         if (!result.getUnits().equalsIgnoreCase("signal")) {
 
@@ -558,6 +557,7 @@ System.out.println("conditions:"+conditions);
 
         }
         req.setAttribute("action", "Condition Details");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment</a>");
 
         req.setAttribute("study", study);
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");
