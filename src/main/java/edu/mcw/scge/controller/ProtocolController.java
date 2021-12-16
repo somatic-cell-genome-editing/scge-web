@@ -112,7 +112,9 @@ public class ProtocolController {
         }
 
         String filename = StringUtils.cleanPath(protocol.getFile().getOriginalFilename());
-        protocol.setFilename(filename);
+        System.out.println(filename);
+        if(filename != null )
+            protocol.setFilename(filename);
         if(protocolId == 0) {
             protocolId = protocolDao.getProtocolId(protocol);
             if(protocolId == 0) {
@@ -127,6 +129,9 @@ public class ProtocolController {
                 req.setAttribute("status"," <span style=\"color: red\">Protocol already exists</span>");
             }
         }else {
+            Protocol old = protocolDao.getProtocolById(protocolId);
+            if(protocol.getFilename() == null)
+                protocol.setFilename(old.getFilename());
             protocolDao.updateProtocol(protocol);
             StorageProperties properties=new StorageProperties();
             properties.setLocation("/data/scge_protocols");
