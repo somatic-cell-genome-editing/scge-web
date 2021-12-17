@@ -163,15 +163,13 @@
                 if (images.size() > 0) {
             %>
             <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
-            <% }else { %>
+            <% rowCount++;
+                }else { %>
             <td></td>
             <%}%>
 
         </tr>
 
-
-
-        <% rowCount++; %>
      <% }} %>
 </table>
 

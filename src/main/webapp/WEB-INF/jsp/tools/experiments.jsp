@@ -195,6 +195,6 @@
         document.getElementById("imageViewer").innerHTML="";
     }
 
-    setTimeout("resizeImages()",1000);
+    setTimeout("resizeImages()",500);
 
 </script>
