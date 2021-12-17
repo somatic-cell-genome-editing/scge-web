@@ -203,7 +203,7 @@ public class Access {
             return true;
         }
 
-        return true;
+        return false;
         //return protocolDao.verifyProtocolAccess(protocol,p);
         //return modelDao.verifyModelAccess(m.getModelId(), p.getId());
     }

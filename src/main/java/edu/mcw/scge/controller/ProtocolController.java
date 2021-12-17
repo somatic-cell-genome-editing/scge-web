@@ -49,6 +49,16 @@ public class ProtocolController {
 
         Protocol protocol= dao.getProtocolById(Long.parseLong(req.getParameter("id")));
 
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if (!access.hasProtocolAccess(protocol,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
 
         req.setAttribute("crumbTrail",   "hello world");
 
