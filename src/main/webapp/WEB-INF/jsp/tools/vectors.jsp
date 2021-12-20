@@ -42,8 +42,14 @@
 </table>
 <br>
 
-<div align="right"><a href="/toolkit/data/vector/edit"><button class="btn btn-primary">Add Vector</button></a></div>
+<%
+    Access access = new Access();
+    UserService userService = new UserService();
+%>
 
+  <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
+    <div align="right"><a href="/toolkit/data/vector/edit"><button class="btn btn-primary">Add Vector</button></a></div>
+<% } %>
 
 <div>
     <%
@@ -60,8 +66,6 @@
     </tr>
     </thead>
         <%
-            Access access = new Access();
-            UserService userService = new UserService();
 
             for (Vector vector: systems) {
 

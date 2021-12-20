@@ -39,8 +39,17 @@
 
 
 <% Protocol p = (Protocol) request.getAttribute("protocol"); %>
-<div align="right"><a href="/toolkit/data/protocols/edit?id=<%=p.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
 
+
+<%
+    Access access= new Access();
+    Person person = access.getUser(request.getSession());
+
+    if (access.isAdmin(person)) {
+%>
+
+<div align="right"><a href="/toolkit/data/protocols/edit?id=<%=p.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
+<% } %>
 <div>
         <table  style="width:80%">
             <tr ><td class="header"><strong>Title</strong></td><td><%=p.getTitle()%></td></tr>

@@ -52,8 +52,9 @@
         Access access = new Access();
         Person p = access.getUser(request.getSession());
     %>
+      <% if (access.isAdmin(p)) { %>
         <div align="right"><a href="/toolkit/data/guide/edit"><button class="btn btn-primary">Add Guide</button></a></div>
-
+        <% } %>
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>

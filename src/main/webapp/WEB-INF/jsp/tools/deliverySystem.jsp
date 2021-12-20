@@ -37,8 +37,16 @@
 </script>
 
 <% Delivery d = (Delivery) request.getAttribute("system"); %>
-<div align="right"><a href="/toolkit/data/delivery/edit?id=<%=d.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
 
+<%
+    Access access= new Access();
+    Person p = access.getUser(request.getSession());
+
+    if (access.isAdmin(p)) {
+%>
+
+<div align="right"><a href="/toolkit/data/delivery/edit?id=<%=d.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
+<% } %>
 <div>
     <div>
         <table  style="width:80%">

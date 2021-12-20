@@ -65,7 +65,16 @@
 <span style="color:#1A80B6; padding-left:10px;">Displaying <b><%=editors.size()%></b> of <b><%=total%></b> Editors.  <%=(total - editors.size())%> Editors hidden from view (tier 1 or 2)</span>
 <% } %>
 
-<div align="right"><a href="/toolkit/data/editors/edit"><button class="btn btn-primary">Add Editor</button></a></div>
+<%
+    UserService userService=new UserService();
+    Access access= new Access();
+    Person p = access.getUser(request.getSession());
+
+    if (access.isAdmin(p)) {
+    %>
+        <div align="right"><a href="/toolkit/data/editors/edit"><button class="btn btn-primary">Add Editor</button></a></div>
+    <%  } %>
+
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
         <tr>
@@ -83,9 +92,6 @@
     </thead>
 
 <%
-    UserService userService=new UserService();
-    Access access= new Access();
-    Person p = access.getUser(request.getSession());
     for (Editor editor: editors) { %>
 
         <% if (access.hasEditorAccess(editor, p)) {%>

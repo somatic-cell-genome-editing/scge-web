@@ -37,8 +37,15 @@
 </script>
 
 <% Vector v = (Vector) request.getAttribute("vector"); %>
-<div align="right"><a href="/toolkit/data/vector/edit?id=<%=v.getVectorId()%>"><button class="btn btn-primary">Edit</button></a></div>
+<%
+    Access access= new Access();
+    Person p = access.getUser(request.getSession());
 
+    if (access.isAdmin(p)) {
+%>
+
+<div align="right"><a href="/toolkit/data/vector/edit?id=<%=v.getVectorId()%>"><button class="btn btn-primary">Edit</button></a></div>
+<% } %>
 <div>
     <div>
         <table  style="width:80%">
