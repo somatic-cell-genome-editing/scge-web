@@ -47,10 +47,15 @@
 </table>
 <br>
 
-<% List<Model> models = (List<Model>) request.getAttribute("models"); %>
+<% List<Model> models = (List<Model>) request.getAttribute("models");
 
+    Access access = new Access();
+    UserService userService = new UserService();
+%>
+
+<% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
 <div align="right"><a href="/toolkit/data/models/edit"><button class="btn btn-primary">Add Model</button></a></div>
-
+<% } %>
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
         <tr>

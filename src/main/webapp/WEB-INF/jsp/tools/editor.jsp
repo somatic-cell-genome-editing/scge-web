@@ -36,7 +36,16 @@
 
 %>
 
+
+<%
+    Access access= new Access();
+    Person p = access.getUser(request.getSession());
+
+    if (access.isAdmin(p)) {
+%>
 <div align="right"><a href="/toolkit/data/editors/edit?id=<%=editor.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
+<% } %>
+
 <div class="col-md-2 sidenav bg-light">
     <a href="#summary">Summary</a>
     <%if(editor.getProteinSequence()!=null && !editor.getProteinSequence().equals("")){%>

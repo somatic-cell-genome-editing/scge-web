@@ -50,9 +50,13 @@
 <div>
     <%
         List<Protocol> protocols = (List<Protocol>) request.getAttribute("protocols");
+            Access access = new Access();
+            UserService userService = new UserService();
     %>
-        <div align="right"><a href="/toolkit/data/protocols/edit"><button class="btn btn-primary">Add Protocol</button></a></div>
+        <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
 
+        <div align="right"><a href="/toolkit/data/protocols/edit"><button class="btn btn-primary">Add Protocol</button></a></div>
+        <% } %>
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
@@ -63,9 +67,6 @@
     </tr>
     </thead>
         <%
-            Access access = new Access();
-            UserService userService = new UserService();
-
             for (Protocol protocol: protocols) {
 
       if (access.hasProtocolAccess(protocol, userService.getCurrentUser(request.getSession()))) {%>
