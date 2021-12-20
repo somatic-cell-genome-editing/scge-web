@@ -104,13 +104,11 @@
         <th>Type</th>
         <th>Description</th>
         <th>SCGE ID</th>
-         <th></th>
         </tr>
         </thead>
 
         <%
             for (Experiment exp: experiments) {
-            System.out.println(exp.getStudyId());
             Study s = sdao.getStudyById(exp.getStudyId()).get(0);
         %>
 
@@ -122,18 +120,31 @@
             <td style="white-space: nowrap"><%=exp.getType()%></td>
             <td><%=SFN.parse(exp.getDescription())%></td>
             <td><%=exp.getExperimentId()%></td>
+        </tr>
             <%
-                List<Image> images = idao.getImage(exp.getExperimentId(),"belowExperimentTable1");
+                List<Image> images = idao.getImage(exp.getExperimentId());
                 if (images.size() > 0) {
             %>
-            <td><a href=""><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
-            <% rowCount++;
-                }else { %>
-            <td></td>
-            <%}%>
+                    <tr>
+                        <tr>
+                            <td colspan="5" align="right">
+                                <table><tr>
+                    <% for (Image image: images) { %>
+                        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><img onmouseover="imageMouseOver(this,'<%=image.getLegend()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=image.getPath()%>" height="1" width="1"></a></td>
 
-        </tr>
-        <% } %>
+                        <% rowCount++;
+                    }
+                        %>
+                                </tr>
+                                </table>
+                            </td>
+
+                        </tr>
+                    <%
+                }
+                %>
+
+            <% } %>
         <% } %>
         </table>
             <hr>
@@ -184,11 +195,12 @@
 
     }
 
-    function imageMouseOver(img) {
+    function imageMouseOver(img, legend) {
         var sourceImage = document.createElement('img'),
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
         imgContainer.appendChild(sourceImage);
+        imgContainer.innerHTML = imgContainer.innerHTML + legend;
     }
 
     function imageMouseOut(img) {

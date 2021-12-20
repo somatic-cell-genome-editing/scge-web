@@ -147,7 +147,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 //req.setAttribute("results", results);
 %>
 
-<table>
+<table width="100%">
     <tr>
         <td>
 
@@ -157,7 +157,6 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
         <table>
 
             <tbody>
-            <tr><td colspan="2"><hr></td></tr>
             <tr><td class="header"><strong>Experiment</strong></td><td><%=experiment.getName()%></td></tr>
             <tr><td class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
             <tr><td colspan="2"><hr></td></tr>
