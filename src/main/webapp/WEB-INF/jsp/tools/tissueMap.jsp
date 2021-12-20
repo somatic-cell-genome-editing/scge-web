@@ -376,7 +376,7 @@
                         List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
                         if (images.size() > 0) {
                     %>
-                    <td align="center"><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <td align="center"><img onmouseover="imageMouseOver(this,'<%=images.get(0).getLegend()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                     <% rowCount++;
                     }else { %>
                     <td><%=e.getExperimentRecordId()%></td>
@@ -469,11 +469,12 @@
 
     }
 
-    function imageMouseOver(img) {
+    function imageMouseOver(img, legend) {
         var sourceImage = document.createElement('img'),
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
         imgContainer.appendChild(sourceImage);
+        imgContainer.innerHTML = imgContainer.innerHTML + legend;
     }
 
     function imageMouseOut(img) {
