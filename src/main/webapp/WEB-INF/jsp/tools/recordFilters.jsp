@@ -197,8 +197,7 @@
                         <td  ><div class="recordFilterTitle">
                             <% if (cellTypeList.size() > 1) { %>
                             <input onchange="applyAllFilters(this, 'checkcelltype')" id="allCellTypes"  type="checkbox" checked>&nbsp; 
-                            <%}%>
-                            Cell Types</div></td>
+                            <%}%>Cell Types</div></td>
                     </tr>
                     <tr>
                         <td>
@@ -390,8 +389,7 @@
                         <td  ><div class="recordFilterTitle">
                             <% if (sexList.size() > 1) { %>
                             <input onchange="applyAllFilters(this, 'checksex')" id="allSex"  type="checkbox" checked>&nbsp; 
-                            <%}%>
-                            Sex</div></td>
+                            <%}%>Sex</div></td>
                     </tr>
                     <tr>
                         <td>
