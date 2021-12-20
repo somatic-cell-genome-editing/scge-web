@@ -115,7 +115,35 @@ public class FileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
-//	@RequestMapping(value = "/store/{type}/{oid}/{bucket}/{filename}.{ext}", method = RequestMethod.GET)
+
+	@GetMapping("/files/protocol/{filename:.+}")
+	@ResponseBody
+	public ResponseEntity<Resource> serveProtocolFile(HttpServletRequest req, @PathVariable String filename) throws Exception{
+
+		UserService userService=new UserService();
+		Access access= new Access();
+		Person p = userService.getCurrentUser(req.getSession());
+
+		/*
+		if (!access.hasStudyAccess(Integer.parseInt(studyId),p.getId())) {
+			return null;
+		}
+		 */
+
+		StorageProperties properties=new StorageProperties();
+		//	properties.setLocation("C:/tmp/upload-dir" );
+		properties.setLocation("/data/scge_protocols");
+		//properties.setLocation("/Users/jdepons/scge_protocols");
+		FileSystemStorageService service=new FileSystemStorageService(properties);
+
+		Resource file = service.loadAsResource(filename);
+
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+	}
+
+
+
 	@RequestMapping(value = "/store/{oid}/{bucket}/{filename}.{ext}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<byte[]>  getImageAsByteArray(HttpServletRequest req, HttpServletResponse res,@PathVariable String oid,@PathVariable String bucket,@PathVariable String filename,@PathVariable String ext) throws Exception {
@@ -188,23 +216,14 @@ public class FileUploadController {
 
 		ImageDao idao = new ImageDao();
 
-		System.out.println("oid = " + oid);
-		System.out.println("bucket = " + bucket);
-
 
 		Image image = idao.getImage(Long.parseLong(oid),bucket).get(0);
 
-		System.out.println("image length = " + image.getImage().length);
-
-
 		HttpHeaders headers = new HttpHeaders();
-		//InputStream in = resource.getInputStream();
-		//byte[] media = IOUtils.toByteArray(in);
 		byte[] media = image.getImage();
 
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
 		headers.setContentType(MediaType.IMAGE_JPEG);
-		//in.close();
 
 		return new ResponseEntity<byte[]>(media, headers, HttpStatus.OK);
 	}
@@ -267,17 +286,6 @@ public class FileUploadController {
 
 			idao.insertImage(image);
 
-			//File f = new File(StorageProperties.rootLocation + "/" +  type + "/" + id + "/" + bucket);
-			//if (!f.exists()) {
-		//		f.mkdirs();
-			//}
-
-			//Path rootLocation = f.toPath();
-
-
-			//try (InputStream inputStream = file.getInputStream()) {
-		//		Files.copy(inputStream, rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-		//	}
 		}
 		catch (IOException e) {
 			throw new StorageException("Failed to store file " + filename, e);

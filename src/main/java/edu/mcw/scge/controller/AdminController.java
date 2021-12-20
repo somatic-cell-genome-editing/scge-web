@@ -2,12 +2,10 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.EditorDao;
-import edu.mcw.scge.dao.implementation.GroupDAO;
-import edu.mcw.scge.dao.implementation.PersonDao;
-import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.PersonInfo;
+import edu.mcw.scge.datamodel.Protocol;
 import edu.mcw.scge.datamodel.Study;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -96,6 +95,24 @@ public class AdminController extends LoginController{
 
 
     }
+
+    @RequestMapping(value = "/seccheck")
+    public void getSecCheck(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+
+        //UserService userService=new UserService();
+       // Access access= new Access();
+       // if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+       //     req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+       // }
+
+        //PURPOSLY DO NO CHECK USER HERE
+
+        req.setAttribute("action", "Security Check");
+        req.setAttribute("page", "/WEB-INF/jsp/admin/seccheck");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+    }
+
 
     @RequestMapping(value = "/groups")
     public void getGroups(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {

@@ -37,6 +37,7 @@
 </script>
 
 <% Delivery d = (Delivery) request.getAttribute("system"); %>
+<div align="right"><a href="/toolkit/data/delivery/edit?id=<%=d.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
 
 <div>
     <div>
@@ -86,7 +87,8 @@
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 <% bucket="main5"; %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
+<br>
+<jsp:include page="associatedProtocols.jsp"/>
 <br>
 <jsp:include page="associatedStudies.jsp"/>
 <br>

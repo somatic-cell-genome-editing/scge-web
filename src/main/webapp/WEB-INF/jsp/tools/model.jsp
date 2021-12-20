@@ -38,12 +38,12 @@
 
 <% Model m = (Model) request.getAttribute("model"); %>
 
-
+<div align="right"><a href="/toolkit/data/models/edit?id=<%=m.getModelId()%>"><button class="btn btn-primary">Edit</button></a></div>
 <div>
     <div>
         <table  style="width:80%">
             <tr ><td class="header"><strong>SCGE ID</strong></td><td><%=m.getModelId()%></td></tr>
-            <tr><td class="header"><strong>Name</strong></td><td><%=m.getName()%></td></tr>
+            <tr><td class="header"><strong>Name</strong></td><td><%=m.getDisplayName()%></td></tr>
             <tr><td class="header"><strong>Description</strong></td><td><%=SFN.parse(m.getDescription())%></td></tr>
             <tr><td class="header"><strong>Type</strong></td><td><%=m.getType()%></td></tr>
             <tr><td class="header"><strong>Subtype</strong></td><td><%=SFN.parse(m.getSubtype())%></td></tr>
@@ -87,7 +87,8 @@
 <% bucket="main5"; %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 <br>
+ <jsp:include page="associatedProtocols.jsp"/>
+<br>
 <jsp:include page="associatedStudies.jsp"/>
 <br>
-<hr>
 <jsp:include page="associatedExperiments.jsp"/>

@@ -5,6 +5,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.datamodel.Protocol" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -29,9 +30,10 @@
     });
 </script>
 
+<!--
 <table align="center">
     <tr>
-        <td align="center"><img height="100" width="100" src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" border="0"/></td>
+        <td align="center"><img height="100" width="100" src="https://scge.mcw.edu/wp-content/uploads/2019/03/Deliver.png" border="0"/></td>
         <td align="center">
             <form class="form-inline my-2 my-lg-0" action="/toolkit/data/search/results/Vector">
                 <input size=60 class="form-control " name="searchTerm" type="search" placeholder="Search Vectors/Formats" aria-label="Search">
@@ -40,22 +42,23 @@
         </td>
     </tr>
 </table>
+-->
 <br>
 
-<div align="right"><a href="/toolkit/data/vector/edit"><button class="btn btn-primary">Add Vector</button></a></div>
 
 
 <div>
     <%
-        List<Vector> systems = (List<Vector>) request.getAttribute("vectors");
+        List<Protocol> protocols = (List<Protocol>) request.getAttribute("protocols");
     %>
+        <div align="right"><a href="/toolkit/data/protocols/edit"><button class="btn btn-primary">Add Protocol</button></a></div>
 
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Subtype</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>File Download</th>
         <th>SCGE ID</th>
     </tr>
     </thead>
@@ -63,16 +66,16 @@
             Access access = new Access();
             UserService userService = new UserService();
 
-            for (Vector vector: systems) {
+            for (Protocol protocol: protocols) {
 
-      if (access.hasVectorAccess(vector, userService.getCurrentUser(request.getSession()))) {%>
+      if (access.hasProtocolAccess(protocol, userService.getCurrentUser(request.getSession()))) {%>
 
 
     <tr>
-        <td><a href="/toolkit/data/vector/format/?id=<%=vector.getVectorId()%>"><%=vector.getName()%></a></td>
-        <td><%=vector.getType()%></td>
-        <td><%=vector.getSubtype()%></td>
-        <td><%=vector.getVectorId()%></td>
+        <td><a href="/toolkit/data/protocols/protocol/?id=<%=protocol.getId()%>"><%=protocol.getTitle()%></a></td>
+        <td><%=protocol.getDescription()%></td>
+        <td><a href="/toolkit/files/protocol/<%=protocol.getFilename()%>"><%=protocol.getFilename()%></a></td>
+        <td><%=protocol.getId()%></td>
     </tr>
         <% }
             } %>

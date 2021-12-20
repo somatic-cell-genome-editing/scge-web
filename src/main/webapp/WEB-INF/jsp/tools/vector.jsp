@@ -37,6 +37,7 @@
 </script>
 
 <% Vector v = (Vector) request.getAttribute("vector"); %>
+<div align="right"><a href="/toolkit/data/vector/edit?id=<%=v.getVectorId()%>"><button class="btn btn-primary">Edit</button></a></div>
 
 <div>
     <div>
@@ -66,6 +67,22 @@
     <hr>
 </div>
 
+<%
+    long objectId = v.getVectorId();
+    String redirectURL = "/data/vector/format?id=" + objectId;
+    String bucket="main1";
+%>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main2"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main3"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main4"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<% bucket="main5"; %>
+<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+<hr>
+<jsp:include page="associatedProtocols.jsp"/>
 <br>
 <jsp:include page="associatedStudies.jsp"/>
 <br>

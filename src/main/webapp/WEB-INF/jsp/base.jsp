@@ -61,6 +61,19 @@ Goals"/>
 </head>
 
 <body>
+
+<div id="devSystemWarning" style="display:none; color:white; background-color: #770C0E;font-size:26px;width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System</div>
+
+<script>
+    if (location.href.indexOf("dev.") > 0) {
+        document.getElementById("devSystemWarning").style.display="block";
+    }
+    if (location.href.indexOf("localhost") > 0) {
+        document.getElementById("devSystemWarning").innerHTML="localhost";
+        document.getElementById("devSystemWarning").style.display="block";
+    }
+</script>
+
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
 <nav class="navbar  flex-md-nowrap p-0 shadow" style="ackground-color: #1a80b6;background-color: black;">
     <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/toolkit/loginSuccess">
@@ -235,8 +248,9 @@ Goals"/>
                             </div-->
                         </c:otherwise>
                     </c:choose>
-
-
+                        <c:if test="${status!=null}">
+                           <strong>${status}</strong><hr>
+                        </c:if>
                         <c:if test="${page!=null}">
                         <c:import url="${page}.jsp" />
                         </c:if>

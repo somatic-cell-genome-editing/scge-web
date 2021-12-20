@@ -64,6 +64,8 @@
 </script>
 <%
 
+    ImageDao idao = new ImageDao();
+
     LinkedHashMap<String,String> rootTissues = new LinkedHashMap<String,String>();
     rootTissues.put("Reproductive System", "UBERON:0000990");
     rootTissues.put("Renal/Urinary System", "UBERON:0001008");
@@ -252,68 +254,84 @@
 <div>Organ System Overview</div>
 <br><br>
 <div>
-    <table width="5000">
+    <table align="center">
         <tr>
-            <td width="40">&nbsp;</td>
             <td>
+                <table >
+                    <tr>
+                        <td width="40">&nbsp;</td>
+                        <td>
 
-                <%
-                    boolean first = true;
-                    //for (String tissue: tissues) {
-                    for (String tissue: rootTissues.keySet()) {
-                %>
-                <% if (first) { %>
-                <div class="tissue-control-header-first"><%=tissue%></div>
-                <% first = false; %>
-                <% } else { %>
-                <div class="tissue-control-header"><%=tissue%></div>
-                <% } %>
-                <%  } %>
+                            <%
+                                boolean first = true;
+                                //for (String tissue: tissues) {
+                                for (String tissue: rootTissues.keySet()) {
+                            %>
+                            <% if (first) { %>
+                            <div class="tissue-control-header-first"><%=tissue%></div>
+                            <% first = false; %>
+                            <% } else { %>
+                            <div class="tissue-control-header"><%=tissue%></div>
+                            <% } %>
+                            <%  } %>
+                        </td>
+                    </tr>
+                </table>
+
             </td>
         </tr>
-    </table>
-
-    <table style="margin-top:50px;">
-
-        <% for (String condition: conditions) { %>
         <tr>
-            <td  width="65"></td>
+            <td>
+                <table style="margin-top:50px;">
 
-            <% for (String tissueKey: rootTissues.keySet()) {
-                String tissue=rootTissues.get(tissueKey);
-            %>
-            <td width="40">
-                <div class="tissue-control-cell">
-                    <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
-                    <div class="triangle-topleft"></div>
-                    <% } %>
-                    <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
-                    <div class="triangle-bottomright"></div>
-                    <% } %>
-                </div>
-            </td>
-            <% } %>
-            <td style="font-size: small">
+                    <% for (String condition: conditions) { %>
+                    <tr>
+                        <td  width="65"></td>
 
-                <%=condition%>
+                        <% for (String tissueKey: rootTissues.keySet()) {
+                            String tissue=rootTissues.get(tissueKey);
+                        %>
+                        <td width="40">
+                            <div class="tissue-control-cell">
+                                <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
+                                <div class="triangle-topleft"></div>
+                                <% } %>
+                                <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                <div class="triangle-bottomright"></div>
+                                <% } %>
+                            </div>
+                        </td>
+                        <% } %>
+                        <td style="font-size: small">
+
+                            <%=condition%>
+                        </td>
+                    </tr>
+                    <% } // end conditions %>
+                </table>
+
             </td>
         </tr>
-        <% } // end conditions %>
     </table>
+
 
 
 
 </div>
 <hr>
 
-<div style="font-size:20px; color: #0002FC;">Select a graph below to explore the data set</div>
-    <table id="grid" class="table" style="width:600px;padding-left:20px;" >
+<div id="imageViewer" style="border:1px solid black;position:fixed;top:0px; left:0px;z-index:1000;background-color:white;"></div>
+
+
+<div style="font-size:20px; color: #1A80B6;">Select a graph below to explore the data set</div>
+    <table d="grid" class="table" style="width:600px;padding-left:20px;" align="center" border="1" cellpadding="6">
         <thead>
-        <th>Organ System</th>
-        <th>Delivery</th>
-        <th>Editing</th>
+        <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Organ System</th>
+        <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Delivery</th>
+        <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Editing</th>
         </thead>
     <% int i = 0,j=0;
+        int rowCount=1;
         for (String tissueName: tissueNames.keySet()) {
             String term = tissueNames.get(tissueName);
             String[] terms = term.split(",");
@@ -326,8 +344,8 @@
 
     %>
     <tr>
-        <td width="250"><span style="font-size:16px; font-weight:700;"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span></td>
-        <td>
+        <td ><span style="font-size:16px; font-weight:700;"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span></td>
+        <td >
             <% if (tissueDeliveryConditions.containsKey(tissueName)) {
                     deliveryConditions.add(tissueDeliveryConditions.get(tissueName));
                 deliveryResults.add(tissueDeliveryResults.get(tissueName));
@@ -340,21 +358,29 @@
             <%  i++;} else if(qualDeliveryResults.containsKey(tissueName)) { %>
             <a href= "<%=deliveryurl%>">
             <div>
-                <table class="table tablesorter table-striped">
+                <table border="1" cellpadding="6">
                 <thead><tr>
-                <th>Experiment Record Id</th>
-                <th>Units</th>
-                <th>No of Replicates</th>
-                <th>Result</th>
+                <th style="background-color:white; color:#212528; font-size:14px;">Units</th>
+                <th style="background-color:white; color:#212528; font-size:14px;">Replicates</th>
+                <th style="background-color:white; color:#212528; font-size:14px;">Result</th>
+                <th>&nbsp;</th>
                 </tr></thead>
                 <tbody>
 
              <%  for(ExperimentResultDetail e: qualDeliveryResults.get(tissueName) ) { %>
                 <tr>
-                <td><%=e.getExperimentRecordId()%></td>
                 <td><%=e.getUnits()%></td>
                 <td><%=e.getNumberOfSamples()%></td>
                 <td><%=e.getResult()%></td>
+                    <%
+                        List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
+                        if (images.size() > 0) {
+                    %>
+                    <td align="center"><img onmouseover="imageMouseOver(this,'<%=images.get(0).getLegend()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <% rowCount++;
+                    }else { %>
+                    <td><%=e.getExperimentRecordId()%></td>
+                    <%}%>
                 </tr>
              <% } %>
                 </tbody>
@@ -362,7 +388,7 @@
                 </div></a>
             <%  } else %> <b>NO DATA</b>
         </td>
-        <td>
+        <td >
             <% if (tissueEditingConditions.containsKey(tissueName)) {
                 editingConditions.add(tissueEditingConditions.get(tissueName));
                 editingResults.add(tissueEditingResults.get(tissueName));
@@ -376,21 +402,40 @@
             <%   j++;} else if(qualEditingResults.containsKey(tissueName)) { %>
             <a href= "<%=editingurl%>">
             <div>
-                <table class="table tablesorter table-striped">
+                <table class="table tablesorter table-striped" cellpadding="4">
                     <thead><tr>
                         <th>Experiment Record Id</th>
                         <th>Units</th>
                         <th>No of Replicates</th>
                         <th>Result</th>
+                        <th></th>
                     </tr></thead>
                     <tbody>
 
                     <%  for(ExperimentResultDetail e: qualEditingResults.get(tissueName) ) { %>
                     <tr>
-                        <td><%=e.getExperimentRecordId()%></td>
+                        <%
+                            List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
+                            if (images.size() > 0) {
+                        %>
+                        <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                        <% }else { %>
+                            <td>hello<%=e.getExperimentRecordId()%></td>
+                        <%}%>
+
                         <td><%=e.getUnits()%></td>
                         <td><%=e.getNumberOfSamples()%></td>
                         <td><%=e.getResult()%></td>
+                        <%
+                            images = idao.getImage(e.getExperimentRecordId(),"main1");
+                            if (images.size() > 0) {
+                        %>
+                        <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                        <% rowCount++;
+                        }else { %>
+                        <td><%=e.getExperimentRecordId()%></td>
+                        <%}%>
+
                     </tr>
                     <% } %>
                     </tbody>
@@ -402,6 +447,44 @@
 <%}%>
 </table>
 
+<script>
+    function resizeImages() {
+        var count=1;
+        while(true) {
+            var img = document.getElementById("img" + count);
+            if (img) {
+                //get the height to 60
+                var goal=75;
+                var height = img.naturalHeight;
+                var diff = height - goal;
+                var percentDiff = 1 - (diff / height);
+                img.height=goal;
+                img.width=parseInt(img.naturalWidth * percentDiff);
+
+            }else {
+                break;
+            }
+            count++;
+        }
+
+    }
+
+    function imageMouseOver(img, legend) {
+        var sourceImage = document.createElement('img'),
+            imgContainer = document.getElementById("imageViewer");
+        sourceImage.src = img.src;
+        imgContainer.appendChild(sourceImage);
+        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;'>" + legend + "</div>";
+
+    }
+
+    function imageMouseOut(img) {
+        document.getElementById("imageViewer").innerHTML="";
+    }
+
+    setTimeout("resizeImages()",1000);
+
+</script>
 
 <script>
 
@@ -464,7 +547,6 @@
                            color: "rgba(0, 0, 0, 0)"
                        },
                        ticks:{
-                           display:false,
                            fontColor: "rgb(0,75,141)",
                            callback: function(t) {
                                var maxLabelLength = 30;
@@ -494,11 +576,10 @@
                            color: "rgba(0, 0, 0, 0)"
                        },
                        ticks:{
-                           display:false,
                            fontColor: "rgb(0,75,141)",
                            callback: function(t) {
-                               var maxLabelLength = 30;
-                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
+                               var maxLabelLength = 20;
+                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-10) + '...';
                                else return t;
 
                            }

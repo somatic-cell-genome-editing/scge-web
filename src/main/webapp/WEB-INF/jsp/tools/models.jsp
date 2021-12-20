@@ -49,6 +49,7 @@
 
 <% List<Model> models = (List<Model>) request.getAttribute("models"); %>
 
+<div align="right"><a href="/toolkit/data/models/edit"><button class="btn btn-primary">Add Model</button></a></div>
 
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
@@ -73,7 +74,7 @@
 
     <tr>
         <td width="10"><%=model.getTier()%></td>
-        <td><a href="/toolkit/data/models/model/?id=<%=model.getModelId()%>"><%=model.getName()%></a></td>
+        <td><a href="/toolkit/data/models/model/?id=<%=model.getModelId()%>"><%=model.getDisplayName()%></a></td>
         <td><%=model.getType()%></td>
         <td><%=SFN.parse(model.getSubtype())%></td>
         <td><%=model.getOrganism()%></td>

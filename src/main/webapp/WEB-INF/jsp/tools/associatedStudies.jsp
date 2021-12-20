@@ -15,9 +15,14 @@
         });
     });
 </script>
+<%
+    List<Study> studies = (List<Study>)request.getAttribute("studies");
+    if (studies.size() > 0) {
+    %>
+<hr>
 <h4 class="page-header" style="color:grey;">Associated SCGE Studies</h4>
 
-<% List<Study> studies = (List<Study>)request.getAttribute("studies");
+<%
    Access localStudyAccess = new Access();
    Person localStudyPerson = new UserService().getCurrentUser(request.getSession());
     GrantDao grantDao = new GrantDao();
@@ -52,3 +57,4 @@
     </tbody>
 </table>
 
+<% } %>

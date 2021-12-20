@@ -45,6 +45,8 @@
 </script>
 <div class="container">
 <%
+    ImageDao idao = new ImageDao();
+    int rowCount=1;
     Access access = new Access();
     StudyDao sdao = new StudyDao();
     Person p = access.getUser(request.getSession());
@@ -65,8 +67,10 @@
 
     <hr-->
     <%}%>
-<div>
+    <div id="imageViewer" style="border:1px solid black;position:fixed;top:0px; left:0px;z-index:1000;background-color:white;"></div>
 
+
+    <div>
 
     <div class="card" style="margin-top: 1%" >
 
@@ -103,8 +107,8 @@
         </tr>
         </thead>
 
-        <% for (Experiment exp: experiments) {
-            System.out.println(exp.getStudyId());
+        <%
+            for (Experiment exp: experiments) {
             Study s = sdao.getStudyById(exp.getStudyId()).get(0);
         %>
 
@@ -117,7 +121,30 @@
             <td><%=SFN.parse(exp.getDescription())%></td>
             <td><%=exp.getExperimentId()%></td>
         </tr>
-        <% } %>
+            <%
+                List<Image> images = idao.getImage(exp.getExperimentId());
+                if (images.size() > 0) {
+            %>
+                    <tr>
+                        <tr>
+                            <td colspan="5" align="right">
+                                <table><tr>
+                    <% for (Image image: images) { %>
+                        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><img onmouseover="imageMouseOver(this,'<%=image.getLegend()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=image.getPath()%>" height="1" width="1"></a></td>
+
+                        <% rowCount++;
+                    }
+                        %>
+                                </tr>
+                                </table>
+                            </td>
+
+                        </tr>
+                    <%
+                }
+                %>
+
+            <% } %>
         <% } %>
         </table>
             <hr>
@@ -136,6 +163,8 @@
             <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
             <% bucket="main5"; %>
             <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+            <% bucket="main6"; %>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
 
     </div>
@@ -143,3 +172,41 @@
 </div>
 <%}%>
 </div>
+
+<script>
+    function resizeImages() {
+        var count=1;
+        while(true) {
+            var img = document.getElementById("img" + count);
+            if (img) {
+                //get the height to 60
+                var goal=75;
+                var height = img.naturalHeight;
+                var diff = height - goal;
+                var percentDiff = 1 - (diff / height);
+                img.height=goal;
+                img.width=parseInt(img.naturalWidth * percentDiff);
+
+            }else {
+                break;
+            }
+            count++;
+        }
+
+    }
+
+    function imageMouseOver(img, legend) {
+        var sourceImage = document.createElement('img'),
+            imgContainer = document.getElementById("imageViewer");
+        sourceImage.src = img.src;
+        imgContainer.appendChild(sourceImage);
+        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;'>" + legend + "</div>";
+    }
+
+    function imageMouseOut(img) {
+        document.getElementById("imageViewer").innerHTML="";
+    }
+
+    setTimeout("resizeImages()",500);
+
+</script>

@@ -55,6 +55,7 @@
 %>
 
 
+<div align="right"><a href="/toolkit/data/guide/edit?id=<%=g.getGuide_id()%>"><button class="btn btn-primary">Edit</button></a></div>
 
 
 <div class="col-md-2 sidenav bg-light">
@@ -119,6 +120,9 @@
 
                 <tr ><th class="header" >Spacer Sequence</th><td>&nbsp;<%=SFN.parse(g.getSpacerSequence())%></td></tr>
                 <tr ><th class="header">Spacer Length</th><td>&nbsp;<%=SFN.parse(g.getSpacerLength())%></td></tr>
+                <% if(!SFN.parse(g.getFullGuide()).equals("")){%>
+                    <tr ><th class="header" >Guide Sequence</th><td>&nbsp;<%=SFN.parse(g.getFullGuide())%></td></tr>
+                <%}%>
                 <% if(!SFN.parse(g.getModifications()).equals("")){%>
                 <tr ><th class="header" >Modifications</th><td>&nbsp;<%=SFN.parse(g.getModifications())%></td></tr>
                 <%}%>
@@ -341,6 +345,9 @@
         <canvas id="offTargetChart" style="position: relative; height:60vh; width:65vw;"></canvas>
     </div>
     <%}%>
+    <br>
+    <jsp:include page="associatedProtocols.jsp"/>
+
     <div id="associatedStudies">
     <jsp:include page="associatedStudies.jsp"/>
     </div>

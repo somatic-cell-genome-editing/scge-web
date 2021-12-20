@@ -41,6 +41,9 @@
     }
 </script>
 
+<% ImageDao idao = new ImageDao(); %>
+
+
 <% try {  %>
 
         <%@include file="recordFilters.jsp"%>
@@ -55,20 +58,8 @@
 <div>
 <hr>
 
-    <%
-        long objectId = ex.getExperimentId();
-        String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
-        String bucket="aboveExperimentTable1";
-    %>
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-    <% bucket="aboveExperimentTable2"; %>
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-    <% bucket="aboveExperimentTable3"; %>
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-    <% bucket="aboveExperimentTable4"; %>
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-    <% bucket="aboveExperimentTable5"; %>
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+    <div id="imageViewer" style="border:1px solid black;position:fixed;top:0px; left:0px;z-index:1000;background-color:white;"></div>
 
     <table width="90%">
         <tr>
@@ -82,6 +73,7 @@
         <th>Condition<%=request.getAttribute("uniqueFields").toString()%></th>
         <% if (tissueList.size() > 0 ) { %><th>Tissue</th><% } %>
         <% if (cellTypeList.size() > 0) { %><th>Cell Type</th><% } %>
+        <% if (sexList.size() > 0) { %><th>Sex</th><% } %>
         <% if (editorList.size() > 0 ) { %><th>Editor</th><% } %>
         <% if (modelList.size() > 0 ) { %><th>Model</th><% } %>
         <% if (deliverySystemList.size() > 0 ) { %><th>Delivery System</th><% } %>
@@ -96,11 +88,12 @@
         <% if (resultTypeList.size() > 0 ) { %><th>Result Type</th><% } %>
         <% if (unitList.size() > 0 ) { %><th>Units</th><% } %>
         <th id="result">Result</th>
+        <th></th>
     </tr>
     </thead>
 
         <%
-
+            int rowCount =1;
             for (Long resultId: resultDetail.keySet()) {
                 List<ExperimentResultDetail> ers = resultDetail.get(resultId);
                 long expRecordId = ers.get(0).getExperimentRecordId();
@@ -140,8 +133,11 @@
         %>
         <tr>
         <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(experimentName)%></a></td>
-        <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
+
+
+            <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
         <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
+            <% if (sexList.size() > 0) { %><td><%=SFN.parse(exp.getSex())%></td><% } %>
         <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td><% } %>
         <% if (modelList.size() > 0 ) { %><td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td><% } %>
         <% if (deliverySystemList.size() > 0 ) { %><td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemName())%></a></td><% } %>
@@ -162,13 +158,28 @@
                     if(e.getReplicate() != 0) { %>
             <td style="display: none"><%=e.getResult()%></td>
             <%}}%>
+            <%
+                List<Image> images = idao.getImage(exp.getExperimentRecordId(),"main1");
+                if (images.size() > 0) {
+            %>
+            <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this,'<%=images.get(0).getLegend()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
+            <% rowCount++;
+                }else { %>
+            <td></td>
+            <%}%>
+
         </tr>
+
      <% }} %>
 </table>
 
+
     <%
-        bucket="belowExperimentTable1";
+        long objectId = ex.getExperimentId();
+        String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
+        String bucket="belowExperimentTable1";
     %>
+
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
     <% bucket="belowExperimentTable2"; %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
@@ -179,7 +190,50 @@
     <% bucket="belowExperimentTable5"; %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 </div>
-        <script>
+
+
+<script>
+    function resizeImages() {
+        var count=1;
+        while(true) {
+            var img = document.getElementById("img" + count);
+            if (img) {
+                //get the height to 60
+                var goal=75;
+                var height = img.naturalHeight;
+                var diff = height - goal;
+                var percentDiff = 1 - (diff / height);
+                img.height=goal;
+                img.width=parseInt(img.naturalWidth * percentDiff);
+
+            }else {
+                break;
+            }
+            count++;
+        }
+
+    }
+
+    function imageMouseOver(img,legend) {
+        var sourceImage = document.createElement('img'),
+        imgContainer = document.getElementById("imageViewer");
+        sourceImage.src = img.src;
+        imgContainer.appendChild(sourceImage);
+        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;'>" + legend + "</div>";
+
+
+    }
+
+    function imageMouseOut(img) {
+        document.getElementById("imageViewer").innerHTML="";
+    }
+
+    setTimeout("resizeImages()",1000);
+
+</script>
+
+
+<script>
             var ctx = document.getElementById("resultChart");
             var myChart = new Chart(ctx, {
                 type: 'bar',
@@ -392,7 +446,8 @@
                 var rowLength = table.rows.length;
                 for (i = 1; i < rowLength; i++){
                     if(_this.checked)
-                      table.rows.item(i).style.display = '';
+
+                        table.rows.item(i).style.display = '';
 
                     else {
                         table.rows.item(i).style.display = 'none';
@@ -422,6 +477,7 @@
 
             }
             function applyFilters(obj)  {
+
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
                 for (i = 1; i < rowLength; i++){

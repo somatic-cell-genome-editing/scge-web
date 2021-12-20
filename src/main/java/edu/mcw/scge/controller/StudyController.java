@@ -88,7 +88,9 @@ public class StudyController{
 
             req.setAttribute("status", req.getParameter("status"));
 
+
             req.setAttribute("studies", studies);
+
             req.setAttribute("person", p);
 
             if (initiative > 0) {

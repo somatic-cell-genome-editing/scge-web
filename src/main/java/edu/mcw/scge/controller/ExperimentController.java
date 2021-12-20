@@ -326,6 +326,11 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
         List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
 
+        ProtocolDao pdao = new ProtocolDao();
+        List<Protocol> protocols = pdao.getProtocolsForObject(experimentId);
+        req.setAttribute("protocols", protocols);
+
+
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
         GrantDao grantDao=new GrantDao();
         Grant grant=grantDao.getGrantByGroupId(study.getGroupId());
@@ -378,7 +383,12 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             String labelTrimmed=new String();
             ExperimentRecord record = recordMap.get(expRecId);
         //    if(experimentId!=18000000004L && experimentId!=18000000003L) {
-                StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(),objectSizeMap, uniqueFields,resultId));
+            List<String> modifiedLabels = uniqueFields;
+            if(uniqueFields.contains("guide") && (objectSizeMap.get("guide") == guideMap.get(expRecId).size()))
+                modifiedLabels.remove("guide");
+            if(uniqueFields.contains("vector") && (objectSizeMap.get("vector") == vectorMap.get(expRecId).size()))
+                modifiedLabels.remove("vector");
+                StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(),objectSizeMap, modifiedLabels,resultId));
 
                 if(tissue!=null && !tissue.equals("") || tissues.size()>0) {
                     if(record.getCellTypeTerm()!=null && record.getTissueTerm()!=null)
@@ -405,7 +415,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 double average = 0;
 
                 for (ExperimentResultDetail result : experimentResultsMap.get(resultId)) {
-                    System.out.println(result.getUnits());
                     if(resultType == null || result.getResultType().contains(resultType)) {
                         if (!result.getUnits().equalsIgnoreCase("signal")) {
 
@@ -482,6 +491,10 @@ System.out.println("conditions:"+conditions);
 
         }
 
+        ProtocolDao pdao = new ProtocolDao();
+        List<Protocol> protocols = pdao.getProtocolsForObject(expRecordId);
+        req.setAttribute("protocols", protocols);
+
         req.setAttribute("experimentRecords", records);
         ExperimentRecord r = new ExperimentRecord();
         if (records.size() > 0) {
@@ -544,6 +557,7 @@ System.out.println("conditions:"+conditions);
 
         }
         req.setAttribute("action", "Condition Details");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment</a>");
 
         req.setAttribute("study", study);
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");
