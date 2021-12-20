@@ -474,7 +474,8 @@
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
         imgContainer.appendChild(sourceImage);
-        imgContainer.innerHTML = imgContainer.innerHTML + legend;
+        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;'>" + legend + "</div>";
+
     }
 
     function imageMouseOut(img) {
