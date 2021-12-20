@@ -70,10 +70,7 @@
 
 
     <%
-        Access access = new Access();
-        UserService userService = new UserService();
         for (Model model: models )  { %>
-
 
     <% if (access.hasModelAccess(model, userService.getCurrentUser(request.getSession()))) {%>
 
