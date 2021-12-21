@@ -5,6 +5,7 @@
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
+<%@ page import="edu.mcw.scge.service.StringUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -162,7 +163,7 @@
                 List<Image> images = idao.getImage(exp.getExperimentRecordId(),"main1");
                 if (images.size() > 0) {
             %>
-            <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this,'<%=images.get(0).getLegend()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
+            <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
             <% rowCount++;
                 }else { %>
             <td></td>
@@ -219,13 +220,19 @@
         imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
         imgContainer.appendChild(sourceImage);
-        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;'>" + legend + "</div>";
+        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;'>" + decodeHtml(legend) + "</div>";
 
 
     }
 
     function imageMouseOut(img) {
         document.getElementById("imageViewer").innerHTML="";
+    }
+
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
     }
 
     setTimeout("resizeImages()",1000);

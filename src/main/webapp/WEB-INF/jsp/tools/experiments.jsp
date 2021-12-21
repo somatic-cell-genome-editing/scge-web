@@ -9,6 +9,7 @@
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.LinkedHashMap" %>
+<%@ page import="edu.mcw.scge.service.StringUtils" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -130,7 +131,7 @@
                             <td colspan="5" align="right">
                                 <table><tr>
                     <% for (Image image: images) { %>
-                        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><img onmouseover="imageMouseOver(this,'<%=image.getLegend()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=image.getPath()%>" height="1" width="1"></a></td>
+                        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(image.getLegend())%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=image.getPath()%>" height="1" width="1"></a></td>
 
                         <% rowCount++;
                     }
@@ -200,11 +201,17 @@
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
         imgContainer.appendChild(sourceImage);
-        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;'>" + legend + "</div>";
+        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;'>" + decodeHtml(legend) + "</div>";
     }
 
     function imageMouseOut(img) {
         document.getElementById("imageViewer").innerHTML="";
+    }
+
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
     }
 
     setTimeout("resizeImages()",500);
