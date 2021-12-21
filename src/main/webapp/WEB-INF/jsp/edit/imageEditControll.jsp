@@ -60,7 +60,7 @@ var <%=bucket%>options = {
         toolbar: [
             [{ "font": [] }, { "size": ["small", false, "large", "huge"] }], // custom dropdown
 
-            ["bold", "italic", "underline", "strike"],
+            ["bold", "italic", "underline", "strike","code"],
 
             [{ "color": [] }, { "background": [] }],
 
@@ -135,6 +135,21 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
         <tr>
             <td><div style="border:1px solid black;padding:5px;"><%=image.getLegend()%></div></td>
         </tr>
+
+        <% if (access.isAdmin(p)) { %>
+        <form action="/toolkit/store/updateLegend?${_csrf.parameterName}=${_csrf.token}" method="POST">
+            <input type="hidden" name="id" value="<%=objectId%>"/>
+            <input type="hidden" name="url" value="<%=redirectURL%>"/>
+            <input type="hidden" name="bucket" value="<%=bucket%>"/>
+        <tr>
+            <td><textarea name="legend" rows="4" cols="60"><%=image.getLegend()%></textarea></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Save"/></td>
+        </tr>
+        </form>
+        <% } %>
+
         <% } %>
     </table>
 </div>

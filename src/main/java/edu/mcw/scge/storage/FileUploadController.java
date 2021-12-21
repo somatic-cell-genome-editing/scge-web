@@ -295,6 +295,29 @@ public class FileUploadController {
 
 	}
 
+	@PostMapping("/store/updateLegend")
+	public String handleUpdateLegend(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
+		UserService userService=new UserService();
+		Access access= new Access();
+		Person p = userService.getCurrentUser(req.getSession());
+
+		if (!access.isAdmin(p)) {
+			return null;
+		}
+
+		String id = req.getParameter("id");
+		String url = req.getParameter("url");
+		String bucket=req.getParameter("bucket");
+		String legend = req.getParameter("legend");
+
+		ImageDao idao = new ImageDao();
+		idao.updateImageLegend(Long.parseLong(id),bucket,legend);
+
+		return "redirect:" + url;
+
+	}
+
 
 	@PostMapping("/store/remove")
 	public String handleFileUpload(HttpServletRequest req, HttpServletResponse res) throws Exception {
