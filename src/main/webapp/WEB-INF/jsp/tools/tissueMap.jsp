@@ -2,6 +2,7 @@
 <%@ page import="java.util.Set" %>
 <%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="io.netty.util.internal.StringUtil" %>
 <style>
     .tissue-control {
         position: relative;
@@ -376,7 +377,7 @@
                         List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
                         if (images.size() > 0) {
                     %>
-                    <td align="center"><img onmouseover="imageMouseOver(this,'<%=images.get(0).getLegend()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <td align="center"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                     <% rowCount++;
                     }else { %>
                     <td><%=e.getExperimentRecordId()%></td>
@@ -480,6 +481,12 @@
 
     function imageMouseOut(img) {
         document.getElementById("imageViewer").innerHTML="";
+    }
+
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
     }
 
     setTimeout("resizeImages()",1000);
