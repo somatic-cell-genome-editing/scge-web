@@ -68,7 +68,7 @@
 
     <hr-->
     <%}%>
-    <div id="imageViewer" style="width:700px;border:1px solid black;position:fixed;top:0px; left:0px;z-index:1000;background-color:white;"></div>
+    <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:708px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
 
     <div>
@@ -131,7 +131,7 @@
                             <td colspan="5" align="right">
                                 <table><tr>
                     <% for (Image image: images) { %>
-                        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(image.getLegend())%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=image.getPath()%>" height="1" width="1"></a></td>
+                        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(image.getLegend())%>', '<%=image.getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=image.getPath()%>" height="1" width="1"></a></td>
 
                         <% rowCount++;
                     }
@@ -196,14 +196,23 @@
 
     }
 
-    function imageMouseOver(img, legend) {
+    function imageMouseOver(img, legend, title) {
         var sourceImage = document.createElement('img'),
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
         resizeThis(sourceImage);
+
+        if (title != "") {
+            imgContainer.innerHTML = "<div style='padding:8px;font-weight:700;font-size:18px;'>" + title + "</div>"
+        }
+
         imgContainer.appendChild(sourceImage);
         //imgContainer.style.width=img.naturalWidth;
-        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;padding:5px;'>" + decodeHtml(legend) + "</div>";
+
+        if (legend != "") {
+            imgContainer.innerHTML = imgContainer.innerHTML + "<div style='border:1px solid black;padding:8px;'>" + decodeHtml(legend) + "</div>";
+        }
+        imgContainer.style.visibility="visible";
     }
 
     function resizeThis(img) {
@@ -226,6 +235,7 @@
 
     function imageMouseOut(img) {
         document.getElementById("imageViewer").innerHTML="";
+        document.getElementById("imageViewer").style.visibility="hidden";
     }
 
     function decodeHtml(html) {
