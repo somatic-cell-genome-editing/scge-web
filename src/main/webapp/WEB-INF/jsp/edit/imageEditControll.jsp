@@ -128,7 +128,7 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
         <% }%>
         <tr>
             <td align="center">
-                <div style="border:2px solid black; padding:5px; "><img  onload="resizeThis_<%=bucket%><%=image.getPosIndex()%>(this)" style="padding-bottom:10px;" src="/toolkit/store/<%=image.getScgeId()%>/<%=image.getBucket()%>/<%=image.getFileName()%>" /></div>
+                <div style="border:1px double black; padding:5px; "><img  onload="resizeThis_<%=bucket%><%=image.getPosIndex()%>(this)" style="padding-bottom:10px;" src="/toolkit/store/<%=image.getScgeId()%>/<%=image.getBucket()%>/<%=image.getFileName()%>" /></div>
             </td>
         </tr>
         <% if (image.getLegend() != null && image.getLegend().trim().length() > 0) { %>
@@ -142,7 +142,7 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
             <input type="hidden" name="url" value="<%=redirectURL%>"/>
             <input type="hidden" name="bucket" value="<%=bucket%>"/>
         <tr>
-            <td><textarea name="legend" rows="4" cols="60"><%=image.getLegend()%></textarea></td>
+            <td><textarea name="legend" rows="4" cols="70"><%=image.getLegend()%></textarea></td>
         </tr>
         <tr>
             <td><input type="submit" value="Save"/></td>
