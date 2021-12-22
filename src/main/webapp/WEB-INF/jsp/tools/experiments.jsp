@@ -68,7 +68,7 @@
 
     <hr-->
     <%}%>
-    <div id="imageViewer" style="width:300px; border:1px solid black;position:fixed;top:0px; left:0px;z-index:1000;background-color:white;"></div>
+    <div id="imageViewer" style="border:1px solid black;position:fixed;top:0px; left:0px;z-index:1000;background-color:white;"></div>
 
 
     <div>
@@ -202,7 +202,7 @@
         sourceImage.src = img.src;
         imgContainer.appendChild(sourceImage);
         imgContainer.style.width=img.naturalWidth;
-        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;padding:5px;'>" + decodeHtml(legend) + "</div>";
+        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;padding:5px;width:" + img.naturalWidth + ";'>" + decodeHtml(legend) + "</div>";
     }
 
     function imageMouseOut(img) {
