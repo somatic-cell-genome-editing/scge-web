@@ -209,7 +209,7 @@
     function resizeThis(img) {
         if (img) {
             //get the height to 60
-            var goal=600;
+            var goal = 600;
             var width = img.naturalWidth;
 
             if (width < goal) {
@@ -218,10 +218,11 @@
 
             var diff = width - goal;
             var percentDiff = 1 - (diff / width);
-            img.width=goal;
-            img.height=parseInt(img.naturalHeight * percentDiff);
+            img.width = goal;
+            img.height = parseInt(img.naturalHeight * percentDiff);
 
         }
+    }
 
     function imageMouseOut(img) {
         document.getElementById("imageViewer").innerHTML="";
