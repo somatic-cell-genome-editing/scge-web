@@ -68,7 +68,7 @@
 
     <hr-->
     <%}%>
-    <div id="imageViewer" style="border:1px solid black;position:fixed;top:0px; left:0px;z-index:1000;background-color:white;"></div>
+    <div id="imageViewer" style="width:700px;border:1px solid black;position:fixed;top:0px; left:0px;z-index:1000;background-color:white;"></div>
 
 
     <div>
@@ -209,7 +209,7 @@
     function resizeThis(img) {
         if (img) {
             //get the height to 60
-            var goal = 600;
+            var goal = 700;
             var width = img.naturalWidth;
 
             if (width < goal) {
