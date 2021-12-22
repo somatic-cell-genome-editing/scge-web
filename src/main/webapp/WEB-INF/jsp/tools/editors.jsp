@@ -38,6 +38,8 @@
     });
 </script>
 
+<% try { %>
+
 
 <table align="center">
     <tr>
@@ -111,3 +113,7 @@
         <% } %>
     <% } %>
 </table>
+
+<% } catch (Exception e) {
+        e.printStackTrace();
+}  %>

@@ -128,7 +128,7 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
         <% }%>
         <tr>
             <td align="center">
-                <img  style="padding-bottom:10px;" src="/toolkit/store/<%=image.getScgeId()%>/<%=image.getBucket()%>/<%=image.getFileName()%>" />
+                <img  onload="resizeThis_<%=bucket%><%=image.getPosIndex()%>(this)" style="padding-bottom:10px;" src="/toolkit/store/<%=image.getScgeId()%>/<%=image.getBucket()%>/<%=image.getFileName()%>" />
             </td>
         </tr>
         <% if (image.getLegend() != null && image.getLegend().trim().length() > 0) { %>
@@ -136,7 +136,7 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
             <td><div style="border:1px solid black;padding:5px;"><%=image.getLegend()%></div></td>
         </tr>
 
-        <% if (access.isAdmin(p)) { %>
+        <% if (imageCheckAccess.isAdmin(imageCheckPerson)) { %>
         <form action="/toolkit/store/updateLegend?${_csrf.parameterName}=${_csrf.token}" method="POST">
             <input type="hidden" name="id" value="<%=objectId%>"/>
             <input type="hidden" name="url" value="<%=redirectURL%>"/>
@@ -153,6 +153,28 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
         <% } %>
     </table>
 </div>
+
+<script>
+
+    function resizeThis_<%=bucket%><%=image.getPosIndex()%>(img) {
+            if (img) {
+                //get the height to 60
+                var goal=600;
+                var width = img.naturalWidth;
+
+                if (width < goal) {
+                    return;
+                }
+
+                var diff = width - goal;
+                var percentDiff = 1 - (diff / width);
+                img.width=goal;
+                img.height=parseInt(img.naturalHeight * percentDiff);
+
+            }
+
+    }
+</script>
 
 
 
