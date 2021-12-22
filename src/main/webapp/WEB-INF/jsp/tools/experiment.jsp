@@ -114,7 +114,6 @@
         font-weight: bold;
         font-size: 12px;
         color:steelblue;
-        width: 25%;
         background-color: #ECECF9;
         padding:3px;
     }
@@ -147,18 +146,18 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 //req.setAttribute("results", results);
 %>
 
-<table width="100%">
+<table width="100%" border="0">
     <tr>
-        <td>
+        <td >
 
 
 
 <div>
-        <table>
+        <table >
 
             <tbody>
-            <tr><td class="header"><strong>Experiment</strong></td><td><%=experiment.getName()%></td></tr>
-            <tr><td class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
+            <tr><td width="200" class="header"><strong>Experiment</strong></td><td><%=experiment.getName()%></td></tr>
+            <tr><td width="200" class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
             <tr><td colspan="2"><hr></td></tr>
 
             <%
@@ -194,11 +193,11 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
                 if(methods !=null && methods.size() > 0)
                     a = methods.get(0);
             %>
-                <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=<%=e.getId()%>"><%=SFN.parse(e.getSymbol())%></a></td></tr>
-                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=SFN.parse(d.getName())%></a></td></tr>
-                <tr><td class="header"><strong>Delivery&nbsp;System&nbsp;Subtype</strong></td><td><%=SFN.parse(d.getType())%></td></tr>
+                <tr><td width="200" class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=<%=e.getId()%>"><%=SFN.parse(e.getSymbol())%></a></td></tr>
+                <tr><td  class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=SFN.parse(d.getName())%></a></td></tr>
+                <tr><td  class="header"><strong>Delivery&nbsp;System&nbsp;Subtype</strong></td><td><%=SFN.parse(d.getType())%></td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td><%=guide%></td></tr>
-            <tr><td class="header"><strong>Vector</strong></td><td><%=vector%></td></tr>
+            <tr><td width="150" class="header"><strong>Vector</strong></td><td><%=vector%></td></tr>
             <tr><td colspan="2"><hr></td></tr>
 
 
@@ -284,7 +283,6 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
         </td>
     </tr>
 </table>
-
 
 
     <jsp:include page="associatedProtocols.jsp"/>
