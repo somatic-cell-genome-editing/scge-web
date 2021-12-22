@@ -200,10 +200,28 @@
         var sourceImage = document.createElement('img'),
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
+        resizeThis(sourceImage);
         imgContainer.appendChild(sourceImage);
-        imgContainer.style.width=img.naturalWidth;
+        //imgContainer.style.width=img.naturalWidth;
         imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;padding:5px;'>" + decodeHtml(legend) + "</div>";
     }
+
+    function resizeThis(img) {
+        if (img) {
+            //get the height to 60
+            var goal=600;
+            var width = img.naturalWidth;
+
+            if (width < goal) {
+                return;
+            }
+
+            var diff = width - goal;
+            var percentDiff = 1 - (diff / width);
+            img.width=goal;
+            img.height=parseInt(img.naturalHeight * percentDiff);
+
+        }
 
     function imageMouseOut(img) {
         document.getElementById("imageViewer").innerHTML="";

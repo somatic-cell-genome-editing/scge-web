@@ -128,7 +128,7 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
         <% }%>
         <tr>
             <td align="center">
-                <img  onload="resizeThis_<%=bucket%><%=image.getPosIndex()%>(this)" style="padding-bottom:10px;" src="/toolkit/store/<%=image.getScgeId()%>/<%=image.getBucket()%>/<%=image.getFileName()%>" />
+                <div style="border:2px solid black; padding:5px; "><img  onload="resizeThis_<%=bucket%><%=image.getPosIndex()%>(this)" style="padding-bottom:10px;" src="/toolkit/store/<%=image.getScgeId()%>/<%=image.getBucket()%>/<%=image.getFileName()%>" /></div>
             </td>
         </tr>
         <% if (image.getLegend() != null && image.getLegend().trim().length() > 0) { %>
