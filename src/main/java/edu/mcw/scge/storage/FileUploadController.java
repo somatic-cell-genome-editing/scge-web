@@ -281,12 +281,17 @@ public class FileUploadController {
 			float percentDiff = (float) 1 - ((float)diff/(float)width);
 			int newHeight = Math.round(height * percentDiff);
 
-			java.awt.Image resultingImage = originalImage.getScaledInstance(700, newHeight, java.awt.Image.SCALE_DEFAULT);
-			BufferedImage outputImage = new BufferedImage(700, newHeight, BufferedImage.TYPE_INT_RGB);
-			outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(outputImage,"png",baos);
-			byte[] image700 = baos.toByteArray();
+			byte[] image700 = null;
+			if (width < goal) {
+				image700 = file.getBytes();
+			}else {
+				java.awt.Image resultingImage = originalImage.getScaledInstance(goal, newHeight, java.awt.Image.SCALE_DEFAULT);
+				BufferedImage outputImage = new BufferedImage(700, newHeight, BufferedImage.TYPE_INT_RGB);
+				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				ImageIO.write(outputImage, "png", baos);
+				image700 = baos.toByteArray();
+			}
 
 			goal =75;
 			width = originalImage.getWidth();
@@ -296,10 +301,10 @@ public class FileUploadController {
 			int newWidth = Math.round(width * percentDiff);
 
 
-			resultingImage = originalImage.getScaledInstance(newWidth, goal, java.awt.Image.SCALE_DEFAULT);
-			outputImage = new BufferedImage(newWidth, goal, BufferedImage.TYPE_INT_RGB);
+			java.awt.Image resultingImage = originalImage.getScaledInstance(newWidth, goal, java.awt.Image.SCALE_DEFAULT);
+			BufferedImage outputImage = new BufferedImage(newWidth, goal, BufferedImage.TYPE_INT_RGB);
 			outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-			baos = new ByteArrayOutputStream();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(outputImage,"png",baos);
 			byte[] thumbnail = baos.toByteArray();
 
