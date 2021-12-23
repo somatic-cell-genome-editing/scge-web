@@ -521,7 +521,7 @@
     setTimeout("resizeImages()",500);
 
 </script>
-
+<script>
    var tissueDeliveryConditions = [];
    var tissuesDelivery = [];
    var tissuesEditing = [];
