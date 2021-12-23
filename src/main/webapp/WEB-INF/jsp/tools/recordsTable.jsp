@@ -60,7 +60,7 @@
 <hr>
 
 
-    <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:708px;position:fixed;top:15px; left:15px;z-index:1000;background-color:black;"></div>
+    <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:708px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
     <table width="90%">
         <tr>
