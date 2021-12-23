@@ -219,7 +219,7 @@ public class FileUploadController {
 		//Image image = idao.getImage(Long.parseLong(oid),bucket).get(0);
 
 		HttpHeaders headers = new HttpHeaders();
-		byte[] media = idao.getImageBytes(Long.parseLong(oid),bucket,ImageDao.NATIVE_SIZE);
+		byte[] media = idao.getImageBytes(Long.parseLong(oid),bucket,ImageDao.WIDE_700);
 
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
 		headers.setContentType(MediaType.IMAGE_PNG);
