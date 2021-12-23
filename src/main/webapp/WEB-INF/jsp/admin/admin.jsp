@@ -99,6 +99,7 @@
 
 
 <%
+  /*
     ImageDao idao = new ImageDao();
 
     List<Image> images = idao.getAllImages();
@@ -145,6 +146,8 @@
 
 
     }
+    
+   */
 %>
 
 
