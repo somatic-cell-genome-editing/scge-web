@@ -321,7 +321,7 @@
 </div>
 <hr>
 
-<div id="imageViewer" style="border:1px solid black;position:fixed;top:0px; left:0px;z-index:1000;background-color:white;"></div>
+<div id="imageViewer" style="visibility:hidden; border: 1px double black; width:708px;position:fixed;top:15px; left:15px;z-index:1000;background-color:black;"></div>
 
 
 <div style="font-size:20px; color: #1A80B6;">Select a graph below to explore the data set</div>
@@ -377,7 +377,7 @@
                         List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
                         if (images.size() > 0) {
                     %>
-                    <td align="center"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <td align="center"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                     <% rowCount++;
                     }else { %>
                     <td><%=e.getExperimentRecordId()%></td>
@@ -470,17 +470,46 @@
 
     }
 
-    function imageMouseOver(img, legend) {
+    function imageMouseOver(img, legend, title) {
         var sourceImage = document.createElement('img'),
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
-        imgContainer.appendChild(sourceImage);
-        imgContainer.innerHTML =  imgContainer.innerHTML + "<div style='border:1px solid black;'>" + legend + "</div>";
+        resizeThis(sourceImage);
 
+        if (title != "") {
+            imgContainer.innerHTML = "<div style='padding:8px;font-weight:700;font-size:18px;'>" + title + "</div>"
+        }
+
+        imgContainer.appendChild(sourceImage);
+        //imgContainer.style.width=img.naturalWidth;
+
+        if (legend != "") {
+            imgContainer.innerHTML = imgContainer.innerHTML + "<div style='border:1px solid black;padding:8px;'>" + decodeHtml(legend) + "</div>";
+        }
+        imgContainer.style.visibility="visible";
+    }
+
+    function resizeThis(img) {
+        if (img) {
+            //get the height to 60
+            var goal = 700;
+            var width = img.naturalWidth;
+
+            if (width < goal) {
+                return;
+            }
+
+            var diff = width - goal;
+            var percentDiff = 1 - (diff / width);
+            img.width = goal;
+            img.height = parseInt(img.naturalHeight * percentDiff);
+
+        }
     }
 
     function imageMouseOut(img) {
         document.getElementById("imageViewer").innerHTML="";
+        document.getElementById("imageViewer").style.visibility="hidden";
     }
 
     function decodeHtml(html) {
@@ -489,11 +518,9 @@
         return txt.value;
     }
 
-    setTimeout("resizeImages()",1000);
+    setTimeout("resizeImages()",500);
 
 </script>
-
-<script>
 
    var tissueDeliveryConditions = [];
    var tissuesDelivery = [];
