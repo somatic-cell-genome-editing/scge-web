@@ -148,7 +148,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 
 <table width="100%" border="0">
     <tr>
-        <td >
+        <td valign="top" >
 
 
 

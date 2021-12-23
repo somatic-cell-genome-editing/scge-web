@@ -1,9 +1,7 @@
 package edu.mcw.scge.storage;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -37,6 +35,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.core.io.UrlResource;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -217,13 +216,13 @@ public class FileUploadController {
 		ImageDao idao = new ImageDao();
 
 
-		Image image = idao.getImage(Long.parseLong(oid),bucket).get(0);
+		//Image image = idao.getImage(Long.parseLong(oid),bucket).get(0);
 
 		HttpHeaders headers = new HttpHeaders();
-		byte[] media = image.getImage();
+		byte[] media = idao.getImageBytes(Long.parseLong(oid),bucket,ImageDao.NATIVE_SIZE);
 
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-		headers.setContentType(MediaType.IMAGE_JPEG);
+		headers.setContentType(MediaType.IMAGE_PNG);
 
 		return new ResponseEntity<byte[]>(media, headers, HttpStatus.OK);
 	}
@@ -273,6 +272,37 @@ public class FileUploadController {
 								+ filename);
 			}
 
+			InputStream is = new ByteArrayInputStream(file.getBytes());
+			BufferedImage originalImage = ImageIO.read(is);
+			int goal =700;
+			int width = originalImage.getWidth();
+			int height = originalImage.getHeight();
+			float diff = width - goal;
+			float percentDiff = (float) 1 - ((float)diff/(float)width);
+			int newHeight = Math.round(height * percentDiff);
+
+			java.awt.Image resultingImage = originalImage.getScaledInstance(700, newHeight, java.awt.Image.SCALE_DEFAULT);
+			BufferedImage outputImage = new BufferedImage(700, newHeight, BufferedImage.TYPE_INT_RGB);
+			outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(outputImage,"png",baos);
+			byte[] image700 = baos.toByteArray();
+
+			goal =75;
+			width = originalImage.getWidth();
+			height = originalImage.getHeight();
+			diff = height - goal;
+			percentDiff = (float)1 - ((float)diff/(float)height);
+			int newWidth = Math.round(width * percentDiff);
+
+
+			resultingImage = originalImage.getScaledInstance(newWidth, goal, java.awt.Image.SCALE_DEFAULT);
+			outputImage = new BufferedImage(newWidth, goal, BufferedImage.TYPE_INT_RGB);
+			outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+			baos = new ByteArrayOutputStream();
+			ImageIO.write(outputImage,"png",baos);
+			byte[] thumbnail = baos.toByteArray();
+
 			Image image = new Image();
 
 			image.setPosIndex(1);
@@ -281,6 +311,8 @@ public class FileUploadController {
 			image.setLegend(legend);
 			image.setBucket(bucket);
 			image.setImage(file.getBytes());
+			image.setThumbnail(thumbnail);
+			image.setImage700Wide(image700);
 			image.setScgeId(Long.parseLong(id));
 			image.setFileName(filename);
 
