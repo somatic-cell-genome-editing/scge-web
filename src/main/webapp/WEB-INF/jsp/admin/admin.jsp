@@ -2,6 +2,13 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
 <%@ page import="edu.mcw.scge.dao.implementation.GroupDAO" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ImageDao" %>
+<%@ page import="edu.mcw.scge.datamodel.Image" %>
+<%@ page import="java.io.InputStream" %>
+<%@ page import="java.io.ByteArrayInputStream" %>
+<%@ page import="java.awt.image.BufferedImage" %>
+<%@ page import="javax.imageio.ImageIO" %>
+<%@ page import="java.io.ByteArrayOutputStream" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
@@ -91,7 +98,54 @@
 <a href="/toolkit/admin/studyTierUpdates"  style="font-size:20px;" />Study Tier Updates</a-->
 
 
+<%
+    ImageDao idao = new ImageDao();
 
+    List<Image> images = idao.getAllImages();
+    for (Image image:images) {
+
+        InputStream is = new ByteArrayInputStream(image.getImage());
+        BufferedImage originalImage = ImageIO.read(is);
+        int goal =700;
+        int width = originalImage.getWidth();
+        int height = originalImage.getHeight();
+        float diff = width - goal;
+        float percentDiff = (float) 1 - ((float)diff/(float)width);
+        int newHeight = Math.round(height * percentDiff);
+
+        byte[] image700 = null;
+        if (width < goal) {
+            image700 = image.getImage();
+        }else {
+            java.awt.Image resultingImage = originalImage.getScaledInstance(goal, newHeight, java.awt.Image.SCALE_DEFAULT);
+            BufferedImage outputImage = new BufferedImage(700, newHeight, BufferedImage.TYPE_INT_RGB);
+            outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(outputImage, "png", baos);
+            image700 = baos.toByteArray();
+        }
+        goal =75;
+        width = originalImage.getWidth();
+        height = originalImage.getHeight();
+        diff = height - goal;
+        percentDiff = (float)1 - ((float)diff/(float)height);
+        int newWidth = Math.round(width * percentDiff);
+
+        java.awt.Image resultingImage = originalImage.getScaledInstance(newWidth, goal, java.awt.Image.SCALE_DEFAULT);
+        BufferedImage outputImage = new BufferedImage(newWidth, goal, BufferedImage.TYPE_INT_RGB);
+        outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(outputImage,"png",baos);
+        byte[] thumbnail = baos.toByteArray();
+
+        image.setImage700Wide(image700);
+        image.setThumbnail(thumbnail);
+
+        idao.updateImage(image);
+
+
+    }
+%>
 
 
 
