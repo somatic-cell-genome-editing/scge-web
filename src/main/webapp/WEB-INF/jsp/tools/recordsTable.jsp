@@ -367,7 +367,7 @@
                 var j = 0;
                 var detail = [];
                 var rowLength = table.rows.length;
-                var avgIndex = table.rows.item(0).cells.length -1;
+                var avgIndex = table.rows.item(0).cells.length -2;
                 for (i = 1; i < rowLength; i++) {
                     if (table.rows.item(i).style.display !== 'none') {
                         if (j === index) {
@@ -389,14 +389,15 @@
                 var rowLength = table.rows.length;
                 var j = 0;
 
-                var aveIndex = table.rows.item(0).cells.length -1;
+                var aveIndex = table.rows.item(0).cells.length -2;
+
                 var replicate = [];
                 for (var i = 1; i < rowLength; i++){
                     if(table.rows.item(i).style.display != 'none') {
 
                             var cells = table.rows.item(i).cells;
                             if (cells.item(aveIndex - 1).innerText != "signal") {
-                            var cellLength = cells.length;
+                            var cellLength = cells.length-1;
                             var column = cells.item(0); //points to condition column
                             var avg = cells.item(aveIndex);
                             xArray[j] = column.innerText;
@@ -455,7 +456,7 @@
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var labelString;
 
-                var aveIndex = table.rows.item(0).cells.length -1;
+                var aveIndex = table.rows.item(0).cells.length -2;
                 var rowLength = table.rows.length;
                 for (var i = 1; i < rowLength; i++) {
                     if (table.rows.item(i).style.display !== "none") {
@@ -518,7 +519,7 @@
                 for (i = 1; i < rowLength; i++){
                         var cells = table.rows.item(i).cells;
                         for (k=0; k<cells.length;k++ ) {
-                            if (cells.item(k).innerHTML.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+                            if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                                if (obj.checked) {
                                    cells.item(k).off=false;
                                    var somethingOff = false;
@@ -614,7 +615,7 @@
                 var rowLength = table.rows.length;
                 var j = 0;
 
-                var aveIndex = table.rows.item(0).cells.length -1;
+                var aveIndex = table.rows.item(0).cells.length -2;
 
                 for (var i = 1; i < rowLength; i++){
                     if(table.rows.item(i).style.display != 'none') {
