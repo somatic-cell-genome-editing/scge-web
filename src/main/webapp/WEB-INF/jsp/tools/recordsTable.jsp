@@ -71,7 +71,7 @@
     <table id="myTable" class="table tablesorter table-striped table-sm">
     <thead>
     <tr>
-        <th>Condition<%=request.getAttribute("uniqueFields").toString()%></th>
+        <th>Condition<%--=request.getAttribute("uniqueFields").toString()--%></th>
         <% if (tissueList.size() > 0 ) { %><th>Tissue</th><% } %>
         <% if (cellTypeList.size() > 0) { %><th>Cell Type</th><% } %>
         <% if (sexList.size() > 0) { %><th>Sex</th><% } %>
