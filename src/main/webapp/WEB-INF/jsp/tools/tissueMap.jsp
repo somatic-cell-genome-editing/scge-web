@@ -421,7 +421,7 @@
                         %>
                         <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                         <% }else { %>
-                            <td>hello<%=e.getExperimentRecordId()%></td>
+                            <td><%=e.getExperimentRecordId()%></td>
                         <%}%>
 
                         <td><%=e.getUnits()%></td>
