@@ -47,7 +47,7 @@
             </table>
         </form>
         </div>
-<table align="center"><tr><td><a href="javascript:return void(0)" onclick="document.getElementById('<%=bucket%>form').style.display='block'; this.style.display='none';">Add&nbsp;image...</a></td></tr></table>
+<table align="center"><tr><td><a href="javascript:return void(0)" style="font-size:8px;" onclick="document.getElementById('<%=bucket%>form').style.display='block'; this.style.display='none';">Add&nbsp;image...</a></td></tr></table>
 <script>
 //var <%=bucket%>editor = new Quill('.<%=bucket%>Editor');  // First matching element will be used
 var <%=bucket%>container = document.getElementById('<%=bucket%>Editor');
@@ -106,7 +106,7 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
 <% if (images.size() > 0) {
     Image image = images.get(0);
 %>
-<div id="images">
+<div id="images" style="margin-bottom:25px;">
     <table align="center" width="100px">
         <%
             if (imageCheckAccess.isAdmin(imageCheckPerson)) {
