@@ -131,10 +131,10 @@
             String labelTrimmed=new String();
 
                 if(er.getCellTypeTerm()!=null && er.getTissueTerm()!=null)
-                    labelTrimmed= er.getExperimentName().toString().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(),"").trim();
+                    labelTrimmed= er.getCondition().toString().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(),"").trim();
                 else if(er.getTissueTerm()!=null)
-                    labelTrimmed= er.getExperimentName().toString().replace(er.getTissueTerm(), "").trim();
-                else labelTrimmed= er.getExperimentName().toString().trim();
+                    labelTrimmed= er.getCondition().toString().replace(er.getTissueTerm(), "").trim();
+                else labelTrimmed= er.getCondition().toString().trim();
 
 
             if(uniqueObjects.contains(er.getEditorSymbol()))
