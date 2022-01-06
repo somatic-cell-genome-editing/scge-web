@@ -324,6 +324,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             return "redirect:/";
         }
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
+
         List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
 
         ProtocolDao pdao = new ProtocolDao();
@@ -361,6 +362,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         HashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new HashMap<>();
         String assayDesc = null;
         for(ExperimentResultDetail er:experimentResults){
+
+
             if(experimentResultsMap != null && experimentResultsMap.containsKey(er.getResultId()))
                 values = experimentResultsMap.get(er.getResultId());
             else values = new ArrayList<>();
@@ -369,11 +372,13 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             assayDesc = er.getAssayDescription();
             experimentResultsMap.put(er.getResultId(),values);
         }
-        HashMap<Long,ExperimentRecord> recordMap = new HashMap<>();
-    //    objectSizeMap.put("resultTypes", resultTypes.size());
 
-        for(ExperimentRecord rec:records)
-            recordMap.put(rec.getExperimentRecordId(),rec);
+        HashMap<Long,ExperimentRecord> recordMap = new HashMap<>();
+
+        for(ExperimentRecord rec:records) {
+            recordMap.put(rec.getExperimentRecordId(), rec);
+        }
+
         for (Long resultId : experimentResultsMap.keySet()) {
             List<ExperimentResultDetail> erdList=experimentResultsMap.get(resultId); //multiple replicate values for each result
             resultDetail.put(resultId, erdList);
@@ -382,10 +387,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
             String labelTrimmed=new String();
             ExperimentRecord record = recordMap.get(expRecId);
-        //    if(experimentId!=18000000004L && experimentId!=18000000003L) {
-           List<String> modifiedLabels = uniqueFields;
-            if(uniqueFields.contains("guide") && (objectSizeMap.get("guide") == guideMap.get(expRecId).size()))
+            List<String> modifiedLabels = uniqueFields;
+            if(uniqueFields.contains("guide") && (objectSizeMap.get("guide") == guideMap.get(expRecId).size())) {
                 modifiedLabels.remove("guide");
+            }
             if(uniqueFields.contains("vector") && (objectSizeMap.get("vector") == vectorMap.get(expRecId).size()))
                 modifiedLabels.remove("vector");
                 StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(),objectSizeMap, modifiedLabels,resultId));
@@ -396,20 +401,15 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     else if(record.getTissueTerm()!=null)
                         labelTrimmed= label.toString().replace(record.getTissueTerm(), "");
                     else labelTrimmed= label.toString();
-                   // labels.add("\"" +  labelTrimmed + "\"");
-                    record.setCondition(labelTrimmed);
-                    conditions.add(labelTrimmed.trim());
+
+                    //if (record.getCondition() != null) {
+                    record.setCondition(record.getExperimentRecordName());
+                    conditions.add(record.getExperimentRecordName());
+                    //}else {
+
+                    //record.setCondition(labelTrimmed);
+                    //conditions.add(labelTrimmed.trim());
                 }
-              //  else {
-           //         labels.add("\"" + label + "\"");
-
-           //         record.setExperimentName(label.toString());
-             //   }
-          /*  }else{
-                labels.add("\"" + record.getExperimentName() + "\"");
-                record.setExperimentName(record.getExperimentName());
-
-            }*/
 
             labels.add("\"" + record.getExperimentName() + "\"");
             record.setExperimentName(record.getExperimentName());
@@ -442,9 +442,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         plotData.put("Mean",mean);
 
-//            List<String> conditions = edao.getExperimentRecordConditionList(experimentId);
-      //  List<String> conditions = labels.stream().map(l->l.replaceAll("\"","")).distinct().collect(Collectors.toList());
-//System.out.println("conditions:"+conditions);
         req.setAttribute("tissues",tissues);
         req.setAttribute("conditions",new ArrayList<>(conditions));
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Experiments</a>");
@@ -465,8 +462,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("assay",assayDesc);
         req.setAttribute("action", e.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
-      req.setAttribute("objectSizeMap", objectSizeMap);
-       req.setAttribute("uniqueFields", uniqueFields);
+        req.setAttribute("objectSizeMap", objectSizeMap);
+        req.setAttribute("uniqueFields", uniqueFields);
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

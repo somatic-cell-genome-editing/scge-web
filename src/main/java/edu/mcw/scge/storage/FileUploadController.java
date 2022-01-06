@@ -147,11 +147,12 @@ public class FileUploadController {
 	@ResponseBody
 	public ResponseEntity<byte[]>  getImageAsByteArray(HttpServletRequest req, HttpServletResponse res,@PathVariable String oid,@PathVariable String bucket,@PathVariable String filename,@PathVariable String ext) throws Exception {
 
-		/*
+
 		UserService userService=new UserService();
 		Access access= new Access();
 		Person p = userService.getCurrentUser(req.getSession());
 
+		/*
 		if (type.equals(ImageTypes.EDITOR)) {
 			if (!access.hasEditorAccess(Long.parseLong(oid),p.getId())) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
@@ -185,38 +186,10 @@ public class FileUploadController {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}
-*/
-/*
-		Resource resource=null;
-		try {
 
-			Path file = new File(StorageProperties.rootLocation + "/" + type + "/" + oid + "/" + bucket + "/").toPath().resolve(filename + "." + ext);
-			System.out.println(file.toString());
-			resource = new UrlResource(file.toUri());
-
-			if (resource.exists() || resource.isReadable()) {
-				System.out.println("IMAGE: resource exists and is readable");
-			}
-			else {
-				System.out.println("Could not read file " + file.toUri().toString());
-				throw new StorageFileNotFoundException(
-						"IMAGE: Could not read file: " + filename);
-
-			}
-		}
-		catch (MalformedURLException e) {
-			e.printStackTrace();
-			throw new StorageFileNotFoundException("IMAGE: Could not read file: " + filename, e);
-		}
-
- */
-
-		//Resource file = storageService.loadAsResource("naturezoom.jpeg");
+		 */
 
 		ImageDao idao = new ImageDao();
-
-
-		//Image image = idao.getImage(Long.parseLong(oid),bucket).get(0);
 
 		HttpHeaders headers = new HttpHeaders();
 		byte[] media = idao.getImageBytes(Long.parseLong(oid),bucket,ImageDao.WIDE_700);

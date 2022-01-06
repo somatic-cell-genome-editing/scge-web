@@ -100,9 +100,18 @@
                 long expRecordId = ers.get(0).getExperimentRecordId();
                 ExperimentRecord exp = experimentRecordsMap.get(expRecordId);
                 String experimentName=exp.getExperimentName();
-                if(resultTypeList.size()>1) {
-                    experimentName+=" ("+ers.get(0).getResultType()+") ";
+                //if(resultTypeList.size()>1) {
+                //    experimentName+=" ("+ers.get(0).getResultType()+") ";
+               // }
+
+                if (!SFN.parse(exp.getTissueTerm()).equals("") ) {
+                    experimentName+=" (" + exp.getTissueTerm() + ")";
                 }
+
+                if (!SFN.parse(exp.getCellType()).equals("")) {
+                    experimentName+=" (" + exp.getCellType() + ")";
+                }
+
 
                 List<Guide> guides = guideMap.get(exp.getExperimentRecordId());
                 String guide = "";
@@ -219,7 +228,7 @@
         var sourceImage = document.createElement('img'),
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
-        resizeThis(sourceImage);
+        //resizeThis(sourceImage);
 
         if (title != "") {
             imgContainer.innerHTML = "<div style='padding:8px;font-weight:700;font-size:18px;'>" + title + "</div>"

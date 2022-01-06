@@ -200,7 +200,7 @@
         var sourceImage = document.createElement('img'),
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
-        resizeThis(sourceImage);
+        //resizeThis(sourceImage);
 
         if (title != "") {
             imgContainer.innerHTML = "<div style='padding:8px;font-weight:700;font-size:18px;'>" + title + "</div>"

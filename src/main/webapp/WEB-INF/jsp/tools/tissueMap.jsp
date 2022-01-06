@@ -83,7 +83,6 @@
     rootTissues.put("Hematopoietic System","UBERON:0002390");
 %>
 
-
     <%
         LinkedHashMap<String, Boolean> tissueEditingMap = new LinkedHashMap<String, Boolean>();
         LinkedHashMap<String, Boolean> tissueDeliveryMap = new LinkedHashMap<String, Boolean>();
@@ -127,21 +126,22 @@
             List<ExperimentResultDetail> erdList = resultDetail.get(resultId);
             long expRecordId = erdList.get(0).getExperimentRecordId();
             ExperimentRecord er = experimentRecordsMap.get(expRecordId);
-            experimentRecordHashMap.put(er.getExperimentName(),er);
-            String labelTrimmed=new String();
-
-                if(er.getCellTypeTerm()!=null && er.getTissueTerm()!=null)
-                    labelTrimmed= er.getCondition().toString().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(),"").trim();
-                else if(er.getTissueTerm()!=null)
-                    labelTrimmed= er.getCondition().toString().replace(er.getTissueTerm(), "").trim();
-                else labelTrimmed= er.getCondition().toString().trim();
+            experimentRecordHashMap.put(er.getExperimentName(), er);
+            String labelTrimmed = new String();
 
 
-            if(uniqueObjects.contains(er.getEditorSymbol()))
+            if (er.getCellTypeTerm() != null && er.getTissueTerm() != null)
+                labelTrimmed = er.getCondition().toString().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(), "").trim();
+            else if (er.getTissueTerm() != null)
+                labelTrimmed = er.getCondition().toString().replace(er.getTissueTerm(), "").trim();
+            else labelTrimmed = er.getCondition().toString().trim();
+
+
+            if (uniqueObjects.contains(er.getEditorSymbol()))
                 noOfEditors++;
-            if(uniqueObjects.contains(er.getDeliverySystemType()))
+            if (uniqueObjects.contains(er.getDeliverySystemType()))
                 noOfDelivery++;
-            if(uniqueObjects.contains(er.getModelName()))
+            if (uniqueObjects.contains(er.getModelName()))
                 noOfModel++;
 
             String tissue = "unknown";
@@ -163,12 +163,12 @@
             if (cellType != null && !cellType.equals(""))
                 tissueName += cellType + "\"";
             else tissueName += "\"";
-            tissueNames.put(tissueName,er.getTissueTerm()+","+er.getCellTypeTerm());
+            tissueNames.put(tissueName, er.getTissueTerm() + "," + er.getCellTypeTerm());
 
             String tissueLabel = organSystem + "<br><br>" + tissueTerm + "<br><br>";
             if (cellType != null && !cellType.equals(""))
                 tissueLabel += cellType;
-            tissueLabels.put(tissueName,tissueLabel);
+            tissueLabels.put(tissueName, tissueLabel);
 
 
             for (ExperimentResultDetail erd : erdList) {
@@ -223,6 +223,7 @@
                 }
             }
         }
+
     %>
 <table>
 <tr>
@@ -421,7 +422,7 @@
                         %>
                         <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                         <% }else { %>
-                            <td>hello<%=e.getExperimentRecordId()%></td>
+                            <td><%=e.getExperimentRecordId()%></td>
                         <%}%>
 
                         <td><%=e.getUnits()%></td>
@@ -474,7 +475,7 @@
         var sourceImage = document.createElement('img'),
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
-        resizeThis(sourceImage);
+        //resizeThis(sourceImage);
 
         if (title != "") {
             imgContainer.innerHTML = "<div style='padding:8px;font-weight:700;font-size:18px;'>" + title + "</div>"
