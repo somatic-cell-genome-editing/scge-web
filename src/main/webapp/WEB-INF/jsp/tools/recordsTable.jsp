@@ -505,7 +505,9 @@
                 for (i = 1; i < rowLength; i++){
                         var cells = table.rows.item(i).cells;
                         for (k=0; k<cells.length;k++ ) {
-                            if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+                            //console.log("innser = " + cells.item(k).innerText + "!");
+                            //if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+                            if ((cells.item(k).innerText == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                                if (obj.checked) {
                                    cells.item(k).off=false;
                                    var somethingOff = false;
