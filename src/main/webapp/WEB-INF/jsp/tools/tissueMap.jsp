@@ -322,7 +322,7 @@
 </div>
 <hr>
 
-<div id="imageViewer" style="visibility:hidden; border: 1px double black; width:708px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
+<div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
 
 <div style="font-size:20px; color: #1A80B6;">Select a graph below to explore the data set</div>
