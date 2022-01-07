@@ -44,7 +44,6 @@
 
 <% ImageDao idao = new ImageDao(); %>
 
-
 <% try {  %>
 
         <%@include file="recordFilters.jsp"%>
@@ -484,25 +483,6 @@
                 return labelString;
             }
             function applyAllFilters(_this, name) {
-               // alert(elms);
-
-/*
-                var table = document.getElementById('myTable'); //to remove filtered rows
-                var rowLength = table.rows.length;
-                for (i = 1; i < rowLength; i++){
-                    if(_this.checked)
-
-                        table.rows.item(i).style.display = '';
-
-                    else {
-                        table.rows.item(i).style.display = 'none';
-                    }
-                }
-  */
-                //update();
-
-              //  $('input[name='+name+']').prop('checked', _this.checked);
-
                 var elms = document.getElementsByName(name);
                 if (_this.checked) {
                     elms.forEach(function(ele) {
@@ -517,9 +497,6 @@
                     });
 
                 }
-
-
-
             }
             function applyFilters(obj)  {
 
@@ -603,8 +580,54 @@
             cellTypes = <%= JSONValue.toJSONString(cellTypeList) %>;
             var dualAxis = false;
             function load() {
+                var elms = document.getElementsByName("tissue");
+                    elms.forEach(function(ele) {
+                        applyFilters(ele);
+                    });
+
+                var elms = document.getElementsByName("checkcelltype");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkeditor");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checktargetlocus");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkguide");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkdelivery");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkmodel");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checksex");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkresulttype");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkunits");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkvector");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+
+/*
                 for (var i = 0; i < tissues.length; i++) {
-                    console.log(tissues[i]);
                     applyFilters(document.getElementById(tissues[i]));
                 }
                 for (var i = 0; i < resultTypes.length; i++) {
@@ -613,6 +636,7 @@
                 for (var i = 0; i < cellTypes.length; i++) {
                     applyFilters(document.getElementById(cellTypes[i]));
                 }
+ */
             }
 
 
@@ -681,7 +705,6 @@
                     document.getElementById("resultChart").style.display = "none";
                 }
             }
-            window.onload=load();
             var quantitative = 0;
             quantitative = <%=resultMap.size()%>;
             console.log(quantitative);
@@ -690,9 +713,10 @@
                 document.getElementById("resultChart").style.display = "none";
             }
 
+            setTimeout("load()",500);
 
 
-        </script>
+</script>
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
         <script>
             feather.replace()

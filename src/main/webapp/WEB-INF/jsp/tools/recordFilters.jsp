@@ -157,7 +157,7 @@
                 <tr>
                     <td ><div class="recordFilterTitle">
                         <% if (tissueList.size() > 1) { %>
-                        <input onchange="applyAllFilters(this, 'checktissue')" id="allTissues"  type="checkbox" checked>&nbsp;
+                        <input onchange="applyAllFilters(this, 'tissue')" id="allTissues"  type="checkbox" checked>&nbsp;
                         <%}%>
                         Tissues</div></td>
                 </tr>
@@ -170,7 +170,7 @@
                                 %>
                                 <tr>
                                     <td>
-                                        <input onclick="applyFilters(this)" name="checktissue"  id="<%=tissue%>" type="checkbox" checked>&nbsp;<%=tissue%>
+                                        <input onclick="applyFilters(this)" name="tissue"  id="<%=tissue%>" type="checkbox" checked>&nbsp;<%=tissue%>
                                     </td>
                                 </tr>
                                 <%} else { %>
