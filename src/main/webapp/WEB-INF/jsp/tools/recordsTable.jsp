@@ -44,7 +44,6 @@
 
 <% ImageDao idao = new ImageDao(); %>
 
-
 <% try {  %>
 
         <%@include file="recordFilters.jsp"%>
@@ -71,7 +70,7 @@
     <table id="myTable" class="table tablesorter table-striped table-sm">
     <thead>
     <tr>
-        <th>Condition<%=request.getAttribute("uniqueFields").toString()%></th>
+        <th>Condition<%--=request.getAttribute("uniqueFields").toString()--%></th>
         <% if (tissueList.size() > 0 ) { %><th>Tissue</th><% } %>
         <% if (cellTypeList.size() > 0) { %><th>Cell Type</th><% } %>
         <% if (sexList.size() > 0) { %><th>Sex</th><% } %>
@@ -100,9 +99,18 @@
                 long expRecordId = ers.get(0).getExperimentRecordId();
                 ExperimentRecord exp = experimentRecordsMap.get(expRecordId);
                 String experimentName=exp.getExperimentName();
-                if(resultTypeList.size()>1) {
-                    experimentName+=" ("+ers.get(0).getResultType()+") ";
+                //if(resultTypeList.size()>1) {
+                //    experimentName+=" ("+ers.get(0).getResultType()+") ";
+               // }
+
+                if (!SFN.parse(exp.getTissueTerm()).equals("") ) {
+                    experimentName+=" (" + exp.getTissueTerm() + ")";
                 }
+
+                if (!SFN.parse(exp.getCellType()).equals("")) {
+                    experimentName+=" (" + exp.getCellType() + ")";
+                }
+
 
                 List<Guide> guides = guideMap.get(exp.getExperimentRecordId());
                 String guide = "";
@@ -219,7 +227,7 @@
         var sourceImage = document.createElement('img'),
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
-        resizeThis(sourceImage);
+        //resizeThis(sourceImage);
 
         if (title != "") {
             imgContainer.innerHTML = "<div style='padding:8px;font-weight:700;font-size:18px;'>" + title + "</div>"
@@ -475,25 +483,6 @@
                 return labelString;
             }
             function applyAllFilters(_this, name) {
-               // alert(elms);
-
-/*
-                var table = document.getElementById('myTable'); //to remove filtered rows
-                var rowLength = table.rows.length;
-                for (i = 1; i < rowLength; i++){
-                    if(_this.checked)
-
-                        table.rows.item(i).style.display = '';
-
-                    else {
-                        table.rows.item(i).style.display = 'none';
-                    }
-                }
-  */
-                //update();
-
-              //  $('input[name='+name+']').prop('checked', _this.checked);
-
                 var elms = document.getElementsByName(name);
                 if (_this.checked) {
                     elms.forEach(function(ele) {
@@ -508,9 +497,6 @@
                     });
 
                 }
-
-
-
             }
             function applyFilters(obj)  {
 
@@ -594,8 +580,54 @@
             cellTypes = <%= JSONValue.toJSONString(cellTypeList) %>;
             var dualAxis = false;
             function load() {
+                var elms = document.getElementsByName("tissue");
+                    elms.forEach(function(ele) {
+                        applyFilters(ele);
+                    });
+
+                var elms = document.getElementsByName("checkcelltype");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkeditor");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checktargetlocus");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkguide");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkdelivery");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkmodel");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checksex");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkresulttype");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkunits");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkvector");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+
+/*
                 for (var i = 0; i < tissues.length; i++) {
-                    console.log(tissues[i]);
                     applyFilters(document.getElementById(tissues[i]));
                 }
                 for (var i = 0; i < resultTypes.length; i++) {
@@ -604,6 +636,7 @@
                 for (var i = 0; i < cellTypes.length; i++) {
                     applyFilters(document.getElementById(cellTypes[i]));
                 }
+ */
             }
 
 
@@ -622,7 +655,7 @@
 
                         var cells = table.rows.item(i).cells;
                         if (cells.item(aveIndex - 1).innerText != "signal") {
-                            var cellLength = cells.length;
+                           // var cellLength = cells.length-1;
                             var column = cells.item(0); //points to condition column
                             var avg = cells.item(aveIndex);
                             labels[j] = column.innerText;
@@ -672,7 +705,6 @@
                     document.getElementById("resultChart").style.display = "none";
                 }
             }
-            window.onload=load();
             var quantitative = 0;
             quantitative = <%=resultMap.size()%>;
             console.log(quantitative);
@@ -681,9 +713,10 @@
                 document.getElementById("resultChart").style.display = "none";
             }
 
+            setTimeout("load()",500);
 
 
-        </script>
+</script>
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
         <script>
             feather.replace()

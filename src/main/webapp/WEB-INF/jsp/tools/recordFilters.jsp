@@ -122,15 +122,16 @@
     .recordFilterBlock {
         max-height:250px;
         width: 200px;
-        border: 0px solid #818181;
+        border: 1px solid #4A4A4A;
         padding-left:5px;
         padding-right:5px;
         padding-top:7px;
-        padding-bottom:12px;
+        padding-bottom:6px;
         overflow-y:auto;
 
     }
     .recordFilterTitle {
+        padding-top:6px;
         font-size:20px;
         ackground-color:#818181;
         color:#818181;
@@ -157,7 +158,7 @@
                 <tr>
                     <td ><div class="recordFilterTitle">
                         <% if (tissueList.size() > 1) { %>
-                        <input onchange="applyAllFilters(this, 'checktissue')" id="allTissues"  type="checkbox" checked>&nbsp;
+                        <input onchange="applyAllFilters(this, 'tissue')" id="allTissues"  type="checkbox" checked>&nbsp;
                         <%}%>
                         Tissues</div></td>
                 </tr>
@@ -170,7 +171,7 @@
                                 %>
                                 <tr>
                                     <td>
-                                        <input onclick="applyFilters(this)" name="checktissue"  id="<%=tissue%>" type="checkbox" checked>&nbsp;<%=tissue%>
+                                        <input onclick="applyFilters(this)" name="tissue"  id="<%=tissue%>" type="checkbox" checked>&nbsp;<%=tissue%>
                                     </td>
                                 </tr>
                                 <%} else { %>
@@ -213,7 +214,7 @@
                                     <%} else { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)"  id="<%=cellType%>" type="checkbox" unchecked>&nbsp; <%=cellType%>
+                                            <input onclick="applyFilters(this)"  id="<%=cellType%>" type="checkbox" unchecked>&nbsp;<%=cellType%>
                                         </td>
                                     </tr>
                                     <% }} %>

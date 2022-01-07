@@ -83,7 +83,6 @@
     rootTissues.put("Hematopoietic System","UBERON:0002390");
 %>
 
-
     <%
         LinkedHashMap<String, Boolean> tissueEditingMap = new LinkedHashMap<String, Boolean>();
         LinkedHashMap<String, Boolean> tissueDeliveryMap = new LinkedHashMap<String, Boolean>();
@@ -127,21 +126,22 @@
             List<ExperimentResultDetail> erdList = resultDetail.get(resultId);
             long expRecordId = erdList.get(0).getExperimentRecordId();
             ExperimentRecord er = experimentRecordsMap.get(expRecordId);
-            experimentRecordHashMap.put(er.getExperimentName(),er);
-            String labelTrimmed=new String();
-
-                if(er.getCellTypeTerm()!=null && er.getTissueTerm()!=null)
-                    labelTrimmed= er.getExperimentName().toString().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(),"").trim();
-                else if(er.getTissueTerm()!=null)
-                    labelTrimmed= er.getExperimentName().toString().replace(er.getTissueTerm(), "").trim();
-                else labelTrimmed= er.getExperimentName().toString().trim();
+            experimentRecordHashMap.put(er.getExperimentName(), er);
+            String labelTrimmed = new String();
 
 
-            if(uniqueObjects.contains(er.getEditorSymbol()))
+            if (er.getCellTypeTerm() != null && er.getTissueTerm() != null)
+                labelTrimmed = er.getCondition().toString().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(), "").trim();
+            else if (er.getTissueTerm() != null)
+                labelTrimmed = er.getCondition().toString().replace(er.getTissueTerm(), "").trim();
+            else labelTrimmed = er.getCondition().toString().trim();
+
+
+            if (uniqueObjects.contains(er.getEditorSymbol()))
                 noOfEditors++;
-            if(uniqueObjects.contains(er.getDeliverySystemType()))
+            if (uniqueObjects.contains(er.getDeliverySystemType()))
                 noOfDelivery++;
-            if(uniqueObjects.contains(er.getModelName()))
+            if (uniqueObjects.contains(er.getModelName()))
                 noOfModel++;
 
             String tissue = "unknown";
@@ -163,12 +163,12 @@
             if (cellType != null && !cellType.equals(""))
                 tissueName += cellType + "\"";
             else tissueName += "\"";
-            tissueNames.put(tissueName,er.getTissueTerm()+","+er.getCellTypeTerm());
+            tissueNames.put(tissueName, er.getTissueTerm() + "," + er.getCellTypeTerm());
 
             String tissueLabel = organSystem + "<br><br>" + tissueTerm + "<br><br>";
             if (cellType != null && !cellType.equals(""))
                 tissueLabel += cellType;
-            tissueLabels.put(tissueName,tissueLabel);
+            tissueLabels.put(tissueName, tissueLabel);
 
 
             for (ExperimentResultDetail erd : erdList) {
@@ -223,6 +223,7 @@
                 }
             }
         }
+
     %>
 <table>
 <tr>
@@ -325,7 +326,7 @@
 
 
 <div style="font-size:20px; color: #1A80B6;">Select a graph below to explore the data set</div>
-    <table d="grid" class="table" style="width:600px;padding-left:20px;" align="center" border="1" cellpadding="6">
+    <table d="grid" class="table" style="width:800px;padding-left:20px;table-layout:fixed" align="center" border="1" cellpadding="6">
         <thead>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Organ System</th>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Delivery</th>
@@ -359,28 +360,34 @@
             <%  i++;} else if(qualDeliveryResults.containsKey(tissueName)) { %>
             <a href= "<%=deliveryurl%>">
             <div>
-                <table border="1" cellpadding="6">
-                <thead><tr>
-                <th style="background-color:white; color:#212528; font-size:14px;">Units</th>
-                <th style="background-color:white; color:#212528; font-size:14px;">Replicates</th>
-                <th style="background-color:white; color:#212528; font-size:14px;">Result</th>
-                <th>&nbsp;</th>
-                </tr></thead>
-                <tbody>
+                <table class="table tablesorter table-striped" cellpadding="4">
+                    <thead><tr>
+                        <th>Experiment Record Id</th>
+                        <th>Result</th>
+                        <th></th>
+                    </tr></thead>
+                    <tbody>
 
              <%  for(ExperimentResultDetail e: qualDeliveryResults.get(tissueName) ) { %>
                 <tr>
-                <td><%=e.getUnits()%></td>
-                <td><%=e.getNumberOfSamples()%></td>
-                <td><%=e.getResult()%></td>
                     <%
                         List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
                         if (images.size() > 0) {
                     %>
-                    <td align="center"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <% }else { %>
+                    <td><%=e.getExperimentRecordId()%></td>
+                    <%}%>
+
+                    <td><%=e.getResult()%></td>
+                    <%
+                        images = idao.getImage(e.getExperimentRecordId(),"main1");
+                        if (images.size() > 0) {
+                    %>
+                    <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                     <% rowCount++;
                     }else { %>
-                    <td><%=e.getExperimentRecordId()%></td>
+                    <td></td>
                     <%}%>
                 </tr>
              <% } %>
@@ -406,8 +413,6 @@
                 <table class="table tablesorter table-striped" cellpadding="4">
                     <thead><tr>
                         <th>Experiment Record Id</th>
-                        <th>Units</th>
-                        <th>No of Replicates</th>
                         <th>Result</th>
                         <th></th>
                     </tr></thead>
@@ -424,8 +429,6 @@
                             <td><%=e.getExperimentRecordId()%></td>
                         <%}%>
 
-                        <td><%=e.getUnits()%></td>
-                        <td><%=e.getNumberOfSamples()%></td>
                         <td><%=e.getResult()%></td>
                         <%
                             images = idao.getImage(e.getExperimentRecordId(),"main1");
@@ -434,7 +437,7 @@
                         <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                         <% rowCount++;
                         }else { %>
-                        <td><%=e.getExperimentRecordId()%></td>
+                        <td></td>
                         <%}%>
 
                     </tr>
@@ -474,7 +477,7 @@
         var sourceImage = document.createElement('img'),
             imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
-        resizeThis(sourceImage);
+        //resizeThis(sourceImage);
 
         if (title != "") {
             imgContainer.innerHTML = "<div style='padding:8px;font-weight:700;font-size:18px;'>" + title + "</div>"
@@ -581,14 +584,9 @@
                            color: "rgba(0, 0, 0, 0)"
                        },
                        ticks:{
-                           fontColor: "rgb(0,75,141)",
-                           callback: function(t) {
-                               var maxLabelLength = 30;
-                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
-                               else return t;
+                           display:false
 
                            }
-                       }
                    }]
                }
            }
@@ -610,13 +608,7 @@
                            color: "rgba(0, 0, 0, 0)"
                        },
                        ticks:{
-                           fontColor: "rgb(0,75,141)",
-                           callback: function(t) {
-                               var maxLabelLength = 20;
-                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-10) + '...';
-                               else return t;
-
-                           }
+                           display:false
                        }
                    }]
                }

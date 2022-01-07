@@ -88,8 +88,13 @@
          <% }  %>
             <% if (tissueList.size() == 0 || selectedResultType != null) { %>
             <h6 style="color:#1A80B6;">Experiment Description:&nbsp;<small style="color:black"><%=ex.getDescription()%></small> </h6>
-            <h6 style="color:#1A80B6;">Assay Description:&nbsp;<small style="color:black;"><%=request.getAttribute("assay")%></small></h6>
-        <hr>
+            <% if (request.getAttribute("deliveryAssay") != null) { %>
+            <h6 style="color:#1A80B6;">Delivery Assay Description:&nbsp;<small style="color:black;"><%=request.getAttribute("deliveryAssay")%></small></h6>
+            <% } %>
+            <% if (request.getAttribute("editingAssay") != null) { %>
+            <h6 style="color:#1A80B6;">Editing Assay Description:&nbsp;<small style="color:black;"><%=request.getAttribute("editingAssay")%></small></h6>
+            <% } %>
+            <hr>
 
 
 

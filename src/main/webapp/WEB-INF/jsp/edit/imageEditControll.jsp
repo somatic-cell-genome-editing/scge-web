@@ -47,7 +47,7 @@
             </table>
         </form>
         </div>
-<table align="center"><tr><td><a href="javascript:return void(0)" onclick="document.getElementById('<%=bucket%>form').style.display='block'; this.style.display='none';">Add&nbsp;image...</a></td></tr></table>
+<table align="center"><tr><td><a href="javascript:return void(0)" style="font-size:8px;" onclick="document.getElementById('<%=bucket%>form').style.display='block'; this.style.display='none';">ADD&nbsp;IMAGE</a></td></tr></table>
 <script>
 //var <%=bucket%>editor = new Quill('.<%=bucket%>Editor');  // First matching element will be used
 var <%=bucket%>container = document.getElementById('<%=bucket%>Editor');
@@ -106,7 +106,7 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
 <% if (images.size() > 0) {
     Image image = images.get(0);
 %>
-<div id="images">
+<div id="images" style="margin-bottom:25px;">
     <table align="center" width="100px">
         <%
             if (imageCheckAccess.isAdmin(imageCheckPerson)) {
@@ -128,7 +128,7 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
         <% }%>
         <tr>
             <td align="center">
-                <div style="border:1px double black; padding:5px; "><img  onload="resizeThis_<%=bucket%><%=image.getPosIndex()%>(this)" style="padding-bottom:10px;" src="/toolkit/store/<%=image.getScgeId()%>/<%=image.getBucket()%>/<%=image.getFileName()%>" /></div>
+                <div style="border:1px double black; padding:5px; "><img style="padding-bottom:10px;" src="/toolkit/store/<%=image.getScgeId()%>/<%=image.getBucket()%>/<%=image.getFileName()%>" /></div>
             </td>
         </tr>
         <% if (image.getLegend() != null && image.getLegend().trim().length() > 0) { %>
@@ -153,29 +153,6 @@ var <%=bucket%>editor = new Quill(<%=bucket%>container, <%=bucket%>options);
         <% } %>
     </table>
 </div>
-
-<script>
-
-    function resizeThis_<%=bucket%><%=image.getPosIndex()%>(img) {
-            if (img) {
-                //get the height to 60
-                var goal=600;
-                var width = img.naturalWidth;
-
-                if (width < goal) {
-                    return;
-                }
-
-                var diff = width - goal;
-                var percentDiff = 1 - (diff / width);
-                img.width=goal;
-                img.height=parseInt(img.naturalHeight * percentDiff);
-
-            }
-
-    }
-</script>
-
 
 
 <% } %>
