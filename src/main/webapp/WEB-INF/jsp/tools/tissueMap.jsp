@@ -326,7 +326,7 @@
 
 
 <div style="font-size:20px; color: #1A80B6;">Select a graph below to explore the data set</div>
-    <table d="grid" class="table" style="width:800px;padding-left:20px;table-layout:fixed" align="center" border="1" cellpadding="6">
+    <table d="grid" class="table" style="padding-left:20px;table-layout:fixed" align="center" border="1" cellpadding="6">
         <thead>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Organ System</th>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Delivery</th>
