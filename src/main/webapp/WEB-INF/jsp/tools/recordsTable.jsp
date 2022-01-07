@@ -103,12 +103,27 @@
                 //    experimentName+=" ("+ers.get(0).getResultType()+") ";
                // }
 
+                boolean hadTerm = false;
+                boolean hadCell = false;
                 if (!SFN.parse(exp.getTissueTerm()).equals("") ) {
-                    experimentName+=" (" + exp.getTissueTerm() + ")";
+                    experimentName+=" (" + exp.getTissueTerm();
+                    hadTerm = true;
                 }
 
+
                 if (!SFN.parse(exp.getCellType()).equals("")) {
-                    experimentName+=" (" + exp.getCellTypeTerm() + ")";
+                    if (!hadTerm) {
+                        experimentName+=" (";
+                    }else {
+                        experimentName+="/";
+                    }
+
+                    experimentName+=exp.getCellTypeTerm();
+                    hadCell = true;
+                }
+
+                if (hadTerm || hadCell) {
+                    experimentName+=")";
                 }
 
 
