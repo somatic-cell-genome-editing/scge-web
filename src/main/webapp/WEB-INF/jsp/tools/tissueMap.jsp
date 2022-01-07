@@ -326,7 +326,7 @@
 
 
 <div style="font-size:20px; color: #1A80B6;">Select a graph below to explore the data set</div>
-    <table d="grid" class="table" style="width:600px;padding-left:20px;" align="center" border="1" cellpadding="6">
+    <table d="grid" class="table" style="width:800px;padding-left:20px;table-layout:fixed" align="center" border="1" cellpadding="6">
         <thead>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Organ System</th>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Delivery</th>
@@ -360,28 +360,34 @@
             <%  i++;} else if(qualDeliveryResults.containsKey(tissueName)) { %>
             <a href= "<%=deliveryurl%>">
             <div>
-                <table border="1" cellpadding="6">
-                <thead><tr>
-                <th style="background-color:white; color:#212528; font-size:14px;">Units</th>
-                <th style="background-color:white; color:#212528; font-size:14px;">Replicates</th>
-                <th style="background-color:white; color:#212528; font-size:14px;">Result</th>
-                <th>&nbsp;</th>
-                </tr></thead>
-                <tbody>
+                <table class="table tablesorter table-striped" cellpadding="4">
+                    <thead><tr>
+                        <th>Experiment Record Id</th>
+                        <th>Result</th>
+                        <th></th>
+                    </tr></thead>
+                    <tbody>
 
              <%  for(ExperimentResultDetail e: qualDeliveryResults.get(tissueName) ) { %>
                 <tr>
-                <td><%=e.getUnits()%></td>
-                <td><%=e.getNumberOfSamples()%></td>
-                <td><%=e.getResult()%></td>
                     <%
                         List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
                         if (images.size() > 0) {
                     %>
-                    <td align="center"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <% }else { %>
+                    <td><%=e.getExperimentRecordId()%></td>
+                    <%}%>
+
+                    <td><%=e.getResult()%></td>
+                    <%
+                        images = idao.getImage(e.getExperimentRecordId(),"main1");
+                        if (images.size() > 0) {
+                    %>
+                    <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                     <% rowCount++;
                     }else { %>
-                    <td><%=e.getExperimentRecordId()%></td>
+                    <td></td>
                     <%}%>
                 </tr>
              <% } %>
@@ -407,8 +413,6 @@
                 <table class="table tablesorter table-striped" cellpadding="4">
                     <thead><tr>
                         <th>Experiment Record Id</th>
-                        <th>Units</th>
-                        <th>No of Replicates</th>
                         <th>Result</th>
                         <th></th>
                     </tr></thead>
@@ -425,8 +429,6 @@
                             <td><%=e.getExperimentRecordId()%></td>
                         <%}%>
 
-                        <td><%=e.getUnits()%></td>
-                        <td><%=e.getNumberOfSamples()%></td>
                         <td><%=e.getResult()%></td>
                         <%
                             images = idao.getImage(e.getExperimentRecordId(),"main1");
@@ -435,7 +437,7 @@
                         <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                         <% rowCount++;
                         }else { %>
-                        <td><%=e.getExperimentRecordId()%></td>
+                        <td></td>
                         <%}%>
 
                     </tr>
@@ -582,14 +584,9 @@
                            color: "rgba(0, 0, 0, 0)"
                        },
                        ticks:{
-                           fontColor: "rgb(0,75,141)",
-                           callback: function(t) {
-                               var maxLabelLength = 30;
-                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
-                               else return t;
+                           display:false
 
                            }
-                       }
                    }]
                }
            }
@@ -611,13 +608,7 @@
                            color: "rgba(0, 0, 0, 0)"
                        },
                        ticks:{
-                           fontColor: "rgb(0,75,141)",
-                           callback: function(t) {
-                               var maxLabelLength = 20;
-                               if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-10) + '...';
-                               else return t;
-
-                           }
+                           display:false
                        }
                    }]
                }
