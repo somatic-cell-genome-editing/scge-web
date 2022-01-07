@@ -580,6 +580,7 @@
             cellTypes = <%= JSONValue.toJSONString(cellTypeList) %>;
             var dualAxis = false;
             function load() {
+                console.log("in load");
                 var elms = document.getElementsByName("tissue");
                     elms.forEach(function(ele) {
                         applyFilters(ele);
