@@ -360,7 +360,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         Set<String> conditions=new HashSet<>();
         List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByExpId(experimentId);
         HashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new HashMap<>();
-        String assayDesc = null;
+        String editingAssay = null,deliveryAssay=null;
         for(ExperimentResultDetail er:experimentResults){
 
 
@@ -369,7 +369,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             else values = new ArrayList<>();
 
             values.add(er);
-            assayDesc = er.getAssayDescription();
+            if(er.getResultType().contains("Delivery"))
+                deliveryAssay = er.getAssayDescription();
+            else editingAssay = er.getAssayDescription();
             experimentResultsMap.put(er.getResultId(),values);
         }
 
@@ -459,7 +461,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("resultType",resultType);
         req.setAttribute("tissue",tissue);
         req.setAttribute("cellType",cellType);
-        req.setAttribute("assay",assayDesc);
+        req.setAttribute("deliveryAssay",deliveryAssay);
+        req.setAttribute("editingAssay",editingAssay);
         req.setAttribute("action", e.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.setAttribute("objectSizeMap", objectSizeMap);
