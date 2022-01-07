@@ -108,7 +108,7 @@
                 }
 
                 if (!SFN.parse(exp.getCellType()).equals("")) {
-                    experimentName+=" (" + exp.getCellType() + ")";
+                    experimentName+=" (" + exp.getCellTypeTerm() + ")";
                 }
 
 
