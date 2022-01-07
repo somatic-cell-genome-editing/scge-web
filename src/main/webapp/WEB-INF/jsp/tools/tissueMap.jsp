@@ -362,7 +362,7 @@
             <div>
                 <table class="table tablesorter table-striped" cellpadding="4">
                     <thead><tr>
-                        <th>Experiment Record Id</th>
+                        <th>Record</th>
                         <th>Result</th>
                         <th></th>
                     </tr></thead>
@@ -374,7 +374,7 @@
                         List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
                         if (images.size() > 0) {
                     %>
-                    <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                     <% }else { %>
                     <td><%=e.getExperimentRecordId()%></td>
                     <%}%>
@@ -384,7 +384,7 @@
                         images = idao.getImage(e.getExperimentRecordId(),"main1");
                         if (images.size() > 0) {
                     %>
-                    <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                     <% rowCount++;
                     }else { %>
                     <td></td>
@@ -412,7 +412,7 @@
             <div>
                 <table class="table tablesorter table-striped" cellpadding="4">
                     <thead><tr>
-                        <th>Experiment Record Id</th>
+                        <th>Record</th>
                         <th>Result</th>
                         <th></th>
                     </tr></thead>
@@ -424,7 +424,7 @@
                             List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
                             if (images.size() > 0) {
                         %>
-                        <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                        <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                         <% }else { %>
                             <td><%=e.getExperimentRecordId()%></td>
                         <%}%>
@@ -434,7 +434,7 @@
                             images = idao.getImage(e.getExperimentRecordId(),"main1");
                             if (images.size() > 0) {
                         %>
-                        <td><img onmouseover="imageMouseOver(this)" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                        <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                         <% rowCount++;
                         }else { %>
                         <td></td>
