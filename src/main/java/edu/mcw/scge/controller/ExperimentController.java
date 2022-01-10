@@ -374,7 +374,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             else editingAssay = er.getAssayDescription();
             experimentResultsMap.put(er.getResultId(),values);
         }
-
         HashMap<Long,ExperimentRecord> recordMap = new HashMap<>();
 
         for(ExperimentRecord rec:records) {
@@ -508,7 +507,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             List<ExperimentResultDetail> experimentResultList = dbService.getExperimentalResults(r.getExperimentRecordId());
             List<ExperimentResultDetail> experimentResults=new ArrayList<>();
             for(ExperimentResultDetail e: experimentResultList){
-                if(e.getResult() != null && !e.getResult().equals(""))
+                if(e.getResult() != null && !e.getResult().equals("") && !e.getResult().equals("NaN"))
                     experimentResults.add(e);
             }
            /* for (AnimalTestingResultsSummary s : results) {
