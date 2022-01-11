@@ -8,6 +8,7 @@ import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.DataAccessService;
 
+import edu.mcw.scge.web.SCGEContext;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,12 +49,18 @@ public class EditController {
 
         service.insertTierUpdates(studyId, tier, userId, groupIdsJson );
         Study study= sdao.getStudyById(studyId).get(0);
-        List<Person> p=pdao.getPersonById(study.getPiId());
+        List<Person> pi=pdao.getPersonById(study.getPiId());
+        List<Person> submitter=pdao.getPersonById(study.getSubmitterId());
         String emailMsg=" Study:"+studyId+" - "+study.getStudy() +" is updated. These changes will get executed after 24 hours";
        // sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated",emailMsg);
      //   sendEmailNotification(p.get(0).getEmail(), "SCGE Study Updated",emailMsg);
+        if(SCGEContext.isDev())
         sendEmailNotification("ageurts@mcw.edu", "SCGE Study Updated",emailMsg);
-
+        if(SCGEContext.isProduction()){
+            sendEmailNotification(pi.get(0).getEmail(), "SCGE Study Updated",emailMsg);
+            sendEmailNotification(submitter.get(0).getEmail(), "SCGE Study Updated",emailMsg);
+            sendEmailNotification("scge_toolkit@mcw.edu", "SCGE Study Updated",emailMsg);
+        }
         String message="Confirmation request sent to PI. Requested changes will get executed after 24 hours";
         return "redirect:/db?message="+message+"&studyId="+studyId+"&tier="+tier;
 
