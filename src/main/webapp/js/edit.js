@@ -47,15 +47,25 @@ function changeAccess1(_this, studyId) {
 }
 function changeAccess(_this, studyId,tier) {
 //    this.studyId=studyId;
-    enableGroupSelect(studyId, tier);
-    $("#tier2Modal" + studyId).modal('toggle');
+        enableGroupSelect(studyId, tier);
+        $("#tier2Modal" + studyId).modal('toggle');
 }
 
 function saveChanges(studyId) {
       //appendGroups(studyId);
+
+    var msg = "By changing the study tier I certify that:\n\n" +
+        "I verified that the files found in “Download Submitted Files” can be shared at the final tier and do not contain proprietary data.\n\n" +
+        "The data and representative images are accurate\n\n" +
+        "All descriptions including experiment descriptions, assay descriptions, experimental and metadata details, and figure titles and legends (where shown) are accurate and appropriate\n\n" +
+        "Select OK to continue with the change or Cancel to return to the prior screen.";
+    if (confirm(msg)) {
+
     appendGroupIds(studyId);
        var formId="#editStudy"+studyId;
        $(formId).submit();
+    }
+
 }
 function showMembers(_this, studyId){
     var value= (_this.val());
