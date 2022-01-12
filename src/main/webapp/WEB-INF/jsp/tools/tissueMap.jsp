@@ -11,7 +11,7 @@
         transform: rotate(-45deg);
         float: left;
         width:200px;
-        margin-left:0px;
+        margin-left:8px;
         margin-bottom:15px;
         order:1px solid black;
         text-align: left;
@@ -20,7 +20,7 @@
     .tissue-control-header {
         transform: rotate(-45deg);
         float: left;
-        width:200px;
+        width:198px;
         margin-left:-155px;
         margin-bottom:15px;
         order:1px solid black;
@@ -68,19 +68,19 @@
     ImageDao idao = new ImageDao();
 
     LinkedHashMap<String,String> rootTissues = new LinkedHashMap<String,String>();
-    rootTissues.put("Reproductive System", "UBERON:0000990");
-    rootTissues.put("Renal/Urinary System", "UBERON:0001008");
-    rootTissues.put("Endocrine System","UBERON:0000949");
-    rootTissues.put("Haemolymphoid System","UBERON:0002193");
-    rootTissues.put("Gastrointestinal System","UBERON:0005409");
-    rootTissues.put("Liver and biliary system","UBERON:0002423");
-    rootTissues.put("Respiratory System","UBERON:0001004");
-    rootTissues.put("Cardiovascular System","UBERON:0004535");
-    rootTissues.put("Musculoskeletal System","UBERON:0002204");
-    rootTissues.put("Integumentary System","UBERON:0002416");
-    rootTissues.put("Nervous System","UBERON:0001016");
-    rootTissues.put("Sensory System","UBERON:0001032");
-    rootTissues.put("Hematopoietic System","UBERON:0002390");
+    rootTissues.put("Reproductive", "UBERON:0000990");
+    rootTissues.put("Renal/Urinary", "UBERON:0001008");
+    rootTissues.put("Endocrine","UBERON:0000949");
+    rootTissues.put("Haemolymphoid","UBERON:0002193");
+    rootTissues.put("Gastrointestinal","UBERON:0005409");
+    rootTissues.put("Liver and Biliary","UBERON:0002423");
+    rootTissues.put("Respiratory","UBERON:0001004");
+    rootTissues.put("Cardiovascular","UBERON:0004535");
+    rootTissues.put("Musculoskeletal","UBERON:0002204");
+    rootTissues.put("Integumentary","UBERON:0002416");
+    rootTissues.put("Nervous","UBERON:0001016");
+    rootTissues.put("Sensory","UBERON:0001032");
+    rootTissues.put("Hematopoietic","UBERON:0002390");
 %>
 
     <%
