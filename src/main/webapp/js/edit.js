@@ -61,7 +61,8 @@ function saveChanges(studyId) {
         "Select OK to continue with the change or Cancel to return to the prior screen.";
     if (confirm(msg)) {
 
-    appendGroupIds(studyId);
+       alert("An email has been sent to the study PI and Point of Contact.  Changes to study tier will take effect in 24 hours.")
+       appendGroupIds(studyId);
        var formId="#editStudy"+studyId;
        $(formId).submit();
     }
