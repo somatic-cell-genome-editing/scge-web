@@ -4,6 +4,7 @@ import com.sun.mail.smtp.SMTPTransport;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.dao.implementation.PersonDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.dao.spring.PersonQuery;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.DataAccessService;
@@ -51,7 +52,7 @@ public class EditController {
         Study study= sdao.getStudyById(studyId).get(0);
         List<Person> pi=pdao.getPersonById(study.getPiId());
         List<Person> submitter=pdao.getPersonById(study.getSubmitterId());
-
+        List<Person> pocs=sdao.getStudyPOC(studyId);
         String emailMsg=" Study:"+studyId+" - "+study.getStudy() +" is updated. These changes will get executed after 24 hours";
        // sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated",emailMsg);
      //   sendEmailNotification(p.get(0).getEmail(), "SCGE Study Updated",emailMsg);
@@ -61,6 +62,16 @@ public class EditController {
             sendEmailNotification(pi.get(0).getEmail(), "SCGE Study Updated",emailMsg);
             sendEmailNotification(submitter.get(0).getEmail(), "SCGE Study Updated",emailMsg);
             sendEmailNotification("scge_toolkit@mcw.edu", "SCGE Study Updated",emailMsg);
+            if(pocs.size()>0) {
+                for (Person poc : pocs) {
+                    try {
+                        sendEmailNotification(poc.getEmail(), "SCGE Study Updated", emailMsg);
+                    } catch (Exception e) {
+
+                    }
+
+                }
+            }
         }
 
         String message="Confirmation request sent to PI. Requested changes will get executed after 24 hours";
