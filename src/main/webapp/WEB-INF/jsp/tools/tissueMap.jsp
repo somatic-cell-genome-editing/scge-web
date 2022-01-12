@@ -11,7 +11,7 @@
         transform: rotate(-45deg);
         float: left;
         width:200px;
-        margin-left:8px;
+        margin-left:7px;
         margin-bottom:15px;
         order:1px solid black;
         text-align: left;
