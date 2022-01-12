@@ -17,6 +17,10 @@ dependencies {
 
     compile 'commons-io:commons-io:2.11.0'
 
+    compile group: 'com.mortennobel', name: 'java-image-scaling', version: '0.8.4'
+//Thanks for using https://jar-download.com
+
+
     compile group: 'org.springframework', name: 'spring-core', version: '5.1.9.RELEASE'
 // https://mvnrepository.com/artifact/org.springframework/spring-context
     compile group: 'org.springframework', name: 'spring-context', version: '5.1.9.RELEASE'

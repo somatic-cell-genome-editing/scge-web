@@ -39,7 +39,8 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.mortennobel.imagescaling.*;
+import java.awt.*;
 
 
 @Controller
@@ -258,13 +259,28 @@ public class FileUploadController {
 			if (width < goal) {
 				image700 = file.getBytes();
 			}else {
+
+
+				BufferedImage outputImage = new MultiStepRescaleOp(700, newHeight, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(originalImage, null);
+
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				ImageIO.write(outputImage, "png", baos);
+				image700 = baos.toByteArray();
+
+
+/*
 				java.awt.Image resultingImage = originalImage.getScaledInstance(goal, newHeight, java.awt.Image.SCALE_DEFAULT);
 				BufferedImage outputImage = new BufferedImage(700, newHeight, BufferedImage.TYPE_INT_RGB);
 				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ImageIO.write(outputImage, "png", baos);
 				image700 = baos.toByteArray();
+*/
 			}
+
+
+
+
 
 			goal =75;
 			width = originalImage.getWidth();
@@ -274,12 +290,25 @@ public class FileUploadController {
 			int newWidth = Math.round(width * percentDiff);
 
 
+
+			BufferedImage outputImage = new MultiStepRescaleOp(newWidth, goal, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(originalImage, null);
+
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(outputImage,"png",baos);
+			byte[] thumbnail = baos.toByteArray();
+
+
+/*
 			java.awt.Image resultingImage = originalImage.getScaledInstance(newWidth, goal, java.awt.Image.SCALE_DEFAULT);
 			BufferedImage outputImage = new BufferedImage(newWidth, goal, BufferedImage.TYPE_INT_RGB);
 			outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(outputImage,"png",baos);
 			byte[] thumbnail = baos.toByteArray();
+*/
+
+
+
 
 			Image image = new Image();
 
