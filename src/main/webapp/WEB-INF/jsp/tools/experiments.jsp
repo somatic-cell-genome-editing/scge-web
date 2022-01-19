@@ -10,6 +10,8 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="edu.mcw.scge.service.StringUtils" %>
+<%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
+<%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -76,7 +78,21 @@
     <div class="card" style="margin-top: 1%" >
 
         <% if (study != null) { %>
-        <div class="card-header"><span class="scge-details-label">Submission SCGE-<%=study.getStudyId()%></span>&nbsp;Submission Date:<%=study.getSubmissionDate()%>&nbsp;Status: <%if(experiments.size()>0){%>
+        <div class="card-header">
+            <div>
+<%
+    GrantDao grantDao=new GrantDao();
+    PersonDao personDao=new PersonDao();
+                if(study.getGroupId()==1410 || study.getGroupId()==1412){// 1410-Baylor;1412-Jackson
+                if(study.getStudy().equalsIgnoreCase(grantDao.getGrantByGroupId(study.getGroupId()).getGrantTitle())){%>
+                <%=study.getStudy()%>
+                <% }else{%>
+                <strong>VALIDATION - <%=personDao.getPersonById(study.getDeliveryPiId()).get(0).getName()%></strong>&nbsp;<%=study.getStudy()%>
+                <%  }%>
+                <%}%>
+            </div>
+            <span class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;Submission Date:<%=study.getSubmissionDate()%>&nbsp;Status:
+            <%if(experiments.size()>0){%>
             <span style="color:green;font-weight: bold" >Processed</span>
             <%}else{%>
             <span style="color:red;font-weight: bold" >Received</span>
@@ -94,7 +110,7 @@
         <% } %>
 
         <%if(experiments.size()>0){%>
-        <h4 class="page-header" style="color:grey;">Experiments</h4>
+        <div style="color:grey;font-weight: bold;">Experiments</div>
 
         <table class="table bg-light" >
         <thead>
