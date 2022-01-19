@@ -90,10 +90,12 @@
         </tr>
         </thead>
 <%  int id=1;
+    StudyDao studyDao=new StudyDao();
+    PersonDao personDao=new PersonDao();
     for(Map.Entry entry:sortedStudies.entrySet()){
     String grantInitiative= (String) entry.getKey();
     Map<Integer, List<Study>> groupedStudies= (Map<Integer, List<Study>>) entry.getValue();
-        StudyDao studyDao=new StudyDao();
+
     %>
 <div>
 
@@ -169,11 +171,11 @@
                         Submission SCGE-<%=s.getStudyId()%>
                     <%-- } --%>
                     <%}else
-                        if(studies1.get(0).getGroupId()==1410 || studies1.get(0).getGroupId()==1412){
+                        if(studies1.get(0).getGroupId()==1410 || studies1.get(0).getGroupId()==1412){// 1410-Baylor;1412-Jackson
                             if(s.getStudy().equalsIgnoreCase(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle())){%>
                                         <%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
                            <% }else{%>
-                <strong>VALIDATION - </strong><%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                <strong>VALIDATION - <%=personDao.getPersonById(s.getDeliveryPiId()).get(0).getName()%></strong>&nbsp;<%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
                           <%  }%>
                 <%}else{%>
                     <a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a>
