@@ -9,8 +9,12 @@
 <%@ page import="java.awt.image.BufferedImage" %>
 <%@ page import="javax.imageio.ImageIO" %>
 <%@ page import="java.io.ByteArrayOutputStream" %>
+<%@ page import="com.mortennobel.imagescaling.*" %>
+
+<%@ page import="java.awt.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%
     List<Person> people = (List<Person>)request.getAttribute("people");
     Person person = (Person) request.getAttribute("person");
@@ -97,57 +101,94 @@
 <a href="/toolkit/admin/groupOverview"  style="font-size:20px;" />Group Overview</a><br>
 <a href="/toolkit/admin/studyTierUpdates"  style="font-size:20px;" />Study Tier Updates</a-->
 
+<!--
+goal =75;
+width = originalImage.getWidth();
+height = originalImage.getHeight();
+diff = height - goal;
+percentDiff = (float)1 - ((float)diff/(float)height);
+int newWidth = Math.round(width * percentDiff);
+
+
+
+BufferedImage outputImage = new MultiStepRescaleOp(newWidth, goal, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(originalImage, null);
+
+ByteArrayOutputStream baos = new ByteArrayOutputStream();
+ImageIO.write(outputImage,"png",baos);
+byte[] thumbnail = baos.toByteArray();
+-->
 
 <%
-  /*
-    ImageDao idao = new ImageDao();
+  if (request.getParameter("reprocess") != null && request.getParameter("reprocess").equals("1")) {
+      out.print("<br><br>REPROCESSING IMAGES<br><br>");
+      ImageDao idao = new ImageDao();
 
-    List<Image> images = idao.getAllImages();
-    for (Image image:images) {
+      List<Image> images = idao.getAllImages();
+      for (Image image : images) {
 
-        InputStream is = new ByteArrayInputStream(image.getImage());
-        BufferedImage originalImage = ImageIO.read(is);
-        int goal =700;
-        int width = originalImage.getWidth();
-        int height = originalImage.getHeight();
-        float diff = width - goal;
-        float percentDiff = (float) 1 - ((float)diff/(float)width);
-        int newHeight = Math.round(height * percentDiff);
+          InputStream is = new ByteArrayInputStream(image.getImage());
+          BufferedImage originalImage = ImageIO.read(is);
+          int goal = 700;
+          int width = originalImage.getWidth();
+          int height = originalImage.getHeight();
+          float diff = width - goal;
+          float percentDiff = (float) 1 - ((float) diff / (float) width);
+          int newHeight = Math.round(height * percentDiff);
 
-        byte[] image700 = null;
-        if (width < goal) {
-            image700 = image.getImage();
-        }else {
-            java.awt.Image resultingImage = originalImage.getScaledInstance(goal, newHeight, java.awt.Image.SCALE_DEFAULT);
-            BufferedImage outputImage = new BufferedImage(700, newHeight, BufferedImage.TYPE_INT_RGB);
-            outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(outputImage, "png", baos);
-            image700 = baos.toByteArray();
-        }
-        goal =75;
-        width = originalImage.getWidth();
-        height = originalImage.getHeight();
-        diff = height - goal;
-        percentDiff = (float)1 - ((float)diff/(float)height);
-        int newWidth = Math.round(width * percentDiff);
+          byte[] image700 = null;
+          if (width < goal) {
+              image700 = image.getImage();
+          } else {
 
-        java.awt.Image resultingImage = originalImage.getScaledInstance(newWidth, goal, java.awt.Image.SCALE_DEFAULT);
-        BufferedImage outputImage = new BufferedImage(newWidth, goal, BufferedImage.TYPE_INT_RGB);
-        outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(outputImage,"png",baos);
-        byte[] thumbnail = baos.toByteArray();
+              BufferedImage outputImage = new MultiStepRescaleOp(700, newHeight, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(originalImage, null);
 
-        image.setImage700Wide(image700);
-        image.setThumbnail(thumbnail);
+              ByteArrayOutputStream baos = new ByteArrayOutputStream();
+              ImageIO.write(outputImage, "png", baos);
+              image700 = baos.toByteArray();
 
-        idao.updateImage(image);
+              /*
+              java.awt.Image resultingImage = originalImage.getScaledInstance(goal, newHeight, java.awt.Image.SCALE_DEFAULT);
+              BufferedImage outputImage = new BufferedImage(700, newHeight, BufferedImage.TYPE_INT_RGB);
+              outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+              ByteArrayOutputStream baos = new ByteArrayOutputStream();
+              ImageIO.write(outputImage, "png", baos);
+              image700 = baos.toByteArray();
+              */
+
+          }
+          goal = 75;
+          width = originalImage.getWidth();
+          height = originalImage.getHeight();
+          diff = height - goal;
+          percentDiff = (float) 1 - ((float) diff / (float) height);
+          int newWidth = Math.round(width * percentDiff);
 
 
-    }
+          BufferedImage outputImage = new MultiStepRescaleOp(newWidth, goal, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(originalImage, null);
 
-   */
+          ByteArrayOutputStream baos = new ByteArrayOutputStream();
+          ImageIO.write(outputImage,"png",baos);
+          byte[] thumbnail = baos.toByteArray();
+
+          /*
+          java.awt.Image resultingImage = originalImage.getScaledInstance(newWidth, goal, java.awt.Image.SCALE_DEFAULT);
+          BufferedImage outputImage = new BufferedImage(newWidth, goal, BufferedImage.TYPE_INT_RGB);
+          outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+          ByteArrayOutputStream baos = new ByteArrayOutputStream();
+          ImageIO.write(outputImage, "png", baos);
+          byte[] thumbnail = baos.toByteArray();
+           */
+
+          image.setImage700Wide(image700);
+          image.setThumbnail(thumbnail);
+
+          idao.updateImage(image);
+
+
+      }
+
+  }
+
 %>
 
 
