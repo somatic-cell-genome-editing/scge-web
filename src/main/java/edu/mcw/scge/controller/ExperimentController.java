@@ -128,7 +128,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("study", studies.get(0));
 
         req.setAttribute("studyExperimentMap", studyExperimentMap);
-        req.setAttribute("action", studies.get(0).getStudy());
+       // req.setAttribute("action", studies.get(0).getStudy());
+        req.setAttribute("action",grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantTitle());
+
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
