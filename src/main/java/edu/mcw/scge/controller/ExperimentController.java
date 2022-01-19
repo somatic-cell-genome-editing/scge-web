@@ -28,6 +28,7 @@ public class ExperimentController extends UserController {
     DBService dbService=new DBService();
     UserService userService=new UserService();
     CustomUniqueLabels customLabels=new CustomUniqueLabels();
+    GrantDao grantDao=new GrantDao();
     @RequestMapping(value="/search")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentDao edao=new ExperimentDao();
@@ -128,7 +129,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("study", studies.get(0));
 
         req.setAttribute("studyExperimentMap", studyExperimentMap);
-        req.setAttribute("action", studies.get(0).getStudy());
+      //  req.setAttribute("action", studies.get(0).getStudy());
+      //  <%=grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle()%>
+                req.setAttribute("action",grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantTitle());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
