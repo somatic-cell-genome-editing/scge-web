@@ -28,6 +28,7 @@ public class ExperimentController extends UserController {
     DBService dbService=new DBService();
     UserService userService=new UserService();
     CustomUniqueLabels customLabels=new CustomUniqueLabels();
+    GrantDao grantDao=new GrantDao();
     @RequestMapping(value="/search")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentDao edao=new ExperimentDao();
@@ -335,7 +336,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
 
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
-        GrantDao grantDao=new GrantDao();
+
         Grant grant=grantDao.getGrantByGroupId(study.getGroupId());
        Map<String, Integer> objectSizeMap=customLabels.getObjectSizeMap(records);
         Experiment e = edao.getExperiment(experimentId);
