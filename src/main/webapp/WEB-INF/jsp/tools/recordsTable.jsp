@@ -75,6 +75,7 @@
         <% if (cellTypeList.size() > 0) { %><th>Cell Type</th><% } %>
         <% if (sexList.size() > 0) { %><th>Sex</th><% } %>
         <% if (editorList.size() > 0 ) { %><th>Editor</th><% } %>
+        <% if (hrdonorList.size() > 0 ) { %><th>Hr Donor</th><% } %>
         <% if (modelList.size() > 0 ) { %><th>Model</th><% } %>
         <% if (deliverySystemList.size() > 0 ) { %><th>Delivery System</th><% } %>
         <% if (guideList.size() > 0 ) { %><th>Target Locus</th> <% } %>
@@ -163,7 +164,8 @@
         <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
             <% if (sexList.size() > 0) { %><td><%=SFN.parse(exp.getSex())%></td><% } %>
         <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td><% } %>
-        <% if (modelList.size() > 0 ) { %><td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td><% } %>
+            <% if (hrdonorList.size() > 0) { %><td><%=SFN.parse(exp.getHrdonorName())%></td><% } %>
+            <% if (modelList.size() > 0 ) { %><td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td><% } %>
         <% if (deliverySystemList.size() > 0 ) { %><td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemName())%></a></td><% } %>
             <% if (guideList.size() > 0 ) { %><td><%=targetLocus%></td><% } %>
 
@@ -640,6 +642,10 @@
                     applyFilters(ele);
                 });
                 var elms = document.getElementsByName("checkvector");
+                elms.forEach(function(ele) {
+                    applyFilters(ele);
+                });
+                var elms = document.getElementsByName("checkhrdonor");
                 elms.forEach(function(ele) {
                     applyFilters(ele);
                 });
