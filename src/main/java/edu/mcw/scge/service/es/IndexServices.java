@@ -352,10 +352,14 @@ public class IndexServices {
             );
 
             }else {
+
+            if (isNumeric(searchTerm)) {
+                q.add(QueryBuilders.termQuery("id", searchTerm));
+            } else {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                                .type(MultiMatchQueryBuilder.Type.PHRASE)
-                                .analyzer("pattern")
+                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                        .type(MultiMatchQueryBuilder.Type.PHRASE)
+                        .analyzer("pattern")
                 );
                 q.add(QueryBuilders.multiMatchQuery(searchTerm)
                         .field("symbol", 100.0f)
@@ -371,6 +375,7 @@ public class IndexServices {
                         .analyzer("pattern")).boost(100);
 
             }
+        }
         /*   q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                            .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
                             .analyzer("")
@@ -397,6 +402,13 @@ public class IndexServices {
         }
 
         return q;
+    }
+    public boolean isNumeric(String searchTerm){
+        try{
+            if(Long.parseLong(searchTerm)>0)
+                return true;
+        }catch (Exception e){}
+        return false;
     }
     public static List<String> mustFields(){
         return Arrays.asList(
