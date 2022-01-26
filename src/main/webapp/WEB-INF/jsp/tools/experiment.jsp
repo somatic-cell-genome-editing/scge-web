@@ -284,13 +284,14 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
     </tr>
 </table>
 
+<div id="associatedProtocols">
+    <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
+</div>
 
-    <jsp:include page="associatedProtocols.jsp"/>
 
 
 
-
-    <% } catch (Exception e) {
+<% } catch (Exception e) {
         e.printStackTrace();
 
     }%>
