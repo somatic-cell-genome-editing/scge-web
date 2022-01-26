@@ -18,7 +18,6 @@
     Person localProtocolPerson = new UserService().getCurrentUser(request.getSession());
     GrantDao localProtocolGrantDao = new GrantDao();
 
-    if (localProtocols.size() > 0) {
 
 %>
 
@@ -41,7 +40,10 @@
 
 
 
-<table width="90%"><tr><td><h4 class="page-header" style="color:grey;">Protocols</h4></td><td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Add Protocols</a></td></tr></table>
+<table width="95%"><tr><td><h4 class="page-header" style="color:grey;">Protocols</h4></td><td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Protocols</a></td></tr></table>
+
+<% if (localProtocols.size() > 0) { %>
+
 <table id="myTable-1" class="tablesorter">
     <thead>
     <tr>
