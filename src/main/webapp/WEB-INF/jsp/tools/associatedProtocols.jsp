@@ -82,8 +82,7 @@
 <% } else {  %>
     None Associated (as protocols are added they will show up here)
 
-<% } %>
-
+<% } 
     //close scope
 }
 %>
