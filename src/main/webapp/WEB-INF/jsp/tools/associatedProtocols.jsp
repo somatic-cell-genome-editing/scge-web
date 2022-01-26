@@ -39,7 +39,7 @@
 
 
 
-
+<hr>
 <table width="95%"><tr><td><h4 class="page-header" style="color:grey;">Protocols</h4></td>
     <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
         <td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Protocols</a></td>
@@ -80,9 +80,9 @@
 </table>
 
 <% } else {  %>
-    None Associated (as protocols are added they will show up here)
+    &nbsp;&nbsp;&nbsp;&nbsp;None Associated (as protocols are added they will show up here)
 
-<% } 
+<% }
     //close scope
 }
 %>
