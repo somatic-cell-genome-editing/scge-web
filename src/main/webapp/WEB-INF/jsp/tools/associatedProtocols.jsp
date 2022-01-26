@@ -40,7 +40,11 @@
 
 
 
-<table width="95%"><tr><td><h4 class="page-header" style="color:grey;">Protocols</h4></td><td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Protocols</a></td></tr></table>
+<table width="95%"><tr><td><h4 class="page-header" style="color:grey;">Protocols</h4></td>
+    <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
+        <td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Protocols</a></td>
+    <% } %>
+</tr></table>
 
 <% if (localProtocols.size() > 0) { %>
 
@@ -75,7 +79,10 @@
     </tbody>
 </table>
 
-<% }
+<% } else {  %>
+    None Associated (as protocols are added they will show up here)
+
+<% } %>
 
     //close scope
 }
