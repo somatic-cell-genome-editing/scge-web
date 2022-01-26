@@ -164,7 +164,7 @@
         <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
             <% if (sexList.size() > 0) { %><td><%=SFN.parse(exp.getSex())%></td><% } %>
         <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td><% } %>
-            <% if (hrdonorList.size() > 0) { %><td><%=SFN.parse(exp.getHrdonorName())%></td><% } %>
+            <% if (hrdonorList.size() > 0) { %><td><a href="/toolkit/data/hrdonors/hrdonor?id=<%=exp.getHrdonorId()%>"><%=SFN.parse(exp.getHrdonorName())%></a></td><% } %>
             <% if (modelList.size() > 0 ) { %><td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td><% } %>
         <% if (deliverySystemList.size() > 0 ) { %><td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemName())%></a></td><% } %>
             <% if (guideList.size() > 0 ) { %><td><%=targetLocus%></td><% } %>

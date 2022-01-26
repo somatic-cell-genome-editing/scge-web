@@ -189,7 +189,28 @@ public class Access {
         Model m = mdao.getModelById(modelId);
         return this.hasModelAccess(m,p);
     }
+    public boolean hasHrdonorAccess(HRDonor h, Person p) throws Exception{
+        if (h.getTier() == 4) {
+            return true;
+        }
 
+        if (h.getTier() == 3) {
+            return true;
+        }
+
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
+        return adao.verifyHrdonorAccess(h,p);
+        //return modelDao.verifyModelAccess(m.getModelId(), p.getId());
+    }
+
+    public boolean hasHrdonorAccess(long hrdonorId, Person p) throws Exception{
+        HRDonorDao dao = new HRDonorDao();
+        HRDonor h = dao.getHRDonorById(hrdonorId).get(0);
+        return this.hasHrdonorAccess(h,p);
+    }
     public boolean hasProtocolAccess(Protocol protocol, Person p) throws Exception{
         if (protocol.getTier() == 4) {
             return true;
