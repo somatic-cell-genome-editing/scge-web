@@ -220,7 +220,6 @@ public class ProtocolController {
 
         return "redirect:" + "/data/protocols/protocol?id="+protocolId;
         //req.getRequestDispatcher("/data/protocols/protocol?id="+protocolId).forward(req,res);
-        return null;
     }
 
 }
