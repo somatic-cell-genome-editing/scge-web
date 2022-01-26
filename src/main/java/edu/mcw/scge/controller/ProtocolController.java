@@ -157,7 +157,7 @@ public class ProtocolController {
         return null;
     }
     @RequestMapping("/create")
-    public String createModel(HttpServletRequest req,HttpServletResponse res,@ModelAttribute("protocol") Protocol protocol) throws Exception {
+    public String createProtocol(HttpServletRequest req,HttpServletResponse res,@ModelAttribute("protocol") Protocol protocol) throws Exception {
 
         long protocolId = protocol.getId();
         UserService userService = new UserService();
@@ -188,6 +188,7 @@ public class ProtocolController {
                     FileSystemStorageService service = new FileSystemStorageService(properties);
                     service.store(protocol.getFile());
                 }
+                System.out.println(protocolId);
                 req.setAttribute("status"," <span style=\"color: blue\">Protocol added successfully</span>");
             }else {
                 req.setAttribute("status"," <span style=\"color: red\">Protocol already exists</span>");

@@ -382,6 +382,38 @@
         </td>
         </tr>
         <% } %>
+        <% if (hrdonorList.size() > 0 ) { %>
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td  ><div class="recordFilterTitle">
+                            <% if (hrdonorList.size() > 1) { %>
+                            <input onchange="applyAllFilters(this, 'checkhrdonor')" id="allHrdonors"  type="checkbox" checked>&nbsp;
+                            <%}%>
+                            Hr Donors</div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="recordFilterBlock">
+                                <table>
+                                    <% for (String hrdonor: hrdonorList) { %>
+                                    <tr>
+                                        <td>
+                                            <input onclick="applyFilters(this)" name="checkhrdonor"  id="<%=hrdonor%>" type="checkbox" checked>&nbsp;<%=hrdonor%>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                </table>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        <% } %>
         <% if (sexList.size() > 0 ) { %>
         <tr>
             <td valign="top">
