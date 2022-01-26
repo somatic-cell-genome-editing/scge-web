@@ -41,11 +41,13 @@
 
 
 
-<table><tr><td><h4 class="page-header" style="color:grey;">Protocols</h4></td><td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>">Add Protocols</a></td></tr></table>
+<table width="90%"><tr><td><h4 class="page-header" style="color:grey;">Protocols</h4></td><td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Add Protocols</a></td></tr></table>
 <table id="myTable-1" class="tablesorter">
     <thead>
     <tr>
-        <th></th>
+        <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
+            <th></th>
+        <% } %>
         <th>Title</th>
         <th>Description</th>
         <th>File Download</th>
@@ -57,7 +59,9 @@
     <% if (localProtocolAccess.hasProtocolAccess(localProtocol,localProtocolPerson)) { %>
         <tr>
     <tr>
-        <td><a href="/toolkit/data/protocols/removeAssociation?objectId=<%=objectId%>&protocolId=<%=localProtocol.getId()%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:red; padding:10px;">Remove</a></td>
+        <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
+            <td><a href="/toolkit/data/protocols/removeAssociation?objectId=<%=objectId%>&protocolId=<%=localProtocol.getId()%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:red; padding:10px;">Remove</a></td>
+        <% } %>
         <td><a href="/toolkit/data/protocols/protocol/?id=<%=localProtocol.getId()%>"><%=localProtocol.getTitle()%></a></td>
         <td><%=localProtocol.getDescription()%></td>
         <td><a href="/toolkit/files/protocol/<%=localProtocol.getFilename()%>"><%=localProtocol.getFilename()%></a></td>
