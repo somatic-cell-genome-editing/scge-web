@@ -45,9 +45,12 @@ public class ProtocolController {
 
     @RequestMapping(value="/associate")
     public String getAssociatedEditors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        Access access = new Access();
-        UserService us = new UserService();
-        Person p = us.getCurrentUser(req.getSession());
+
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
 
         String objectId = req.getParameter("objectId");
 
@@ -64,9 +67,14 @@ public class ProtocolController {
 
     @RequestMapping(value="/removeAssociation")
     public String getRemoveAssociations(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        Access access = new Access();
-        UserService us = new UserService();
-        Person p = us.getCurrentUser(req.getSession());
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+
+
+
 
         String objectId = req.getParameter("objectId");
         String redirectURL = req.getParameter("redirectURL");
@@ -80,9 +88,12 @@ public class ProtocolController {
 
     @RequestMapping(value="/updateAssociations")
     public String getUpdateAssociations(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        Access access = new Access();
-        UserService us = new UserService();
-        Person p = us.getCurrentUser(req.getSession());
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+
 
         String objectId = req.getParameter("objectId");
         String redirectURL = req.getParameter("redirectURL");
@@ -207,7 +218,8 @@ public class ProtocolController {
             req.setAttribute("status"," <span style=\"color: blue\">Protocol updated successfully</span>");
         }
 
-        req.getRequestDispatcher("/data/protocols/protocol?id="+protocolId).forward(req,res);
+        return "redirect:" + "/data/protocols/protocol?id="+protocolId;
+        //req.getRequestDispatcher("/data/protocols/protocol?id="+protocolId).forward(req,res);
         return null;
     }
 
