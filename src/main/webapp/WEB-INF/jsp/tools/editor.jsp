@@ -196,7 +196,7 @@
     <hr>
 
     <div id="associatedProtocols">
-        <jsp:include page="associatedProtocols.jsp"/>
+        <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
     </div>
     <div id="associatedStudies">
         <jsp:include page="associatedStudies.jsp"/>

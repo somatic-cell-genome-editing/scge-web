@@ -8,12 +8,17 @@
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.Protocol" %>
 
-<% List<Protocol> protocols = (List<Protocol>)request.getAttribute("protocols");
-    Access localStudyAccess = new Access();
-    Person localStudyPerson = new UserService().getCurrentUser(request.getSession());
-    GrantDao grantDao = new GrantDao();
+<%
+    {  //  open scope
 
-    if (protocols.size() > 0) {
+    List<Protocol> localProtocols = (List<Protocol>)request.getAttribute("protocols");
+    //String objectId = request.getParameter("objectId");
+    //String redirectURL = request.getParameter("requestURL");
+    Access localProtocolAccess = new Access();
+    Person localProtocolPerson = new UserService().getCurrentUser(request.getSession());
+    GrantDao localProtocolGrantDao = new GrantDao();
+
+    if (localProtocols.size() > 0) {
 
 %>
 
@@ -26,12 +31,21 @@
 
         });
     });
+
+    function addProtocol() {
+        alert("adding protocol");
+    }
+
 </script>
 
-<h4 class="page-header" style="color:grey;">Protocols</h4>
+
+
+
+<table><tr><td><h4 class="page-header" style="color:grey;">Protocols</h4></td><td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>">Add Protocols</a></td></tr></table>
 <table id="myTable-1" class="tablesorter">
     <thead>
     <tr>
+        <th></th>
         <th>Title</th>
         <th>Description</th>
         <th>File Download</th>
@@ -39,14 +53,15 @@
     </tr>
     </thead>
     <tbody>
-    <% for (Protocol protocol: protocols) { %>
-    <% if (localStudyAccess.hasProtocolAccess(protocol,localStudyPerson)) { %>
+    <% for (Protocol localProtocol: localProtocols) { %>
+    <% if (localProtocolAccess.hasProtocolAccess(localProtocol,localProtocolPerson)) { %>
         <tr>
     <tr>
-        <td><a href="/toolkit/data/protocols/protocol/?id=<%=protocol.getId()%>"><%=protocol.getTitle()%></a></td>
-        <td><%=protocol.getDescription()%></td>
-        <td><a href="/toolkit/files/protocol/<%=protocol.getFilename()%>"><%=protocol.getFilename()%></a></td>
-        <td><%=protocol.getId()%></td>
+        <td><a href="/toolkit/data/protocols/removeAssociation?objectId=<%=objectId%>&protocolId=<%=localProtocol.getId()%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:red; padding:10px;">Remove</a></td>
+        <td><a href="/toolkit/data/protocols/protocol/?id=<%=localProtocol.getId()%>"><%=localProtocol.getTitle()%></a></td>
+        <td><%=localProtocol.getDescription()%></td>
+        <td><a href="/toolkit/files/protocol/<%=localProtocol.getFilename()%>"><%=localProtocol.getFilename()%></a></td>
+        <td><%=localProtocol.getId()%></td>
     </tr>
         </tr>
     <% } %>
@@ -54,4 +69,8 @@
     </tbody>
 </table>
 
-<% } %>
+<% }
+
+    //close scope
+}
+%>

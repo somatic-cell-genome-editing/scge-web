@@ -43,6 +43,60 @@ public class ProtocolController {
         return null;
     }
 
+    @RequestMapping(value="/associate")
+    public String getAssociatedEditors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        Access access = new Access();
+        UserService us = new UserService();
+        Person p = us.getCurrentUser(req.getSession());
+
+        String objectId = req.getParameter("objectId");
+
+        List<Protocol> records = protocolDao.getProtocolsNotAssociatedToObject(Long.parseLong(objectId));
+
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
+        req.setAttribute("protocols", records);
+        req.setAttribute("action", "Assocate Protocols");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/associateProtocols");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }
+
+    @RequestMapping(value="/removeAssociation")
+    public String getRemoveAssociations(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        Access access = new Access();
+        UserService us = new UserService();
+        Person p = us.getCurrentUser(req.getSession());
+
+        String objectId = req.getParameter("objectId");
+        String redirectURL = req.getParameter("redirectURL");
+        String protocolId = req.getParameter("protocolId");
+
+        protocolDao.deleteProtocolAssociation(Long.parseLong(protocolId),Long.parseLong(objectId));
+
+        return "redirect:" + redirectURL;
+    }
+
+
+    @RequestMapping(value="/updateAssociations")
+    public String getUpdateAssociations(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        Access access = new Access();
+        UserService us = new UserService();
+        Person p = us.getCurrentUser(req.getSession());
+
+        String objectId = req.getParameter("objectId");
+        String redirectURL = req.getParameter("redirectURL");
+        String[] protocolIds = req.getParameterValues("protocolIds");
+
+        for (int i=0; i<protocolIds.length; i++) {
+            protocolDao.insertProtocolAssociation(Long.parseLong(protocolIds[i]),Long.parseLong(objectId));
+
+        }
+
+        return "redirect:" + redirectURL;
+    }
+
+
     @RequestMapping(value="/protocol")
     public String getProtocol(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ProtocolDao dao = new ProtocolDao();
