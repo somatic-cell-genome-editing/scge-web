@@ -152,7 +152,6 @@ public class EditorController {
             return "redirect:/";
         }
 
-        if (!access.isInDCCorNIHGroup(p)) {
         if (!access.isAdmin(p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
