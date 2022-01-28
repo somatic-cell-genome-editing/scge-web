@@ -362,7 +362,7 @@
             <div>
                 <table class="table tablesorter table-striped" cellpadding="4">
                     <thead><tr>
-                        <th>Record</th>
+                        <th>Condition</th>
                         <th>Result</th>
                         <th></th>
                     </tr></thead>
@@ -412,7 +412,7 @@
             <div>
                 <table class="table tablesorter table-striped" cellpadding="4">
                     <thead><tr>
-                        <th>Record</th>
+                        <th>Condition</th>
                         <th>Result</th>
                         <th></th>
                     </tr></thead>
