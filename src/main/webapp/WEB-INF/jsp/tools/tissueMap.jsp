@@ -376,7 +376,7 @@
                     %>
                     <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                     <% }else { %>
-                    <td><%=e.getExperimentRecordId()%></td>
+                    <td><%=e.getExperimentConditionName()%></td>
                     <%}%>
 
                     <td><%=e.getResult()%></td>
@@ -426,7 +426,7 @@
                         %>
                         <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                         <% }else { %>
-                            <td><%=e.getExperimentRecordId()%></td>
+                            <td><%=e.getExperimentConditionName()%></td>
                         <%}%>
 
                         <td><%=e.getResult()%></td>
