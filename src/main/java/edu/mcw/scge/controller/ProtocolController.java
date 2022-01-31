@@ -214,9 +214,10 @@ public class ProtocolController {
             }
         }else {
             Protocol old = protocolDao.getProtocolById(protocolId);
-            if(protocol.getFile() == null)
+
+            if(protocol.getFile().isEmpty()) {
                 protocol.setFilename(old.getFilename());
-           else {
+            }else {
                 StorageProperties properties = new StorageProperties();
                 properties.setLocation("/data/scge_protocols");
                 FileSystemStorageService service = new FileSystemStorageService(properties);
