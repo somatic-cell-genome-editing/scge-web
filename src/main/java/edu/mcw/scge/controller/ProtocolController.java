@@ -9,13 +9,21 @@ import edu.mcw.scge.storage.FileSystemStorageService;
 import edu.mcw.scge.storage.StorageProperties;
 import edu.mcw.scge.web.UI;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -185,10 +193,10 @@ public class ProtocolController {
             return null;
         }
 
-        String filename = StringUtils.cleanPath(protocol.getFile().getOriginalFilename());
-        System.out.println(filename);
-        if(filename != null )
-            protocol.setFilename(filename);
+        if(protocol.getFile() != null ) {
+            protocol.setFilename(StringUtils.cleanPath(protocol.getFile().getOriginalFilename()));
+        }
+
         if(protocolId == 0) {
             protocolId = protocolDao.getProtocolId(protocol);
             if(protocolId == 0) {
@@ -206,9 +214,10 @@ public class ProtocolController {
             }
         }else {
             Protocol old = protocolDao.getProtocolById(protocolId);
-            if(protocol.getFilename() == null)
+
+            if(protocol.getFile().isEmpty()) {
                 protocol.setFilename(old.getFilename());
-            else {
+            }else {
                 StorageProperties properties = new StorageProperties();
                 properties.setLocation("/data/scge_protocols");
                 FileSystemStorageService service = new FileSystemStorageService(properties);
