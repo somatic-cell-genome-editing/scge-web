@@ -360,9 +360,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         List<String> resultTypes = dbService.getResultTypes(experimentId);
         HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
-        Set<String> conditions=new HashSet<>();
+        LinkedHashSet<String> conditions=new LinkedHashSet<>();
         List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByExpId(experimentId);
-        HashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new HashMap<>();
+        LinkedHashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new LinkedHashMap<>();
         String editingAssay = null,deliveryAssay=null;
         for(ExperimentResultDetail er:experimentResults){
 
@@ -447,7 +447,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         plotData.put("Mean",mean);
 
         req.setAttribute("tissues",tissues);
-        req.setAttribute("conditions",new ArrayList<>(conditions));
+        req.setAttribute("conditions",conditions);
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Experiments</a>");
         req.setAttribute("replicateResult",replicateResult);
         req.setAttribute("experiments",labels);
