@@ -253,7 +253,7 @@
 
 
 </div>
-<div>Organ System Overview</div>
+<h6 style="color:#1A80B6;">Organ System Overview</h6>
 <br><br>
 <div>
     <table align="center">

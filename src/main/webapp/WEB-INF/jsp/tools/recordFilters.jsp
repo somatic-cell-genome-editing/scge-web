@@ -472,7 +472,7 @@
                                 <%} else { %>
                                 <tr>
                                     <td>
-                                        <input onclick="applyFilters(this)"  id="<%=resultType%>" type="checkbox" unchecked>&nbsp;<%=resultType%>
+                                        <input onclick="applyFilters(this)"  name="checkresulttype" id="<%=resultType%>" type="checkbox" unchecked>&nbsp;<%=resultType%>
                                     </td>
                                 </tr>
                                 <% }} %>

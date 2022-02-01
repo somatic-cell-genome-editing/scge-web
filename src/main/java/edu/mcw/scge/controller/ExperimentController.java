@@ -364,17 +364,28 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByExpId(experimentId);
         HashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new HashMap<>();
         String editingAssay = null,deliveryAssay=null;
+
+        HashMap<String, String> deliveryMap = new HashMap<String,String>();
+        HashMap<String, String> editingMap = new HashMap<String,String>();
+
         for(ExperimentResultDetail er:experimentResults){
 
-
-            if(experimentResultsMap != null && experimentResultsMap.containsKey(er.getResultId()))
+            if(experimentResultsMap != null && experimentResultsMap.containsKey(er.getResultId())) {
                 values = experimentResultsMap.get(er.getResultId());
-            else values = new ArrayList<>();
+            } else {
+                values = new ArrayList<>();
+            }
 
             values.add(er);
-            if(er.getResultType().contains("Delivery"))
-                deliveryAssay = er.getAssayDescription();
-            else editingAssay = er.getAssayDescription();
+
+
+            if(er.getResultType().contains("Delivery")) {
+                //deliveryAssay += " -- " + er.getAssayDescription();
+                deliveryMap.put(er.getAssayDescription(),null);
+            } else {
+                editingMap.put(er.getAssayDescription(),null);
+                //editingAssay += " -- " + er.getAssayDescription();
+            }
             experimentResultsMap.put(er.getResultId(),values);
         }
         HashMap<Long,ExperimentRecord> recordMap = new HashMap<>();
@@ -463,8 +474,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("resultType",resultType);
         req.setAttribute("tissue",tissue);
         req.setAttribute("cellType",cellType);
-        req.setAttribute("deliveryAssay",deliveryAssay);
-        req.setAttribute("editingAssay",editingAssay);
+        //req.setAttribute("deliveryAssay",deliveryAssay);
+        //req.setAttribute("editingAssay",editingAssay);
+        req.setAttribute("deliveryAssay",deliveryMap);
+        req.setAttribute("editingAssay",editingMap);
         req.setAttribute("action", e.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.setAttribute("objectSizeMap", objectSizeMap);
