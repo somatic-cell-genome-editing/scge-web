@@ -93,7 +93,7 @@
                     <% } %>
             <% } %>
             <% if (editingAssay.size() != 0) { %>
-                    <h6 style="color:#1A80B6;">Editing Assay:</h6>
+                    <h6 style="color:#1A80B6;margin-top:10px;">Editing Assay:</h6>
                     <% for (String assay: editingAssay.keySet()) { %>
                         <li style="padding-left:20px;"><%=assay%></li>
                     <% } %>
