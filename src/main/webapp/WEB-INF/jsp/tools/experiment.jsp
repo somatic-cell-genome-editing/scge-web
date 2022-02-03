@@ -156,6 +156,8 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
         <table >
 
             <tbody>
+            <tr><td width="200" class="header"><strong>Condition</strong></td><td style="font-weight: bold"><%=experimentRecord.getExperimentRecordName()%></td></tr>
+
             <tr><td width="200" class="header"><strong>Experiment</strong></td><td><%=experiment.getName()%></td></tr>
             <tr><td width="200" class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
             <tr><td colspan="2"><hr></td></tr>
@@ -284,13 +286,14 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
     </tr>
 </table>
 
+<div id="associatedProtocols">
+    <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
+</div>
 
-    <jsp:include page="associatedProtocols.jsp"/>
 
 
 
-
-    <% } catch (Exception e) {
+<% } catch (Exception e) {
         e.printStackTrace();
 
     }%>

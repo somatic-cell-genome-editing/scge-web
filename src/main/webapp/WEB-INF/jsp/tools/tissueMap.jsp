@@ -253,7 +253,7 @@
 
 
 </div>
-<div>Organ System Overview</div>
+<h6 style="color:#1A80B6;">Organ System Overview</h6>
 <br><br>
 <div>
     <table align="center">
@@ -362,7 +362,7 @@
             <div>
                 <table class="table tablesorter table-striped" cellpadding="4">
                     <thead><tr>
-                        <th>Record</th>
+                        <th>Condition</th>
                         <th>Result</th>
                         <th></th>
                     </tr></thead>
@@ -376,7 +376,7 @@
                     %>
                     <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                     <% }else { %>
-                    <td><%=e.getExperimentRecordId()%></td>
+                    <td><%=e.getExperimentConditionName()%></td>
                     <%}%>
 
                     <td><%=e.getResult()%></td>
@@ -412,7 +412,7 @@
             <div>
                 <table class="table tablesorter table-striped" cellpadding="4">
                     <thead><tr>
-                        <th>Record</th>
+                        <th>Condition</th>
                         <th>Result</th>
                         <th></th>
                     </tr></thead>
@@ -426,7 +426,7 @@
                         %>
                         <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
                         <% }else { %>
-                            <td><%=e.getExperimentRecordId()%></td>
+                            <td><%=e.getExperimentConditionName()%></td>
                         <%}%>
 
                         <td><%=e.getResult()%></td>

@@ -28,6 +28,7 @@ public class ExperimentController extends UserController {
     DBService dbService=new DBService();
     UserService userService=new UserService();
     CustomUniqueLabels customLabels=new CustomUniqueLabels();
+    GrantDao grantDao=new GrantDao();
     @RequestMapping(value="/search")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentDao edao=new ExperimentDao();
@@ -128,7 +129,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("study", studies.get(0));
 
         req.setAttribute("studyExperimentMap", studyExperimentMap);
-        req.setAttribute("action", studies.get(0).getStudy());
+      //  req.setAttribute("action", studies.get(0).getStudy());
+      //  <%=grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle()%>
+                req.setAttribute("action",grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantTitle());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
@@ -357,21 +360,32 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         List<String> resultTypes = dbService.getResultTypes(experimentId);
         HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
-        Set<String> conditions=new HashSet<>();
+        LinkedHashSet<String> conditions=new LinkedHashSet<>();
         List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByExpId(experimentId);
-        HashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new HashMap<>();
+        LinkedHashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new LinkedHashMap<>();
         String editingAssay = null,deliveryAssay=null;
+
+        HashMap<String, String> deliveryMap = new HashMap<String,String>();
+        HashMap<String, String> editingMap = new HashMap<String,String>();
+
         for(ExperimentResultDetail er:experimentResults){
 
-
-            if(experimentResultsMap != null && experimentResultsMap.containsKey(er.getResultId()))
+            if(experimentResultsMap != null && experimentResultsMap.containsKey(er.getResultId())) {
                 values = experimentResultsMap.get(er.getResultId());
-            else values = new ArrayList<>();
+            } else {
+                values = new ArrayList<>();
+            }
 
             values.add(er);
-            if(er.getResultType().contains("Delivery"))
-                deliveryAssay = er.getAssayDescription();
-            else editingAssay = er.getAssayDescription();
+
+
+            if(er.getResultType().contains("Delivery")) {
+                //deliveryAssay += " -- " + er.getAssayDescription();
+                deliveryMap.put(er.getAssayDescription(),null);
+            } else {
+                editingMap.put(er.getAssayDescription(),null);
+                //editingAssay += " -- " + er.getAssayDescription();
+            }
             experimentResultsMap.put(er.getResultId(),values);
         }
         HashMap<Long,ExperimentRecord> recordMap = new HashMap<>();
@@ -444,7 +458,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         plotData.put("Mean",mean);
 
         req.setAttribute("tissues",tissues);
-        req.setAttribute("conditions",new ArrayList<>(conditions));
+        req.setAttribute("conditions",conditions);
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Experiments</a>");
         req.setAttribute("replicateResult",replicateResult);
         req.setAttribute("experiments",labels);
@@ -460,8 +474,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("resultType",resultType);
         req.setAttribute("tissue",tissue);
         req.setAttribute("cellType",cellType);
-        req.setAttribute("deliveryAssay",deliveryAssay);
-        req.setAttribute("editingAssay",editingAssay);
+        //req.setAttribute("deliveryAssay",deliveryAssay);
+        //req.setAttribute("editingAssay",editingAssay);
+        req.setAttribute("deliveryAssay",deliveryMap);
+        req.setAttribute("editingAssay",editingMap);
         req.setAttribute("action", e.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.setAttribute("objectSizeMap", objectSizeMap);

@@ -58,8 +58,9 @@
         List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
         List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
         List<String> sexList = edao.getExperimentRecordSexList(ex.getExperimentId());
+        List<String> hrdonorList = edao.getExperimentRecordHrdonorList(ex.getExperimentId());
         List<String> tissues = (List<String>)request.getAttribute("tissues");
-        List<String> conditions = (List<String>) request.getAttribute("conditions");
+        LinkedHashSet<String> conditions = (LinkedHashSet<String>) request.getAttribute("conditions");
         String selectedTissue = (String)request.getAttribute("tissue");
         String selectedCellType = (String)request.getAttribute("cellType");
         String selectedResultType = (String)request.getAttribute("resultType");
@@ -78,23 +79,35 @@
             <td class="desc" ><%=study.getSubmissionDate()%></td>
         </tr>
     </table-->
+            <%
+                HashMap<String,String> deliveryAssay = (HashMap<String,String>) request.getAttribute("deliveryAssay");
+                HashMap<String,String> editingAssay = (HashMap<String,String>) request.getAttribute("editingAssay");
+            %>
 
-        <% if (( tissueList.size() > 0 && selectedResultType == null )) { %>
+            <div style="padding:10px; border:1px solid black; background-color: #F7F7F7;">
+                <h6 style="color:#1A80B6;">Experiment Description:&nbsp;<%=SFN.parse(ex.getDescription())%></h6>
+            <% if (deliveryAssay.size() != 0) { %>
+            <h6 style="color:#1A80B6;">Delivery Assays:</h6>
+                    <% for (String assay: deliveryAssay.keySet()) { %>
+                        <li style="padding-left:20px;"><%=assay%></li>
+                    <% } %>
+            <% } %>
+            <% if (editingAssay.size() != 0) { %>
+                    <h6 style="color:#1A80B6;margin-top:10px;">Editing Assay:</h6>
+                    <% for (String assay: editingAssay.keySet()) { %>
+                        <li style="padding-left:20px;"><%=assay%></li>
+                    <% } %>
+            <% } %>
+            </div>
+            <br>
 
+            <% if (( tissueList.size() > 0 && selectedResultType == null )) { %>
 
                 <%@include file="tissueMap.jsp"%>
 
 
          <% }  %>
             <% if (tissueList.size() == 0 || selectedResultType != null) { %>
-            <h6 style="color:#1A80B6;">Experiment Description:&nbsp;<small style="color:black"><%=ex.getDescription()%></small> </h6>
-            <% if (request.getAttribute("deliveryAssay") != null) { %>
-            <h6 style="color:#1A80B6;">Delivery Assay Description:&nbsp;<small style="color:black;"><%=request.getAttribute("deliveryAssay")%></small></h6>
-            <% } %>
-            <% if (request.getAttribute("editingAssay") != null) { %>
-            <h6 style="color:#1A80B6;">Editing Assay Description:&nbsp;<small style="color:black;"><%=request.getAttribute("editingAssay")%></small></h6>
-            <% } %>
-            <hr>
 
 
 

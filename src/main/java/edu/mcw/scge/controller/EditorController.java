@@ -74,6 +74,7 @@ public class EditorController {
 
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/editors/search'>Editors</a>");
         req.setAttribute("editor", editor);
+        req.setAttribute("objectId", editor.getId());
         req.setAttribute("action", "Genome Editor: " + UI.replacePhiSymbol(editor.getSymbol()));
         req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
 
@@ -151,7 +152,7 @@ public class EditorController {
             return "redirect:/";
         }
 
-        if (!access.isInDCCorNIHGroup(p)) {
+        if (!access.isAdmin(p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
@@ -188,7 +189,7 @@ public class EditorController {
             return "redirect:/";
         }
 
-        if (!access.isInDCCorNIHGroup(p)) {
+        if (!access.isAdmin(p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;

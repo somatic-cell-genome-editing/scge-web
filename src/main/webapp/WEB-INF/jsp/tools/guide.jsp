@@ -352,8 +352,10 @@
     </div>
     <%}%>
     <br>
-    <jsp:include page="associatedProtocols.jsp"/>
 
+    <div id="associatedProtocols">
+        <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
+    </div>
     <div id="associatedStudies">
     <jsp:include page="associatedStudies.jsp"/>
     </div>
