@@ -336,7 +336,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
 
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
-        GrantDao grantDao=new GrantDao();
+
         Grant grant=grantDao.getGrantByGroupId(study.getGroupId());
        Map<String, Integer> objectSizeMap=customLabels.getObjectSizeMap(records);
         Experiment e = edao.getExperiment(experimentId);
