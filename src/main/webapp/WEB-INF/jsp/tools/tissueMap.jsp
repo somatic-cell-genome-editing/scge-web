@@ -97,6 +97,7 @@
         Set<Double> resultDetails = new TreeSet<>();
         Set<String> labelDetails = new TreeSet<>();
         LinkedHashMap<String,String> tissueNames = new LinkedHashMap<>();
+        Map<String, String> tissueNameNIdMap=new HashMap<>();
         LinkedHashMap<String,String> tissueLabels = new LinkedHashMap<>();
         List<ExperimentResultDetail> qualResults = new ArrayList<>();
 
@@ -121,11 +122,14 @@
             uniqueObjects.add(guideList.get(0));
         if(vectorList != null && vectorList.size() == 1 && vectorMap.values().contains(null))
             uniqueObjects.add(vectorList.get(0));
-
+        Set<String> targetTissues=new HashSet<>();
         for (Long resultId: resultDetail.keySet()) {
             List<ExperimentResultDetail> erdList = resultDetail.get(resultId);
             long expRecordId = erdList.get(0).getExperimentRecordId();
             ExperimentRecord er = experimentRecordsMap.get(expRecordId);
+            if(er.getIsTargetTissue()==1){
+                targetTissues.add(er.getOrganSystemID());
+            }
             experimentRecordHashMap.put(er.getExperimentName(), er);
             String labelTrimmed = new String();
 
@@ -164,7 +168,7 @@
                 tissueName += cellType + "\"";
             else tissueName += "\"";
             tissueNames.put(tissueName, er.getTissueTerm() + "," + er.getCellTypeTerm());
-
+            tissueNameNIdMap.put(tissueName, er.getOrganSystemID());
             String tissueLabel = organSystem + "<br><br>" + tissueTerm + "<br><br>";
             if (cellType != null && !cellType.equals(""))
                 tissueLabel += cellType;
@@ -249,6 +253,9 @@
         <tr>
             <td><div style="border-color:orange;background-color: orange;width:20px;height:20px "></div></td><td>Editing Efficiency</td>
         </tr>
+        <tr>
+            <td><div style="border:5px solid orchid;width:20px;height:20px "></div></td><td>Target Tissue</td>
+        </tr>
     </table>
 
 
@@ -268,13 +275,20 @@
                                 boolean first = true;
                                 //for (String tissue: tissues) {
                                 for (String tissue: rootTissues.keySet()) {
+                                    String tissueTerm=rootTissues.get(tissue);
                             %>
-                            <% if (first) { %>
+                            <% if (first) { if(targetTissues.contains(tissueTerm)){ %>
+                                 <div class="tissue-control-header-first" style="color:orchid"><%=tissue%></div>
+                           <%}else{%>
                             <div class="tissue-control-header-first"><%=tissue%></div>
+                            <%}%>
                             <% first = false; %>
-                            <% } else { %>
+                            <% } else { if(targetTissues.contains(tissueTerm)) {%>
+                            <div class="tissue-control-header" style="color:orchid"><%=tissue%></div>
+
+                            <%}else{%>
                             <div class="tissue-control-header"><%=tissue%></div>
-                            <% } %>
+                            <% }} %>
                             <%  } %>
                         </td>
                     </tr>
@@ -292,18 +306,29 @@
 
                         <% for (String tissueKey: rootTissues.keySet()) {
                             String tissue=rootTissues.get(tissueKey);
-                        %>
-                        <td width="40">
+                            if(targetTissues.contains(tissue)){%>
+                        <td width="40" style="border:5px solid orchid">
                             <div class="tissue-control-cell">
                                 <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
-                                <div class="triangle-topleft"></div>
+                                <div class="triangle-topleft" ></div>
                                 <% } %>
                                 <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
                                 <div class="triangle-bottomright"></div>
                                 <% } %>
                             </div>
                         </td>
-                        <% } %>
+                          <%}else{%>
+                        <td width="40">
+                            <div class="tissue-control-cell">
+                                <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
+                                <div class="triangle-topleft" ></div>
+                                <% } %>
+                                <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                <div class="triangle-bottomright"></div>
+                                <% } %>
+                            </div>
+                        </td>
+                        <% } }%>
                         <td style="font-size: small">
 
                             <%=condition%>
@@ -328,6 +353,7 @@
 <div style="font-size:20px; color: #1A80B6;">Select a graph below to explore the data set</div>
     <table d="grid" class="table" style="padding-left:20px;table-layout:fixed" align="center" border="1" cellpadding="6">
         <thead>
+        <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Target/Non-Target</th>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Organ System</th>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Delivery</th>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Editing</th>
@@ -336,6 +362,7 @@
         int rowCount=1;
         for (String tissueName: tissueNames.keySet()) {
             String term = tissueNames.get(tissueName);
+            String organSystemId=tissueNameNIdMap.get(tissueName);
             String[] terms = term.split(",");
             String deliveryurl = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Delivery&tissue="+terms[0]+"&cellType=";
             String editingurl = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue="+terms[0]+"&cellType=";
@@ -346,6 +373,15 @@
 
     %>
     <tr>
+        <td>
+            <%
+                System.out.println(targetTissues+"\n"+organSystemId);
+                if(organSystemId!=null && targetTissues.contains(organSystemId)){
+
+            %>
+               <span style="color: orchid;font-weight: bold">Target</span>
+            <%}%>
+        </td>
         <td ><span style="font-size:16px; font-weight:700;"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span></td>
         <td >
             <% if (tissueDeliveryConditions.containsKey(tissueName)) {
