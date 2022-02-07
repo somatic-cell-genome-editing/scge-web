@@ -253,9 +253,11 @@
         <tr>
             <td><div style="border-color:orange;background-color: orange;width:20px;height:20px "></div></td><td>Editing Efficiency</td>
         </tr>
+        <%if(targetTissues.size()>0){%>
         <tr>
             <td><div style="border:5px solid orchid;width:20px;height:20px "></div></td><td>Target Tissue</td>
         </tr>
+        <%}%>
     </table>
 
 
