@@ -97,7 +97,7 @@
         Set<Double> resultDetails = new TreeSet<>();
         Set<String> labelDetails = new TreeSet<>();
         LinkedHashMap<String,String> tissueNames = new LinkedHashMap<>();
-        Map<String, String> tissueNameNIdMap=new HashMap<>();
+        Map<String, Long> tissueNameNIdMap=new HashMap<>();
         LinkedHashMap<String,String> tissueLabels = new LinkedHashMap<>();
         List<ExperimentResultDetail> qualResults = new ArrayList<>();
 
@@ -123,12 +123,15 @@
         if(vectorList != null && vectorList.size() == 1 && vectorMap.values().contains(null))
             uniqueObjects.add(vectorList.get(0));
         Set<String> targetTissues=new HashSet<>();
+        Set<Long> targetTissueRecordIds=new HashSet<>();
+
         for (Long resultId: resultDetail.keySet()) {
             List<ExperimentResultDetail> erdList = resultDetail.get(resultId);
             long expRecordId = erdList.get(0).getExperimentRecordId();
             ExperimentRecord er = experimentRecordsMap.get(expRecordId);
             if(er.getIsTargetTissue()==1){
                 targetTissues.add(er.getOrganSystemID());
+                targetTissueRecordIds.add(er.getExperimentRecordId());
             }
             experimentRecordHashMap.put(er.getExperimentName(), er);
             String labelTrimmed = new String();
@@ -168,7 +171,7 @@
                 tissueName += cellType + "\"";
             else tissueName += "\"";
             tissueNames.put(tissueName, er.getTissueTerm() + "," + er.getCellTypeTerm());
-            tissueNameNIdMap.put(tissueName, er.getOrganSystemID());
+            tissueNameNIdMap.put(tissueName, er.getExperimentRecordId());
             String tissueLabel = organSystem + "<br><br>" + tissueTerm + "<br><br>";
             if (cellType != null && !cellType.equals(""))
                 tissueLabel += cellType;
@@ -320,7 +323,9 @@
 
 <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
-
+<%if (access.isAdmin(p)) {%>
+<div align="right"><button class="btn btn-primary btn-sm">Update Target Tissue</button></div>
+<% } %>
 <div style="font-size:20px; color: #1A80B6;">Select a graph below to explore the data set</div>
     <table d="grid" class="table" style="padding-left:20px;table-layout:fixed" align="center" border="1" cellpadding="6">
         <thead>
@@ -332,7 +337,7 @@
         int rowCount=1;
         for (String tissueName: tissueNames.keySet()) {
             String term = tissueNames.get(tissueName);
-            String organSystemId=tissueNameNIdMap.get(tissueName);
+            long experimentRecordId=tissueNameNIdMap.get(tissueName);
             String[] terms = term.split(",");
             String deliveryurl = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Delivery&tissue="+terms[0]+"&cellType=";
             String editingurl = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue="+terms[0]+"&cellType=";
@@ -344,10 +349,11 @@
     %>
     <tr>
 
-        <td >    <%
-                if(organSystemId!=null && targetTissues.contains(organSystemId)){
-
-            %>
+        <td>
+            <%if (access.isAdmin(p)) {%>
+            <input type="checkbox" name="targetTissue" value="">
+            <% } %>
+            <%if(targetTissueRecordIds!=null && targetTissueRecordIds.contains(experimentRecordId)){%>
                <span style="color: orchid;font-weight: bold;font-size:16px"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span>
             <%}else{%>
 
