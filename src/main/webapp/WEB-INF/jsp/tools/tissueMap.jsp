@@ -229,39 +229,8 @@
         }
 
     %>
-<table>
-<tr>
-    <% if(noOfEditors == noOfRecords) {%>
-    <td class="desc"   style="font-weight:700;">Editor:</td>
-    <td class="desc"><a href="/toolkit/data/editors/editor?id=<%=experimentRecords.get(0).getEditorId()%>"><%=experimentRecords.get(0).getEditorSymbol()%></a></td>
-    <td>&nbsp;&nbsp;&nbsp;</td>
-    <%} if(noOfDelivery == noOfRecords) {%>
-    <td class="desc"  style="font-weight:700;">Delivery:</td>
-    <td class="desc" ><a href="/toolkit/data/delivery/system?id=<%=experimentRecords.get(0).getDeliverySystemId()%>"><%=experimentRecords.get(0).getDeliverySystemType()%></a></td>
-    <td>&nbsp;&nbsp;&nbsp;</td>
-    <%} if(noOfModel == noOfRecords) {%>
-    <td class="desc"   style="font-weight:700;">Model:</td>
-    <td class="desc"><a href="/toolkit/data/models/model?id=<%=experimentRecords.get(0).getModelId()%>"><%=experimentRecords.get(0).getModelName()%></a></td>
-    <% } %>
-</tr>
-</table>
-<div style="width:20%;float:right">
-    <table>
-        <tr>
-            <td> <div style="border-color:blue;background-color: blue;width:20px;height:20px "></div></td><td>Delivery Efficiency</td>
-        </tr>
-        <tr>
-            <td><div style="border-color:orange;background-color: orange;width:20px;height:20px "></div></td><td>Editing Efficiency</td>
-        </tr>
-        <%if(targetTissues.size()>0){%>
-        <tr>
-            <td><div style="border:5px solid orchid;width:20px;height:20px "></div></td><td>Target Tissue</td>
-        </tr>
-        <%}%>
-    </table>
 
 
-</div>
 <h6 style="color:#1A80B6;">Organ System Overview</h6>
 <br><br>
 <div>
