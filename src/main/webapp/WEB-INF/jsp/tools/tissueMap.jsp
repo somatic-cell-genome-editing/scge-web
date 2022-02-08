@@ -324,7 +324,6 @@
 <div style="font-size:20px; color: #1A80B6;">Select a graph below to explore the data set</div>
     <table d="grid" class="table" style="padding-left:20px;table-layout:fixed" align="center" border="1" cellpadding="6">
         <thead>
-        <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Target/Non-Target</th>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Organ System</th>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Delivery</th>
         <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Editing</th>
@@ -344,15 +343,6 @@
 
     %>
     <tr>
-        <td>
-            <%
-                System.out.println(targetTissues+"\n"+organSystemId);
-                if(organSystemId!=null && targetTissues.contains(organSystemId)){
-
-            %>
-               <span style="color: orchid;font-weight: bold">Target</span>
-            <%}%>
-        </td>
         <td ><span style="font-size:16px; font-weight:700;"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span></td>
         <td >
             <% if (tissueDeliveryConditions.containsKey(tissueName)) {
