@@ -141,7 +141,7 @@ ExperimentRecord experimentRecord = (ExperimentRecord) request.getAttribute("exp
 Model model = (Model) request.getAttribute("model");
 Experiment experiment = (Experiment) request.getAttribute("experiment");
 List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)request.getAttribute("experimentResults");
-<%ExperimentResultDetail detail = experimentResults.get(0);%>
+ExperimentResultDetail detail = experimentResults.get(0);
 
 //req.setAttribute("reporterElements", reporterElements);
 //req.setAttribute("experimentResults",experimentResults);
@@ -157,24 +157,21 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 <div>
         <table >
             <tbody>
-            <tr><td width="200" class="header"><strong>Condition</strong></td><td><%=experimentRecord.getExperimentRecordName()%></td></tr>
+            <tr><td width="200" class="header"><strong>Experiment</strong></td><td><%=experiment.getName()%></td></tr>
+            <tr><td width="200" class="header"><strong>Experiment Condition</strong></td><td><%=experimentRecord.getExperimentRecordName()%></td></tr>
             <tr>
-                <td><b>Number&nbsp;of&nbsp;Samples:</b> </td><td><%=detail.getNumberOfSamples()%></td>
+                <td class="header"><b>Assay&nbsp;Description:</b> </td><td><%=detail.getAssayDescription()%></td>
             </tr>
             <tr>
-                <td><b>Assay&nbsp;Description:</b> </td><td><%=detail.getAssayDescription()%></td>
+                <td class="header"><b>Tissue&nbsp;Measured:</b></td><td><%=SFN.parse(experimentRecord.getTissueTerm())%></td>
             </tr>
             <tr>
-                <td><b>Tissue&nbsp;Measured:</b></td><td><%=SFN.parse(experimentRecord.getTissueTerm())%></td>
+                <td class="header"><b>Measurement&nbsp;Type:</b></td><td><%=detail.getResultType()%></td>
             </tr>
             <tr>
-                <td><b>Measurement&nbsp;Type:</b></td><td><%=detail.getResultType()%></td>
-            </tr>
-            <tr>
-                <td><b>Measurment Units:</b></td><td><%=detail.getUnits()%></td>
+                <td class="header"><b>Measurment Units:</b></td><td><%=detail.getUnits()%></td>
             </tr>
 
-            <tr><td width="200" class="header"><strong>Experiment</strong></td><td><%=experiment.getName()%></td></tr>
             <tr><td width="200" class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
             <tr><td colspan="2"><hr></td></tr>
 
