@@ -56,7 +56,7 @@
             <tr><td class="header"><strong>Description</strong></td><td><%=p.getDescription()%></td></tr>
             <tr><td class="header"><strong>SCGE ID</strong></td><td><%=p.getId()%></td></tr>
             <tr><td class="header"><strong>Tier</strong></td><td><%=p.getTier()%></td></tr>
-            <tr><td class="header"><strong>File Download</strong></td><td><%=p.getFilename()%></td></tr>
+            <tr><td class="header"><strong>File Download</strong></td><td><a href="/toolkit/files/protocol/<%=p.getFilename()%>"><%=p.getFilename()%></a></td></tr>
             <tr><td class="header"><strong>Additional Information</strong></td><td><%=p.getXref()%></td></tr>
             <tr><td class="header"><strong>Keywords</strong></td><td><%=p.getKeywords()%></td></tr>
         </table>

@@ -141,6 +141,8 @@ ExperimentRecord experimentRecord = (ExperimentRecord) request.getAttribute("exp
 Model model = (Model) request.getAttribute("model");
 Experiment experiment = (Experiment) request.getAttribute("experiment");
 List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)request.getAttribute("experimentResults");
+<%ExperimentResultDetail detail = experimentResults.get(0);%>
+
 //req.setAttribute("reporterElements", reporterElements);
 //req.setAttribute("experimentResults",experimentResults);
 //req.setAttribute("results", results);
@@ -154,9 +156,23 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
 
 <div>
         <table >
-
             <tbody>
-            <tr><td width="200" class="header"><strong>Condition</strong></td><td style="font-weight: bold"><%=experimentRecord.getExperimentRecordName()%></td></tr>
+            <tr><td width="200" class="header"><strong>Condition</strong></td><td><%=experimentRecord.getExperimentRecordName()%></td></tr>
+            <tr>
+                <td><b>Number&nbsp;of&nbsp;Samples:</b> </td><td><%=detail.getNumberOfSamples()%></td>
+            </tr>
+            <tr>
+                <td><b>Assay&nbsp;Description:</b> </td><td><%=detail.getAssayDescription()%></td>
+            </tr>
+            <tr>
+                <td><b>Tissue&nbsp;Measured:</b></td><td><%=SFN.parse(experimentRecord.getTissueTerm())%></td>
+            </tr>
+            <tr>
+                <td><b>Measurement&nbsp;Type:</b></td><td><%=detail.getResultType()%></td>
+            </tr>
+            <tr>
+                <td><b>Measurment Units:</b></td><td><%=detail.getUnits()%></td>
+            </tr>
 
             <tr><td width="200" class="header"><strong>Experiment</strong></td><td><%=experiment.getName()%></td></tr>
             <tr><td width="200" class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
@@ -220,30 +236,17 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
                 <tr><td class="header"><strong>Antidote&nbsp;Description</strong></td><td><%=SFN.parse(a.getAntidoteDescription())%></td></tr>
                 <tr><td colspan="2"><hr></td></tr>
 
-            <%ExperimentResultDetail detail = experimentResults.get(0);%>
             <tr>
-                <td colspan="2" style="color:#4984B5;font-size:26px;">Experiment Record Detail</td>
+                <td colspan="2" style="color:#4984B5;font-size:26px;">Measured Values</td>
             </tr>
 
             <tr>
-                <td><b>Number&nbsp;of&nbsp;Samples:</b> </td><td><%=detail.getNumberOfSamples()%></td>
-            </tr>
-            <tr>
-                <td><b>Assay&nbsp;Description:</b> </td><td><%=detail.getAssayDescription()%></td>
-            </tr>
-            <tr>
-                <td><b>Tissue&nbsp;Measured:</b></td><td><%=SFN.parse(experimentRecord.getTissueTerm())%></td>
-            </tr>
-            <tr>
-                <td><b>Measurement&nbsp;Type:</b></td><td><%=detail.getResultType()%></td>
-            </tr>
-            <tr>
-                <td><b>Measurment Units:</b></td><td><%=detail.getUnits()%></td>
+                <td><b>Samples Size:</b> </td><td><%=detail.getNumberOfSamples()%></td>
             </tr>
             <tr><td>&nbsp;</td></tr>
             <tr>
                 <td class="header">Replicate</td>
-                <td class="header">Result</td>
+                <td class="header">Result (<%=detail.getResultType()%>: <%=detail.getUnits()%>)</td>
             </tr>
             <% for (ExperimentResultDetail erd: experimentResults) { %>
             <tr>
@@ -254,7 +257,7 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
                 <td><%=erd.getReplicate()%></td>
 
                 <% } %>
-                <td><%=UI.formatNumber(erd.getResult(),2)%>&nbsp;(<%=detail.getUnits()%>)</td>
+                <td><%=UI.formatNumber(erd.getResult(),2)%>&nbsp</td>
             </tr>
             <% } %>
 

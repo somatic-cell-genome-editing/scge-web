@@ -553,26 +553,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             "\nmodel:" +m.getName()+
                     "\nresults:"+experimentResults.size());
 
-         /*   List<String> regionList = new ArrayList<>();
-            StringBuilder json = new StringBuilder();
-            json.append("[");
-            for (AnimalTestingResultsSummary s : results) {
-                regionList.add(s.getTissueTerm().trim());
-                int value = Integer.parseInt(s.getSignalPresent());
-                json.append("{\"sample\":\"");
-                json.append("A" + "\",");
-                json.append("\"gene\":\"" + s.getTissueTerm() + "\",");
-                json.append("\"value\":" + value + "},");
-            }
-            json.append("]");
-            Gson gson = new Gson();
-            String regionListJson = gson.toJson(regionList);
-            req.setAttribute("regionListJson", regionListJson);
-            req.setAttribute("json", json);
-            */
-
         }
-        req.setAttribute("action", "Condition Details");
+        req.setAttribute("action", "Experiment Record Detail");
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment</a>");
 
         req.setAttribute("study", study);
