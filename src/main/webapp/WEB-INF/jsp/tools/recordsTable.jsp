@@ -65,6 +65,7 @@ List<String> options = new ArrayList<>();
     if (vectorList.size() > 0 )
         options.add("Vector");
 
+    System.out.println(options);
 %>
 
 <% try {  %>
@@ -469,6 +470,8 @@ List<String> options = new ArrayList<>();
                         selected = i;
                     }
                 }
+                for (var i = 1; i < rowLength; i++){
+                    var cells = table.rows.item(i).cells;
                     var value = cells.item(selected).innerText;
                     if(filterValues.length == 0 || filterValues.indexOf(value) == -1) {
                         filterValues.push(value);
