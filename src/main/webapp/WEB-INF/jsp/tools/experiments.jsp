@@ -55,6 +55,8 @@
     Person p = access.getUser(request.getSession());
 //    List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
     LinkedHashMap<Study, List<Experiment>> studyExperimentMap= (LinkedHashMap<Study, List<Experiment>>) request.getAttribute("studyExperimentMap");
+    Map<Integer, List<Experiment>> validationExperimentsMap= (Map<Integer, List<Experiment>>) request.getAttribute("validationExperimentsMap");
+    Map<Integer, List<Experiment>> validatedExperimentsMap= (Map<Integer, List<Experiment>>) request.getAttribute("validatedExperimentsMap");
     for(Map.Entry entry:studyExperimentMap.entrySet()) {
         Study study = ((Study) entry.getKey());
         List<Experiment> experiments= (List<Experiment>) entry.getValue();
@@ -121,6 +123,7 @@
         <th>Type</th>
         <th>Description</th>
         <th>SCGE ID</th>
+
         </tr>
         </thead>
 
@@ -137,6 +140,7 @@
             <td style="white-space: nowrap"><%=exp.getType()%></td>
             <td><%=SFN.parse(exp.getDescription())%></td>
             <td><%=exp.getExperimentId()%></td>
+
         </tr>
             <%
                 List<Image> images = idao.getImage(exp.getExperimentId());
@@ -164,6 +168,30 @@
             <% } %>
         <% } %>
         </table>
+            <% if(validatedExperimentsMap.size()>0 || validationExperimentsMap.size()>0){%>
+            <%if(validatedExperimentsMap.size()>0){%>
+            <div style="color:grey;font-weight: bold;">Validated Study Experiments</div>
+            <%}else{ if(validationExperimentsMap.size()>0){%>
+            <div style="color:grey;font-weight: bold;">Validation Study Experiments</div>
+            <% }}%>
+            <hr>
+
+            <% if(validatedExperimentsMap.size()>0){%>
+            <ul>
+                <% for(Experiment experiment:validatedExperimentsMap.get(study.getStudyId())){%>
+                <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></li>
+                <%
+                    }%>
+            </ul>
+            <% }else{
+                if(validationExperimentsMap.size()>0){%>
+                    <ul>
+                   <% for(Experiment experiment:validationExperimentsMap.get(study.getStudyId())){ %>
+            <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></li>
+            <%}} %>
+                    </ul>
+           <% }%>
+           <% }%>
             <hr>
             <%}%>
             <%

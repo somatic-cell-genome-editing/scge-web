@@ -117,6 +117,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     studyExperimentMap.put(study, experiments);
             }
         }
+
         if(studyExperimentMap.size()==0){
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -125,9 +126,12 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
            /* req.setAttribute("experiments", records);
             req.setAttribute("study", study);*/
-
+        Map<Integer, List<Experiment>> validatedExperimentsMap=new HashMap<>();
+        Map<Integer, List<Experiment>> validationExperimentsMap=new HashMap<>();
+        mapValidationOrValidatedStudies(studies,validatedExperimentsMap,validationExperimentsMap);
         req.setAttribute("study", studies.get(0));
-
+        req.setAttribute("validatedExperimentsMap" , validatedExperimentsMap);
+        req.setAttribute("validationExperimentsMap",validationExperimentsMap);
         req.setAttribute("studyExperimentMap", studyExperimentMap);
       //  req.setAttribute("action", studies.get(0).getStudy());
       //  <%=grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle()%>
@@ -137,6 +141,38 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         return null;
     }
+    public void mapValidationOrValidatedStudies(List<Study> studies, Map<Integer, List<Experiment>> validatedExperimentsMap, Map<Integer, List<Experiment>> validationExperimentsMap) throws Exception {
+       for(Study study:studies) {
+           if (study.getIsValidationStudy() == 1) {
+               List<Integer> validatedStudyIds = sdao.getValidatedStudyIds(study.getStudyId());
+               System.out.println("VALIDATED STUDY IDS:" + validatedStudyIds.size() + "*****" + validatedStudyIds);
+               if (validatedStudyIds.size() > 0) {
+                   List<Experiment> validatedExperiments = new ArrayList<>();
+                   for (int id : validatedStudyIds) {
+                       validatedExperiments.addAll(edao.getExperimentsByStudy(id));
+                   }
+                   if (validatedExperiments.size() > 0)
+                       validatedExperimentsMap.put(study.getStudyId(), validatedExperiments);
+
+               }
+           } else {
+               List<Integer> validationStudyIds = sdao.getValidationStudyIds(study.getStudyId());
+               System.out.println("VALIDATION STUDY IDS:" + validationStudyIds.size() + "***" + validationStudyIds);
+               if (validationStudyIds.size() > 0) {
+                   List<Experiment> validationExperiments = new ArrayList<>();
+                   for (int id : validationStudyIds) {
+                       validationExperiments.addAll(edao.getExperimentsByStudy(id));
+
+                   }
+                   if (validationExperiments.size() > 0) {
+                       validationExperimentsMap.put(study.getStudyId(), validationExperiments);
+                   }
+               }
+
+           }
+       }
+    }
+
     @RequestMapping(value="/experiment/experimentRecords")
     public String getAllExperimentRecords(HttpServletRequest req, HttpServletResponse res
     ) throws Exception {
