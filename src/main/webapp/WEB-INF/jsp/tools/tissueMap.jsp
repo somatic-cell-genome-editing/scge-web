@@ -343,7 +343,17 @@
 
     %>
     <tr>
-        <td ><span style="font-size:16px; font-weight:700;"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span></td>
+
+        <td >    <%
+                if(organSystemId!=null && targetTissues.contains(organSystemId)){
+
+            %>
+               <span style="color: orchid;font-weight: bold;font-size:16px"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span>
+            <%}else{%>
+
+       <span style="font-size:16px; font-weight:700;"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span>
+        <%}%>
+        </td>
         <td >
             <% if (tissueDeliveryConditions.containsKey(tissueName)) {
                     deliveryConditions.add(tissueDeliveryConditions.get(tissueName));
