@@ -573,7 +573,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
        String experimentRecordIdString=req.getParameter("experimentRecordIds");
         if(experimentRecordIdString!=null) {
             String[] experimentRecordIds = experimentRecordIdString.split(",");
-            List<Long> erIds= Arrays.stream(experimentRecordIds).map(id-> Long.valueOf(id)).collect(Collectors.toList());
+            List<Long> erIds= Arrays.stream(experimentRecordIds).filter(String::isEmpty).map(id-> Long.valueOf(id)).collect(Collectors.toList());
             erDao.updateTargetTissue(experimentId, erIds);
         }
         System.out.println("EXPERIMENTID:"+ experimentId);
