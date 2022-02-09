@@ -562,5 +562,24 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
     }
+    @RequestMapping(value="/update/experiment/{experimentId}")
+    public String updateTargetTissue(HttpServletRequest req, HttpServletResponse res,
+                                       @PathVariable(required = false) long experimentId) throws Exception {
+        Person p = userService.getCurrentUser(req.getSession());
+        long expRecordId=0;
+        if (!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+       String experimentRecordIdString=req.getParameter("experimentRecordIds");
+        if(experimentRecordIdString!=null) {
+            String[] experimentRecordIds = experimentRecordIdString.split(",");
+            List<Long> erIds= Arrays.stream(experimentRecordIds).map(id-> Long.valueOf(id)).collect(Collectors.toList());
+            erDao.updateTargetTissue(experimentId, erIds);
+        }
+        System.out.println("EXPERIMENTID:"+ experimentId);
+        System.out.println("Experiment REcord IDS:"+ req.getParameter("experimentRecordIds"));
+
+        return "redirect:/data/experiments/experiment/"+experimentId;
+    }
 
 }

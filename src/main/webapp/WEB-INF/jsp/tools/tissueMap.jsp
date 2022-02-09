@@ -324,7 +324,12 @@
 <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
 <%if (access.isAdmin(p)) {%>
-<div align="right"><button class="btn btn-primary btn-sm">Update Target Tissue</button></div>
+<div align="right">
+    <form id="updateTargetTissueForm" action="/toolkit/data/experiments/update/experiment/<%=ex.getExperimentId()%>">
+        <input type="hidden" name="experimentRecordIds" id= "experimentRecordIds" value=""/>
+        <button class="btn btn-primary btn-sm" onclick="updateTargetTissue()">Update Target Tissue</button>
+    </form>
+</div>
 <% } %>
 <div style="font-size:20px; color: #1A80B6;">Select a graph below to explore the data set</div>
     <table d="grid" class="table" style="padding-left:20px;table-layout:fixed" align="center" border="1" cellpadding="6">
@@ -350,8 +355,15 @@
     <tr>
 
         <td>
-            <%if (access.isAdmin(p)) {%>
-            <input type="checkbox" name="targetTissue" value="">
+            <%if (access.isAdmin(p)) {
+                if(targetTissueRecordIds.contains(experimentRecordId)){%>
+            <input type="checkbox" name="targetTissue" value="<%=experimentRecordId%>" checked>
+
+            <%}else{%>
+            <input type="checkbox" name="targetTissue" value="<%=experimentRecordId%>">
+
+            <%}%>
+
             <% } %>
             <%if(targetTissueRecordIds!=null && targetTissueRecordIds.contains(experimentRecordId)){%>
                <span style="color: orchid;font-weight: bold;font-size:16px"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span>
@@ -647,4 +659,19 @@
        document.body.appendChild(form);
        form.submit();
    }
+   function updateTargetTissue() {
+       var experimentRecordIds=[];
+       $.each($('input[name="targetTissue"]'), function() {
+           var _this = $(this);
+           var val = _this.val();
+           if(_this.is(":checked"))
+           experimentRecordIds.push(val);
+
+       });
+        if(experimentRecordIds.length>0){
+            $('#experimentRecordIds').val(experimentRecordIds)
+        }
+       // alert("experimentREcordIds: "+ experimentRecordIds)
+   }
+
 </script>
