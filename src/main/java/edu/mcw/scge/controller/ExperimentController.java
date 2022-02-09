@@ -575,7 +575,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             String[] experimentRecordIds = experimentRecordIdString.split(",");
             if (experimentRecordIds.length > 0){
                 List<Long> erIds = Arrays.stream(experimentRecordIds).filter(id-> !id.equals("")).map(id -> Long.valueOf(id)).collect(Collectors.toList());
-                if(erIds.size()>0)
                 erDao.updateTargetTissue(experimentId, erIds);
         }
         }
