@@ -573,8 +573,11 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
        String experimentRecordIdString=req.getParameter("experimentRecordIds");
         if(experimentRecordIdString!=null) {
             String[] experimentRecordIds = experimentRecordIdString.split(",");
-            List<Long> erIds= Arrays.stream(experimentRecordIds).filter(String::isEmpty).map(id-> Long.valueOf(id)).collect(Collectors.toList());
-            erDao.updateTargetTissue(experimentId, erIds);
+            if (experimentRecordIds.length > 0){
+                List<Long> erIds = Arrays.stream(experimentRecordIds).filter(id-> !id.equals("")).map(id -> Long.valueOf(id)).collect(Collectors.toList());
+                if(erIds.size()>0)
+                erDao.updateTargetTissue(experimentId, erIds);
+        }
         }
         System.out.println("EXPERIMENTID:"+ experimentId);
         System.out.println("Experiment REcord IDS:"+ req.getParameter("experimentRecordIds"));
