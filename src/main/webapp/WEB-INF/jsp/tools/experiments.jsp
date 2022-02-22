@@ -54,8 +54,7 @@
 //    List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
     LinkedHashMap<Study, List<Experiment>> studyExperimentMap= (LinkedHashMap<Study, List<Experiment>>) request.getAttribute("studyExperimentMap");
     Map<Long, List<Experiment>> validationExperimentsMap= (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
- //   Map<Long, List<Experiment>> experimentsValidatedMap= (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
-    Map<Long, List<Experiment>> experimentsValidatedMap= new HashMap<>();
+   Map<Long, List<Experiment>> experimentsValidatedMap= (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
 
     for(Map.Entry entry:studyExperimentMap.entrySet()) {
         Study study = ((Study) entry.getKey());

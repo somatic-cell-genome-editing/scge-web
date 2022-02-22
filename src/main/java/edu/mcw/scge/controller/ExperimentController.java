@@ -128,9 +128,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             req.setAttribute("study", study);*/
 
         req.setAttribute("study", studies.get(0));
-
-      req.setAttribute("experimentsValidatedMap" , getExperimentsValidated(studies));
-        req.setAttribute("validationExperimentsMap",getValidations(studies));
+        Map<Long, List<Experiment>> experimentsValidatedMap=getExperimentsValidated(studies);
+        Map<Long, List<Experiment>> validationExperimentsMap=getValidations(studies);
+      req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
+        req.setAttribute("validationExperimentsMap",validationExperimentsMap);
         req.setAttribute("studyExperimentMap", studyExperimentMap);
       //  req.setAttribute("action", studies.get(0).getStudy());
       //  <%=grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle()%>
@@ -177,6 +178,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
 
         }
+        System.out.println("Experiments validated:"+ experimentsValidatedMap.size());
+
         return experimentsValidatedMap;
     }
 
