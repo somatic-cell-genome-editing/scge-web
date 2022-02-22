@@ -128,9 +128,13 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             req.setAttribute("study", study);*/
 
         req.setAttribute("study", studies.get(0));
-        Map<Long, List<Experiment>> experimentsValidatedMap=getExperimentsValidated(studies);
-        Map<Long, List<Experiment>> validationExperimentsMap=getValidations(studies);
-      req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
+        Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
+        Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
+        if(studies.get(0).getIsValidationStudy()==1)
+        experimentsValidatedMap=getExperimentsValidated(studies);
+        else
+        validationExperimentsMap=getValidations(studies);
+        req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
         req.setAttribute("validationExperimentsMap",validationExperimentsMap);
         req.setAttribute("studyExperimentMap", studyExperimentMap);
       //  req.setAttribute("action", studies.get(0).getStudy());
@@ -154,6 +158,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                        Experiment experiment = edao.getExperiment(experimentId);
                        validatedExperiments.add(experiment);
                    }
+                   if(validatedExperiments.size()>0)
                    validationExperimentsMap.put(e.getExperimentId(), validatedExperiments);
                }
 
@@ -173,6 +178,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                         Experiment experiment = edao.getExperiment(experimentId);
                         validatedExperiments.add(experiment);
                     }
+                    if(validatedExperiments.size()>0)
                     experimentsValidatedMap.put(e.getExperimentId(), validatedExperiments);
                 }
 

@@ -53,8 +53,12 @@
     Person p = access.getUser(request.getSession());
 //    List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
     LinkedHashMap<Study, List<Experiment>> studyExperimentMap= (LinkedHashMap<Study, List<Experiment>>) request.getAttribute("studyExperimentMap");
-    Map<Long, List<Experiment>> validationExperimentsMap= (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
-   Map<Long, List<Experiment>> experimentsValidatedMap= (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
+    Map<Long, List<Experiment>> validationExperimentsMap= new HashMap<>();
+    if(request.getAttribute("validationExperimentsMap")!=null)
+        validationExperimentsMap=   (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
+   Map<Long, List<Experiment>> experimentsValidatedMap= new HashMap<>();
+      if(request.getAttribute("experimentsValidatedMap")!=null)
+          experimentsValidatedMap=    (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
 
     for(Map.Entry entry:studyExperimentMap.entrySet()) {
         Study study = ((Study) entry.getKey());
@@ -123,9 +127,9 @@
         <th>Description</th>
         <th>SCGE ID</th>
 
-            <%if(experimentsValidatedMap.size()>0){%>
+            <%if(experimentsValidatedMap!=null && experimentsValidatedMap.size()>0){%>
             <th>Experiments Validated</th>
-            <%}else{if(validationExperimentsMap.size()>0){ %>
+            <%}else{if(validationExperimentsMap!=null && validationExperimentsMap.size()>0){ %>
             <th>Validation Experiments</th>
             <% }}%>
         </tr>
@@ -146,27 +150,27 @@
             <td><%=exp.getExperimentId()%></td>
 
 
-
-
-            <% if(experimentsValidatedMap.size()>0){%>
+            <% if(experimentsValidatedMap!=null && experimentsValidatedMap.size()>0){%>
             <td>
             <ul>
-                <% for(Experiment experiment:experimentsValidatedMap.get(exp.getExperimentId())){%>
+                <% if(experimentsValidatedMap.get(exp.getExperimentId())!=null){
+                    for(Experiment experiment:experimentsValidatedMap.get(exp.getExperimentId())){%>
                 <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></li>
                 <%
-                    }%>
+                    }}%>
             </ul>
             </td>
             <% }else{
-                if(validationExperimentsMap.size()>0){%>
+                if(validationExperimentsMap!=null && validationExperimentsMap.size()>0){%>
             <td>
             <ul>
-                <% for(Experiment experiment:validationExperimentsMap.get(exp.getExperimentId())){ %>
+                <% if(validationExperimentsMap.get(exp.getExperimentId())!=null){
+                    for(Experiment experiment:validationExperimentsMap.get(exp.getExperimentId())){ %>
                 <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></li>
                 <%}} %>
             </ul>
             </td>
-            <% }%>
+            <% }}%>
 
         </tr>
             <%
