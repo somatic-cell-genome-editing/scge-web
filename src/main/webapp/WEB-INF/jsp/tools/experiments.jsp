@@ -1,5 +1,4 @@
 <%@ page import="edu.mcw.scge.datamodel.Experiment" %>
-<%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
@@ -7,11 +6,10 @@
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="edu.mcw.scge.service.StringUtils" %>
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
 <%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
+<%@ page import="java.util.*" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -55,6 +53,10 @@
     Person p = access.getUser(request.getSession());
 //    List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
     LinkedHashMap<Study, List<Experiment>> studyExperimentMap= (LinkedHashMap<Study, List<Experiment>>) request.getAttribute("studyExperimentMap");
+    Map<Long, List<Experiment>> validationExperimentsMap= (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
+ //   Map<Long, List<Experiment>> experimentsValidatedMap= (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
+    Map<Long, List<Experiment>> experimentsValidatedMap= new HashMap<>();
+
     for(Map.Entry entry:studyExperimentMap.entrySet()) {
         Study study = ((Study) entry.getKey());
         List<Experiment> experiments= (List<Experiment>) entry.getValue();
@@ -121,6 +123,12 @@
         <th>Type</th>
         <th>Description</th>
         <th>SCGE ID</th>
+
+            <%if(experimentsValidatedMap.size()>0){%>
+            <th>Experiments Validated</th>
+            <%}else{if(validationExperimentsMap.size()>0){ %>
+            <th>Validation Experiments</th>
+            <% }}%>
         </tr>
         </thead>
 
@@ -137,6 +145,30 @@
             <td style="white-space: nowrap"><%=exp.getType()%></td>
             <td><%=SFN.parse(exp.getDescription())%></td>
             <td><%=exp.getExperimentId()%></td>
+
+
+
+
+            <% if(experimentsValidatedMap.size()>0){%>
+            <td>
+            <ul>
+                <% for(Experiment experiment:experimentsValidatedMap.get(exp.getExperimentId())){%>
+                <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></li>
+                <%
+                    }%>
+            </ul>
+            </td>
+            <% }else{
+                if(validationExperimentsMap.size()>0){%>
+            <td>
+            <ul>
+                <% for(Experiment experiment:validationExperimentsMap.get(exp.getExperimentId())){ %>
+                <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></li>
+                <%}} %>
+            </ul>
+            </td>
+            <% }%>
+
         </tr>
             <%
                 List<Image> images = idao.getImage(exp.getExperimentId());
@@ -164,7 +196,8 @@
             <% } %>
         <% } %>
         </table>
-            <hr>
+
+
             <%}%>
             <%
                 long objectId = study.getStudyId();

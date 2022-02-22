@@ -117,6 +117,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     studyExperimentMap.put(study, experiments);
             }
         }
+
         if(studyExperimentMap.size()==0){
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -128,6 +129,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         req.setAttribute("study", studies.get(0));
 
+      req.setAttribute("experimentsValidatedMap" , getExperimentsValidated(studies));
+        req.setAttribute("validationExperimentsMap",getValidations(studies));
         req.setAttribute("studyExperimentMap", studyExperimentMap);
       //  req.setAttribute("action", studies.get(0).getStudy());
       //  <%=grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle()%>
@@ -137,6 +140,46 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         return null;
     }
+    public Map<Long, List<Experiment>> getValidations(List<Study> studies) throws Exception {
+       Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
+
+        for(Study study:studies) {
+           List<Experiment> experiments=edao.getExperimentsByStudy(study.getStudyId());
+
+           for (Experiment e : experiments) {
+                   List<Long> experimentIds = edao.getValidationExperiments(e.getExperimentId());
+                   List<Experiment> validatedExperiments = new ArrayList<>();
+                   for (long experimentId : experimentIds) {
+                       Experiment experiment = edao.getExperiment(experimentId);
+                       validatedExperiments.add(experiment);
+                   }
+                   validationExperimentsMap.put(e.getExperimentId(), validatedExperiments);
+               }
+
+       }
+        System.out.println("Validations:"+ validationExperimentsMap.size());
+        return validationExperimentsMap;
+    }
+    public Map<Long, List<Experiment>> getExperimentsValidated(List<Study> studies) throws Exception {
+        Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
+        for(Study study:studies) {
+
+                List<Experiment> experiments = edao.getExperimentsByStudy(study.getStudyId());
+                for (Experiment e : experiments) {
+                    List<Long> experimentIds = edao.getExperimentsValidated(e.getExperimentId());
+                    List<Experiment> validatedExperiments = new ArrayList<>();
+                    for (long experimentId : experimentIds) {
+                        Experiment experiment = edao.getExperiment(experimentId);
+                        validatedExperiments.add(experiment);
+                    }
+                    experimentsValidatedMap.put(e.getExperimentId(), validatedExperiments);
+                }
+
+
+        }
+        return experimentsValidatedMap;
+    }
+
     @RequestMapping(value="/experiment/experimentRecords")
     public String getAllExperimentRecords(HttpServletRequest req, HttpServletResponse res
     ) throws Exception {
