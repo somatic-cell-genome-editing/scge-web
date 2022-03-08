@@ -145,6 +145,12 @@
                             <img src="/toolkit/images/protocolIcon.jpg" width="30" height="30" alt="" />
                             Protocols&nbsp;<span class="object-count"><%=sdao.getProtocolCount()%></span>                        </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/publications/search">
+                            <span data-feather="layers"></span>
+                            Publications&nbsp;<span class="object-count"></span>                        </a>
+                    </li>
+
 
 
 
