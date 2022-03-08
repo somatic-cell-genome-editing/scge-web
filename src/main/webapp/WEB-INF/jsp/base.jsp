@@ -157,7 +157,9 @@ Goals"/>
                         <c:when test="${action!=null}">
                             <h4 style="color:#1A80B6;">${action}  </h4>
                     <c:if test="${study!=null && study.pi!=null}">
-                    <small><strong>PI:</strong> ${study.pi}&nbsp; &nbsp;<span style="color:orange; font-weight: bold">Publication IDs:</span>
+                    <small><strong>PI:</strong> ${study.pi}&nbsp; &nbsp;
+                        <c:if test="${fn:length( publication.articleIds)>0}">
+                        <span style="color:orange; font-weight: bold">Publication IDs:</span>
                         <c:forEach items="${publication.articleIds}" var="id">
 
                             <c:choose>
@@ -171,7 +173,7 @@ Goals"/>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
-
+                        </c:if>
 
                     </small>
                     </c:if>     <hr>
