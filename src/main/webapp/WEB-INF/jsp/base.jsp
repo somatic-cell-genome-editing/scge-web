@@ -157,7 +157,23 @@ Goals"/>
                         <c:when test="${action!=null}">
                             <h4 style="color:#1A80B6;">${action}  </h4>
                     <c:if test="${study!=null && study.pi!=null}">
-                    <small><strong>PI:</strong> ${study.pi}&nbsp; &nbsp;<!--span style="color:orange; font-weight: bold">Publication ID:</span><a href="">XXXXXXXX</a></small-->
+                    <small><strong>PI:</strong> ${study.pi}&nbsp; &nbsp;<span style="color:orange; font-weight: bold">Publication IDs:</span>
+                        <c:forEach items="${publication.articleIds}" var="id">
+
+                            <c:choose>
+                                <c:when test="${id.url=='' || id.url==null}">
+                                    ${id.id};&nbsp;
+
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${id.url}${id.id}">${id.id}</a>;&nbsp;
+
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+
+
+                    </small>
                     </c:if>     <hr>
                             <c:if test="${action=='Dashboard'}">
                                 <div align="right">
