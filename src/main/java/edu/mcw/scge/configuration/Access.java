@@ -60,7 +60,7 @@ public class Access {
                   return true;
               }
         }
-        return false;
+        return isAdmin(p);
     }
 
 

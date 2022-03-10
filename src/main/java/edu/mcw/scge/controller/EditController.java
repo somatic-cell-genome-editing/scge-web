@@ -52,27 +52,30 @@ public class EditController {
         List<Person> pi=pdao.getPersonById(study.getPiId());
         List<Person> submitter=pdao.getPersonById(study.getSubmitterId());
         List<Person> pocs=sdao.getStudyPOC(studyId);
-        String emailMsg=" Study:"+studyId+" - "+study.getStudy() +" is updated. These changes will get executed after 24 hours";
+        String emailMsg="Dear "+pi.get(0).getFirstName()+"/"+submitter.get(0).getFirstName()+",\n\nThe Study SCGE-"+studyId+" - "+study.getStudy() +" is updated. \nThe study TIER is elevated to "+tier+"\n\nThese changes will get executed after 24 hours. \n\nBest,\nSCGE Toolkit Team.";
+        String title="SCGE Study Tier Updated";
        // sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated",emailMsg);
      //   sendEmailNotification(p.get(0).getEmail(), "SCGE Study Updated",emailMsg);
-        if(SCGEContext.isDev())
-        sendEmailNotification("ageurts@mcw.edu", "SCGE Study Updated",emailMsg);
-        if(SCGEContext.isProduction()){
-            sendEmailNotification(pi.get(0).getEmail(), "SCGE Study Updated",emailMsg);
+   /*     if(SCGEContext.isDev())
+        sendEmailNotification("ageurts@mcw.edu",title ,emailMsg);
+       else*/ if(SCGEContext.isProduction()){
+            sendEmailNotification(pi.get(0).getEmail(), title,emailMsg);
             if(pi.get(0).getId()!=submitter.get(0).getId())
-            sendEmailNotification(submitter.get(0).getEmail(), "SCGE Study Updated",emailMsg);
-            sendEmailNotification("scge_toolkit@mcw.edu", "SCGE Study Updated",emailMsg);
+            sendEmailNotification(submitter.get(0).getEmail(), title,emailMsg);
+            sendEmailNotification("scge_toolkit@mcw.edu", title,emailMsg);
             if(pocs.size()>0) {
                 for (Person poc : pocs) {
                     if(poc.getId()!=pi.get(0).getId() && poc.getId()!=submitter.get(0).getId()) {
                         try {
-                            sendEmailNotification(poc.getEmail(), "SCGE Study Updated", emailMsg);
+                            sendEmailNotification(poc.getEmail(), title, emailMsg);
                         } catch (Exception e) {
 
                         }
                     }
                 }
             }
+        }else{
+           sendEmailNotification(pdao.getPersonById(userId).get(0).getEmail(),"DEV "+title,emailMsg);
         }
         String message="Confirmation request sent to PI and POC. Requested changes will get executed after 24 hours";
         return "redirect:/db?message="+message+"&studyId="+studyId+"&tier="+tier;
