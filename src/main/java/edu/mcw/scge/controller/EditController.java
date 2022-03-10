@@ -40,6 +40,7 @@ public class EditController {
 
         req.getSession().getAttribute("personId");
         int userId= (int) req.getSession().getAttribute("personId");
+        Person loggedInUser=pdao.getPersonById(userId).get(0);
         if (!access.hasStudyAccess(studyId,userId)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -52,7 +53,9 @@ public class EditController {
         List<Person> pi=pdao.getPersonById(study.getPiId());
         List<Person> submitter=pdao.getPersonById(study.getSubmitterId());
         List<Person> pocs=sdao.getStudyPOC(studyId);
-        String emailMsg="Dear "+pi.get(0).getFirstName()+"/"+submitter.get(0).getFirstName()+",\n\nThe Study SCGE-"+studyId+" - "+study.getStudy() +" is updated. \nThe study TIER is elevated to "+tier+"\n\nThese changes will get executed after 24 hours. \n\nBest,\nSCGE Toolkit Team.";
+        String emailMsg="Dear Member"/*+pi.get(0).getFirstName()+"/"+submitter.get(0).getFirstName()*/+",\n\nThe Study SCGE-"+studyId+" - "+study.getStudy() +" is updated." +
+                " \nThe study TIER is elevated to "+tier+ " by "+loggedInUser.getFirstName()+","+loggedInUser.getLastName()+
+                "\n\nThese changes will get executed after 24 hours. \n\nBest,\nSCGE Toolkit Team.";
         String title="SCGE Study Tier Updated";
        // sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated",emailMsg);
      //   sendEmailNotification(p.get(0).getEmail(), "SCGE Study Updated",emailMsg);
@@ -75,7 +78,7 @@ public class EditController {
                 }
             }
         }else{
-           sendEmailNotification(pdao.getPersonById(userId).get(0).getEmail(),"DEV "+title,emailMsg);
+           sendEmailNotification(loggedInUser.getEmail(),"DEV "+title,emailMsg);
         }
         String message="Confirmation request sent to PI and POC. Requested changes will get executed after 24 hours";
         return "redirect:/db?message="+message+"&studyId="+studyId+"&tier="+tier;
