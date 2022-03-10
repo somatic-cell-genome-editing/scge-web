@@ -53,8 +53,8 @@ public class EditController {
         List<Person> pi=pdao.getPersonById(study.getPiId());
         List<Person> submitter=pdao.getPersonById(study.getSubmitterId());
         List<Person> pocs=sdao.getStudyPOC(studyId);
-        String emailMsg="Dear Member"/*+pi.get(0).getFirstName()+"/"+submitter.get(0).getFirstName()*/+",\n\nThe Study SCGE-"+studyId+" - "+study.getStudy() +" is updated." +
-                " \nThe study TIER is elevated to "+tier+ " by "+loggedInUser.getFirstName()+","+loggedInUser.getLastName()+
+        String emailMsg="Dear SCGE Member"/*+pi.get(0).getFirstName()+"/"+submitter.get(0).getFirstName()*/+",\n\nThe Study SCGE-"+studyId+" - "+study.getStudy().trim() +" is updated." +
+                " \nThe study TIER is elevated to "+tier+ " by "+loggedInUser.getFirstName()+" "+loggedInUser.getLastName()+
                 "\n\nThese changes will get executed after 24 hours. \n\nBest,\nSCGE Toolkit Team.";
         String title="SCGE Study Tier Updated";
        // sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated",emailMsg);
