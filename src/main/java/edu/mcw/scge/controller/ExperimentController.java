@@ -6,8 +6,13 @@ import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.Vector;
+import edu.mcw.scge.datamodel.publications.ArticleId;
+import edu.mcw.scge.datamodel.publications.Author;
+import edu.mcw.scge.datamodel.publications.Publication;
+import edu.mcw.scge.datamodel.publications.Reference;
 import edu.mcw.scge.process.customLabels.CustomUniqueLabels;
 import edu.mcw.scge.service.db.DBService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -36,6 +41,7 @@ public class ExperimentController extends UserController {
     UserService userService=new UserService();
     CustomUniqueLabels customLabels=new CustomUniqueLabels();
     GrantDao grantDao=new GrantDao();
+    PublicationDAO publicationDAO=new PublicationDAO();
     @RequestMapping(value="/search")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentDao edao=new ExperimentDao();
@@ -110,6 +116,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         if(!access.isLoggedIn()) {
             return "redirect:/";
         }
+        Publication publication=getPublication(studies.get(0));
+        req.setAttribute("publication", publication);
         LinkedHashMap<Study, List<Experiment>> studyExperimentMap=new LinkedHashMap<>();
         for(Study study:studies) {
             if (access.hasStudyAccess(study, p)) {
@@ -149,7 +157,20 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         return null;
     }
-
+    public Publication getPublication(Study study) throws Exception {
+        Publication publication= new Publication();
+        Reference reference=publicationDAO.getPublicationsBySCGEId(study.getStudyId());
+        if(reference!=null) {
+            publication.setReference(reference);
+            List<Author> authors =publicationDAO.getAuthorsByRefKey(reference.getKey());
+            publication.setAuthorList(authors);
+        }
+       List<ArticleId> articleIds= publicationDAO.getArticleIdsSCGEID(study.getStudyId());
+        if(articleIds!=null && articleIds.size()>0){
+            publication.setArticleIds(articleIds);
+        }
+        return publication;
+    }
     @RequestMapping(value="/validations/study/{studyId}")
     public String getLimitedExperimentsByGroupId(HttpServletRequest req, HttpServletResponse res,
                                                  @PathVariable(required = false) int studyId
