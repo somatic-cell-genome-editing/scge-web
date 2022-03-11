@@ -506,6 +506,21 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             return "redirect:/";
         }
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
+        Experiment e = edao.getExperiment(experimentId);
+
+        if (records.size() == 0 ) {
+            Study localStudy=sdao.getStudyByExperimentId(experimentId).get(0);
+
+            req.setAttribute("study",localStudy);
+            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Experiments</a>");
+            req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
+            req.setAttribute("deliveryAssay",new HashMap<String,String>());
+            req.setAttribute("editingAssay",new HashMap<String,String>());
+            req.setAttribute("experiment",e);
+            req.setAttribute("experimentRecordsMap",new HashMap<Long, ExperimentRecord>());
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+        }
 
         List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
 
@@ -518,7 +533,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         GrantDao grantDao=new GrantDao();
         Grant grant=grantDao.getGrantByGroupId(study.getGroupId());
        Map<String, Integer> objectSizeMap=customLabels.getObjectSizeMap(records);
-        Experiment e = edao.getExperiment(experimentId);
         if (!access.hasStudyAccess(study,p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);

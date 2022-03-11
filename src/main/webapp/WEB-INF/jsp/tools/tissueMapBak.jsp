@@ -4,7 +4,6 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="io.netty.util.internal.StringUtil" %>
 <%@ page import="edu.mcw.scge.web.TissueMapper" %>
-<%@ page import="sun.awt.image.ImageWatched" %>
 <style>
     .tissue-control {
         position: relative;
@@ -130,10 +129,6 @@
         Set<String> targetTissues=new HashSet<>();
         Set<Long> targetTissueRecordIds=new HashSet<>();
 
-        //This is a total hack and needs to be refactored
-        HashMap<String,Long> targetTissues2=new HashMap<String,Long>();
-        HashMap<String,Long> nonTargetTissues2=new HashMap<String,Long>();
-
         for (Long resultId: resultDetail.keySet()) {
             List<ExperimentResultDetail> erdList = resultDetail.get(resultId);
             long expRecordId = erdList.get(0).getExperimentRecordId();
@@ -141,20 +136,6 @@
             if(er.getIsTargetTissue()==1){
                 targetTissues.add(er.getOrganSystemID());
                 targetTissueRecordIds.add(er.getExperimentRecordId());
-
-                if (er.getCellType() !=null && !er.getCellType().equals("") ) {
-                    System.out.println("1 adding " + er.getTissueTerm() + " (" + er.getCellTypeTerm() + ") with recored id " + er.getExperimentRecordId() );
-                    targetTissues2.put(er.getTissueTerm() + " (" + er.getCellType() + ")", er.getExperimentRecordId());
-                }else {
-                    System.out.println("2 adding " + er.getTissueTerm() + " with recored id " + er.getExperimentRecordId() );
-                    targetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
-                }
-            }else {
-                if (er.getCellType() !=null && !er.getCellType().equals("") ) {
-                    nonTargetTissues2.put(er.getTissueTerm() + " (" + er.getCellType() + ")", er.getExperimentRecordId());
-                }else {
-                    nonTargetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
-                }
             }
             experimentRecordHashMap.put(er.getExperimentName(), er);
             String labelTrimmed = new String();
@@ -190,36 +171,13 @@
 
             String tissueTerm = er.getTissueTerm();
             String cellType = er.getCellTypeTerm();
-            boolean hasEditing = false;
-            boolean hasDelivery=false;
-            for (ExperimentResultDetail erd : erdList) {
-                if (erd.getResultType().equals("Delivery Efficiency")) {
-                    hasDelivery = true;
-                }
-                if (erd.getResultType().equals("Editing Efficiency")) {
-                    hasEditing=true;
-                }
-            }
+
 
 
             if (cellType != null) {
-                if (hasDelivery) {
-                    String url = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Delivery&tissue=" + tissueTerm + "&cellType=" + cellType;
-                    tm.addDelivery(organSystem, tissueTerm + " (" + cellType + ")", url);
-                }
-                if (hasEditing) {
-                    String url = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm + "&cellType=" + cellType;
-                    tm.addEditing(organSystem, tissueTerm + " (" + cellType + ")", url);
-                }
+                tm.addChild(organSystem, tissueTerm + ":" + cellType,null);
             }else {
-                if (hasDelivery) {
-                    String url = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Delivery&tissue=" + tissueTerm + "&cellType=";
-                    tm.addDelivery(organSystem, tissueTerm, url);
-                }
-                if (hasEditing) {
-                    String url = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm + "&cellType=";
-                    tm.addEditing(organSystem, tissueTerm, url);
-                }
+                tm.addChild(organSystem, tissueTerm, null);
             }
 
 
@@ -292,33 +250,13 @@
 
 
 
-    <table align="right">
-        <tr>
-            <td> <div style="border-color:blue;background-color: blue;width:20px;height:20px "></div></td><td>Delivery Efficiency</td>
-        </tr>
-        <tr>
-            <td><div style="border-color:orange;background-color: orange;width:20px;height:20px "></div></td><td>Editing Efficiency</td>
-        </tr>
-        <tr>
-            <td><div style="border-color:orange;background-color: #DA70D6;width:20px;height:20px "></div></td><td>Target Tissue</td>
-        </tr>
-
-    </table>
-
-
 
 
 
 <h6 style="color:#1A80B6;">Organ System Overview</h6>
 <br><br>
-
-
-<table align="center">
-    <tr>
-        <td>
-
-
-<table align="center">
+<div>
+    <table align="center">
         <tr>
             <td>
                 <table >
@@ -397,92 +335,284 @@
     </table>
 
 
-        </td>
+
+
+</div>
+
+
+
+
+<hr>
+
+
+<table border="0" align="center" style="border:1px solid #F7F7F7;">
+    <tr>
+        <td colspan="5" style="font-size:12px;">Analyze Data Sets Available for this Experiment</td>
     </tr>
-    <tr><td>&nbsp;</td></tr>
-    <tr><td><hr></td></tr>
-    <tr><td>&nbsp;
-        <%if (access.isAdmin(p)) {%>
-        <div align="right">
-            <form id="updateTargetTissueForm" action="/toolkit/data/experiments/update/experiment/<%=ex.getExperimentId()%>">
-                <input type="hidden" name="experimentRecordIds" id= "experimentRecordIds" value=""/>
-                <button class="btn btn-primary btn-sm" onclick="updateTargetTissue()">Update Target Tissue</button>
-            </form>
-        </div>
-        <% } %>
-
-    </td></tr>
+    <% for (String organ: tm.getChildTerms().keySet()) {  %>
     <tr>
-        <td>
-
-
-
-
-
-<table align="center" tyle="border:1px solid #F7F7F7;margin-left:30px;" border="0" width="700">
-    <tr>
-        <td colspan="2" style="font-size:16px; font-weight:700;">Analyze Data Sets Available for this Experiment</td><td style="font-size:16px; font-weight:700;" align="center">Delivery</td><td style="font-size:16px; font-weight:700;" align="center">Editing</td>
-    </tr>
-    <% for (String organ: tm.getChildTerms().keySet()) {
-        if (!tm.getChildTerms().get(organ).isEmpty()) {
-    %>
-
-    <tr>
-        <td colspan="2" style="font-size:20px;padding-top:10px;" id="<%=organ%>"><%=organ%></td>
-        <td></td><td></td>
+        <td colspan="2" style="font-size:20px;" id="<%=organ%>"><%=organ%></td><td></td><td></td><td></td>
     </tr>
     <tr>
-            <% for (String childTerm: tm.getChildTerms().get(organ).keySet()) {
-                    String upCaseChildTerm = childTerm.substring(0,1).toUpperCase() + childTerm.substring(1,childTerm.length());
-            %>
 
-    <tr>
-
-
-        <td width="100">&nbsp;</td><td style="padding-right:5px; border-bottom:1px solid black;border-color:#770C0E; font-size:14px;">
-
-    <% if (access.isAdmin(p)) {
-        if (targetTissues2.containsKey(childTerm)) { %>
-    <input type="checkbox" name="targetTissue" value="<%=targetTissues2.get(childTerm)%>" checked>
-    <% } else { %>
-    <input type="checkbox" name="targetTissue" value="<%=nonTargetTissues2.get(childTerm)%>">
-    <% }
-    }
-    %>
-
-             <%=upCaseChildTerm%>
-
-        </td>
-            <% if (tm.hasDelivery(organ,childTerm)) { %>
-                <td width="75" style="border-bottom:1px solid black;border-color:#770C0E;" align="center"><input onclick="location.href='<%=tm.getDeliveryURL(organ,childTerm)%>'" type="button" style="margin-left:5px;border:0px solid black; font-size:10px; background-color:#007BFF;color:white;border-radius: 5px;" value="View Delivery Data"/></td>
-            <% } else { %>
-                <td width="75"  style="border-bottom:1px solid black;border-color:#770C0E;" align="center">n/a</td>
-            <% } %>
-
-            <% if (tm.hasEditing(organ,childTerm)) { %>
-                <td width="75" style="border-bottom:1px solid black;border-color:#770C0E;" align="center"><input onClick="location.href='<%=tm.getEditingURL(organ,childTerm)%>'" type="button" style="margin-left:5px;border:0px solid black; font-size:10px; background-color:#FFA500;color:white;border-radius: 5px;" value="View Editing Data"></td>
-            <% } else { %>
-                <td width="75" style="border-bottom:1px solid black;border-color:#770C0E;" align="center">n/a</td>
-            <% } %>
-
-
-            <% } %>
-    <%}
-    } %>
+            <% for (String childTerm: tm.getChildTerms().get(organ).keySet()) { %>
+    <tr><td width="100" >&nbsp;</td><td style="border-bottom:1px solid black;border-color:#770C0E; font-size:14px;"><%=childTerm%></td><td></td><td><a href="">View Editing Data</a></td><td>&nbsp;</td><td><a href="">View Delivery Data</a></td></tr>
+    <% } %>
+    <% } %>
     </tr>
     </td>
     </tr>
 </table>
 
 
+
+
+<%if (access.isAdmin(p)) {%>
+<div align="right">
+    <form id="updateTargetTissueForm" action="/toolkit/data/experiments/update/experiment/<%=ex.getExperimentId()%>">
+        <input type="hidden" name="experimentRecordIds" id= "experimentRecordIds" value=""/>
+        <button class="btn btn-primary btn-sm" onclick="updateTargetTissue()">Update Target Tissue</button>
+    </form>
+</div>
+<% } %>
+
+
+
+
+Browse Datasets from this Experiment
+<table  align="center" style="padding-left:20px;" border="1" cellpadding="6">
+    <thead>
+    <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Organ System</th>
+    <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Delivery</th>
+    <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Editing</th>
+    </thead>
+    <% int i2 = 0,j2=0;
+        int rowCount2=1;
+        for (String tissueName2: tissueNames.keySet()) {
+            String term2 = tissueNames.get(tissueName2);
+            long experimentRecordId2=tissueNameNIdMap.get(tissueName2);
+            String[] terms2 = term2.split(",");
+            String deliveryurl2 = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Delivery&tissue="+terms2[0]+"&cellType=";
+            String editingurl2 = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue="+terms2[0]+"&cellType=";
+            if(terms2.length == 2) {
+                deliveryurl2 += terms2[1];
+                editingurl2 += terms2[1];
+            }
+
+    %>
+    <tr>
+
+        <td>
+            <%if (access.isAdmin(p)) {
+                if(targetTissueRecordIds.contains(experimentRecordId2)){%>
+            <input type="checkbox" name="targetTissue" value="<%=experimentRecordId2%>" checked>
+
+                <%}else{%>
+            <input type="checkbox" name="targetTissue" value="<%=experimentRecordId2%>">
+
+                <%}%>
+
+            <% } %>
+
+            <%if(targetTissueRecordIds!=null && targetTissueRecordIds.contains(experimentRecordId2)){%>
+                <span style="color: orchid;font-weight: bold;font-size:16px"><%=tissueLabels.get(tissueName2).replaceAll("\\s", "&nbsp;")%></span>
+            <%}else{%>
+                <span style="font-size:16px; font-weight:700;"><%=tissueLabels.get(tissueName2).replaceAll("\\s", "&nbsp;")%></span>
+            <%}%>
+
+        </td>
+        <td >
+            <% if (tissueDeliveryConditions.containsKey(tissueName2)) {
+                deliveryConditions.add(tissueDeliveryConditions.get(tissueName2));
+                deliveryResults.add(tissueDeliveryResults.get(tissueName2));
+                deliveryNames.add(tissueName2);
+            %>
+            <a href= "<%=deliveryurl2%>">
+                Delivery</a>
+            <% } %>
+
+        </td>
+        <td >
+            <% if (tissueEditingConditions.containsKey(tissueName2)) {
+                editingConditions.add(tissueEditingConditions.get(tissueName2));
+                editingResults.add(tissueEditingResults.get(tissueName2));
+                editingNames.add(tissueName2);
+            %>
+            <a href= "<%=editingurl2%>">
+                Editing
+            </a>
+            <% } %>
         </td>
     </tr>
+<% } %>
 </table>
+
+
+
+
+
+
+
+
+
 
 
 <hr>
 
+<div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
+<%if (access.isAdmin(p)) {%>
+<div align="right">
+    <form id="updateTargetTissueForm" action="/toolkit/data/experiments/update/experiment/<%=ex.getExperimentId()%>">
+        <input type="hidden" name="experimentRecordIds" id= "experimentRecordIds" value=""/>
+        <button class="btn btn-primary btn-sm" onclick="updateTargetTissue()">Update Target Tissue</button>
+    </form>
+</div>
+<% } %>
+<div style="font-size:20px; color: #1A80B6;">Select a graph below to explore the data set</div>
+    <table d="grid" class="table" style="padding-left:20px;table-layout:fixed" align="center" border="1" cellpadding="6">
+        <thead>
+        <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Organ System</th>
+        <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Delivery</th>
+        <th style="background-color:#F7F7F7; color:#212528; font-size:18px;">Editing</th>
+        </thead>
+    <% int i = 0,j=0;
+        int rowCount=1;
+        for (String tissueName: tissueNames.keySet()) {
+            String term = tissueNames.get(tissueName);
+            long experimentRecordId=tissueNameNIdMap.get(tissueName);
+            String[] terms = term.split(",");
+            String deliveryurl = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Delivery&tissue="+terms[0]+"&cellType=";
+            String editingurl = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue="+terms[0]+"&cellType=";
+            if(terms.length == 2) {
+                deliveryurl += terms[1];
+                editingurl += terms[1];
+            }
+
+    %>
+    <tr>
+
+        <td>
+            <%if (access.isAdmin(p)) {
+                if(targetTissueRecordIds.contains(experimentRecordId)){%>
+            <input type="checkbox" name="targetTissue" value="<%=experimentRecordId%>" checked>
+
+            <%}else{%>
+            <input type="checkbox" name="targetTissue" value="<%=experimentRecordId%>">
+
+            <%}%>
+
+            <% } %>
+            <%if(targetTissueRecordIds!=null && targetTissueRecordIds.contains(experimentRecordId)){%>
+               <span style="color: orchid;font-weight: bold;font-size:16px"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span>
+            <%}else{%>
+
+       <span style="font-size:16px; font-weight:700;"><%=tissueLabels.get(tissueName).replaceAll("\\s", "&nbsp;")%></span>
+        <%}%>
+        </td>
+        <td >
+            <% if (tissueDeliveryConditions.containsKey(tissueName)) {
+                    deliveryConditions.add(tissueDeliveryConditions.get(tissueName));
+                deliveryResults.add(tissueDeliveryResults.get(tissueName));
+                deliveryNames.add(tissueName);
+            %>
+            <a href= "<%=deliveryurl%>">
+            <div class="chart-container">
+                <canvas id="canvasDelivery<%=i%>"></canvas>
+            </div></a>
+            <%  i++;} else if(qualDeliveryResults.containsKey(tissueName)) { %>
+            <a href= "<%=deliveryurl%>">
+            <div>
+                <table class="table tablesorter table-striped" cellpadding="4">
+                    <thead><tr>
+                        <th>Condition</th>
+                        <th>Result</th>
+                        <th></th>
+                    </tr></thead>
+                    <tbody>
+
+             <%  for(ExperimentResultDetail e: qualDeliveryResults.get(tissueName) ) { %>
+                <tr>
+                    <%
+                        List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
+                        if (images.size() > 0) {
+                    %>
+                    <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <% }else { %>
+                    <td><%=e.getExperimentConditionName()%></td>
+                    <%}%>
+
+                    <td><%=e.getResult()%></td>
+                    <%
+                        images = idao.getImage(e.getExperimentRecordId(),"main1");
+                        if (images.size() > 0) {
+                    %>
+                    <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                    <% rowCount++;
+                    }else { %>
+                    <td></td>
+                    <%}%>
+                </tr>
+             <% } %>
+                </tbody>
+                </table>
+                </div></a>
+            <%  } else %> <b>NO DATA</b>
+        </td>
+        <td >
+            <% if (tissueEditingConditions.containsKey(tissueName)) {
+                editingConditions.add(tissueEditingConditions.get(tissueName));
+                editingResults.add(tissueEditingResults.get(tissueName));
+                editingNames.add(tissueName);
+            %>
+            <a href= "<%=editingurl%>">
+            <div class="chart-container">
+                <canvas id="canvasEditing<%=j%>"></canvas>
+            </div>
+            </a>
+            <%   j++;} else if(qualEditingResults.containsKey(tissueName)) { %>
+            <a href= "<%=editingurl%>">
+            <div>
+                <table class="table tablesorter table-striped" cellpadding="4">
+                    <thead><tr>
+                        <th>Condition</th>
+                        <th>Result</th>
+                        <th></th>
+                    </tr></thead>
+                    <tbody>
+
+                    <%  for(ExperimentResultDetail e: qualEditingResults.get(tissueName) ) { %>
+                    <tr>
+                        <%
+                            List<Image> images = idao.getImage(e.getExperimentRecordId(),"main1");
+                            if (images.size() > 0) {
+                        %>
+                        <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                        <% }else { %>
+                            <td><%=e.getExperimentConditionName()%></td>
+                        <%}%>
+
+                        <td><%=e.getResult()%></td>
+                        <%
+                            images = idao.getImage(e.getExperimentRecordId(),"main1");
+                            if (images.size() > 0) {
+                        %>
+                        <td><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1" /></td>
+                        <% rowCount++;
+                        }else { %>
+                        <td></td>
+                        <%}%>
+
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div></a>
+            <%  } else %> <b>NO DATA</b>
+        </td>
+    </tr>
+<%}%>
+</table>
 
 <script>
     function resizeImages() {
