@@ -129,7 +129,7 @@
         <tr class="header1" style="display:table-row;">
         <%}%>
         <td><% if (access.canUpdateTier(person,s)){%>
-                    <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="edit/access">
+                    <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="/toolkit/edit/access">
                         <div class="col  tiers">
                             <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=tierUpdateMap.get(s.getStudyId())%>"/>
                             <input type="hidden" name="studyId" id="study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>

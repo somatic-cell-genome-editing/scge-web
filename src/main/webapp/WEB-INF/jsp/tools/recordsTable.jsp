@@ -34,7 +34,7 @@
         $("#myTable").tablesorter().bind("sortEnd", function (e, t) {
             if(dualAxis)
                 updateAxis();
-            else update();
+            else update(false);
         });
     });
 	function download(){
@@ -42,12 +42,64 @@
     }
 </script>
 
-<% ImageDao idao = new ImageDao(); %>
+<% ImageDao idao = new ImageDao();
+List<String> options = new ArrayList<>();
+    List<String> headers = new ArrayList<>();
+    if (tissueList.size() > 0 ) {
+        headers.add("Tissue");
+        if(tissueList.size() > 1 && tissueList.size() != resultDetail.keySet().size())
+            options.add("Tissue");
+    }if (cellTypeList.size() > 0) {
+        headers.add("Cell Type");
+        if(cellTypeList.size() > 1 && cellTypeList.size() != resultDetail.keySet().size())
+            options.add("Cell Type");
+    }if (sexList.size() > 0) {
+        headers.add("Sex");
+        if(sexList.size() > 1)
+            options.add("Sex");
+    }if (editorList.size() > 0 ) {
+        headers.add("Editor");
+        if(editorList.size() > 1 && editorList.size() != resultDetail.keySet().size())
+            options.add("Editor");
+    }if (hrdonorList.size() > 0 ){
+        headers.add("Hr Donor");
+        if(hrdonorList.size() > 1 && hrdonorList.size() != resultDetail.keySet().size())
+            options.add("Hr Donor");
+    }if (modelList.size() > 0 ) {
+        headers.add("Model");
+        if(modelList.size() > 1 && modelList.size() != resultDetail.keySet().size())
+            options.add("Model");
+    }if (deliverySystemList.size() > 0 ) {
+        headers.add("Delivery System");
+        if (deliverySystemList.size() > 1 && deliverySystemList.size() != resultDetail.keySet().size())
+            options.add("Delivery System");
+    }if (guideList.size() > 0 ) {
+        headers.add("Target Locus");
+        if (guideTargetLocusList.size() > 1 && guideTargetLocusList.size() != resultDetail.keySet().size())
+            options.add("Target Locus");
+    }if (guideList.size() > 0 ) {
+        headers.add("Guide");
+        if (guideList.size() > 1 && guideList.size() != resultDetail.keySet().size())
+            options.add("Guide");
+    }if (vectorList.size() > 0 ) {
+        headers.add("Vector");
+        if (vectorList.size() > 1 && vectorList.size() != resultDetail.keySet().size())
+            options.add("Vector");
+    }
+    System.out.println(options);
+%>
 
 <% try {  %>
 
         <%@include file="recordFilters.jsp"%>
-
+<div>
+    <b>Group By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px">
+        <% for(String filter: options) {%>
+        <option style="padding: 5px" value=<%=filter%>><%=filter%></option>
+        <%} %>
+    </select>
+</div>
+<br>
         <!--table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table-->
        <% //if(resultMap != null && resultMap.size()!= 0) {%>
         <div class="chart-container" id = "chartDiv">
@@ -71,23 +123,15 @@
     <thead>
     <tr>
         <th>Condition<%--=request.getAttribute("uniqueFields").toString()--%></th>
-        <% if (tissueList.size() > 0 ) { %><th>Tissue</th><% } %>
-        <% if (cellTypeList.size() > 0) { %><th>Cell Type</th><% } %>
-        <% if (sexList.size() > 0) { %><th>Sex</th><% } %>
-        <% if (editorList.size() > 0 ) { %><th>Editor</th><% } %>
-        <% if (hrdonorList.size() > 0 ) { %><th>Hr Donor</th><% } %>
-        <% if (modelList.size() > 0 ) { %><th>Model</th><% } %>
-        <% if (deliverySystemList.size() > 0 ) { %><th>Delivery System</th><% } %>
-        <% if (guideList.size() > 0 ) { %><th>Target Locus</th> <% } %>
-        <% if (guideList.size() > 0 ) { %><th>Guide</th> <% } %>
-
-        <% if (vectorList.size() > 0 ) { %><th>Vector</th><% } %>
+    <%  for(String option:headers) { %>
+        <th><%=option%></th>
+    <% } %>
         <c:if test="${objectSizeMap['dosage']>0}">
 
-        <td>Dosage</td>
+        <th>Dosage</th>
         </c:if>
         <% if (resultTypeList.size() > 0 ) { %><th>Result Type</th><% } %>
-        <% if (unitList.size() > 0 ) { %><th>Units</th><% } %>
+        <% if (unitList.size() > 0 ) {  %><th>Units</th><% } %>
         <th id="result">Result</th>
         <th></th>
     </tr>
@@ -295,6 +339,8 @@
 
 <script>
             var ctx = document.getElementById("resultChart");
+            var colorArray = [];
+            var filterValues = [];
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -386,7 +432,14 @@
                     }
                 }
             });
-
+            function getRandomColor() {
+                var letters = 'BCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++ ) {
+                    color += letters[Math.floor(Math.random() * letters.length)];
+                }
+                return color;
+            }
             function getDetails(index) {
                 var table = document.getElementById('myTable');
                 var j = 0;
@@ -407,15 +460,47 @@
                 }
                 return detail;
             }
-            function update(){
+            function update(updateColor){
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var xArray=[];
                 var yArray=[];
                 var rowLength = table.rows.length;
                 var j = 0;
+                var selected = 0;
+                var filter = document.getElementById("graphFilter").value;
+               /* var colors = ['rgba(255, 140, 102,0.5)','rgba(140, 255, 102,0.5)','rgba(102, 217, 255,0.5)','rgba(217, 102, 255,0.5)',
+                    'rgba(255, 179, 102,0.5)','rgba(102, 255, 102,0.5)','rgba(102, 179, 255,0.5)','rgba(255, 102, 255,0.5)',
+                    'rgba(255, 217, 102,0.5)', 'rgba(102, 255, 140,0.5)', 'rgba(102, 140, 255,0.5)','rgba(255, 102, 217,0.5)',
+                    'rgba(255, 255, 102,0.5)', 'rgba(102, 255, 179,0.5)', 'rgba(102, 102, 255,0.5)', 'rgba(255, 102, 179,0.5)',
+                    'rgba(217, 255, 102,0.5)', 'rgba(102, 255, 217,0.5)', 'rgba(140, 102, 255,0.5)', 'rgba(255, 102, 140,0.5)',
+                    'rgba(179, 255, 102,0.5)','rgba(102, 255, 255,0.5)','rgba(179, 102, 255,0.5)','rgba(255, 102, 102,0.5)'
+                ];*/
+
+                var colors = [
+                     '#E69F00','#56B4E9','#009E73','#F0E442','#0072B2','#D55E00', '#CC79A7','#000000',
+                     '#E9967A','#8B008B','#A9A9A9','#DC143C','#6495ED','#7FFF00','#000080','#FFDEAD',
+                     '#800000','#E0FFFF','#20B2AA','#A0522D','#EE82EE','#9ACD32','#DB7093','#C71585',
+                     '#66CDAA','#F08080','#DEB887','#5F9EA0','#BDB76B','#006400', '#00BFFF','#FF00FF','#DAA520','#4B0082'
+                ];
 
                 var aveIndex = table.rows.item(0).cells.length -2;
+                var cells = table.rows.item(0).cells;
 
+
+                for (var i = 0; i < cells.length; i++) {
+                    if(cells.item(i).innerText.includes(filter)){ //check the column of selected filter
+                        selected = i;
+                    }
+                }
+                if(updateColor == true) {
+                    for (var i = 1; i < rowLength; i++) {
+                        var cells = table.rows.item(i).cells;
+                        var value = cells.item(selected).innerText;
+                        if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
+                            filterValues.push(value);
+                        }
+                    }
+                }
                 var replicate = [];
                 for (var i = 1; i < rowLength; i++){
                     if(table.rows.item(i).style.display != 'none') {
@@ -427,7 +512,14 @@
                             var avg = cells.item(aveIndex);
                             xArray[j] = column.innerText;
                             yArray[j] = avg.innerHTML;
-                            for (var k = aveIndex + 1; k < cellLength; k++) {
+
+                            var index = filterValues.indexOf(cells.item(selected).innerText);
+                            if(filterValues.length <= colors.length)
+                                 colorArray[j] = colors[index];
+                            else colorArray[j] = colors[0];
+
+
+                                for (var k = aveIndex + 1; k < cellLength; k++) {
                                 var arr = [];
                                 if (j != 0 && replicate[k - aveIndex - 1] != null)
                                     arr = replicate[k - aveIndex - 1];
@@ -445,8 +537,7 @@
                     label: "Mean",
                     data: yArray,
                     yAxisID: 'delivery',
-                    backgroundColor: 'rgba(255, 206, 99, 0.6)',
-                    borderColor:    'rgba(255, 206, 99, 0.8)',
+                    backgroundColor: colorArray,
                     borderWidth: 1
                 };
                 myChart.data.labels = xArray;
@@ -560,7 +651,7 @@
                 }
                 if(dualAxis)
                         updateAxis();
-                else update();
+                else update(true);
             }
 
 

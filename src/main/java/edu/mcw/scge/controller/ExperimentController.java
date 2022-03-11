@@ -6,15 +6,27 @@ import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.Vector;
+import edu.mcw.scge.datamodel.publications.ArticleId;
+import edu.mcw.scge.datamodel.publications.Author;
+import edu.mcw.scge.datamodel.publications.Publication;
+import edu.mcw.scge.datamodel.publications.Reference;
 import edu.mcw.scge.process.customLabels.CustomUniqueLabels;
 import edu.mcw.scge.service.db.DBService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.ext.ParamConverter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,6 +41,7 @@ public class ExperimentController extends UserController {
     UserService userService=new UserService();
     CustomUniqueLabels customLabels=new CustomUniqueLabels();
     GrantDao grantDao=new GrantDao();
+    PublicationDAO publicationDAO=new PublicationDAO();
     @RequestMapping(value="/search")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentDao edao=new ExperimentDao();
@@ -93,6 +106,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
     return "redirect:/data/experiments/group/"+study.getGroupId();
 }
 
+
     @RequestMapping(value="/group/{groupId}")
     public String getExperimentsByGroupId( HttpServletRequest req, HttpServletResponse res,
                                            @PathVariable(required = false) int groupId) throws Exception {
@@ -102,6 +116,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         if(!access.isLoggedIn()) {
             return "redirect:/";
         }
+        Publication publication=getPublication(studies.get(0));
+        req.setAttribute("publication", publication);
         LinkedHashMap<Study, List<Experiment>> studyExperimentMap=new LinkedHashMap<>();
         for(Study study:studies) {
             if (access.hasStudyAccess(study, p)) {
@@ -117,26 +133,159 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     studyExperimentMap.put(study, experiments);
             }
         }
+
         if(studyExperimentMap.size()==0){
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
         }
         req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
-           /* req.setAttribute("experiments", records);
-            req.setAttribute("study", study);*/
 
         req.setAttribute("study", studies.get(0));
-
+        Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
+        Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
+        if(studies.get(0).getIsValidationStudy()==1)
+        experimentsValidatedMap=getExperimentsValidated(studies);
+        else
+        validationExperimentsMap=getValidations(studies);
+        req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
+        req.setAttribute("validationExperimentsMap",validationExperimentsMap);
         req.setAttribute("studyExperimentMap", studyExperimentMap);
-      //  req.setAttribute("action", studies.get(0).getStudy());
-      //  <%=grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle()%>
-                req.setAttribute("action",grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantTitle());
+        req.setAttribute("action",grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantTitle());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
     }
+    public Publication getPublication(Study study) throws Exception {
+        Publication publication= new Publication();
+        Reference reference=publicationDAO.getPublicationsBySCGEId(study.getStudyId());
+        if(reference!=null) {
+            publication.setReference(reference);
+            List<Author> authors =publicationDAO.getAuthorsByRefKey(reference.getKey());
+            publication.setAuthorList(authors);
+        }
+       List<ArticleId> articleIds= publicationDAO.getArticleIdsSCGEID(study.getStudyId());
+        if(articleIds!=null && articleIds.size()>0){
+            publication.setArticleIds(articleIds);
+        }
+        return publication;
+    }
+    @RequestMapping(value="/validations/study/{studyId}")
+    public String getLimitedExperimentsByGroupId(HttpServletRequest req, HttpServletResponse res,
+                                                 @PathVariable(required = false) int studyId
+                                                 ) throws Exception {
+        Person p=userService.getCurrentUser(req.getSession());
+        Study s = sdao.getStudyById(studyId).get(0);
+
+        List<Study> studies = sdao.getStudiesByGroupId(s.getGroupId());
+        String experimentIds=  req.getParameter("experimentIds");
+        System.out.println("EXPERIMENT IDS: "+ req.getParameter("experimentIds"));
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+        LinkedHashMap<Study, List<Experiment>> studyExperimentMap=new LinkedHashMap<>();
+        for(Study study:studies) {
+            if (access.hasStudyAccess(study, p)) {
+                List<Experiment> experiments = new ArrayList<>();
+                String[] experimentIDs=experimentIds.split(",");
+                for (String experimentId : experimentIDs) {
+                    if(!experimentId.equals("")) {
+                        Experiment experiment = edao.getExperimentByStudyIdNExperimentId(study.getStudyId() ,Long.parseLong(experimentId));
+                        if (experiment != null) {
+                            experiments.add(experiment);
+                        }
+                    }
+                }
+                if(experiments.size()>0)
+                studyExperimentMap.put(study, experiments);
+            }
+        }
+        for(Study study:studies) {
+            if (access.hasStudyAccess(study, p)) {
+                List<Experiment> experiments=new ArrayList<>();
+                String[] experimentIDs=experimentIds.split(",");
+                for (String experimentId : experimentIDs) {
+                    if(!experimentId.equals("")) {
+                        Experiment experiment = edao.getExperimentByStudyIdNExperimentId(study.getStudyId(), Long.parseLong(experimentId));
+                        if (experiment != null) {
+                            experiments.add(experiment);
+                        }
+                    }
+                }
+                if(experiments.size()>0)
+                studyExperimentMap.put(study, experiments);
+
+            }
+        }
+
+        if(studyExperimentMap.size()==0){
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+        }
+        req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
+
+        req.setAttribute("study", studies.get(0));
+        Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
+        Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
+        if(studies.get(0).getIsValidationStudy()==1)
+            experimentsValidatedMap=getExperimentsValidated(studies);
+        else
+            validationExperimentsMap=getValidations(studies);
+        req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
+        req.setAttribute("validationExperimentsMap",validationExperimentsMap);
+        req.setAttribute("studyExperimentMap", studyExperimentMap);
+        req.setAttribute("action",grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantTitle());
+        req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }
+    public Map<Long, List<Experiment>> getValidations(List<Study> studies) throws Exception {
+       Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
+
+        for(Study study:studies) {
+           List<Experiment> experiments=edao.getExperimentsByStudy(study.getStudyId());
+
+           for (Experiment e : experiments) {
+                   List<Long> experimentIds = edao.getValidationExperiments(e.getExperimentId());
+                   List<Experiment> validatedExperiments = new ArrayList<>();
+                   for (long experimentId : experimentIds) {
+                       Experiment experiment = edao.getExperiment(experimentId);
+                       validatedExperiments.add(experiment);
+                   }
+                   if(validatedExperiments.size()>0)
+                   validationExperimentsMap.put(e.getExperimentId(), validatedExperiments);
+               }
+
+       }
+        System.out.println("Validations:"+ validationExperimentsMap.size());
+        return validationExperimentsMap;
+    }
+    public Map<Long, List<Experiment>> getExperimentsValidated(List<Study> studies) throws Exception {
+        Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
+        for(Study study:studies) {
+
+                List<Experiment> experiments = edao.getExperimentsByStudy(study.getStudyId());
+                for (Experiment e : experiments) {
+                    List<Long> experimentIds = edao.getExperimentsValidated(e.getExperimentId());
+                    List<Experiment> validatedExperiments = new ArrayList<>();
+                    for (long experimentId : experimentIds) {
+                        Experiment experiment = edao.getExperiment(experimentId);
+                        validatedExperiments.add(experiment);
+                    }
+                    if(validatedExperiments.size()>0)
+                    experimentsValidatedMap.put(e.getExperimentId(), validatedExperiments);
+                }
+
+
+        }
+        System.out.println("Experiments validated:"+ experimentsValidatedMap.size());
+
+        return experimentsValidatedMap;
+    }
+
     @RequestMapping(value="/experiment/experimentRecords")
     public String getAllExperimentRecords(HttpServletRequest req, HttpServletResponse res
     ) throws Exception {
@@ -213,8 +362,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
     }
-    @RequestMapping(value="/experiment/compareExperiments/{experimentId1}/{experimentId2}")
-    public String compareExperiments(HttpServletRequest req, HttpServletResponse res,
+
+    @RequestMapping(value="/experiment/compare/{experimentId1}/{experimentId2}")
+    public String compare(HttpServletRequest req, HttpServletResponse res,
                                      @PathVariable(required = false) long experimentId1,
                                      @PathVariable(required = false) long experimentId2) throws Exception {
 
@@ -272,7 +422,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             for (ExperimentResultDetail result : experimentResults) {
                 noOfSamples = result.getNumberOfSamples();
                 units = "\"" + result.getResultType() + " in " + experimentResults.get(0).getUnits() + "\"";
-                if (result.getReplicate() == 0)
+                if (result.getReplicate() == 0 && !result.getResult().equalsIgnoreCase("No editing detected"))
                     average = Double.valueOf(result.getResult());
             }
 
@@ -311,6 +461,56 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
     }
+    @RequestMapping(value="/experiment/compareExperiments/{experimentId1}/{experimentId2}")
+    public String compareExperiments(HttpServletRequest req, HttpServletResponse res,
+                                     @PathVariable(required = false) long experimentId1,
+                                     @PathVariable(required = false) long experimentId2) throws Exception {
+
+        Person p = userService.getCurrentUser(req.getSession());
+
+        if (!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        List<ExperimentRecord> exp1 = edao.getExperimentRecords(experimentId1);
+        List<ExperimentRecord> exp2 = edao.getExperimentRecords(experimentId2);
+        Set<Integer> studies = new TreeSet<>();
+        studies.add(exp1.get(0).getStudyId());
+        studies.add(exp2.get(0).getStudyId());
+        List<Study> studiesList = new ArrayList<>();
+        for (int s : studies){
+            Study study = sdao.getStudyById(s).get(0);
+            studiesList.add(study);
+            if(!access.hasStudyAccess(study,p)){
+                req.setAttribute("page", "/WEB-INF/jsp/error");
+                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+                return null;
+            }
+        }
+
+        ExperimentRecord expr1 = exp1.get(0);
+        ExperimentRecord expr2 = exp2.get(0);
+
+        Experiment e1 = edao.getExperiment(experimentId1);
+        Experiment e2 = edao.getExperiment(experimentId2);
+
+        List<ExperimentRecord> allRecords = new ArrayList<>();
+        allRecords.addAll(exp1);
+        allRecords.addAll(exp2);
+
+
+        req.setAttribute("action", "Compare Experiments");
+
+        req.setAttribute("studies",studiesList);
+        req.setAttribute("expRecord1",expr1);
+        req.setAttribute("expRecord2",expr2);
+        req.setAttribute("exp1",e1);
+        req.setAttribute("exp2",e2);
+
+        req.setAttribute("page", "/WEB-INF/jsp/tools/compareExperiments");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        return null;
+    }
 
     @RequestMapping(value="/experiment/{experimentId}")
     public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res,
@@ -327,6 +527,21 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             return "redirect:/";
         }
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
+        Experiment e = edao.getExperiment(experimentId);
+
+        if (records.size() == 0 ) {
+            Study localStudy=sdao.getStudyByExperimentId(experimentId).get(0);
+
+            req.setAttribute("study",localStudy);
+            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Experiments</a>");
+            req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
+            req.setAttribute("deliveryAssay",new HashMap<String,String>());
+            req.setAttribute("editingAssay",new HashMap<String,String>());
+            req.setAttribute("experiment",e);
+            req.setAttribute("experimentRecordsMap",new HashMap<Long, ExperimentRecord>());
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+        }
 
         List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
 
@@ -336,10 +551,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
 
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
-
+        GrantDao grantDao=new GrantDao();
         Grant grant=grantDao.getGrantByGroupId(study.getGroupId());
        Map<String, Integer> objectSizeMap=customLabels.getObjectSizeMap(records);
-        Experiment e = edao.getExperiment(experimentId);
         if (!access.hasStudyAccess(study,p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -553,32 +767,35 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             "\nmodel:" +m.getName()+
                     "\nresults:"+experimentResults.size());
 
-         /*   List<String> regionList = new ArrayList<>();
-            StringBuilder json = new StringBuilder();
-            json.append("[");
-            for (AnimalTestingResultsSummary s : results) {
-                regionList.add(s.getTissueTerm().trim());
-                int value = Integer.parseInt(s.getSignalPresent());
-                json.append("{\"sample\":\"");
-                json.append("A" + "\",");
-                json.append("\"gene\":\"" + s.getTissueTerm() + "\",");
-                json.append("\"value\":" + value + "},");
-            }
-            json.append("]");
-            Gson gson = new Gson();
-            String regionListJson = gson.toJson(regionList);
-            req.setAttribute("regionListJson", regionListJson);
-            req.setAttribute("json", json);
-            */
-
         }
-        req.setAttribute("action", "Condition Details");
+        req.setAttribute("action", "Experiment Record Detail");
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment</a>");
 
         req.setAttribute("study", study);
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
+    }
+    @RequestMapping(value="/update/experiment/{experimentId}")
+    public String updateTargetTissue(HttpServletRequest req, HttpServletResponse res,
+                                       @PathVariable(required = false) long experimentId) throws Exception {
+        Person p = userService.getCurrentUser(req.getSession());
+        long expRecordId=0;
+        if (!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+       String experimentRecordIdString=req.getParameter("experimentRecordIds");
+        if(experimentRecordIdString!=null) {
+            String[] experimentRecordIds = experimentRecordIdString.split(",");
+            if (experimentRecordIds.length > 0){
+                List<Long> erIds = Arrays.stream(experimentRecordIds).filter(id-> !id.equals("")).map(id -> Long.valueOf(id)).collect(Collectors.toList());
+                erDao.updateTargetTissue(experimentId, erIds);
+        }
+        }
+        System.out.println("EXPERIMENTID:"+ experimentId);
+        System.out.println("Experiment REcord IDS:"+ req.getParameter("experimentRecordIds"));
+
+        return "redirect:/data/experiments/experiment/"+experimentId;
     }
 
 }
