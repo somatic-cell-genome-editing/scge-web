@@ -449,10 +449,11 @@
     <% }
     }
     %>
-
-             <%=upCaseChildTerm%>
-
-        </td>
+    <%=upCaseChildTerm%>
+    <% if (targetTissues2.containsKey(childTerm)) { %>
+    &nbsp;<span style="color:#DA70D6">(TARGET)</span>
+    <%} %>
+    </td>
             <% if (tm.hasDelivery(organ,childTerm)) { %>
                 <td width="75" style="border-bottom:1px solid black;border-color:#770C0E;" align="center"><input onclick="location.href='<%=tm.getDeliveryURL(organ,childTerm)%>'" type="button" style="margin-left:5px;border:0px solid black; font-size:10px; background-color:#007BFF;color:white;border-radius: 5px;" value="View Delivery Data"/></td>
             <% } else { %>
