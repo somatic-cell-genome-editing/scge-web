@@ -4,10 +4,13 @@ import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.Vector;
+import edu.mcw.scge.datamodel.publications.Publication;
+import edu.mcw.scge.datamodel.publications.Reference;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.service.es.IndexServices;
 import edu.mcw.scge.web.UI;
 import org.elasticsearch.action.search.SearchResponse;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +29,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value="/data/editors")
 public class EditorController {
     EditorDao editorDao = new EditorDao();
-
+    PublicationDAO publicationDAO=new PublicationDAO();
     @RequestMapping(value="/search")
     public String getEditors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         Access access = new Access();
@@ -134,7 +137,7 @@ public class EditorController {
             req.setAttribute("comparableEditors", comparableEditors);
         }
         /*************************************************************/
-
+        req.setAttribute("publications", publicationDAO.getPublications(editor.getId()));
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
