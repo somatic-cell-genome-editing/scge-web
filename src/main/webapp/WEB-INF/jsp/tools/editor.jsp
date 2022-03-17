@@ -169,9 +169,11 @@
             <table style="width:80%">
                 <tr><td style="width: 10%"></td>
                     <td>
+                        <div style="height:200px; overflow:scroll;border:1px solid #E5E5E5;">
                         <%for (Guide relatedGuide: relatedGuides) { %>
-                        <a href="/toolkit/data/guide/system?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence().toUpperCase()%></a><br>
+                        <a style="padding-top:3px;" href="/toolkit/data/guide/system?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence().toUpperCase()%></a><br>
                         <% } %>
+                        </div>
                     </td>
                 </tr>
             </table>
