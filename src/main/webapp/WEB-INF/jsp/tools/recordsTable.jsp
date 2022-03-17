@@ -32,9 +32,11 @@
             widgets: ['zebra','resizable', 'stickyHeaders'],
         });
         $("#myTable").tablesorter().bind("sortEnd", function (e, t) {
-            if(dualAxis)
+            if(dualAxis) {
                 updateAxis();
-            else update(false);
+            } else {
+                update(false);
+            }
         });
     });
 	function download(){
@@ -92,7 +94,6 @@ List<String> options = new ArrayList<>();
 <% try {  %>
 
         <%@include file="recordFilters.jsp"%>
-<% if (options.size() > 0) { %>
 <div>
     <b>Color By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px">
         <% for(String filter: options) {%>
@@ -100,7 +101,6 @@ List<String> options = new ArrayList<>();
         <%} %>
     </select>
 </div>
-<% } %>
 
 <br>
         <!--table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table-->
@@ -463,7 +463,9 @@ List<String> options = new ArrayList<>();
                 }
                 return detail;
             }
+
             function update(updateColor){
+
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var xArray=[];
                 var yArray=[];
@@ -652,9 +654,11 @@ List<String> options = new ArrayList<>();
                         }
                     }
                 }
-                if(dualAxis)
-                        updateAxis();
-                else update(true);
+                if(dualAxis) {
+                    updateAxis();
+                }else {
+                    update(true);
+                }
             }
 
 
