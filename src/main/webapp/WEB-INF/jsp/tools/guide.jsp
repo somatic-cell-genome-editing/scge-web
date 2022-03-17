@@ -356,6 +356,9 @@
     <div id="associatedProtocols">
         <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
     </div>
+    <div id="associatedPublications">
+        <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+    </div>
     <div id="associatedStudies">
     <jsp:include page="associatedStudies.jsp"/>
     </div>

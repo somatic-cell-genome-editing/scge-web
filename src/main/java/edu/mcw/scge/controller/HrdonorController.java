@@ -2,10 +2,7 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.ExperimentDao;
-import edu.mcw.scge.dao.implementation.HRDonorDao;
-import edu.mcw.scge.dao.implementation.ProtocolDao;
-import edu.mcw.scge.dao.implementation.StudyDao;
+import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
@@ -27,7 +24,7 @@ import java.util.stream.Collectors;
 public class HrdonorController {
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     HRDonorDao dao = new HRDonorDao();
-
+    PublicationDAO publicationDAO=new PublicationDAO();
     @RequestMapping(value="/search")
     public String getHrdonors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         List<HRDonor> records= dao.getAllHRDonors();
@@ -80,6 +77,7 @@ public class HrdonorController {
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByHrdonor(hrDonor.getId());
         req.setAttribute("experimentRecords",experimentRecords);
+        req.setAttribute("publications", publicationDAO.getPublications(hrDonor.getId()));
 
         HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {

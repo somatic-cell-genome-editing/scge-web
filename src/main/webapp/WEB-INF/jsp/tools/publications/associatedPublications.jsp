@@ -4,7 +4,7 @@
 
 <script>
     $(function() {
-        $("#myTable-1").tablesorter({
+        $("#myTable-pub").tablesorter({
             theme : 'blue'
 
         });
@@ -26,15 +26,19 @@
 </table>
 <c:choose>
     <c:when test="${fn:length(publications)>0}">
-        <table>
+        <table  id="myTable-pub" class="tablesorter">
             <thead>
             <tr>
-                <th>Title</th>
+                <th></th>
+                <th>Publication Title</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${publications}" var="pub">
                 <tr>
+                    <% if (access.isAdmin(p)) {  %>
+                    <td><a href="/toolkit/data/publications/removeAssociation?objectId=<%=objectId%>&refKey=${pub.reference.key}&redirectURL=<%=redirectURL%>" style="color:white;background-color:red; padding:7px;">Remove</a></td>
+                    <% } %>
                     <td>${pub.reference.title}</td>
                 </tr>
             </c:forEach>

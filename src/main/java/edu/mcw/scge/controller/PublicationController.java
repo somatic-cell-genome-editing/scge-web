@@ -96,9 +96,6 @@ public class PublicationController {
             req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
         }
 
-     //   List<Publication> publications = publicationDAO.getPublicationsBySCGEId(Long.parseLong(objectId));
-
-     //   List<Reference> references = publicationDAO.getAllReferences();
         String objectId=req.getParameter("objectId");
         if(objectId!=null) {
             long id = Long.parseLong(objectId);
@@ -151,4 +148,20 @@ public class PublicationController {
 
         return "redirect:"+redirectURL;
     }
+    @RequestMapping(value="/removeAssociation")
+    public String getRemoveAssociations(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+        String objectId = req.getParameter("objectId");
+        String redirectURL = req.getParameter("redirectURL");
+        String refKey = req.getParameter("refKey");
+
+        publicationDAO.deletePubAssociation(Long.parseLong(objectId),Integer.parseInt(refKey));
+
+        return "redirect:" + redirectURL;
+    }
+
 }

@@ -73,8 +73,11 @@
 <div id="associatedProtocols">
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
 </div>
-
-<br>
+<hr>
+<div id="associatedPublications">
+    <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+</div>
+<hr>
 <jsp:include page="associatedStudies.jsp"/>
 <br>
 <hr>

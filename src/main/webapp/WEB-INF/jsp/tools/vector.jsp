@@ -94,6 +94,9 @@
 </div>
 
 <br>
+<div id="associatedPublications">
+    <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+</div>
 <jsp:include page="associatedStudies.jsp"/>
 <br>
 <hr>

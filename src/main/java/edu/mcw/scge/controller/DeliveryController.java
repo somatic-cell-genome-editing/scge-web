@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class DeliveryController {
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     DeliveryDao dao = new DeliveryDao();
+    PublicationDAO publicationDAO=new PublicationDAO();
     @RequestMapping(value="/search")
     public String getDeliverySystems(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
 
@@ -71,6 +72,7 @@ public class DeliveryController {
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(system.getId());
         req.setAttribute("protocols", protocols);
+        req.setAttribute("publications", publicationDAO.getPublications(system.getId()));
 
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByDeliverySystem(system.getId());

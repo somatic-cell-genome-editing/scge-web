@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value="/data/models")
 public class ModelController {
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
-
+    PublicationDAO publicationDAO=new PublicationDAO();
     ExperimentDao experimentDao=new ExperimentDao();
     @RequestMapping(value="/search")
     public String getModels(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
@@ -71,6 +71,7 @@ public class ModelController {
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(mod.getModelId());
         req.setAttribute("protocols", protocols);
+        req.setAttribute("publications", publicationDAO.getPublications(mod.getModelId()));
 
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByModel(mod.getModelId());

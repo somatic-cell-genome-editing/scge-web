@@ -14,7 +14,7 @@
     UserService userService = new UserService();
 %>
 <div class="container" style="height: available"  align="right">
-    <form action="/toolkit/data/publications/associate?objectId=<%=request.getAttribute("objectId")%>&${_csrf.parameterName}=${_csrf.token}" method="post">
+    <form action="/toolkit/data/publications/associate?objectId=<%=request.getAttribute("objectId")%>&redirectURL=<%=request.getAttribute("redirectURL")%>&${_csrf.parameterName}=${_csrf.token}" method="post">
     <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
     <button class="btn btn-primary btn-sm" type="submit">Submit</button>
     <%}%>
