@@ -92,13 +92,16 @@ List<String> options = new ArrayList<>();
 <% try {  %>
 
         <%@include file="recordFilters.jsp"%>
+<% if (options.size() > 0) { %>
 <div>
-    <b>Group By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px">
+    <b>Color By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px">
         <% for(String filter: options) {%>
         <option style="padding: 5px" value=<%=filter%>><%=filter%></option>
         <%} %>
     </select>
 </div>
+<% } %>
+
 <br>
         <!--table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table-->
        <% //if(resultMap != null && resultMap.size()!= 0) {%>
