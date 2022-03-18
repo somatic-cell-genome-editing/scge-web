@@ -35,7 +35,13 @@
                             </label>
                         </div>
                         <div class="col">
-                            <h5> <a href="/toolkit/data/experiments/study/${pub.articleIds[0].scgeId}" >${pub.reference.title}</a></h5>
+                            <c:set var="pmid" value=""/>
+                            <c:forEach items="${pub.articleIds}" var="id">
+                                <c:if test="${id.idType=='pubmed'}">
+                                    <c:set var="pmid" value="${id.id}"/>
+                                </c:if>
+                            </c:forEach>
+                            <h5> <a href="https://pubmed.ncbi.nlm.nih.gov/${pmid}" >${pub.reference.title}</a></h5>
 
                         </div>
                     </div>
