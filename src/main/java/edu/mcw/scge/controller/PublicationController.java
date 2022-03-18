@@ -7,10 +7,7 @@ import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.publications.Publication;
 import edu.mcw.scge.datamodel.publications.Reference;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -121,15 +118,15 @@ public class PublicationController {
             return null;
 
     }
-    @RequestMapping(value="/associate", method = RequestMethod.POST)
-    public String makeAssociation(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    @RequestMapping(value="/associate/{objectId}", method = RequestMethod.POST)
+    public String makeObjectAssociation(HttpServletRequest req, HttpServletResponse res, @PathVariable(required = true)String objectId) throws Exception {
 
         UserService userService=new UserService();
         Access access= new Access();
         if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
             req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
         }
-        String objectId=req.getParameter("objectId");
+     //   String objectId=req.getParameter("objectId");
 
         String redirectURL = req.getParameter("redirectURL");
         String[] refKeyValues=req.getParameterValues("refKey");
@@ -147,6 +144,25 @@ public class PublicationController {
 
 
         return "redirect:"+redirectURL;
+    }
+    @RequestMapping(value="/associate", method = RequestMethod.POST)
+    public String makeAssociation(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+
+        String[] refKeyValues=req.getParameterValues("refKey");
+        for(int i=0;i<refKeyValues.length;i++){
+            String refKey=refKeyValues[i];
+            String type=req.getParameter("associationType"+refKey);
+            System.out.println("REFKEY:" +refKey+"\tTYPE:"+type);
+
+        }
+
+        return "redirect:/add";
     }
     @RequestMapping(value="/removeAssociation")
     public String getRemoveAssociations(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {

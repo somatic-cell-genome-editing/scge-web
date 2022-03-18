@@ -19,9 +19,9 @@
 <hr>
 <table width="95%">
     <tr><td><h4 class="page-header" style="color:grey;">Associated Publications</h4></td>
-
+        <% if (access.isAdmin(p)) { %>
     <td align="right"><a href="/toolkit/data/publications/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Publications</a></td>
-
+<%}%>
 </tr>
 </table>
 <c:choose>

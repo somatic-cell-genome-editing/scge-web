@@ -14,7 +14,7 @@
     UserService userService = new UserService();
 %>
 <div class="container" style="height: available"  align="right">
-    <form action="/toolkit/data/publications/associate?objectId=<%=request.getAttribute("objectId")%>&redirectURL=<%=request.getAttribute("redirectURL")%>&${_csrf.parameterName}=${_csrf.token}" method="post">
+    <form action="/toolkit/data/publications/associate/<%=request.getAttribute("objectId")%>?redirectURL=<%=request.getAttribute("redirectURL")%>&${_csrf.parameterName}=${_csrf.token}" method="post">
     <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
     <button class="btn btn-primary btn-sm" type="submit">Submit</button>
     <%}%>
@@ -23,6 +23,7 @@
         <tr><td>
             <div>
                 <div class="row">
+                    <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
                         <div class="col-xs-1">
                             <input type="checkbox" name="refKey" value="${pub.reference.key}"/>&nbsp;
                         </div>
@@ -34,14 +35,9 @@
                                 </select>
                             </label>
                         </div>
+                    <%}%>
                         <div class="col">
-                            <c:set var="pmid" value=""/>
-                            <c:forEach items="${pub.articleIds}" var="id">
-                                <c:if test="${id.idType=='pubmed'}">
-                                    <c:set var="pmid" value="${id.id}"/>
-                                </c:if>
-                            </c:forEach>
-                            <h5> <a href="https://pubmed.ncbi.nlm.nih.gov/${pmid}" >${pub.reference.title}</a></h5>
+                            <h5> <a href="/toolkit/data/experiments/study/${pub.articleIds[0].scgeId}" >${pub.reference.title}</a></h5>
 
                         </div>
                     </div>
