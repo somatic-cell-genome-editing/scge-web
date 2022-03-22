@@ -34,7 +34,7 @@
                     </c:forEach>
                     <h5> <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
 
-                            <!--input type="checkbox" name="refKey" value="$--{pub.reference.key}"/-->&nbsp;
+                            <input type="checkbox" name="refKey" value="$--{pub.reference.key}"/>&nbsp;
 
                         <%}%>
                         <a href="https://pubmed.ncbi.nlm.nih.gov/${pmid}" >${pub.reference.title}</a></h5>

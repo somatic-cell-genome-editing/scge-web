@@ -72,8 +72,8 @@ public class DeliveryController {
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(system.getId());
         req.setAttribute("protocols", protocols);
-        req.setAttribute("publications", publicationDAO.getPublications(system.getId()));
-
+        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(system.getId()));
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(system.getId()));
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByDeliverySystem(system.getId());
         req.setAttribute("experimentRecords",experimentRecords);

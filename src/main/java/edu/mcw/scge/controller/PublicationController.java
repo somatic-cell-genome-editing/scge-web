@@ -106,7 +106,6 @@ public class PublicationController {
                 publication.setArticleIds(publicationDAO.getArticleIdsByRefKey(ref.getKey()));
                 publications.add(publication);
             }
-            System.out.println("REDIRECT URL IN association form"+ req.getParameter("redirectURL"));
             req.setAttribute("redirectURL",req.getParameter("redirectURL"));
             req.setAttribute("objectId", req.getParameter("objectId"));
             req.setAttribute("publications", publications);

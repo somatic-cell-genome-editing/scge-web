@@ -137,7 +137,9 @@ public class EditorController {
             req.setAttribute("comparableEditors", comparableEditors);
         }
         /*************************************************************/
-        req.setAttribute("publications", publicationDAO.getPublications(editor.getId()));
+        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(editor.getId()));
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(editor.getId()));
+
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

@@ -8,6 +8,10 @@
             theme : 'blue'
 
         });
+        $("#myTable-pub2").tablesorter({
+            theme : 'blue'
+
+        });
     });
 
     function addProtocol() {
@@ -25,7 +29,7 @@
 </tr>
 </table>
 <c:choose>
-    <c:when test="${fn:length(publications)>0}">
+    <c:when test="${fn:length(associatedPublications)>0}">
         <table  id="myTable-pub" class="tablesorter">
             <thead>
             <tr>
@@ -34,7 +38,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${publications}" var="pub">
+            <c:forEach items="${associatedPublications}" var="pub">
                 <tr>
                     <% if (access.isAdmin(p)) {  %>
                     <td><a href="/toolkit/data/publications/removeAssociation?objectId=<%=objectId%>&refKey=${pub.reference.key}&redirectURL=<%=redirectURL%>" style="color:white;background-color:red; padding:7px;">Remove</a></td>

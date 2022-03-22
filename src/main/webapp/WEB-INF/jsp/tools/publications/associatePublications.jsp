@@ -30,7 +30,7 @@
                         <div class="col-xs-2">
                             <label>Association Type
                                 <select class="form-control form-control-sm" name="associationType${pub.reference.key}">
-                                    <option value="assoicated">Associated</option>
+                                    <option value="associated">Associated</option>
                                     <option value="related">Related</option>
                                 </select>
                             </label>

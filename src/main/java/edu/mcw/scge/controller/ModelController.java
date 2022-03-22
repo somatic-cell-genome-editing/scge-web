@@ -71,8 +71,8 @@ public class ModelController {
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(mod.getModelId());
         req.setAttribute("protocols", protocols);
-        req.setAttribute("publications", publicationDAO.getPublications(mod.getModelId()));
-
+        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(mod.getModelId()));
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(mod.getModelId()));
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByModel(mod.getModelId());
         req.setAttribute("experimentRecords",experimentRecords);

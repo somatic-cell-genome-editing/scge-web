@@ -77,8 +77,8 @@ public class HrdonorController {
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByHrdonor(hrDonor.getId());
         req.setAttribute("experimentRecords",experimentRecords);
-        req.setAttribute("publications", publicationDAO.getPublications(hrDonor.getId()));
-
+        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(hrDonor.getId()));
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(hrDonor.getId()));
         HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         for(ExperimentRecord record:experimentRecords) {
             guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));

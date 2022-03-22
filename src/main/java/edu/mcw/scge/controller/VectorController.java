@@ -65,8 +65,8 @@ public class VectorController {
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(v.getVectorId());
         req.setAttribute("protocols", protocols);
-        req.setAttribute("publications", publicationDAO.getPublications(v.getVectorId()));
-
+        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(v.getVectorId()));
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(v.getVectorId()));
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByVector(v.getVectorId());
 
