@@ -51,7 +51,7 @@
                     <h6>Select Experiment:</h6>
                     <table>
                     <c:forEach items="${experiments}" var="experiment">
-                        <tr ><td> <input type="checkbox" name="experimentCheck" value="${experiment.experimentId}"><a href="/toolkit/data/experiments/experiment/${experiment.experimentId}">&nbsp;${experiment.name}</a></td>
+                        <tr ><td style="width:60%"> <input type="checkbox" name="experimentCheck" value="${experiment.experimentId}"><a href="/toolkit/data/experiments/experiment/${experiment.experimentId}">&nbsp;${experiment.name}</a></td>
                             <td>
                                 <input type="radio" name="experimentRadio" value="associated">&nbsp;Associated
                                 <input type="radio" name="experimentRadio" value="related">&nbsp;Related
