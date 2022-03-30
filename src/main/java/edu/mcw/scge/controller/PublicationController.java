@@ -2,8 +2,9 @@ package edu.mcw.scge.controller;
 
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
-import edu.mcw.scge.dao.implementation.PublicationDAO;
+import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.datamodel.publications.Publication;
 import edu.mcw.scge.datamodel.publications.Reference;
 import org.springframework.stereotype.Controller;
@@ -11,14 +12,16 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(value="/data/publications")
 public class PublicationController {
     PublicationDAO publicationDAO=new PublicationDAO();
+    ExperimentDao experimentDao=new ExperimentDao();
+    ExperimentRecordDao recordDao=new ExperimentRecordDao();
+    GuideDao guideDao=new GuideDao();
+    VectorDao vectorDao=new VectorDao();
     @RequestMapping(value="/search")
     public String getEditors(HttpServletRequest req, HttpServletResponse res) throws Exception {
         Access access = new Access();
@@ -152,16 +155,99 @@ public class PublicationController {
         if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
             req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
         }
-
+        List<Reference> references=new ArrayList<>();
         String[] refKeyValues=req.getParameterValues("refKey");
         for(int i=0;i<refKeyValues.length;i++){
-            String refKey=refKeyValues[i];
-            String type=req.getParameter("associationType"+refKey);
-            System.out.println("REFKEY:" +refKey+"\tTYPE:"+type);
+            int refKey= Integer.parseInt(refKeyValues[i]);
+            Reference reference=publicationDAO.getReferenceByKey(refKey);
+           references.add(reference);
 
         }
+        StudyDao studyDao=new StudyDao();
+        req.setAttribute("refKeys", refKeyValues);
+        req.setAttribute("references", references);
+        req.setAttribute("studies", studyDao.getStudies());
+        req.setAttribute("action", "Publication Association Form");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/publications/associationForm");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        return null;
+    }
+    @RequestMapping(value="/associate/study")
+    public String makeStudyLevelassociation(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-        return "redirect:/add";
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+        int studyId= Integer.parseInt(req.getParameter("studyId"));
+        List<Reference> references=new ArrayList<>();
+        String[] refKeyValues=req.getParameterValues("refKey");
+        if(refKeyValues!=null)
+        for(int i=0;i<refKeyValues.length;i++){
+            int refKey= Integer.parseInt(refKeyValues[i]);
+            Reference reference=publicationDAO.getReferenceByKey(refKey);
+            references.add(reference);
+
+        }
+        StudyDao studyDao=new StudyDao();
+        List<Experiment> experiments=experimentDao.getExperimentsByStudy(studyId);
+        Map<Long, List<ExperimentRecord>> experimentRecordsMap=new HashMap<>();
+        for(Experiment experiment:experiments){
+            List<ExperimentRecord> records=experimentDao.getExperimentRecords(experiment.getExperimentId());
+            experimentRecordsMap.put(experiment.getExperimentId(),records );
+        }
+        Map<String, Map<Long, String>>  objectMap=new HashMap<>();
+        objectMap.put("Editor", new HashMap<>());
+        objectMap.put("Guide", new HashMap<>());
+        objectMap.put("Vector", new HashMap<>());
+        objectMap.put("Model", new HashMap<>());
+        objectMap.put("Delivery", new HashMap<>());
+        objectMap.put("HRDonor", new HashMap<>());
+        for(Map.Entry entry:experimentRecordsMap.entrySet()){
+            List<ExperimentRecord> records= (List<ExperimentRecord>) entry.getValue();
+            for(ExperimentRecord record:records){
+                Map<Long, String> editorMap=objectMap.get("Editor");
+                if(record.getEditorId()>0)
+                editorMap.put(record.getEditorId(), record.getEditorSymbol());
+
+                Map<Long, String> guideMap=objectMap.get("Guide");
+                for(Guide g:guideDao.getGuidesByExpRecId(record.getExperimentRecordId()))
+                    if(g.getGuide_id()>0)
+                guideMap.put(g.getGuide_id(),g.getGuide());
+
+                Map<Long, String> modelMap=objectMap.get("Model");
+                if(record.getModelId()>0)
+                modelMap.put(record.getModelId(), record.getModelName());
+
+                Map<Long, String> vectorMap=objectMap.get("Vector");
+                for(Vector v:vectorDao.getVectorsByExpRecId(record.getExperimentRecordId())){
+                   if(v.getVectorId()>0)
+                    vectorMap.put(v.getVectorId(), v.getName());
+                }
+
+                Map<Long, String> devliveryMap=objectMap.get("Delivery");
+                if(record.getHrdonorId()>0)
+                devliveryMap.put(record.getDeliverySystemId(), record.getDeliverySystemType());
+
+                Map<Long, String> hrDonor=objectMap.get("HRDonor");
+                if(record.getHrdonorId()>0)
+                hrDonor.put(record.getHrdonorId(), record.getHrdonorName());
+
+
+            }
+        }
+
+        req.setAttribute("studies", studyDao.getStudies());
+        req.setAttribute("selectedStudyId", studyId);
+        req.setAttribute("experimentRecordsMap", experimentRecordsMap);
+        req.setAttribute("experiments", experiments);
+        req.setAttribute("objectMap", objectMap);
+        req.setAttribute("references", references);
+        req.setAttribute("action", "Publication Association Form");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/publications/associationForm");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        return null;
     }
     @RequestMapping(value="/removeAssociation")
     public String getRemoveAssociations(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {

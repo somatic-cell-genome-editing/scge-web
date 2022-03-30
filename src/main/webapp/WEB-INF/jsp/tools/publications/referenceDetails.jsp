@@ -18,7 +18,7 @@
     </a>
 
 <div class="collapse" id="refDetails${pub.reference.key}">
-    <strong style="color:grey">Date of publication:</strong><span style="color:green">${pub.reference.pubDate}</span>
+    <!--strong style="color:grey">Date of publication:</strong><span style="color:green">$--{pub.reference.pubDate}</span-->
     <br>
     <strong style="color:grey">Article Ids:</strong>
     <c:forEach items="${pub.articleIds}" var="id">

@@ -15,11 +15,24 @@
     UserService userService = new UserService();
 %>
 <div class="container" style="height: available"  align="right">
-    <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
-    <button class="btn btn-primary btn-sm" type="button"
-            onclick="javascript:location.href='/toolkit/data/publications/add'">Add Publication
-    </button>
-    <%}%>
+    <form action="/toolkit/data/publications/associate?${_csrf.parameterName}=${_csrf.token}" method="post">
+    <div align="right">
+    <div class="row" style="width: 20%">
+        <div class="col-xs-1"  align="right">
+            <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
+            <button class="btn btn-primary btn-sm" type="button"
+                    onclick="javascript:location.href='/toolkit/data/publications/add'">Add Publication
+            </button>
+            <%}%>
+        </div>
+        <div class="col-xs-1" align="right">
+            <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
+            &nbsp;<button class="btn btn-primary btn-sm" type="submit"  >Associate</button>
+            <% } %>
+        </div>
+    </div>
+    </div>
+
     <table class="table">
     <c:forEach items="${publications}" var="pub">
 
@@ -34,7 +47,7 @@
                     </c:forEach>
                     <h5> <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
 
-                            <input type="checkbox" name="refKey" value="$--{pub.reference.key}"/>&nbsp;
+                            <input type="checkbox" name="refKey" value="${pub.reference.key}"/>&nbsp;
 
                         <%}%>
                         <a href="https://pubmed.ncbi.nlm.nih.gov/${pmid}" >${pub.reference.title}</a></h5>
@@ -44,5 +57,6 @@
             </td></tr>
     </c:forEach>
     </table>
+    </form>
 </div>
 
