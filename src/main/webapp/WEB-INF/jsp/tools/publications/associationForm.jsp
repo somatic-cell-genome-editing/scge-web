@@ -32,7 +32,7 @@
                     <ul>
                         <c:forEach  items="${references}" var="ref">
                             <input type="hidden" name="refKey" value="${ref.key}">
-                            <li>${ref.title}</li>
+                            <li><a href="">${ref.title}</a></li>
                         </c:forEach>
                     </ul>
                 </div>
@@ -51,7 +51,7 @@
                     <h6>Select Experiment:</h6>
                     <table>
                     <c:forEach items="${experiments}" var="experiment">
-                        <tr ><td> <input type="checkbox" name="experimentCheck" value="${experiment.experimentId}">&nbsp;${experiment.name}</td>
+                        <tr ><td> <input type="checkbox" name="experimentCheck" value="${experiment.experimentId}"><a href="/toolkit/data/experiments/experiment/${experiment.experimentId}">&nbsp;${experiment.name}</a></td>
                             <td>
                                 <input type="radio" name="experimentRadio" value="associated">&nbsp;Associated
                                 <input type="radio" name="experimentRadio" value="related">&nbsp;Related
@@ -65,10 +65,29 @@
                     <c:if test="${fn:length(objectMap)>0}">
                         <c:forEach items="${objectMap}" var="object">
                             <c:if test="${fn:length(object.value)>0}">
+                                <c:set var="url" value=""/>
+                                <c:if test="${object.key=='Editor'}">
+                                    <c:set var="url" value="/toolkit/data/editors/editor?id="/>
+                                </c:if>
+                                <c:if test="${object.key=='Guide'}">
+                                    <c:set var="url" value="/toolkit/data/guide/system?id="/>
+                                </c:if>
+                                <c:if test="${object.key=='Delivery'}">
+                                    <c:set var="url" value="/toolkit/data/delivery/system?id="/>
+                                </c:if>
+                                <c:if test="${object.key=='Model'}">
+                                    <c:set var="url" value="/toolkit/data/models/model/?id="/>
+                                </c:if>
+                                <c:if test="${object.key=='Vector'}">
+                                    <c:set var="url" value="/toolkit/data/vector/format/?id="/>
+                                </c:if>
+                                <c:if test="${object.key=='HRDonor'}">
+                                    <c:set var="url" value=""/>
+                                </c:if>
                             <h6><input type="checkbox">&nbsp;${object.key}</h6>
                                 <table>
                             <c:forEach items="${object.value}" var="obj">
-                                <tr ><td> <input type="checkbox" name="" value="${obj.key}">&nbsp;${obj.value} -(SCGE-${obj.key})</td>
+                                <tr ><td> <input type="checkbox" name="" value="${obj.key}"><a href="${url}${obj.key}">&nbsp;${obj.value}</a></td>
                                     <td>
                                         <input type="radio" name="" value="associated">&nbsp;Associated
                                         <input type="radio" name="" value="related">&nbsp;Related
