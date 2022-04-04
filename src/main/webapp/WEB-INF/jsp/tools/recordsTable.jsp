@@ -472,7 +472,6 @@ List<String> options = new ArrayList<>();
             }
 
             function update(updateColor){
-
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var xArray=[];
                 var yArray=[];
@@ -532,9 +531,7 @@ List<String> options = new ArrayList<>();
                             yArray[j] = avg.innerHTML;
 
                             var index = filterValues.indexOf(cells.item(selected).innerText);
-                                console.log("in update ",filter);
                                 if(filter != 'None') {
-                                    console.log("in update ",colorArray);
                                     if (filterValues.length <= colors.length)
                                         colorArray[j] = colors[index];
                                     else colorArray[j] = colors[0];
