@@ -42,6 +42,9 @@
 	function download(){
         $("#myTable").tableToCSV();
     }
+    function downloadSelected(){
+        $("#myTable").tableSelectionToCSV();
+    }
 </script>
 
 <% ImageDao idao = new ImageDao();
@@ -95,9 +98,9 @@ List<String> options = new ArrayList<>();
 
         <%@include file="recordFilters.jsp"%>
 <div>
-    <b>Color By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px">
+    <b style="font-size:14px;">Color By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
         <% for(String filter: options) {%>
-        <option style="padding: 5px" value=<%=filter%>><%=filter%></option>
+        <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
         <%} %>
     </select>
 </div>
@@ -106,7 +109,7 @@ List<String> options = new ArrayList<>();
         <!--table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table-->
        <% //if(resultMap != null && resultMap.size()!= 0) {%>
         <div class="chart-container" id = "chartDiv">
-    <canvas id="resultChart" style="position: relative; height:80vh; width:80vw;"></canvas>
+    <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
 
         </div>
 <% //}%>
@@ -116,14 +119,17 @@ List<String> options = new ArrayList<>();
 
     <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
-    <table width="90%">
+    <table width="100%">
         <tr>
             <td><h3>Results</h3></td>
+            <td width="100" align="right"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Selection" onclick="downloadSelected()"/></td>
+            <td width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download All" onclick="download()"/></td>
         </tr>
     </table>
 
     <table id="myTable" class="table tablesorter table-striped table-sm">
-    <thead>
+        <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
+        <thead>
     <tr>
         <th>Condition<%--=request.getAttribute("uniqueFields").toString()--%></th>
     <%  for(String option:headers) { %>
@@ -135,7 +141,7 @@ List<String> options = new ArrayList<>();
         </c:if>
         <% if (resultTypeList.size() > 0 ) { %><th>Result Type</th><% } %>
         <% if (unitList.size() > 0 ) {  %><th>Units</th><% } %>
-        <th id="result">Result</th>
+        <th id="result">Result/Mean</th>
         <th></th>
     </tr>
     </thead>
@@ -660,6 +666,7 @@ List<String> options = new ArrayList<>();
                     update(true);
                 }
             }
+
 
 
             function generateData() {

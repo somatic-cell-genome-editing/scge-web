@@ -45,19 +45,41 @@
                 HashMap<String,String> editingAssay = (HashMap<String,String>) request.getAttribute("editingAssay");
             %>
 
-            <div style="padding:10px; border:1px solid black; background-color: #F7F7F7;">
-                <h6 style="color:#1A80B6;">Experiment Description:&nbsp;<%=SFN.parse(ex.getDescription())%></h6>
+            <div style="padding:10px; border:1px solid black; background-color: #F7F7F7;font-size:12px;">
+                <table><tr><td width="150" valign="top"><span style="color:#1A80B6;font-weight:700;">Experiment Description:</span></td><td><%=SFN.parse(ex.getDescription())%></td></tr></table>
             <% if (deliveryAssay.size() != 0) { %>
-            <h6 style="color:#1A80B6;">Delivery Assays:</h6>
-                    <% for (String assay: deliveryAssay.keySet()) { %>
-                        <li style="padding-left:20px;"><%=assay%></li>
-                    <% } %>
+                <table>
+                    <tr>
+                        <td valign="top" width="150"><span style="width:100px; color:#1A80B6;font-weigth:700;">Delivery Assays:</span></td>
+                        <td><%
+                            int count=1;
+                            for (String assay: deliveryAssay.keySet()) { %>
+                            <span style="adding-left:20px;"><b><%=count%>.</b>&nbsp;<%=assay%></span><br>
+                            <%
+                                count++;
+                            } %>
+                        </td>
+                    </tr>
+                </table>
+
+
             <% } %>
             <% if (editingAssay.size() != 0) { %>
-                    <h6 style="color:#1A80B6;margin-top:10px;">Editing Assay:</h6>
-                    <% for (String assay: editingAssay.keySet()) { %>
-                        <li style="padding-left:20px;"><%=assay%></li>
-                    <% } %>
+                    <table>
+                        <tr>
+                            <td valign="top" width="150"><span style="color:#1A80B6;margin-top:10px;font-weight:700;">Editing Assay:</span></td>
+                            <td> <%
+                                int count=1;
+                                for (String assay: editingAssay.keySet()) { %>
+                                <span style="adding-left:20px;"><b><%=count%>.</b>&nbsp;<%=assay%></span><br>
+                                <%
+                                    count++;
+                                } %>
+                            </td>
+                        </tr>
+                    </table>
+
+
             <% } %>
             </div>
             <br>

@@ -63,7 +63,12 @@
 
             <tr><td class="header"><strong>Variant</strong></td><td><%=SFN.parse(v.getCapsidVariant())%></td></tr>
             <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(v.getSource())%></td></tr>
-            <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><%=SFN.parse(v.getLabId())%></td></tr>
+
+            <% if (v.getSource().equals("AddGene")) { %>
+                <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><a href="https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/">https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/</a></td></tr>
+            <% } else {%>
+                <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><%=SFN.parse(v.getLabId())%></td></tr>
+            <% } %>
         </table>
         <hr>
         <table style="width:80%">
