@@ -50,7 +50,7 @@
             <% if (deliveryAssay.size() != 0) { %>
                 <table>
                     <tr>
-                        <td valign="top" width="150"><span style="width:100px; color:#1A80B6;font-weigth:700;">Delivery Assays:</span></td>
+                        <td valign="top" width="150"><span style="width:100px; color:#1A80B6;font-weight:700;">Delivery Assays:</span></td>
                         <td><%
                             int count=1;
                             for (String assay: deliveryAssay.keySet()) { %>
