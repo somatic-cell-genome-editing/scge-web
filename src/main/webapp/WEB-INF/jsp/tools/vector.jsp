@@ -65,7 +65,7 @@
             <tr><td class="header"><strong>Capsid Serotype</strong></td><td><%=SFN.parse(v.getCapsidSerotype())%></td></tr>
             <tr><td class="header"><strong>Genome Serotype</strong></td><td><%=SFN.parse(v.getGenomeSerotype())%></td></tr>
 
-            <% if (v.getSource().equals("AddGene")) { %>
+            <% if (v.getSource().toLowerCase().equals("addgene")) { %>
                 <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><a href="https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/">https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/</a></td></tr>
             <% } else {%>
                 <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><%=SFN.parse(v.getLabId())%></td></tr>
