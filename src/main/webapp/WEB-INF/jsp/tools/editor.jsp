@@ -104,7 +104,7 @@
                 <%}%>
                 <%if(editor.getDsbCleavageType()!=null && !editor.getDsbCleavageType().equals("")){%>
 
-                <tr ><td class="header">Cleavage Type</td><td style="white-space: nowrap"><%=editor.getDsbCleavageType()%></td></tr>
+                <tr ><td class="header">Dsb Cleavage Type</td><td style="white-space: nowrap"><%=editor.getDsbCleavageType()%></td></tr>
                 <%}%>
                 <%if(editor.getSource()!=null && !editor.getSource().equals("")){%>
 

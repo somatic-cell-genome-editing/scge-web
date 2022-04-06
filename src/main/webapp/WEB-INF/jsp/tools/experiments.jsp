@@ -135,7 +135,7 @@
                         <th>Name</th>
                         <th>Type</th>
                         <th>Description</th>
-                        <th>SCGE ID</th>
+                        <!--<th>SCGE ID</th>-->
                     </tr>
                     </thead>
 
@@ -156,8 +156,7 @@
                         </td>
                         <td><%=SFN.parse(exp.getDescription())%>
                         </td>
-                        <td><%=exp.getExperimentId()%>
-                        </td>
+                        <!--<td><%=exp.getExperimentId()%></td>-->
 
 
 
