@@ -50,6 +50,7 @@
 <% ImageDao idao = new ImageDao();
 List<String> options = new ArrayList<>();
     List<String> headers = new ArrayList<>();
+    options.add("None");
     if (tissueList.size() > 0 ) {
         headers.add("Tissue");
         if(tissueList.size() > 1 && tissueList.size() != resultDetail.keySet().size())
@@ -471,7 +472,6 @@ List<String> options = new ArrayList<>();
             }
 
             function update(updateColor){
-
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var xArray=[];
                 var yArray=[];
@@ -488,10 +488,15 @@ List<String> options = new ArrayList<>();
                 ];*/
 
                 var colors = [
-                     '#E69F00','#56B4E9','#009E73','#F0E442','#0072B2','#D55E00', '#CC79A7','#000000',
-                     '#E9967A','#8B008B','#A9A9A9','#DC143C','#6495ED','#7FFF00','#000080','#FFDEAD',
-                     '#800000','#E0FFFF','#20B2AA','#A0522D','#EE82EE','#9ACD32','#DB7093','#C71585',
-                     '#66CDAA','#F08080','#DEB887','#5F9EA0','#BDB76B','#006400', '#00BFFF','#FF00FF','#DAA520','#4B0082'
+                     'rgba(230, 159, 0, 0.5)','rgba(86, 180, 233, 0.5)','rgba(0, 158, 115, 0.5)','rgba(240, 228, 66, 0.5)',
+                     'rgba(0, 114, 178, 0.5)','rgba(213, 94, 0, 0.5)', 'rgba(204, 121, 167, 0.5)','rgba(0, 0, 0, 0.5)',
+                     'rgba(233, 150, 122, 0.5)','rgba(139, 0, 139, 0.5)','rgba(169, 169, 169, 0.5)','rgba(220, 20, 60, 0.5)',
+                     'rgba(100, 149, 237, 0.5)','rgba(127, 255, 0, 0.5)','rgba(0, 0, 128, 0.5)','rgba(255, 222, 173, 0.5)',
+                     'rgba(128, 0, 0, 0.5)','rgba(224, 255, 255, 0.5)','rgba(32, 178, 170, 0.5)','rgba(160, 82, 45, 0.5)',
+                     'rgba(238, 130, 238, 0.5)','rgba(154, 205, 50, 0.5)','rgba(219, 112, 147, 0.5)','rgba(199, 21, 133, 0.5)',
+                     'rgba(102, 205, 170, 0.5)','rgba(240, 128, 128, 0.5)','rgba(222, 184, 135, 0.5)','rgba(95, 158, 160, 0.5)',
+                     'rgba(189, 183, 107, 0.5)','rgba(0, 100, 0, 0.5)', 'rgba(0, 191, 255, 0.5)','rgba(255, 0, 255, 0.5)',
+                     'rgba(218, 165, 32, 0.5)','rgba(75, 0, 130, 0.5)'
                 ];
 
                 var aveIndex = table.rows.item(0).cells.length -2;
@@ -504,6 +509,7 @@ List<String> options = new ArrayList<>();
                     }
                 }
                 if(updateColor == true) {
+                    filterValues = [];
                     for (var i = 1; i < rowLength; i++) {
                         var cells = table.rows.item(i).cells;
                         var value = cells.item(selected).innerText;
@@ -525,9 +531,12 @@ List<String> options = new ArrayList<>();
                             yArray[j] = avg.innerHTML;
 
                             var index = filterValues.indexOf(cells.item(selected).innerText);
-                            if(filterValues.length <= colors.length)
-                                 colorArray[j] = colors[index];
-                            else colorArray[j] = colors[0];
+                                if(filter != 'None') {
+                                    if (filterValues.length <= colors.length)
+                                        colorArray[j] = colors[index];
+                                    else colorArray[j] = colors[0];
+                                }
+                                else colorArray[j] = colors[0];
 
 
                                 for (var k = aveIndex + 1; k < cellLength; k++) {
