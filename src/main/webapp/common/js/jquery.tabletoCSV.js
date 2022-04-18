@@ -27,7 +27,8 @@ jQuery.fn.tableToCSV = function() {
 			title = title.join(",");
 			rows = rows.join("\n");
 
-			var csv = title + rows;
+			var fileCitation = document.getElementById("fileCitation").innerHTML;
+			var csv = fileCitation + "\n" + title + rows;
 			var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
 			var download_link = document.createElement('a');
 			download_link.href = uri;
@@ -77,7 +78,8 @@ jQuery.fn.tableSelectionToCSV = function() {
 		title = title.join(",");
 		rows = rows.join("\n");
 
-		var csv = title + rows;
+		var fileCitation = document.getElementById("fileCitation").innerHTML;
+		var csv = fileCitation + "\n" + title + rows;
 		var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
 		var download_link = document.createElement('a');
 		download_link.href = uri;

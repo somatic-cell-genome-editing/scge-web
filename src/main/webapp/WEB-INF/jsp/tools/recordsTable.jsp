@@ -6,6 +6,9 @@
 <%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
 <%@ page import="edu.mcw.scge.service.StringUtils" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -127,7 +130,13 @@ List<String> options = new ArrayList<>();
             <td width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download All" onclick="download()"/></td>
         </tr>
     </table>
-
+<%
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDateTime now = LocalDateTime.now();
+    Experiment dExperiment = (Experiment) request.getAttribute("experiment");
+    Study dStudy = (Study) request.getAttribute("study");
+%>
+    <div id="fileCitation" style="display:none;">SCGE Toolkit downloaded on: <%=dtf.format(now)%>; Please cite the Somatic Cell Genome Editing Consortium Toolkit NIH HG010423 when using publicly accessible data in formal presentation or publication. SCGE Experment ID: <%=dExperiment.getExperimentId()%>. PI: <%=dStudy.getPi().replaceAll(","," ")%></div>
     <table id="myTable" class="table tablesorter table-striped table-sm">
         <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
         <thead>
