@@ -128,6 +128,18 @@ public class Access {
         return false;
     }
 
+    public boolean isConsortiumMember(int personId) throws Exception {
+        System.out.println("in is consortium member");
+        List<PersonInfo> piList = pdao.getPersonInfo(personId);
+         if (piList != null) {
+                for (PersonInfo pi: piList) {
+                    System.out.println(pi.getGroupId());
+                }
+         }
+         return true;
+    }
+
+
     public boolean hasStudyAccess(int studyId, int personId) throws Exception{
         StudyDao sdao = new StudyDao();
         PersonDao personDao = new PersonDao();
@@ -145,7 +157,8 @@ public class Access {
         if (s.getTier()==4) {
             return true;
         }
-        if (s.getTier()==3 && a.isLoggedIn()) {
+
+        if (s.getTier()==3 && this.isConsortiumMember(p.getId())) {
             return true;
         }
 
