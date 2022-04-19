@@ -71,7 +71,7 @@
     ImageDao idao = new ImageDao();
 
     LinkedHashMap<String,String> rootTissues = new LinkedHashMap<String,String>();
-    rootTissues.put("Other", "other");
+    //rootTissues.put("Other", "other");
     rootTissues.put("Reproductive", "UBERON:0000990");
     rootTissues.put("Renal/Urinary", "UBERON:0001008");
     rootTissues.put("Endocrine","UBERON:0000949");
