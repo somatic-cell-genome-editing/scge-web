@@ -7,6 +7,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Institution" %>
 <%@ page import="edu.mcw.scge.dao.InstitutionDAO" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
+<%@ page import="java.security.acl.Group" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -25,6 +26,17 @@
     InstitutionDAO idao = new InstitutionDAO();
     List<Institution> iList = idao.getAll();
 
+    try {
+
+        if (request.getParameter("a").equals("b")) {
+            GroupDAO grdao = new GroupDAO();
+            for (Person pers : pdao.getAllActiveMembers()) {
+                pdao.insertPersonInfo(pers.getId(), 1, 1411);
+            }
+        }
+    }catch(Exception e) {
+        e.printStackTrace();
+        }
 %>
 
 <%
