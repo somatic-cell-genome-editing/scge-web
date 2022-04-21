@@ -6,6 +6,9 @@
 <%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
 <%@ page import="edu.mcw.scge.service.StringUtils" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -42,11 +45,15 @@
 	function download(){
         $("#myTable").tableToCSV();
     }
+    function downloadSelected(){
+        $("#myTable").tableSelectionToCSV();
+    }
 </script>
 
 <% ImageDao idao = new ImageDao();
 List<String> options = new ArrayList<>();
     List<String> headers = new ArrayList<>();
+    options.add("None");
     if (tissueList.size() > 0 ) {
         headers.add("Tissue");
         if(tissueList.size() > 1 && tissueList.size() != resultDetail.keySet().size())
@@ -95,9 +102,9 @@ List<String> options = new ArrayList<>();
 
         <%@include file="recordFilters.jsp"%>
 <div>
-    <b>Color By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px">
+    <b style="font-size:14px;">Color By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
         <% for(String filter: options) {%>
-        <option style="padding: 5px" value=<%=filter%>><%=filter%></option>
+        <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
         <%} %>
     </select>
 </div>
@@ -106,7 +113,7 @@ List<String> options = new ArrayList<>();
         <!--table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table-->
        <% //if(resultMap != null && resultMap.size()!= 0) {%>
         <div class="chart-container" id = "chartDiv">
-    <canvas id="resultChart" style="position: relative; height:80vh; width:80vw;"></canvas>
+    <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
 
         </div>
 <% //}%>
@@ -116,14 +123,23 @@ List<String> options = new ArrayList<>();
 
     <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
-    <table width="90%">
+    <table width="100%">
         <tr>
             <td><h3>Results</h3></td>
+            <td width="100" align="right"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Selection" onclick="downloadSelected()"/></td>
+            <td width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download All" onclick="download()"/></td>
         </tr>
     </table>
-
+<%
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDateTime now = LocalDateTime.now();
+    Experiment dExperiment = (Experiment) request.getAttribute("experiment");
+    Study dStudy = (Study) request.getAttribute("study");
+%>
+    <div id="fileCitation" style="display:none;">SCGE Toolkit downloaded on: <%=dtf.format(now)%>; Please cite the Somatic Cell Genome Editing Consortium Toolkit NIH HG010423 when using publicly accessible data in formal presentation or publication. SCGE Experment ID: <%=dExperiment.getExperimentId()%>. PI: <%=dStudy.getPi().replaceAll(","," ")%></div>
     <table id="myTable" class="table tablesorter table-striped table-sm">
-    <thead>
+        <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
+        <thead>
     <tr>
         <th>Condition<%--=request.getAttribute("uniqueFields").toString()--%></th>
     <%  for(String option:headers) { %>
@@ -135,7 +151,7 @@ List<String> options = new ArrayList<>();
         </c:if>
         <% if (resultTypeList.size() > 0 ) { %><th>Result Type</th><% } %>
         <% if (unitList.size() > 0 ) {  %><th>Units</th><% } %>
-        <th id="result">Result</th>
+        <th id="result">Result/Mean</th>
         <th></th>
     </tr>
     </thead>
@@ -465,7 +481,6 @@ List<String> options = new ArrayList<>();
             }
 
             function update(updateColor){
-
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var xArray=[];
                 var yArray=[];
@@ -482,10 +497,15 @@ List<String> options = new ArrayList<>();
                 ];*/
 
                 var colors = [
-                     '#E69F00','#56B4E9','#009E73','#F0E442','#0072B2','#D55E00', '#CC79A7','#000000',
-                     '#E9967A','#8B008B','#A9A9A9','#DC143C','#6495ED','#7FFF00','#000080','#FFDEAD',
-                     '#800000','#E0FFFF','#20B2AA','#A0522D','#EE82EE','#9ACD32','#DB7093','#C71585',
-                     '#66CDAA','#F08080','#DEB887','#5F9EA0','#BDB76B','#006400', '#00BFFF','#FF00FF','#DAA520','#4B0082'
+                     'rgba(230, 159, 0, 0.5)','rgba(86, 180, 233, 0.5)','rgba(0, 158, 115, 0.5)','rgba(240, 228, 66, 0.5)',
+                     'rgba(0, 114, 178, 0.5)','rgba(213, 94, 0, 0.5)', 'rgba(204, 121, 167, 0.5)','rgba(0, 0, 0, 0.5)',
+                     'rgba(233, 150, 122, 0.5)','rgba(139, 0, 139, 0.5)','rgba(169, 169, 169, 0.5)','rgba(220, 20, 60, 0.5)',
+                     'rgba(100, 149, 237, 0.5)','rgba(127, 255, 0, 0.5)','rgba(0, 0, 128, 0.5)','rgba(255, 222, 173, 0.5)',
+                     'rgba(128, 0, 0, 0.5)','rgba(224, 255, 255, 0.5)','rgba(32, 178, 170, 0.5)','rgba(160, 82, 45, 0.5)',
+                     'rgba(238, 130, 238, 0.5)','rgba(154, 205, 50, 0.5)','rgba(219, 112, 147, 0.5)','rgba(199, 21, 133, 0.5)',
+                     'rgba(102, 205, 170, 0.5)','rgba(240, 128, 128, 0.5)','rgba(222, 184, 135, 0.5)','rgba(95, 158, 160, 0.5)',
+                     'rgba(189, 183, 107, 0.5)','rgba(0, 100, 0, 0.5)', 'rgba(0, 191, 255, 0.5)','rgba(255, 0, 255, 0.5)',
+                     'rgba(218, 165, 32, 0.5)','rgba(75, 0, 130, 0.5)'
                 ];
 
                 var aveIndex = table.rows.item(0).cells.length -2;
@@ -498,6 +518,7 @@ List<String> options = new ArrayList<>();
                     }
                 }
                 if(updateColor == true) {
+                    filterValues = [];
                     for (var i = 1; i < rowLength; i++) {
                         var cells = table.rows.item(i).cells;
                         var value = cells.item(selected).innerText;
@@ -519,9 +540,12 @@ List<String> options = new ArrayList<>();
                             yArray[j] = avg.innerHTML;
 
                             var index = filterValues.indexOf(cells.item(selected).innerText);
-                            if(filterValues.length <= colors.length)
-                                 colorArray[j] = colors[index];
-                            else colorArray[j] = colors[0];
+                                if(filter != 'None') {
+                                    if (filterValues.length <= colors.length)
+                                        colorArray[j] = colors[index];
+                                    else colorArray[j] = colors[0];
+                                }
+                                else colorArray[j] = colors[0];
 
 
                                 for (var k = aveIndex + 1; k < cellLength; k++) {
@@ -660,6 +684,7 @@ List<String> options = new ArrayList<>();
                     update(true);
                 }
             }
+
 
 
             function generateData() {

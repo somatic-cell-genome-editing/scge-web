@@ -94,59 +94,36 @@
 
     <div class="p-2">
         <table class="table table-sm summary">
-            <%if(!SFN.parse(g.getGrnaLabId()).equals("")){%>
             <tr ><th class="header">Lab Id</th><td>&nbsp;<%=SFN.parse(g.getGrnaLabId())%></td></tr>
-            <%}%>
-            <%if(!SFN.parse(g.getSpecies()).equals("")){%>
             <tr ><th class="header">Species</th><td>&nbsp;<%=SFN.parse(g.getSpecies())%></td></tr>
-            <%}%>
-            <%if(!SFN.parse(g.getTargetLocus()).equals("")){%>
         <tr ><th  class="header" >Target Locus</th><td>&nbsp;<%=SFN.parse(g.getTargetLocus())%></td></tr>
-        <%}%>
-            <%if(!SFN.parse(g.getTargetSequence()).equals("")){%>
             <tr ><th class="header">Target Sequence</th><td>&nbsp;<%=SFN.parse(g.getTargetSequence())%></td></tr>
-            <%}%>
-            <%if(!SFN.parse(g.getPam()).equals("")){%>
-
             <tr ><th class="header" style=" white-space: nowrap;">Target Sequence&nbsp;+ PAM</th><td>&nbsp;<%=SFN.parse(g.getPam())%></td></tr>
-            <%}%>
-            <%if(!SFN.parse(g.getAssembly()).equals("")){%>
             <tr ><th class="header">Assembly</th><td>&nbsp;<%=SFN.parse(g.getAssembly())%></td></tr>
-            <%}%>
-                <%if(!SFN.parse(g.getStrand()).equals("")){%>
             <tr ><th class="header" >Strand</th><td>&nbsp;<%=SFN.parse(g.getStrand())%></td></tr>
-            <%}%>
-            <% if(g.getChr()!=null && g.getStart()!=null && g.getStop()!=null){%>
-
             <tr><th class="header">Guide Location:</th><td>&nbsp;<%=g.getChr()+":"+g.getStart()+".."+g.getStop()%></td></tr>
-            <%}%>
-            <% if(g.getGuideDescription()!=null && !g.getGuideDescription().equals("")){%>
         <tr ><th >Description</th><td>&nbsp;<%=SFN.parse(g.getGuideDescription())%></td></tr>
-        <%}%>
-
                 <tr ><th class="header" >Spacer Sequence</th><td>&nbsp;<%=SFN.parse(g.getSpacerSequence())%></td></tr>
                 <tr ><th class="header">Spacer Length</th><td>&nbsp;<%=SFN.parse(g.getSpacerLength())%></td></tr>
-                <% if(!SFN.parse(g.getFullGuide()).equals("")){%>
                     <tr ><th class="header" >Guide Sequence</th><td>&nbsp;<%=SFN.parse(g.getFullGuide())%></td></tr>
-                <%}%>
-                <% if(!SFN.parse(g.getModifications()).equals("")){%>
                 <tr ><th class="header" >Modifications</th><td>&nbsp;<%=SFN.parse(g.getModifications())%></td></tr>
-                <%}%>
-                <% if(!SFN.parse(g.getRepeatSequence()).equals("")){%>
                 <tr ><th class="header">Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getRepeatSequence())%></td></tr>
-                <%}%>
-                <% if(!SFN.parse(g.getAntiRepeatSequence()).equals("")){%>
                 <tr ><th class="header">Anti-Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getAntiRepeatSequence())%></td></tr>
-                <%}%>
-                <% if(!SFN.parse(g.getStemloop1Sequence()).equals("")){%>
                 <tr ><th class="header">Stemloop 1 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop1Sequence())%></td></tr>
-                <%}%>
-                <% if(!SFN.parse(g.getStemloop2Sequence()).equals("")){%>
                 <tr ><th class="header">Stemloop 2 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop2Sequence())%></td></tr>
-                <%}%>
-                <% if(!SFN.parse(g.getStemloop3Sequence()).equals("")){%>
                 <tr ><th class="header">Stemloop 3 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop3Sequence())%></td></tr>
-                <%}%>
+            <tr ><th class="header">Source</th><td>&nbsp;<%=SFN.parse(g.getSource())%></td></tr>
+            <tr ><th class="header">Full Guide Sequence</th><td>&nbsp;<%=SFN.parse(g.getFullGuide())%></td></tr>
+            <tr ><th class="header">Guide Compatability</th><td>&nbsp;<%=SFN.parse(g.getGuideCompatibility())%></td></tr>
+            <tr ><th class="header">Chromosome</th><td>&nbsp;<%=SFN.parse(g.getChr())%></td></tr>
+            <tr ><th class="header">Start</th><td>&nbsp;<%=SFN.parse(g.getStart())%></td></tr>
+            <tr ><th class="header">Stop</th><td>&nbsp;<%=SFN.parse(g.getStop())%></td></tr>
+            <tr ><th class="header">Guide Format</th><td>&nbsp;<%=SFN.parse(g.getGuideFormat())%></td></tr>
+            <tr ><th class="header">Has Standard Scaffold Sequence</th><td>&nbsp;<%=SFN.parse(g.getStandardScaffoldSequence())%></td></tr>
+            <tr ><th class="header">Forward Primer</th><td>&nbsp;<%=SFN.parse(g.getForwardPrimer())%></td></tr>
+            <tr ><th class="header">Reverse Primer</th><td>&nbsp;<%=SFN.parse(g.getReversePrimer())%></td></tr>
+            <tr ><th class="header">Linker Sequence</th><td>&nbsp;<%=SFN.parse(g.getLinkerSequence())%></td></tr>
+            <tr ><th class="header">Specificity Ratio</th><td>&nbsp;<%=SFN.parse(g.getSpecificityRatio())%></td></tr>
 
     </table>
     </div>
@@ -355,6 +332,9 @@
 
     <div id="associatedProtocols">
         <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
+    </div>
+    <div id="associatedPublications">
+        <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
     </div>
     <div id="associatedStudies">
     <jsp:include page="associatedStudies.jsp"/>

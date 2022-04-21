@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class GuideController {
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     GuideDao guideDao = new GuideDao();
-
+    PublicationDAO publicationDAO=new PublicationDAO();
     @RequestMapping(value="/search")
     public String getGuides(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         GuideDao dao = new GuideDao();
@@ -71,7 +71,8 @@ public class GuideController {
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(guide.getGuide_id());
         req.setAttribute("protocols", protocols);
-
+        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(guide.getGuide_id()));
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(guide.getGuide_id()));
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByGuide(guide.getGuide_id());
         req.setAttribute("experimentRecords",experimentRecords);

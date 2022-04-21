@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value="/data/vector")
 public class VectorController {
     VectorDao dao = new VectorDao();
+    PublicationDAO publicationDAO=new PublicationDAO();
     @RequestMapping(value="/search")
     public String getVectors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
 
@@ -64,7 +65,8 @@ public class VectorController {
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(v.getVectorId());
         req.setAttribute("protocols", protocols);
-
+        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(v.getVectorId()));
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(v.getVectorId()));
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByVector(v.getVectorId());
 

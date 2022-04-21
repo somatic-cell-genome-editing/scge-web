@@ -76,40 +76,32 @@
         <div class="col-7">
             <table class="table table-sm summary" >
                 <tr ><td class="header" >Symbol</td><td>&nbsp;<%=SFN.parse(editor.getSymbol())%></td></tr>
-                <tr ><td class="header">Species</td><td>&nbsp;<%=SFN.parse(editor.getSpecies())%></td></tr>
-                <%if(editor.getEditorDescription()!=null && !editor.getEditorDescription().equals("")){%>
                 <tr ><td class="header" >Description</td><td><%=SFN.parse(editor.getEditorDescription())%></td></tr>
-                <%}%>
-                <%if(editor.getType()!=null && !editor.getType().equals("")){%>
-                <tr ><td class="header">Type</td><td style="white-space: nowrap"><%=editor.getType()%></td></tr>
-                <%}%>
-                <%if(editor.getSubType()!=null && !editor.getSubType().equals("")){%>
-                <tr ><td class="header">Subtype</td><td style="white-space: nowrap"><%=editor.getSubType()%></td></tr>
-                <%}%>
-                <%if(editor.getAlias()!=null && !editor.getAlias().trim().equals("")){%>
+                <tr ><td class="header">Species</td><td>&nbsp;<%=SFN.parse(editor.getSpecies())%></td></tr>
+                <tr ><td class="header">Type</td><td style="white-space: nowrap"><%=SFN.parse(editor.getType())%></td></tr>
+                <tr ><td class="header">Subtype</td><td style="white-space: nowrap"><%=SFN.parse(editor.getSubType())%></td></tr>
+                <tr ><td class="header">Alias</td><td style="white-space: nowrap"><%=SFN.parse(editor.getAlias())%></td></tr>
+                <tr><td>&nbsp;<td><td></td></tr>
+                <tr ><td class="header">Activity</td><td style="white-space: nowrap"><%=SFN.parse(editor.getActivity())%></td></tr>
+                <tr ><td class="header">Substrate</td><td style="white-space: nowrap"><%=SFN.parse(editor.getSubstrateTarget())%></td></tr>
+                <tr ><td class="header">DSB Cleavage Type</td><td style="white-space: nowrap"><%=SFN.parse(editor.getDsbCleavageType())%></td></tr>
+                <tr ><th class="header">PAM</th><td style="white-space: nowrap"><%=SFN.parse(editor.getPamPreference())%></td></tr>
+                <tr ><td class="header">Variant</td><td style="white-space: nowrap"><%=SFN.parse(editor.getEditorVariant())%></td></tr>
+                <tr ><td class="header">Fusion</td><td style="white-space: nowrap"><%=SFN.parse(editor.getFusion())%></td></tr>
+                <tr ><td class="header">Annotated Map</td><td style="white-space: nowrap"><%=SFN.parse(editor.getAnnotatedMap())%></td></tr>
+                <tr><td>&nbsp;<td><td></td></tr>
 
-                <tr ><td class="header">Alias</td><td style="white-space: nowrap"><%=editor.getAlias()%></td></tr>
-                <%}%>
-                <%if(editor.getPamPreference()!=null && !editor.getPamPreference().equals("")){%>
-
-                <tr ><th class="header">PAM</th><td style="white-space: nowrap"><%=editor.getPamPreference()%></td></tr>
-                <%}%>
-                <%if(editor.getEditorVariant()!=null && !editor.getEditorVariant().equals("")){%>
-
-                <tr ><td class="header">Variant</td><td style="white-space: nowrap"><%=editor.getEditorVariant()%></td></tr>
-                <%}%>
-                <%if(editor.getActivity()!=null && !editor.getActivity().equals("")){%>
-
-                <tr ><td class="header">Activity</td><td style="white-space: nowrap"><%=editor.getActivity()%></td></tr>
-                <%}%>
-                <%if(editor.getDsbCleavageType()!=null && !editor.getDsbCleavageType().equals("")){%>
-
-                <tr ><td class="header">Cleavage Type</td><td style="white-space: nowrap"><%=editor.getDsbCleavageType()%></td></tr>
-                <%}%>
-                <%if(editor.getSource()!=null && !editor.getSource().equals("")){%>
-
-                <tr ><td class="header">Source</td><td style="white-space: nowrap"><%=editor.getSource()%></td></tr>
-                <%}%>
+                <tr ><td class="header">Source</td><td style="white-space: nowrap"><%=SFN.parse(editor.getSource())%></td></tr>
+                <tr ><td class="header">Catalog</td><td style="white-space: nowrap"><%=SFN.parse(editor.getCatalog())%></td></tr>
+                <tr ><td class="header">RRID</td><td style="white-space: nowrap"><%=SFN.parse(editor.getRrid())%></td></tr>
+                <tr><td>&nbsp;<td><td></td></tr>
+                <tr ><td class="header">Target Locus</td><td style="white-space: nowrap"><%=SFN.parse(editor.getTargetLocus())%></td></tr>
+                <tr ><td class="header">Target Sequence</td><td style="white-space: nowrap"><%=SFN.parse(editor.getTarget_sequence())%></td></tr>
+                <tr ><td class="header">Assembly</td><td style="white-space: nowrap"><%=SFN.parse(editor.getAssembly())%></td></tr>
+                <tr ><td class="header">Chromosome</td><td style="white-space: nowrap"><%=SFN.parse(editor.getChr())%></td></tr>
+                <tr ><td class="header">Start</td><td style="white-space: nowrap"><%=SFN.parse(editor.getStart())%></td></tr>
+                <tr ><td class="header">Stop</td><td style="white-space: nowrap"><%=SFN.parse(editor.getStop())%></td></tr>
+                <tr ><td class="header">Strand</td><td style="white-space: nowrap"><%=SFN.parse(editor.getStrand())%></td></tr>
 
             </table>
 
@@ -200,6 +192,10 @@
     <div id="associatedProtocols">
         <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
     </div>
+    <div id="associatedPublications">
+        <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+    </div>
+
     <div id="associatedStudies">
         <jsp:include page="associatedStudies.jsp"/>
     </div>

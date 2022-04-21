@@ -128,6 +128,20 @@ public class Access {
         return false;
     }
 
+    public boolean isConsortiumMember(int personId) throws Exception {
+        List<PersonInfo> piList = pdao.getPersonInfo(personId);
+
+        if (piList != null) {
+                for (PersonInfo pi: piList) {
+                    if (pi.getGroupId() == 1411) {
+                        return true;
+                    }
+                }
+         }
+         return false;
+    }
+
+
     public boolean hasStudyAccess(int studyId, int personId) throws Exception{
         StudyDao sdao = new StudyDao();
         PersonDao personDao = new PersonDao();
@@ -145,7 +159,13 @@ public class Access {
         if (s.getTier()==4) {
             return true;
         }
-        if (s.getTier()==3 && a.isLoggedIn()) {
+
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
+        }
+
+
+        if (s.getTier()==3) {
             return true;
         }
 
@@ -172,6 +192,10 @@ public class Access {
             return true;
         }
 
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
+        }
+
         if (m.getTier() == 3) {
             return true;
         }
@@ -194,6 +218,10 @@ public class Access {
             return true;
         }
 
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
+        }
+
         if (h.getTier() == 3) {
             return true;
         }
@@ -214,6 +242,10 @@ public class Access {
     public boolean hasProtocolAccess(Protocol protocol, Person p) throws Exception{
         if (protocol.getTier() == 4) {
             return true;
+        }
+
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
         }
 
         if (protocol.getTier() == 3) {
@@ -261,6 +293,10 @@ public class Access {
             return true;
         }
 
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
+        }
+
         if (e.getTier() == 3) {
             return true;
         }
@@ -287,6 +323,10 @@ public class Access {
             return true;
         }
 
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
+        }
+
         if (g.getTier() == 3) {
             return true;
         }
@@ -309,6 +349,10 @@ public class Access {
     public boolean hasVectorAccess(Vector v, Person p) throws Exception{
         if (v.getTier() == 4) {
             return true;
+        }
+
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
         }
 
         if (v.getTier() == 3) {
@@ -334,6 +378,10 @@ public class Access {
     public boolean hasDeliveryAccess(Delivery d, Person p) throws Exception{
         if (d.getTier() == 4) {
             return true;
+        }
+
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
         }
 
         if (d.getTier() == 3) {

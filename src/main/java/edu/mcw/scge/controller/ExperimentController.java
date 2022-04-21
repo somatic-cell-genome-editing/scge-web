@@ -116,8 +116,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         if(!access.isLoggedIn()) {
             return "redirect:/";
         }
-        Publication publication=getPublication(studies.get(0));
-        req.setAttribute("publication", publication);
+        List<Publication> publications=getPublication(studies.get(0));
+        req.setAttribute("publications", publications);
         LinkedHashMap<Study, List<Experiment>> studyExperimentMap=new LinkedHashMap<>();
         for(Study study:studies) {
             if (access.hasStudyAccess(study, p)) {
@@ -157,19 +157,24 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         return null;
     }
-    public Publication getPublication(Study study) throws Exception {
-        Publication publication= new Publication();
-        Reference reference=publicationDAO.getPublicationsBySCGEId(study.getStudyId());
-        if(reference!=null) {
-            publication.setReference(reference);
-            List<Author> authors =publicationDAO.getAuthorsByRefKey(reference.getKey());
-            publication.setAuthorList(authors);
+    public List<Publication> getPublication(Study study) throws Exception {
+        List<Publication> publications= new ArrayList<>();
+        List<Reference> references=publicationDAO.getPublicationsBySCGEId(study.getStudyId());
+        if(references!=null) {
+            for (Reference reference : references) {
+                Publication publication = new Publication();
+                publication.setReference(reference);
+                List<Author> authors = publicationDAO.getAuthorsByRefKey(reference.getKey());
+                publication.setAuthorList(authors);
+
+                List<ArticleId> articleIds = publicationDAO.getArticleIdsSCGEID(study.getStudyId());
+                if (articleIds != null && articleIds.size() > 0) {
+                    publication.setArticleIds(articleIds);
+                }
+                publications.add(publication);
+            }
         }
-       List<ArticleId> articleIds= publicationDAO.getArticleIdsSCGEID(study.getStudyId());
-        if(articleIds!=null && articleIds.size()>0){
-            publication.setArticleIds(articleIds);
-        }
-        return publication;
+        return publications;
     }
     @RequestMapping(value="/validations/study/{studyId}")
     public String getLimitedExperimentsByGroupId(HttpServletRequest req, HttpServletResponse res,
