@@ -15,19 +15,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-<style>
-    td{
-        font-size: 12px;
-        padding-left:1%;
-    }
-    .header{
-        font-weight: bold;
-        font-size: 12px;
-        color:steelblue;
-        width: 25%;
-        background-color: #ECECF9;
-    }
-</style>
+<link href="/toolkit/css/reportPage.css" rel="stylesheet" type="text/css"/>
+
 <script>
     $(function() {
         $("#myTable").tablesorter({
@@ -50,19 +39,50 @@
 
 <div align="right"><a href="/toolkit/data/protocols/edit?id=<%=p.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
 <% } %>
-<div>
+
+<div class="col-md-2 sidenav bg-light">
+
+
+    <a href="#summary">Summary</a>
+
+
+
+    <!--a href="#publications">Related Publications</a-->
+
+
+</div>
+<main role="main" class="col-md-10 ml-sm-auto px-4"  >
+    <div id="summary">
+        <h4 class="page-header" style="color:grey;">Summary</h4>
+
+        <div class="d-flex bg-light" >
+            <div class="col-7">
+
         <table  style="width:80%">
-            <tr ><td class="header"><strong>Title</strong></td><td><%=p.getTitle()%></td></tr>
-            <tr><td class="header"><strong>Description</strong></td><td><%=p.getDescription()%></td></tr>
-            <tr><td class="header"><strong>SCGE ID</strong></td><td><%=p.getId()%></td></tr>
-            <tr><td class="header"><strong>Tier</strong></td><td><%=p.getTier()%></td></tr>
-            <tr><td class="header"><strong>File Download</strong></td><td><a href="/toolkit/files/protocol/<%=p.getFilename()%>"><%=p.getFilename()%></a></td></tr>
-            <tr><td class="header"><strong>Additional Information</strong></td><td><%=p.getXref()%></td></tr>
-            <tr><td class="header"><strong>Keywords</strong></td><td><%=p.getKeywords()%></td></tr>
+            <tr ><td class="header">Title</td><td><%=p.getTitle()%></td></tr>
+            <tr><td class="header">Description</td><td><%=p.getDescription()%></td></tr>
+            <tr><td class="header">Tier</td><td><%=p.getTier()%></td></tr>
+            <tr><td class="header">File Download</td><td><a href="/toolkit/files/protocol/<%=p.getFilename()%>"><%=p.getFilename()%></a></td></tr>
+            <tr><td class="header">Additional Information</td><td><%=p.getXref()%></td></tr>
+            <tr><td class="header">Keywords</td><td><%=p.getKeywords()%></td></tr>
         </table>
-    <hr>
+
 </div>
 
+            <div class="ml-auto col-3" style="margin-right: 5%">
+
+                <div class="card">
+                    <div class="card-header">Protocol</div>
+                    <div class="card-body">
+                        <table >
+                            <tr ><th class="scge-details-label">SCGE:<%=p.getId()%></th></tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <%
     long objectId = p.getId();
     String redirectURL = "/data/protocols/protocol?id=" + objectId;
@@ -80,4 +100,4 @@
 <% bucket="main5"; %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
-
+</main>
