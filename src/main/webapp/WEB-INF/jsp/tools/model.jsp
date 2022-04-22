@@ -38,7 +38,7 @@
 <div class="col-md-2 sidenav bg-light">
 
 
-
+    <a href="#summary">Summary</a>
     <a href="#associatedProtocols">Protocols</a>
 
     <a href="#associatedStudies">Associated Studies</a>
@@ -124,3 +124,5 @@
     <div id="associatedExperiments">
 <jsp:include page="associatedExperiments.jsp"/>
     </div>
+
+</main>

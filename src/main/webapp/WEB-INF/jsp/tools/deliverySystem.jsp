@@ -38,7 +38,7 @@
 
 <div class="col-md-2 sidenav bg-light">
 
-
+    <a href="#summary">Summary</a>
 
     <a href="#associatedProtocols">Protocols</a>
 
@@ -55,9 +55,9 @@
         <div class="d-flex bg-light" >
             <div class="col-7">
 
-        <table  style="width:80%">
+        <table class="table table-sm summary">
 
-            <tbody>
+
             <tr><td class="header">Name</td><td><%=d.getName()%></td></tr>
             <tr><td class="header">Description</td><td><%=SFN.parse(d.getDescription())%></td></tr>
             <tr><td class="header" width="150">Type</td><td><%=SFN.parse(d.getType())%></td></tr>
@@ -66,18 +66,16 @@
             <tr><td class="header">Annotated&nbsp;Map</td><%=SFN.parse(d.getAnnotatedMap())%><td></td></tr>
 
 
-        </table>
-        <hr>
+
         <%if(d.getType().equalsIgnoreCase("Nanoparticle")) { %>
-        <table style="width:80%">
+
 
             <tr><td class="header">Nanopartical&nbsp;Size</td><td><%=SFN.parse(d.getNpSize())%></td></tr>
             <tr><td class="header">Zeta&nbsp;Potential</td><td><%=SFN.parse(d.getZetaPotential())%></td></tr>
             <tr><td class="header">Poly&nbsp;Dispersity&nbsp;Index</td><td><%=SFN.parse(d.getNpPolydispersityIndex())%></td></tr>
-        </table>
-        <hr>
+
         <%} %>
-        <table style="width:80%">
+
             <tr><td class="header">Source</td><td><%=SFN.parse(d.getSource())%></td></tr>
             <tr><td class="header">Stock/Catalog/RRID</td><td><%=SFN.parse(d.getRrid())%></td></tr>
 
@@ -129,3 +127,5 @@
         <div id="associatedExperiments">
 <jsp:include page="associatedExperiments.jsp"/>
         </div>
+
+</main>

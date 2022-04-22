@@ -13,20 +13,8 @@
 --%>
 
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-<style>
-    td{
-        font-size: 12px;
-        padding-left:1%;
-    }
-    .header{
-        font-weight: bold;
-        font-size: 12px;
-        color:steelblue;
-        width: 25%;
-        background-color: #ECECF9;
-    }
+<link href="/toolkit/css/reportPage.css" rel="stylesheet" type="text/css"/>
 
-</style>
 <script>
     $(function() {
         $("#myTable").tablesorter({
@@ -46,42 +34,63 @@
 
 <div align="right"><a href="/toolkit/data/vector/edit?id=<%=v.getVectorId()%>"><button class="btn btn-primary">Edit</button></a></div>
 <% } %>
-<div>
-    <div>
-        <table  style="width:80%">
+<div class="col-md-2 sidenav bg-light">
 
-            <tbody>
-            <tr><td class="header"><strong>SCGE ID</strong></td><td><%=v.getVectorId()%></td></tr>
-            <tr><td class="header"><strong>Name</strong></td><td><%=v.getName()%></td></tr>
-            <tr><td class="header"><strong>Description</strong></td><td><%=SFN.parse(v.getDescription())%></td></tr>
-            <tr><td class="header" width="150"><strong>Type</strong></td><td><%=v.getType()%></td></tr>
-            <tr><td class="header"><strong>Subtype</strong></td><td><%=SFN.parse(v.getSubtype())%></td></tr>
-        </table>
-        <hr>
-        <table style="width:80%">
+    <a href="#summary">Summary</a>
 
-            <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(v.getSource())%></td></tr>
-            <tr><td class="header"><strong>Capsid Variant</strong></td><td><%=SFN.parse(v.getCapsidVariant())%></td></tr>
-            <tr><td class="header"><strong>Capsid Serotype</strong></td><td><%=SFN.parse(v.getCapsidSerotype())%></td></tr>
-            <tr><td class="header"><strong>Genome Serotype</strong></td><td><%=SFN.parse(v.getGenomeSerotype())%></td></tr>
+    <a href="#associatedProtocols">Protocols</a>
+
+    <a href="#associatedStudies">Associated Studies</a>
+    <a href="#associatedExperiments">Associated Experiments</a>
+    <!--a href="#publications">Related Publications</a-->
+
+
+</div>
+<main role="main" class="col-md-10 ml-sm-auto px-4"  >
+    <div id="summary">
+        <h4 class="page-header" style="color:grey;">Summary</h4>
+
+        <div class="d-flex bg-light" >
+            <div class="col-7">
+
+        <table class="table table-sm summary">
+            <tr><td class="header">Name</td><td><%=v.getName()%></td></tr>
+            <tr><td class="header">Description</td><td><%=SFN.parse(v.getDescription())%></td></tr>
+            <tr><td class="header" width="150">Type</td><td><%=v.getType()%></td></tr>
+            <tr><td class="header">Subtype</td><td><%=SFN.parse(v.getSubtype())%></td></tr>
+
+
+            <tr><td class="header">Source</td><td><%=SFN.parse(v.getSource())%></td></tr>
+            <tr><td class="header">Capsid Variant</td><td><%=SFN.parse(v.getCapsidVariant())%></td></tr>
+            <tr><td class="header">Capsid Serotype</td><td><%=SFN.parse(v.getCapsidSerotype())%></td></tr>
+            <tr><td class="header">Genome Serotype</td><td><%=SFN.parse(v.getGenomeSerotype())%></td></tr>
 
             <% if (v.getSource().toLowerCase().equals("addgene")) { %>
-                <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><a href="https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/">https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/</a></td></tr>
+                <tr><td class="header">Stock/Catalog/RRID</td><td><a href="https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/">https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/</a></td></tr>
             <% } else {%>
-                <tr><td class="header"><strong>Stock/Catalog/RRID</strong></td><td><%=SFN.parse(v.getLabId())%></td></tr>
+                <tr><td class="header">Stock/Catalog/RRID</td><td><%=SFN.parse(v.getLabId())%></td></tr>
             <% } %>
-        </table>
-        <hr>
-        <table style="width:80%">
-            <tr><td class="header"><strong>Lab ID:</strong></td><td><%=SFN.parse(v.getLabId())%></td></tr>
-            <tr><td class="header"><strong>Annotated Map</strong></td><td><%=SFN.parse(v.getAnnotatedMap())%></td></tr>
-            <tr><td class="header"><strong>Titer Method</strong></td><td><%=SFN.parse(v.getTiterMethod())%></td></tr>
-            </tbody>
+
+            <tr><td class="header">Lab ID:</td><td><%=SFN.parse(v.getLabId())%></td></tr>
+            <tr><td class="header">Annotated Map</td><td><%=SFN.parse(v.getAnnotatedMap())%></td></tr>
+            <tr><td class="header">Titer Method</td><td><%=SFN.parse(v.getTiterMethod())%></td></tr>
+
         </table>
     </div>
-    <hr>
-</div>
+            <div class="ml-auto col-3" style="margin-right: 5%">
 
+                <div class="card">
+                    <div class="card-header">Vector</div>
+                    <div class="card-body">
+                        <table >
+                            <tr ><th class="scge-details-label">SCGE:<%=v.getVectorId()%></th></tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+</div>
+    </div>
 <%
     long objectId = v.getVectorId();
     String redirectURL = "/data/vector/format?id=" + objectId;
@@ -101,11 +110,15 @@
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
 </div>
 
-<br>
+
 <div id="associatedPublications">
     <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
 </div>
+    <div id="associatedStudies">
 <jsp:include page="associatedStudies.jsp"/>
-<br>
-<hr>
+
+    </div>>
+    <div id="associatedExperiments">
 <jsp:include page="associatedExperiments.jsp"/>
+    </div>
+</main>
