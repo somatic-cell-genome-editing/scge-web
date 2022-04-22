@@ -117,7 +117,7 @@
     <div id="associatedStudies">
 <jsp:include page="associatedStudies.jsp"/>
 
-    </div>>
+    </div>
     <div id="associatedExperiments">
 <jsp:include page="associatedExperiments.jsp"/>
     </div>
