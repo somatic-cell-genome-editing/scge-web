@@ -144,10 +144,8 @@
                 targetTissueRecordIds.add(er.getExperimentRecordId());
 
                 if (er.getCellType() !=null && !er.getCellType().equals("") ) {
-                    System.out.println("1 adding " + er.getTissueTerm() + " (" + er.getCellTypeTerm() + ") with recored id " + er.getExperimentRecordId() );
                     targetTissues2.put(er.getTissueTerm() + " (" + er.getCellType() + ")", er.getExperimentRecordId());
                 }else {
-                    System.out.println("2 adding " + er.getTissueTerm() + " with recored id " + er.getExperimentRecordId() );
                     targetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
                 }
             }else {
@@ -180,7 +178,6 @@
             String organSystem = "unknown";
             for (String rootTissue : rootTissues.keySet()) {
                 if (organSystemID.equals(rootTissues.get(rootTissue))) {
-                    //System.out.println("found a tissue");
                     tissue = rootTissues.get(rootTissue);
                     organSystem = rootTissue;
                     break;
@@ -415,7 +412,6 @@
     </td></tr>
     <tr>
         <td>
-
 
 
 
