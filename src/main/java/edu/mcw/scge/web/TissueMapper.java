@@ -59,7 +59,6 @@ public class TissueMapper {
     }
 
     public boolean hasEditing(String rootTerm, String childTerm)  {
-        System.out.println("checing has editing " + rootTerm + " " + childTerm);
         LinkedHashMap<String,String> child = editing.get(rootTerm);
 
         for (String key: child.keySet()) {
@@ -88,13 +87,11 @@ public class TissueMapper {
 
     public boolean hasDelivery(String rootTerm, String childTerm) {
 
-        System.out.println("checing has delivery " + rootTerm + " " + childTerm);
         LinkedHashMap<String,String> child = delivery.get(rootTerm);
 
         for (String key: child.keySet()) {
 
             if (key.equals(childTerm)) {
-                System.out.println("returning true");
                 return true;
             }
         }
@@ -122,21 +119,32 @@ public class TissueMapper {
     }
 
     public void addEditing(String tissue, String childTerm,String url) {
-        System.out.println("adding editing " + tissue + " " + childTerm);
 
         LinkedHashMap<String,String> children = editing.get(tissue);
+
         children.put(childTerm,url);
         editing.put(tissue,children);
-        childTerms.put(tissue,children);
+
+        LinkedHashMap<String,String> childs = childTerms.get(tissue);
+        childs.put(childTerm,url);
+        childTerms.put(tissue,childs);
+
+
+
     }
 
     public void addDelivery(String tissue, String childTerm, String url) {
-        System.out.println("adding delivery " + tissue + " " + childTerm);
 
         LinkedHashMap<String,String> children = delivery.get(tissue);
         children.put(childTerm,url);
         delivery.put(tissue,children);
-        childTerms.put(tissue,children);
+
+        LinkedHashMap<String,String> childs = childTerms.get(tissue);
+        childs.put(childTerm,url);
+        childTerms.put(tissue,childs);
+
+
+//        childTerms.put(tissue,children);
 
     }
 
