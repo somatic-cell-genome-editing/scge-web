@@ -11,6 +11,7 @@
 <div class="card">
 
     <div class="card-body">
+        <h6 style="color: green">${message}</h6>
         <form action="/toolkit/data/publications/add?${_csrf.parameterName}=${_csrf.token}" method="post">
 
             <div class="form-group">
