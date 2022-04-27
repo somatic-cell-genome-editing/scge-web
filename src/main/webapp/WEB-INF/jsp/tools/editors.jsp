@@ -103,10 +103,10 @@
             <td><%=editor.getType()%></td>
             <td><%=editor.getSubType()%></td>
             <td><%=SFN.parse(editor.getAlias())%></td>
-            <td><%=editor.getSpecies()%></td>
-            <td><%=editor.getActivity()%></td>
-            <td><%=editor.getDsbCleavageType()%></td>
-            <td><%=editor.getSource()%></td>
+            <td><%=SFN.parse(editor.getSpecies())%></td>
+            <td><%=SFN.parse(editor.getActivity())%></td>
+            <td><%=SFN.parse(editor.getDsbCleavageType())%></td>
+            <td><%=SFN.parse(editor.getSource())%></td>
             <td><%=editor.getId()%></td>
 
         </tr>
