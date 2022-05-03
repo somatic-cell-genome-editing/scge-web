@@ -729,6 +729,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(expRecordId);
         req.setAttribute("protocols", protocols);
+        AntibodyDao adao = new AntibodyDao();
+        List<Antibody> antibodyList = adao.getAntibodysByExpRecId(expRecordId);
+        req.setAttribute("antibodyList",antibodyList);
 
         req.setAttribute("experimentRecords", records);
         ExperimentRecord r = new ExperimentRecord();

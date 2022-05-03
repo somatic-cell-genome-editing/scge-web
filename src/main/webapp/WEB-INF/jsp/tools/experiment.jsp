@@ -137,6 +137,7 @@ List<Editor> editorList = (List<Editor>) request.getAttribute("editorList");
 List<Guide> guideList = (List<Guide>) request.getAttribute("guideList");
 List<Vector> vectorList = (List<Vector>) request.getAttribute("vectorList");
 List<ApplicationMethod> methods = (List<ApplicationMethod>) request.getAttribute("applicationMethod");
+List<Antibody> antibodyList = (List<Antibody>) request.getAttribute("antibodyList");
 ExperimentRecord experimentRecord = (ExperimentRecord) request.getAttribute("experimentRecord");
 Model model = (Model) request.getAttribute("model");
 Experiment experiment = (Experiment) request.getAttribute("experiment");
@@ -232,7 +233,15 @@ ExperimentResultDetail detail = experimentResults.get(0);
                 <tr><td class="header"><strong>Antidote Id</strong></td><td><%=SFN.parse(a.getAntidoteId())%></td></tr>
                 <tr><td class="header"><strong>Antidote&nbsp;Description</strong></td><td><%=SFN.parse(a.getAntidoteDescription())%></td></tr>
                 <tr><td colspan="2"><hr></td></tr>
+<%
+            for(Antibody antibody: antibodyList) { %>
+            <tr><td class="header"><strong>Antibody&nbsp;RRID</strong></td><td><%=SFN.parse(antibody.getRrid())%></td></tr>
+            <tr><td class="header"><strong>Antibody&nbsp;Other&nbsp;ID</strong></td><td><%=SFN.parse(antibody.getOtherId())%></td></tr>
+             <tr><td class="header"><strong>Antibody&nbsp;Description</strong></td><td><%=SFN.parse(antibody.getDescription())%></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
+            <%            }
 
+%>
             <tr>
                 <td colspan="2" style="color:#4984B5;font-size:26px;">Measured Values</td>
             </tr>
