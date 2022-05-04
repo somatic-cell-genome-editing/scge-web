@@ -16,6 +16,7 @@ public class TissueMapper {
 
     public TissueMapper() {
 
+        rootTissues.put("Connective Tissue", "UBERON:0002384");
         rootTissues.put("Reproductive", "UBERON:0000990");
         rootTissues.put("Renal/Urinary", "UBERON:0001008");
         rootTissues.put("Endocrine", "UBERON:0000949");
@@ -39,13 +40,13 @@ public class TissueMapper {
             editing.put(tissue, new LinkedHashMap<String,String>());
 
         }
-        editing.put("unknown", new LinkedHashMap<String,String>());
+        //editing.put("unknown", new LinkedHashMap<String,String>());
 
         for (String tissue: rootTissues.keySet()) {
             delivery.put(tissue, new LinkedHashMap<String,String>());
 
         }
-        delivery.put("unknown", new LinkedHashMap<String,String>());
+        //delivery.put("unknown", new LinkedHashMap<String,String>());
 
 
     }
@@ -126,10 +127,9 @@ public class TissueMapper {
         editing.put(tissue,children);
 
         LinkedHashMap<String,String> childs = childTerms.get(tissue);
+
         childs.put(childTerm,url);
         childTerms.put(tissue,childs);
-
-
 
     }
 

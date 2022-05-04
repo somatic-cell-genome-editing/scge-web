@@ -72,6 +72,7 @@
 
     LinkedHashMap<String,String> rootTissues = new LinkedHashMap<String,String>();
     //rootTissues.put("Other", "other");
+    rootTissues.put("Connective Tissue", "UBERON:0002384");
     rootTissues.put("Reproductive", "UBERON:0000990");
     rootTissues.put("Renal/Urinary", "UBERON:0001008");
     rootTissues.put("Endocrine","UBERON:0000949");
@@ -183,8 +184,6 @@
                     break;
                 }
             }
-
-
 
             String tissueTerm = er.getTissueTerm();
             String cellType = er.getCellTypeTerm();
