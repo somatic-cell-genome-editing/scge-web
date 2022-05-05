@@ -81,7 +81,7 @@
                 <tr ><td class="header">Type</td><td style="white-space: nowrap"><%=SFN.parse(editor.getType())%></td></tr>
                 <tr ><td class="header">Subtype</td><td style="white-space: nowrap"><%=SFN.parse(editor.getSubType())%></td></tr>
                 <tr ><td class="header">Alias</td><td style="white-space: nowrap"><%=SFN.parse(editor.getAlias())%></td></tr>
-                <tr><td>&nbsp;<td><td></td></tr>
+                <tr><td colspan="2"><hr></td></tr>
                 <tr ><td class="header">Activity</td><td style="white-space: nowrap"><%=SFN.parse(editor.getActivity())%></td></tr>
                 <tr ><td class="header">Substrate</td><td style="white-space: nowrap"><%=SFN.parse(editor.getSubstrateTarget())%></td></tr>
                 <tr ><td class="header">DSB Cleavage Type</td><td style="white-space: nowrap"><%=SFN.parse(editor.getDsbCleavageType())%></td></tr>
@@ -89,19 +89,21 @@
                 <tr ><td class="header">Variant</td><td style="white-space: nowrap"><%=SFN.parse(editor.getEditorVariant())%></td></tr>
                 <tr ><td class="header">Fusion</td><td style="white-space: nowrap"><%=SFN.parse(editor.getFusion())%></td></tr>
                 <tr ><td class="header">Annotated Map</td><td style="white-space: nowrap"><%=SFN.parse(editor.getAnnotatedMap())%></td></tr>
-                <tr><td>&nbsp;<td><td></td></tr>
+                <tr><td colspan="2"><hr></td></tr>
 
                 <tr ><td class="header">Source</td><td style="white-space: nowrap"><%=SFN.parse(editor.getSource())%></td></tr>
                 <tr ><td class="header">Catalog</td><td style="white-space: nowrap"><%=SFN.parse(editor.getCatalog())%></td></tr>
                 <tr ><td class="header">RRID</td><td style="white-space: nowrap"><%=SFN.parse(editor.getRrid())%></td></tr>
-                <tr><td>&nbsp;<td><td></td></tr>
+                <tr><td colspan="2"><hr></td></tr>
                 <tr ><td class="header">Target Locus</td><td style="white-space: nowrap"><%=SFN.parse(editor.getTargetLocus())%></td></tr>
                 <tr ><td class="header">Target Sequence</td><td style="white-space: nowrap"><%=SFN.parse(editor.getTarget_sequence())%></td></tr>
-                <tr ><td class="header">Assembly</td><td style="white-space: nowrap"><%=SFN.parse(editor.getAssembly())%></td></tr>
-                <tr ><td class="header">Chromosome</td><td style="white-space: nowrap"><%=SFN.parse(editor.getChr())%></td></tr>
-                <tr ><td class="header">Start</td><td style="white-space: nowrap"><%=SFN.parse(editor.getStart())%></td></tr>
-                <tr ><td class="header">Stop</td><td style="white-space: nowrap"><%=SFN.parse(editor.getStop())%></td></tr>
-                <tr ><td class="header">Strand</td><td style="white-space: nowrap"><%=SFN.parse(editor.getStrand())%></td></tr>
+
+
+                <tr ><td class="header">Position</td><td style="white-space: nowrap">
+                    <% if (!SFN.parse(editor.getChr()).equals("")) {%>
+                    <%=SFN.parse(editor.getAssembly())%>/<%=SFN.parse(editor.getChr())%>:<%=SFN.parse(editor.getStart())%>-<%=SFN.parse(editor.getStop())%> (<%=SFN.parse(editor.getStrand())%>)
+                    <%}%>
+                </td></tr>
 
             </table>
 

@@ -94,36 +94,48 @@
 
     <div class="p-2">
         <table class="table table-sm summary">
-            <tr ><th class="header">Lab Id</th><td>&nbsp;<%=SFN.parse(g.getGrnaLabId())%></td></tr>
+            <tr ><th class="header">Lab ID</th><td>&nbsp;<%=SFN.parse(g.getGrnaLabId())%></td></tr>
+            <tr ><th class="header">Source</th><td>&nbsp;<%=SFN.parse(g.getSource())%></td></tr>
+            <tr ><th  class="header" >Target Locus</th><td>&nbsp;<%=SFN.parse(g.getTargetLocus())%></td></tr>
             <tr ><th class="header">Species</th><td>&nbsp;<%=SFN.parse(g.getSpecies())%></td></tr>
-        <tr ><th  class="header" >Target Locus</th><td>&nbsp;<%=SFN.parse(g.getTargetLocus())%></td></tr>
+            <tr ><th >Description</th><td>&nbsp;<%=SFN.parse(g.getGuideDescription())%></td></tr>
+            <tr ><th class="header">Guide Compatability</th><td>&nbsp;<%=SFN.parse(g.getGuideCompatibility())%></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
+
+            <tr ><th class="header">Guide Format</th><td>&nbsp;<%=SFN.parse(g.getGuideFormat())%></td></tr>
+            <tr ><th class="header">Specificity Ratio</th><td>&nbsp;<%=SFN.parse(g.getSpecificityRatio())%></td></tr>
+
+            <tr><td colspan="2"><hr></td></tr>
+
             <tr ><th class="header">Target Sequence</th><td>&nbsp;<%=SFN.parse(g.getTargetSequence())%></td></tr>
             <tr ><th class="header" style=" white-space: nowrap;">Target Sequence&nbsp;+ PAM</th><td>&nbsp;<%=SFN.parse(g.getPam())%></td></tr>
-            <tr ><th class="header">Assembly</th><td>&nbsp;<%=SFN.parse(g.getAssembly())%></td></tr>
-            <tr ><th class="header" >Strand</th><td>&nbsp;<%=SFN.parse(g.getStrand())%></td></tr>
-            <tr><th class="header">Guide Location:</th><td>&nbsp;<%=g.getChr()+":"+g.getStart()+".."+g.getStop()%></td></tr>
-        <tr ><th >Description</th><td>&nbsp;<%=SFN.parse(g.getGuideDescription())%></td></tr>
-                <tr ><th class="header" >Spacer Sequence</th><td>&nbsp;<%=SFN.parse(g.getSpacerSequence())%></td></tr>
-                <tr ><th class="header">Spacer Length</th><td>&nbsp;<%=SFN.parse(g.getSpacerLength())%></td></tr>
-                    <tr ><th class="header" >Guide Sequence</th><td>&nbsp;<%=SFN.parse(g.getFullGuide())%></td></tr>
-                <tr ><th class="header" >Modifications</th><td>&nbsp;<%=SFN.parse(g.getModifications())%></td></tr>
-                <tr ><th class="header">Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getRepeatSequence())%></td></tr>
-                <tr ><th class="header">Anti-Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getAntiRepeatSequence())%></td></tr>
-                <tr ><th class="header">Stemloop 1 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop1Sequence())%></td></tr>
-                <tr ><th class="header">Stemloop 2 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop2Sequence())%></td></tr>
-                <tr ><th class="header">Stemloop 3 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop3Sequence())%></td></tr>
-            <tr ><th class="header">Source</th><td>&nbsp;<%=SFN.parse(g.getSource())%></td></tr>
+            <tr ><td class="header">Position</td><td style="white-space: nowrap">
+                <% if (!SFN.parse(g.getChr()).equals("")) {%>
+                <%=SFN.parse(g.getAssembly())%>/<%=SFN.parse(g.getChr())%>:<%=SFN.parse(g.getStart())%>-<%=SFN.parse(g.getStop())%> (<%=SFN.parse(g.getStrand())%>)
+                <%}%>
+            </td></tr>
+            <tr><td colspan="2"><hr></td></tr>
             <tr ><th class="header">Full Guide Sequence</th><td>&nbsp;<%=SFN.parse(g.getFullGuide())%></td></tr>
-            <tr ><th class="header">Guide Compatability</th><td>&nbsp;<%=SFN.parse(g.getGuideCompatibility())%></td></tr>
-            <tr ><th class="header">Chromosome</th><td>&nbsp;<%=SFN.parse(g.getChr())%></td></tr>
-            <tr ><th class="header">Start</th><td>&nbsp;<%=SFN.parse(g.getStart())%></td></tr>
-            <tr ><th class="header">Stop</th><td>&nbsp;<%=SFN.parse(g.getStop())%></td></tr>
-            <tr ><th class="header">Guide Format</th><td>&nbsp;<%=SFN.parse(g.getGuideFormat())%></td></tr>
-            <tr ><th class="header">Has Standard Scaffold Sequence</th><td>&nbsp;<%=SFN.parse(g.getStandardScaffoldSequence())%></td></tr>
+            <tr ><th class="header" >Spacer Sequence</th><td>&nbsp;<%=SFN.parse(g.getSpacerSequence())%></td></tr>
+            <tr ><th class="header">Spacer Length</th><td>&nbsp;<%=SFN.parse(g.getSpacerLength())%></td></tr>
+            <tr ><th class="header" >Modifications</th><td>&nbsp;<%=SFN.parse(g.getModifications())%></td></tr>
+
+
+            <% if (!SFN.parse(g.getRepeatSequence()).equals("") || !SFN.parse(g.getAntiRepeatSequence()).equals("") || !SFN.parse(g.getStemloop1Sequence()).equals("")) {%>
+            <tr><td colspan="2"><hr></td></tr>
+            <tr ><th class="header">Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getRepeatSequence())%></td></tr>
+            <tr ><th class="header">Anti-Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getAntiRepeatSequence())%></td></tr>
+            <tr ><th class="header">Stemloop 1 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop1Sequence())%></td></tr>
+            <tr ><th class="header">Stemloop 2 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop2Sequence())%></td></tr>
+            <tr ><th class="header">Stemloop 3 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop3Sequence())%></td></tr>
+            <% } %>
+
+            <% if (!SFN.parse(g.getForwardPrimer()).equals("") || !SFN.parse(g.getReversePrimer()).equals("")) { %>
+            <tr><td colspan="2"><hr></td></tr>
             <tr ><th class="header">Forward Primer</th><td>&nbsp;<%=SFN.parse(g.getForwardPrimer())%></td></tr>
             <tr ><th class="header">Reverse Primer</th><td>&nbsp;<%=SFN.parse(g.getReversePrimer())%></td></tr>
-            <tr ><th class="header">Linker Sequence</th><td>&nbsp;<%=SFN.parse(g.getLinkerSequence())%></td></tr>
-            <tr ><th class="header">Specificity Ratio</th><td>&nbsp;<%=SFN.parse(g.getSpecificityRatio())%></td></tr>
+            <% } %>
+
 
     </table>
     </div>

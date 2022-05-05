@@ -59,13 +59,13 @@
     <thead>
     <tr>
         <th>Tier</th>
+        <th>Name</th>
+        <td>Species</td>
         <th>Target Locus</th>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Format</th>
-    <th>Source</th>
-    <td>Species</td>
-    <td>SCGE ID</td>
+        <th>Description</th>
+        <td>Guide Compatability</td>
+        <td>Specificity Ratio</td>
+        <td>SCGE ID</td>
     </tr>
     </thead>
 
@@ -74,12 +74,12 @@
         <% if (access.hasGuideAccess(g,p)) { %>
     <tr>
         <td width="10"><%=g.getTier()%></td>
-        <td><%=SFN.parse(g.getTargetLocus())%></td>
         <td><a href="/toolkit/data/guide/system?id=<%=g.getGuide_id()%>"><%=g.getGuide()%></a></td>
-        <td><%=SFN.parse(g.getGuideDescription())%></td>
-        <td><%=SFN.parse(g.getGuideFormat())%></td>
-        <td><%=SFN.parse(g.getSource())%></td>
         <td><%=SFN.parse(g.getSpecies())%></td>
+        <td><%=SFN.parse(g.getTargetLocus())%></td>
+        <td><%=SFN.parse(g.getGuideDescription())%></td>
+        <td><%=SFN.parse(g.getGuideCompatibility())%></td>
+        <td><%=SFN.parse(g.getSpecificityRatio())%></td>
         <td><%=g.getGuide_id()%></td>
     </tr>
         <% } %>

@@ -59,21 +59,29 @@
             <tr><td class="header" width="150">Type</td><td><%=v.getType()%></td></tr>
             <tr><td class="header">Subtype</td><td><%=SFN.parse(v.getSubtype())%></td></tr>
 
+            <tr><td colspan="2"><hr></td></tr>
 
             <tr><td class="header">Source</td><td><%=SFN.parse(v.getSource())%></td></tr>
-            <tr><td class="header">Capsid Variant</td><td><%=SFN.parse(v.getCapsidVariant())%></td></tr>
-            <tr><td class="header">Capsid Serotype</td><td><%=SFN.parse(v.getCapsidSerotype())%></td></tr>
-            <tr><td class="header">Genome Serotype</td><td><%=SFN.parse(v.getGenomeSerotype())%></td></tr>
+            <tr><td class="header">Catalog</td><td></td></tr>
+            <tr><td class="header">RRID</td><td></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
 
+
+            <tr><td class="header">Genome Serotype</td><td><%=SFN.parse(v.getGenomeSerotype())%></td></tr>
+            <tr><td class="header">Capsid Serotype</td><td><%=SFN.parse(v.getCapsidSerotype())%></td></tr>
+            <tr><td class="header">Capsid Variant</td><td><%=SFN.parse(v.getCapsidVariant())%></td></tr>
+
+            <!--
             <% if (v.getSource().toLowerCase().equals("addgene")) { %>
                 <tr><td class="header">Stock/Catalog/RRID</td><td><a href="https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/">https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/</a></td></tr>
             <% } else {%>
                 <tr><td class="header">Stock/Catalog/RRID</td><td><%=SFN.parse(v.getLabId())%></td></tr>
             <% } %>
 
-            <tr><td class="header">Lab ID:</td><td><%=SFN.parse(v.getLabId())%></td></tr>
+            -->
+            <tr><td colspan="2"><hr></td></tr>
+
             <tr><td class="header">Annotated Map</td><td><%=SFN.parse(v.getAnnotatedMap())%></td></tr>
-            <tr><td class="header">Titer Method</td><td><%=SFN.parse(v.getTiterMethod())%></td></tr>
 
         </table>
     </div>

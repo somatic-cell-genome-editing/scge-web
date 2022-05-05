@@ -55,17 +55,21 @@
             <div class="col-7">
 
         <table  class="table table-sm summary">
-            <tr ><td class="header">SCGE ID</td><td><%=m.getModelId()%></td></tr>
             <tr><td class="header">Name</td><td><%=m.getDisplayName()%></td></tr>
-            <tr><td class="header">Description</td><td><%=SFN.parse(m.getDescription())%></td></tr>
+            <tr><td class="header">Alias</td><td></td></tr>
+            <tr><td class="header">Official Name</td><td></td></tr>
+            <tr><td class="header">Species</td><td><%=m.getOrganism()%></td></tr>
             <tr><td class="header">Type</td><td><%=m.getType()%></td></tr>
             <tr><td class="header">Subtype</td><td><%=SFN.parse(m.getSubtype())%></td></tr>
-            <tr><td class="header">Alias</td><td></td></tr>
-
+            <tr><td class="header">Description</td><td><%=SFN.parse(m.getDescription())%></td></tr>
             <tr><td class="header">Parental&nbsp;Origin</td><td><%=SFN.parse(m.getParentalOrigin())%></td></tr>
-            <tr><td class="header">Organism</td><td><%=m.getOrganism()%></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
+
             <tr><td class="header">Source</td><td><%=SFN.parse(m.getSource())%></td></tr>
+            <tr><td class="header">Catalog</td><td></td></tr>
             <tr><td class="header">RRID</td><td><%=SFN.parse(m.getRrid())%></td></tr>
+
+            <tr><td colspan="2"><hr></td></tr>
 
             <tr><td class="header">Transgene</td><td><%=SFN.parse(m.getTransgene())%></td></tr>
             <tr><td class="header">Transgene Description</td><td><%=SFN.parse(m.getTransgeneDescription())%></td></tr>
