@@ -61,9 +61,11 @@
         <tr>
             <th>Tier</th>
         <th>Name</th>
+        <th>Species</th>
         <th>Model Type</th>
         <th>Subtype</th>
-        <th>Species</th>
+            <th>Description</th>
+
         <th>SCGE ID</th>
     </tr>
     </thead>
@@ -77,9 +79,11 @@
     <tr>
         <td width="10"><%=model.getTier()%></td>
         <td><a href="/toolkit/data/models/model/?id=<%=model.getModelId()%>"><%=model.getDisplayName()%></a></td>
+        <td><%=model.getOrganism()%></td>
         <td><%=model.getType()%></td>
         <td><%=SFN.parse(model.getSubtype())%></td>
-        <td><%=model.getOrganism()%></td>
+        <td><%=SFN.parse(model.getDescription())%></td>
+
         <td><%=model.getModelId()%></td>
     </tr>
     <% } %>

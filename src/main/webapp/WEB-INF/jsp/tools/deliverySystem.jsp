@@ -62,22 +62,31 @@
             <tr><td class="header">Description</td><td><%=SFN.parse(d.getDescription())%></td></tr>
             <tr><td class="header" width="150">Type</td><td><%=SFN.parse(d.getType())%></td></tr>
             <tr><td class="header">Subtype</td><td><%=SFN.parse(d.getSubtype())%></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
+            <tr><td class="header">Source</td><td><%=SFN.parse(d.getSource())%></td></tr>
+            <!--<tr><td class="header">Catalog</td><td><%=SFN.parse(d.getRrid())%></td></tr>-->
+            <tr><td class="header">RRID</td><td><%=SFN.parse(d.getRrid())%></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
+
             <tr><td class="header">Sequence</td><td><%=SFN.parse(d.getSequence())%></td></tr>
             <tr><td class="header">Annotated&nbsp;Map</td><%=SFN.parse(d.getAnnotatedMap())%><td></td></tr>
 
 
 
-        <%if(d.getType().equalsIgnoreCase("Nanoparticle")) { %>
+        <%if(!SFN.parse(d.getNpSize()).equals("") || !SFN.parse(d.getZetaPotential()).equals("") || !SFN.parse(d.getNpPolydispersityIndex()).equals("") ) { %>
+            <tr><td colspan="2"><hr></td></tr>
 
-
+            <%if(!SFN.parse(d.getNpSize()).equals("")) { %>
             <tr><td class="header">Nanopartical&nbsp;Size</td><td><%=SFN.parse(d.getNpSize())%></td></tr>
+            <% } %>
+            <%if(!SFN.parse(d.getZetaPotential()).equals("") ) { %>
             <tr><td class="header">Zeta&nbsp;Potential</td><td><%=SFN.parse(d.getZetaPotential())%></td></tr>
+            <% } %>
+            <%if(!SFN.parse(d.getNpPolydispersityIndex()).equals("") ) { %>
             <tr><td class="header">Poly&nbsp;Dispersity&nbsp;Index</td><td><%=SFN.parse(d.getNpPolydispersityIndex())%></td></tr>
-
+            <% } %>
         <%} %>
 
-            <tr><td class="header">Source</td><td><%=SFN.parse(d.getSource())%></td></tr>
-            <tr><td class="header">Stock/Catalog/RRID</td><td><%=SFN.parse(d.getRrid())%></td></tr>
 
         </table>
     </div>

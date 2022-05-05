@@ -59,9 +59,11 @@
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
+        <th>Tier</th>
         <th>Name</th>
         <th>Type</th>
         <th>Subtype</th>
+        <th>Description</th>
         <th>SCGE ID</th>
     </tr>
     </thead>
@@ -73,9 +75,11 @@
 
 
     <tr>
+        <td><%=vector.getTier()%></td>
         <td><a href="/toolkit/data/vector/format/?id=<%=vector.getVectorId()%>"><%=vector.getName()%></a></td>
         <td><%=vector.getType()%></td>
         <td><%=vector.getSubtype()%></td>
+        <td><%=vector.getDescription()%></td>
         <td><%=vector.getVectorId()%></td>
     </tr>
         <% }
