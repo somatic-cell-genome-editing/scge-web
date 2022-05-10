@@ -806,4 +806,68 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         return "redirect:/data/experiments/experiment/"+experimentId;
     }
 
+    @RequestMapping(value = "/edit")
+    public String getExperimentForm(HttpServletRequest req, HttpServletResponse res,Experiment experiment) throws Exception{
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isAdmin(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+            Experiment e = new Experiment();
+            e.setStudyId(Integer.parseInt(req.getParameter("studyId")));
+            req.setAttribute("experiment", e);
+            req.setAttribute("action", "Create Experiment");
+
+
+        List<Experiment> records = edao.getAllExperiments();
+        Set<String> names = records.stream().map(Experiment::getName).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> types = records.stream().map(Experiment::getType).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+
+        req.setAttribute("names",names);
+        req.setAttribute("types",types);
+
+        req.setAttribute("page", "/WEB-INF/jsp/edit/editExperiment");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }
+
+    @RequestMapping("/create")
+    public String createExperiment(HttpServletRequest req,HttpServletResponse res,@ModelAttribute("experiment") Experiment experiment) throws Exception {
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isAdmin(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+        long experimentId = edao.insertExperiment(experiment);
+        req.setAttribute("status"," <span style=\"color: blue\">Experiment inserted successfully</span>");
+
+        int studyId = experiment.getStudyId();
+        Study study = sdao.getStudyById(studyId).get(0);
+        int groupId = study.getGroupId();
+        req.getRequestDispatcher("/data/experiments/group/"+groupId).forward(req,res);
+        return null;
+    }
+
 }

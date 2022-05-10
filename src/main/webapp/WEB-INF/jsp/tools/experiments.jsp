@@ -109,6 +109,7 @@
                 <%} else {%>
                 <span style="color:red;font-weight: bold">Received</span>
                 <%}%>
+                <div align="right"><a href="/toolkit/data/experiments/edit?studyId=<%=study.getStudyId()%>"><button class="btn btn-primary">Create&nbsp;Experiment</button></a></div>
             </div>
             <div class="card-body">
                 <table width="95%">
