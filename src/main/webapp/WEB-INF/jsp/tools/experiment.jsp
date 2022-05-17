@@ -299,8 +299,6 @@ ExperimentResultDetail detail = experimentResults.get(0);
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
 </div>
 
-<hr>
-Protocols that apply to entire Experiment
 <%objectId = experimentRecord.getExperimentId();%>
 
 <div id="associatedProtocols">
