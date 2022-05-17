@@ -7,11 +7,15 @@
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.Protocol" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ProtocolDao" %>
 
 <%
-    {  //  open scope
+    try {  //  open scope
 
-    List<Protocol> localProtocols = (List<Protocol>)request.getAttribute("protocols");
+        ProtocolDao pdao = new ProtocolDao();
+        List<Protocol> localProtocols = pdao.getProtocolsForObject(objectId);
+
+        //List<Protocol> localProtocols = (List<Protocol>)request.getAttribute("protocols");
     //String objectId = request.getParameter("objectId");
     //String redirectURL = request.getParameter("requestURL");
     Access localProtocolAccess = new Access();
@@ -84,5 +88,7 @@
 
 <% }
     //close scope
+} catch (Exception protocolException) {
+        protocolException.printStackTrace();
 }
 %>

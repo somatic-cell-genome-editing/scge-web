@@ -544,6 +544,11 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             req.setAttribute("editingAssay",new HashMap<String,String>());
             req.setAttribute("experiment",e);
             req.setAttribute("experimentRecordsMap",new HashMap<Long, ExperimentRecord>());
+
+            ProtocolDao pdao = new ProtocolDao();
+            List<Protocol> protocols = pdao.getProtocolsForObject(experimentId);
+            req.setAttribute("protocols", protocols);
+
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
         }

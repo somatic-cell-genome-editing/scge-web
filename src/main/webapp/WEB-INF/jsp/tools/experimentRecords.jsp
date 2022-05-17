@@ -36,7 +36,6 @@
         Access access = new Access();
         Person p = access.getUser(request.getSession());
         Experiment ex = (Experiment) request.getAttribute("experiment");
-
     %>
         <div id="recordTableContent" style="position:relative; left:0px; top:00px;">
 
@@ -151,6 +150,9 @@
             <% }  %>
 
         </div>
+
+
+
 <% } catch (Exception e) {
         e.printStackTrace();
  }

@@ -269,6 +269,12 @@ List<String> options = new ArrayList<>();
         String bucket="belowExperimentTable1";
     %>
 
+    <div id="associatedProtocols">
+        <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
+    </div>
+
+<hr>
+
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
     <% bucket="belowExperimentTable2"; %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
