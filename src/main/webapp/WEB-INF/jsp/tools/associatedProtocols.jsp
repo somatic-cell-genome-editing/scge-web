@@ -29,15 +29,11 @@
 
 <script>
     $(function() {
-        $("#myTable-1").tablesorter({
+        $("#myTable-<%=objectId%>").tablesorter({
             theme : 'blue'
 
         });
     });
-
-    function addProtocol() {
-        alert("adding protocol");
-    }
 
 </script>
 
@@ -59,7 +55,7 @@
 
 <% if (localProtocols.size() > 0) { %>
 
-<table id="myTable-1" class="tablesorter">
+<table id="myTable-<%=objectId%>" class="tablesorter">
     <thead>
     <tr>
         <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
