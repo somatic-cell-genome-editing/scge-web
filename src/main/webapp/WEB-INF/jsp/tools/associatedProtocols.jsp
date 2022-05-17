@@ -42,7 +42,7 @@
 <hr>
 <table width="95%"><tr><td><h4 class="page-header" style="color:grey;">
     <% if ((objectId + "").startsWith("18")) { %>
-        Associated Experiment Wide Protocols
+        Experiment Wide Protocols
     <% } else { %>
     Protocols
     <% } %>
