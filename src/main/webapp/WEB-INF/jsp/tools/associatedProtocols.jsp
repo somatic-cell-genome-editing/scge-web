@@ -12,10 +12,10 @@
 <%
     try {  //  open scope
 
-        ProtocolDao pdao = new ProtocolDao();
-        List<Protocol> localProtocols = pdao.getProtocolsForObject(objectId);
+    ProtocolDao pdao = new ProtocolDao();
+    List<Protocol> localProtocols = pdao.getProtocolsForObject(objectId);
 
-        //List<Protocol> localProtocols = (List<Protocol>)request.getAttribute("protocols");
+    //List<Protocol> localProtocols = (List<Protocol>)request.getAttribute("protocols");
     //String objectId = request.getParameter("objectId");
     //String redirectURL = request.getParameter("requestURL");
     Access localProtocolAccess = new Access();
@@ -44,7 +44,14 @@
 
 
 <hr>
-<table width="95%"><tr><td><h4 class="page-header" style="color:grey;">Protocols</h4></td>
+<table width="95%"><tr><td><h4 class="page-header" style="color:grey;">
+    <% if ((objectId + "").startsWith("18")) { %>
+        Associated Experiment Wide Protocols
+    <% } else { %>
+    Protocols
+    <% } %>
+
+</h4></td>
     <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
         <td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Protocols</a></td>
     <% } %>
