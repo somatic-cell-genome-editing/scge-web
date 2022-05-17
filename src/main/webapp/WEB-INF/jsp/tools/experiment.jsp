@@ -301,7 +301,7 @@ ExperimentResultDetail detail = experimentResults.get(0);
 
 <hr>
 Protocols that apply to entire Experiment
-<%objectId = experimentRecord.getExperimentId()%>
+<%objectId = experimentRecord.getExperimentId();%>
 
 <div id="associatedProtocols">
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
