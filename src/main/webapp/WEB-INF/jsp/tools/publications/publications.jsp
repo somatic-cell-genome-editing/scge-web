@@ -25,11 +25,11 @@
             </button>
             <%}%>
         </div>
-        <div class="col-xs-1" align="right">
-            <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
+        <!--div class="col-xs-1" align="right">
+            <%-- if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
             &nbsp;<button class="btn btn-primary btn-sm" type="submit"  >Associate</button>
-            <% } %>
-        </div>
+            <% } --%>
+        </div-->
     </div>
     </div>
 
