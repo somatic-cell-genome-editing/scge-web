@@ -23,7 +23,7 @@ public class PublicationController {
     GuideDao guideDao=new GuideDao();
     VectorDao vectorDao=new VectorDao();
     @RequestMapping(value="/search")
-    public String getEditors(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public String getAllPublications(HttpServletRequest req, HttpServletResponse res) throws Exception {
         Access access = new Access();
         UserService us = new UserService();
         Person p = us.getCurrentUser(req.getSession());
@@ -71,19 +71,28 @@ public class PublicationController {
         }
         String identifier=req.getParameter("identifier");
         String identifierType="pubmed";
-
-        int key=publicationDAO.getPubIdKey(identifier,identifierType);
-                if(key==0){
-                    publicationDAO.insertPubIds(publicationDAO.getNextKey("pub_id_key_seq"),0,identifier,identifierType);
-                    publicationDAO.runPubmedProcesssor(Integer.parseInt(identifier));
-
+        String msg=new String();
+        if(identifier!=null && !identifier.equals("")) {
+            int key = publicationDAO.getPubIdKey(identifier.trim(), identifierType);
+            if (key == 0) {
+                publicationDAO.insertPubIds(publicationDAO.getNextKey("pub_id_key_seq"), 0, identifier.trim(), identifierType);
+                int refKey = publicationDAO.runPubmedProcesssor(Integer.parseInt(identifier.trim()));
+                if (refKey > 0) {
+                    msg = "Successfully added publication to the database. Added publication can be viewed in <a href='/toolkit/data/publications/search'>publications list</a>";
                 }
 
+            }
 
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>/<a href='/toolkit/data/publications/search'>Publications</a>");
-        req.setAttribute("action", "Add New Publication");
-        req.setAttribute("page", "/WEB-INF/jsp/tools/publications/addPublication");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        }else {
+            msg="<span style='color:red'>Please enter pubmed id..</span>";
+
+        }
+        req.setAttribute("message", msg);
+            req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a>/<a href='/toolkit/data/publications/search'>Publications</a>");
+            req.setAttribute("action", "Add New Publication");
+            req.setAttribute("page", "/WEB-INF/jsp/tools/publications/addPublication");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
     }
