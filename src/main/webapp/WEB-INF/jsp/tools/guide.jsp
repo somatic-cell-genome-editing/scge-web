@@ -102,7 +102,7 @@
             <tr ><th class="header">Guide Compatability</th><td>&nbsp;<%=SFN.parse(g.getGuideCompatibility())%></td></tr>
             <tr><td colspan="2"><hr></td></tr>
 
-            <tr ><th class="header">Guide Format</th><td>&nbsp;<%=SFN.parse(g.getcGuideFormat())%></td></tr>
+            <tr ><th class="header">Guide Format</th><td>&nbsp;<%=SFN.parse(g.getGuideFormat())%></td></tr>
             <tr ><th class="header">Specificity Ratio</th><td>&nbsp;<%=SFN.parse(g.getSpecificityRatio())%></td></tr>
 
             <tr><td colspan="2"><hr></td></tr>
