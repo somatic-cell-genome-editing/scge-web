@@ -60,7 +60,7 @@ public class DeliveryController {
 
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,system,null,null));
 
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/delivery/search'>Delivery Systems</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Delivery%20System?searchTerm='>Delivery Systems</a>");
         req.setAttribute("system", system);
         req.setAttribute("action", "Delivery System: " + system.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/deliverySystem");
@@ -142,7 +142,7 @@ public class DeliveryController {
         req.setAttribute("labId",labId);
         req.setAttribute("page", "/WEB-INF/jsp/edit/editDelivery");
 
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/delivery/search'>Delivery</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Delivery%20System?searchTerm='>Delivery</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
