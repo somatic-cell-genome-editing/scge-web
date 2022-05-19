@@ -95,6 +95,10 @@ List<String> options = new ArrayList<>();
         if (vectorList.size() > 1 && vectorList.size() != resultDetail.keySet().size())
             options.add("Vector");
     }
+    if (unitList.size() > 0 ) {
+        if (unitList.size() > 1 && unitList.size() != resultDetail.keySet().size())
+            options.add("Units");
+    }
     System.out.println(options);
 %>
 
@@ -102,11 +106,15 @@ List<String> options = new ArrayList<>();
 
         <%@include file="recordFilters.jsp"%>
 <div>
+    <% if( unitList.size() == 1 && unitList.get(0).equalsIgnoreCase("signal") ) {
+
+    }  else { %>
     <b style="font-size:14px;">Color By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
         <% for(String filter: options) {%>
         <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
         <%} %>
     </select>
+    <% } %>
 </div>
 
 <br>
