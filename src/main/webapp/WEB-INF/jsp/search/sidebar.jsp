@@ -135,28 +135,6 @@
 
 
     </c:if>
-<c:if test="${fn:length(aggregations.editorSpeciesBkts)>0}">
-    <div class="accordion-group">
-    <div class="pl-3  accordion-heading card-header">
-    <a class="accordion-toggle" data-toggle="collapse" href="#collapse14">
-    Genome Editor Species<span class="float-right"><i class="fas fa-angle-up"></i></span>
-    </a>
-    </div>
-    <div id="collapse14" class="accordion-body collapse show ">
-    <div class="pl-3  accordion-inner">
-    <c:forEach items="${aggregations.editorSpeciesBkts}" var="subtype">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="editorSpeciesBkt" value="${subtype.key}" id="editorSpecies-${subtype.key}">
-            <label class="form-check-label" for="editorSpecies-${subtype.key}">
-                <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
-                    ${subtype.key} (${subtype.docCount})
-            </label>
-        </div>
-    </c:forEach>
-    </div>
-    </div>
-
-    </div>
         <div class="p-3  bg-info text-white">Filter By Experimental Elements&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
 
         <c:if test="${fn:length(aggregations.editorBkts)>0}">
@@ -212,9 +190,9 @@
                         Genome Editor Species<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse20" class="accordion-body collapse show ">
+            <div id="collapse14" class="accordion-body collapse show ">
                 <div class="pl-3  accordion-inner">
-                    <c:forEach items="${aggregations.speciesBkts}" var="subtype">
+                    <c:forEach items="${aggregations.editorSpeciesBkts}" var="subtype">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="editorSpeciesBkt" value="${subtype.key}" id="editorSpecies-${subtype.key}">
                             <label class="form-check-label" for="editorSpecies-${subtype.key}">
