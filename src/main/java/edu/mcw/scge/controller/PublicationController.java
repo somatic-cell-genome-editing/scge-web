@@ -166,10 +166,10 @@ public class PublicationController {
         }
         List<Reference> references=new ArrayList<>();
         String[] refKeyValues=req.getParameterValues("refKey");
-        for(int i=0;i<refKeyValues.length;i++){
-            int refKey= Integer.parseInt(refKeyValues[i]);
-            Reference reference=publicationDAO.getReferenceByKey(refKey);
-           references.add(reference);
+        for (String refKeyValue : refKeyValues) {
+            int refKey = Integer.parseInt(refKeyValue);
+            Reference reference = publicationDAO.getReferenceByKey(refKey);
+            references.add(reference);
 
         }
         StudyDao studyDao=new StudyDao();

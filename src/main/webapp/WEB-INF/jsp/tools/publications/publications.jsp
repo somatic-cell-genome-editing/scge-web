@@ -27,7 +27,7 @@
         </div>
         <div class="col-xs-1" align="right">
             <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
-            &nbsp;<button class="btn btn-primary btn-sm" type="submit"  >Associate</button>
+            &nbsp;<button class="btn btn-primary btn-sm"   onclick="selectedRefKey(event)" >Associate</button>
             <% } %>
         </div>
     </div>
@@ -60,3 +60,24 @@
     </form>
 </div>
 
+<script>
+    function selectedRefKey(event) {
+
+        var flag=false;
+        $.each($('input[name="refKey"]'), function () {
+            var _this = $(this);
+           if( $(this).is(":checked")){
+               flag=true;
+
+           }
+
+        });
+       if(flag){
+           $(this).submit();
+       }else{
+           event.preventDefault();
+           alert("Please select the references to make associations")
+
+       }
+    }
+</script>

@@ -53,8 +53,8 @@
                     <c:forEach items="${experiments}" var="experiment">
                         <tr ><td style="width:60%"> <input type="checkbox" name="experimentCheck" value="${experiment.experimentId}"><a href="/toolkit/data/experiments/experiment/${experiment.experimentId}">&nbsp;${experiment.name}</a></td>
                             <td>
-                                <input type="radio" name="experimentRadio" value="associated">&nbsp;Associated
-                                <input type="radio" name="experimentRadio" value="related">&nbsp;Related
+                                <input type="radio" name="experimentRadio${experiment.experimentId}" value="associated" checked>&nbsp;Associated
+                                <input type="radio" name="experimentRadio${experiment.experimentId}" value="related">&nbsp;Related
                             </td>
                             </tr>
 
@@ -85,12 +85,12 @@
                                     <c:set var="url" value=""/>
                                 </c:if>
                             <h6><input type="checkbox">&nbsp;${object.key}</h6>
-                                <table>
+                                <table >
                             <c:forEach items="${object.value}" var="obj">
-                                <tr ><td> <input type="checkbox" name="" value="${obj.key}"><a href="${url}${obj.key}">&nbsp;${obj.value}</a></td>
+                                <tr ><td style="width: 60%"> <input type="checkbox" name="" value="${obj.key}"><a href="${url}${obj.key}">&nbsp;${obj.value}</a></td>
                                     <td>
-                                        <input type="radio" name="" value="associated">&nbsp;Associated
-                                        <input type="radio" name="" value="related">&nbsp;Related
+                                        <input type="radio" name="${object.key}-${obj.key}" value="associated" checked>&nbsp;Associated
+                                        <input type="radio" name="${object.key}-${obj.key}" value="related">&nbsp;Related
                                     </td>
                                 </tr>
                             </c:forEach>
