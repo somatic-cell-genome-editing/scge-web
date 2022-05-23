@@ -14,8 +14,15 @@
         font-weight: bold;
         border: 0;
         color: #017dc4;
-        font-size:28px;
+        font-size:24px;
         padding-left:20px;
+    }
+    .card-image {
+        height:100px;
+        width:100px;
+    }
+    .card-body {
+        padding: 0.25rem;
     }
 
 </style>
@@ -38,7 +45,7 @@ padding: 10px;
                         <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=">
                             <table border="0">
                                 <tr>
-                                    <td><img src="/toolkit/images/studies.png" alt=""/></td>
+                                    <td><img src="/toolkit/images/studies.png" class="card-image" alt=""/></td>
                                     <td class="card-label">
                                         Browse Studies
                                     </td>
@@ -62,7 +69,7 @@ padding: 10px;
                             <table>
                                 <tr>
                                     <td>
-                                        <img src="/toolkit/images/Editor-rev.png" alt=""/>
+                                        <img src="/toolkit/images/Editor-rev.png"  class="card-image" alt=""/>
                                     </td>
                                     <td class="card-label">
                                         Genome Editors
@@ -83,7 +90,7 @@ padding: 10px;
                             <table>
                                 <tr>
                                     <td>
-                                        <img src="/toolkit/images/mouse.png" alt=""/>
+                                        <img src="/toolkit/images/mouse.png"  class="card-image" alt=""/>
 
                                     </td>
                                     <td class="card-label">
@@ -107,7 +114,7 @@ padding: 10px;
                             <table>
                                 <tr>
                                     <td>
-                            <img src="/toolkit/images/Delivery.png"  alt=""/>
+                            <img src="/toolkit/images/Delivery.png"  class="card-image"  alt=""/>
                                     </td>
                                     <td class="card-label">
                                         Delivery Systems
@@ -132,7 +139,7 @@ padding: 10px;
                             <table>
                                 <tr>
                                     <td>
-                            <img src="/toolkit/images/guideIcon.png"  alt=""/>
+                            <img src="/toolkit/images/guideIcon.png"   class="card-image" alt=""/>
                                     </td>
                                     <td class="card-label">
                                         Guides
@@ -154,7 +161,7 @@ padding: 10px;
                             <table>
                                 <tr>
                                     <td>
-                            <img src="/toolkit/images/guideIcon.png"  alt=""/>
+                            <img src="/toolkit/images/guideIcon.png"  class="card-image"  alt=""/>
                                     </td>
                                     <td class="card-label">
                                         Vectors
@@ -176,7 +183,7 @@ padding: 10px;
                             <table>
                                 <tr>
                                     <td>
-                            <img src="/toolkit/images/protocols.png"  alt=""/>
+                            <img src="/toolkit/images/protocols.png"  class="card-image"  alt=""/>
                                     </td>
                                     <td class="card-label">
                                         Protocols
