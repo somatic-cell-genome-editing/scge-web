@@ -107,7 +107,7 @@
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/studies/search">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=">
                             <img src="/toolkit/images/studyIcon.png" width="30" height="30" alt="" />
                             All Studies&nbsp;<span class="object-count"><%=sdao.getStudyCount()%></span> <span class="sr-only">(current)</span>
                         </a>

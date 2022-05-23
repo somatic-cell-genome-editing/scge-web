@@ -33,7 +33,10 @@ Goals"/>
 
     <script src="/toolkit/common/tableSorter/js/tablesorter.js"> </script>
     <script src="/toolkit/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!--link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/-->
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet" type="text/css"/>
+
     <link href="/toolkit/css/scge.css" rel="stylesheet" type="text/css"/>
 
 
@@ -119,7 +122,7 @@ Goals"/>
             <ul class="navbar-nav">
 
                 <li class="nav-item active text-nowrap text-responsive">
-                    <a class="nav-link" href="/toolkit/data/studies/search" style="font-weight: 400;font-family: Offside;font-size: 16px">All Studies <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/toolkit/data/search/results/Study?searchTerm=" style="font-weight: 400;font-family: Offside;font-size: 16px">All Studies <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active text-nowrap text-responsive">
                     <a class="nav-link" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=" style="font-weight: 400;font-family: Offside;font-size: 16px">Genome Editors <span class="sr-only">(current)</span></a>

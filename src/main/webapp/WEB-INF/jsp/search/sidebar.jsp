@@ -67,11 +67,11 @@
     </div>
     <c:choose>
         <c:when test="${searchTerm==''}">
-            <div class="p-3  bg-info text-white">Filter By Attributes&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
+            <div class="p-2  bg-info text-white">Filter By ...&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
 
         </c:when>
         <c:otherwise>
-            <div class="p-3  bg-info text-white">Refine search results&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
+            <div class="p-2  bg-info text-white">Refine search results&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
 
         </c:otherwise>
     </c:choose>
@@ -84,7 +84,17 @@
     <div class="accordion-group">
         <div class="pl-3  accordion-heading card-header">
             <a class="accordion-toggle" data-toggle="collapse" href="#collapseTwo">
-                ${category}&nbsp;Type<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                <c:choose>
+                    <c:when test="${category=='Study'}">
+                      Grant Initiative<span class="float-right">
+                    </c:when>
+                    <c:otherwise>
+                            ${category}&nbsp;Type<span class="float-right">
+
+                        </c:otherwise>
+                </c:choose>
+
+                    <i class="fas fa-angle-down"></i></span>
             </a>
         </div>
         <div id="collapseTwo" class="accordion-body collapse show">
@@ -135,7 +145,7 @@
 
 
     </c:if>
-        <div class="p-3  bg-info text-white">Filter By Experimental Elements&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
+        <!--div class="p-3  bg-info text-white">Filter By Experimental Elements&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div-->
 
         <c:if test="${fn:length(aggregations.editorBkts)>0}">
         <div class="accordion-group">
@@ -458,6 +468,76 @@
 
         </div>
     </c:if>
+
+        <c:if test="${fn:length(aggregations.accessBkts)>0}">
+            <div class="accordion-group">
+                <div class="pl-3  accordion-heading card-header">
+                    <a class="accordion-toggle" data-toggle="collapse" href="#collapse19">
+                        Access <span class="float-right"><i class="fas fa-angle-up"></i></span>
+                    </a>
+                </div>
+                <div id="collapse19" class="accordion-body collapse show ">
+                    <div class="pl-3  accordion-inner">
+                        <c:forEach items="${aggregations.accessBkts}" var="subtype">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="accessBkt" value="${subtype.key}" id="access-${subtype.key}">
+                                <label class="form-check-label" for="vector-${subtype.key}">
+                                    <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                        ${subtype.key} (${subtype.docCount})
+                                </label>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+
+            </div>
+        </c:if>
+        <c:if test="${fn:length(aggregations.statusBkts)>0}">
+            <div class="accordion-group">
+                <div class="pl-3  accordion-heading card-header">
+                    <a class="accordion-toggle" data-toggle="collapse" href="#collapse20">
+                        Status <span class="float-right"><i class="fas fa-angle-up"></i></span>
+                    </a>
+                </div>
+                <div id="collapse20" class="accordion-body collapse show ">
+                    <div class="pl-3  accordion-inner">
+                        <c:forEach items="${aggregations.statusBkts}" var="subtype">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="statusBkt" value="${subtype.key}" id="status-${subtype.key}">
+                                <label class="form-check-label" for="vector-${subtype.key}">
+                                    <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                        ${subtype.key} (${subtype.docCount})
+                                </label>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+
+            </div>
+        </c:if>
+        <c:if test="${fn:length(aggregations.piBkts)>0}">
+            <div class="accordion-group">
+                <div class="pl-3  accordion-heading card-header">
+                    <a class="accordion-toggle" data-toggle="collapse" href="#collapse18">
+                        Principal Investigator <span class="float-right"><i class="fas fa-angle-up"></i></span>
+                    </a>
+                </div>
+                <div id="collapse18" class="accordion-body collapse show ">
+                    <div class="pl-3  accordion-inner">
+                        <c:forEach items="${aggregations.piBkts}" var="subtype">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="piBkt" value="${subtype.key}" id="pi-${subtype.key}">
+                                <label class="form-check-label" for="vector-${subtype.key}">
+                                    <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
+                                        ${subtype.key} (${subtype.docCount})
+                                </label>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+
+            </div>
+        </c:if>
     </form>
 </div>
 

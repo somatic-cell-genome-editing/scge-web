@@ -33,6 +33,9 @@ public class IndexServices {
    //     }
         srb.highlighter(this.buildHighlights());
         srb.size(10000);
+        if(searchTerm.equals("")){
+            srb.sort("name.keyword");
+        }
        SearchRequest searchRequest=new SearchRequest(searchIndex);
        searchRequest.source(srb);
 
@@ -70,6 +73,11 @@ public class IndexServices {
         /*********************guide**************************/
         srb.aggregation(this.buildSearchAggregations("guideTargetLocus", null));
    //     srb.aggregation(this.buildSearchAggregations("externalId", null));
+        /**********Study***********************************/
+        srb.aggregation(this.buildSearchAggregations("pi",null));
+        srb.aggregation(this.buildSearchAggregations("access",null));
+        srb.aggregation(this.buildSearchAggregations("status",null));
+
 
     }
     public HighlightBuilder buildHighlights(){
@@ -115,13 +123,13 @@ public class IndexServices {
                 aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
 
             else*/
-            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword") .size(10000);
+            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword") .size(10000).order(BucketOrder.key(true));
 
          //   aggs= AggregationBuilders.terms(fieldName).field(fieldName+".type.keyword");
 
         }else {
                 fieldName="category";
-            aggs = AggregationBuilders.terms(fieldName).field(fieldName + ".keyword") .size(10000);
+            aggs = AggregationBuilders.terms(fieldName).field(fieldName + ".keyword") .size(10000).order(BucketOrder.key(true));
         }
     /*    if(selectedCategory!=null && !selectedCategory.equals("")) {
             aggs.subAggregation(AggregationBuilders.terms("type").field("type.keyword")
@@ -156,7 +164,22 @@ public class IndexServices {
         addAllDeliveryAggs(sr,aggregations);
         addAllGuideAggs(sr, aggregations);
         addAllVectorAggs(sr,aggregations);
+        addAllStudyAggs(sr, aggregations);
         return aggregations;
+    }
+    public void addAllStudyAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
+        Terms piAggs=sr.getAggregations().get("pi");
+        if(piAggs!=null)
+            aggregations.put("piBkts", (List<Terms.Bucket>) piAggs.getBuckets());
+        Terms accessAggs=sr.getAggregations().get("access");
+
+        if(piAggs!=null)
+            aggregations.put("accessBkts", (List<Terms.Bucket>) accessAggs.getBuckets());
+        Terms statusAggs=sr.getAggregations().get("status");
+
+        if(piAggs!=null)
+            aggregations.put("statusBkts", (List<Terms.Bucket>) statusAggs.getBuckets());
+
     }
     public void addAllModelAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
         Terms modelAggs=sr.getAggregations().get("modelType");
