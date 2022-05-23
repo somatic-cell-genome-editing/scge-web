@@ -35,7 +35,7 @@ padding: 10px;
             <div class="card-body" >
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/studies/search">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=">
                             <table border="0">
                                 <tr>
                                     <td><img src="/toolkit/images/studies.png" alt=""/></td>
