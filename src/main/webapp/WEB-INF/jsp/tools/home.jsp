@@ -107,36 +107,36 @@
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/studies/search">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=">
                             <img src="/toolkit/images/studyIcon.png" width="30" height="30" alt="" />
                             All Studies&nbsp;<span class="object-count"><%=sdao.getStudyCount()%></span> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/editors/search">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=">
                             <img src="https://scge.mcw.edu/wp-content/uploads/2019/06/Editor-rev.png" width="30" height="30" alt="" />
                             Genome Editors&nbsp;<span class="object-count"><%=sdao.getEditorCount()%></span> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/models/search">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Model%20System?searchTerm=">
                             <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/mouse.png" width="30" height="30" alt="" />
                             Model&nbsp;Systems&nbsp; <span class="object-count "><%=sdao.getModelCount()%></span>
                         </a>
 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/delivery/search">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Delivery%20System?searchTerm=">
                             <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/Delivery.png" width="30" height="30" alt="" />
                             Delivery Systems &nbsp;<span class="object-count"><%=sdao.getDeliveryCount()%></span>                       </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/guide/search">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Guide?searchTerm=">
                             <img src="/toolkit/images/guideIcon.png" width="30" height="30" alt="" />
                             Guides &nbsp; <span class="object-count"><%=sdao.getGuideCount()%></span>                       </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/vector/search">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Vector?searchTerm=">
                             <img src="/toolkit/images/guideIcon.png" width="30" height="30" alt="" />
                             Vectors &nbsp; <span class="object-count"><%=sdao.getVectorCount()%></span>                       </a>
                     </li>

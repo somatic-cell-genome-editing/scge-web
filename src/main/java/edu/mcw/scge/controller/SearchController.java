@@ -124,6 +124,10 @@ public class SearchController{
                 return "search/resultsPage";
 
             }else {*/
+      if(searchTerm.equals("")){
+          req.setAttribute("action", category);
+
+      }else
                 req.setAttribute("action", "Search Results");
                 req.setAttribute("page", "/WEB-INF/jsp/search/results");
            //     req.setAttribute("filterMap", getFilterMap(req));
