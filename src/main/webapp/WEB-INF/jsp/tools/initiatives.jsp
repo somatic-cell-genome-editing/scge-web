@@ -25,7 +25,7 @@
             <div class="card-body" >
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Rodent+Testing+Center&typeBkt=Large+Animal+Reporter">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Small+Animal+Testing+Center+(SATC)&typeBkt=Large+Animal+Reporter+(LAR)&typeBkt=Large+Animal+Testing+Center+(LATC)">
                             <table border="0">
                                 <tr>
                                     <td><img src="/toolkit/images/mouse3.png" class="card-image" alt=""/></td>
@@ -49,7 +49,7 @@
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=New+Editors+Initiative">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Genome+Editors">
                             <table>
                                 <tr>
                                     <td>
@@ -75,7 +75,7 @@
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Delivery+Vehicle+Initiative">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Delivery+Systems+Initiative">
                             <table>
                                 <tr>
                                     <td>
@@ -103,7 +103,7 @@
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Biological+Effects+Initiative">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Biological+Effects+Initiative&typeBkt=Biological+Systems">
                             <table>
                                 <tr>
                                     <td>
