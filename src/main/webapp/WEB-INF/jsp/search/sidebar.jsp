@@ -481,7 +481,7 @@
                         <c:forEach items="${aggregations.accessBkts}" var="subtype">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="accessBkt" value="${subtype.key}" id="access-${subtype.key}">
-                                <label class="form-check-label" for="vector-${subtype.key}">
+                                <label class="form-check-label" for="access-${subtype.key}">
                                     <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
                                         ${subtype.key} (${subtype.docCount})
                                 </label>
@@ -504,7 +504,7 @@
                         <c:forEach items="${aggregations.statusBkts}" var="subtype">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="statusBkt" value="${subtype.key}" id="status-${subtype.key}">
-                                <label class="form-check-label" for="vector-${subtype.key}">
+                                <label class="form-check-label" for="status-${subtype.key}">
                                     <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
                                         ${subtype.key} (${subtype.docCount})
                                 </label>
@@ -527,7 +527,7 @@
                         <c:forEach items="${aggregations.piBkts}" var="subtype">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="piBkt" value="${subtype.key}" id="pi-${subtype.key}">
-                                <label class="form-check-label" for="vector-${subtype.key}">
+                                <label class="form-check-label" for="pi-${subtype.key}">
                                     <!--li> <a class="nav-link" onclick="searchByFilter('${bkt.key}','${searchTerm}','${type.key}','${subtype.key}')" >${subtype.key} (${subtype.docCount})</a></li-->
                                         ${subtype.key} (${subtype.docCount})
                                 </label>

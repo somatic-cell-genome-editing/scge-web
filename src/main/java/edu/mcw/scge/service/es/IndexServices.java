@@ -123,13 +123,13 @@ public class IndexServices {
                 aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
 
             else*/
-            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword") .size(10000).order(BucketOrder.key(true));
+            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword") .size(1000).order(BucketOrder.key(true));
 
          //   aggs= AggregationBuilders.terms(fieldName).field(fieldName+".type.keyword");
 
         }else {
                 fieldName="category";
-            aggs = AggregationBuilders.terms(fieldName).field(fieldName + ".keyword") .size(10000).order(BucketOrder.key(true));
+            aggs = AggregationBuilders.terms(fieldName).field(fieldName + ".keyword") .size(1000).order(BucketOrder.key(true));
         }
     /*    if(selectedCategory!=null && !selectedCategory.equals("")) {
             aggs.subAggregation(AggregationBuilders.terms("type").field("type.keyword")
@@ -144,7 +144,7 @@ public class IndexServices {
     public AggregationBuilder buildFilterAggregations(String fieldName, String selectedCategory){
         AggregationBuilder aggs= null;
 
-            aggs= AggregationBuilders.terms(fieldName.replace(".type","").trim()).field(fieldName+".keyword");
+            aggs= AggregationBuilders.terms(fieldName.replace(".type","").trim()).field(fieldName+".keyword").size(1000).order(BucketOrder.key(true));
 
 
 
@@ -173,11 +173,11 @@ public class IndexServices {
             aggregations.put("piBkts", (List<Terms.Bucket>) piAggs.getBuckets());
         Terms accessAggs=sr.getAggregations().get("access");
 
-        if(piAggs!=null)
+        if(accessAggs!=null)
             aggregations.put("accessBkts", (List<Terms.Bucket>) accessAggs.getBuckets());
         Terms statusAggs=sr.getAggregations().get("status");
 
-        if(piAggs!=null)
+        if(statusAggs!=null)
             aggregations.put("statusBkts", (List<Terms.Bucket>) statusAggs.getBuckets());
 
     }
