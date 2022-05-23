@@ -27,12 +27,6 @@
 
 </style>
 
-<!--
-margin: auto;
-width: 50%;
-border: 3px solid green;
-padding: 10px;
--->
 <div class="row" style="width:1000px;margin:auto;">
     <div class="col-sm-6" >
 
@@ -223,7 +217,7 @@ padding: 10px;
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="initiatives.jsp">
+                        <a class="nav-link text-secondary" href="/toolkit/data/initiatives">
                             <table>
                                 <tr>
                                     <td>
