@@ -3,12 +3,12 @@
         font-weight: bold;
         border: 0;
         color: #017dc4;
-        font-size:24px;
+        font-size:22px;
         padding-left:20px;
     }
     .card-image {
-        height:100px;
-        width:100px;
+        height:85px;
+        width:85px;
     }
     .card-body {
         padding: 0.25rem;
