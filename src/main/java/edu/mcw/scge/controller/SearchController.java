@@ -160,6 +160,11 @@ public class SearchController{
        mappings.put(  "vectorBkt","vectorName");
        mappings.put("vectorSubTypeBkt","vectorSubtype");
        mappings.put("vectorTypeBkt","vectorType");
+
+
+        mappings.put(  "accessBkt","access");
+        mappings.put("statusBkt","status");
+        mappings.put("piBkt","pi");
     /*    List<String> params=new ArrayList<>( Arrays.asList("typeBkt", "subtypeBkt",
                 "editorTypeBkt","editorSubTypeBkt", "editorSpeciesBkt"
                , "dsTypeBkt", "modelTypeBkt", "modelSpeciesBkt", "reporterBkt",
