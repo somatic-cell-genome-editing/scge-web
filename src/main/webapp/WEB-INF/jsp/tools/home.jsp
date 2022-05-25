@@ -24,11 +24,16 @@
     .card-body {
         padding: 0.25rem;
     }
+    .card {
+        border:0px solid black;
+    }
 
 </style>
 
-<div class="row" style="width:1000px;margin:auto;">
-    <div class="col-sm-6" >
+
+
+<div class="row" style="width:900px;margin:auto;padding-left:150px;">
+    <div class="col-sm-5" >
 
         <!---   studies by initiative card -->
 
@@ -122,7 +127,7 @@
         </div>
 
     </div> <!--close col -->
-            <div class="col-sm-6">
+            <div class="col-sm-5">
 
 
         <div class="card">
@@ -238,7 +243,7 @@
         <!-- end studies by initiative card -->
     </div>
 </div>
-
+</td></tr></table>
 <!--
 
 <div class="row">
