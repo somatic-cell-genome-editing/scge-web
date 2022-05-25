@@ -294,7 +294,9 @@ List<String> options = new ArrayList<>();
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 </div>
 
-
+<div id="associatedPublications">
+    <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+</div>
 <script>
     function resizeImages() {
         var count=1;

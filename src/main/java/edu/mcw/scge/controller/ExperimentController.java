@@ -678,6 +678,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     }
             }
         }
+        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(experimentId));
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experimentId));
 
         plotData.put("Mean",mean);
 
@@ -781,6 +783,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     "\nresults:"+experimentResults.size());
 
         }
+        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(expRecordId));
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(expRecordId));
+
         req.setAttribute("action", "Experiment Record Detail");
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment</a>");
 
