@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -20,7 +21,20 @@
         if(typeof selectedStudyId!="undefined" && selectedStudyId!='')
             $('#selectSubmission').val(selectedStudyId)
     });
+  function experimentClickEvent(_this,value) {
+      var elements = document.getElementsByClassName(value);
+      if(_this.is(":checked")){
 
+          for(let i=0; i<elements.length; i++){
+              elements[i].disabled=true;
+          }
+      }else{
+          for(let i=0; i<elements.length; i++){
+              elements[i].disabled=false
+          }
+      }
+
+  }
 
 </script>
 <div class="container-fluid">
@@ -32,7 +46,7 @@
                     <ul>
                         <c:forEach  items="${references}" var="ref">
                             <input type="hidden" name="refKey" value="${ref.key}">
-                            <li><a href="">${ref.title}</a></li>
+                            <li><a href="https://pubmed.ncbi.nlm.nih.gov/${ref.pubmedId}/">${ref.title}</a></li>
                         </c:forEach>
                     </ul>
                 </div>
@@ -46,61 +60,81 @@
                     </select>
                 </label>
                 </div>
+            </form>
+            <form action="/toolkit/data/publications/associate/study/submit">
+                <input type="hidden" name="studyId" value="${selectedStudyId}">
+                <c:forEach  items="${references}" var="ref">
+                    <input type="hidden" name="refKey" value="${ref.key}">
+                </c:forEach>
                 <c:if test="${selectedStudyId!=null && selectedStudyId>0}">
                 <div id="experimentList">
-                    <h6>Select Experiment:</h6>
-                    <table>
+
+
                     <c:forEach items="${experiments}" var="experiment">
-                        <tr ><td style="width:60%"> <input type="checkbox" name="experimentCheck" value="${experiment.experimentId}"><a href="/toolkit/data/experiments/experiment/${experiment.experimentId}">&nbsp;${experiment.name}</a></td>
+                        <div class="card" style="margin-top:2%">
+                            <h6>Experiment:${experiment.experimentId}</h6>
+                        <table>
+                        <tr ><td style="width:60%"> <input type="checkbox" name="experiment" value="${experiment.experimentId}" onchange="experimentClickEvent( $(this),${experiment.experimentId})"><a href="/toolkit/data/experiments/experiment/${experiment.experimentId}">&nbsp;${experiment.name}</a></td>
                             <td>
-                                <input type="radio" name="experimentRadio${experiment.experimentId}" value="associated" checked>&nbsp;Associated
-                                <input type="radio" name="experimentRadio${experiment.experimentId}" value="related">&nbsp;Related
+                                <input type="radio" name="experiment-${experiment.experimentId}" value="associated" checked>&nbsp;Associated
+                                <input type="radio" name="experiment-${experiment.experimentId}" value="related">&nbsp;Related
                             </td>
                             </tr>
+                        <tr>
+                            <td>
+                                <c:if test="${fn:length(experimentObjectsMap)>0}">
 
-                    </c:forEach>
+                                    <c:forEach items="${experimentObjectsMap}" var="objectMap">
+                                        <c:if test="${objectMap.key==experiment.experimentId}">
+                                            <c:forEach items="${objectMap.value}" var="object">
+                                                <c:if test="${fn:length(object.value)>0}">
+                                                    <c:set var="url" value=""/>
+                                                    <c:if test="${object.key=='Editor'}">
+                                                        <c:set var="url" value="/toolkit/data/editors/editor?id="/>
+                                                    </c:if>
+                                                    <c:if test="${object.key=='Guide'}">
+                                                        <c:set var="url" value="/toolkit/data/guide/system?id="/>
+                                                    </c:if>
+                                                    <c:if test="${object.key=='Delivery'}">
+                                                        <c:set var="url" value="/toolkit/data/delivery/system?id="/>
+                                                    </c:if>
+                                                    <c:if test="${object.key=='Model'}">
+                                                        <c:set var="url" value="/toolkit/data/models/model/?id="/>
+                                                    </c:if>
+                                                    <c:if test="${object.key=='Vector'}">
+                                                        <c:set var="url" value="/toolkit/data/vector/format/?id="/>
+                                                    </c:if>
+                                                    <c:if test="${object.key=='HRDonor'}">
+                                                        <c:set var="url" value=""/>
+                                                    </c:if>
+                                                    <h6><input type="checkbox" class="${objectMap.key}">&nbsp;${object.key}</h6>
+                                                    <table id="table-${objectMap.key}" >
+                                                        <c:forEach items="${object.value}" var="obj">
+                                                            <tr ><td style="width: 60%"> <input class="${objectMap.key}" type="checkbox" name="${fn:toLowerCase(object.key)}" value="${obj.key}"><a href="${url}${obj.key}">&nbsp;${obj.value}</a></td>
+                                                                <td>
+                                                                    <input class="${objectMap.key}" type="radio" name="${fn:toLowerCase(object.key)}-${obj.key}" value="associated" checked>&nbsp;Associated
+                                                                    <input class="${objectMap.key}" type="radio" name="${fn:toLowerCase(object.key)}-${obj.key}" value="related">&nbsp;Related
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </table>
+
+                                                </c:if>
+                                            </c:forEach>
+                                        </c:if>
+                                    </c:forEach>
+
+                                </c:if>
+
+                            </td>
+                        </tr>
                     </table>
-                    <hr>
+                        </div>
+                    </c:forEach>
+
+
                 </div>
-                    <c:if test="${fn:length(objectMap)>0}">
-                        <c:forEach items="${objectMap}" var="object">
-                            <c:if test="${fn:length(object.value)>0}">
-                                <c:set var="url" value=""/>
-                                <c:if test="${object.key=='Editor'}">
-                                    <c:set var="url" value="/toolkit/data/editors/editor?id="/>
-                                </c:if>
-                                <c:if test="${object.key=='Guide'}">
-                                    <c:set var="url" value="/toolkit/data/guide/system?id="/>
-                                </c:if>
-                                <c:if test="${object.key=='Delivery'}">
-                                    <c:set var="url" value="/toolkit/data/delivery/system?id="/>
-                                </c:if>
-                                <c:if test="${object.key=='Model'}">
-                                    <c:set var="url" value="/toolkit/data/models/model/?id="/>
-                                </c:if>
-                                <c:if test="${object.key=='Vector'}">
-                                    <c:set var="url" value="/toolkit/data/vector/format/?id="/>
-                                </c:if>
-                                <c:if test="${object.key=='HRDonor'}">
-                                    <c:set var="url" value=""/>
-                                </c:if>
-                            <h6><input type="checkbox">&nbsp;${object.key}</h6>
-                                <table >
-                            <c:forEach items="${object.value}" var="obj">
-                                <tr ><td style="width: 60%"> <input type="checkbox" name="" value="${obj.key}"><a href="${url}${obj.key}">&nbsp;${obj.value}</a></td>
-                                    <td>
-                                        <input type="radio" name="${object.key}-${obj.key}" value="associated" checked>&nbsp;Associated
-                                        <input type="radio" name="${object.key}-${obj.key}" value="related">&nbsp;Related
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                                </table>
-                                <hr>
-                            </c:if>
-                        </c:forEach>
 
-
-                    </c:if>
                 </c:if>
                <div>&nbsp;</div>
                 <div>&nbsp;</div>

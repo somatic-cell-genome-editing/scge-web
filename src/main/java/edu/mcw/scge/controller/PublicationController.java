@@ -1,10 +1,12 @@
 package edu.mcw.scge.controller;
 
+import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.Vector;
+import edu.mcw.scge.datamodel.publications.ArticleId;
 import edu.mcw.scge.datamodel.publications.Publication;
 import edu.mcw.scge.datamodel.publications.Reference;
 import org.springframework.stereotype.Controller;
@@ -19,9 +21,10 @@ import java.util.*;
 public class PublicationController {
     PublicationDAO publicationDAO=new PublicationDAO();
     ExperimentDao experimentDao=new ExperimentDao();
-    ExperimentRecordDao recordDao=new ExperimentRecordDao();
     GuideDao guideDao=new GuideDao();
     VectorDao vectorDao=new VectorDao();
+    StudyDao studyDao=new StudyDao();
+    Gson gson=new Gson();
     @RequestMapping(value="/search")
     public String getAllPublications(HttpServletRequest req, HttpServletResponse res) throws Exception {
         Access access = new Access();
@@ -142,13 +145,12 @@ public class PublicationController {
         String redirectURL = req.getParameter("redirectURL");
         String[] refKeyValues=req.getParameterValues("refKey");
         for(int i=0;i<refKeyValues.length;i++){
+
             String refKey=refKeyValues[i];
             String type=req.getParameter("associationType"+refKey);
             if(type!=null){
-                System.out.println("REFKEY:"+refKey+"\tTYPE:"+type);
-               boolean existsAssociation= publicationDAO.existsAssociation(Integer.parseInt(refKey),Long.parseLong(objectId));
-               if(!existsAssociation)
-                publicationDAO.insertPubAssociations(Integer.parseInt( refKey),Long.parseLong(objectId),type);
+                publicationDAO.makeAssociation(Long.parseLong(objectId),Integer.parseInt(refKey),req.getParameter("associationType"+refKey));
+
             }
         }
         System.out.println("REDIRECT URL IN insertPubAssociations"+ req.getParameter("redirectURL"));
@@ -165,6 +167,7 @@ public class PublicationController {
             req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
         }
         List<Reference> references=new ArrayList<>();
+        Map<Integer, String> idMap=new HashMap<>(); //Map(refKey, pubmedId)
         String[] refKeyValues=req.getParameterValues("refKey");
         for (String refKeyValue : refKeyValues) {
             int refKey = Integer.parseInt(refKeyValue);
@@ -172,7 +175,9 @@ public class PublicationController {
             references.add(reference);
 
         }
-        StudyDao studyDao=new StudyDao();
+
+
+        req.setAttribute("idMap", idMap);
         req.setAttribute("refKeys", refKeyValues);
         req.setAttribute("references", references);
         req.setAttribute("studies", studyDao.getStudies());
@@ -182,7 +187,7 @@ public class PublicationController {
         return null;
     }
     @RequestMapping(value="/associate/study")
-    public String makeStudyLevelassociation(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public String getStudyDetailsToAssociatePublication(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
         UserService userService=new UserService();
         Access access= new Access();
@@ -206,14 +211,15 @@ public class PublicationController {
             List<ExperimentRecord> records=experimentDao.getExperimentRecords(experiment.getExperimentId());
             experimentRecordsMap.put(experiment.getExperimentId(),records );
         }
-        Map<String, Map<Long, String>>  objectMap=new HashMap<>();
-        objectMap.put("Editor", new HashMap<>());
-        objectMap.put("Guide", new HashMap<>());
-        objectMap.put("Vector", new HashMap<>());
-        objectMap.put("Model", new HashMap<>());
-        objectMap.put("Delivery", new HashMap<>());
-        objectMap.put("HRDonor", new HashMap<>());
+       Map<Long,  Map<String, Map<Long, String>>> experimentObjectsMap=new HashMap<>();
         for(Map.Entry entry:experimentRecordsMap.entrySet()){
+            Map<String, Map<Long, String>>  objectMap=new HashMap<>();
+            objectMap.put("Editor", new HashMap<>());
+            objectMap.put("Guide", new HashMap<>());
+            objectMap.put("Vector", new HashMap<>());
+            objectMap.put("Model", new HashMap<>());
+            objectMap.put("Delivery", new HashMap<>());
+            objectMap.put("HRDonor", new HashMap<>());
             List<ExperimentRecord> records= (List<ExperimentRecord>) entry.getValue();
             for(ExperimentRecord record:records){
                 Map<Long, String> editorMap=objectMap.get("Editor");
@@ -236,7 +242,7 @@ public class PublicationController {
                 }
 
                 Map<Long, String> devliveryMap=objectMap.get("Delivery");
-                if(record.getHrdonorId()>0)
+                if(record.getDeliverySystemId()>0)
                 devliveryMap.put(record.getDeliverySystemId(), record.getDeliverySystemType());
 
                 Map<Long, String> hrDonor=objectMap.get("HRDonor");
@@ -245,18 +251,115 @@ public class PublicationController {
 
 
             }
+            experimentObjectsMap.put((Long) entry.getKey(), objectMap);
         }
 
         req.setAttribute("studies", studyDao.getStudies());
         req.setAttribute("selectedStudyId", studyId);
         req.setAttribute("experimentRecordsMap", experimentRecordsMap);
         req.setAttribute("experiments", experiments);
-        req.setAttribute("objectMap", objectMap);
+        //req.setAttribute("objectMap", objectMap);
+        req.setAttribute("experimentObjectsMap", experimentObjectsMap);
         req.setAttribute("references", references);
         req.setAttribute("action", "Publication Association Form");
         req.setAttribute("page", "/WEB-INF/jsp/tools/publications/associationForm");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
+    }
+
+    @RequestMapping(value="/associate/study/submit")
+    public String makeStudyLevelAssociation(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+        int studyId= Integer.parseInt(req.getParameter("studyId"));
+        List<Reference> references=new ArrayList<>();
+        String[] refKeyValues=req.getParameterValues("refKey");
+        if(refKeyValues!=null)
+            for(int i=0;i<refKeyValues.length;i++){
+                int refKey= Integer.parseInt(refKeyValues[i]);
+                Reference reference=publicationDAO.getReferenceByKey(refKey);
+                references.add(reference);
+            }
+
+        List<Experiment> experiments=experimentDao.getExperimentsByStudy(studyId);
+        Map<Long, List<ExperimentRecord>> experimentRecordsMap=new HashMap<>();
+        for(Experiment experiment:experiments){
+            List<ExperimentRecord> records=experimentDao.getExperimentRecords(experiment.getExperimentId());
+            experimentRecordsMap.put(experiment.getExperimentId(),records );
+        }
+        Map<Long,  String> associationTypes=getAssociationTypes(experimentRecordsMap,req);//Map<SCGE_OBJECT_ID, REF_KEY>
+        System.out.println("Association Types:" +gson.toJson(associationTypes));
+        for(String object:Arrays.asList("experiment", "editor","model", "vector","delivery", "guide", "hrDonor")) {
+            if (req.getParameterValues(object) != null) {
+                for (String x : req.getParameterValues(object)) {
+                for (Reference reference : references) {
+
+                       publicationDAO.makeAssociation(Long.parseLong(x), reference.getKey(), associationTypes.get(Long.parseLong(x)));
+                   // System.out.println(Long.parseLong(x)+"\t"+ reference.getKey()+"\t"+ associationTypes.get(Long.parseLong(x)));
+                    }
+                }
+            }
+
+        }
+     
+        req.setAttribute("studies", studyDao.getStudies());
+        req.setAttribute("selectedStudyId", studyId);
+     //   req.setAttribute("experimentRecordsMap", experimentRecordsMap);
+    //    req.setAttribute("experiments", experiments);
+        //req.setAttribute("objectMap", objectMap);
+        req.setAttribute("references", references);
+        req.setAttribute("action", "Publication Association Form");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/publications/associationForm");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        return null;
+    }
+    public Map<Long,  String> getAssociationTypes( Map<Long, List<ExperimentRecord>> experimentRecordsMap, HttpServletRequest req) throws Exception {
+        Map<Long,  String> associationTypes=new HashMap<>();
+        for(Map.Entry entry:experimentRecordsMap.entrySet()){
+            System.out.println("ASSOCIATION TYPE:"+req.getParameter("experiment-"+entry.getKey()));
+            if(req.getParameter("experiment-"+entry.getKey())!=null)
+            associationTypes.put((Long) entry.getKey(), req.getParameter("experiment-"+entry.getKey()));
+            List<ExperimentRecord> records= (List<ExperimentRecord>) entry.getValue();
+            for(ExperimentRecord record:records){
+
+                if(record.getEditorId()>0)
+                    associationTypes.put(record.getEditorId(),  req.getParameter("editor-"+record.getEditorId()));
+
+
+                for(Guide g:guideDao.getGuidesByExpRecId(record.getExperimentRecordId()))
+                    if(g.getGuide_id()>0){
+                        associationTypes.put(g.getGuide_id(),  req.getParameter("guide-"+g.getGuide_id()));
+
+                    }
+
+                if(record.getModelId()>0){
+                    associationTypes.put(record.getModelId(),  req.getParameter("model-"+record.getModelId()));
+
+                }
+                for(Vector v:vectorDao.getVectorsByExpRecId(record.getExperimentRecordId())){
+                    if(v.getVectorId()>0){
+                        associationTypes.put(v.getVectorId(),  req.getParameter("vector-"+v.getVectorId()));
+
+                    }
+                }
+                if(record.getDeliverySystemId()>0){
+                    associationTypes.put(record.getDeliverySystemId(),  req.getParameter("delivery-"+record.getDeliverySystemId()));
+
+                }
+                if(record.getHrdonorId()>0){
+
+                    associationTypes.put(record.getHrdonorId(),  req.getParameter("hrdonor-"+record.getHrdonorId()));
+
+                }
+
+            }
+
+        }
+return associationTypes;
     }
     @RequestMapping(value="/removeAssociation")
     public String getRemoveAssociations(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
