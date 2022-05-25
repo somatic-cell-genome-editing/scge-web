@@ -32,7 +32,7 @@
 
 
 
-<div class="row" style="width:900px;margin:auto;padding-left:150px;">
+<div class="row" style="width:1000px;margin:auto;padding-left:150px;">
     <div class="col-sm-5" >
 
         <!---   studies by initiative card -->
