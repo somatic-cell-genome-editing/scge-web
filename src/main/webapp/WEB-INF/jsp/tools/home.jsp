@@ -46,7 +46,7 @@
                                 <tr>
                                     <td><img src="/toolkit/images/studies.png" class="card-image" alt=""/></td>
                                     <td class="card-label">
-                                        Browse Studies
+                                        Browse&nbsp;Studies
                                     </td>
                                 </tr>
                             </table>
@@ -71,7 +71,7 @@
                                         <img src="/toolkit/images/Editor-rev.png"  class="card-image" alt=""/>
                                     </td>
                                     <td class="card-label">
-                                        Genome Editors
+                                        Genome&nbsp;Editors
                                     </td>
                                 </tr>
                                 </table>
@@ -93,7 +93,7 @@
 
                                     </td>
                                     <td class="card-label">
-                                        Model Systems
+                                        Model&nbsp;Systems
                                     </td>
                                 </tr>
                             </table>
@@ -104,7 +104,7 @@
             </div>
         </div>
     </div> <!--close col -->
-    <div class="col-sm-4">
+    <div class="col-sm-4" >
 
 
         <div class="card">
@@ -117,8 +117,8 @@
                                     <td>
                             <img src="/toolkit/images/Delivery.png"  class="card-image"  alt=""/>
                                     </td>
-                                    <td class="card-label">
-                                        Delivery Systems
+                                    <td class="card-label" >
+                                        Delivery&nbsp;Systems
                                     </td>
                                 </tr>
                                 </table>
@@ -231,7 +231,7 @@
                                         <img src="/toolkit/images/initiative.png"  class="card-image"  alt=""/>
                                     </td>
                                     <td class="card-label">
-                                        SCGE Initiatives
+                                        SCGE&nbsp;Initiatives
                                     </td>
                                 </tr>
                             </table>
