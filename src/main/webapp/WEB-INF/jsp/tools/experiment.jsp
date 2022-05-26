@@ -132,6 +132,11 @@
 <% try { %>
 
 <%
+
+    Access access= new Access();
+    Person p = access.getUser(request.getSession());
+
+
 List<Delivery> dList = (List<Delivery>) request.getAttribute("deliveryList");
 List<Editor> editorList = (List<Editor>) request.getAttribute("editorList");
 List<Guide> guideList = (List<Guide>) request.getAttribute("guideList");
@@ -305,7 +310,9 @@ ExperimentResultDetail detail = experimentResults.get(0);
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
 </div>
 
-
+<div id="associatedPublications">
+    <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+</div>
 
 <% } catch (Exception e) {
         e.printStackTrace();

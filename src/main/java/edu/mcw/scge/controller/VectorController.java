@@ -4,6 +4,8 @@ import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.datamodel.Vector;
+import edu.mcw.scge.datamodel.publications.Publication;
 import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -65,8 +64,7 @@ public class VectorController {
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(v.getVectorId());
         req.setAttribute("protocols", protocols);
-        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(v.getVectorId()));
-        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(v.getVectorId()));
+
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByVector(v.getVectorId());
 
@@ -79,8 +77,10 @@ public class VectorController {
         req.setAttribute("guideMap", guideMap);
 
         HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
+        Set<Long> experimentIds=new HashSet<>();
         for(ExperimentRecord record:experimentRecords) {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+            experimentIds.add(record.getExperimentId());
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
@@ -91,6 +91,13 @@ public class VectorController {
                 assocatedExperiments.add(experimentDao.getExperiment(id));
             }
             req.setAttribute("associatedExperiments", assocatedExperiments);}
+        List<Publication> associatedPublications=new ArrayList<>();
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(v.getVectorId()));
+        for(long experimentId:experimentIds) {
+            associatedPublications.addAll(publicationDAO.getAssociatedPublications(experimentId));
+        }
+        req.setAttribute("associatedPublications", associatedPublications);
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(v.getVectorId()));
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

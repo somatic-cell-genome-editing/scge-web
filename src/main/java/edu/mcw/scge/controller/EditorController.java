@@ -105,8 +105,10 @@ public class EditorController {
         req.setAttribute("guideMap", guideMap);
 
         HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
+        Set<Long> experimentIds=new HashSet<>();
         for(ExperimentRecord record:experimentRecords) {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+            experimentIds.add(record.getExperimentId());
         }
         req.setAttribute("vectorMap", vectorMap);
         /*************************************************************/
@@ -137,7 +139,13 @@ public class EditorController {
             req.setAttribute("comparableEditors", comparableEditors);
         }
         /*************************************************************/
-        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(editor.getId()));
+        List<Publication> associatedPublications=new ArrayList<>();
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(editor.getId()));
+        for(long experimentId:experimentIds) {
+            associatedPublications.addAll(publicationDAO.getAssociatedPublications(experimentId));
+
+        }
+        req.setAttribute("associatedPublications", associatedPublications);
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(editor.getId()));
 
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);

@@ -4,6 +4,8 @@ import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.datamodel.Vector;
+import edu.mcw.scge.datamodel.publications.Publication;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
@@ -13,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -71,8 +71,7 @@ public class ModelController {
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(mod.getModelId());
         req.setAttribute("protocols", protocols);
-        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(mod.getModelId()));
-        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(mod.getModelId()));
+
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByModel(mod.getModelId());
         req.setAttribute("experimentRecords",experimentRecords);
@@ -83,8 +82,10 @@ public class ModelController {
         req.setAttribute("guideMap", guideMap);
 
         HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
+        Set<Long> experimentIds=new HashSet<>();
         for(ExperimentRecord record:experimentRecords) {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+            experimentIds.add(record.getExperimentId());
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
@@ -95,6 +96,13 @@ public class ModelController {
                 assocatedExperiments.add(experimentDao.getExperiment(id));
             }
             req.setAttribute("associatedExperiments", assocatedExperiments);}
+        List<Publication> associatedPublications=new ArrayList<>();
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(mod.getModelId()));
+        for(long experimentId:experimentIds) {
+            associatedPublications.addAll(publicationDAO.getAssociatedPublications(experimentId));
+        }
+        req.setAttribute("associatedPublications", associatedPublications);
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(mod.getModelId()));
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/models/search'>Models</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 

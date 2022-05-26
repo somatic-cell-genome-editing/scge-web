@@ -42,6 +42,8 @@ public class ExperimentController extends UserController {
     CustomUniqueLabels customLabels=new CustomUniqueLabels();
     GrantDao grantDao=new GrantDao();
     PublicationDAO publicationDAO=new PublicationDAO();
+    GuideDao guideDao=new GuideDao();
+    VectorDao vectorDao=new VectorDao();
     @RequestMapping(value="/search")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentDao edao=new ExperimentDao();
@@ -783,8 +785,29 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     "\nresults:"+experimentResults.size());
 
         }
-        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(expRecordId));
-        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(expRecordId));
+        List<Publication> associatedPublications=new ArrayList<>();
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(experiment.getExperimentId()));
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(r.getEditorId()));
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(r.getHrdonorId()));
+
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(r.getModelId()));
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(r.getDeliverySystemId()));
+        List<Guide> guides=guideDao.getGuidesByExpRecId(r.getExperimentRecordId());
+        if(guides.size()>0){
+            for(Guide g:guides){
+                associatedPublications.addAll(publicationDAO.getAssociatedPublications(g.getGuide_id()));
+
+            }
+        }
+        List<Vector> vectors=vectorDao.getVectorsByExpRecId(expRecordId);
+        if(vectors.size()>0){
+            for(Vector vector:vectors)
+            associatedPublications.addAll(publicationDAO.getAssociatedPublications(vector.getVectorId()));
+
+        }
+
+        req.setAttribute("associatedPublications", associatedPublications);
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experiment.getExperimentId()));
 
         req.setAttribute("action", "Experiment Record Detail");
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment</a>");

@@ -6,6 +6,7 @@ import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.Vector;
+import edu.mcw.scge.datamodel.publications.Publication;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.http.MediaType;
@@ -71,8 +72,7 @@ public class GuideController {
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(guide.getGuide_id());
         req.setAttribute("protocols", protocols);
-        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(guide.getGuide_id()));
-        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(guide.getGuide_id()));
+
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByGuide(guide.getGuide_id());
         req.setAttribute("experimentRecords",experimentRecords);
@@ -96,8 +96,10 @@ public class GuideController {
         req.setAttribute("guideMap", guideMap);
 
         HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
+        Set<Long> experimentIds=new HashSet<>();
         for(ExperimentRecord record:experimentRecords) {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+            experimentIds.add(record.getExperimentId());
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
@@ -107,7 +109,14 @@ public class GuideController {
             for(long id:associatedExperimentIds){
                 assocatedExperiments.add(experimentDao.getExperiment(id));
             }
+
             req.setAttribute("associatedExperiments", assocatedExperiments);}
+        List<Publication> associatedPublications=new ArrayList<>();
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(guide.getGuide_id()));
+        for(long experimentId:experimentIds)
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(experimentId));
+        req.setAttribute("associatedPublications", associatedPublications);
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(guide.getGuide_id()));
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
