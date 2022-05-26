@@ -14,12 +14,12 @@
         font-weight: bold;
         border: 0;
         color: #017dc4;
-        font-size:22px;
+        font-size:20px;
         padding-left:20px;
     }
     .card-image {
-        height:85px;
-        width:85px;
+        height:80px;
+        width:80px;
     }
     .card-body {
         padding: 0.25rem;
@@ -32,8 +32,8 @@
 
 
 
-<div class="row" style="width:1000px;margin:auto;padding-left:150px;">
-    <div class="col-sm-5" >
+<div class="row" style="width:1000px;margin:auto;">
+    <div class="col-sm-4" >
 
         <!---   studies by initiative card -->
 
@@ -103,6 +103,8 @@
                 </ul>
             </div>
         </div>
+    </div> <!--close col -->
+    <div class="col-sm-4">
 
 
         <div class="card">
@@ -126,8 +128,6 @@
             </div>
         </div>
 
-    </div> <!--close col -->
-            <div class="col-sm-5">
 
 
         <div class="card">
@@ -173,6 +173,8 @@
             </div>
         </div>
 
+    </div> <!--close col -->
+    <div class="col-sm-4">
 
         <div class="card">
             <div class="card-body">
