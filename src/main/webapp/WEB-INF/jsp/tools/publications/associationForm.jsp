@@ -34,9 +34,17 @@
       }
 
   }
-    var associated=${associated}
-    var related=${related}
+
+    let associated;
+    let related;
+    <c:if test="${fn:length(associated)>0}">
+     associated=${associated};
+    </c:if>
+    <c:if test="${fn:length(related)>0}">
+     related=${related};
+    </c:if>
     $(function () {
+        if(typeof associated!='undefined')
         $.each(associated, function (i, value) {
             var radioElements= document.getElementsByClassName(value)
             $.each($('input[name='+value+']'), function () {
@@ -46,7 +54,8 @@
                 }
 
             })
-        })
+        });
+        if(typeof related!='undefined')
         $.each(related, function (i, value) {
 
            var radioElements= document.getElementsByClassName(value)
