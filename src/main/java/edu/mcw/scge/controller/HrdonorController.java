@@ -101,7 +101,17 @@ public class HrdonorController {
         List<Publication> associatedPublications=new ArrayList<>();
         associatedPublications.addAll(publicationDAO.getAssociatedPublications(hrDonor.getId()));
         for(long experimentId:experimentIds) {
-            associatedPublications.addAll(publicationDAO.getAssociatedPublications(experimentId));
+            for(Publication pub:publicationDAO.getAssociatedPublications(experimentId)) {
+                boolean flag=false;
+                for(Publication publication:associatedPublications){
+                    if(pub.getReference().getKey()==publication.getReference().getKey()){
+                        flag=true;
+                    }
+                }
+                if(!flag)
+                    associatedPublications.add(pub);
+            }
+
         }
         req.setAttribute("associatedPublications", associatedPublications);
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(hrDonor.getId()));
