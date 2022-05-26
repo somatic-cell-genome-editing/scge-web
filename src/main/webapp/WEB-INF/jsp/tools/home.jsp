@@ -138,7 +138,7 @@
                             <table>
                                 <tr>
                                     <td>
-                            <img src="/toolkit/images/guideIcon.png"   class="card-image" alt=""/>
+                            <img src="/toolkit/images/guide.png"   class="card-image" alt=""/>
                                     </td>
                                     <td class="card-label">
                                         Guides
@@ -160,7 +160,7 @@
                             <table>
                                 <tr>
                                     <td>
-                            <img src="/toolkit/images/guideIcon.png"  class="card-image"  alt=""/>
+                            <img src="/toolkit/images/vector.png"  class="card-image"  alt=""/>
                                     </td>
                                     <td class="card-label">
                                         Vectors
@@ -228,7 +228,7 @@
                             <table>
                                 <tr>
                                     <td>
-                            <span data-feather="layers"></span>
+                                        <img src="/toolkit/images/initiative.png"  class="card-image"  alt=""/>
                                     </td>
                                     <td class="card-label">
                                         SCGE Initiatives
