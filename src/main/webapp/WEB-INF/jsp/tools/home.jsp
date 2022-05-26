@@ -206,7 +206,7 @@
                             <table>
                                 <tr>
                                     <td>
-                                    <span data-feather="layers"></span>
+                                        <img src="/toolkit/images/publication.png"  class="card-image"  alt=""/>
                                     </td>
                                     <td class="card-label">
                                         Publications
