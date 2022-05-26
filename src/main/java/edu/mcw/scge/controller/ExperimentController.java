@@ -42,6 +42,8 @@ public class ExperimentController extends UserController {
     CustomUniqueLabels customLabels=new CustomUniqueLabels();
     GrantDao grantDao=new GrantDao();
     PublicationDAO publicationDAO=new PublicationDAO();
+    GuideDao guideDao=new GuideDao();
+    VectorDao vectorDao=new VectorDao();
     @RequestMapping(value="/search")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentDao edao=new ExperimentDao();
@@ -544,6 +546,11 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             req.setAttribute("editingAssay",new HashMap<String,String>());
             req.setAttribute("experiment",e);
             req.setAttribute("experimentRecordsMap",new HashMap<Long, ExperimentRecord>());
+
+            ProtocolDao pdao = new ProtocolDao();
+            List<Protocol> protocols = pdao.getProtocolsForObject(experimentId);
+            req.setAttribute("protocols", protocols);
+
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
         }
@@ -673,6 +680,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     }
             }
         }
+        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(experimentId));
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experimentId));
 
         plotData.put("Mean",mean);
 
@@ -729,6 +738,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(expRecordId);
         req.setAttribute("protocols", protocols);
+        AntibodyDao adao = new AntibodyDao();
+        List<Antibody> antibodyList = adao.getAntibodysByExpRecId(expRecordId);
+        req.setAttribute("antibodyList",antibodyList);
 
         req.setAttribute("experimentRecords", records);
         ExperimentRecord r = new ExperimentRecord();
@@ -773,6 +785,30 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     "\nresults:"+experimentResults.size());
 
         }
+        List<Publication> associatedPublications=new ArrayList<>();
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(experiment.getExperimentId()));
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(r.getEditorId()));
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(r.getHrdonorId()));
+
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(r.getModelId()));
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(r.getDeliverySystemId()));
+        List<Guide> guides=guideDao.getGuidesByExpRecId(r.getExperimentRecordId());
+        if(guides.size()>0){
+            for(Guide g:guides){
+                associatedPublications.addAll(publicationDAO.getAssociatedPublications(g.getGuide_id()));
+
+            }
+        }
+        List<Vector> vectors=vectorDao.getVectorsByExpRecId(expRecordId);
+        if(vectors.size()>0){
+            for(Vector vector:vectors)
+            associatedPublications.addAll(publicationDAO.getAssociatedPublications(vector.getVectorId()));
+
+        }
+
+        req.setAttribute("associatedPublications", associatedPublications);
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experiment.getExperimentId()));
+
         req.setAttribute("action", "Experiment Record Detail");
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment</a>");
 
@@ -801,6 +837,70 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         System.out.println("Experiment REcord IDS:"+ req.getParameter("experimentRecordIds"));
 
         return "redirect:/data/experiments/experiment/"+experimentId;
+    }
+
+    @RequestMapping(value = "/edit")
+    public String getExperimentForm(HttpServletRequest req, HttpServletResponse res,Experiment experiment) throws Exception{
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isAdmin(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+            Experiment e = new Experiment();
+            e.setStudyId(Integer.parseInt(req.getParameter("studyId")));
+            req.setAttribute("experiment", e);
+            req.setAttribute("action", "Create Experiment");
+
+
+        List<Experiment> records = edao.getAllExperiments();
+        Set<String> names = records.stream().map(Experiment::getName).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> types = records.stream().map(Experiment::getType).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+
+        req.setAttribute("names",names);
+        req.setAttribute("types",types);
+
+        req.setAttribute("page", "/WEB-INF/jsp/edit/editExperiment");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }
+
+    @RequestMapping("/create")
+    public String createExperiment(HttpServletRequest req,HttpServletResponse res,@ModelAttribute("experiment") Experiment experiment) throws Exception {
+
+        UserService userService = new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        edu.mcw.scge.configuration.Access access = new Access();
+
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.isAdmin(p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+        long experimentId = edao.insertExperiment(experiment);
+        req.setAttribute("status"," <span style=\"color: blue\">Experiment inserted successfully</span>");
+
+        int studyId = experiment.getStudyId();
+        Study study = sdao.getStudyById(studyId).get(0);
+        int groupId = study.getGroupId();
+        req.getRequestDispatcher("/data/experiments/group/"+groupId).forward(req,res);
+        return null;
     }
 
 }

@@ -4,6 +4,8 @@ import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
+import edu.mcw.scge.datamodel.Vector;
+import edu.mcw.scge.datamodel.publications.Publication;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
@@ -13,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -77,11 +76,12 @@ public class HrdonorController {
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByHrdonor(hrDonor.getId());
         req.setAttribute("experimentRecords",experimentRecords);
-        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(hrDonor.getId()));
-        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(hrDonor.getId()));
+
         HashMap<Long,List<Guide>> guideMap = new HashMap<>();
+        Set<Long> experimentIds=new HashSet<>();
         for(ExperimentRecord record:experimentRecords) {
             guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
+            experimentIds.add(record.getExperimentId());
         }
         req.setAttribute("guideMap", guideMap);
 
@@ -98,6 +98,23 @@ public class HrdonorController {
                 assocatedExperiments.add(experimentDao.getExperiment(id));
             }
             req.setAttribute("associatedExperiments", assocatedExperiments);}
+        List<Publication> associatedPublications=new ArrayList<>();
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(hrDonor.getId()));
+        for(long experimentId:experimentIds) {
+            for(Publication pub:publicationDAO.getAssociatedPublications(experimentId)) {
+                boolean flag=false;
+                for(Publication publication:associatedPublications){
+                    if(pub.getReference().getKey()==publication.getReference().getKey()){
+                        flag=true;
+                    }
+                }
+                if(!flag)
+                    associatedPublications.add(pub);
+            }
+
+        }
+        req.setAttribute("associatedPublications", associatedPublications);
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(hrDonor.getId()));
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

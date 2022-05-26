@@ -74,21 +74,26 @@
             <div>
                 <div style="padding-bottom: 0;margin-bottom: 0">
             <c:if test="${hit.sourceAsMap.name!=null}">
-            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
+            <h6>
+                <c:if test="${hit.sourceAsMap.subType=='Validation'}">
+                    <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> [<i class="fa-solid fa-v" style="color:darkorange"></i>]</span>
+                </c:if>
+                <a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
             <c:if test="${hit.sourceAsMap.type!=null}">
                -  ${hit.sourceAsMap.type}
             </c:if>
             </small>
-               <%if(access.isAdmin(person)){%>
+               <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
                 <a style="text-decoration: none;cursor: pointer" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
               +
             </a>
             <%}%></h6>
             </c:if>
+
             <c:if test="${hit.sourceAsMap.symbol!=null}">
             <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
             </small>
-                <%if(access.isAdmin(person)){%>
+                <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
                 <a style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
                 +
             </a>
@@ -101,7 +106,9 @@
                         </div>
                     </div>
                 </div>
-            <small>${hit.sourceAsMap.pi.get(0)}</small>
+            <small>${hit.sourceAsMap.pi.get(0)}  <c:if test="${category=='Study'}">
+                &nbsp;&nbsp;<span class="header">Date Of Submission:</span> ${hit.sourceAsMap.submissionDate}
+            </c:if></small>
             </div>
             <c:if test="${hit.sourceAsMap.description!=null}">
                 <span>${hit.sourceAsMap.description}</span><br>
@@ -155,7 +162,7 @@
                 </c:forEach>
                 </span> <br>
             </c:if>
-            <c:if test="${hit.sourceAsMap.studyNames!=null}">
+            <c:if test="${hit.sourceAsMap.studyNames!=null && category!='Study'}">
                 <span class="header">Associated Studies:</span>
 
                 <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.id}" title="Studies" style="background-color: transparent">
@@ -219,4 +226,5 @@
     </tr>
     </c:forEach>
 </table>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 

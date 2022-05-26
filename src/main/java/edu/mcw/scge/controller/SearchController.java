@@ -124,6 +124,10 @@ public class SearchController{
                 return "search/resultsPage";
 
             }else {*/
+      if(searchTerm.equals("")){
+          req.setAttribute("action", category);
+
+      }else
                 req.setAttribute("action", "Search Results");
                 req.setAttribute("page", "/WEB-INF/jsp/search/results");
            //     req.setAttribute("filterMap", getFilterMap(req));
@@ -156,6 +160,11 @@ public class SearchController{
        mappings.put(  "vectorBkt","vectorName");
        mappings.put("vectorSubTypeBkt","vectorSubtype");
        mappings.put("vectorTypeBkt","vectorType");
+
+
+        mappings.put(  "accessBkt","access");
+        mappings.put("statusBkt","status");
+        mappings.put("piBkt","pi");
     /*    List<String> params=new ArrayList<>( Arrays.asList("typeBkt", "subtypeBkt",
                 "editorTypeBkt","editorSubTypeBkt", "editorSpeciesBkt"
                , "dsTypeBkt", "modelTypeBkt", "modelSpeciesBkt", "reporterBkt",

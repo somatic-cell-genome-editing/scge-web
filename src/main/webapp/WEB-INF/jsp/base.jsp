@@ -33,7 +33,10 @@ Goals"/>
 
     <script src="/toolkit/common/tableSorter/js/tablesorter.js"> </script>
     <script src="/toolkit/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!--link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/-->
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet" type="text/css"/>
+
     <link href="/toolkit/css/scge.css" rel="stylesheet" type="text/css"/>
 
 
@@ -55,6 +58,9 @@ Goals"/>
         }
         footer{
             position: relative;
+        }
+        .text-responsive {
+            font-size: calc(100% + 1vw + 1vh);
         }
     </style>
 
@@ -102,52 +108,77 @@ Goals"/>
     </ul>
 </nav>
 <nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
-    <div class="container">
+    <div class="container-fluid">
         <!--a class="navbar-brand"  href="https://scge.mcw.edu/" >
             <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" style="background-color: transparent"/>
         </a-->
+        <a class="navbar-brand" href="/toolkit/loginSuccess?destination=base" style="font-weight: 400;font-size: 16px">
+            <i class="fas fa-home"></i>Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <% if (request.getAttribute("crumbtrail") != null) {%>
-                <div><%=request.getAttribute("crumbtrail")%></div>
-            <%}%>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
 
-                    <a class="nav-link" href="/toolkit/loginSuccess?destination=base" style="font-weight: 400;font-family: Offside;font-size: 16px">
-                        <i class="fas fa-home"></i>Home</a>
+            <ul class="navbar-nav">
+
+                <li class="nav-item  text-nowrap text-responsive">
+                    <a class="nav-link" href="/toolkit/data/search/results/Study?searchTerm=" style="font-weight: 400;font-size: 16px">All Studies <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item  text-nowrap text-responsive">
+                    <a class="nav-link" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=" style="font-weight: 400;font-size: 16px">Genome Editors <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item text-nowrap text-responsive">
+                    <a class="nav-link" href="/toolkit/data/search/results/Model%20System?searchTerm=" style="font-weight: 400;font-size: 16px">Model Systems</a>
+                </li>
+                <li class="nav-item text-nowrap text-responsive">
+                    <a class="nav-link" href="/toolkit/data/search/results/Delivery%20System?searchTerm=" style="font-weight: 400;font-size: 16px">Delivery Systems</a>
+                </li>
+                <li class="nav-item text-nowrap text-responsive">
+                    <a class="nav-link" href="/toolkit/data/search/results/Guide?searchTerm=" style="font-weight: 400;font-size: 16px">Guides</a>
+                </li>
+                <li class="nav-item text-nowrap text-responsive">
+                    <a class="nav-link" href="/toolkit/data/search/results/Vector?searchTerm=" style="font-weight: 400;font-size: 16px">Vectors</a>
+                </li>
+                <li class="nav-item text-nowrap text-responsive">
+                    <a class="nav-link" href="/toolkit/data/protocols/search" style="font-weight: 400;font-size: 16px">Protocols</a>
+                </li>
+                <li class="nav-item text-nowrap text-responsive">
+                    <a class="nav-link" href="/toolkit/data/publications/search" style="font-weight: 400;font-size: 16px">Publications</a>
                 </li>
                 <c:if test="${userAttributes.get('name')!=null}">
 
-                    <li class="nav-item">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fas fa-th"></i>&nbsp;My&nbsp;Dashboard</a></li>
+                    <li class="nav-item text-nowrap">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-size: 16px"><i class="fas fa-th"></i>&nbsp;My&nbsp;Dashboard</a></li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/toolkit/admin" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: 400;font-family: Offside;font-size: 16px">
+                    <li class="nav-item dropdown text-nowrap">
+                        <a class="nav-link dropdown-toggle" href="/toolkit/admin" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: 400;font-size: 16px">
                             <i class="fas fa-th"></i>&nbsp;Admin
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/toolkit/admin/users">Manage Users</a>
                             <a class="dropdown-item" href="/toolkit/admin">Sudo User</a>
                             <a class="dropdown-item" href="/toolkit/admin/groupOverview">Groups Overview</a>
+                            <a class="dropdown-item" href="/toolkit/data/studies/search">Study Browser</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Study Tier Updates</a>
-                        </div>
+        </div>
                     </li>
                     <!--li class="nav-item" style="padding-top: 5px"><a href="/toolkit/data/dataSubmission"><button type="button" class="btn btn-sm">Upload Docs</button></a>
                     </li-->
                 </c:if>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fa fa-phone" aria-hidden="true"></i>Contact</a>
+                <li class="nav-item text-nowrap text-responsive">
+                    <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-size: 16px"><i class="fa fa-phone" aria-hidden="true"></i>Contact</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
+
     <div id="main">
+        <% if (request.getAttribute("crumbtrail") != null) {%>
+        <div class="container-fluid" style="padding-bottom: 2%"><%=request.getAttribute("crumbtrail")%></div>
+        <%}%>
         <c:if test="${destination!='create'}">
             <div class="" style="margin-top: 0;padding-top: 0">
                 <div class="container-fluid">
@@ -190,7 +221,7 @@ Goals"/>
                         <!--nav aria-label="breadcrumb" id="breadcrumb"></nav-->
                         <nav aria-label="breadcrumb" >
 
-                                <c:if test="${crumbTrailMap!=null}">
+                                <c:if test="${crumbTrailMap!=null && (searchTerm!=null && searchTerm!='')}">
                                     <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="/toolkit/loginSuccess?destination=base">Home</a></li>
 

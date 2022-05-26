@@ -207,6 +207,43 @@ $(function () {
             }
         })
     });
+
+    $.each($('input[name="piBkt"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedPi!==typeof undefined)
+            $.each(selectedPi.split(","), function (i,selected) {
+                if(selected===val){
+                    _this.prop('checked',true)
+                }
+            })
+    });
+    $.each($('input[name="accessBkt"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedAccess!==typeof undefined)
+            $.each(selectedAccess.split(","), function (i,selected) {
+                if(selected===val){
+                    _this.prop('checked',true)
+                }
+            })
+    });
+    $.each($('input[name="statusBkt"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedStatus!==typeof undefined)
+            $.each(selectedStatus.split(","), function (i,selected) {
+                if(selected===val){
+                    _this.prop('checked',true)
+                }
+            })
+    });
 });
 function searchByFilter(category, searchTerm, type, subType) {
 

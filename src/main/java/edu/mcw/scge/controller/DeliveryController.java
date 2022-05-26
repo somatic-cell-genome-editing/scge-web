@@ -5,6 +5,7 @@ import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.Vector;
+import edu.mcw.scge.datamodel.publications.Publication;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
@@ -60,7 +61,7 @@ public class DeliveryController {
 
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,system,null,null));
 
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/delivery/search'>Delivery Systems</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Delivery%20System?searchTerm='>Delivery Systems</a>");
         req.setAttribute("system", system);
         req.setAttribute("action", "Delivery System: " + system.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/deliverySystem");
@@ -72,8 +73,7 @@ public class DeliveryController {
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(system.getId());
         req.setAttribute("protocols", protocols);
-        req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(system.getId()));
-        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(system.getId()));
+
         ExperimentDao experimentDao= new ExperimentDao();
         List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByDeliverySystem(system.getId());
         req.setAttribute("experimentRecords",experimentRecords);
@@ -85,8 +85,10 @@ public class DeliveryController {
         req.setAttribute("guideMap", guideMap);
 
         HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
+        Set<Long> experimentIds=new HashSet<>();
         for(ExperimentRecord record:experimentRecords) {
             vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+            experimentIds.add(record.getExperimentId());
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
@@ -97,6 +99,23 @@ public class DeliveryController {
                 assocatedExperiments.add(experimentDao.getExperiment(id));
             }
             req.setAttribute("associatedExperiments", assocatedExperiments);}
+        List<Publication> associatedPublications=new ArrayList<>();
+        associatedPublications.addAll(publicationDAO.getAssociatedPublications(system.getId()));
+        for(long experimentId:experimentIds) {
+            for(Publication pub:publicationDAO.getAssociatedPublications(experimentId)) {
+                boolean flag=false;
+                for(Publication publication:associatedPublications){
+                    if(pub.getReference().getKey()==publication.getReference().getKey()){
+                        flag=true;
+                    }
+                }
+                if(!flag)
+                    associatedPublications.add(pub);
+            }
+
+        }
+        req.setAttribute("associatedPublications", associatedPublications);
+        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(system.getId()));
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
@@ -142,7 +161,7 @@ public class DeliveryController {
         req.setAttribute("labId",labId);
         req.setAttribute("page", "/WEB-INF/jsp/edit/editDelivery");
 
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/delivery/search'>Delivery</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Delivery%20System?searchTerm='>Delivery</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

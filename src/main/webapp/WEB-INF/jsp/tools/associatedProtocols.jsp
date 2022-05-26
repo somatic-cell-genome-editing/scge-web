@@ -7,11 +7,15 @@
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.Protocol" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ProtocolDao" %>
 
 <%
-    {  //  open scope
+    try {  //  open scope
 
-    List<Protocol> localProtocols = (List<Protocol>)request.getAttribute("protocols");
+    ProtocolDao pdao = new ProtocolDao();
+    List<Protocol> localProtocols = pdao.getProtocolsForObject(objectId);
+
+    //List<Protocol> localProtocols = (List<Protocol>)request.getAttribute("protocols");
     //String objectId = request.getParameter("objectId");
     //String redirectURL = request.getParameter("requestURL");
     Access localProtocolAccess = new Access();
@@ -25,22 +29,25 @@
 
 <script>
     $(function() {
-        $("#myTable-1").tablesorter({
+        $("#myTable-<%=objectId%>").tablesorter({
             theme : 'blue'
 
         });
     });
-
-    function addProtocol() {
-        alert("adding protocol");
-    }
 
 </script>
 
 
 
 <hr>
-<table width="95%"><tr><td><h4 class="page-header" style="color:grey;">Protocols</h4></td>
+<table width="95%"><tr><td><h4 class="page-header" style="color:grey;">
+    <% if ((objectId + "").startsWith("18")) { %>
+        Experiment Wide Protocols
+    <% } else { %>
+    Protocols
+    <% } %>
+
+</h4></td>
     <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
         <td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Protocols</a></td>
     <% } %>
@@ -48,7 +55,7 @@
 
 <% if (localProtocols.size() > 0) { %>
 
-<table id="myTable-1" class="tablesorter">
+<table id="myTable-<%=objectId%>" class="tablesorter">
     <thead>
     <tr>
         <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
@@ -84,5 +91,7 @@
 
 <% }
     //close scope
+} catch (Exception protocolException) {
+        protocolException.printStackTrace();
 }
 %>
