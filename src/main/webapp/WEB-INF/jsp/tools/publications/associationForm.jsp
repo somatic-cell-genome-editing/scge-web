@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -35,6 +34,31 @@
       }
 
   }
+    var associated=${associated}
+    var related=${related}
+    $(function () {
+        $.each(associated, function (i, value) {
+            var radioElements= document.getElementsByClassName(value)
+            $.each($('input[name='+value+']'), function () {
+                var val=  $(this).val()
+                if(val=='associated'){
+                    $(this).prop('checked', true)
+                }
+
+            })
+        })
+        $.each(related, function (i, value) {
+
+           var radioElements= document.getElementsByClassName(value)
+            $.each($('input[name='+value+']'), function () {
+              var val=  $(this).val()
+                if(val=='related'){
+                    $(this).prop('checked', true)
+                }
+
+            })
+        })
+    })
 
 </script>
 <div class="container-fluid">
@@ -68,16 +92,14 @@
                 </c:forEach>
                 <c:if test="${selectedStudyId!=null && selectedStudyId>0}">
                 <div id="experimentList">
-
-
                     <c:forEach items="${experiments}" var="experiment">
                         <div class="card" style="margin-top:2%">
                             <h6>Experiment:${experiment.experimentId}</h6>
                         <table>
                         <tr ><td style="width:60%"> <input type="checkbox" name="experiment" value="${experiment.experimentId}" onchange="experimentClickEvent( $(this),${experiment.experimentId})"><a href="/toolkit/data/experiments/experiment/${experiment.experimentId}">&nbsp;${experiment.name}</a></td>
                             <td>
-                                <input type="radio" name="experiment-${experiment.experimentId}" value="associated" checked>&nbsp;Associated
-                                <input type="radio" name="experiment-${experiment.experimentId}" value="related">&nbsp;Related
+                                <input type="radio" name="${experiment.experimentId}" value="associated" >&nbsp;Associated
+                                <input type="radio" name="${experiment.experimentId}" value="related">&nbsp;Related
                             </td>
                             </tr>
                         <tr>
@@ -112,8 +134,8 @@
                                                         <c:forEach items="${object.value}" var="obj">
                                                             <tr ><td style="width: 60%"> <input class="${objectMap.key}" type="checkbox" name="${fn:toLowerCase(object.key)}" value="${obj.key}"><a href="${url}${obj.key}">&nbsp;${obj.value}</a></td>
                                                                 <td>
-                                                                    <input class="${objectMap.key}" type="radio" name="${fn:toLowerCase(object.key)}-${obj.key}" value="associated" checked>&nbsp;Associated
-                                                                    <input class="${objectMap.key}" type="radio" name="${fn:toLowerCase(object.key)}-${obj.key}" value="related">&nbsp;Related
+                                                                    <input class="${objectMap.key}" type="radio" name="${obj.key}" value="associated" >&nbsp;Associated
+                                                                    <input class="${objectMap.key}" type="radio" name="${obj.key}" value="related">&nbsp;Related
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>
