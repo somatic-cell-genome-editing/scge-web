@@ -167,7 +167,7 @@ Goals"/>
                 </c:if>
 
                 <li class="nav-item text-nowrap text-responsive">
-                    <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-family: Offside;font-size: 16px"><i class="fa fa-phone" aria-hidden="true"></i>Contact</a>
+                    <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-size: 16px"><i class="fa fa-phone" aria-hidden="true"></i>Contact</a>
                 </li>
             </ul>
         </div>
