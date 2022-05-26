@@ -253,6 +253,11 @@ public class PublicationController {
             }
             experimentObjectsMap.put((Long) entry.getKey(), objectMap);
         }
+        Set<Long> associated=new HashSet<>();
+        Set<Long> related=new HashSet<>();
+        getAssociationTypesFromDB(experimentRecordsMap, references, associated, related);
+        req.setAttribute("associated",associated );
+        req.setAttribute("related", related );
 
         req.setAttribute("studies", studyDao.getStudies());
         req.setAttribute("selectedStudyId", studyId);
@@ -266,7 +271,69 @@ public class PublicationController {
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
     }
+    public void getAssociationTypesFromDB( Map<Long, List<ExperimentRecord>> experimentRecordsMap, List<Reference> references, Set<Long> associated, Set<Long> related) throws Exception {
 
+        Set<Long> scgeIds=new HashSet<>();
+        for(Map.Entry entry:experimentRecordsMap.entrySet()){
+            scgeIds.add((Long) entry.getKey());
+
+            List<ExperimentRecord> records= (List<ExperimentRecord>) entry.getValue();
+            for(ExperimentRecord record:records){
+
+                if(record.getEditorId()>0)
+                    scgeIds.add(record.getEditorId());
+
+
+                for(Guide g:guideDao.getGuidesByExpRecId(record.getExperimentRecordId()))
+                    if(g.getGuide_id()>0){
+                        scgeIds.add(g.getGuide_id());
+
+                    }
+
+                if(record.getModelId()>0){
+                    scgeIds.add(record.getModelId());
+
+                }
+                for(Vector v:vectorDao.getVectorsByExpRecId(record.getExperimentRecordId())){
+                    if(v.getVectorId()>0){
+                        scgeIds.add(v.getVectorId());
+
+                    }
+                }
+                if(record.getDeliverySystemId()>0){
+                    scgeIds.add(record.getDeliverySystemId());
+
+                }
+                if(record.getHrdonorId()>0){
+
+                    scgeIds.add(record.getHrdonorId());
+
+                }
+
+            }
+
+        }
+        System.out.println("SCGEIDS:"+scgeIds.toString());
+
+            for(Long scgeId:scgeIds){
+                List<Publication> associatedPublications= publicationDAO.getAssociatedPublications(scgeId);
+                List<Publication> relatedPublications= publicationDAO.getRelatedPublications(scgeId);
+                for(Reference r:references){
+                for(Publication p:associatedPublications){
+                   if(p.getReference().getKey()==r.getKey()){
+                       associated.add(scgeId);
+                   }
+               }
+                for(Publication p:relatedPublications){
+                    if(p.getReference().getKey()==r.getKey()){
+                        related.add(scgeId);
+                    }
+                }
+            }
+        }
+            System.out.println("ASSOCIATION TYPES DB:"+ gson.toJson(associated));
+
+    }
     @RequestMapping(value="/associate/study/submit")
     public String makeStudyLevelAssociation(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
@@ -320,39 +387,39 @@ public class PublicationController {
     public Map<Long,  String> getAssociationTypes( Map<Long, List<ExperimentRecord>> experimentRecordsMap, HttpServletRequest req) throws Exception {
         Map<Long,  String> associationTypes=new HashMap<>();
         for(Map.Entry entry:experimentRecordsMap.entrySet()){
-            System.out.println("ASSOCIATION TYPE:"+req.getParameter("experiment-"+entry.getKey()));
-            if(req.getParameter("experiment-"+entry.getKey())!=null)
-            associationTypes.put((Long) entry.getKey(), req.getParameter("experiment-"+entry.getKey()));
+            System.out.println("ASSOCIATION TYPE:"+req.getParameter((String) entry.getKey()));
+            if(req.getParameter((String) entry.getKey())!=null)
+            associationTypes.put((Long) entry.getKey(), req.getParameter((String) entry.getKey()));
             List<ExperimentRecord> records= (List<ExperimentRecord>) entry.getValue();
             for(ExperimentRecord record:records){
 
                 if(record.getEditorId()>0)
-                    associationTypes.put(record.getEditorId(),  req.getParameter("editor-"+record.getEditorId()));
+                    associationTypes.put(record.getEditorId(),  req.getParameter(String.valueOf(record.getEditorId())));
 
 
                 for(Guide g:guideDao.getGuidesByExpRecId(record.getExperimentRecordId()))
                     if(g.getGuide_id()>0){
-                        associationTypes.put(g.getGuide_id(),  req.getParameter("guide-"+g.getGuide_id()));
+                        associationTypes.put(g.getGuide_id(),  req.getParameter(String.valueOf(g.getGuide_id())));
 
                     }
 
                 if(record.getModelId()>0){
-                    associationTypes.put(record.getModelId(),  req.getParameter("model-"+record.getModelId()));
+                    associationTypes.put(record.getModelId(),  req.getParameter(String.valueOf(record.getModelId())));
 
                 }
                 for(Vector v:vectorDao.getVectorsByExpRecId(record.getExperimentRecordId())){
                     if(v.getVectorId()>0){
-                        associationTypes.put(v.getVectorId(),  req.getParameter("vector-"+v.getVectorId()));
+                        associationTypes.put(v.getVectorId(),  req.getParameter(String.valueOf(v.getVectorId())));
 
                     }
                 }
                 if(record.getDeliverySystemId()>0){
-                    associationTypes.put(record.getDeliverySystemId(),  req.getParameter("delivery-"+record.getDeliverySystemId()));
+                    associationTypes.put(record.getDeliverySystemId(),  req.getParameter(String.valueOf(record.getDeliverySystemId())));
 
                 }
                 if(record.getHrdonorId()>0){
 
-                    associationTypes.put(record.getHrdonorId(),  req.getParameter("hrdonor-"+record.getHrdonorId()));
+                    associationTypes.put(record.getHrdonorId(),  req.getParameter(String.valueOf(record.getHrdonorId())));
 
                 }
 

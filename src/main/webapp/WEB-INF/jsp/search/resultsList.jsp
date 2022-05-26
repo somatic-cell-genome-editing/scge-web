@@ -78,23 +78,23 @@
                 <c:if test="${hit.sourceAsMap.subType=='Validation'}">
                     <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> [<i class="fa-solid fa-v" style="color:darkorange"></i>]</span>
                 </c:if>
-                <a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
+                <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
             <c:if test="${hit.sourceAsMap.type!=null}">
                -  ${hit.sourceAsMap.type}
             </c:if>
             </small>
                <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
-                <a style="text-decoration: none;cursor: pointer" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
+                <a class="search-results-anchor" style="text-decoration: none;cursor: pointer" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
               +
             </a>
             <%}%></h6>
             </c:if>
 
             <c:if test="${hit.sourceAsMap.symbol!=null}">
-            <h6><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
+            <h6><a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
             </small>
                 <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
-                <a style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
+                <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
                 +
             </a>
             <%}%>
@@ -174,12 +174,12 @@
                         <c:forEach items="${hit.sourceAsMap.studyNames}" var="map">
                             <c:choose>
                                 <c:when test="${first=='true'}">
-                                    <a href="/toolkit/data/experiments/study/${map.key}">${map.value}</a>
+                                    <a class="search-results-anchor" href="/toolkit/data/experiments/study/${map.key}">${map.value}</a>
                                     <c:set var="first" value="false"/>
                                 </c:when>
                                 <c:otherwise>
                                     <hr>
-                                    <a href="/toolkit/data/experiments/study/${map.key}">${map.value}</a>
+                                    <a class="search-results-anchor" href="/toolkit/data/experiments/study/${map.key}">${map.value}</a>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
@@ -199,12 +199,12 @@
                         <c:forEach items="${hit.sourceAsMap.experimentNames}" var="map">
                             <c:choose>
                             <c:when test="${first=='true'}">
-                            <a href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a>
+                            <a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a>
                                 <c:set var="first" value="false"/>
                             </c:when>
                                 <c:otherwise>
                                     <hr>
-                                    <a href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a>
+                                    <a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
