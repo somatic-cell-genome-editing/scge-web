@@ -39,7 +39,7 @@
                                 <c:if test="${bkt.key=='Experiment'}">
                                 <li class="nav-item">
 
-                                    <a class="nav-link" href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}" style="padding-left: 0">
+                                    <a class="nav-link search-results-anchor" href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}" style="padding-left: 0">
                                         ${bkt.key}&nbsp;(${bkt.docCount})</a>
 
                                 </li>
@@ -51,7 +51,7 @@
                             <c:if test="${bkt.key!='Experiment'}">
                                 <li class="nav-item">
 
-                                    <a class="nav-link" href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}" style="padding-left: 0">
+                                    <a class="nav-link search-results-anchor" href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}" style="padding-left: 0">
                                             ${bkt.key}&nbsp;(${bkt.docCount})</a>
 
                                 </li>
@@ -83,7 +83,7 @@
 
     <div class="accordion-group">
         <div class="pl-3  accordion-heading card-header">
-            <a class="accordion-toggle" data-toggle="collapse" href="#collapseTwo">
+            <a class="accordion-toggle search-results-anchor" data-toggle="collapse" href="#collapseTwo">
                 <c:choose>
                     <c:when test="${category=='Study'}">
                       Grant Initiative<span class="float-right">
@@ -122,7 +122,7 @@
         <c:if test="${fn:length(aggregations.subtypeBkts)>0}">
     <div class="accordion-group">
         <div class="pl-3  accordion-heading card-header">
-            <a class="accordion-toggle" data-toggle="collapse" href="#collapseThree">
+            <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapseThree">
                     ${category}&nbsp; Subtype<span class="float-right"><i class="fas fa-angle-up"></i></span>
             </a>
         </div>
@@ -150,7 +150,7 @@
         <c:if test="${fn:length(aggregations.editorBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapseFour">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapseFour">
                         Genome Editor<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -173,7 +173,7 @@
     <c:if test="${fn:length(aggregations.editorSubTypeBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapse13">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapse13">
                         Genome Editor Subtype<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -196,7 +196,7 @@
     <c:if test="${fn:length(aggregations.editorSpeciesBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapse14">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapse14">
                         Genome Editor Species<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -219,7 +219,7 @@
     <c:if test="${fn:length(aggregations.deliveryBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapseFive">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapseFive">
                        Delivery System<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -242,7 +242,7 @@
     <c:if test="${fn:length(aggregations.modelBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapseSix">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapseSix">
                     Model System<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -265,7 +265,7 @@
     <c:if test="${fn:length(aggregations.modelSpeciesBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapse11">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapse11">
                        Model Species<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -288,7 +288,7 @@
     <c:if test="${fn:length(aggregations.reporterBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapse12">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapse12">
                        Model Reporter<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -311,7 +311,7 @@
     <c:if test="${fn:length(aggregations.guidesBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapseNine">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapseNine">
                        Guide Target Locus<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -334,7 +334,7 @@
     <c:if test="${fn:length(aggregations.speciesBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapseSeven">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapseSeven">
                        Species<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -356,7 +356,7 @@
     <c:if test="${fn:length(aggregations.vectorTypeBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapse15">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapse15">
                   Vector Type<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -379,7 +379,7 @@
     <c:if test="${fn:length(aggregations.vectorSubTypeBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapse16">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapse16">
                       Vector Subtype<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -402,7 +402,7 @@
     <c:if test="${fn:length(aggregations.vectorBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapse17">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapse17">
                       Vector <span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -425,7 +425,7 @@
     <c:if test="${fn:length(aggregations.targetBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapseEight">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapseEight">
                        Tissue<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -448,7 +448,7 @@
     <c:if test="${fn:length(aggregations.withExperimentsBkts)>0}">
         <div class="accordion-group">
             <div class="pl-3 accordion-heading card-header">
-                <a class="accordion-toggle" data-toggle="collapse" href="#collapseTen">
+                <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapseTen">
                   ${category} with Experiments<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
@@ -472,7 +472,7 @@
         <c:if test="${fn:length(aggregations.accessBkts)>0}">
             <div class="accordion-group">
                 <div class="pl-3  accordion-heading card-header">
-                    <a class="accordion-toggle" data-toggle="collapse" href="#collapse19">
+                    <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapse19">
                         Access <span class="float-right"><i class="fas fa-angle-up"></i></span>
                     </a>
                 </div>
@@ -495,7 +495,7 @@
         <c:if test="${fn:length(aggregations.statusBkts)>0}">
             <div class="accordion-group">
                 <div class="pl-3  accordion-heading card-header">
-                    <a class="accordion-toggle" data-toggle="collapse" href="#collapse20">
+                    <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapse20">
                         Status <span class="float-right"><i class="fas fa-angle-up"></i></span>
                     </a>
                 </div>
@@ -518,7 +518,7 @@
         <c:if test="${fn:length(aggregations.piBkts)>0}">
             <div class="accordion-group">
                 <div class="pl-3  accordion-heading card-header">
-                    <a class="accordion-toggle" data-toggle="collapse" href="#collapse18">
+                    <a class="accordion-toggle  search-results-anchor" data-toggle="collapse" href="#collapse18">
                         Principal Investigator <span class="float-right"><i class="fas fa-angle-up"></i></span>
                     </a>
                 </div>
