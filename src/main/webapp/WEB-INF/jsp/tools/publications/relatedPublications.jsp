@@ -24,7 +24,13 @@
                     <% if (access.isAdmin(p)) {  %>
                     <td><a href="/toolkit/data/publications/removeAssociation?objectId=<%=objectId%>&refKey=${pub.reference.key}&redirectURL=<%=redirectURL%>" style="color:white;background-color:red; padding:7px;">Remove</a></td>
                     <% } %>
-                    <td>${pub.reference.title}</td>
+                    <td><c:set var="pmid" value=""/>
+                        <c:forEach items="${pub.articleIds}" var="id">
+                            <c:if test="${id.idType=='pubmed'}">
+                                <c:set var="pmid" value="${id.id}"/>
+                            </c:if>
+                        </c:forEach>
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/${pmid}" target="_blank">${pub.reference.title}</a></td>
                 </tr>
             </c:forEach>
             </tbody>
