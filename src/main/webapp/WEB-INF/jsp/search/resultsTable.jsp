@@ -23,7 +23,7 @@
         <th>Subtype</th>
         <th>Symbol</th>
         <th>Name</th>
-        <th>Matched Fields</th>
+        <th>Tier</th>
     </tr>
     </thead>
     <tbody>
@@ -54,8 +54,8 @@
             </a>
             </td>
             <td> <a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></td>
-            <td>
-                <div  class="more hideContent" style="overflow-y: auto">
+            <td> ${hit.sourceAsMap.tier}
+                <!--div  class="more hideContent" style="overflow-y: auto">
                     <c:set value="true" var="first"/>
                     <c:forEach items="${hit.highlightFields}" var="hf">
                         <c:choose>
@@ -71,7 +71,7 @@
                         </c:forEach>
                         <br>
                     </c:forEach>
-                </div>
+                </div-->
             </td>
         </tr>
 
