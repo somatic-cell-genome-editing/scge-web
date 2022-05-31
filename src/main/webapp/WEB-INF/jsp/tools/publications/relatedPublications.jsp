@@ -14,7 +14,9 @@
         <table  id="myTable-pub2" class="tablesorter">
             <thead>
             <tr>
+                <% if (access.isAdmin(p)) {  %>
                 <th></th>
+                <% } %>
                 <th>Publication Title</th>
             </tr>
             </thead>
