@@ -48,7 +48,8 @@ public class SearchController{
     public String getResults(HttpServletRequest req, HttpServletResponse res, @RequestParam(required = false) String searchTerm) throws Exception {
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
-        SearchResponse sr=services.getSearchResults("", searchTerm, getFilterMap(req),DCCNIHMember);
+        boolean consortiumMember=access.isConsortiumMember(user.getId());
+        SearchResponse sr=services.getSearchResults("", searchTerm, getFilterMap(req),DCCNIHMember,consortiumMember);
 
         boolean facetSearch=false;
         if(req.getParameter("facetSearch")!=null)
@@ -62,7 +63,7 @@ public class SearchController{
             //   return "search/resultsTable";
             //    return "search/resultsView";
             if(getFilterMap(req).size()==1){
-                SearchResponse searchResponse= services.getFilteredAggregations("",searchTerm,getFilterMap(req), DCCNIHMember);
+                SearchResponse searchResponse= services.getFilteredAggregations("",searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
                 if(searchResponse!=null) {
                     Map<String, List<Terms.Bucket>> filtered = services.getSearchAggregations(searchResponse);
                     aggregations.putAll(filtered);
@@ -88,8 +89,9 @@ public class SearchController{
                              @PathVariable(required = false) String category, @RequestParam(required = false) String searchTerm) throws Exception {
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
+        boolean consortiumMember=access.isConsortiumMember(user.getId());
 
-        SearchResponse sr=services.getSearchResults(category,searchTerm,getFilterMap(req), DCCNIHMember);
+        SearchResponse sr=services.getSearchResults(category,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
         boolean facetSearch=false;
         boolean filter=false;
         if(req.getParameter("facetSearch")!=null)
@@ -108,7 +110,7 @@ public class SearchController{
             //  return "search/resultsTable";
             //      return "search/resultsView";
             if(getFilterMap(req).size()==1){
-               SearchResponse searchResponse= services.getFilteredAggregations(category,searchTerm,getFilterMap(req), DCCNIHMember);
+               SearchResponse searchResponse= services.getFilteredAggregations(category,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
                if(searchResponse!=null) {
                    Map<String, List<Terms.Bucket>> filtered = services.getSearchAggregations(searchResponse);
                    aggregations.putAll(filtered);
