@@ -87,8 +87,8 @@ Goals"/>
         /* change the color of active or hovered links */
         .navbar-custom .nav-item.active .nav-link,
         .navbar-custom .nav-item:hover .nav-link {
-            color: #17a2b8;
-            background-color: #abf7f7;
+            color: #1a80b6;
+            background-color: #bee5fa;
         }
         .navbar-custom .navbar-toggler{
             background-color: lightgrey;
