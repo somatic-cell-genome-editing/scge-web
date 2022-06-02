@@ -71,7 +71,8 @@ Goals"/>
 
         }
         .navbar-custom {
-            background-color: #17a2b8!important;
+         /*   background-color: #17a2b8!important;*/
+            background-color: #1a80b6!important ;
         }
         /* change the brand and text color */
         .navbar-custom .navbar-brand,
