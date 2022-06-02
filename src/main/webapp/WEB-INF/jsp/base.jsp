@@ -416,9 +416,9 @@ Goals"/>
                         <c:otherwise>
                             <!--h4 class="page-header" style="color:grey;">Dashboard</h4-->
                             <!--h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success btn-sm">Submit Data</button></a>&nbsp;<a href="dataSubmission"><button class="btn btn btn-outline-secondary btn-sm">Upload Docs</button></a></span></h1-->
-                                <!--div style=";width:100%" align="center" >
+                                <!--div style=";width:100%" align="center" -->
                                     <%--@include file="tools/search.jsp"--%>
-                                        <div class="container-fluid jumbotron" align="center" id="home-page-search">
+                                        <div class="container-fluid jumbotron" align="center" id="home-page-search" style="background-color: #FFFFFF;border-bottom: 1px solid gainsboro">
 
 
                                             <table align="center">
@@ -443,7 +443,7 @@ Goals"/>
                                                 </tr>
                                             </table>
                                         </div>
-                                </div-->
+                                <!--/div-->
 
                             <!--div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                 <h1 class="h2">Toolkit</h1>
