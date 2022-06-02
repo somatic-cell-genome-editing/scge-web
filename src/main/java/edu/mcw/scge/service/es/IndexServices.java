@@ -1,5 +1,6 @@
 package edu.mcw.scge.service.es;
 
+import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.web.SCGEContext;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -22,11 +23,12 @@ import java.util.stream.Stream;
 
 public class IndexServices {
     private static String searchIndex;
-    public SearchResponse getSearchResults(String category, String searchTerm, Map<String, String> filterMap,boolean DCCNIHMember) throws IOException {
+    Access access=new Access();
+    public SearchResponse getSearchResults(String category, String searchTerm, Map<String, String> filterMap,boolean DCCNIHMember, boolean consortiumMember) throws IOException {
         searchIndex= SCGEContext.getESIndexName();
         SearchSourceBuilder srb=new SearchSourceBuilder();
         System.out.println("SEARCH TERM:"+searchTerm+"\tCategory:" +category);
-        srb.query(this.buildBoolQuery(category, searchTerm, filterMap, DCCNIHMember));
+        srb.query(this.buildBoolQuery(category, searchTerm, filterMap, DCCNIHMember,consortiumMember));
         srb.aggregation(this.buildSearchAggregations("category", category));
     //    if(!category.equals("")) {
           buildAggregations(srb);
@@ -288,7 +290,7 @@ public class IndexServices {
         return aggregations;
     }
 
-    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm , Map<String, String> filterMap, boolean DCCNIHMember){
+    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm , Map<String, String> filterMap, boolean DCCNIHMember,boolean consortiumMember){
         BoolQueryBuilder q=new BoolQueryBuilder();
         q.must(buildQuery(searchTerm));
         if(category!=null && !category.equals("")) {
@@ -301,20 +303,24 @@ public class IndexServices {
                 q.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
 
             }
-        if(!DCCNIHMember) {
+        if(!DCCNIHMember && consortiumMember) {
             q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
                     should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
+        }
+        if(!consortiumMember){
+            q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
+                    should(QueryBuilders.termQuery("tier", 4))));
         }
 
    //    System.out.println(q);
         return q;
     }
     public SearchResponse getFilteredAggregations(String category, String searchTerm,
-                                                  Map<String, String> filterMap,boolean DCCNIHMember) throws IOException {
+                                                  Map<String, String> filterMap,boolean DCCNIHMember, boolean consortiumMember) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
         if(filterMap.size()==1) {
-            srb.query(this.buildBoolQuery(category, searchTerm, null, DCCNIHMember));
+            srb.query(this.buildBoolQuery(category, searchTerm, null, DCCNIHMember,consortiumMember));
          //   srb.aggregation(this.buildSearchAggregations("category", category));
             System.out.println("IN FILTERED AGGS: field name:"+ filterMap.entrySet().iterator().next().getKey());
             srb.aggregation(this.buildFilterAggregations(filterMap.entrySet().iterator().next().getKey(), ""));
