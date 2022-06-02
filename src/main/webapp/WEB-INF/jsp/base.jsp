@@ -261,7 +261,7 @@ Goals"/>
         <%}%>
         <c:if test="${destination!='create'}">
             <div class="" style="margin-top: 0;padding-top: 0">
-                <div-- class="container-fluid">
+                <div class="container-fluid">
 
                     <!--h1 class="page-header">Dashboard</h1-->
                     <c:choose>
