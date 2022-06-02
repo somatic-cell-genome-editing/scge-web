@@ -67,11 +67,11 @@
     </div>
     <c:choose>
         <c:when test="${searchTerm==''}">
-            <div class="p-2  bg-info text-white">Filter By ...&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
+            <div class="p-2" style="border-bottom: 2px solid black">Filter By ...&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
 
         </c:when>
         <c:otherwise>
-            <div class="p-2  bg-info text-white">Refine search results&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
+            <div class="p-2" style="border-bottom: 2px solid black">Refine search results&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
 
         </c:otherwise>
     </c:choose>
