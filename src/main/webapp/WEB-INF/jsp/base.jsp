@@ -143,10 +143,10 @@ Goals"/>
 
                 <c:if test="${userAttributes.get('name')!=null}">
 
-                    <li class="nav-item text-nowrap">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-size: 16px"><i class="fas fa-th"></i>&nbsp;My&nbsp;Dashboard</a></li>
+                    <li class="nav-item text-nowrap">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fas fa-th"></i>&nbsp;My&nbsp;Dashboard</a></li>
                     <%if(access.isAdmin(person)){%>
                     <li class="nav-item dropdown text-nowrap">
-                        <a class="nav-link dropdown-toggle" href="/toolkit/admin" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: 400;font-size: 16px">
+                        <a class="nav-link dropdown-toggle" href="/toolkit/admin" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: 400;font-size: 16px;color:#FFFFFF">
                             <i class="fas fa-th"></i>&nbsp;Admin
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
