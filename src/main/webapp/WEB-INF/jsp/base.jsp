@@ -90,6 +90,13 @@ Goals"/>
             color: #17a2b8;
             background-color: #abf7f7;
         }
+        .navbar-custom .navbar-toggler{
+            background-color: lightgrey;
+            color:black;
+        }
+        .navbar-custom .navbar-toggler-icon{
+            color:#FFFFFF;
+        }
     </style>
 
 </head>
@@ -281,10 +288,11 @@ Goals"/>
             </a-->
             <a class="navbar-brand" href="/toolkit/loginSuccess?destination=base" style="font-weight: 400;font-size: 16px">
                 <i class="fas fa-home"></i>Home</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive-tools" aria-controls="navbarResponsive-tools" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <!--span class="navbar-toggler-icon" ></span-->
+                Menu
             </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive-tools">
+            <div class="collapse navbar-collapse" id="navbarResponsive">
 
                 <ul class="navbar-nav">
 
