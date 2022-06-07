@@ -25,7 +25,7 @@
     }
 </style>
 <c:if test="${fn:length(aggregations.catBkts)>1}">
-<div class="p-3 bg-info text-white">Select Category&nbsp;</div>
+<div class="p-2" style="border-bottom: 2px solid black">Select Category&nbsp;</div>
 </c:if>
 <div class="accordion">
     <div class="accordion-group">
