@@ -49,7 +49,7 @@ public class SearchController{
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
         boolean consortiumMember=access.isConsortiumMember(user.getId());
-        SearchResponse sr=services.getSearchResults("", searchTerm, getFilterMap(req),DCCNIHMember,consortiumMember);
+        SearchResponse sr=services.getSearchResults(null, searchTerm, getFilterMap(req),DCCNIHMember,consortiumMember);
 
         boolean facetSearch=false;
         if(req.getParameter("facetSearch")!=null)
@@ -63,7 +63,7 @@ public class SearchController{
             //   return "search/resultsTable";
             //    return "search/resultsView";
             if(getFilterMap(req).size()==1){
-                SearchResponse searchResponse= services.getFilteredAggregations("",searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
+                SearchResponse searchResponse= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
                 if(searchResponse!=null) {
                     Map<String, List<Terms.Bucket>> filtered = services.getSearchAggregations(searchResponse);
                     aggregations.putAll(filtered);
@@ -90,8 +90,8 @@ public class SearchController{
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
         boolean consortiumMember=access.isConsortiumMember(user.getId());
-
-        SearchResponse sr=services.getSearchResults(category,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
+        List<String> categories=Arrays.asList(category);
+        SearchResponse sr=services.getSearchResults(categories,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
         boolean facetSearch=false;
         boolean filter=false;
         if(req.getParameter("facetSearch")!=null)
@@ -110,7 +110,7 @@ public class SearchController{
             //  return "search/resultsTable";
             //      return "search/resultsView";
             if(getFilterMap(req).size()==1){
-               SearchResponse searchResponse= services.getFilteredAggregations(category,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
+               SearchResponse searchResponse= services.getFilteredAggregations(categories,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
                if(searchResponse!=null) {
                    Map<String, List<Terms.Bucket>> filtered = services.getSearchAggregations(searchResponse);
                    aggregations.putAll(filtered);
@@ -140,6 +140,8 @@ public class SearchController{
               req.setAttribute("action", "Guides");
           if(category.trim().equalsIgnoreCase("Vector"))
               req.setAttribute("action", "Vectors");
+          if(category.trim().equalsIgnoreCase("Experiment"))
+              req.setAttribute("action", "Experiments");
 
       }else
                 req.setAttribute("action", "Search Results");
@@ -152,13 +154,51 @@ public class SearchController{
     }
 
     @RequestMapping(value="/results/{category1}/{category2}")
-    public String getStudyNExperimentResults(HttpServletRequest req, HttpServletResponse res, Model model,
+    public String getMultiCatResults(HttpServletRequest req, HttpServletResponse res, Model model,
                                        @PathVariable(required = false) String category1,  @PathVariable(required = false) String category2, @RequestParam(required = false) String searchTerm) throws Exception {
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
         boolean consortiumMember=access.isConsortiumMember(user.getId());
+        List<String> categories=Arrays.asList(category1, category2);
+        SearchResponse sr=services.getSearchResults(categories,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
+        boolean facetSearch=false;
+        boolean filter=false;
+        if(req.getParameter("facetSearch")!=null)
+            facetSearch= req.getParameter("facetSearch").equals("true");
+        if(req.getParameter("filter")!=null)
+            filter=req.getParameter("filter").equals("true");
+        req.setAttribute("searchTerm", searchTerm);
+      //  req.setAttribute("category",category);
+        req.setAttribute("sr", sr);
+        Map<String, List<Terms.Bucket>>aggregations=services.getSearchAggregations(sr);
+        req.setAttribute("aggregations",aggregations);
+
+        req.setAttribute("crumbTrailMap",   breadCrumb.getCrumbTrailMap(req,null,null, "search"));
+        if(facetSearch) {
+            System.out.println("FACET SEARCH: "+ facetSearch);
+            //  return "search/resultsTable";
+            //      return "search/resultsView";
+            if(getFilterMap(req).size()==1){
+                SearchResponse searchResponse= services.getFilteredAggregations(categories,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
+                if(searchResponse!=null) {
+                    Map<String, List<Terms.Bucket>> filtered = services.getSearchAggregations(searchResponse);
+                    aggregations.putAll(filtered);
+                    req.setAttribute("aggregations", aggregations);
+                }
+
+            }
+
+        }
+
+                req.setAttribute("action", "Studies And Experiments");
 
 
+
+        req.setAttribute("page", "/WEB-INF/jsp/search/results");
+        //     req.setAttribute("filterMap", getFilterMap(req));
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+         /*   }
+        }*/
         return null;
     }
     public Map<String, String> getFilterMap(HttpServletRequest req){

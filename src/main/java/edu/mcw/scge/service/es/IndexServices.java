@@ -24,12 +24,14 @@ import java.util.stream.Stream;
 public class IndexServices {
     private static String searchIndex;
     Access access=new Access();
-    public SearchResponse getSearchResults(String category, String searchTerm, Map<String, String> filterMap,boolean DCCNIHMember, boolean consortiumMember) throws IOException {
+    public SearchResponse getSearchResults(List<String>  categories, String searchTerm, Map<String, String> filterMap,boolean DCCNIHMember, boolean consortiumMember) throws IOException {
         searchIndex= SCGEContext.getESIndexName();
         SearchSourceBuilder srb=new SearchSourceBuilder();
-        System.out.println("SEARCH TERM:"+searchTerm+"\tCategory:" +category);
-        srb.query(this.buildBoolQuery(category, searchTerm, filterMap, DCCNIHMember,consortiumMember));
-        srb.aggregation(this.buildSearchAggregations("category", category));
+        System.out.println("SEARCH TERM:"+searchTerm+"\tCategory:" +categories.toString());
+        srb.query(this.buildBoolQuery(categories, searchTerm, filterMap, DCCNIHMember,consortiumMember));
+     //   for(String category:categories)
+
+        srb.aggregation(this.buildSearchAggregations("category"));
     //    if(!category.equals("")) {
           buildAggregations(srb);
    //     }
@@ -46,39 +48,39 @@ public class IndexServices {
     }
     public void buildAggregations(SearchSourceBuilder srb){
         /*********************EXPERIMENT************************/
-        srb.aggregation(this.buildSearchAggregations("modelType", null));
-        srb.aggregation(this.buildSearchAggregations("modelOrganism", null));
-        srb.aggregation(this.buildSearchAggregations("transgeneReporter", null));
+        srb.aggregation(this.buildSearchAggregations("modelType"));
+        srb.aggregation(this.buildSearchAggregations("modelOrganism"));
+        srb.aggregation(this.buildSearchAggregations("transgeneReporter"));
 
 
-        srb.aggregation(this.buildSearchAggregations("deliveryType", null));
-        srb.aggregation(this.buildSearchAggregations("deliverySpecies", null));
+        srb.aggregation(this.buildSearchAggregations("deliveryType"));
+        srb.aggregation(this.buildSearchAggregations("deliverySpecies"));
 
-        srb.aggregation(this.buildSearchAggregations("editorType", null));
-        srb.aggregation(this.buildSearchAggregations("editorSubType", null));
-        srb.aggregation(this.buildSearchAggregations("editorSpecies", null));
+        srb.aggregation(this.buildSearchAggregations("editorType"));
+        srb.aggregation(this.buildSearchAggregations("editorSubType"));
+        srb.aggregation(this.buildSearchAggregations("editorSpecies"));
 
-        srb.aggregation(this.buildSearchAggregations("tissueTerm", null));
-        srb.aggregation(this.buildSearchAggregations("guideSpecies", null));
+        srb.aggregation(this.buildSearchAggregations("tissueTerm"));
+        srb.aggregation(this.buildSearchAggregations("guideSpecies"));
 
-        srb.aggregation(this.buildSearchAggregations(  "vectorName", null));
-        srb.aggregation(this.buildSearchAggregations(  "vectorType",null));
-        srb.aggregation(this.buildSearchAggregations(   "vectorSubtype", null));
+        srb.aggregation(this.buildSearchAggregations(  "vectorName"));
+        srb.aggregation(this.buildSearchAggregations(  "vectorType"));
+        srb.aggregation(this.buildSearchAggregations(   "vectorSubtype"));
 
         /*********************common**************************/
-        srb.aggregation(this.buildSearchAggregations("type", null));
-        srb.aggregation(this.buildSearchAggregations("subType", null));
-        srb.aggregation(this.buildSearchAggregations("species", null));
-        srb.aggregation(this.buildSearchAggregations("target", null));
-        srb.aggregation(this.buildSearchAggregations("withExperiments", null));
+        srb.aggregation(this.buildSearchAggregations("type"));
+        srb.aggregation(this.buildSearchAggregations("subType"));
+        srb.aggregation(this.buildSearchAggregations("species"));
+        srb.aggregation(this.buildSearchAggregations("target"));
+        srb.aggregation(this.buildSearchAggregations("withExperiments"));
 
         /*********************guide**************************/
-        srb.aggregation(this.buildSearchAggregations("guideTargetLocus", null));
+        srb.aggregation(this.buildSearchAggregations("guideTargetLocus"));
    //     srb.aggregation(this.buildSearchAggregations("externalId", null));
         /**********Study***********************************/
-        srb.aggregation(this.buildSearchAggregations("pi",null));
-        srb.aggregation(this.buildSearchAggregations("access",null));
-        srb.aggregation(this.buildSearchAggregations("status",null));
+        srb.aggregation(this.buildSearchAggregations("pi"));
+        srb.aggregation(this.buildSearchAggregations("access"));
+        srb.aggregation(this.buildSearchAggregations("status"));
 
 
     }
@@ -116,7 +118,7 @@ public class IndexServices {
         }
         return aggs;
     }
-    public AggregationBuilder buildSearchAggregations(String fieldName, String selectedCategory){
+    public AggregationBuilder buildSearchAggregations(String fieldName){
         AggregationBuilder aggs= null;
         if(fieldName!=null && !fieldName.equalsIgnoreCase("category") &&
                 !fieldName.equals("")){
@@ -290,11 +292,11 @@ public class IndexServices {
         return aggregations;
     }
 
-    public BoolQueryBuilder buildBoolQuery(String category, String searchTerm , Map<String, String> filterMap, boolean DCCNIHMember,boolean consortiumMember){
+    public BoolQueryBuilder buildBoolQuery(List<String> categories, String searchTerm , Map<String, String> filterMap, boolean DCCNIHMember,boolean consortiumMember){
         BoolQueryBuilder q=new BoolQueryBuilder();
         q.must(buildQuery(searchTerm));
-        if(category!=null && !category.equals("")) {
-            q.filter(QueryBuilders.termQuery("category.keyword", category));
+        if(categories!=null && categories.size()>0) {
+            q.filter(QueryBuilders.termsQuery("category.keyword", categories.toArray()));
 
 
         }
@@ -315,12 +317,12 @@ public class IndexServices {
    //    System.out.println(q);
         return q;
     }
-    public SearchResponse getFilteredAggregations(String category, String searchTerm,
+    public SearchResponse getFilteredAggregations(List<String> categories, String searchTerm,
                                                   Map<String, String> filterMap,boolean DCCNIHMember, boolean consortiumMember) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
         if(filterMap.size()==1) {
-            srb.query(this.buildBoolQuery(category, searchTerm, null, DCCNIHMember,consortiumMember));
+            srb.query(this.buildBoolQuery(categories, searchTerm, null, DCCNIHMember,consortiumMember));
          //   srb.aggregation(this.buildSearchAggregations("category", category));
             System.out.println("IN FILTERED AGGS: field name:"+ filterMap.entrySet().iterator().next().getKey());
             srb.aggregation(this.buildFilterAggregations(filterMap.entrySet().iterator().next().getKey(), ""));
