@@ -387,9 +387,9 @@ public class PublicationController {
     public Map<Long,  String> getAssociationTypes( Map<Long, List<ExperimentRecord>> experimentRecordsMap, HttpServletRequest req) throws Exception {
         Map<Long,  String> associationTypes=new HashMap<>();
         for(Map.Entry entry:experimentRecordsMap.entrySet()){
-            System.out.println("ASSOCIATION TYPE:"+req.getParameter((String) entry.getKey()));
-            if(req.getParameter((String) entry.getKey())!=null)
-            associationTypes.put((Long) entry.getKey(), req.getParameter((String) entry.getKey()));
+            System.out.println("ASSOCIATION TYPE:"+req.getParameter(String.valueOf( entry.getKey())));
+            if(req.getParameter(String.valueOf(entry.getKey()))!=null)
+            associationTypes.put((Long) entry.getKey(), req.getParameter(String.valueOf( entry.getKey())));
             List<ExperimentRecord> records= (List<ExperimentRecord>) entry.getValue();
             for(ExperimentRecord record:records){
 
