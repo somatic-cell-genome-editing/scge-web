@@ -138,6 +138,17 @@ public class SearchController{
         }*/
         return null;
     }
+
+    @RequestMapping(value="/results/{category1}/{category2}")
+    public String getStudyNExperimentResults(HttpServletRequest req, HttpServletResponse res, Model model,
+                                       @PathVariable(required = false) String category1,  @PathVariable(required = false) String category2, @RequestParam(required = false) String searchTerm) throws Exception {
+        Person user=userService.getCurrentUser(req.getSession());
+        boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
+        boolean consortiumMember=access.isConsortiumMember(user.getId());
+
+
+        return null;
+    }
     public Map<String, String> getFilterMap(HttpServletRequest req){
         Map<String, String> filterMap=new HashMap<>();
         Map<String, String> mappings=new HashMap<>();
