@@ -121,15 +121,15 @@ Goals"/>
 
 %>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
-    <nav class="navbar navbar-expand-lg flex-md-nowrap p-0 shadow " style="background-color: black" >
+    <nav class="navbar navbar-expand-lg flex-md-nowrap p-0 shadow justify-content-between" style="background-color: black" >
         <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/toolkit/loginSuccess">
             <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" width="70" height="50" ></a>
 
 
-                <div class="input-group col-sm-4">
+                <!--div class="input-group col-sm-4"-->
                     <form class="form-inline" action="/toolkit/data/search/results" >
 
-                        <div class="input-group"  style="padding-top:1%;width: 100%">
+                        <div class="input-group"  style="padding-top:2%;width: 100%">
                             <input  name="searchTerm" class="form-control form-control-sm border-secondary" type="search"  placeholder="Enter Search Term ...." value=""/>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary btn-sm" type="submit" >
@@ -143,11 +143,13 @@ Goals"/>
                             <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
                         </small>
                     </form>
-                </div>
+                <!--/div-->
 
             <ul class="navbar-nav ml-auto">
 
-
+                <li class="nav-item text-nowrap text-responsive">
+                    <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fa fa-phone" aria-hidden="true"></i>Contact</a>
+                </li>
                 <c:if test="${userAttributes.get('name')!=null}">
 
                     <li class="nav-item text-nowrap">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fas fa-th"></i>&nbsp;My&nbsp;Dashboard</a></li>
@@ -339,9 +341,7 @@ Goals"/>
                         <!--li class="nav-item" style="padding-top: 5px"><a href="/toolkit/data/dataSubmission"><button type="button" class="btn btn-sm">Upload Docs</button></a>
                         </li-->
 
-                    <li class="nav-item text-nowrap text-responsive">
-                        <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-size: 16px"><i class="fa fa-phone" aria-hidden="true"></i>Contact</a>
-                    </li>
+
 
                 </ul>
             </div>
