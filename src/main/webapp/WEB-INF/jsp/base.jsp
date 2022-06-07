@@ -98,7 +98,16 @@ Goals"/>
             color:#FFFFFF;
         }
     </style>
+<script>
+    var action='${action}';
+    $(function () {
+        $.each($('.navbar-custom .nav-item'), function(){
+            console.log($(this).id)
+        });
 
+    })
+
+</script>
 </head>
 
 <body>
@@ -298,22 +307,22 @@ Goals"/>
 
                 <ul class="navbar-nav">
 
-                    <li class="nav-item  text-nowrap text-responsive">
+                    <li class="nav-item  text-nowrap text-responsive" id="Study">
                         <a class="nav-link" href="/toolkit/data/search/results/Study?searchTerm=" >Studies <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item  text-nowrap text-responsive">
+                    <li class="nav-item  text-nowrap text-responsive" id="Genome Editor">
                         <a class="nav-link" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=" >Genome Editors <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item text-nowrap text-responsive">
+                    <li class="nav-item text-nowrap text-responsive" id="Model System">
                         <a class="nav-link" href="/toolkit/data/search/results/Model%20System?searchTerm=" >Model Systems</a>
                     </li>
-                    <li class="nav-item text-nowrap text-responsive">
+                    <li class="nav-item text-nowrap text-responsive" id="Delivery System">
                         <a class="nav-link" href="/toolkit/data/search/results/Delivery%20System?searchTerm=" >Delivery Systems</a>
                     </li>
-                    <li class="nav-item text-nowrap text-responsive">
+                    <li class="nav-item text-nowrap text-responsive" id="Guide">
                         <a class="nav-link" href="/toolkit/data/search/results/Guide?searchTerm=" >Guides</a>
                     </li>
-                    <li class="nav-item text-nowrap text-responsive">
+                    <li class="nav-item text-nowrap text-responsive" id="Vector">
                         <a class="nav-link" href="/toolkit/data/search/results/Vector?searchTerm=" >Vectors</a>
                     </li>
                     <li class="nav-item text-nowrap text-responsive">
@@ -328,13 +337,13 @@ Goals"/>
                                 <i class="fas fa-th"></i>&nbsp;Initiatives
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown-initiatives">
-                                <a class="dropdown-item" href="/toolkit/admin/users">Animal Reporter And Testing Center Initiative</a>
+                                <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Small+Animal+Testing+Center+(SATC)&typeBkt=Large+Animal+Reporter+(LAR)&typeBkt=Large+Animal+Testing+Center+(LATC)">Animal Reporter And Testing Center Initiative</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Biological Effects (In Vivo Cell Tracking Projects)</a>
-                                <a class="dropdown-item" href="/toolkit/admin">Biological Effects (Biological Systems)</a>
+                                <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=In+Vivo+Cell+Tracking">Biological Effects (In Vivo Cell Tracking Projects)</a>
+                                <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Biological+Effects+Initiative&typeBkt=Biological+Systems">Biological Effects (Biological Systems)</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/toolkit/admin/groupOverview">Delivery Systems Initiative</a>
-                                <a class="dropdown-item" href="/toolkit/data/studies/search">Genome Editor Projects</a>
+                                <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Delivery+Systems+Initiative">Delivery Systems Initiative</a>
+                                <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Genome+Editors">Genome Editor Projects</a>
 
                             </div>
                         </li>
