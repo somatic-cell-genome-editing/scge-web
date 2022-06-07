@@ -126,8 +126,20 @@ public class SearchController{
                 return "search/resultsPage";
 
             }else {*/
+      System.out.println("CATEGORY:" +category);
       if(searchTerm.equals("")){
-          req.setAttribute("action", category);
+          if(category.trim().equalsIgnoreCase("Study"))
+          req.setAttribute("action", "Studies");
+          if(category.trim().equalsIgnoreCase("Genome Editor"))
+              req.setAttribute("action", "Genome Eidtors");
+          if(category.trim().equalsIgnoreCase("Model System"))
+              req.setAttribute("action", "Model Systems");
+          if(category.trim().equalsIgnoreCase("Delivery System"))
+              req.setAttribute("action", "Delivery Systems");
+          if(category.trim().equalsIgnoreCase("Guide"))
+              req.setAttribute("action", "Guides");
+          if(category.trim().equalsIgnoreCase("Vector"))
+              req.setAttribute("action", "Vectors");
 
       }else
                 req.setAttribute("action", "Search Results");
