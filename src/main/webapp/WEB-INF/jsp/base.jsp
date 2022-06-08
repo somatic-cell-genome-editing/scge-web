@@ -135,9 +135,7 @@ Goals"/>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
     <nav class="navbar navbar-expand-lg flex-md-nowrap p-0 shadow" style="background-color: black" >
         <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/toolkit/loginSuccess">
-            <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" width="70" height="50" ></a>
-
-
+            <img src="/toolkit/images/scge-logo-70w.png" width="70" height="50" ></a>
                 <!--div class="input-group col-sm-4"-->
                     <form class="form-inline" action="/toolkit/data/search/results" >
 
@@ -447,7 +445,7 @@ Goals"/>
 
                                             <table align="center">
                                                 <tr>
-                                                    <td><img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" border="0"/></td>
+                                                    <td><img src="/toolkit/images/scge-logo-200w.png" border="0"/></td>
                                                     <td>
                                                         <div>
                                                         <form action="/toolkit/data/search/results"  class="form-inline my-2 my-lg-0">

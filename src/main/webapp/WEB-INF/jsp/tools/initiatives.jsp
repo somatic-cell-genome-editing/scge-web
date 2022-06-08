@@ -14,6 +14,10 @@
         padding: 0.25rem;
     }
 
+    .card {
+        margin-bottom:10px;
+    }
+
 </style>
 
 <div class="row" style="width:1000px;margin:auto;">

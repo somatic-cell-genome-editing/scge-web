@@ -335,7 +335,7 @@ Goals"/>
                                     data-frame_1="tp:600;st:0;"
                                     data-frame_999="o:0;tp:600;st:w;sR:8700;"
                                     style="z-index:7;"
-                            ><img src="//scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" width="200" height="136" data-no-retina>
+                            ><img src="/toolkit/images/scge-logo-200w.png" width="200" height="136" data-no-retina>
                             </rs-layer><!--
 -->						</rs-slide>
                         </rs-slides>

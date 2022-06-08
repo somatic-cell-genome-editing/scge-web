@@ -298,7 +298,7 @@
 
     <!-- Icon -->
     <div class="fadeIn first">
-      <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" border="0" alt="SCGE"/>
+      <img src="/toolkit/images/scge-logo-200w.png" border="0" alt="SCGE"/>
     </div>
 
     <!-- Login Form -->
