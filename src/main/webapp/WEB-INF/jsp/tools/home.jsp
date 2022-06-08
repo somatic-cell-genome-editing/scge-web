@@ -30,12 +30,6 @@
 
 </style>
 
-<img src="/toolkit/images/toolkit-logo-1-200.png"/>
-<br><br>
-<img src="/toolkit/images/toolkit-logo-2-200.png"/>
-<br><br>
-<img src="/toolkit/images/toolkit-logo-1-70.png"/>
-<br>
 
 
 
