@@ -133,7 +133,7 @@ Goals"/>
 
 %>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
-    <nav class="navbar navbar-expand-lg flex-md-nowrap p-0 shadow justify-content-between" style="background-color: black" >
+    <nav class="navbar navbar-expand-lg flex-md-nowrap p-0 shadow" style="background-color: black" >
         <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/toolkit/loginSuccess">
             <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" width="70" height="50" ></a>
 
@@ -157,7 +157,7 @@ Goals"/>
                     </form>
                 <!--/div-->
 
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto" style="padding-right: 2%">
 
                 <li class="nav-item text-nowrap text-responsive">
                     <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fa fa-phone" aria-hidden="true"></i>Contact</a>
@@ -184,14 +184,14 @@ Goals"/>
                     </li-->
                 </c:if>
 
-                <li class="nav-item text-nowrap my-2 my-sm-0">
+                <li class="nav-item text-nowrap my-2 my-sm-0" style="padding-right: 1%">
 
                     <!-- using pageContext requires jsp-api artifact in pom.xml -->
                     <c:choose>
                         <c:when test="${userAttributes.get('name')!=null}">
-                            <img class="img-circle" src="${userAttributes.get('picture')}" width="24">
+                            <img class="rounded-circle" src="${userAttributes.get('picture')}" width="24">
                             <span class="text-light" >&nbsp;${userAttributes.get('name')}&nbsp;&nbsp;</span>
-                            <a href="/toolkit/logout" title="Sign out"><button class="btn btn-primary">Logout</button></a>
+                            <a href="/toolkit/logout" title="Sign out"><button class="btn btn-primary btn-sm">Logout</button></a>
 
                         </c:when>
                         <c:otherwise>
@@ -337,8 +337,8 @@ Goals"/>
 
                     <li class="nav-item dropdown text-nowrap">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary"><a href="/toolkit/data/initiatives" style="color:#FFFFFF;font-size: 16px">Initiatives</a></button>
-                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-primary btn-sm"><a href="/toolkit/data/initiatives" style="color:#FFFFFF;font-size: 16px">Initiatives</a></button>
+                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu">
@@ -442,7 +442,7 @@ Goals"/>
                             <!--h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success btn-sm">Submit Data</button></a>&nbsp;<a href="dataSubmission"><button class="btn btn btn-outline-secondary btn-sm">Upload Docs</button></a></span></h1-->
                                 <!--div style=";width:100%" align="center" -->
                                     <%--@include file="tools/search.jsp"--%>
-                                        <div class="container-fluid jumbotron" align="center" id="home-page-search" style="background-color: #FFFFFF;border-bottom: 1px solid gainsboro">
+                                        <div class="container-fluid" align="center" id="home-page-search" style="background-color: #FFFFFF;">
 
 
                                             <table align="center">
