@@ -335,8 +335,8 @@ Goals"/>
 
                     <li class="nav-item dropdown text-nowrap">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary btn-sm"><a href="/toolkit/data/initiatives" style="color:#FFFFFF;font-size: 16px">Initiatives</a></button>
-                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-primary"><a href="/toolkit/data/initiatives" style="color:#FFFFFF;font-size: 16px">Initiatives</a></button>
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu">
