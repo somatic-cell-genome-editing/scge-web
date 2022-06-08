@@ -140,7 +140,7 @@ Goals"/>
                     <form class="form-inline" action="/toolkit/data/search/results" >
 
                         <div class="input-group"  style="padding-top:2%;width: 100%">
-                            <input  name="searchTerm" class="form-control form-control-sm border-secondary" type="search"  placeholder="Enter Search Term ...." value=""/>
+                            <input  class="form-control form-control-sm border-secondary" type="search" id="commonSearchTerm" name="searchTerm" placeholder="Enter Search Term ...." value=""/>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary btn-sm" type="submit" >
                                     <i class="fa fa-search"></i>

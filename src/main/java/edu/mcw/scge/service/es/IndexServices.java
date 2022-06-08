@@ -27,7 +27,6 @@ public class IndexServices {
     public SearchResponse getSearchResults(List<String>  categories, String searchTerm, Map<String, String> filterMap,boolean DCCNIHMember, boolean consortiumMember) throws IOException {
         searchIndex= SCGEContext.getESIndexName();
         SearchSourceBuilder srb=new SearchSourceBuilder();
-        System.out.println("SEARCH TERM:"+searchTerm+"\tCategory:" +categories.toString());
         srb.query(this.buildBoolQuery(categories, searchTerm, filterMap, DCCNIHMember,consortiumMember));
      //   for(String category:categories)
 
