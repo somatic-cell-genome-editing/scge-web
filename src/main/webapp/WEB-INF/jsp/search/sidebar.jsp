@@ -154,7 +154,7 @@
                         Genome Editor<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseFour" class="accordion-body collapse ">
+            <div id="collapseFour" class="accordion-body collapse show">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.editorBkts}" var="subtype">
                         <div class="form-check">
@@ -177,7 +177,7 @@
                         Genome Editor Subtype<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse13" class="accordion-body collapse  ">
+            <div id="collapse13" class="accordion-body collapse show ">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.editorSubTypeBkts}" var="subtype">
                         <div class="form-check">
@@ -200,7 +200,7 @@
                         Genome Editor Species<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse14" class="accordion-body collapse  ">
+            <div id="collapse14" class="accordion-body collapse show ">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.editorSpeciesBkts}" var="subtype">
                         <div class="form-check">
@@ -223,7 +223,7 @@
                        Delivery System<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseFive" class="accordion-body collapse ">
+            <div id="collapseFive" class="accordion-body collapse show ">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.deliveryBkts}" var="subtype">
                         <div class="form-check">
@@ -246,7 +246,7 @@
                     Model System<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseSix" class="accordion-body collapse  ">
+            <div id="collapseSix" class="accordion-body collapse show ">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.modelBkts}" var="subtype">
                         <div class="form-check">
@@ -269,7 +269,7 @@
                        Model Species<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse11" class="accordion-body collapse  ">
+            <div id="collapse11" class="accordion-body collapse  show">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.modelSpeciesBkts}" var="subtype">
                         <div class="form-check">
@@ -292,7 +292,7 @@
                        Model Reporter<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse12" class="accordion-body collapse ">
+            <div id="collapse12" class="accordion-body collapse show">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.reporterBkts}" var="subtype">
                         <div class="form-check">
@@ -315,7 +315,7 @@
                        Guide Target Locus<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseNine" class="accordion-body collapse ">
+            <div id="collapseNine" class="accordion-body collapse show">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.guidesBkts}" var="subtype">
                         <div class="form-check">
@@ -338,7 +338,7 @@
                        Species<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseSeven" class="accordion-body collapse">
+            <div id="collapseSeven" class="accordion-body collapse show">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.speciesBkts}" var="subtype">
                         <div class="form-check">
@@ -360,7 +360,7 @@
                   Vector Type<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse15" class="accordion-body collapse">
+            <div id="collapse15" class="accordion-body collapse show">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.vectorTypeBkts}" var="subtype">
                         <div class="form-check">
@@ -383,7 +383,7 @@
                       Vector Subtype<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse16" class="accordion-body collapse ">
+            <div id="collapse16" class="accordion-body collapse show">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.vectorSubTypeBkts}" var="subtype">
                         <div class="form-check">
@@ -406,7 +406,7 @@
                       Vector <span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapse17" class="accordion-body collapse">
+            <div id="collapse17" class="accordion-body collapse show">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.vectorBkts}" var="subtype">
                         <div class="form-check">
@@ -429,7 +429,7 @@
                        Tissue<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseEight" class="accordion-body collapse">
+            <div id="collapseEight" class="accordion-body collapse show">
                 <div class="pl-3  accordion-inner">
                     <c:forEach items="${aggregations.targetBkts}" var="subtype">
                         <div class="form-check">
@@ -452,7 +452,7 @@
                   ${category} with Experiments<span class="float-right"><i class="fas fa-angle-up"></i></span>
                 </a>
             </div>
-            <div id="collapseTen" class="accordion-body collapse">
+            <div id="collapseTen" class="accordion-body collapse show">
                 <div class="pl-3 accordion-inner">
                     <c:forEach items="${aggregations.withExperimentsBkts}" var="subtype">
                         <div class="form-check">
@@ -476,7 +476,7 @@
                         Access <span class="float-right"><i class="fas fa-angle-up"></i></span>
                     </a>
                 </div>
-                <div id="collapse19" class="accordion-body collapse">
+                <div id="collapse19" class="accordion-body collapse show">
                     <div class="pl-3  accordion-inner">
                         <c:forEach items="${aggregations.accessBkts}" var="subtype">
                             <div class="form-check">
@@ -499,7 +499,7 @@
                         Status <span class="float-right"><i class="fas fa-angle-up"></i></span>
                     </a>
                 </div>
-                <div id="collapse20" class="accordion-body collapse ">
+                <div id="collapse20" class="accordion-body collapse show">
                     <div class="pl-3  accordion-inner">
                         <c:forEach items="${aggregations.statusBkts}" var="subtype">
                             <div class="form-check">
@@ -522,7 +522,7 @@
                         Principal Investigator <span class="float-right"><i class="fas fa-angle-up"></i></span>
                     </a>
                 </div>
-                <div id="collapse18" class="accordion-body collapse ">
+                <div id="collapse18" class="accordion-body collapse show">
                     <div class="pl-3  accordion-inner">
                         <c:forEach items="${aggregations.piBkts}" var="subtype">
                             <div class="form-check">
