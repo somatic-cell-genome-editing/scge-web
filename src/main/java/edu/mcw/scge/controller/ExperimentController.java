@@ -141,7 +141,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
         }
-        req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
+        req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Study?searchTerm='>Studies</a>");
 
         req.setAttribute("study", studies.get(0));
         Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
@@ -231,7 +231,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
         }
-        req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
+        req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Study?searchTerm='>Studies</a>");
 
         req.setAttribute("study", studies.get(0));
         Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
@@ -363,7 +363,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("resultDetail",resultDetail);
         req.setAttribute("resultMap",resultMap);
        // req.setAttribute("study", study);
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Study?searchTerm='>Studies</a>");
         req.setAttribute("action", "All Experiment Records");
         req.setAttribute("page", "/WEB-INF/jsp/tools/allExperimentRecords");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -540,7 +540,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             Study localStudy=sdao.getStudyByExperimentId(experimentId).get(0);
 
             req.setAttribute("study",localStudy);
-            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Experiments</a>");
+            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Study?searchTerm='>Studies</a> / <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Experiments</a>");
             req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
             req.setAttribute("deliveryAssay",new HashMap<String,String>());
             req.setAttribute("editingAssay",new HashMap<String,String>());
@@ -687,7 +687,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         req.setAttribute("tissues",tissues);
         req.setAttribute("conditions",conditions);
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Experiments</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Study?searchTerm='>Studies</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Experiments</a>");
         req.setAttribute("replicateResult",replicateResult);
         req.setAttribute("experiments",labels);
         req.setAttribute("plotData",plotData);
@@ -810,7 +810,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experiment.getExperimentId()));
 
         req.setAttribute("action", "Experiment Record Detail");
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Study?searchTerm='>Studies</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment</a>");
 
         req.setAttribute("study", study);
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");
@@ -870,7 +870,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("types",types);
 
         req.setAttribute("page", "/WEB-INF/jsp/edit/editExperiment");
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/studies/search'>Studies</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Study?searchTerm='>Studies</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

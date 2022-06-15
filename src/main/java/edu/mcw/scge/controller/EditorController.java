@@ -75,7 +75,7 @@ public class EditorController {
 
         }
 
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/editors/search'>Editors</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Genome%20Editor?searchTerm='>Editors</a>");
         req.setAttribute("editor", editor);
         req.setAttribute("objectId", editor.getId());
         req.setAttribute("action", "Genome Editor: " + UI.replacePhiSymbol(editor.getSymbol()));
@@ -252,7 +252,7 @@ public class EditorController {
         req.setAttribute("substrate",substrate);
         req.setAttribute("activity",activity);
         req.setAttribute("page", "/WEB-INF/jsp/edit/editEditor");
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/editors/search'>Editors</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Genome%20Editor?searchTerm='>Editors</a>");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

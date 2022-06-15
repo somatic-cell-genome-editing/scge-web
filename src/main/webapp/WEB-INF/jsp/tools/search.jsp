@@ -52,7 +52,7 @@
             <form  action="/toolkit/data/search/results">
             <div class="form-group row"  align="center" >
                 <div class="input-group col-lg-2">
-                    <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" border="0" alt="SCGE"/>
+                    <img src="/toolkit/images/scge-logo-200w.png" border="0" alt="SCGE"/>
                 </div>
                 <div class="input-group col-lg-10">
                 <div class="input-group" align="center">

@@ -18,7 +18,13 @@
     .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
         background-color:   #f7f9fc;
     }
-    #fafcff
+    .Study{
+        background-color: lightcyan;
+    }
+    .Experiment{
+        background-color: #fad9e6;
+        color:deeppink;
+    }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
@@ -78,7 +84,8 @@
                 <c:if test="${hit.sourceAsMap.subType=='Validation'}">
                     <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> [<i class="fa-solid fa-v" style="color:darkorange"></i>]</span>
                 </c:if>
-                <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
+                <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>
+           <small>
             <c:if test="${hit.sourceAsMap.type!=null}">
                -  ${hit.sourceAsMap.type}
             </c:if>
@@ -91,7 +98,7 @@
             </c:if>
 
             <c:if test="${hit.sourceAsMap.symbol!=null}">
-            <h6><a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="text-muted">${hit.sourceAsMap.category}
+            <h6><a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}
             </small>
                 <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
                 <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">

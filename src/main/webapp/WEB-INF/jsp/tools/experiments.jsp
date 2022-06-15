@@ -48,7 +48,7 @@
 
     });
 </script>
-<div class="container">
+<div class="container-fluid">
     <%
         ImageDao idao = new ImageDao();
         int rowCount = 1;
@@ -83,12 +83,12 @@
          style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
 
-    <div>
+    <div class="container-fluid">
 
-        <div class="card" style="margin-top: 1%">
+        <div class="container-fluid" style="margin-top: 1%;">
 
             <% if (study != null) { %>
-            <div class="card-header">
+            <div >
                 <div>
                     <%
                         GrantDao grantDao = new GrantDao();
@@ -102,19 +102,31 @@
                     <% }%>
                     <%}%>
                 </div>
-                <span class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;Submission
+                <span class="scge-details-label">Submission - SCGE ID:<%=study.getStudyId()%></span>&nbsp;Submission
                 Date:<%=study.getSubmissionDate()%>&nbsp;Status:
                 <%if (experiments.size() > 0) {%>
                 <span style="color:green;font-weight: bold">Processed</span>
                 <%} else {%>
                 <span style="color:red;font-weight: bold">Received</span>
                 <%}%>
-                <div align="right"><a href="/toolkit/data/experiments/edit?studyId=<%=study.getStudyId()%>"><button class="btn btn-primary">Create&nbsp;Experiment</button></a></div>
             </div>
-            <div class="card-body">
-                <table width="95%">
+            <hr style="border:2px solid grey">
+            <div align="right"  >
+                <table style="width: 30%">
                     <tr>
-                        <td align="right">
+                        <td>
+                            <%
+                                try {
+                                    if(access.isAdmin(p)){%>
+                                    <div><a href="/toolkit/data/experiments/edit?studyId=<%=study.getStudyId()%>"><button class="btn btn-primary btn-sm">Create&nbsp;Experiment</button></a></div>
+                                    <%}
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            %>
+                        </td>
+                        <td>
+
                             <button class="btn btn-primary btn-sm" type="button"
                                     onclick="javascript:location.href='/toolkit/download/<%=study.getStudyId()%>'"><i
                                     class='fas fa-download'></i>&nbsp;View & Download Submitted files
@@ -126,14 +138,14 @@
                 <% } %>
 
                 <%if (experiments.size() > 0) {%>
-                <div style="color:grey;font-weight: bold;">Experiments</div>
+
 
                 <table class="table bg-light">
                     <thead>
                     <tr>
                         <th>Tier</th>
 
-                        <th>Name</th>
+                        <th>Experiment Name</th>
                         <th>Type</th>
                         <th>Description</th>
                         <!--<th>SCGE ID</th>-->
