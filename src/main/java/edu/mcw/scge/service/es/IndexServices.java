@@ -71,7 +71,7 @@ public class IndexServices {
         srb.aggregation(this.buildSearchAggregations("subType"));
         srb.aggregation(this.buildSearchAggregations("species"));
         srb.aggregation(this.buildSearchAggregations("target"));
-        srb.aggregation(this.buildSearchAggregations("withExperiments"));
+   //     srb.aggregation(this.buildSearchAggregations("withExperiments"));
 
         /*********************guide**************************/
         srb.aggregation(this.buildSearchAggregations("guideTargetLocus"));
@@ -80,6 +80,8 @@ public class IndexServices {
         srb.aggregation(this.buildSearchAggregations("pi"));
         srb.aggregation(this.buildSearchAggregations("access"));
         srb.aggregation(this.buildSearchAggregations("status"));
+        srb.aggregation(this.buildSearchAggregations("initiative"));
+        srb.aggregation(this.buildSearchAggregations("studyType"));
 
 
     }
