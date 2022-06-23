@@ -145,13 +145,13 @@
                 targetTissueRecordIds.add(er.getExperimentRecordId());
 
                 if (er.getCellType() !=null && !er.getCellType().equals("") ) {
-                    targetTissues2.put(er.getTissueTerm() + " (" + er.getCellType() + ")", er.getExperimentRecordId());
+                    targetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
                 }else {
                     targetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
                 }
             }else {
                 if (er.getCellType() !=null && !er.getCellType().equals("") ) {
-                    nonTargetTissues2.put(er.getTissueTerm() + " (" + er.getCellType() + ")", er.getExperimentRecordId());
+                    nonTargetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
                 }else {
                     nonTargetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
                 }
