@@ -323,9 +323,9 @@ var messageVue = new Vue({
             }
             document.getElementById("sendEmail").disabled = true;
 
+
             axios.post('/toolkit/data/feedback?${_csrf.parameterName}=${_csrf.token}',
                     {
-
                         email: messageVue.email,
                         message: messageVue.message,
                         webPage: window.location.href
