@@ -113,9 +113,9 @@
                         </div>
                     </div>
                 </div>
-            <small>  <c:if test="${hit.sourceAsMap.cateogry=='Study' || hit.sourceAsMap.cateogry=='Experiment'}">
+            <small>  <c:if test="${hit.sourceAsMap.category=='Study' || hit.sourceAsMap.category=='Experiment'}">
                 ${hit.sourceAsMap.pi.get(0)}
-                    <c:if test="${hit.sourceAsMap.cateogry=='Study'}">
+                    <c:if test="${hit.sourceAsMap.category=='Study'}">
                 &nbsp;&nbsp;<span class="header">Date Of Submission:</span> ${hit.sourceAsMap.submissionDate}
             </c:if>
             </c:if></small>
