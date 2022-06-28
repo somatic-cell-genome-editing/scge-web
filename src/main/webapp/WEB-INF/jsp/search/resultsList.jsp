@@ -81,13 +81,13 @@
                 <div style="padding-bottom: 0;margin-bottom: 0">
             <c:if test="${hit.sourceAsMap.name!=null}">
             <h6>
-                <c:if test="${hit.sourceAsMap.subType=='Validation'}">
+                <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
                     <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> [<i class="fa-solid fa-v" style="color:darkorange"></i>]</span>
                 </c:if>
                 <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>
            <small>
-            <c:if test="${hit.sourceAsMap.type!=null}">
-               -  ${hit.sourceAsMap.type}
+            <c:if test="${hit.sourceAsMap.experimentType!=null}">
+               -  ${hit.sourceAsMap.experimentType}
             </c:if>
             </small>
                <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
