@@ -449,97 +449,9 @@ function emailValidate(message) {
 
 
     </nav>
-<!--nav class="navbar  flex-md-nowrap p-0 shadow" style="ackground-color: #1a80b6;background-color: black;">
-    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/toolkit/loginSuccess">
-        <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" width="70" height="50" ></a>
-
-    <!--form  action="/toolkit/data/search/results" class="form" >
-    <input class="form-control form-control-dark  searchTerm" id="commonSearchTerm" name="searchTerm" type="text" placeholder="Search" aria-label="Search">
-    </form-->
-    <!--div class="input-group col-sm-4">
-        <form  action="/toolkit/data/search/results" >
-
-        <div class="input-group"  style="padding-top:1%">
-            <input  name="searchTerm" class="form-control form-control-sm border-secondary" type="search"  placeholder="Enter Search Term ...." value=""/>
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary btn-sm" type="submit" >
-                    <i class="fa fa-search"></i>
-                </button>
-            </div>
-
-        </div>
-
-        <small class="form-text text-light" style="font-size: 11px;">Examples:&nbsp;<a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a> <a class="text-light" href="/toolkit/data/search/results?searchTerm=crispr" style="font-size: 11px;" >CRISPR</a>,
-            <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
-        </small>
-    </form>
-    </div>
-
-</nav-->
-<%
-    try {
-        if(access.isConsortiumMember(person.getId())){%>
-        <!--nav class="navbar navbar-expand-lg navbar-light bg-light static-top " >
-            <div class="container-fluid">
-                <!--a class="navbar-brand"  href="https://scge.mcw.edu/" >
-                    <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" style="background-color: transparent"/>
-                </a-->
-
-                <!--button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-
-                    <ul class="navbar-nav ml-auto">
 
 
-                        <c:if test="${userAttributes.get('name')!=null}">
 
-                            <li class="nav-item text-nowrap">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-size: 16px"><i class="fas fa-th"></i>&nbsp;My&nbsp;Dashboard</a></li>
-    <%if(access.isAdmin(person)){%>
-                            <li class="nav-item dropdown text-nowrap">
-                                <a class="nav-link dropdown-toggle" href="/toolkit/admin" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: 400;font-size: 16px">
-                                    <i class="fas fa-th"></i>&nbsp;Admin
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/toolkit/admin/users">Manage Users</a>
-                                    <a class="dropdown-item" href="/toolkit/admin">Sudo User</a>
-                                    <a class="dropdown-item" href="/toolkit/admin/groupOverview">Groups Overview</a>
-                                    <a class="dropdown-item" href="/toolkit/data/studies/search">Study Browser</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Study Tier Updates</a>
-                </div>
-                            </li>
-                            <%}%>
-                            <!--li class="nav-item" style="padding-top: 5px"><a href="/toolkit/data/dataSubmission"><button type="button" class="btn btn-sm">Upload Docs</button></a>
-                            </li-->
-                        </c:if>
-
-                        <!--li class="nav-item text-nowrap my-2 my-sm-0">
-
-                            <!-- using pageContext requires jsp-api artifact in pom.xml -->
-                            <c:choose>
-                                <c:when test="${userAttributes.get('name')!=null}">
-                                    <!--img class="img-circle" src="${userAttributes.get('picture')}" width="24">
-                                    <span class="navbar-text">&nbsp;${userAttributes.get('name')}&nbsp;&nbsp;</span>
-                                    <a href="/toolkit/logout" title="Sign out"><button class="btn btn-primary">Logout</button></a>
-
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="/toolkit/login/google">Google Login</a>
-                                </c:otherwise>
-                            </c:choose>
-
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav-->
-         <%}
- } catch (Exception e) {
-     e.printStackTrace();
- }
- %>
     <nav class="navbar navbar-expand-lg  navbar-custom static-top" style="color: white" >
         <div class="container-fluid">
             <!--a class="navbar-brand"  href="https://scge.mcw.edu/" >
