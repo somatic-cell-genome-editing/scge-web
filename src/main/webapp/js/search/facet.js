@@ -123,6 +123,7 @@ $(function () {
         $.each(selectedTargetTissue.split(","), function (i,selected) {
             if(selected===val){
                 _this.prop('checked',true)
+                $('#collapsetissueTerm').addClass('show')
             }
         })
     });
@@ -135,6 +136,8 @@ $(function () {
         $.each(selectedGuideTargetLocus.split(","), function (i,selected) {
             if(selected===val){
                 _this.prop('checked',true)
+                $('#collapseguideTargetLocus').addClass('show')
+
             }
         })
     });
@@ -237,6 +240,7 @@ $(function () {
             $.each(selectedPi.split(","), function (i,selected) {
                 if(selected===val){
                     _this.prop('checked',true)
+                    $('#collapsepi').addClass('show')
                 }
             })
     });
