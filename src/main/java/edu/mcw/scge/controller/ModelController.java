@@ -114,8 +114,8 @@ public class ModelController {
         req.setAttribute("associatedPublications", associatedPublications);
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(mod.getModelId()));
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Model%20System?searchTerm='>Models</a>");
-        req.setAttribute("seoDescription",model.getDescription());
-        req.setAttribute("seoTitle",model.getDisplayName());
+        req.setAttribute("seoDescription",mod.getDescription());
+        req.setAttribute("seoTitle",mod.getDisplayName());
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
