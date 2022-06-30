@@ -128,6 +128,8 @@ public class GuideController {
         }
         req.setAttribute("associatedPublications", associatedPublications);
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(guide.getGuide_id()));
+        req.setAttribute("seoDescription",guide.getGuideDescription());
+        req.setAttribute("seoTitle",guide.getGrnaLabId());
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

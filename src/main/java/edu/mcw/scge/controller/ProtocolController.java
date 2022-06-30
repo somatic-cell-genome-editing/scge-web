@@ -46,6 +46,8 @@ public class ProtocolController {
         req.setAttribute("protocols", records);
         req.setAttribute("action", "Protocols");
         req.setAttribute("page", "/WEB-INF/jsp/tools/protocols");
+        req.setAttribute("seoDescription","Listing of protocols submitted to the Somatic Cell Genome Editing consortium");
+        req.setAttribute("seoTitle","SCGE Protocol Directory");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
@@ -139,6 +141,8 @@ public class ProtocolController {
         req.setAttribute("action","Protocol: " + protocol.getTitle());
         req.setAttribute("page", "/WEB-INF/jsp/tools/protocol");
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/protocols/search'>Protocols</a>");
+        req.setAttribute("seoDescription",protocol.getDescription());
+        req.setAttribute("seoTitle",protocol.getTitle());
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
