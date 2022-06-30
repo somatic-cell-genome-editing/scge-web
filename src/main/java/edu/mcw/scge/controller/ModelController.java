@@ -61,7 +61,7 @@ public class ModelController {
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,mod,null,null));
 
         req.setAttribute("model", mod);
-        req.setAttribute("action","Model System: " + mod.getName());
+        req.setAttribute("action","Model System: " + mod.getDisplayName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/model");
 
         StudyDao sdao = new StudyDao();

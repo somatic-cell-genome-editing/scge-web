@@ -814,8 +814,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("action", "Experiment Record Detail");
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Study/Experiment?searchTerm='>Studies</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment</a>");
 
-        req.setAttribute("seoDescription",r.getExperimentName());
-        req.setAttribute("seoTitle",r.getCondition());
+        req.setAttribute("seoDescription",r.getCondition());
+        req.setAttribute("seoTitle",r.getExperimentName());
         req.setAttribute("study", study);
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiment");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
