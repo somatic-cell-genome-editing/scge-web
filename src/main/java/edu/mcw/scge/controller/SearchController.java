@@ -131,7 +131,7 @@ public class SearchController{
           if(category.trim().equalsIgnoreCase("Study"))
           req.setAttribute("action", "Studies");
           if(category.trim().equalsIgnoreCase("Genome Editor"))
-              req.setAttribute("action", "Genome Eidtors");
+              req.setAttribute("action", "Genome Editors");
           if(category.trim().equalsIgnoreCase("Model System"))
               req.setAttribute("action", "Model Systems");
           if(category.trim().equalsIgnoreCase("Delivery System"))
