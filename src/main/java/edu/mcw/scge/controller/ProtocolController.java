@@ -47,7 +47,7 @@ public class ProtocolController {
         req.setAttribute("action", "Protocols");
         req.setAttribute("page", "/WEB-INF/jsp/tools/protocols");
         req.setAttribute("seoDescription","Listing of protocols submitted to the Somatic Cell Genome Editing consortium");
-        req.setAttribute("seoTitle","SCGE Protocol Directory");
+        req.setAttribute("seoTitle","Protocols");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

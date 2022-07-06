@@ -29,21 +29,25 @@
             seoTitle="Somatic Cell Genome Editing Consortium";
         }
 
+        seoTitle += " | SCGE Toolkit";
+
     %>
 
     <meta name="description" content="<%=seoDescription%>">
     <meta name="author" content="Somatic Cell Genome Editing Consortium">
     <title><%=seoTitle%>></title>
+
+    <!--
     <link rel='dns-prefetch' href='//s.w.org' />
     <link rel="alternate" type="application/rss+xml" title="Somatic Cell Gene Editing &raquo; Feed" href="https://scge.mcw.edu/feed/" />
     <link rel="alternate" type="application/rss+xml" title="Somatic Cell Gene Editing &raquo; Comments Feed" href="https://scge.mcw.edu/comments/feed/" />
     <link rel="alternate" type="text/calendar" title="Somatic Cell Gene Editing &raquo; iCal Feed" href="https://scge.mcw.edu/events/?ical=1" />
-    <meta property="og:title" content="Somatic Cell Gene Editing"/>
+-->
+    <meta property="og:title" content="<%=seoTitle%>"/>
     <meta property="og:type" content="article"/>
     <meta property="og:url" content="https://scge.mcw.edu/"/>
-    <meta property="og:site_name" content="Somatic Cell Gene Editing"/>
-    <meta property="og:description" content="The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.
-Goals"/>
+    <meta property="og:site_name" content="Somatic Cell Gene Editing Toolkit"/>
+    <meta property="og:description" content="<%=seoDescription%>"/>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -341,6 +345,9 @@ var messageVue = new Vue({
                     })
                 .then(function (response) {
                     closeForm();
+                    messageVue.email="";
+                    messageVue.message="";
+                    alert("Thank you!  Your message has been sent to the SCGE.")
                 }).catch(function (error) {
                 console.log(error)
             })
@@ -359,15 +366,15 @@ function emailValidate(message) {
 </script>
 
 
-<div id="devSystemWarning" style="display:none; font-size:12px; color:white; background-color: #770C0E; width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System<br>SEO Description: <%=seoDescription%><br>SEO Title: <%=seoTitle%></div>
+<div id="devSystemWarning" style="display:none; font-size:12px; color:white; background-color: #770C0E; width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System<br><%=seoTitle%><br><%=seoDescription%></div>
 
 <script>
     if (location.href.indexOf("dev.") > 0 || location.href.indexOf("localhost") > 0) {
         document.getElementById("devSystemWarning").style.display="block";
     }
-    if (location.href.indexOf("localhost") > 0) {
-        document.getElementById("devSystemWarning").innerHTML+="<br> LOCALHOST";
-    }
+ //   if (location.href.indexOf("localhost") > 0) {
+  //      document.getElementById("devSystemWarning").innerHTML+="<br> LOCALHOST";
+  //  }
 </script>
 
 <%
@@ -526,7 +533,7 @@ function emailValidate(message) {
                     <!--h1 class="page-header">Dashboard</h1-->
                     <c:choose>
                         <c:when test="${action!=null}">
-                            <h4 style="color:#1A80B6;">${action}  </h4>
+                            <h4 style="color:#1A80B6;padding-top:10px;">${action}  </h4>
                     <c:if test="${study!=null && study.pi!=null}">
                     <small><strong>PI:</strong> ${study.pi}&nbsp; &nbsp;
                         <c:if test="${fn:length( publication.articleIds)>0}">
