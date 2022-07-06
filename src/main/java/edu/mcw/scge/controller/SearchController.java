@@ -68,8 +68,8 @@ public class SearchController{
         if(facetSearch) {
             //   return "search/resultsTable";
             //    return "search/resultsView";
-            if(getFilterMap(req).size()==1){
-                SearchResponse searchResponse= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
+      //      if(getFilterMap(req).size()==1){
+       //         SearchResponse searchResponse= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
                 if(getFilterMap(req).size()==1){
                     SearchResponse oneCategoryFilterAggs= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
                     if(oneCategoryFilterAggs!=null) {
@@ -83,11 +83,13 @@ public class SearchController{
 
                 }
 
-            }
+           // }
        //     return "search/resultsPage";
         }
     //    else {
-            req.setAttribute("action", "Search Results: " + sr.getHits().getTotalHits() + " for " + searchTerm);
+        req.setAttribute("facets", Facet.displayNames);
+
+        req.setAttribute("action", "Search Results: " + sr.getHits().getTotalHits() + " for " + searchTerm);
             req.setAttribute("page", "/WEB-INF/jsp/search/results");
         req.setAttribute("filterMap", getFilterMap(req));
 
@@ -173,12 +175,8 @@ public class SearchController{
         boolean consortiumMember=access.isConsortiumMember(user.getId());
         List<String> categories=Arrays.asList(category1, category2);
         SearchResponse sr=services.getSearchResults(categories,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
-        boolean facetSearch=false;
-        if(req.getParameter("facetSearch")!=null)
-            facetSearch= req.getParameter("facetSearch").equals("true");
         req.setAttribute("searchTerm", searchTerm);
         req.setAttribute("sr", sr);
-        Map<String, List<Terms.Bucket>>aggregations=services.getSearchAggregations(sr);
         Map<String, Aggregation> aggregationMap = new HashMap<>(sr.getAggregations().asMap());
         req.setAttribute("aggregations",aggregationMap);
 
@@ -199,6 +197,7 @@ public class SearchController{
 */
                 req.setAttribute("action", "Studies And Experiments");
 
+        req.setAttribute("facets", Facet.displayNames);
 
 
         req.setAttribute("page", "/WEB-INF/jsp/search/results");

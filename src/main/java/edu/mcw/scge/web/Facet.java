@@ -12,7 +12,7 @@ public class Facet {
     {
         displayNames = new HashMap<>();
         displayNames.put("editorType", "Genome Editor Type");
-        displayNames.put("editorSubType", "Genome Eidtor Subtype");
+        displayNames.put("editorSubType", "Genome Editor Subtype");
         displayNames.put("editorSpecies", "Genome Editor Species");
 
         displayNames.put("deliveryType", "Delivery System Type");

@@ -42,8 +42,8 @@ public class IndexServices {
 
     }
     public void buildAggregations(SearchSourceBuilder srb, List<String> categories){
-        if(categories!=null && categories.size()==1){
-            if(categories.get(0).equalsIgnoreCase("Genome Editor")
+        if(categories!=null && categories.size()==1 || (categories==null || (categories.size()==0))){
+            if(categories==null || categories.get(0).equalsIgnoreCase("Genome Editor")
                     || categories.get(0).equalsIgnoreCase("Delivery System")
             ||categories.get(0).equalsIgnoreCase("Vector")
                     ||categories.get(0).equalsIgnoreCase("Experiment")){
@@ -51,48 +51,48 @@ public class IndexServices {
                 srb.aggregation(this.buildSearchAggregations("editorSubType"));
                 srb.aggregation(this.buildSearchAggregations("editorSpecies"));
             }
-            if(categories.get(0).equalsIgnoreCase("Model System")
+            if(categories==null ||  categories.get(0).equalsIgnoreCase("Model System")
                     || categories.get(0).equalsIgnoreCase("Delivery System")
             || categories.get(0).equalsIgnoreCase("Vector")
                     ||categories.get(0).equalsIgnoreCase("Experiment")){
                 srb.aggregation(this.buildSearchAggregations("modelType"));
                 srb.aggregation(this.buildSearchAggregations("modelSubtype"));
                 srb.aggregation(this.buildSearchAggregations("modelOrganism"));
-                if(categories.get(0).equalsIgnoreCase("Model System"))
+                if(categories==null || categories.get(0).equalsIgnoreCase("Model System"))
                 srb.aggregation(this.buildSearchAggregations("transgeneReporter"));
             }
-            if(categories.get(0).equalsIgnoreCase("Delivery System")
+            if(categories==null || categories.get(0).equalsIgnoreCase("Delivery System")
                     ||categories.get(0).equalsIgnoreCase("Experiment")){
                 srb.aggregation(this.buildSearchAggregations("deliveryType"));
                 srb.aggregation(this.buildSearchAggregations("deliverySubtype"));
                 srb.aggregation(this.buildSearchAggregations("deliverySpecies"));
 
             }
-            if(categories.get(0).equalsIgnoreCase("Delivery System") ||
+            if(categories==null || categories.get(0).equalsIgnoreCase("Delivery System") ||
                     categories.get(0).equalsIgnoreCase("Guide") ||
                     categories.get(0).equalsIgnoreCase("Vector")
                     ||categories.get(0).equalsIgnoreCase("Experiment")) {
                 srb.aggregation(this.buildSearchAggregations("tissueTerm"));
             }
-            if(categories.get(0).equalsIgnoreCase("Guide")) {
+            if(categories==null || categories.get(0).equalsIgnoreCase("Guide")) {
                 srb.aggregation(this.buildSearchAggregations("guideSpecies"));
                 srb.aggregation(this.buildSearchAggregations("guideCompatibility"));
 
              //   srb.aggregation(this.buildSearchAggregations("target"));
 
             }
-            if(categories.get(0).equalsIgnoreCase("Guide") ||
+            if(categories==null || categories.get(0).equalsIgnoreCase("Guide") ||
                     categories.get(0).equalsIgnoreCase("Vector")
                     ||categories.get(0).equalsIgnoreCase("Experiment")) {
                 srb.aggregation(this.buildSearchAggregations("guideTargetLocus"));
 
             }
-            if(categories.get(0).equalsIgnoreCase("Vector")) {
+            if(categories==null || categories.get(0).equalsIgnoreCase("Vector")) {
                 //      srb.aggregation(this.buildSearchAggregations(  "vectorName"));
                 srb.aggregation(this.buildSearchAggregations(  "vectorType"));
                 srb.aggregation(this.buildSearchAggregations(   "vectorSubtype"));
             }
-            if(categories.get(0).equalsIgnoreCase("Study") || categories.get(0).equalsIgnoreCase("Experiment")) {
+            if(categories==null || categories.get(0).equalsIgnoreCase("Study") || categories.get(0).equalsIgnoreCase("Experiment")) {
                 srb.aggregation(this.buildSearchAggregations("experimentType"));
             }
             srb.aggregation(this.buildSearchAggregations("pi"));
@@ -101,6 +101,14 @@ public class IndexServices {
             srb.aggregation(this.buildSearchAggregations("initiative"));
             srb.aggregation(this.buildSearchAggregations("studyType"));
 
+        }
+        if(categories!=null && categories.size()==2){
+            srb.aggregation(this.buildSearchAggregations("experimentType"));
+            srb.aggregation(this.buildSearchAggregations("pi"));
+            srb.aggregation(this.buildSearchAggregations("access"));
+            srb.aggregation(this.buildSearchAggregations("status"));
+            srb.aggregation(this.buildSearchAggregations("initiative"));
+            srb.aggregation(this.buildSearchAggregations("studyType"));
         }
 
 
@@ -346,6 +354,7 @@ public class IndexServices {
             srb.query(this.buildBoolQuery(categories, searchTerm, null, DCCNIHMember,consortiumMember));
             srb.aggregation(this.buildFilterAggregations(filterMap.entrySet().iterator().next().getKey(), ""));
         }
+        srb.aggregation(this.buildAggregations("category"));
 
         srb.size(0);
         SearchRequest searchRequest=new SearchRequest(searchIndex);
