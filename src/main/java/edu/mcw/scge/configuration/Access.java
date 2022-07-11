@@ -51,15 +51,30 @@ public class Access {
         }
     }
 
+    /**
+     * verify if the logged in person is PI or Submitter or POC
+     * @param p
+     * @param s
+     * @return
+     * @throws Exception
+     */
     public boolean canUpdateTier(Person p, Study s) throws Exception {
 
-        List<PersonInfo> personInfoRecords= this.getPersonInfoRecords(p.getId());
+        //   List<PersonInfo> personInfoRecords= this.getPersonInfoRecords(p.getId());
 
-        for(PersonInfo i:personInfoRecords){
-              if (s.getSubmitterId()==p.getId() || s.getPiId()==p.getId()) {
-                  return true;
-              }
+        //   for(PersonInfo i:personInfoRecords){
+        if (s.getSubmitterId()==p.getId() || s.getPiId()==p.getId()) {
+            return true;
+        }else{
+            List<Person> pocs=sdao.getStudyPOC(s.getStudyId());
+
+            for (Person poc : pocs) {
+                if(poc.getId()==p.getId()) {
+                    return true;
+                }
+            }
         }
+        //    }
         return isAdmin(p);
     }
 
