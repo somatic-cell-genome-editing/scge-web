@@ -75,9 +75,9 @@
 
         <div class="col-7">
             <table class="table table-sm summary" >
-                <tr ><td class="header" >Symbol</td><td>&nbsp;<%=SFN.parse(editor.getSymbol())%></td></tr>
+                <tr ><td class="header" >Symbol</td><td><%=SFN.parse(editor.getSymbol())%></td></tr>
                 <tr ><td class="header" >Description</td><td><%=SFN.parse(editor.getEditorDescription())%></td></tr>
-                <tr ><td class="header">Species</td><td>&nbsp;<%=SFN.parse(editor.getSpecies())%></td></tr>
+                <tr ><td class="header">Species</td><td><%=SFN.parse(editor.getSpecies())%></td></tr>
                 <tr ><td class="header">Type</td><td style="white-space: nowrap"><%=SFN.parse(editor.getType())%></td></tr>
                 <tr ><td class="header">Subtype</td><td style="white-space: nowrap"><%=SFN.parse(editor.getSubType())%></td></tr>
                 <tr ><td class="header">Alias</td><td style="white-space: nowrap"><%=SFN.parse(editor.getAlias())%></td></tr>

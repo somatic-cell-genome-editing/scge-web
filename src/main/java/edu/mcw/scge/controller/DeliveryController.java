@@ -116,6 +116,8 @@ public class DeliveryController {
         }
         req.setAttribute("associatedPublications", associatedPublications);
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(system.getId()));
+        req.setAttribute("seoDescription",system.getDescription());
+        req.setAttribute("seoTitle",system.getName());
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

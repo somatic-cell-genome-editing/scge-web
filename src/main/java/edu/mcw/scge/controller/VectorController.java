@@ -108,6 +108,8 @@ public class VectorController {
         }
         req.setAttribute("associatedPublications", associatedPublications);
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(v.getVectorId()));
+        req.setAttribute("seoDescription",v.getDescription());
+        req.setAttribute("seoTitle",v.getName());
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

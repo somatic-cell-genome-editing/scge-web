@@ -61,7 +61,7 @@ public class ModelController {
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,mod,null,null));
 
         req.setAttribute("model", mod);
-        req.setAttribute("action","Model System: " + mod.getName());
+        req.setAttribute("action","Model System: " + mod.getDisplayName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/model");
 
         StudyDao sdao = new StudyDao();
@@ -114,6 +114,8 @@ public class ModelController {
         req.setAttribute("associatedPublications", associatedPublications);
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(mod.getModelId()));
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Model%20System?searchTerm='>Models</a>");
+        req.setAttribute("seoDescription",mod.getDescription());
+        req.setAttribute("seoTitle",mod.getDisplayName());
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
