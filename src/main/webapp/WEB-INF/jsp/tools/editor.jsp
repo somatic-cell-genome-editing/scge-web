@@ -32,7 +32,6 @@
 
 <% List<Guide> relatedGuides = (List<Guide>) request.getAttribute("guides");
     Editor editor = (Editor) request.getAttribute("editor");
-    List<Editor> comparableEditors= (List<Editor>) request.getAttribute("comparableEditors");
 
 %>
 
@@ -52,9 +51,6 @@
     <a href="#proteinSequence">Protein Sequence</a>
     <%}%>
 
-    <% if(comparableEditors!=null && comparableEditors.size()>0){%>
-    <a href="#comparable">Comparable Editors</a>
-    <%}%>
     <% if(relatedGuides!=null && relatedGuides.size()>0){%>
     <a href="#relatedGuides">Related Guides</a>
     <%}%>
@@ -134,23 +130,6 @@
 
                 <tr ><td style="width: 10%"></td><td><pre><%=UI.formatFASTA(editor.getProteinSequence())%></pre></td></tr>
 
-            </table>
-        </div>
-    </div>
-    <hr>
-    <%}%>
-    <%if(comparableEditors!=null && comparableEditors.size()>0){%>
-    <div id="comparable">
-        <h4 class="page-header" style="color:grey;">Comparable Editors</h4>
-        <div class="container" align="center">
-            <table style="width: 80%">
-                <tr><td style="width: 10%"></td>
-                    <td>
-                        <%for (Editor cEditor: comparableEditors) { %>
-                        <a href="/toolkit/data/editors/editor?id=<%=cEditor.getId()%>"><%=cEditor.getSymbol()%></a><br>
-                        <% } %>
-                    </td>
-                </tr>
             </table>
         </div>
     </div>
