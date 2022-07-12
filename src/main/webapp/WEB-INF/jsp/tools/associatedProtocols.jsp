@@ -87,7 +87,7 @@
 </table>
 
 <% } else {  %>
-    &nbsp;&nbsp;&nbsp;&nbsp;None Associated (as protocols are added they will show up here)
+    &nbsp;&nbsp;None Associated
 
 <% }
     //close scope
