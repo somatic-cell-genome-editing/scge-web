@@ -524,7 +524,7 @@ function emailValidate(message) {
 
     <div id="main">
         <% if (request.getAttribute("crumbtrail") != null) {%>
-        <div class="container-fluid" style="padding-bottom: 2%"><%=request.getAttribute("crumbtrail")%></div>
+        <div class="container-fluid" style="padding-bottom: 2px;"><%=request.getAttribute("crumbtrail")%></div>
         <%}%>
         <c:if test="${destination!='create'}">
             <div class="" style="margin-top: 0;padding-top: 0">
