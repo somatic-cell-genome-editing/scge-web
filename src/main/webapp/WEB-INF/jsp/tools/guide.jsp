@@ -52,6 +52,8 @@
     List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
     List<OffTargetSite> offTargetSites = (List<OffTargetSite>) request.getAttribute("offTargetSites");
 
+    List<Guide> synonymousGuides = (List<Guide>) request.getAttribute("synonymousGuides");
+
 %>
 
 <%
@@ -95,6 +97,15 @@
     <div class="p-2">
         <table class="table table-sm summary">
             <tr ><th class="header">Lab ID</th><td>&nbsp;<%=SFN.parse(g.getGrnaLabId())%></td></tr>
+
+            <% if (synonymousGuides.size()>0) { %>
+            <tr ><th class="header">Also Known As</th><td>&nbsp;
+            <% for (Guide tmpGuide: synonymousGuides) { %>
+                <a href="/toolkit/data/guide/system?id=<%=tmpGuide.getGuide_id()%>"><%=SFN.parse(tmpGuide.getGrnaLabId())%></a><br>
+            <% } %>
+            </td></tr>
+            <% } %>
+
             <tr ><th class="header">Source</th><td>&nbsp;<%=SFN.parse(g.getSource())%></td></tr>
             <tr ><th  class="header" >Target Locus</th><td>&nbsp;<%=SFN.parse(g.getTargetLocus())%></td></tr>
             <tr ><th class="header">Species</th><td>&nbsp;<%=SFN.parse(g.getSpecies())%></td></tr>
@@ -109,9 +120,9 @@
 
             <tr ><th class="header">Target Sequence</th><td>&nbsp;<%=SFN.parse(g.getTargetSequence())%></td></tr>
             <tr ><th class="header" style=" white-space: nowrap;">Target Sequence&nbsp;+ PAM</th><td>&nbsp;<%=SFN.parse(g.getPam())%></td></tr>
-            <tr ><td class="header">Position</td><td style="white-space: nowrap">
+            <tr ><th class="header">Position</th><td style="white-space: nowrap">
                 <% if (!SFN.parse(g.getChr()).equals("")) {%>
-                <%=SFN.parse(g.getAssembly())%>/<%=SFN.parse(g.getChr())%>:<%=SFN.parse(g.getStart())%>-<%=SFN.parse(g.getStop())%> (<%=SFN.parse(g.getStrand())%>)
+                &nbsp;<%=SFN.parse(g.getAssembly())%>/<%=SFN.parse(g.getChr())%>:<%=SFN.parse(g.getStart())%>-<%=SFN.parse(g.getStop())%> (<%=SFN.parse(g.getStrand())%>)
                 <%}%>
             </td></tr>
             <tr><td colspan="2"><hr></td></tr>
