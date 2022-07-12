@@ -99,9 +99,9 @@
             <tr ><th class="header">Lab ID</th><td>&nbsp;<%=SFN.parse(g.getGrnaLabId())%></td></tr>
 
             <% if (synonymousGuides.size()>0) { %>
-            <tr ><th class="header">Also Known As</th><td>&nbsp;
+            <tr ><th class="header">Also Known As</th><td>
             <% for (Guide tmpGuide: synonymousGuides) { %>
-                <a href="/toolkit/data/guide/system?id=<%=tmpGuide.getGuide_id()%>"><%=SFN.parse(tmpGuide.getGrnaLabId())%></a><br>
+                &nbsp;<a href="/toolkit/data/guide/system?id=<%=tmpGuide.getGuide_id()%>"><%=SFN.parse(tmpGuide.getGuide())%></a><br>
             <% } %>
             </td></tr>
             <% } %>
