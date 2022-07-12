@@ -69,6 +69,10 @@
 <c:if test="${fn:length(aggregations.category.buckets)==1}">
     <div class="p-2" style="border-bottom: 2px solid black">Filter By ...&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
 </c:if>
+    <c:if test="${fn:length(aggregations.category.buckets)>1}">
+        <div class="p-2" style="border-bottom: 2px solid black">OR Filter By ...&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
+    </c:if>
+
 
     <form action="/toolkit/data/search/results/${category}" method="get" >
         <input type="hidden" name="searchTerm" value="${searchTerm}"/>
@@ -91,8 +95,11 @@
         <c:if test="${category=='Vector'}">
             <%@include file="vectorFacets.jsp"%>
         </c:if>
-        <c:if test="${category=='Experiment'}">
+        <c:if test="${category=='Experiment' ||  (fn:length(aggregations.category.buckets)>1 && action!='Studies And Experiments')}">
             <%@include file="experimentFacets.jsp"%>
+        </c:if>
+        <c:if test="${fn:length(aggregations.category.buckets)==2 && action=='Studies And Experiments'}">
+
         </c:if>
     </form>
 </div>
