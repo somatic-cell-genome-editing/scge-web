@@ -441,7 +441,7 @@ function emailValidate(message) {
 
                         </c:when>
                         <c:otherwise>
-                            <a href="/toolkit/login/google">Google Login</a>
+                            <a href="/toolkit/login.jsp" title="Consortium Member Sign In"><button class="btn btn-primary btn-sm">Login</button></a>
                         </c:otherwise>
                     </c:choose>
 

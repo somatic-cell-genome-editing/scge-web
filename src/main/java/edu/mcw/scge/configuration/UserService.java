@@ -14,8 +14,31 @@ import java.util.Map;
 @Service
 public class UserService {
 
+    public static Person guestAccount = null;
+
     PersonDao pdao=new PersonDao();
     public Person getCurrentUser(HttpSession session) throws Exception {
+
+        if (UserService.guestAccount == null) {
+            UserService.guestAccount=new PersonDao().getPersonById(SecurityConfiguration.GUEST_ACCOUNT_ID).get(0);
+        }
+
+
+       // if (session.getAttribute("person") == null) {
+       //     PersonDao pdao = new PersonDao();
+       //     Person p = pdao.getPersonById(1884).get(0);
+       //     this.setCurrentUser(p,session);
+
+
+           // Map attributes = (Map) session.getAttribute("userAttributes");
+           // attributes.put("email", p.getEmail());
+           // attributes.put("name", p.getName());
+           // attributes.put("personId",p.getId());
+
+        //    session.setAttribute("userAttributes",attributes);
+       // }
+
+
         if (session.getAttribute("person") != null) {
             return (Person) session.getAttribute("person");
         }else {
@@ -35,7 +58,12 @@ public class UserService {
                 }
             }
         }
-          return null;
+
+        if (SecurityConfiguration.REQUIRE_AUTHENTICATION) {
+            return null;
+        }else {
+            return UserService.guestAccount;
+        }
     }
 
     public void setCurrentUser(Person p, HttpSession session) {

@@ -89,7 +89,7 @@ public class SearchController{
        //     return "search/resultsPage";
         }
     //    else {
-            req.setAttribute("action", sr.getHits().getTotalHits() + " Results Found");
+            req.setAttribute("action", sr.getHits().getTotalHits() + " results for " + searchTerm);
             req.setAttribute("page", "/WEB-INF/jsp/search/results");
         req.setAttribute("filterMap", getFilterMap(req));
         //req.setAttribute("seoDescription",guide.getGuideDescription());

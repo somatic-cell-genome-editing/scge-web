@@ -55,7 +55,10 @@ import java.util.stream.Collectors;
 @PropertySource("classpath:application.properties")
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-   private static List<String> clients = Arrays.asList("google");
+   public static final Boolean REQUIRE_AUTHENTICATION=false;
+    public static final int GUEST_ACCOUNT_ID=1884;
+
+    private static List<String> clients = Arrays.asList("google");
 
     /*   @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
@@ -77,40 +80,70 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/","/home", "/logout", "/oauth_login", "/common/**", "/data/requestAccount", "/loginFailure", "/images/**").permitAll()
-                //.antMatchers("**").permitAll()
+        if (SecurityConfiguration.REQUIRE_AUTHENTICATION) {
+            http.authorizeRequests()
+                    .antMatchers("/","/home", "/logout", "/oauth_login", "/common/**", "/data/requestAccount", "/loginFailure", "/images/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/")
+                    .deleteCookies("JSESSIONID")
+                    .invalidateHttpSession(true)
+                    .permitAll()
+                    .and()
+                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .and()
+                    .oauth2Login()
+                    .loginPage("/loginSuccessPage")
+                    .permitAll()
+                    .defaultSuccessUrl("/loginSuccessPage", true)
+                    .failureUrl("/loginFailure")
+                    .clientRegistrationRepository(clientRegistrationRepository())
+                    .authorizedClientService(authorizedClientService())
+                    .authorizationEndpoint()
+                    .baseUri("/login")
+                    .and()
+                    .tokenEndpoint()
+                    .accessTokenResponseClient(accessTokenResponseClient())
 
-                //      .antMatchers("/","/toolkit/**","/toolkit/delivery/**", "/logout", "/oauth_login", "/common/**", "/data/**").permitAll()
-        //      .antMatchers("/admin/**").access("hasRole('ADMIN')")
-        //      .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")
+            ;
 
-           .anyRequest().authenticated()
-                .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-                .permitAll()
-                .and()
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and()
-                .oauth2Login()
-                .loginPage("/")
-                .permitAll()
-          //    .successHandler(successHandler())
-                .defaultSuccessUrl("/loginSuccessPage", true)
-                .failureUrl("/loginFailure")
-                .clientRegistrationRepository(clientRegistrationRepository())
-                .authorizedClientService(authorizedClientService())
-                .authorizationEndpoint()
-                .baseUri("/login")
-                .and()
-                .tokenEndpoint()
-                .accessTokenResponseClient(accessTokenResponseClient())
+        }else {
+            http.authorizeRequests()
+                    .antMatchers("**").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/")
+                    .deleteCookies("JSESSIONID")
+                    .invalidateHttpSession(true)
+                    .permitAll()
+                    .and()
+                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .and()
+                    .oauth2Login()
+                    .loginPage("/loginSuccessPage")
+                    .permitAll()
+                    //    .successHandler(successHandler())
+                    .defaultSuccessUrl("/loginSuccessPage", true)
+                    .failureUrl("/loginFailure")
+                    .clientRegistrationRepository(clientRegistrationRepository())
+                    .authorizedClientService(authorizedClientService())
+                    .authorizationEndpoint()
+                    .baseUri("/login")
+                    .and()
+                    .tokenEndpoint()
+                    .accessTokenResponseClient(accessTokenResponseClient())
 
-              ;
+            ;
+
+        }
+
+
+
+
         http.headers().defaultsDisabled().cacheControl();
 
     }
