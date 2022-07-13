@@ -97,15 +97,6 @@
     <div class="p-2">
         <table class="table table-sm summary">
             <tr ><th class="header">Lab ID</th><td>&nbsp;<%=SFN.parse(g.getGrnaLabId())%></td></tr>
-
-            <% if (synonymousGuides.size()>0) { %>
-            <tr ><th class="header">Also Known As</th><td>
-            <% for (Guide tmpGuide: synonymousGuides) { %>
-                &nbsp;<a href="/toolkit/data/guide/system?id=<%=tmpGuide.getGuide_id()%>"><%=SFN.parse(tmpGuide.getGuide())%></a><br>
-            <% } %>
-            </td></tr>
-            <% } %>
-
             <tr ><th class="header">Source</th><td>&nbsp;<%=SFN.parse(g.getSource())%></td></tr>
             <tr ><th  class="header" >Target Locus</th><td>&nbsp;<%=SFN.parse(g.getTargetLocus())%></td></tr>
             <tr ><th class="header">Species</th><td>&nbsp;<%=SFN.parse(g.getSpecies())%></td></tr>
@@ -207,7 +198,37 @@
     <hr>
     <%}%>
 
-   <% if(relatedEditors!=null && relatedEditors.size()>0){%>
+
+
+
+    <% if (synonymousGuides.size()>0) { %>
+
+    <div id="synonymousGuides">
+        <h4 class="page-header" style="color:grey;">Other Guides That Target The Same Sequence</h4>
+        <table class="table report-section" style="width:80%">
+            <tr>
+                <td style="width:50%" >
+                    <table class="table report-section" style="width:100%">
+                        <tr>
+                            <td >
+                                <% for (Guide tmpGuide: synonymousGuides) { %>
+                                <li><a href="/toolkit/data/guide/system?id=<%=tmpGuide.getGuide_id()%>"><%=SFN.parse(tmpGuide.getGuide())%></a>&nbsp;(<%=tmpGuide.getGrnaLabId()%>)</li>
+                                <% } %>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width:50%" ></td>
+            </tr>
+        </table>
+
+    </div>
+    <hr>
+    <% } %>
+
+
+
+    <% if(relatedEditors!=null && relatedEditors.size()>0){%>
     <div id="editor">
     <h4 class="page-header" style="color:grey;">Related Editor</h4>
     <table class="table report-section" style="width:80%">
@@ -215,10 +236,9 @@
             <td style="width:50%" >
                 <table class="table report-section" style="width:100%">
                     <tr>
-                        <td style="width:50%"> Related Editors</td>
                         <td >
                                 <%for (Editor relatedEditor: relatedEditors) { %>
-                            <a href="/toolkit/data/editors/editor?id=<%=relatedEditor.getId()%>" ><%=UI.replacePhiSymbol(relatedEditor.getSymbol())%></a><br>
+                            <li><a href="/toolkit/data/editors/editor?id=<%=relatedEditor.getId()%>" ><%=UI.replacePhiSymbol(relatedEditor.getSymbol())%></a></li><br>
                             <% } %>
                         </td>
                     </tr>
@@ -229,7 +249,6 @@
     </table>
 
     </div>
-    <hr>
     <%}%>
 
     <%if(!SFN.parse(g.getVectorId()).equals("")){%>

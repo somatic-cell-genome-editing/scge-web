@@ -99,33 +99,38 @@ List<String> options = new ArrayList<>();
         if (unitList.size() > 1 && unitList.size() != resultDetail.keySet().size())
             options.add("Units");
     }
-    System.out.println(options);
 %>
 
 <% try {  %>
 
         <%@include file="recordFilters.jsp"%>
-<div>
-    <% if( unitList.size() == 1 && unitList.get(0).equalsIgnoreCase("signal") ) {
 
-    }  else { %>
-    <b style="font-size:14px;">Color By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
-        <% for(String filter: options) {%>
-        <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
-        <%} %>
-    </select>
-    <% } %>
+<div id="graphOptions" style="padding:10px;margin-bottome:15px;display:none;">
+
 </div>
 
-<br>
-        <!--table width="600"><tr><td style="font-weight:700;"><%=ex.getName()%></td><td align="right"></td></tr></table-->
-       <% //if(resultMap != null && resultMap.size()!= 0) {%>
-        <div class="chart-container" id = "chartDiv">
-    <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
 
-        </div>
-<% //}%>
 <div>
+</div>
+
+<div id="barChart">
+<% if( unitList.size() == 1 && unitList.get(0).equalsIgnoreCase("signal") ) {
+
+}  else { %>
+<hr>
+    <b style="font-size:14px;">Color By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
+    <% for(String filter: options) {%>
+    <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
+    <%} %>
+</select>
+<% } %>
+
+
+<br><br>
+        <div class="chart-container" id = "chartDiv">
+            <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
+        </div>
+</div>
 <hr>
 
 
@@ -790,16 +795,49 @@ List<String> options = new ArrayList<>();
                 });
 
 /*
-                for (var i = 0; i < tissues.length; i++) {
-                    applyFilters(document.getElementById(tissues[i]));
+            <div id="graphOptions">
+                    3 different Units displayed in table<br>
+                <li><a href='javascript:void(0)'>Graph Unit 1</a></li>
+                <li>Graph Unit 2</li>
+                <li>Graph Unit 2</li>
+                <li>Display All Records (Mix Units)</li>
+                </div>
+*/
+
+                var elms = document.getElementsByName("checkunits");
+                var count=0;
+                var graphOps = "";
+                elms.forEach(function(ele) {
+                    count++
+                    graphOps+="<li><a href='javascript:graphUnit(\"" + ele.id + "\")'>Graph " + ele.id + "</a></li>";
+                });
+
+                graphOps+="<li><a href='javascript:graphUnit(\"all\")'>Graph All Records (Mixed Units)</a></li>";
+
+
+
+                if(count > 1) {
+                    document.getElementById("graphOptions").innerHTML=count + " Different Units Exist in Dataset<br>" + graphOps;
+                    document.getElementById("barChart").style.display="none";
+                    document.getElementById("graphOptions").style.display="block";
                 }
-                for (var i = 0; i < resultTypes.length; i++) {
-                    applyFilters(document.getElementById(resultTypes[i]));
-                }
-                for (var i = 0; i < cellTypes.length; i++) {
-                    applyFilters(document.getElementById(cellTypes[i]));
-                }
- */
+
+            }
+
+            function graphUnit(unit) {
+                var elms = document.getElementsByName("checkunits");
+                elms.forEach(function(ele) {
+                    if (ele.id === unit || unit==="all") {
+                        ele.checked=true;
+                    }else {
+                        ele.checked=false;
+                    }
+                    applyFilters(ele)
+                    document.getElementById("barChart").style.display="block";
+                });
+
+
+
             }
 
 

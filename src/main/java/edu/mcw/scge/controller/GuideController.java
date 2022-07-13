@@ -43,7 +43,7 @@ public class GuideController {
     public String getGuide(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         Guide guide= guideDao.getGuideById(Long.parseLong(req.getParameter("id"))).get(0);
 
-        List<Guide> tmpSynonoymousGuides=guideDao.getGuideByFullGuideSequence(guide.getFullGuide());
+        List<Guide> tmpSynonoymousGuides=guideDao.getGuidesByTargetSequence(guide.getTargetSequence());
 
         List<Guide> synononymousGuides = new ArrayList<Guide>();
 
