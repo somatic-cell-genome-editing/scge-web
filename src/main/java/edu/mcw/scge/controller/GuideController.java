@@ -41,28 +41,12 @@ public class GuideController {
 
     @RequestMapping(value="/system")
     public String getGuide(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        Guide guide= guideDao.getGuideById(Long.parseLong(req.getParameter("id"))).get(0);
-
-        List<Guide> tmpSynonoymousGuides=guideDao.getGuidesByTargetSequence(guide.getTargetSequence());
-
-        List<Guide> synononymousGuides = new ArrayList<Guide>();
-
-        for (Guide tmpGuide: tmpSynonoymousGuides) {
-            if (tmpGuide.getGuide_id() != guide.getGuide_id()) {
-                synononymousGuides.add(tmpGuide);
-            }
-        }
-
-        req.setAttribute("synonymousGuides",synononymousGuides);
-
         DBService dbService = new DBService();
         UserService userService = new UserService();
         Person p=userService.getCurrentUser(req.getSession());
         edu.mcw.scge.configuration.Access access = new Access();
 
-        if(!access.isLoggedIn()) {
-            return "redirect:/";
-        }
+        Guide guide= guideDao.getGuideById(Long.parseLong(req.getParameter("id"))).get(0);
 
         if (!access.hasGuideAccess(guide,p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
@@ -70,6 +54,24 @@ public class GuideController {
             return null;
 
         }
+
+
+        List<Guide> tmpSynonoymousGuides=guideDao.getGuidesByTargetSequence(guide.getTargetSequence());
+
+        List<Guide> synononymousGuides = new ArrayList<Guide>();
+
+        for (Guide tmpGuide: tmpSynonoymousGuides) {
+            if (tmpGuide.getGuide_id() != guide.getGuide_id()) {
+                if (access.hasGuideAccess(tmpGuide,p)) {
+                    synononymousGuides.add(tmpGuide);
+                }
+            }
+        }
+
+        req.setAttribute("synonymousGuides",synononymousGuides);
+
+
+
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,guide,null,null));
 
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Guide?searchTerm='>Guides</a>");
