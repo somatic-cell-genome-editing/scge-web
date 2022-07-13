@@ -212,7 +212,7 @@
                         <tr>
                             <td >
                                 <% for (Guide tmpGuide: synonymousGuides) { %>
-                                <li><a href="/toolkit/data/guide/system?id=<%=tmpGuide.getGuide_id()%>"><%=SFN.parse(tmpGuide.getGuide())%></a>&nbsp;(<%=tmpGuide.getGrnaLabId()%>)</li>
+                                <li><a href="/toolkit/data/guide/system?id=<%=tmpGuide.getGuide_id()%>"><%=SFN.parse(tmpGuide.getGuide())%></a></li>
                                 <% } %>
                             </td>
                         </tr>
