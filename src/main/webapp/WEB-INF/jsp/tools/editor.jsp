@@ -91,6 +91,9 @@
                 <tr ><td class="header">Catalog</td><td style="white-space: nowrap"><%=SFN.parse(editor.getCatalog())%></td></tr>
                 <tr ><td class="header">RRID</td><td style="white-space: nowrap"><%=SFN.parse(editor.getRrid())%></td></tr>
                 <tr><td colspan="2"><hr></td></tr>
+
+                <% if (!SFN.parse(editor.getTargetLocus()).equals("") || !SFN.parse(editor.getTarget_sequence()).equals("")) { %>
+
                 <tr ><td class="header">Target Locus</td><td style="white-space: nowrap"><%=SFN.parse(editor.getTargetLocus())%></td></tr>
                 <tr ><td class="header">Target Sequence</td><td style="white-space: nowrap"><%=SFN.parse(editor.getTarget_sequence())%></td></tr>
 
@@ -101,6 +104,7 @@
                     <%}%>
                 </td></tr>
 
+                <% } %>
             </table>
 
 
