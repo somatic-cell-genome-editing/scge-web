@@ -660,12 +660,8 @@ function emailValidate(message) {
 
 
 <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
-    <li class="nav-item text-nowrap text-responsive">
-        <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fa fa-phone" aria-hidden="true"></i>Contact</a>
-    </li>
-
     <div class="container text-center">
-        <small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2019 SCGE | All Rights Reserved</small>
+        <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fa fa-phone" aria-hidden="true"></i>Contact Us</a>&nbsp;&nbsp;&nbsp;&nbsp;<small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2019 SCGE | All Rights Reserved</small>
     </div>
     <!-- Bootstrap core JavaScript
 ================================================== -->

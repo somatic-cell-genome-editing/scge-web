@@ -72,7 +72,7 @@
         e.printStackTrace();
     }
 %>
-<h4>${sr.hits.totalHits} <c:if test="${category!=null}">&nbsp;in ${category}</c:if> </h4>
+<h4>${sr.hits.totalHits} <c:if test="${category!=null}">in ${category}</c:if> </h4>
 <table class="table table-striped">
     <c:forEach items="${sr.hits.hits}" var="hit">
     <tr><td style="border-color: transparent">

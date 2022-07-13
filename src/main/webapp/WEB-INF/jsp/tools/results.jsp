@@ -44,7 +44,7 @@
 </div>
 <div class="row">
     <div class="col-md-3" >
-        <h4>Filter By Delivery Vehicle</h4>
+        <h4>Filter By Delivery System</h4>
         <ul class="list-group">
         <c:forEach items="${aggregations.deliveryAggs}" var="bkt">
 
