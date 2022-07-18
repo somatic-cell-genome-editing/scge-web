@@ -36,17 +36,7 @@ public class SearchController{
     Access access=new Access();
     UserService userService=new UserService();
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
-    @RequestMapping(value="/delivery/results")
-    public String getDeliveryResults(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
-        SearchResponse sr=services.getSearchResponse();
-        req.setAttribute("sr", sr);
-        req.setAttribute("aggregations",services.getAggregations(sr));
-        req.setAttribute("action", "Delivery Systems Results");
-        req.setAttribute("page", "/WEB-INF/jsp/tools/results");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
-        return null;
-    }
     @RequestMapping(value="/results")
     public String getResults(HttpServletRequest req, HttpServletResponse res, @RequestParam(required = false) String searchTerm) throws Exception {
         Person user=userService.getCurrentUser(req.getSession());

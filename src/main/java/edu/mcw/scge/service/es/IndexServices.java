@@ -1,12 +1,15 @@
 package edu.mcw.scge.service.es;
 
+import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.web.SCGEContext;
+import org.apache.commons.codec.language.bm.Rule;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.*;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -23,6 +26,7 @@ import java.util.stream.Stream;
 
 public class IndexServices {
     private static String searchIndex;
+    Gson gson=new Gson();
     Access access=new Access();
     public SearchResponse getSearchResults(List<String>  categories, String searchTerm, Map<String, String> filterMap,boolean DCCNIHMember, boolean consortiumMember) throws IOException {
         searchIndex= SCGEContext.getESIndexName();
@@ -38,7 +42,11 @@ public class IndexServices {
        SearchRequest searchRequest=new SearchRequest(searchIndex);
        searchRequest.source(srb);
 
-        return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+       SearchResponse sr= ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        for(SearchHit hit:sr.getHits().getHits()){
+            System.out.println(hit.getHighlightFields().keySet().toString());
+        }
+       return sr;
 
     }
     public void buildAggregations(SearchSourceBuilder srb, List<String> categories){
@@ -114,30 +122,20 @@ public class IndexServices {
 
     }
     public HighlightBuilder buildHighlights(){
-        List<String> fields= Stream.concat(searchFields().stream(), mustFields().stream()).collect(Collectors.toList());
+       // List<String> fields= Stream.concat(searchFields().stream(), mustFields().stream()).collect(Collectors.toList());
+        List<String> fields = new ArrayList<>(searchFields());
         HighlightBuilder hb=new HighlightBuilder();
-       /* for(String field:fields){
+       for(String field:fields){
+
             hb.field(field);
-        }*/
+        }
        hb.field("*");
+       hb.numOfFragments(1);
+     //  hb.field("*");
+        System.out.println(gson.toJson(hb));
         return hb;
     }
 
-    public SearchResponse getSearchResponse() throws IOException {
-
-        SearchSourceBuilder srb=new SearchSourceBuilder();
-        srb.query(QueryBuilders.matchAllQuery());
-        srb.aggregation(this.buildAggregations("editor"));
-        srb.aggregation(this.buildAggregations("deliveryVehicles"));
-        srb.aggregation(this.buildAggregations("organism"));
-        srb.aggregation(this.buildAggregations("targetTissue"));
-        srb.size(1000);
-        SearchRequest searchRequest=new SearchRequest("scge_delivery_dev");
-        searchRequest.source(srb);
-
-        return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
-
-    }
     public AggregationBuilder buildAggregations(String fieldName){
         AggregationBuilder aggs= null;
         aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
@@ -367,13 +365,15 @@ public class IndexServices {
         DisMaxQueryBuilder q=new DisMaxQueryBuilder();
 
         if(searchTerm!=null && !searchTerm.equals("")) {
-            if(searchTerm.toLowerCase().contains("and")){
+            if(searchTerm.toLowerCase().contains(" and ")){
                 String searchString=String.join(" ", searchTerm.toLowerCase().split(" and "));
                 q.add(QueryBuilders.multiMatchQuery(searchString)
-                                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                                .operator(Operator.AND)
-                                .analyzer("pattern")
+                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                        .operator(Operator.AND)
+                        .analyzer("pattern")
+
                 );
+
                 q.add(QueryBuilders.multiMatchQuery(searchString)
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .operator(Operator.AND)
@@ -382,35 +382,30 @@ public class IndexServices {
                         .boost(1000)
                 );
 
-            }
-            if(searchTerm.toLowerCase().contains("or")){
+            }else if(searchTerm.toLowerCase().contains(" or ")){
                 String searchString=String.join(" ", searchTerm.toLowerCase().split(" or "));
                 q.add(QueryBuilders.multiMatchQuery(searchString)
                                 .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.OR)
-                                .analyzer("pattern")
+                        .analyzer("pattern")
+
                 );
 
-            }
-
-
-        if(!searchTerm.toLowerCase().contains("and") && searchTerm.toLowerCase().contains(" ") ) {
-                q.add(QueryBuilders.multiMatchQuery(searchTerm)
-                                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                                .operator(Operator.AND)
-                                .analyzer("pattern")
-                );
+            }else if(!searchTerm.toLowerCase().contains(" and ") && searchTerm.toLowerCase().contains(" ") ) {
             q.add(QueryBuilders.multiMatchQuery(searchTerm)
                     .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                     .operator(Operator.AND)
-                    .type(MultiMatchQueryBuilder.Type.PHRASE)
-                    .analyzer("pattern")
-                    .boost(1000)
+
             );
+                q.add(QueryBuilders.multiMatchQuery(searchTerm)
+                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                        .operator(Operator.AND)
+                        .type(MultiMatchQueryBuilder.Type.PHRASE)
+                        .analyzer("pattern")
+                        .boost(1000)
+                );
 
-            }else {
-
-            if (isNumeric(searchTerm)) {
+            }else { if (isNumeric(searchTerm)) {
                 q.add(QueryBuilders.termQuery("id", searchTerm));
             } else {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
@@ -418,21 +413,27 @@ public class IndexServices {
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
                         .analyzer("pattern")
                 );
-                q.add(QueryBuilders.multiMatchQuery(searchTerm)
-                        .field("symbol", 100.0f)
-                        .field("type", 100.0f)
-                        .field("subType", 100.0f)
-                        .field("name.ngram", 100.0f)
-                        .field("name", 100.0f)
-                        .field("symbol.ngram", 100.0f)
-                        .field("tissueTerm", 100.0f)
-                        .field("termSynonyms", 50.0f)
-                        .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
-                        .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .analyzer("pattern")).boost(100);
 
             }
         }
+
+            q.add(QueryBuilders.termQuery("symbol.custom", searchTerm).boost(1000));
+            q.add(QueryBuilders.termQuery("name.custom", searchTerm).boost(1000));
+
+           q.add(QueryBuilders.matchPhrasePrefixQuery("symbol.custom", searchTerm).boost(400));
+           q.add(QueryBuilders.matchPhrasePrefixQuery("name.custom", searchTerm).boost(400));
+
+            q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).boost(100));
+            q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).boost(100));
+
+
+
+
+        /*    q.add(QueryBuilders.matchPhrasePrefixQuery("symbol", searchTerm).boost(500));
+            q.add(QueryBuilders.matchPhrasePrefixQuery("name", searchTerm).boost(500));
+            q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).boost(200));
+            q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).boost(200));*/
+
         /*   q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                            .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
                             .analyzer("")
@@ -481,27 +482,28 @@ public class IndexServices {
         return Arrays.asList(
               // "name", "name.ngram", "symbol", "symbol.ngram",
               //  "type", "subType",
+
+               "name", "name.ngram", "symbol", "symbol.ngram", "name.custom", "symbol.custom",
                 "species", "sex",
                 "description",
-                "study", "labName" , "pi",
+                "study", "labName" , "pi", "initiative",
                  "externalId", "aliases", "generatedDescription",
 
                 "editorType" , "editorSubType" ,  "editorSymbol" ,  "editorAlias" , "editorSpecies" ,
                  "editorPamPreference" , "substrateTarget" , "activity" , "fusion" , "dsbCleavageType" , "editorSource" ,
 
-                 "deliveryType" , "deliverySystemName","deliverySource" ,
+                 "deliveryType" ,"deliverySubType", "deliverySystemName","deliverySource" ,
                  "modelType" , "modelName" , "modelOrganism" , "transgene" , "transgeneReporter" , "strainCode",
 
-                 "guideSpecies", "guideTargetLocus", "guideTargetLocus.ngram", "guideTargetSequence", "guidePam", "grnaLabId","grnaLabId.ngram", "guide", "guideSource",
+                 "guideSpecies", "guideTargetLocus", "guideTargetLocus.ngram", "guideTargetSequence", "guidePam", "grnaLabId","grnaLabId.ngram", "guide", "guideSource","guideCompatibility",
 
                  "vectorName", "vectorType", "vectorSubtype", "genomeSerotype", "capsidSerotype", "capsidVariant", "vectorSource", "vectorLabId",
                 "vectorAnnotatedMap", "titerMethod", "modifications", "proteinSequence",
 
-             "tissueIds",
-            //    "tissueTerm", "termSynonyms",
+                "tissueIds", "tissueTerm", "termSynonyms",
                 "site", "sequence", "pam", "detectionMethod","target",
-               "studyNames"
-                //, "experimentNames"
+               "studyNames",
+                "experimentNames"
 
 
 

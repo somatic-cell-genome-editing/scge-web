@@ -187,21 +187,6 @@ public class ToolkitController {
         return "requestAccount";
     }
 
-
-    @RequestMapping(value="/delivery/results")
-    public String getDeliveryResults(HttpServletRequest req, HttpServletResponse res, Model model) throws ServletException, IOException {
-
-        //   model.addAttribute("sr", services.getSearchResponse());
-        SearchResponse sr=services.getSearchResponse();
-        req.setAttribute("sr", sr);
-        req.setAttribute("aggregations",services.getAggregations(sr));
-        req.setAttribute("action", "Delivery Systems Results");
-        req.setAttribute("page", "/WEB-INF/jsp/tools/results");
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-
-        return null;
-    }
-
     @RequestMapping(value="/editor/search")
     public String getEditorHome(HttpServletRequest req, HttpServletResponse res) throws Exception {
         EditorDao dao = new EditorDao();
