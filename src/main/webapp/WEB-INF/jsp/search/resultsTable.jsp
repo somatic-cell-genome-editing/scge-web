@@ -1,3 +1,5 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -14,7 +16,7 @@
         });
     });
 </script>
-<h4>${sr.hits.totalHits} <c:if test="${category!=null}">&nbsp;in ${category}</c:if> </h4>
+<h4>${fn:length(sr.hits.hits)}&nbsp;results <c:if test="${category!=null}">&nbsp;in ${category}</c:if> </h4>
 <table id="myTable" class="tablesorter">
     <thead>
     <tr>

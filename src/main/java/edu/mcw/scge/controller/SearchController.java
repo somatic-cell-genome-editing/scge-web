@@ -79,7 +79,7 @@ public class SearchController{
     //    else {
         req.setAttribute("facets", Facet.displayNames);
 
-        req.setAttribute("action", sr.getHits().getTotalHits() + " for " + searchTerm);
+        req.setAttribute("action", sr.getHits().getTotalHits().value + " results for " + searchTerm);
             req.setAttribute("page", "/WEB-INF/jsp/search/results");
         req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
         req.setAttribute("seoTitle","Search Result for " + searchTerm);

@@ -1,3 +1,5 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %><%--
   Created by IntelliJ IDEA.
@@ -72,7 +74,7 @@
         e.printStackTrace();
     }
 %>
-<h4>${sr.hits.totalHits} <c:if test="${category!=null}">in ${category}</c:if> </h4>
+<h4>${fn:length(sr.hits.hits)}&nbsp;results<c:if test="${category!=null}">&nbsp;in ${category}</c:if> </h4>
 <table class="table table-striped">
     <c:forEach items="${sr.hits.hits}" var="hit">
     <tr><td style="border-color: transparent">
