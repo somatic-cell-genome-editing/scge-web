@@ -230,7 +230,7 @@
 
     <% if(relatedEditors!=null && relatedEditors.size()>0){%>
     <div id="editor">
-    <h4 class="page-header" style="color:grey;">Related Editor</h4>
+    <h4 class="page-header" style="color:grey;">Related Editor›</h4>
     <table class="table report-section" style="width:80%">
         <tr>
             <td style="width:50%" >

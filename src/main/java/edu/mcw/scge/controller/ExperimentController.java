@@ -153,7 +153,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
         req.setAttribute("validationExperimentsMap",validationExperimentsMap);
         req.setAttribute("studyExperimentMap", studyExperimentMap);
-        req.setAttribute("action",grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantTitle());
+        req.setAttribute("action","Study: " + grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantTitle());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
@@ -706,7 +706,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         //req.setAttribute("editingAssay",editingAssay);
         req.setAttribute("deliveryAssay",deliveryMap);
         req.setAttribute("editingAssay",editingMap);
-        req.setAttribute("action", e.getName());
+        req.setAttribute("action", "Experiment: " + e.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
         req.setAttribute("objectSizeMap", objectSizeMap);
         req.setAttribute("uniqueFields", uniqueFields);
