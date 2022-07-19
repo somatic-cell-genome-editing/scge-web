@@ -38,7 +38,7 @@
         Experiment ex = (Experiment) request.getAttribute("experiment");
     %>
 
-    <table><tr><td width="150" valign="top"><span style="color:#1A80B6;font-weight:700; font-size:18px;">Experiment&nbsp;Description:</span></td><td style="font-size:18px;"><%=SFN.parse(ex.getDescription())%></td></tr></table>
+    <table><tr><td style="font-size:18px;"><%=SFN.parse(ex.getDescription())%></td></tr></table>
     <div id="recordTableContent" style="position:relative; left:0px; top:00px;padding-top:20px;">
 
             <%
