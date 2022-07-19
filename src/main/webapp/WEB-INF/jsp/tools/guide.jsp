@@ -255,9 +255,9 @@
     <hr>
     <div id="vector">
         <h4 class="page-header" style="color:grey;">Vector Details</h4>
-        <table style="width:80%">
+        <table style="width:95%">
             <tr>
-                <td style="width:50%">
+                <td style="width:70%">
                     <table class="table report-section" style="width:100%">
 
                         <tr ><td style="width:50%" >Ivt Construct Source</td><td><%=SFN.parse(g.getIvtConstructSource())%></td></tr>
