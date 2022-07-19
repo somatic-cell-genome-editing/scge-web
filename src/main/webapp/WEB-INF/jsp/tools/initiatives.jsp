@@ -41,7 +41,7 @@
 </table>
 
 <br>
-<h3 style="color:#2184B8;">Select and Initiative below to browse studies submitted</h3>
+<table><tr><td><h3 style="color:#2184B8;font-size:22px;">Select an Initiative below to browse studies submitted</h3></td></tr></table>
 <hr>
 <div class="row" style="width:1000px;margin:auto;">
     <div class="col-sm-6" >
