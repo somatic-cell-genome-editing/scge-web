@@ -118,7 +118,7 @@ List<String> options = new ArrayList<>();
 
 }  else { %>
 <hr>
-    <b style="font-size:14px;">Color By: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
+    <b style="font-size:16px;">Make a selection to highlight records on the chart: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
     <% for(String filter: options) {%>
     <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
     <%} %>
@@ -139,8 +139,8 @@ List<String> options = new ArrayList<>();
     <table width="100%">
         <tr>
             <td><h3>Results</h3></td>
-            <td width="100" align="right"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Selection" onclick="downloadSelected()"/></td>
-            <td width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download All" onclick="download()"/></td>
+            <td width="100" align="right"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Chart Below" onclick="downloadSelected()"/></td>
+            <td width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment" onclick="download()"/></td>
         </tr>
     </table>
 <%
