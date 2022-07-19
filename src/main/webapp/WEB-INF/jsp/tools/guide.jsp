@@ -75,7 +75,7 @@
     <a href="#sequenceViewer">Sequence Viewer</a>
     <%}%>
     <% if(relatedEditors!=null && relatedEditors.size()>0){%>
-    <a href="#editor">Related Editor</a>
+    <a href="#editor">Related Editors</a>
     <%}%>
     <%if(!SFN.parse(g.getVectorId()).equals("")){%>
     <a href="#vector">Vector</a>
@@ -144,10 +144,10 @@
     <div class="ml-auto p-2" style="margin-right: 5%">
 
         <div class="card">
-            <div class="card-header">Guide</div>
+            <!--<div class="card-header">Guide</div>-->
             <div class="card-body">
         <table >
-            <tr ><th class="scge-details-label">SCGE ID</th><td>&nbsp;<%=g.getGuide_id()%></td></tr>
+            <tr ><th class="scge-details-label" style="color:black;">SCGE ID</th><td>&nbsp;<%=g.getGuide_id()%></td></tr>
 
         </table>
             </div>
@@ -204,7 +204,7 @@
     <% if (synonymousGuides.size()>0) { %>
 
     <div id="synonymousGuides">
-        <h4 class="page-header" style="color:grey;">Other Guides That Target The Same Sequence</h4>
+        <h4 class="page-header" style="color:grey;">Other guides that target The same sequence</h4>
         <table class="table report-section" style="width:80%">
             <tr>
                 <td style="width:50%" >
@@ -230,7 +230,7 @@
 
     <% if(relatedEditors!=null && relatedEditors.size()>0){%>
     <div id="editor">
-    <h4 class="page-header" style="color:grey;">Related Editor›</h4>
+    <h4 class="page-header" style="color:grey;">Related Editors</h4>
     <table class="table report-section" style="width:80%">
         <tr>
             <td style="width:50%" >
@@ -252,6 +252,7 @@
     <%}%>
 
     <%if(!SFN.parse(g.getVectorId()).equals("")){%>
+    <hr>
     <div id="vector">
         <h4 class="page-header" style="color:grey;">Vector Details</h4>
         <table style="width:80%">
@@ -290,7 +291,7 @@
 
 
     </div>
-    <hr>
+    
     <%}%>
     <%HashMap<String,Integer> changeSeq = new HashMap<>();
         List<String> labels = new ArrayList<>();
