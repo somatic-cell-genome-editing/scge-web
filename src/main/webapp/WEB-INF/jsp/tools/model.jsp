@@ -116,15 +116,15 @@
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
 </div>
 
-<br>
+
 <div id="associatedPublications">
     <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
 </div>
-<br>
+
     <div id="associatedStudies">
 <jsp:include page="associatedStudies.jsp"/>
     </div>
-<br>
+
     <div id="associatedExperiments">
 <jsp:include page="associatedExperiments.jsp"/>
     </div>
