@@ -1,3 +1,4 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -9,7 +10,7 @@
 <div id="">
 
     <ul class="nav flex-column" >
-        <li class="nav-item jstree-open" ><strong><a onclick="searchByFilter('','${searchTerm}','', '')">All Categories (${sr.hits.totalHits})</a></strong>
+        <li class="nav-item jstree-open" ><strong><a onclick="searchByFilter('','${searchTerm}','', '')">All Categories (${fn:length(sr.hits.hits)}) results</a></strong>
             <ul class="nav flex-column">
                 <c:forEach items="${aggregations.categoryAggs}" var="bkt">
                     <!--li class="list-group-item"><a href="/toolkit/data/search/results/${bkt.key}?searchTerm=${searchTerm}">${bkt.key}</a> (${bkt.docCount})</li-->
