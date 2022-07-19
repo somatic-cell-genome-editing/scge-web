@@ -20,6 +20,29 @@
 
 </style>
 
+<table width="95%">
+    <tr>
+        <td width="300" border="1">
+            <div class="col-md-2 sidenav bg-light">
+
+                <a href="https://scge.mcw.edu/about-the-scge/">SCGE&nbsp;Consortium&nbsp;Overview</a>
+                <a href="https://scge.mcw.edu">SCGE&nbsp;Consortium&nbsp;Parent&nbsp;Site</a>
+                <a href="https://scge.mcw.edu/contact/">Contact&nbsp;Information</a>
+                <a href="https://scge.mcw.edu/policies/">Policies</a>
+
+            </div>
+
+        </td>
+        <td>
+            The SCGE Consortium is supported by the NIH Common Fund through cooperative agreements administered by the National Center for Advancing Translational Sciences,  NIH Office of the Director, National Heart, Lung, and Blood Institute, National Institute of Arthritis and Musculoskeletal and Skin Diseases, National Institute of Neurological Disorders and Stroke, National Institute of Allergy and Infectious Diseases, National Human Genome Research Institute, and National Institute of Biomedical Imaging and Bioengineering. The consortium is managed by a trans-NIH working group representing multiple NIH Institutes and Centers. For more information about the SCGE NIH Working Group and the Common Fund, please go here.
+
+        </td>
+    </tr>
+</table>
+
+<br>
+<table align="center"><tr><td><h3 style="color:#2184B8;font-size:20px;">Select and Initiative below to browse studies submitted</h3></td></tr></table>
+<hr>
 <div class="row" style="width:1000px;margin:auto;">
     <div class="col-sm-6" >
 
