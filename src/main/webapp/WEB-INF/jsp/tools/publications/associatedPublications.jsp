@@ -19,8 +19,9 @@
     }
 
 </script>
-
+<c:if test="${fn:length(associatedPublications)>0}">
 <hr>
+</c:if >
 <table width="95%">
     <tr><td>
 <c:if test="${fn:length(associatedPublications)>0}">
