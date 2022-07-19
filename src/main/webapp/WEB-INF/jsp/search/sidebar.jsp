@@ -72,9 +72,11 @@
     <c:if test="${fn:length(aggregations.category.buckets)>1}">
         <div class="p-2" style="border-bottom: 2px solid black">OR Filter By ...&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
     </c:if>
-
-
-    <form action="/toolkit/data/search/results/${category}" method="get" >
+    <c:set var="actionLink" value="/toolkit/data/search/results/${category}"/>
+    <c:if test="${action=='Studies And Experiments'}">
+        <c:set var="actionLink" value="/toolkit/data/search/results/Study/Experiment"/>
+    </c:if>
+    <form action="${actionLink}" method="get" >
         <input type="hidden" name="searchTerm" value="${searchTerm}"/>
         <input type="hidden" name="facetSearch" value="true"/>
         <c:if test="${category=='Study'}">
@@ -95,11 +97,11 @@
         <c:if test="${category=='Vector'}">
             <%@include file="vectorFacets.jsp"%>
         </c:if>
-        <c:if test="${category=='Experiment' ||  (fn:length(aggregations.category.buckets)>1 && action!='Studies And Experiments')}">
+        <c:if test="${category=='Experiment' || fn:containsIgnoreCase(action, 'results') }">
             <%@include file="experimentFacets.jsp"%>
         </c:if>
-        <c:if test="${fn:length(aggregations.category.buckets)==2 && action=='Studies And Experiments'}">
-
+        <c:if test="${action=='Studies And Experiments'}">
+            <%@include file="studyNExperimentFacets.jsp"%>
         </c:if>
     </form>
 </div>

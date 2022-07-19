@@ -60,7 +60,7 @@ public class SearchController{
             //    return "search/resultsView";
       //      if(getFilterMap(req).size()==1){
        //         SearchResponse searchResponse= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
-                if(getFilterMap(req).size()==1){
+                if(getFilterMap(req).size()==1 ){
                     SearchResponse oneCategoryFilterAggs= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
                     if(oneCategoryFilterAggs!=null) {
                         Map<String, Aggregation> oneCategoryAggs=  oneCategoryFilterAggs.getAggregations().asMap();
@@ -71,6 +71,16 @@ public class SearchController{
                         req.setAttribute("aggregations", aggregationMap);
                     }
 
+                }else{
+                    SearchResponse categoryAggs= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
+                    if(categoryAggs!=null) {
+                        Map<String, Aggregation> oneCategoryAggs=  categoryAggs.getAggregations().asMap();
+                        for(Map.Entry e:oneCategoryAggs.entrySet()){
+                            aggregationMap.put((String)e.getKey(), (Aggregation) e.getValue());
+
+                        }
+                        req.setAttribute("aggregations", aggregationMap);
+                    }
                 }
 
            // }

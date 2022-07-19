@@ -348,8 +348,9 @@ public class IndexServices {
                                                   Map<String, String> filterMap,boolean DCCNIHMember, boolean consortiumMember) throws IOException {
 
         SearchSourceBuilder srb=new SearchSourceBuilder();
+        srb.query(this.buildBoolQuery(categories, searchTerm, null, DCCNIHMember,consortiumMember));
+
         if(filterMap.size()==1) {
-            srb.query(this.buildBoolQuery(categories, searchTerm, null, DCCNIHMember,consortiumMember));
             srb.aggregation(this.buildFilterAggregations(filterMap.entrySet().iterator().next().getKey(), ""));
         }
         srb.aggregation(this.buildAggregations("category"));
@@ -420,40 +421,11 @@ public class IndexServices {
             q.add(QueryBuilders.termQuery("symbol.custom", searchTerm).boost(1000));
             q.add(QueryBuilders.termQuery("name.custom", searchTerm).boost(1000));
 
-           q.add(QueryBuilders.matchPhrasePrefixQuery("symbol.custom", searchTerm).boost(400));
-           q.add(QueryBuilders.matchPhrasePrefixQuery("name.custom", searchTerm).boost(400));
+            q.add(QueryBuilders.matchPhrasePrefixQuery("symbol.custom", searchTerm).boost(400));
+            q.add(QueryBuilders.matchPhrasePrefixQuery("name.custom", searchTerm).boost(400));
 
             q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).boost(100));
             q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).boost(100));
-
-
-
-
-        /*    q.add(QueryBuilders.matchPhrasePrefixQuery("symbol", searchTerm).boost(500));
-            q.add(QueryBuilders.matchPhrasePrefixQuery("name", searchTerm).boost(500));
-            q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).boost(200));
-            q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).boost(200));*/
-
-        /*   q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                           .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
-                            .analyzer("")
-                   //.type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                          //  .operator(Operator.AND)
-                    //  .filter(QueryBuilders.termQuery("category.keyword", "Experiment"))
-            ).boost(50);*/
-
-
-
-
-       /* q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                 .type(MultiMatchQueryBuilder.Type.BEST_FIELDS)
-                .analyzer("pattern")
-                 .fuzziness(1)
-                  .operator(Operator.AND).boost(20));*/
-         /*    q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                    .type(MultiMatchQueryBuilder.Type.PHRASE).boost(120));
-            q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                    .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(150));*/
 
         }else{
             q.add(QueryBuilders.matchAllQuery());
