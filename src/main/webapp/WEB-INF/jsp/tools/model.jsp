@@ -111,7 +111,7 @@
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 <% bucket="main5"; %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-<br>
+
 <div id="associatedProtocols">
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
 </div>
