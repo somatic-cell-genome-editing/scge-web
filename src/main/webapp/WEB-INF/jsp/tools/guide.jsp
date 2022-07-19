@@ -353,13 +353,13 @@
         </table>
         <% } %>
         <h4 class="page-header" style="color:grey;">Specificity</h4>
-        <table class="table" style="width:80%">
-            <tr > <td style="width:50%">
+        <table class="table" style="width:95%">
+            <tr > <td style="width:60%">
                 <table class="table report-section">
                     <tr><th style="width:50%">Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
             </table>
             </td>
-                <td style="width:50%"></td>
+                <td style="width:40%"></td>
             </tr>
 
         </table>
