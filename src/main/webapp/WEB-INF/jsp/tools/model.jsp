@@ -83,10 +83,10 @@
         <div class="ml-auto col-3" style="margin-right: 5%">
 
             <div class="card">
-                <div class="card-header">Model</div>
+                <!--<div class="card-header">Model</div>-->
                 <div class="card-body">
                     <table >
-                        <tr ><th class="scge-details-label">SCGE:<%=m.getModelId()%></th></tr>
+                        <tr ><th class="scge-details-label" style="color:black;">SCGE:<%=m.getModelId()%></th></tr>
 
                     </table>
                 </div>

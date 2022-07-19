@@ -112,10 +112,10 @@
         <div class="ml-auto col-3" style="margin-right: 5%">
 
             <div class="card">
-                <div class="card-header">Genome Editor</div>
+                <!--<div class="card-header">Genome Editor</div>-->
                 <div class="card-body">
                     <table >
-                        <tr ><th class="scge-details-label">SCGE:<%=editor.getId()%></th></tr>
+                        <tr ><th class="scge-details-label" style="color:black;">SCGE:<%=editor.getId()%></th></tr>
 
                     </table>
                 </div>
