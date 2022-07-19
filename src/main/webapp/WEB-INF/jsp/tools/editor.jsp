@@ -137,9 +137,9 @@
             </table>
         </div>
     </div>
-    <hr>
     <%}%>
     <%if(relatedGuides!=null && relatedGuides.size()>0){%>
+    <hr>
     <div id="relatedGuides">
         <h4 class="page-header" style="color:grey;">Related Guides (<%=relatedGuides.size()%>)</h4>
         <div class="container" align="center">
@@ -161,7 +161,6 @@
             </table>
         </div>
     </div>
-    <hr>
     <%}%>
     <%
         long objectId = editor.getId();
@@ -177,7 +176,7 @@
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
     <% bucket="main5"; %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-    <hr>
+
 
     <div id="associatedProtocols">
         <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
