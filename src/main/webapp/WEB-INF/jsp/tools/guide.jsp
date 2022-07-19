@@ -257,7 +257,7 @@
         <h4 class="page-header" style="color:grey;">Vector Details</h4>
         <table style="width:95%">
             <tr>
-                <td style="width:70%">
+                <td style="width:60%">
                     <table class="table report-section" style="width:100%">
 
                         <tr ><td style="width:50%" >Ivt Construct Source</td><td><%=SFN.parse(g.getIvtConstructSource())%></td></tr>
@@ -270,7 +270,7 @@
 
                     </table>
                 </td>
-                <td style="width:50%">
+                <td style="width:40%">
                     <%
                         objectId = g.getGuide_id();
                         redirectURL = "/data/guide/system?id=" + objectId;
@@ -316,9 +316,9 @@
     <%if(offTargets!=null && offTargets.size()>0){%>
     <div id="offTargets">
         <h4 class="page-header" style="color:grey;">Off Targets</h4>
-        <table style="width:80%">
+        <table style="width:95%">
             <tr>
-                <td style="width:50%">
+                <td style="width:60%">
                     <table class="table report-section" >
                         <tr><th style="width:50%">Detection Method</th><th style="width:50%">No. of sites detected</th></tr>
                         <%for (OffTarget offTarget: offTargets) { %>
@@ -332,7 +332,7 @@
                     </table>
 
                 </td>
-                <td style="width:50%">
+                <td style="width:40%">
                     <%
                         objectId = g.getGuide_id();
                         redirectURL = "/data/guide/system?id=" + objectId;
