@@ -60,7 +60,7 @@
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
-        <th>Title</th>
+        <th>Protocol Title</th>
         <th>Description</th>
         <th>File Download</th>
         <th>SCGE ID</th>
