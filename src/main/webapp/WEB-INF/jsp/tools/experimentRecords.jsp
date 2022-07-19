@@ -37,7 +37,9 @@
         Person p = access.getUser(request.getSession());
         Experiment ex = (Experiment) request.getAttribute("experiment");
     %>
-        <div id="recordTableContent" style="position:relative; left:0px; top:00px;">
+
+    <table><tr><td width="150" valign="top"><span style="color:#1A80B6;font-weight:700; font-size:16px;">Experiment&nbsp;Description:</span></td><td style="font-size:16px;"><%=SFN.parse(ex.getDescription())%></td></tr></table>
+    <div id="recordTableContent" style="position:relative; left:0px; top:00px;">
 
             <%
                 HashMap<String,String> deliveryAssay = (HashMap<String,String>) request.getAttribute("deliveryAssay");
@@ -45,7 +47,7 @@
             %>
 
             <div style="padding:10px; border:1px solid black; background-color: #F7F7F7;font-size:12px;">
-                <table><tr><td width="150" valign="top"><span style="color:#1A80B6;font-weight:700;">Experiment Description:</span></td><td><%=SFN.parse(ex.getDescription())%></td></tr></table>
+
             <% if (deliveryAssay.size() != 0) { %>
                 <table>
                     <tr>

@@ -14,6 +14,7 @@
     Access access = new Access();
     UserService userService = new UserService();
 %>
+<div style="margin-bottom:20px;">Directory of publications related and associated to data in the SCGE Toolkit</div>
 <div class="container" style="height: available"  align="right">
     <form action="/toolkit/data/publications/associate?${_csrf.parameterName}=${_csrf.token}" method="post">
     <div align="right">

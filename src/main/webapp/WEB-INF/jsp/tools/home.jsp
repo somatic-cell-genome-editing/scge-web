@@ -232,7 +232,7 @@
                                         <img src="/toolkit/images/initiative.png"  class="card-image"  alt=""/>
                                     </td>
                                     <td class="card-label">
-                                        SCGE&nbsp;Initiatives
+                                        About&nbsp;SCGE
                                     </td>
                                 </tr>
                             </table>
