@@ -61,10 +61,6 @@
         </table>
 
     </c:when>
-    <c:otherwise>
-        &nbsp;
-
-    </c:otherwise>
 </c:choose>
 <c:if test="${fn:length(relatedPublications)>0}">
 <hr>
