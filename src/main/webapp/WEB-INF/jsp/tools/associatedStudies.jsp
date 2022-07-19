@@ -31,7 +31,6 @@
     <thead>
     <tr><!--th>Select</th-->
         <!--th>Action</th-->
-        <th>Tier</th>
         <th>Grant Title</th>
         <th>Initiative</th>
         <th>Contact PI</th>
@@ -42,7 +41,6 @@
     <% for (Study s: studies) { %>
     <% if (localStudyAccess.hasStudyAccess(s,localStudyPerson)) { %>
         <tr>
-            <td><%=s.getTier()%>
             <td><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a></td>
             <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())%></td>
             <td><%=s.getPi()%><br>(<%=s.getLabName()%>)</td>
