@@ -169,7 +169,7 @@
                 <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" style="background-color: transparent"/>
             </a-->
             <a class="navbar-brand" href="/toolkit/loginSuccess?destination=base" style="font-weight: 400;font-size: 16px">
-                <i class="fas fa-tools"></i>&nbsp;Toolkit Home</a>
+                <i class="fas fa-tools"></i>&nbsp;Home</a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <!--span class="navbar-toggler-icon" ></span-->

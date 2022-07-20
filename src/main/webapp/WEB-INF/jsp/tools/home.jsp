@@ -30,11 +30,28 @@
 
 </style>
 
+<table width="80%" align="center">
+    <tr>
+        <td>
+            <b style="color:#027EC4;">What you need to know about the SCGE</b>
+            <ul>
+                <li style="padding-bottom:5px;font-size:18px;">The Somatic Cell Genome Editing (SCGE) program is working to improve gene editing approaches to address human genetic disorders.
+                <li style="padding-bottom:5px;font-size:18px;">We have developed targeted systems for safely delivering genome editors into somatic cells to treat genetic diseases without causing unintended biological effects.
+                <li style="padding-bottom:5px;font-size:18px;">The SCGE Toolkit houses both published and unpublished data from SCGE researchers and allows users to explore and utilize delivery systems, editors, and experiments developed within the program.
+                <li style="padding-bottom:5px;font-size:18px;">Making these tools widely available to the scientific community will reduce the time and cost required to develop new gene therapies for treating genetic disease.
+            </ul>
+        </td>
+        </tr>
+        <tr>
+            <td>
+            <a href="https://scge.mcw.edu">Learn more about the SCGE program</a>
+            </td>
+        </tr>
+</table>
 
 
-
-<div class="row" style="width:1000px;margin:auto;">
-    <div class="col-sm-4" >
+<div class="row" style="width:1000px;margin:auto;padding-top:15px;">
+    <div class="col-sm-4" style="border-right: 3px solid black;">
 
         <!---   studies by initiative card -->
 
@@ -59,6 +76,51 @@
             </div>
         </div>
 
+
+        <div class="card">
+            <div class="card-body">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/publications/search">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <img src="/toolkit/images/publication.png"  class="card-image"  alt=""/>
+                                    </td>
+                                    <td class="card-label">
+                                        Publications
+                                    </td>
+                                </tr>
+                            </table>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/initiatives">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <img src="/toolkit/images/initiative.png"  class="card-image"  alt=""/>
+                                    </td>
+                                    <td class="card-label">
+                                        About&nbsp;SCGE
+                                    </td>
+                                </tr>
+                            </table>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div> <!--close col -->
+
+    <div class="col-sm-4">
 
 
         <div class="card">
@@ -104,8 +166,6 @@
                 </ul>
             </div>
         </div>
-    </div> <!--close col -->
-    <div class="col-sm-4" >
 
 
         <div class="card">
@@ -129,6 +189,8 @@
             </div>
         </div>
 
+    </div> <!--close col -->
+    <div class="col-sm-4" >
 
 
         <div class="card">
@@ -174,8 +236,6 @@
             </div>
         </div>
 
-    </div> <!--close col -->
-    <div class="col-sm-4">
 
         <div class="card">
             <div class="card-body">
@@ -197,51 +257,6 @@
                 </ul>
             </div>
         </div>
-
-
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/publications/search">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <img src="/toolkit/images/publication.png"  class="card-image"  alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        Publications
-                                    </td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/initiatives">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <img src="/toolkit/images/initiative.png"  class="card-image"  alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        About&nbsp;SCGE
-                                    </td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
 
         <!-- end studies by initiative card -->
     </div>
