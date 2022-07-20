@@ -13,7 +13,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'UA-150985023-1');
     </script>
     <meta charset="utf-8">
@@ -66,305 +65,19 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet" type="text/css"/>
 
     <link href="/toolkit/css/scge.css" rel="stylesheet" type="text/css"/>
+    <link href="/toolkit/css/base.css" rel="stylesheet" type="text/css"/>
 
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <style>
-        html {
-            position: relative;
-            min-height: 100%;
-        }
-        #wrapper {
-        min-height: 100%;
-    }
-        #main {
-            overflow:auto;
-            padding-bottom:150px; /* this needs to be bigger than footer height*/
-        }
-        footer{
-            position: relative;
-        }
-        .text-responsive {
-            font-size: calc(100% + 1vw + 1vh);
-        }
-        #home-page-search{
 
-         /*   background-image: linear-gradient(to bottom right, #0469bd, #ebeff2);*/
-
-        }
-        .navbar-custom {
-         /*   background-color: #17a2b8!important;*/
-            background-color: #1a80b6!important ;
-        }
-        /* change the brand and text color */
-        .navbar-custom .navbar-brand,
-        .navbar-custom .navbar-text {
-            color: white;
-        }
-        /* change the link color */
-        .navbar-custom .navbar-nav .nav-link {
-            color:white;
-            font-size: 16px;
-        }
-        /* change the color of active or hovered links */
-        .navbar-custom .nav-item.active .nav-link,
-        .navbar-custom .nav-item:hover .nav-link {
-            color: #1a80b6;
-            background-color: #bee5fa;
-        }
-        .navbar-custom .navbar-toggler{
-            background-color: lightgrey;
-            color:black;
-        }
-        .navbar-custom .navbar-toggler-icon{
-            color:#FFFFFF;
-        }
-
-    </style>
-<script>
- /*   var action='${action}';
-    $(function () {
-        var element=document.getElementById(action);
-
-            element.style.border= "1px solid #bee5fa";
-           element.style.color= "#1a80b6";
-
-
-    })
-*/
-</script>
 </head>
 
 <body>
 
-
-<style>
-    input[type="email"] {
-        width: 100%;
-        height: 30px;
-        font-size: large;
-        background-color : #f1f1f1;
-
-    }
-    .hideMe {
-        bottom: 104px;
-        right: 42px;
-        position: fixed;
-        opacity: .8;
-        background-color: red;
-        color: white;
-        border-radius: 5px;
-        border: none;
-        text-align: center;
-        display:table-cell;
-        vertical-align:middle;
-        box-sizing: border-box;
-    }
-    .hiddenBtns {
-        bottom: 25px;
-        right: 35px;
-        height: 50px;
-        width: 50px;
-        position: fixed;
-        z-index: 500;
-        box-sizing: border-box;
-    }
-    .openLikeBtn{
-        height: 50px;
-        width: 50px;
-        position: fixed;
-        background-size: 100%;
-        border: white;
-        background-image: url("/toolkit/images/mailChat.png");
-        border-radius: 24px;
-        cursor: pointer;
-        opacity: .7;
-        box-sizing: border-box;
-    }
-    /* Button used to open the chat form - fixed at the bottom of the page */
-    .open-button {
-        background-color: #2865A3;
-        color: white;
-        padding: 3px 10px;
-        border: none;
-        cursor: pointer;
-        position: fixed;
-        bottom: 23px;
-        right: 45px;
-        width: 145px;
-        height: 40px;
-        font-size: 13pt;
-        border-radius: 10px;
-        box-sizing: border-box;
-    }
-
-    /* The popup chat - hidden by default */
-    .chat-popup {
-        display: none;
-        position: fixed;
-        bottom: 30px;
-        right: 20px;
-        border: 3px solid #f1f1f1;
-        z-index: 501;
-        box-sizing: border-box;
-        background-color:#5D8DAF;
-        color:white;
-        width:500px;
-        height:500px;
-        border-radius:10px;
-    }
-
-    /* Add styles to the form container */
-    .form-container {
-        max-width: 500px;
-        padding: 10px;
-        ackground-color: white;
-        box-sizing: border-box;
-        white-space: normal;
-    }
-
-    /* Full-width textarea */
-    .form-container textarea {
-        width: 100%;
-        padding: 15px;
-        margin: 5px 20px 22px 0;
-        border: none;
-        background: white;
-        resize: none;
-        min-height: 200px;
-        font-size: large;
-        box-sizing: border-box;
-    }
-
-    /* When the textarea gets focus, do something */
-    .form-container textarea:focus {
-        background-color: #ddd;
-        outline: none;
-    }
-
-    /* Set a style for the submit/send button */
-    .form-container .btn {
-        background-color: #2865A3;
-        color: white;
-        padding: 16px 20px;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        margin-bottom:10px;
-        opacity: 0.8;
-        font-size: large;
-        box-sizing: border-box;
-    }
-
-    .closeForm {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: #770C0E;
-        color: white;
-        border:0px solid black;
-
-    }
-    /* Add some hover effects to buttons */
-    .form-container .btn:hover, .open-button:hover {
-        opacity: 1;
-    }
-</style>
-
-
-<div id="hiddenBtns" class="hiddenBtns" style="display: block;">
-    <button type="button" class="openLikeBtn" onclick="openForm()"></button>
-</div>
-
-<div class="chat-popup" id="messageVue">
-    <form class="form-container">
-        <button type="button" id="close" onclick="closeForm()" class="closeForm">x</button>
-        <h2 id="headMsg">Contact SCGE</h2>
-        <input type="hidden" name="subject" value="Help and Feedback Form">
-        <input type="hidden" name="found" value="0">
-
-        <label><b>Your email</b></label>
-        <br><input type="email" name="email" v-model="email" >
-        <br>
-        <br><label><b style="">Message</b></label>
-        <textarea placeholder="Type message.." name="comment" v-model="message"></textarea>
-
-        <button type="button" id="sendEmail" class="btn" v-on:click="sendMail">Send</button>
-
-    </form>
-</div>
-
-
-
-
-<script src="https://unpkg.com/vue@2"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
-function openForm() {
-    document.getElementById("messageVue").style.display = "block";
-    document.getElementById("headMsg").innerText = 'How can we help?';
-}
-
-function closeForm() {
-    document.getElementById("messageVue").style.display = "none";
-    document.getElementById("sendEmail").disabled = false;
-}
-
-// window.onload = function () {
-var messageVue = new Vue({
-    el: '#messageVue',
-    data: {
-        email: '',
-        message: '',
-    },
-    methods: {
-        sendMail: function () {
-            if (this.message === '' || !this.message) {
-                alert("There is no message entered.");
-                return;
-            }
-            if (this.email === '' || !this.email) {
-                alert("No email provided.");
-                return;
-            }
-            if (!emailValidate(this.email)) {
-                alert("Not a valid email address.");
-                return;
-            }
-            document.getElementById("sendEmail").disabled = true;
-
-
-            axios.post('/toolkit/data/feedback?${_csrf.parameterName}=${_csrf.token}',
-                    {
-                        email: messageVue.email,
-                        message: messageVue.message,
-                        webPage: window.location.href
-                    })
-                .then(function (response) {
-                    closeForm();
-                    messageVue.email="";
-                    messageVue.message="";
-                    alert("Thank you!  Your message has been sent to the SCGE.")
-                }).catch(function (error) {
-                console.log(error)
-            })
-        }
-    } // end methods
-});
-
-function emailValidate(message) {
-    var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(message);
-}
-
-
-// };
-
-</script>
-
+<%@include file="feedbackForm.jsp"%>
 
 <div id="devSystemWarning" style="display:none; font-size:12px; color:white; background-color: #770C0E; width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System<br><%=seoTitle%><br><%=seoDescription%></div>
 
@@ -372,9 +85,6 @@ function emailValidate(message) {
     if (location.href.indexOf("dev.") > 0 || location.href.indexOf("localhost") > 0) {
         document.getElementById("devSystemWarning").style.display="block";
     }
- //   if (location.href.indexOf("localhost") > 0) {
-  //      document.getElementById("devSystemWarning").innerHTML+="<br> LOCALHOST";
-  //  }
 </script>
 
 <%
@@ -633,22 +343,6 @@ function emailValidate(message) {
                                         </div>
                                 <!--/div-->
 
-                            <!--div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                                <h1 class="h2">Toolkit</h1>
-                                <div class="btn-toolbar mb-2 mb-md-0">
-                                    <div class="btn-group mr-2">
-                                        <button class="btn btn-sm btn-outline-secondary">Submit Data</button>
-                                        <button class="btn btn-sm btn-outline-secondary"> <span data-feather="upload"></span>Upload Docs</button>
-                                    </div>
-                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                                        <span data-feather="file"></span>
-                                            Forms
-                                    </button>
-                                </div>
-                            </div-->
-                            <!--div style="text-align: center; ;height:50px" >
-                            <h4>Welcome to Somatic Cell Genome Editing</h4>
-                            </div-->
                         </c:otherwise>
                     </c:choose>
                         <c:if test="${status!=null}">
@@ -675,10 +369,6 @@ function emailValidate(message) {
 
     <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script-->
     <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script-->
-    <script>
-
-
-    </script>
     <script src="/toolkit/js/search/autocomplete.js"></script>
 
 </footer>
