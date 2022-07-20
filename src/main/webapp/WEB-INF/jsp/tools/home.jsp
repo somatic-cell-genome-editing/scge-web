@@ -59,12 +59,12 @@
             <div class="card-body" >
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Study/Experiment?searchTerm=">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Experiment?searchTerm=">
                             <table border="0">
                                 <tr>
                                     <td><img src="/toolkit/images/studies.png" class="card-image" alt=""/></td>
                                     <td class="card-label">
-                                        Browse&nbsp;Studies
+                                        Browse&nbsp;Experiments
                                     </td>
                                 </tr>
                             </table>

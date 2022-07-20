@@ -470,7 +470,7 @@ function emailValidate(message) {
                 <ul class="navbar-nav">
 
                     <li class="nav-item  text-nowrap text-responsive Studies" id="Studies">
-                        <a class="nav-link" href="/toolkit/data/search/results/Study/Experiment?searchTerm=" >Studies <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/toolkit/data/search/results/Experiment?searchTerm=" >Experiments <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item  text-nowrap text-responsive" id="Genome Editors">
                         <a class="nav-link" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=" >Genome Editors <span class="sr-only">(current)</span></a>
