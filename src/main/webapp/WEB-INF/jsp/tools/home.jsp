@@ -64,7 +64,7 @@
                                 <tr>
                                     <td><img src="/toolkit/images/studies.png" class="card-image" alt=""/></td>
                                     <td class="card-label">
-                                        Browse&nbsp;Experiments
+                                        Experiments
                                     </td>
                                 </tr>
                             </table>
