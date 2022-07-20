@@ -51,7 +51,7 @@
 
 
 <div class="row" style="width:1000px;margin:auto;padding-top:15px;">
-    <div class="col-sm-4" style="border-right: 3px solid black;">
+    <div class="col-sm-4" style="border-right: 3px solid #1A80B6;">
 
         <!---   studies by initiative card -->
 
