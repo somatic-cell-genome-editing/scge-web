@@ -53,7 +53,6 @@
         <td style="padding-bottom:5px;font-size:18px;font-family: 'Roboto', sans-serif;">We include studies on the <span style="font-weight:700;">intended and unintended biological effects</span> of gene editing</td>
     </tr>
         <tr>
-            <td>&nbsp;</td>
             <td colspan="2">
                 <a href="https://scge.mcw.edu" title="Go to SCGE Main Site"><button class="btn btn-primary btn-sm" style="margin-top:20px;margin-bottom:15px;">Learn more about the SCGE program</button></a>
             </td>
