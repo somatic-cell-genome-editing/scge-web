@@ -285,6 +285,7 @@
 
 </head>
 <body>
+hello
 <%  String msg = (String) request.getAttribute("msg"); %>
 
 <% if (msg == null) { %>

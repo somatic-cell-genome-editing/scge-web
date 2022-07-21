@@ -42,7 +42,7 @@
         </tr>
     <tr>
         <td valign="top"><img src="/toolkit/images/bullet_30.png?" style="padding-left:25px;padding-right:10px;"/></td>
-        <td style="padding-bottom:5px;font-size:18px;font-family: 'Roboto', sans-serif;">We provide <span style="font-weight:700;font-size:20px;">published and unpublished</span> data for the community to explore and build upon</td>
+        <td style="padding-bottom:5px;font-size:18px;font-family: 'Roboto', sans-serif;">We provide <span style="font-weight:700;">published and unpublished</span> data for the community to explore and build upon</td>
     </tr>
     <tr>
         <td valign="top"><img src="/toolkit/images/bullet_30.png" style="padding-left:25px;padding-right:10px;"/></td>
