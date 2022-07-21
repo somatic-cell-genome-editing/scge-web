@@ -71,8 +71,9 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -212,7 +213,7 @@
 
 <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
     <div class="container text-center">
-        <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fa fa-phone" aria-hidden="true"></i>Contact Us</a>&nbsp;&nbsp;&nbsp;&nbsp;<small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2019 SCGE | All Rights Reserved</small>
+        <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fa fa-phone" aria-hidden="true"></i>Contact Us</a>&nbsp;&nbsp;&nbsp;&nbsp;<small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2022 SCGE | All Rights Reserved</small>
     </div>
     <!-- Bootstrap core JavaScript
 ================================================== -->

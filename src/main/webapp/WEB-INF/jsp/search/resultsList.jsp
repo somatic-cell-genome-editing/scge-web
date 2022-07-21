@@ -175,7 +175,7 @@
                 </span> <br>
             </c:if>
             <c:if test="${hit.sourceAsMap.studyNames!=null && category!='Study'}">
-                <span class="header">Associated Studies:</span>
+                <span class="header">Associated Studies1:</span>
 
                 <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.id}" title="Studies" style="background-color: transparent">
                     <span style="text-decoration:underline">${fn:length(hit.sourceAsMap.studyNames)}</span>
