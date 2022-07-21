@@ -25,7 +25,7 @@
         <th>Name</th>
         <th>Description</th>
         <th>Tier</th>
-        <th>View Associated..</th>
+        <th class="sorter-false">View Associated..</th>
     </tr>
     </thead>
     <tbody>

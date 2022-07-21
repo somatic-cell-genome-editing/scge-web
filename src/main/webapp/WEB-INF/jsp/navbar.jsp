@@ -58,13 +58,14 @@
                     </div>
 
                 </li>
+<c:if test="${action==null}">
                 <li class="nav-item  text-nowrap text-responsive">
                     <a class="nav-link" href="https://scge.mcw.edu/" style="font-weight: 400;font-size: 16px">
                         <i class="fas fa-home"></i>&nbsp;SCGE Consortium Home</a>
                 </li>
                 <!--li class="nav-item" style="padding-top: 5px"><a href="/toolkit/data/dataSubmission"><button type="button" class="btn btn-sm">Upload Docs</button></a>
                 </li-->
-
+</c:if>
 
 
             </ul>
