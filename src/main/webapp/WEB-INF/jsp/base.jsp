@@ -95,149 +95,8 @@
 
 %>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
-    <nav class="navbar navbar-expand-lg flex-md-nowrap p-0 shadow" style="background-color: black" >
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/toolkit/loginSuccess">
-            <img src="/toolkit/images/scge-logo-70w.png" width="70" height="50" ></a>
-                <!--div class="input-group col-sm-4"-->
-                    <form class="form-inline" action="/toolkit/data/search/results" >
-
-                        <div class="input-group"  style="padding-top:2%;width: 100%">
-                            <input  class="form-control form-control-sm border-secondary" type="search" id="commonSearchTerm" name="searchTerm" placeholder="Enter Search Term ...." value=""/>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary btn-sm" type="submit" >
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-
-                        </div>
-
-                        <small class="form-text text-light" style="font-size: 11px;">Examples:&nbsp;<a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a class="text-light" href="/toolkit/data/search/results?searchTerm=crispr" style="font-size: 11px;" >CRISPR</a>,
-                            <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
-                        </small>
-                    </form>
-                <!--/div-->
-
-            <ul class="navbar-nav ml-auto" style="padding-right: 2%">
-
-                <c:if test="${userAttributes.get('name')!=null}">
-
-                    <li class="nav-item text-nowrap">   <a class="nav-link" href="/toolkit/db?destination=base" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fas fa-th"></i>&nbsp;My&nbsp;Dashboard</a></li>
-                    <%if(access.isAdmin(person)){%>
-                    <li class="nav-item dropdown text-nowrap">
-                        <a class="nav-link dropdown-toggle" href="/toolkit/admin" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: 400;font-size: 16px;color:#FFFFFF">
-                            <i class="fas fa-th"></i>&nbsp;Admin
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/toolkit/admin/users">Manage Users</a>
-                            <a class="dropdown-item" href="/toolkit/admin">Sudo User</a>
-                            <a class="dropdown-item" href="/toolkit/admin/groupOverview">Groups Overview</a>
-                            <a class="dropdown-item" href="/toolkit/data/studies/search">Study Browser</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Study Tier Updates</a>
-                        </div>
-                    </li>
-                    <%}%>
-                    <!--li class="nav-item" style="padding-top: 5px"><a href="/toolkit/data/dataSubmission"><button type="button" class="btn btn-sm">Upload Docs</button></a>
-                    </li-->
-                </c:if>
-
-                <li class="nav-item text-nowrap my-2 my-sm-0" style="padding-right: 1%">
-
-                    <!-- using pageContext requires jsp-api artifact in pom.xml -->
-                    <c:choose>
-                        <c:when test="${userAttributes.get('name')!=null}">
-                            <img class="rounded-circle" src="${userAttributes.get('picture')}" width="24">
-                            <span class="text-light" >&nbsp;${userAttributes.get('name')}&nbsp;&nbsp;</span>
-                            <a href="/toolkit/logout" title="Sign out"><button class="btn btn-primary btn-sm">Logout</button></a>
-
-                        </c:when>
-                        <c:otherwise>
-                            <a href="/toolkit/login.jsp" title="Consortium Member Sign In"><button class="btn btn-primary btn-sm">Login</button></a>
-                        </c:otherwise>
-                    </c:choose>
-
-                </li>
-            </ul>
-
-
-    </nav>
-
-
-
-    <nav class="navbar navbar-expand-lg  navbar-custom static-top" style="color: white" >
-        <div class="container-fluid">
-            <!--a class="navbar-brand"  href="https://scge.mcw.edu/" >
-                <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg" srcset="https://scge.mcw.edu/wp-content/uploads/2019/03/SCGElogo-50.jpg 1x" width="72" height="50" alt="Somatic Cell Gene Editing Logo" data-retina_logo_url="" class="fusion-standard-logo" style="background-color: transparent"/>
-            </a-->
-            <a class="navbar-brand" href="/toolkit/loginSuccess?destination=base" style="font-weight: 400;font-size: 16px">
-                <i class="fas fa-tools"></i>&nbsp;Home</a>
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <!--span class="navbar-toggler-icon" ></span-->
-                Menu
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-
-                <ul class="navbar-nav">
-
-                    <li class="nav-item  text-nowrap text-responsive Studies" id="Studies">
-                        <a class="nav-link" href="/toolkit/data/search/results/Experiment?searchTerm=" >Experiments <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item  text-nowrap text-responsive" id="Genome Editors">
-                        <a class="nav-link" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=" >Genome Editors <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item text-nowrap text-responsive" id="Model Systems">
-                        <a class="nav-link" href="/toolkit/data/search/results/Model%20System?searchTerm=" >Model Systems</a>
-                    </li>
-                    <li class="nav-item text-nowrap text-responsive" id="Delivery Systems">
-                        <a class="nav-link" href="/toolkit/data/search/results/Delivery%20System?searchTerm=" >Delivery Systems</a>
-                    </li>
-                    <li class="nav-item text-nowrap text-responsive Guides" id="Guides">
-                        <a class="nav-link" href="/toolkit/data/search/results/Guide?searchTerm=" >Guides</a>
-                    </li>
-                    <li class="nav-item text-nowrap text-responsive Vectors" id="Vectors">
-                        <a class="nav-link" href="/toolkit/data/search/results/Vector?searchTerm=" >Vectors</a>
-                    </li>
-                    <li class="nav-item text-nowrap text-responsive Protocols" id="Protocols">
-                        <a class="nav-link Protocols" href="/toolkit/data/protocols/search" >Protocols</a>
-                    </li>
-                    <li class="nav-item text-nowrap text-responsive Publications" id="Publications">
-                        <a class="nav-link Publications" href="/toolkit/data/publications/search" >Publications</a>
-                    </li>
-
-                    <li class="nav-item dropdown text-nowrap">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary"><a href="/toolkit/data/initiatives" style="color:#FFFFFF;font-size: 16px">About SCGE</a></button>
-                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Small+Animal+Testing+Center+(SATC)&typeBkt=Large+Animal+Reporter+(LAR)&typeBkt=Large+Animal+Testing+Center+(LATC)">Animal Reporter And Testing Center Initiative</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=In+Vivo+Cell+Tracking">Biological Effects (In Vivo Cell Tracking Projects)</a>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Biological+Effects+Initiative&typeBkt=Biological+Systems">Biological Effects (Biological Systems)</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Delivery+Systems+Initiative">Delivery Systems Initiative</a>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Genome+Editors">Genome Editor Projects</a>
-
-                        </div>
-                    </div>
-
-                    </li>
-                    <li class="nav-item  text-nowrap text-responsive">
-                        <a class="nav-link" href="https://scge.mcw.edu/" style="font-weight: 400;font-size: 16px">
-                            <i class="fas fa-home"></i>&nbsp;SCGE Consortium Home</a>
-                    </li>
-                        <!--li class="nav-item" style="padding-top: 5px"><a href="/toolkit/data/dataSubmission"><button type="button" class="btn btn-sm">Upload Docs</button></a>
-                        </li-->
-
-
-
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+    <%@include file="navbarTop.jsp"%>
+    <%@include file="navbar.jsp"%>
 
     <div id="main">
         <% if (request.getAttribute("crumbtrail") != null) {%>
@@ -246,8 +105,6 @@
         <c:if test="${destination!='create'}">
             <div class="" style="margin-top: 0;padding-top: 0">
                 <div class="container-fluid">
-
-                    <!--h1 class="page-header">Dashboard</h1-->
                     <c:choose>
                         <c:when test="${action!=null}">
                             <h4 style="color:#1A80B6;padding-top:10px;">${action}  </h4>
@@ -271,7 +128,8 @@
                         </c:if>
 
                     </small>
-                    </c:if>     <hr>
+                    </c:if>
+                        <hr>
                             <c:if test="${action=='Dashboard'}">
                                 <div align="right">
                                     <c:forEach items="${personInfoList}" var="i">
@@ -313,13 +171,7 @@
 
                         </c:when>
                         <c:otherwise>
-                            <!--h4 class="page-header" style="color:grey;">Dashboard</h4-->
-                            <!--h1 class="page-header" style="color:grey;">Dashboard<span style="float:right"><a href="dataSubmission"><button class="btn btn-success btn-sm">Submit Data</button></a>&nbsp;<a href="dataSubmission"><button class="btn btn btn-outline-secondary btn-sm">Upload Docs</button></a></span></h1-->
-                                <!--div style=";width:100%" align="center" -->
-                                    <%--@include file="tools/search.jsp"--%>
                                         <div class="container-fluid" align="center" id="home-page-search" style="background-color: #FFFFFF;">
-
-
                                             <table align="center">
                                                 <tr>
                                                     <td><img src="/toolkit/images/scge-logo-200w.png" border="0"/></td>
@@ -342,7 +194,6 @@
                                                 </tr>
                                             </table>
                                         </div>
-                                <!--/div-->
 
                         </c:otherwise>
                     </c:choose>
