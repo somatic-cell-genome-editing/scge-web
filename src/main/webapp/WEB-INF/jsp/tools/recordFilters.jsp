@@ -4,7 +4,7 @@
 
 <style>
     body {
-        font-family: "Lato", sans-serif;
+        font-family: "Roboto","Lato", sans-serif;
     }
 
     .sidenav {

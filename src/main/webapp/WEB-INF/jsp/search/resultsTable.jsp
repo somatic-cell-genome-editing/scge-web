@@ -22,10 +22,10 @@
     <tr>
         <th>Category</th>
         <th>Type</th>
-        <th>Subtype</th>
-        <th>Symbol</th>
         <th>Name</th>
+        <th>Description</th>
         <th>Tier</th>
+        <th class="sorter-false">View Associated..</th>
     </tr>
     </thead>
     <tbody>
@@ -33,31 +33,49 @@
 
         <tr>
             <td>${hit.sourceAsMap.category}</td>
+            <td>
+                <c:set var="type" value=""/>
+            <c:if test="${hit.sourceAsMap.category=='Experiment'}">
+                <c:set var="type" value="${hit.sourceAsMap.experimentType}"/>
+            </c:if>
+                <c:if test="${hit.sourceAsMap.category=='Genome Editor'}">
+                    <c:set var="type" value="${hit.sourceAsMap.editorType}"/>
+                </c:if>
+                <c:if test="${hit.sourceAsMap.category=='Model System'}">
+                    <c:set var="type" value="${hit.sourceAsMap.modelType}"/>
+                </c:if>
+                <c:if test="${hit.sourceAsMap.category=='Delivery System'}">
+                    <c:set var="type" value="${hit.sourceAsMap.deliveryType}"/>
+                </c:if>
+                <c:if test="${hit.sourceAsMap.category=='Vector'}">
+                    <c:set var="type" value="${hit.sourceAsMap.vectorType}"/>
+                </c:if>
+                <c:forEach items="${type}" var="t">
+                    ${t}
+                </c:forEach>
+            </td>
 
-            <td>${hit.sourceAsMap.type}</td>
-            <td>${hit.sourceAsMap.subType}</td>
-            <td><a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
+            <td>
                 <c:choose>
-                    <c:when test="${hit.sourceAsMap.subType=='Cas12'}">
-                        <c:if test="${fn:contains(hit.sourceAsMap.symbol,'-1')}">
-                            cas&#934;-1
-                        </c:if>
-                        <c:if test="${fn:contains(hit.sourceAsMap.symbol,'-3')}">
-                            cas&#934;-3
-                        </c:if>
-                        <c:if test="${fn:contains(hit.sourceAsMap.symbol,'-2')}">
-                            cas&#934;-2
-                        </c:if>
+                    <c:when test="${hit.sourceAsMap.symbol!=null}">
+                        <a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
+
+                                ${hit.sourceAsMap.symbol}
+
+                        </a>
                     </c:when>
                     <c:otherwise>
-                        ${hit.sourceAsMap.symbol}
+                    <a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}
                     </c:otherwise>
                 </c:choose>
-            </a>
+
             </td>
-            <td> <a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a></td>
+            <td>${hit.sourceAsMap.description}</td>
             <td>
                     ${hit.sourceAsMap.tier}
+            </td>
+            <td>
+                <%@include file="associations.jsp"%>
             </td>
             <!--td>
                 <div  class="more hideContent" style="overflow-y: auto">
