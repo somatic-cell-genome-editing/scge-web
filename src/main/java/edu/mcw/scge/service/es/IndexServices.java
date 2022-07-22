@@ -377,7 +377,6 @@ public class IndexServices {
 
                 q.add(QueryBuilders.multiMatchQuery(searchString)
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                        .operator(Operator.AND)
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
                         .analyzer("pattern")
                         .boost(1000)
@@ -414,7 +413,11 @@ public class IndexServices {
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
                         .analyzer("pattern")
                 );
-
+                q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
+                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                        .operator(Operator.AND)
+                        .analyzer("pattern")
+                );
             }
         }
 
