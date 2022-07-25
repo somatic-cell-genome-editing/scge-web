@@ -24,7 +24,9 @@
         <th>Type</th>
         <th>Name</th>
         <th>Description</th>
+        <%if(access.isAdmin(person)){%>
         <th>Tier</th>
+        <%}%>
         <th class="sorter-false">View Associated..</th>
     </tr>
     </thead>
@@ -71,9 +73,11 @@
 
             </td>
             <td>${hit.sourceAsMap.description}</td>
+            <%if(access.isAdmin(person)){%>
             <td>
                     ${hit.sourceAsMap.tier}
             </td>
+            <%}%>
             <td>
                 <%@include file="associations.jsp"%>
             </td>
