@@ -56,7 +56,7 @@ import java.util.stream.Collectors;
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    public static final Boolean REQUIRE_AUTHENTICATION=false;
-    public static final int GUEST_ACCOUNT_ID=1884;
+    public static final int GUEST_ACCOUNT_ID=1888;
 
     private static List<String> clients = Arrays.asList("google");
 
