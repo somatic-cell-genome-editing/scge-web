@@ -423,12 +423,17 @@ public class IndexServices {
 
             q.add(QueryBuilders.termQuery("symbol.custom", searchTerm).boost(1000));
             q.add(QueryBuilders.termQuery("name.custom", searchTerm).boost(1000));
+            q.add(QueryBuilders.termQuery("pi", searchTerm).boost(1000));
 
             q.add(QueryBuilders.matchPhrasePrefixQuery("symbol.custom", searchTerm).boost(400));
             q.add(QueryBuilders.matchPhrasePrefixQuery("name.custom", searchTerm).boost(400));
 
             q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).boost(100));
             q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).boost(100));
+
+            q.add(QueryBuilders.matchPhrasePrefixQuery("pi", searchTerm).boost(500));
+            q.add(QueryBuilders.matchPhraseQuery("pi", searchTerm).boost(200));
+
 
         }else{
             q.add(QueryBuilders.matchAllQuery());
