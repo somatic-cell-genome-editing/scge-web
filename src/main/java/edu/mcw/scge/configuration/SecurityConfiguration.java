@@ -55,7 +55,7 @@ import java.util.stream.Collectors;
 @PropertySource("classpath:application.properties")
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-   public static final Boolean REQUIRE_AUTHENTICATION=false;
+   public static final Boolean REQUIRE_AUTHENTICATION=true;
     public static final int GUEST_ACCOUNT_ID=1888;
 
     private static List<String> clients = Arrays.asList("google");
