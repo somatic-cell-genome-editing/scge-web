@@ -34,7 +34,7 @@
 <table width="70%" align="center" >
     <tr>
         <td colspan="2">
-            <b style="color:black;font-size:24px;font-family: 'Roboto', sans-serif;">What you need to know about the SCGE</b>
+            <b style="color:black;font-size:24px;font-family: 'Roboto', sans-serif;">What you need to know about the SCGE Toolkit</b>
         </td>
         <tr>
             <td valign="top"><img src="/toolkit/images/bullet_30.png" style="padding-left:25px;padding-right:10px;"/></td>
