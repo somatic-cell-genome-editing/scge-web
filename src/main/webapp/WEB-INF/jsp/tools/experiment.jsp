@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
+<%@ page import="java.util.Set" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -143,6 +144,7 @@ List<Guide> guideList = (List<Guide>) request.getAttribute("guideList");
 List<Vector> vectorList = (List<Vector>) request.getAttribute("vectorList");
 List<ApplicationMethod> methods = (List<ApplicationMethod>) request.getAttribute("applicationMethod");
 List<Antibody> antibodyList = (List<Antibody>) request.getAttribute("antibodyList");
+Set<String> unitList = (Set<String>) request.getAttribute("unitList");
 ExperimentRecord experimentRecord = (ExperimentRecord) request.getAttribute("experimentRecord");
 Model model = (Model) request.getAttribute("model");
 Experiment experiment = (Experiment) request.getAttribute("experiment");
@@ -173,9 +175,6 @@ ExperimentResultDetail detail = experimentResults.get(0);
             </tr>
             <tr>
                 <td class="header"><b>Measurement&nbsp;Type:</b></td><td><%=detail.getResultType()%></td>
-            </tr>
-            <tr>
-                <td class="header"><b>Measurment Units:</b></td><td><%=detail.getUnits()%></td>
             </tr>
 
             <tr><td width="200" class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
@@ -222,8 +221,8 @@ ExperimentResultDetail detail = experimentResults.get(0);
             <tr><td colspan="2"><hr></td></tr>
 
 
-    <tr><td class="header"><strong>Model Species</strong></td><td><%=model.getOrganism()%></td></tr>
-        <tr><td class="header"><strong>Model Name</strong></td><td><a href="/toolkit/data/models/model?id=${model.modelId}"><%=model.getName()%></a></td></tr>
+    <tr><td class="header"><strong>Model Species</strong></td><td><%=SFN.parse(model.getOrganism())%></td></tr>
+        <tr><td class="header"><strong>Model Name</strong></td><td><a href="/toolkit/data/models/model?id=${model.modelId}"><%=SFN.parse(model.getName())%></a></td></tr>
             <tr><td colspan="2"><hr></td></tr>
 
 
@@ -234,7 +233,7 @@ ExperimentResultDetail detail = experimentResults.get(0);
                 <tr><td class="header"><strong>Injection&nbsp;Rate</strong></td><td><%=SFN.parse(a.getInjectionRate())%></td></tr>
                 <tr><td class="header"><strong>Injection&nbsp;Volume</strong></td><td><%=SFN.parse(a.getInjectionVolume())%></td></tr>
                 <tr><td class="header"><strong>Days&nbsp;post&nbsp;injection</strong></td><td><%=SFN.parse(a.getDaysPostInjection())%></td></tr>
-                <tr><td class="header"><strong>Editor Format</strong></td><td><%=a.getEditorFormat()%></td></tr>
+                <tr><td class="header"><strong>Editor Format</strong></td><td><%=SFN.parse(a.getEditorFormat())%></td></tr>
                 <tr><td class="header"><strong>Antidote Id</strong></td><td><%=SFN.parse(a.getAntidoteId())%></td></tr>
                 <tr><td class="header"><strong>Antidote&nbsp;Description</strong></td><td><%=SFN.parse(a.getAntidoteDescription())%></td></tr>
                 <tr><td colspan="2"><hr></td></tr>
@@ -257,11 +256,20 @@ ExperimentResultDetail detail = experimentResults.get(0);
             <tr><td>&nbsp;</td></tr>
             <tr>
                 <td class="header">Replicate</td>
-                <td class="header">Result (<%=detail.getResultType()%>: <%=detail.getUnits()%>)</td>
+                <td class="header">Result (<%=detail.getResultType()%>)</td>
             </tr>
-            <% for (ExperimentResultDetail erd: experimentResults) { %>
             <tr>
-                <% if (erd.getReplicate() == 0) { %>
+                 <%
+                   for(String unit: unitList) {
+               %>
+                     <td class="header"><b>Measurment Units:</b></td>
+                     <td class="header"><%=unit%></td>
+                     </tr>
+
+                    <% for (ExperimentResultDetail erd: experimentResults) { %>
+            <tr>
+                <% if(erd.getUnits().equalsIgnoreCase(unit)) {
+                    if (erd.getReplicate() == 0) { %>
 
                 <td>Mean</td>
                 <% } else {%>
@@ -270,7 +278,10 @@ ExperimentResultDetail detail = experimentResults.get(0);
                 <% } %>
                 <td><%=UI.formatNumber(erd.getResult(),2)%>&nbsp</td>
             </tr>
-            <% } %>
+            <% }} %>
+               <% } %>
+            </tr>
+
 
 
 
