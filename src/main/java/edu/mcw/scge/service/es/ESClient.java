@@ -14,6 +14,10 @@ import java.util.Properties;
 
 public class ESClient {
     private static RestHighLevelClient client=null;
+
+   // private static String props = "/data/properties/elasticsearchProps.properties";
+  //  private static String props = "/Users/jdepons/properties/elasticsearchProps.properties";
+
     public static RestHighLevelClient init(){
         if(client==null) {
             try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){

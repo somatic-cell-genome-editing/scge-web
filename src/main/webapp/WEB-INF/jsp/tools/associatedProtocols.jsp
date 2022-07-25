@@ -22,9 +22,16 @@
     Person localProtocolPerson = new UserService().getCurrentUser(request.getSession());
     GrantDao localProtocolGrantDao = new GrantDao();
 
+    boolean hasProtocolsAtCorrectTier = false;
+    for (Protocol localProtocol: localProtocols) {
+        if (localProtocolAccess.hasProtocolAccess(localProtocol,localProtocolPerson)) {
+            hasProtocolsAtCorrectTier = true;
+        }
+    }
 
 %>
 
+<% if (hasProtocolsAtCorrectTier) { %>
 
 
 <script>
@@ -53,7 +60,6 @@
     <% } %>
 </tr></table>
 
-<% if (localProtocols.size() > 0) { %>
 
 <table id="myTable-<%=objectId%>" class="tablesorter">
     <thead>
@@ -85,9 +91,6 @@
     <% } %>
     </tbody>
 </table>
-
-<% } else {  %>
-    &nbsp;&nbsp;&nbsp;&nbsp;None Associated (as protocols are added they will show up here)
 
 <% }
     //close scope

@@ -156,6 +156,8 @@ public class EditorController {
         }
         req.setAttribute("associatedPublications", associatedPublications);
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(editor.getId()));
+        req.setAttribute("seoDescription",editor.getEditorDescription());
+        req.setAttribute("seoTitle",editor.getSymbol());
 
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 

@@ -1,3 +1,5 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %><%--
   Created by IntelliJ IDEA.
@@ -72,7 +74,7 @@
         e.printStackTrace();
     }
 %>
-<h4>${sr.hits.totalHits} <c:if test="${category!=null}">&nbsp;in ${category}</c:if> </h4>
+<h4>${fn:length(sr.hits.hits)}&nbsp;results<c:if test="${category!=null}">&nbsp;in ${category}</c:if> </h4>
 <table class="table table-striped">
     <c:forEach items="${sr.hits.hits}" var="hit">
     <tr><td style="border-color: transparent">
@@ -81,13 +83,13 @@
                 <div style="padding-bottom: 0;margin-bottom: 0">
             <c:if test="${hit.sourceAsMap.name!=null}">
             <h6>
-                <c:if test="${hit.sourceAsMap.subType=='Validation'}">
+                <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
                     <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> [<i class="fa-solid fa-v" style="color:darkorange"></i>]</span>
                 </c:if>
                 <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>
            <small>
-            <c:if test="${hit.sourceAsMap.type!=null}">
-               -  ${hit.sourceAsMap.type}
+            <c:if test="${hit.sourceAsMap.experimentType!=null}">
+               -  ${hit.sourceAsMap.experimentType}
             </c:if>
             </small>
                <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
@@ -113,12 +115,12 @@
                         </div>
                     </div>
                 </div>
-            <small>  <c:if test="${hit.sourceAsMap.category=='Study' || hit.sourceAsMap.category=='Experiment'}">
-                ${hit.sourceAsMap.pi.get(0)}
+                <small>  <c:if test="${hit.sourceAsMap.category=='Study' || hit.sourceAsMap.category=='Experiment'}">
+                    ${hit.sourceAsMap.pi.get(0)}
                     <c:if test="${hit.sourceAsMap.category=='Study'}">
-                &nbsp;&nbsp;<span class="header">Date Of Submission:</span> ${hit.sourceAsMap.submissionDate}
-            </c:if>
-            </c:if></small>
+                        &nbsp;&nbsp;<span class="header">Date Of Submission:</span> ${hit.sourceAsMap.submissionDate}
+                    </c:if>
+                </c:if></small>
             </div>
             <c:if test="${hit.sourceAsMap.description!=null}">
                 <span>${hit.sourceAsMap.description}</span><br>
@@ -172,56 +174,7 @@
                 </c:forEach>
                 </span> <br>
             </c:if>
-            <c:if test="${hit.sourceAsMap.studyNames!=null && category!='Study'}">
-                <span class="header">Associated Studies:</span>
-
-                <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-${hit.sourceAsMap.id}" title="Studies" style="background-color: transparent">
-                    <span style="text-decoration:underline">${fn:length(hit.sourceAsMap.studyNames)}</span>
-                </button>
-                <div style="display: none" id="popover-study-${hit.sourceAsMap.id}">
-                    <div class="popover-body">
-                        <c:set var="first" value="true"/>
-                        <c:forEach items="${hit.sourceAsMap.studyNames}" var="map">
-                            <c:choose>
-                                <c:when test="${first=='true'}">
-                                    <a class="search-results-anchor" href="/toolkit/data/experiments/study/${map.key}">${map.value}</a>
-                                    <c:set var="first" value="false"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <hr>
-                                    <a class="search-results-anchor" href="/toolkit/data/experiments/study/${map.key}">${map.value}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </div>
-                </div>
-            </c:if>
-            <c:if test="${hit.sourceAsMap.experimentNames!=null}">
-                <span class="header">Associated Experiments:</span>
-                <!--a  data-placement="top" data-popover-content="#popover-${hit.sourceAsMap.id}" data-toggle="popover" data-trigger="focus" href="" tabindex="0"> $-{fn:length(hit.sourceAsMap.experimentNames)}</a-->
-
-                <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${hit.sourceAsMap.id}" title="Experiments" style="background-color: transparent">
-                    <span style="text-decoration:underline">${fn:length(hit.sourceAsMap.experimentNames)}</span>
-                </button>
-                <div style="display: none" id="popover-${hit.sourceAsMap.id}">
-                    <div class="popover-body">
-                        <c:set var="first" value="true"/>
-                        <c:forEach items="${hit.sourceAsMap.experimentNames}" var="map">
-                            <c:choose>
-                            <c:when test="${first=='true'}">
-                            <a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a>
-                                <c:set var="first" value="false"/>
-                            </c:when>
-                                <c:otherwise>
-                                    <hr>
-                                    <a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </div>
-                </div>
-            </c:if>
-
+            <small class="text-muted">View Associated:&nbsp;</small><%@include file="associations.jsp"%>
 
 
 

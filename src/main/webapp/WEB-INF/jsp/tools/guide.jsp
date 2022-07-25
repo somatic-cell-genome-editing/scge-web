@@ -52,6 +52,8 @@
     List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
     List<OffTargetSite> offTargetSites = (List<OffTargetSite>) request.getAttribute("offTargetSites");
 
+    List<Guide> synonymousGuides = (List<Guide>) request.getAttribute("synonymousGuides");
+
 %>
 
 <%
@@ -73,7 +75,7 @@
     <a href="#sequenceViewer">Sequence Viewer</a>
     <%}%>
     <% if(relatedEditors!=null && relatedEditors.size()>0){%>
-    <a href="#editor">Related Editor</a>
+    <a href="#editor">Related Editors</a>
     <%}%>
     <%if(!SFN.parse(g.getVectorId()).equals("")){%>
     <a href="#vector">Vector</a>
@@ -109,9 +111,9 @@
 
             <tr ><th class="header">Target Sequence</th><td>&nbsp;<%=SFN.parse(g.getTargetSequence())%></td></tr>
             <tr ><th class="header" style=" white-space: nowrap;">Target Sequence&nbsp;+ PAM</th><td>&nbsp;<%=SFN.parse(g.getPam())%></td></tr>
-            <tr ><td class="header">Position</td><td style="white-space: nowrap">
+            <tr ><th class="header">Position</th><td style="white-space: nowrap">
                 <% if (!SFN.parse(g.getChr()).equals("")) {%>
-                <%=SFN.parse(g.getAssembly())%>/<%=SFN.parse(g.getChr())%>:<%=SFN.parse(g.getStart())%>-<%=SFN.parse(g.getStop())%> (<%=SFN.parse(g.getStrand())%>)
+                &nbsp;<%=SFN.parse(g.getAssembly())%>/<%=SFN.parse(g.getChr())%>:<%=SFN.parse(g.getStart())%>-<%=SFN.parse(g.getStop())%> (<%=SFN.parse(g.getStrand())%>)
                 <%}%>
             </td></tr>
             <tr><td colspan="2"><hr></td></tr>
@@ -142,10 +144,10 @@
     <div class="ml-auto p-2" style="margin-right: 5%">
 
         <div class="card">
-            <div class="card-header">Guide</div>
+            <!--<div class="card-header">Guide</div>-->
             <div class="card-body">
         <table >
-            <tr ><th class="scge-details-label">SCGE ID</th><td>&nbsp;<%=g.getGuide_id()%></td></tr>
+            <tr ><th class="scge-details-label" style="color:black;">SCGE ID</th><td>&nbsp;<%=g.getGuide_id()%></td></tr>
 
         </table>
             </div>
@@ -196,18 +198,47 @@
     <hr>
     <%}%>
 
-   <% if(relatedEditors!=null && relatedEditors.size()>0){%>
+
+
+
+    <% if (synonymousGuides.size()>0) { %>
+
+    <div id="synonymousGuides">
+        <h4 class="page-header" style="color:grey;">Other guides that target The same sequence</h4>
+        <table class="table report-section" style="width:80%">
+            <tr>
+                <td style="width:50%" >
+                    <table class="table report-section" style="width:100%">
+                        <tr>
+                            <td >
+                                <% for (Guide tmpGuide: synonymousGuides) { %>
+                                <li><a href="/toolkit/data/guide/system?id=<%=tmpGuide.getGuide_id()%>"><%=SFN.parse(tmpGuide.getGuide())%></a></li>
+                                <% } %>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width:50%" ></td>
+            </tr>
+        </table>
+
+    </div>
+    <hr>
+    <% } %>
+
+
+
+    <% if(relatedEditors!=null && relatedEditors.size()>0){%>
     <div id="editor">
-    <h4 class="page-header" style="color:grey;">Related Editor</h4>
+    <h4 class="page-header" style="color:grey;">Related Editors</h4>
     <table class="table report-section" style="width:80%">
         <tr>
             <td style="width:50%" >
                 <table class="table report-section" style="width:100%">
                     <tr>
-                        <td style="width:50%"> Related Editors</td>
                         <td >
                                 <%for (Editor relatedEditor: relatedEditors) { %>
-                            <a href="/toolkit/data/editors/editor?id=<%=relatedEditor.getId()%>" ><%=UI.replacePhiSymbol(relatedEditor.getSymbol())%></a><br>
+                            <li><a href="/toolkit/data/editors/editor?id=<%=relatedEditor.getId()%>" ><%=UI.replacePhiSymbol(relatedEditor.getSymbol())%></a></li><br>
                             <% } %>
                         </td>
                     </tr>
@@ -218,15 +249,15 @@
     </table>
 
     </div>
-    <hr>
     <%}%>
 
     <%if(!SFN.parse(g.getVectorId()).equals("")){%>
+    <hr>
     <div id="vector">
         <h4 class="page-header" style="color:grey;">Vector Details</h4>
-        <table style="width:80%">
+        <table style="width:95%">
             <tr>
-                <td style="width:50%">
+                <td style="width:60%">
                     <table class="table report-section" style="width:100%">
 
                         <tr ><td style="width:50%" >Ivt Construct Source</td><td><%=SFN.parse(g.getIvtConstructSource())%></td></tr>
@@ -239,7 +270,7 @@
 
                     </table>
                 </td>
-                <td style="width:50%">
+                <td style="width:40%">
                     <%
                         objectId = g.getGuide_id();
                         redirectURL = "/data/guide/system?id=" + objectId;
@@ -260,7 +291,7 @@
 
 
     </div>
-    <hr>
+
     <%}%>
     <%HashMap<String,Integer> changeSeq = new HashMap<>();
         List<String> labels = new ArrayList<>();
@@ -285,9 +316,9 @@
     <%if(offTargets!=null && offTargets.size()>0){%>
     <div id="offTargets">
         <h4 class="page-header" style="color:grey;">Off Targets</h4>
-        <table style="width:80%">
+        <table style="width:95%">
             <tr>
-                <td style="width:50%">
+                <td style="width:60%">
                     <table class="table report-section" >
                         <tr><th style="width:50%">Detection Method</th><th style="width:50%">No. of sites detected</th></tr>
                         <%for (OffTarget offTarget: offTargets) { %>
@@ -301,7 +332,7 @@
                     </table>
 
                 </td>
-                <td style="width:50%">
+                <td style="width:40%">
                     <%
                         objectId = g.getGuide_id();
                         redirectURL = "/data/guide/system?id=" + objectId;
@@ -322,13 +353,13 @@
         </table>
         <% } %>
         <h4 class="page-header" style="color:grey;">Specificity</h4>
-        <table class="table" style="width:80%">
-            <tr > <td style="width:50%">
+        <table class="table" style="width:95%">
+            <tr > <td style="width:60%">
                 <table class="table report-section">
                     <tr><th style="width:50%">Specificity Ratio</th><td><%=SFN.parse(g.getSpecificityRatio())%></td></tr>
             </table>
             </td>
-                <td style="width:50%"></td>
+                <td style="width:40%"></td>
             </tr>
 
         </table>

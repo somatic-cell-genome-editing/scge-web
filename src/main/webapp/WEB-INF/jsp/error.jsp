@@ -291,7 +291,7 @@
 
     Access Denied<br><br>
 
-    If you feel you should have access to this page please contact scge@mcw.edu
+    If you feel you should have access to this page make sure you are logged in with the correct account
 
 
 

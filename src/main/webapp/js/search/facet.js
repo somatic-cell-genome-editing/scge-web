@@ -3,36 +3,20 @@ $(function () {
     $(".form-check-input").on("change",function () {
         $('form ').submit();
     })
-    $.each($('input[name="typeBkt"]'), function() {
-            var _this = $(this);
-            var val = _this.val();
-            _this.prop('checked', false);
-            console.log("SELECTED TYPE:" + selectedType);
-            if (selectedType !== typeof undefined) {
+    $.each($('input[name="experimentType"]'), function(){
 
-            $.each(selectedType.split(","), function (i, selected) {
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedExperimentType!== typeof undefined) {
+            $.each(selectedExperimentType.split(","), function (i, selected) {
                 if (selected === val) {
                     _this.prop('checked', true)
                 }
             })
         }
     });
-
-        $.each($('input[name="subtypeBkt"]'), function(){
-        //    console.log(selectedSubtype+"\tthis.Val="+ $(this).val())
-        var _this=$(this);
-        var val=_this.val();
-            _this.prop('checked', false);
-            console.log("SELECTED SUB TYPE:" + selectedSubtype);
-            if(selectedSubtype !== typeof undefined){
-            $.each(selectedSubtype.split(","), function (i,selected) {
-            if(selected===val){
-                _this.prop('checked',true)
-            }
-        })}
-
-    });
-    $.each($('input[name="editorTypeBkt"]'), function(){
+    $.each($('input[name="editorType"]'), function(){
         var _this=$(this);
         var val=_this.val();
         _this.prop('checked', false);
@@ -45,80 +29,7 @@ $(function () {
             })
         }
     });
-    $.each($('input[name="modelTypeBkt"]'), function(){
-        var _this=$(this);
-        var val=_this.val();
-        if(selectedModelType!==typeof undefined)
-        $.each(selectedModelType.split(","), function (i,selected) {
-            if(selected===val){
-                _this.prop('checked',true)
-            }
-        })
-    });
-    $.each($('input[name="speciesBkt"]'), function(){
-
-        var _this=$(this);
-        var val=_this.val();
-        _this.prop('checked', false);
-        if(selectedSpeciesType!==typeof  undefined)
-        $.each(selectedSpeciesType.split(","), function (i,selected) {
-            if(selected===val){
-                _this.prop('checked',true)
-            }
-        })
-    });
-
-    $.each($('input[name="targetBkt"]'), function(){
-
-        var _this=$(this);
-        var val=_this.val();
-        _this.prop('checked', false);
-    if(selectedTarget!==typeof undefined)
-        $.each(selectedTarget.split(","), function (i,selected) {
-            if(selected===val){
-                _this.prop('checked',true)
-            }
-        })
-    });
-    $.each($('input[name="guideTargetLocusBkt"]'), function(){
-
-        var _this=$(this);
-        var val=_this.val();
-        _this.prop('checked', false);
-        if(selectedGuideTargetLocus!==typeof undefined)
-        $.each(selectedGuideTargetLocus.split(","), function (i,selected) {
-            if(selected===val){
-                _this.prop('checked',true)
-            }
-        })
-    });
-    $.each($('input[name="withExperimentsBkt"]'), function(){
-
-        var _this=$(this);
-        var val=_this.val();
-        _this.prop('checked', false);
-        if(selectedWithExperiments!==typeof  undefined) {
-            $.each(selectedWithExperiments.split(","), function (i, selected) {
-                if (selected === val) {
-                    _this.prop('checked', true)
-                }
-            })
-        }
-    });
-    $.each($('input[name="dsTypeBkt"]'), function(){
-
-        var _this=$(this);
-        var val=_this.val();
-        _this.prop('checked', false);
-        if(selectedDsType!== typeof undefined) {
-            $.each(selectedDsType.split(","), function (i, selected) {
-                if (selected === val) {
-                    _this.prop('checked', true)
-                }
-            })
-        }
-    });
-    $.each($('input[name="editorSubTypeBkt"]'), function(){
+    $.each($('input[name="editorSubType"]'), function(){
 
         var _this=$(this);
         var val=_this.val();
@@ -132,7 +43,7 @@ $(function () {
             })
         }
     });
-    $.each($('input[name="editorSpeciesBkt"]'), function() {
+    $.each($('input[name="editorSpecies"]'), function() {
 
         var _this = $(this);
         var val = _this.val();
@@ -146,7 +57,39 @@ $(function () {
             })
         }
     });
-    $.each($('input[name="modelSpeciesBkt"]'), function(){
+    $.each($('input[name="modelType"]'), function(){
+        var _this=$(this);
+        var val=_this.val();
+        if(selectedModelType!==typeof undefined)
+        $.each(selectedModelType.split(","), function (i,selected) {
+            if(selected===val){
+                _this.prop('checked',true)
+            }
+        })
+    });
+    $.each($('input[name="modelSubtype"]'), function(){
+        var _this=$(this);
+        var val=_this.val();
+        if(selectedModelSubType!==typeof undefined)
+            $.each(selectedModelSubType.split(","), function (i,selected) {
+                if(selected===val){
+                    _this.prop('checked',true)
+                }
+            })
+    });
+    $.each($('input[name="species"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedSpeciesType!==typeof  undefined)
+        $.each(selectedSpeciesType.split(","), function (i,selected) {
+            if(selected===val){
+                _this.prop('checked',true)
+            }
+        })
+    });
+    $.each($('input[name="modelOrganism"]'), function(){
 
         var _this=$(this);
         var val=_this.val();
@@ -159,19 +102,99 @@ $(function () {
             })
         }
     });
-    $.each($('input[name="reporterBkt"]'), function(){
+    $.each($('input[name="transgeneReporter"]'), function(){
 
         var _this=$(this);
         var val=_this.val();
         _this.prop('checked', false);
         if(selectedReporter!==typeof undefined)
-        $.each(selectedReporter.split(","), function (i,selected) {
+            $.each(selectedReporter.split(","), function (i,selected) {
+                if(selected===val){
+                    _this.prop('checked',true)
+                }
+            })
+    });
+    $.each($('input[name="tissueTerm"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+    if(selectedTargetTissue!==typeof undefined)
+        $.each(selectedTargetTissue.split(","), function (i,selected) {
             if(selected===val){
                 _this.prop('checked',true)
+                $('#collapsetissueTerm').addClass('show')
             }
         })
     });
-    $.each($('input[name="vectorBkt"]'), function(){
+    $.each($('input[name="guideTargetLocus"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedGuideTargetLocus!==typeof undefined)
+        $.each(selectedGuideTargetLocus.split(","), function (i,selected) {
+            if(selected===val){
+                _this.prop('checked',true)
+                $('#collapseguideTargetLocus').addClass('show')
+
+            }
+        })
+    });
+    $.each($('input[name="guideSpecies"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedGuideSpecies!==typeof undefined)
+            $.each(selectedGuideSpecies.split(","), function (i,selected) {
+                if(selected===val){
+                    _this.prop('checked',true)
+                }
+            })
+    });
+    $.each($('input[name="guideCompatibility"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedGuideCompatibility!==typeof undefined)
+            $.each(selectedGuideCompatibility.split(","), function (i,selected) {
+                if(selected===val){
+                    _this.prop('checked',true)
+                }
+            })
+    });
+
+
+    $.each($('input[name="deliveryType"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedDsType!== typeof undefined) {
+            $.each(selectedDsType.split(","), function (i, selected) {
+                if (selected === val) {
+                    _this.prop('checked', true)
+                }
+            })
+        }
+    });
+
+    $.each($('input[name="deliverySubtype"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedDeliverySubtype!== typeof undefined) {
+            $.each(selectedDeliverySubtype.split(","), function (i, selected) {
+                if (selected === val) {
+                    _this.prop('checked', true)
+                }
+            })
+        }
+    });
+    $.each($('input[name="vectorName"]'), function(){
 
         var _this=$(this);
         var val=_this.val();
@@ -183,7 +206,7 @@ $(function () {
             }
         })
     });
-    $.each($('input[name="vectorTypeBkt"]'), function(){
+    $.each($('input[name="vectorType"]'), function(){
 
         var _this=$(this);
         var val=_this.val();
@@ -195,7 +218,7 @@ $(function () {
             }
         })
     });
-    $.each($('input[name="vectorSubTypeBkt"]'), function(){
+    $.each($('input[name="vectorSubtype"]'), function(){
 
         var _this=$(this);
         var val=_this.val();
@@ -208,7 +231,7 @@ $(function () {
         })
     });
 
-    $.each($('input[name="piBkt"]'), function(){
+    $.each($('input[name="pi"]'), function(){
 
         var _this=$(this);
         var val=_this.val();
@@ -217,10 +240,11 @@ $(function () {
             $.each(selectedPi.split(","), function (i,selected) {
                 if(selected===val){
                     _this.prop('checked',true)
+                    $('#collapsepi').addClass('show')
                 }
             })
     });
-    $.each($('input[name="accessBkt"]'), function(){
+    $.each($('input[name="access"]'), function(){
 
         var _this=$(this);
         var val=_this.val();
@@ -232,7 +256,7 @@ $(function () {
                 }
             })
     });
-    $.each($('input[name="statusBkt"]'), function(){
+    $.each($('input[name="status"]'), function(){
 
         var _this=$(this);
         var val=_this.val();
@@ -244,6 +268,30 @@ $(function () {
                 }
             })
     });
+    $.each($('input[name="studyType"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedStudyType!==typeof undefined)
+            $.each(selectedStudyType.split(","), function (i,selected) {
+                if(selected===val){
+                    _this.prop('checked',true)
+                }
+            })
+    });
+    $.each($('input[name="initiative"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedInitiative!==typeof undefined)
+            $.each(selectedInitiative.split(","), function (i,selected) {
+                if(selected===val){
+                    _this.prop('checked',true)
+                }
+            })
+    })
 });
 function searchByFilter(category, searchTerm, type, subType) {
 

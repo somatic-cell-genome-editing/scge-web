@@ -93,10 +93,10 @@
             <div class="ml-auto col-3" style="margin-right: 5%">
 
                 <div class="card">
-                    <div class="card-header">Delivery System</div>
+                    <!--<div class="card-header">Delivery System</div>-->
                     <div class="card-body">
                         <table >
-                            <tr ><th class="scge-details-label">SCGE:<%=d.getId()%></th></tr>
+                            <tr ><th class="scge-details-label" style="color:black;">SCGE:<%=d.getId()%></th></tr>
 
                         </table>
                     </div>
@@ -124,12 +124,10 @@
 </div>
 
 
-        <div id="associatedStudies">
-<br>
 <div id="associatedPublications">
     <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
 </div>
-<br>
+        <div id="associatedStudies">
 <jsp:include page="associatedStudies.jsp"/>
         </div>
 

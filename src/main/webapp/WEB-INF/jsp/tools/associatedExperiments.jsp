@@ -22,8 +22,12 @@
     });
 </script>
 
+
 <%
-    List<Experiment> experiments = (List<Experiment>) request.getAttribute("associatedExperiments");
+    Access localExpAccess = new Access();
+    Person localExpPerson = new UserService().getCurrentUser(request.getSession());
+
+List<Experiment> experiments = (List<Experiment>) request.getAttribute("associatedExperiments");
     if(experiments!=null && experiments.size()>0){
 
         //out.println(experiments.size());
@@ -40,9 +44,13 @@
     </thead>
     <tbody>
     <%
-        for (Experiment exp: experiments) {%>
-    <tr><td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td></tr>
-    <% } %>
+        for (Experiment exp: experiments) {
+            if (localExpAccess.hasExperimentAccess(exp.getExperimentId(),localExpPerson.getId())) {
+    %>
+
+                <tr><td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td></tr>
+    <%      }
+        }%>
     </tbody>
 </table>
 

@@ -32,7 +32,6 @@
 
 <% List<Guide> relatedGuides = (List<Guide>) request.getAttribute("guides");
     Editor editor = (Editor) request.getAttribute("editor");
-    List<Editor> comparableEditors= (List<Editor>) request.getAttribute("comparableEditors");
 
 %>
 
@@ -52,9 +51,6 @@
     <a href="#proteinSequence">Protein Sequence</a>
     <%}%>
 
-    <% if(comparableEditors!=null && comparableEditors.size()>0){%>
-    <a href="#comparable">Comparable Editors</a>
-    <%}%>
     <% if(relatedGuides!=null && relatedGuides.size()>0){%>
     <a href="#relatedGuides">Related Guides</a>
     <%}%>
@@ -75,9 +71,9 @@
 
         <div class="col-7">
             <table class="table table-sm summary" >
-                <tr ><td class="header" >Symbol</td><td>&nbsp;<%=SFN.parse(editor.getSymbol())%></td></tr>
+                <tr ><td class="header" >Symbol</td><td><%=SFN.parse(editor.getSymbol())%></td></tr>
                 <tr ><td class="header" >Description</td><td><%=SFN.parse(editor.getEditorDescription())%></td></tr>
-                <tr ><td class="header">Species</td><td>&nbsp;<%=SFN.parse(editor.getSpecies())%></td></tr>
+                <tr ><td class="header">Species</td><td><%=SFN.parse(editor.getSpecies())%></td></tr>
                 <tr ><td class="header">Type</td><td style="white-space: nowrap"><%=SFN.parse(editor.getType())%></td></tr>
                 <tr ><td class="header">Subtype</td><td style="white-space: nowrap"><%=SFN.parse(editor.getSubType())%></td></tr>
                 <tr ><td class="header">Alias</td><td style="white-space: nowrap"><%=SFN.parse(editor.getAlias())%></td></tr>
@@ -95,6 +91,9 @@
                 <tr ><td class="header">Catalog</td><td style="white-space: nowrap"><%=SFN.parse(editor.getCatalog())%></td></tr>
                 <tr ><td class="header">RRID</td><td style="white-space: nowrap"><%=SFN.parse(editor.getRrid())%></td></tr>
                 <tr><td colspan="2"><hr></td></tr>
+
+                <% if (!SFN.parse(editor.getTargetLocus()).equals("") || !SFN.parse(editor.getTarget_sequence()).equals("")) { %>
+
                 <tr ><td class="header">Target Locus</td><td style="white-space: nowrap"><%=SFN.parse(editor.getTargetLocus())%></td></tr>
                 <tr ><td class="header">Target Sequence</td><td style="white-space: nowrap"><%=SFN.parse(editor.getTarget_sequence())%></td></tr>
 
@@ -105,6 +104,7 @@
                     <%}%>
                 </td></tr>
 
+                <% } %>
             </table>
 
 
@@ -112,10 +112,10 @@
         <div class="ml-auto col-3" style="margin-right: 5%">
 
             <div class="card">
-                <div class="card-header">Genome Editor</div>
+                <!--<div class="card-header">Genome Editor</div>-->
                 <div class="card-body">
                     <table >
-                        <tr ><th class="scge-details-label">SCGE:<%=editor.getId()%></th></tr>
+                        <tr ><th class="scge-details-label" style="color:black;">SCGE:<%=editor.getId()%></th></tr>
 
                     </table>
                 </div>
@@ -137,43 +137,30 @@
             </table>
         </div>
     </div>
-    <hr>
-    <%}%>
-    <%if(comparableEditors!=null && comparableEditors.size()>0){%>
-    <div id="comparable">
-        <h4 class="page-header" style="color:grey;">Comparable Editors</h4>
-        <div class="container" align="center">
-            <table style="width: 80%">
-                <tr><td style="width: 10%"></td>
-                    <td>
-                        <%for (Editor cEditor: comparableEditors) { %>
-                        <a href="/toolkit/data/editors/editor?id=<%=cEditor.getId()%>"><%=cEditor.getSymbol()%></a><br>
-                        <% } %>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <hr>
     <%}%>
     <%if(relatedGuides!=null && relatedGuides.size()>0){%>
+    <hr>
     <div id="relatedGuides">
         <h4 class="page-header" style="color:grey;">Related Guides (<%=relatedGuides.size()%>)</h4>
         <div class="container" align="center">
             <table style="width:80%">
                 <tr><td style="width: 10%"></td>
                     <td>
-                        <div style="height:200px; overflow:scroll;border:1px solid #E5E5E5;">
-                        <%for (Guide relatedGuide: relatedGuides) { %>
-                        <a style="padding-top:3px;" href="/toolkit/data/guide/system?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence().toUpperCase()%></a><br>
-                        <% } %>
+                        <div style="height:200px; overflow:auto;border:1px solid #E5E5E5;">
+                        <%
+
+                            for (Guide relatedGuide: relatedGuides) {
+                                if (access.hasGuideAccess(relatedGuide,p)) {
+                        %>
+                                    <a style="padding-top:3px;" href="/toolkit/data/guide/system?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence().toUpperCase()%></a><br>
+                        <%      }
+                            } %>
                         </div>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
-    <hr>
     <%}%>
     <%
         long objectId = editor.getId();
@@ -189,7 +176,7 @@
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
     <% bucket="main5"; %>
     <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-    <hr>
+
 
     <div id="associatedProtocols">
         <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>

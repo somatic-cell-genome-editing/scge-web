@@ -19,10 +19,14 @@
     }
 
 </script>
-
+<c:if test="${fn:length(associatedPublications)>0}">
 <hr>
+</c:if >
 <table width="95%">
-    <tr><td><h4 class="page-header" style="color:grey;">Associated Publications</h4></td>
+    <tr><td>
+<c:if test="${fn:length(associatedPublications)>0}">
+        <h4 class="page-header" style="color:grey;">Associated Publications</h4>
+</c:if></td>
         <% if (access.isAdmin(p)) { %>
     <td align="right"><a href="/toolkit/data/publications/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Publications</a></td>
 <%}%>
@@ -58,13 +62,11 @@
         </table>
 
     </c:when>
-    <c:otherwise>
-        &nbsp;&nbsp;None Associated
-
-    </c:otherwise>
 </c:choose>
+<c:if test="${fn:length(relatedPublications)>0}">
 <hr>
 <%@include file="relatedPublications.jsp"%>
+</c:if>
 
 
 &nbsp;&nbsp;

@@ -1,5 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:choose>
+    <c:when test="${fn:length(sr.hits.hits)>0}">
+
+
 <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#listView" role="tab">
@@ -21,7 +25,12 @@
             <%@include file="resultsTable.jsp"%></div>
 
     </div>
+    </c:when>
+    <c:otherwise>
+        <%@include file="zeroResults.jsp"%>
+    </c:otherwise>
 
+</c:choose>
 
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
     <script>

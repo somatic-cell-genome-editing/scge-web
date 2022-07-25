@@ -60,21 +60,21 @@ public class Access {
      */
     public boolean canUpdateTier(Person p, Study s) throws Exception {
 
-        //   List<PersonInfo> personInfoRecords= this.getPersonInfoRecords(p.getId());
+     //   List<PersonInfo> personInfoRecords= this.getPersonInfoRecords(p.getId());
 
-        //   for(PersonInfo i:personInfoRecords){
-        if (s.getSubmitterId()==p.getId() || s.getPiId()==p.getId()) {
-            return true;
-        }else{
-            List<Person> pocs=sdao.getStudyPOC(s.getStudyId());
+     //   for(PersonInfo i:personInfoRecords){
+              if (s.getSubmitterId()==p.getId() || s.getPiId()==p.getId()) {
+                  return true;
+              }else{
+                  List<Person> pocs=sdao.getStudyPOC(s.getStudyId());
 
-            for (Person poc : pocs) {
-                if(poc.getId()==p.getId()) {
-                    return true;
-                }
-            }
-        }
-        //    }
+                  for (Person poc : pocs) {
+                      if(poc.getId()==p.getId()) {
+                       return true;
+                      }
+                  }
+              }
+    //    }
         return isAdmin(p);
     }
 

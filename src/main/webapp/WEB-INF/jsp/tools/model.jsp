@@ -83,10 +83,10 @@
         <div class="ml-auto col-3" style="margin-right: 5%">
 
             <div class="card">
-                <div class="card-header">Model</div>
+                <!--<div class="card-header">Model</div>-->
                 <div class="card-body">
                     <table >
-                        <tr ><th class="scge-details-label">SCGE:<%=m.getModelId()%></th></tr>
+                        <tr ><th class="scge-details-label" style="color:black;">SCGE:<%=m.getModelId()%></th></tr>
 
                     </table>
                 </div>
@@ -111,20 +111,20 @@
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 <% bucket="main5"; %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-<br>
+
 <div id="associatedProtocols">
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
 </div>
 
-<br>
+
 <div id="associatedPublications">
     <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
 </div>
-<br>
+
     <div id="associatedStudies">
 <jsp:include page="associatedStudies.jsp"/>
     </div>
-<br>
+
     <div id="associatedExperiments">
 <jsp:include page="associatedExperiments.jsp"/>
     </div>
