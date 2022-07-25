@@ -26,6 +26,9 @@
 
     </div>
     </c:when>
+    <c:otherwise>
+        <%@include file="zeroResults.jsp"%>
+    </c:otherwise>
 
 </c:choose>
 
