@@ -20,7 +20,7 @@ public class Facet {
 
         displayNames.put("modelType", "Model Type");
         displayNames.put("modelSubtype", "Model Subtype");
-        displayNames.put("modelOrganism", "Modal Organism");
+        displayNames.put("modelOrganism", "Model Organism");
         displayNames.put("transgeneReporter", "Transgene Reporter");
 
         displayNames.put("tissueTerm", "Target Tissue");
