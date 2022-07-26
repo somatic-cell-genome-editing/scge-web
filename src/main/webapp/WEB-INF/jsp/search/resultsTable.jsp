@@ -16,7 +16,14 @@
         });
     });
 </script>
-<h4>${fn:length(sr.hits.hits)}&nbsp;results <c:if test="${category!=null}">&nbsp;in ${category}</c:if> </h4>
+<c:choose>
+<c:when test="${action!=null && category!=null}">
+<h4>${fn:length(sr.hits.hits)}&nbsp;results <c:if test="${action!=null && category!=null}">&nbsp;in ${action}</c:if> </h4>
+    </c:when>
+<c:otherwise>
+    <h4>${action} </h4>
+</c:otherwise>
+</c:choose>
 <table id="myTable" class="tablesorter">
     <thead>
     <tr>
