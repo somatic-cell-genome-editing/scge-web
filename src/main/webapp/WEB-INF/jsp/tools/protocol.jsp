@@ -62,7 +62,7 @@
             <tr ><td class="header">Title</td><td><%=p.getTitle()%></td></tr>
             <tr><td class="header">Description</td><td><%=p.getDescription()%></td></tr>
             <tr><td class="header">Tier</td><td><%=p.getTier()%></td></tr>
-            <tr><td class="header">File Download</td><td><a onclick="_gaq.push(['_trackEvent','Download','PROTOCOL',this.href]);" href="/toolkit/files/protocol/<%=p.getFilename()%>"><%=p.getFilename()%></a></td></tr>
+            <tr><td class="header">File Download</td><td><a href="/toolkit/files/protocol/<%=p.getFilename()%>"><%=p.getFilename()%></a></td></tr>
             <tr><td class="header">Additional Information</td><td><%=p.getXref()%></td></tr>
             <tr><td class="header">Keywords</td><td><%=p.getKeywords()%></td></tr>
         </table>
