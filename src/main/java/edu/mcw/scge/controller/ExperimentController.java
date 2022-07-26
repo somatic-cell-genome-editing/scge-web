@@ -729,7 +729,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         Experiment experiment = edao.getExperiment(experimentId);
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
         Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
-
+        Set<String> unitList = new TreeSet<>();
         if (!access.hasStudyAccess(study, p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -756,8 +756,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             List<ExperimentResultDetail> experimentResultList = dbService.getExperimentalResults(r.getExperimentRecordId());
             List<ExperimentResultDetail> experimentResults=new ArrayList<>();
             for(ExperimentResultDetail e: experimentResultList){
-                if(e.getResult() != null && !e.getResult().equals("") && !e.getResult().equals("NaN"))
+                if(e.getResult() != null && !e.getResult().equals("") && !e.getResult().equals("NaN")) {
                     experimentResults.add(e);
+                    unitList.add(e.getUnits());
+                }
             }
            /* for (AnimalTestingResultsSummary s : results) {
                 List<Sample> samples = dbService.getSampleDetails(s.getSummaryResultsId(), s.getExpRecId());
@@ -769,11 +771,14 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             List<Guide> guideList = dbService.getGuidesByExpRecId(r.getExperimentRecordId());
             List<Vector> vectorList = dbService.getVectorsByExpRecId(r.getExperimentRecordId());
             List<ApplicationMethod> applicationMethod = dbService.getApplicationMethodsById(r.getApplicationMethodId());
+
+
             req.setAttribute("applicationMethod", applicationMethod);
             req.setAttribute("deliveryList", deliveryList);
             req.setAttribute("editorList",editorList);
             req.setAttribute("guideList",guideList);
             req.setAttribute("vectorList",vectorList);
+            req.setAttribute("unitList",unitList);
             req.setAttribute("experiment",experiment);
             req.setAttribute("experimentRecord", r);
             req.setAttribute("model", m);
