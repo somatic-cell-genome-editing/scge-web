@@ -46,13 +46,13 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Small+Animal+Testing+Center+(SATC)&typeBkt=Large+Animal+Reporter+(LAR)&typeBkt=Large+Animal+Testing+Center+(LATC)">Animal Reporter And Testing Center Initiative</a>
+                            <a class="dropdown-item" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Small+Animal+Testing+Center+%28SATC%29">Animal Reporter And Testing Center Initiative</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=In+Vivo+Cell+Tracking">Biological Effects (In Vivo Cell Tracking Projects)</a>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Biological+Effects+Initiative&typeBkt=Biological+Systems">Biological Effects (Biological Systems)</a>
+                            <a class="dropdown-item" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=In+Vivo+Cell+Tracking">Biological Effects (In Vivo Cell Tracking Projects)</a>
+                            <a class="dropdown-item" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Biological+Systems">Biological Effects (Biological Systems)</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Delivery+Systems+Initiative">Delivery Systems Initiative</a>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Study?searchTerm=&facetSearch=true&typeBkt=Genome+Editors">Genome Editor Projects</a>
+                            <a class="dropdown-item" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Delivery+Systems+Initiative">Delivery Systems Initiative</a>
+                            <a class="dropdown-item" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Genome+Editors">Genome Editor Projects</a>
 
                         </div>
                     </div>
