@@ -34,7 +34,19 @@
             <c:if test="${fn:length(sr.hits.hits)>0}">
                 <c:forEach items="${selectedFilters}" var="termList">
                     <c:forEach items="${termList.value}" var="filter">
+                        <c:set var="flag" value="false"/>
+                        <c:forEach items="${aggregations}" var="agg">
+                        <c:if test="${fn:length(agg.value.buckets)>0}">
+                            <c:forEach items="${agg.value.buckets}" var="bkt">
+                                <c:if test="${bkt.key==filter}">
+                                    <c:set var="flag" value="true"/>
+                                </c:if>
+                            </c:forEach>
+                        </c:if>
+                        </c:forEach>
+                        <c:if test="${flag=='true'}">
                         <button class="btn btn-light btn-sm " value="${filter}" onclick="removeFilter('${filter}', '${termList.key}')">${filter}&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red" ></i></button>
+                        </c:if>
                     </c:forEach>
                 </c:forEach>
             </c:if>
