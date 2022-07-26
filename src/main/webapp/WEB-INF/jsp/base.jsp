@@ -180,7 +180,7 @@
 
                         </c:when>
                         <c:otherwise>
-                            <form action="/toolkit/data/search/results" >
+                            <form id="searchFormBasePage" action="/toolkit/data/search/results" >
                         <div class="container-fluid  jumbotron"  id="home-page-search" style="background-color: #FFFFFF;padding-top: 20px;padding-bottom: 20px">
                             <div>
                                 <div class="row d-flex justify-content-center" align="center">
@@ -192,7 +192,7 @@
                                         <div class="input-group md-form form-sm form-2 pl-0">
                                             <input class="form-control my-0 py-1 amber-border" id="searchTerm" name="searchTerm" type="text" placeholder="Search SCGE Toolkit" aria-label="Search">
                                             <div class="input-group-append">
-                <span class="input-group-text amber lighten-3" id="basic-text1"><i class="fas fa-search text-grey"
+                                             <span class="input-group-text amber lighten-3 btn" id="basic-text1" onclick="$('#searchFormBasePage').submit()"><i class="fas fa-search text-grey"
                                                                                    aria-hidden="true"></i></span>
                                             </div>
                                         </div>

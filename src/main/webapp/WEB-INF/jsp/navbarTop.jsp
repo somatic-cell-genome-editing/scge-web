@@ -14,12 +14,12 @@
         <span style="color:white"><i class="fa fa-user" aria-hidden="true"></i></span>
     </button>
 
-        <form class="input-group md-form form-sm form-2 pl-0 d-flex justify-content-center mx-4 mt-2" action="/toolkit/data/search/results">
+        <form id="searchForm" class="input-group md-form form-sm form-2 pl-0 d-flex justify-content-center mx-4 mt-2" action="/toolkit/data/search/results">
         <div class="input-group md-form form-sm form-2 pl-0">
 
             <input class="form-control my-0 py-1 amber-border" id="commonSearchTerm" name="searchTerm" type="text" placeholder="Search SCGE Toolkit" aria-label="Search">
             <div class="input-group-append">
-            <span class="input-group-text amber lighten-3" id="basic-text1"><i class="fas fa-search text-grey"
+            <span class="input-group-text amber lighten-3" id="basic-text1" onclick="$('#searchForm').submit()"><i class="fas fa-search text-grey"
                                                                        aria-hidden="true"></i></span>
             </div>
 
