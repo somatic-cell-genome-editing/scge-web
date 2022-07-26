@@ -30,7 +30,7 @@
 
 </style>
 
-<hr>
+
 <table width="70%" align="center" >
     <tr>
         <td colspan="2">
