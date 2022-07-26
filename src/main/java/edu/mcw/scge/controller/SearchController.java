@@ -1,5 +1,7 @@
 package edu.mcw.scge.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.datamodel.Person;
@@ -36,7 +38,7 @@ public class SearchController{
     Access access=new Access();
     UserService userService=new UserService();
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
-
+    Gson gson=new Gson();
     @RequestMapping(value="/results")
     public String getResults(HttpServletRequest req, HttpServletResponse res, @RequestParam(required = false) String searchTerm) throws Exception {
         Person user=userService.getCurrentUser(req.getSession());
@@ -235,22 +237,56 @@ public class SearchController{
         }*/
         return null;
     }
-    public Map<String, String> getFilterMap(HttpServletRequest req){
+    public Map<String, String> getFilterMap(HttpServletRequest req) throws IOException {
+        String unchecked= req.getParameter("unchecked");
         Map<String, String> filterMap=new HashMap<>();
-        Map<String, String> selectedFilters=new HashMap<>();
+        LinkedHashMap<String, String> selectedFilters=new LinkedHashMap<>();
+        String filterJsonString=req.getParameter("selectedFiltersJson");
+
+        if(filterJsonString!=null) {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, String> filterJson = mapper.readValue(filterJsonString, Map.class);
+            if (filterJson != null) {
+                for (Map.Entry e : filterJson.entrySet()) {
+                    List<String> filterValues= Arrays.asList(e.getValue().toString().split(","));
+                    // System.out.println(e.getKey() + "\t" + e.getValue().toString());
+                    String key= (String) e.getKey();
+                    List<String> keyValues= new ArrayList<>();
+                    if(selectedFilters.get(key)!=null)
+                        keyValues.addAll(Arrays.asList(selectedFilters.get(key).split(",")));
+                        for(String filterValue:filterValues){
+                            if(unchecked!=null && !filterValue.equalsIgnoreCase(unchecked)){
+                                if(!keyValues.contains(filterValue))
+                                    keyValues.add(filterValue);
+                            }
+                        }
+                    if(keyValues.size()>0)
+                        selectedFilters.put(key, String.join(",", keyValues));
+                }
+            }
+        }
+
         for(String param:Facet.facetParams)
         {
             if (req.getParameterValues(param) != null) {
                 List<String> values = Arrays.asList(req.getParameterValues(param));
+                List<String> keyValues= new ArrayList<>();
+                if(selectedFilters.get(param)!=null)
+                    keyValues.addAll(Arrays.asList(selectedFilters.get(param).split(",")));
                 if (values.size() > 0) {
-                    filterMap.put(param, String.join(",", values));
-                    selectedFilters.put(param, String.join(",", values));
+                    for(String val:values){
+                        if(!keyValues.contains(val)){
+                            keyValues.add(val);
+                        }
+                    }
+                    filterMap.put(param, String.join(",", keyValues));
+                    selectedFilters.put(param, String.join(",", keyValues));
                 }
                 }
             }
         req.setAttribute("selectedFilters", selectedFilters);
+        req.setAttribute("selectedFiltersJson" , gson.toJson(selectedFilters));
 
-     System.out.println("filter Map:" + filterMap.toString());
         return filterMap;
     }
 

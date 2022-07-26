@@ -43,9 +43,9 @@ public class IndexServices {
        searchRequest.source(srb);
 
        SearchResponse sr= ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
-        for(SearchHit hit:sr.getHits().getHits()){
+      /*  for(SearchHit hit:sr.getHits().getHits()){
             System.out.println(hit.getHighlightFields().keySet().toString());
-        }
+        }*/
        return sr;
 
     }
@@ -130,9 +130,9 @@ public class IndexServices {
             hb.field(field);
         }
        hb.field("*");
-       hb.numOfFragments(1);
+      // hb.numOfFragments(1);
      //  hb.field("*");
-        System.out.println(gson.toJson(hb));
+      //  System.out.println(gson.toJson(hb));
         return hb;
     }
 
@@ -288,13 +288,13 @@ public class IndexServices {
         for(Terms.Bucket b:categoryAggs.getBuckets()){
             if(  b.getAggregations()!=null) {
                 Terms typeAggs = b.getAggregations().get("type");
-                System.out.println(b.getKey() + "\t" + b.getDocCount());
+              //  System.out.println(b.getKey() + "\t" + b.getDocCount());
                 if (typeAggs != null) {
                     aggregations.put(b.getKey() + "TypeAggs", (List<Terms.Bucket>) typeAggs.getBuckets());
                     for (Terms.Bucket bkt : typeAggs.getBuckets()) {
                         Terms subtypeAggs = bkt.getAggregations().get("subtype");
                         aggregations.put(bkt.getKey() + "SubtypeAggs", (List<Terms.Bucket>) subtypeAggs.getBuckets());
-                        System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() + "\tsubtypeAggsSize: " + subtypeAggs.getBuckets().size());
+                       // System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() + "\tsubtypeAggsSize: " + subtypeAggs.getBuckets().size());
 
                     }
                 }

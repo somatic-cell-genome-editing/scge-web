@@ -76,9 +76,11 @@
     <c:if test="${action=='Studies And Experiments'}">
         <c:set var="actionLink" value="/toolkit/data/search/results/Study/Experiment"/>
     </c:if>
-    <form action="${actionLink}" method="get" >
+    <form action="${actionLink}" method="get" id="sidebarForm" >
         <input type="hidden" name="searchTerm" value="${searchTerm}"/>
         <input type="hidden" name="facetSearch" value="true"/>
+        <input type="hidden" id="unchecked" name="unchecked" value=''/>
+        <input type="hidden" name="selectedFiltersJson" value='${selectedFiltersJson}'/>
         <c:if test="${category=='Study'}">
             <%@include file="studyFacets.jsp"%>
         </c:if>
@@ -105,4 +107,12 @@
         </c:if>
     </form>
 </div>
+<script>
+    $(".form-check-input").on("change",function () {
+        if (!$(this).is(":checked")) {
+            $('#unchecked').val($(this).val());
 
+        }
+        $('#sidebarForm').submit();
+    })
+</script>
