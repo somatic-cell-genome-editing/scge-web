@@ -30,7 +30,7 @@
 
 </style>
 
-<hr>
+
 <table width="70%" align="center" >
     <tr>
         <td colspan="2">
@@ -46,7 +46,7 @@
     </tr>
     <tr>
         <td valign="top"><img src="/toolkit/images/bullet_30.png" style="padding-left:25px;padding-right:10px;"/></td>
-        <td style="padding-bottom:5px;font-size:16px;font-family: 'Roboto', sans-serif;">We showcase development and <span style="font-weight:700;">independent validation of novel Delivery Systems</span> using unique preclinical Model Systems</td>
+        <td style="padding-bottom:5px;font-size:16px;font-family: 'Roboto', sans-serif;">We showcase development and <span style="font-weight:700;">independent validation of novel delivery systems</span> using unique preclinical model systems</td>
     </tr>
     <tr>
         <td valign="top"><img src="/toolkit/images/bullet_30.png" style="padding-left:25px;padding-right:10px;"/></td>
