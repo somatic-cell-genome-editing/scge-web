@@ -292,7 +292,7 @@
     Sorry,  This page is not available.<br><br>
 
     If you feel you should have access to this page make sure you are logged in with the correct account<br><br>
-    If you are still having trouble please <a href="https://scge.mcw.edu/contact/">Contact Us</a>.
+    If you are still having trouble please <a onclick="openForm()" ref="https://scge.mcw.edu/contact/">Contact Us</a>.
 
 
 

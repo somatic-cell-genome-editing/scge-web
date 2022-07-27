@@ -27,7 +27,7 @@
 
                 <a href="https://scge.mcw.edu/about-the-scge/">SCGE&nbsp;Consortium&nbsp;Overview</a>
                 <a href="https://scge.mcw.edu">SCGE&nbsp;Consortium&nbsp;Parent&nbsp;Site</a>
-                <a href="https://scge.mcw.edu/contact/">Contact&nbsp;Information</a>
+                <a onclick="openForm()" ref="https://scge.mcw.edu/contact/">Contact&nbsp;Us</a>
             </div>
 
         </td>
