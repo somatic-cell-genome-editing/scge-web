@@ -101,13 +101,8 @@
                     <% }%>
                     <%}%>
                 </div>
-                <span class="scge-details-label">Submission - SCGE ID:<%=study.getStudyId()%></span>&nbsp;Submission
-                Date:<%=study.getSubmissionDate()%>&nbsp;Status:
-                <%if (experiments.size() > 0) {%>
-                <span style="color:green;font-weight: bold">Processed</span>
-                <%} else {%>
-                <span style="color:red;font-weight: bold">Received</span>
-                <%}%>
+                <span class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;Submission
+                Date:<%=study.getSubmissionDate()%>&nbsp;
             </div>
             <hr style="border:2px solid grey">
             <div align="right"  >
