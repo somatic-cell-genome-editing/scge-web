@@ -25,14 +25,14 @@
         <td width="300" border="1">
             <div class="col-md-2 sidenav bg-light">
 
-                <a href="https://scge.mcw.edu/about-the-scge/">SCGE&nbsp;Consortium&nbsp;Overview</a>
-                <a href="https://scge.mcw.edu">SCGE&nbsp;Consortium&nbsp;Parent&nbsp;Site</a>
+                <a target="_blank" href="https://scge.mcw.edu/about-the-scge/">SCGE&nbsp;Consortium&nbsp;Overview</a>
+                <a target="_blank" href="https://scge.mcw.edu">SCGE&nbsp;Consortium&nbsp;Parent&nbsp;Site</a>
                 <a onclick="openForm()" href="javascript:void(0)">Contact&nbsp;Us</a>
             </div>
 
         </td>
         <td>
-            The SCGE Consortium is supported by the NIH Common Fund through cooperative agreements administered by the National Center for Advancing Translational Sciences,  NIH Office of the Director, National Heart, Lung, and Blood Institute, National Institute of Arthritis and Musculoskeletal and Skin Diseases, National Institute of Neurological Disorders and Stroke, National Institute of Allergy and Infectious Diseases, National Human Genome Research Institute, and National Institute of Biomedical Imaging and Bioengineering. The consortium is managed by a trans-NIH working group representing multiple NIH Institutes and Centers. For more information about the SCGE NIH Working Group and the Common Fund, please go <a href="https://commonfund.nih.gov/editing">here</a>.
+            The SCGE Consortium is supported by the NIH Common Fund through cooperative agreements administered by the National Center for Advancing Translational Sciences,  NIH Office of the Director, National Heart, Lung, and Blood Institute, National Institute of Arthritis and Musculoskeletal and Skin Diseases, National Institute of Neurological Disorders and Stroke, National Institute of Allergy and Infectious Diseases, National Human Genome Research Institute, and National Institute of Biomedical Imaging and Bioengineering. The consortium is managed by a trans-NIH working group representing multiple NIH Institutes and Centers. For more information about the SCGE NIH Working Group and the Common Fund, please go <a target="_blank" href="https://commonfund.nih.gov/editing">here</a>.
 
         </td>
     </tr>
