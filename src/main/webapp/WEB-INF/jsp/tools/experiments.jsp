@@ -83,7 +83,7 @@
          style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
 
-    <div class="container-fluid">
+    <div class="container-fluid bg-light shadow p-3 mb-5 bg-white rounded">
 
         <div class="container-fluid" style="margin-top: 1%;">
 
@@ -104,7 +104,7 @@
                 <span class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;-&nbsp;Submission
                 Date:&nbsp;<%=study.getSubmissionDate()%>&nbsp;
             </div>
-            <hr style="border:2px solid grey">
+
             <div align="right"  >
                 <table style="width: 30%">
                     <tr>
@@ -222,6 +222,7 @@
             </div>
         </div>
     </div>
+
     <%}%>
 </div>
 
