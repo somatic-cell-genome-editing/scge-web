@@ -257,8 +257,11 @@
                         <c:if test="${bkt.key!=''}">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="${agg.key}" value="${bkt.key}" id="${bkt.key}">
+                                <c:set var="lastName" value="${fn:substring(bkt.key, 0,fn:indexOf(bkt.key, ' '))}"/>
+                                <c:set var="firstName" value="${fn:substring(bkt.key,fn:indexOf(bkt.key, ' '),fn:length(bkt.key))}"/>
+
                                 <label class="form-check-label" for="${bkt.key}">
-                                        ${bkt.key}&nbsp;(${bkt.docCount})
+                                        ${lastName},${firstName}&nbsp;(${bkt.docCount})
                                 </label>
                             </div>
                         </c:if>
