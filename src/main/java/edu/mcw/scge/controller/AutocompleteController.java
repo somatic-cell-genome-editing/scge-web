@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Controller
@@ -51,7 +52,7 @@ public class AutocompleteController {
                     for (Map.Entry e : h.getHighlightFields().entrySet()) {
                         HighlightField field = (HighlightField) e.getValue();
                         for (Text s : field.fragments()) {
-                            //     System.out.println(s);
+                               System.out.println(s.bytes().utf8ToString());
                             String str = s.toString().replace("<em>", "<strong>")
                                     .replace("</em>", "</strong>");
                             autocompleteList.put(str,"");
@@ -64,6 +65,7 @@ public class AutocompleteController {
             String autoList = gson.toJson(autocompleteList.keySet());
            // System.out.println("AUTO LIST:"+autoList);
             try {
+                res.setContentType ("text/html;charset=utf-8");
                 res.getWriter().write(autoList);
             } catch (IOException e) {
                 e.printStackTrace();
