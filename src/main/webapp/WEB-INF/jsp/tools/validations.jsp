@@ -33,7 +33,7 @@
         <input type="hidden" name="experimentIds" value="<%=experimentIDS%>"/>
             <button class="btn btn-success btn-sm" type="submit">View Experiments Validated</button>
         </form>
-    <%}%>
+    <%break;}%>
     <!--button class="btn btn-success btn-sm">
         <a href="/toolkit/data/compare/delivery/<%=exp.getExperimentId()%>/<%=((List<Experiment>)experimentsValidatedMap.get(exp.getExperimentId())).get(0).getExperimentId()%>">Compare</a>
     </button-->
@@ -70,7 +70,7 @@
 
         <button class="btn btn-success btn-sm" type="submit">View Validation</button>
     </form>
-    <%}%>
+    <%break;}%>
     <!--button class="btn btn-success btn-sm"><a href="/toolkit/data/compare/delivery/<%=exp.getExperimentId()%>/<%=((List<Experiment>)validationExperimentsMap.get(exp.getExperimentId())).get(0).getExperimentId()%>>">Compare</a>
     </button-->
 
