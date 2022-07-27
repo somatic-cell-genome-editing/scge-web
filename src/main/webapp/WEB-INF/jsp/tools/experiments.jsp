@@ -97,8 +97,7 @@
                             if (study.getStudy().equalsIgnoreCase(grantDao.getGrantByGroupId(study.getGroupId()).getGrantTitle())) {%>
                     <%=study.getStudy()%>
                     <% } else {%>
-                    <strong>VALIDATION - <%=personDao.getPersonById(study.getDeliveryPiId()).get(0).getName()%>
-                    </strong>&nbsp;<%=study.getStudy()%>
+                    <strong>VALIDATION&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
                     <% }%>
                     <%}%>
                 </div>
