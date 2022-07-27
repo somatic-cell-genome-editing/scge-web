@@ -39,26 +39,13 @@
                     <a class="nav-link Publications" href="/toolkit/data/publications/search" >Publications</a>
                 </li>
 
-                <li class="nav-item dropdown text-nowrap">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary"><a href="/toolkit/data/initiatives" style="color:#FFFFFF;font-size: 16px">About SCGE</a></button>
-                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Small+Animal+Testing+Center+%28SATC%29">Animal Reporter And Testing Center Initiative</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=In+Vivo+Cell+Tracking">Biological Effects (In Vivo Cell Tracking Projects)</a>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Biological+Systems">Biological Effects (Biological Systems)</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Delivery+Systems+Initiative">Delivery Systems Initiative</a>
-                            <a class="dropdown-item" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Genome+Editors">Genome Editor Projects</a>
-
-                        </div>
-                    </div>
-
-                </li>
 <c:if test="${action==null}">
+    <li class="nav-item dropdown text-nowrap">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary"><a href="/toolkit/data/initiatives" style="color:#FFFFFF;font-size: 16px">About SCGE</a></button>
+        </div>
+
+    </li>
                 <li class="nav-item  text-nowrap text-responsive">
                     <a class="nav-link" href="https://scge.mcw.edu/" style="font-weight: 400;font-size: 16px">
                         <i class="fas fa-home"></i>&nbsp;SCGE Consortium Home</a>
