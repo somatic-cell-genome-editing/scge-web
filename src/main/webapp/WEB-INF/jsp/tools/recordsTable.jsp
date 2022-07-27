@@ -165,7 +165,7 @@ List<String> options = new ArrayList<>();
         <% if (resultTypeList.size() > 0 ) { %><th>Result Type</th><% } %>
         <% if (unitList.size() > 0 ) {  %><th>Units</th><% } %>
         <th id="result">Result/Mean</th>
-        <th></th>
+        <th>Image</th>
     </tr>
     </thead>
 
