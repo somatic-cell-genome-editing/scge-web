@@ -101,8 +101,8 @@
                     <% }%>
                     <%}%>
                 </div>
-                <span class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;Submission
-                Date:<%=study.getSubmissionDate()%>&nbsp;
+                <span class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;-&nbsp;Submission
+                Date:&nbsp;<%=study.getSubmissionDate()%>&nbsp;
             </div>
             <hr style="border:2px solid grey">
             <div align="right"  >
