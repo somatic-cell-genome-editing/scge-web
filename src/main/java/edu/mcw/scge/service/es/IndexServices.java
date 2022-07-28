@@ -489,8 +489,8 @@ public class IndexServices {
 
                 "tissueIds", "tissueTerm", "termSynonyms",
                 "site", "sequence", "pam", "detectionMethod","target",
-               "experimentName","experimentType",
-               "study"
+               "experimentName","experimentType"
+
               /* "studyNames",
                 "experimentNames"*/
 
