@@ -93,7 +93,19 @@
                 <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
                     <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> [<i class="fa-solid fa-v" style="color:darkorange"></i>]</span>
                 </c:if>
-                <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>
+                <c:choose>
+                    <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
+                        <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
+                                ${hit.sourceAsMap.name}</a>
+                    </c:when>
+                    <c:otherwise>
+                        ${hit.sourceAsMap.name}&nbsp;
+                        <c:if test="${hit.sourceAsMap.externalLink!=null}">
+                            <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
+                <!--a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a--> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>
            <small>
             <c:if test="${hit.sourceAsMap.experimentType!=null}">
                -  ${hit.sourceAsMap.experimentType}
@@ -107,7 +119,16 @@
             </c:if>
 
             <c:if test="${hit.sourceAsMap.symbol!=null}">
-            <h6><a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}
+            <h6><c:choose>
+                <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
+                    <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
+                            ${hit.sourceAsMap.symbol}</a>
+                </c:when>
+                <c:otherwise>
+                    ${hit.sourceAsMap.symbol}&nbsp;<i class="fa fa-external-link" aria-hidden="true"></i>
+                </c:otherwise>
+            </c:choose>
+               &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}
             </small>
                 <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
                 <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
