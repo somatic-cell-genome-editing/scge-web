@@ -204,9 +204,10 @@
                 </c:forEach>
                 </span> <br>
             </c:if>
+            <c:if test="${fn:length(hit.sourceAsMap.studyNames)>0 || fn:length(hit.sourceAsMap.experimentNames)>0}">
             <small class="text-muted">View Associated:&nbsp;</small><%@include file="associations.jsp"%>
 
-
+            </c:if>
 
             <!--c:if test="$-{hit.sourceAsMap.experimentCount>0}"-->
                 <!--i class="fas fa-eye"></i-->
