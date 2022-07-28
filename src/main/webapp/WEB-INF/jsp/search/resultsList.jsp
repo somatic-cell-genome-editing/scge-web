@@ -125,8 +125,10 @@
                             ${hit.sourceAsMap.symbol}</a>
                 </c:when>
                 <c:otherwise>
-                    ${hit.sourceAsMap.symbol}&nbsp;<i class="fa fa-external-link" aria-hidden="true"></i>
-                </c:otherwise>
+                    ${hit.sourceAsMap.symbol}&nbsp;
+                    <c:if test="${hit.sourceAsMap.externalLink!=null}">
+                        <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </c:if>                </c:otherwise>
             </c:choose>
                &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}
             </small>

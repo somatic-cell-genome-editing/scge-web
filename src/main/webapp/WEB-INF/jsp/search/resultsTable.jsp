@@ -67,15 +67,33 @@
             <td>
                 <c:choose>
                     <c:when test="${hit.sourceAsMap.symbol!=null}">
-                        <a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
 
-                                ${hit.sourceAsMap.symbol}
-
-                        </a>
+                        <c:choose>
+                            <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
+                                <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
+                                        ${hit.sourceAsMap.symbol}</a>
+                            </c:when>
+                            <c:otherwise>
+                                ${hit.sourceAsMap.symbol}&nbsp;
+                                <c:if test="${hit.sourceAsMap.externalLink!=null}">
+                                    <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
                     </c:when>
                     <c:otherwise>
-                    <a href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}
-                    </c:otherwise>
+                        <c:choose>
+                            <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
+                                <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
+                                        ${hit.sourceAsMap.name}</a>
+                            </c:when>
+                            <c:otherwise>
+                                ${hit.sourceAsMap.name}&nbsp;
+                                <c:if test="${hit.sourceAsMap.externalLink!=null}">
+                                    <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>                    </c:otherwise>
                 </c:choose>
 
             </td>
