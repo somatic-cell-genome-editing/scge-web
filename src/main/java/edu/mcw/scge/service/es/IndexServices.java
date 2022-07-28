@@ -322,6 +322,21 @@ public class IndexServices {
     public BoolQueryBuilder buildBoolQuery(List<String> categories, String searchTerm , Map<String, String> filterMap, boolean DCCNIHMember,boolean consortiumMember){
         BoolQueryBuilder q=new BoolQueryBuilder();
         q.must(buildQuery(searchTerm));
+
+      if(!DCCNIHMember && consortiumMember) {
+            q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
+            q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
+                    should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
+        }
+        if(!consortiumMember){
+           q.filter(QueryBuilders.termQuery("accessLevel.keyword", "public"));
+           q.filter((QueryBuilders.termQuery("tier", 4)));
+
+        }
+
+        if(DCCNIHMember){
+            q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
+        }
         if(categories!=null && categories.size()>0) {
             q.filter(QueryBuilders.termsQuery("category.keyword", categories.toArray()));
 
@@ -332,16 +347,8 @@ public class IndexServices {
                 q.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
 
             }
-        if(!DCCNIHMember && consortiumMember) {
-            q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
-                    should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
-        }
-        if(!consortiumMember){
-            q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
-                    should(QueryBuilders.termQuery("tier", 4))));
-        }
 
-   //    System.out.println(q);
+
         return q;
     }
     public SearchResponse getFilteredAggregations(List<String> categories, String searchTerm,
@@ -411,7 +418,7 @@ public class IndexServices {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .analyzer("pattern")
+                       // .analyzer("pattern")
                 );
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
@@ -482,8 +489,10 @@ public class IndexServices {
 
                 "tissueIds", "tissueTerm", "termSynonyms",
                 "site", "sequence", "pam", "detectionMethod","target",
-               "studyNames",
-                "experimentNames"
+               "experimentName","experimentType",
+               "study"
+              /* "studyNames",
+                "experimentNames"*/
 
 
 
