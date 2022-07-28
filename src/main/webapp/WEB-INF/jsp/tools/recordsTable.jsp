@@ -210,12 +210,16 @@ List<String> options = new ArrayList<>();
                 Set<String> targetLocusSet=new HashSet<>();
                 boolean fst = true;
                 for(Guide g: guides) {
-                    if (!fst) { guide += ";"; targetLocus+=";"; }
+                    if (!fst) { guide += ";";  }
                     guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+SFN.parse(g.getGuide())+"</a>";
                    if( g.getTargetLocus()!=null)
                     if(! targetLocusSet.contains(g.getTargetLocus())) {
                         targetLocusSet.add(g.getTargetLocus());
+                        if(!fst) {
+                            targetLocus += ";";
+                        }
                         targetLocus += SFN.parse(g.getTargetLocus()) + "</a>";
+
                     }
                     fst = false;
                 }
