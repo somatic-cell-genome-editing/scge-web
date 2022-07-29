@@ -118,11 +118,17 @@ List<String> options = new ArrayList<>();
 
 }  else { %>
 <hr>
+    <% if (options.size() == 1) { %>
+        <div style="display:none;">
+    <% } else { %>
+        <div>
+    <% } %>
     <b style="font-size:16px;">Make a selection to highlight records on the chart: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
     <% for(String filter: options) {%>
     <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
     <%} %>
 </select>
+    </>
 <% } %>
 
 
@@ -210,16 +216,12 @@ List<String> options = new ArrayList<>();
                 Set<String> targetLocusSet=new HashSet<>();
                 boolean fst = true;
                 for(Guide g: guides) {
-                    if (!fst) { guide += ";";  }
+                    if (!fst) { guide += ";"; targetLocus+=";"; }
                     guide += "<a href=\"/toolkit/data/guide/system?id="+g.getGuide_id()+"\">"+SFN.parse(g.getGuide())+"</a>";
                    if( g.getTargetLocus()!=null)
                     if(! targetLocusSet.contains(g.getTargetLocus())) {
                         targetLocusSet.add(g.getTargetLocus());
-                        if(!fst) {
-                            targetLocus += ";";
-                        }
                         targetLocus += SFN.parse(g.getTargetLocus()) + "</a>";
-
                     }
                     fst = false;
                 }
