@@ -118,11 +118,17 @@ List<String> options = new ArrayList<>();
 
 }  else { %>
 <hr>
+    <% if (options.size() == 1) { %>
+        <div style="display:none;">
+    <% } else { %>
+        <div>
+    <% } %>
     <b style="font-size:16px;">Make a selection to highlight records on the chart: </b> <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
     <% for(String filter: options) {%>
     <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
     <%} %>
 </select>
+    </>
 <% } %>
 
 
@@ -165,7 +171,7 @@ List<String> options = new ArrayList<>();
         <% if (resultTypeList.size() > 0 ) { %><th>Result Type</th><% } %>
         <% if (unitList.size() > 0 ) {  %><th>Units</th><% } %>
         <th id="result">Result/Mean</th>
-        <th></th>
+        <th>Image</th>
     </tr>
     </thead>
 

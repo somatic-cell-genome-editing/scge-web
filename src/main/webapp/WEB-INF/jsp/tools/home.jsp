@@ -54,7 +54,7 @@
     </tr>
         <tr>
             <td colspan="2">
-                <a href="https://scge.mcw.edu" title="Go to SCGE Main Site"><button class="btn btn-primary btn-sm" style="margin-top:20px;margin-bottom:15px;margin-left:25px;">Learn more about the SCGE program</button></a>
+                <a target="_blank" href="https://scge.mcw.edu" title="Go to SCGE Main Site"><button class="btn btn-primary btn-sm" style="margin-top:20px;margin-bottom:15px;margin-left:25px;">Learn more about the SCGE program</button></a>
             </td>
         </tr>
 </table>

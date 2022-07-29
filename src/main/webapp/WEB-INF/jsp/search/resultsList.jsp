@@ -74,7 +74,14 @@
         e.printStackTrace();
     }
 %>
-<h4>${fn:length(sr.hits.hits)}&nbsp;results<c:if test="${category!=null}">&nbsp;in ${category}</c:if> </h4>
+<c:choose>
+    <c:when test="${action!=null && category!=null}">
+        <h4>${fn:length(sr.hits.hits)}&nbsp;results<c:if test="${action!=null && category!=null}">&nbsp;in ${action}</c:if> </h4>
+    </c:when>
+    <c:otherwise>
+        <h4>${action} </h4>
+    </c:otherwise>
+</c:choose>
 <table class="table table-striped">
     <c:forEach items="${sr.hits.hits}" var="hit">
     <tr><td style="border-color: transparent">
@@ -86,7 +93,19 @@
                 <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
                     <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> [<i class="fa-solid fa-v" style="color:darkorange"></i>]</span>
                 </c:if>
-                <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>
+                <c:choose>
+                    <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
+                        <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
+                                ${hit.sourceAsMap.name}</a>
+                    </c:when>
+                    <c:otherwise>
+                        ${hit.sourceAsMap.name}&nbsp;
+                        <c:if test="${hit.sourceAsMap.externalLink!=null}">
+                            <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
+                <!--a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a--> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>
            <small>
             <c:if test="${hit.sourceAsMap.experimentType!=null}">
                -  ${hit.sourceAsMap.experimentType}
@@ -100,7 +119,18 @@
             </c:if>
 
             <c:if test="${hit.sourceAsMap.symbol!=null}">
-            <h6><a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.symbol}</a>&nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}
+            <h6><c:choose>
+                <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
+                    <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
+                            ${hit.sourceAsMap.symbol}</a>
+                </c:when>
+                <c:otherwise>
+                    ${hit.sourceAsMap.symbol}&nbsp;
+                    <c:if test="${hit.sourceAsMap.externalLink!=null}">
+                        <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </c:if>                </c:otherwise>
+            </c:choose>
+               &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}
             </small>
                 <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
                 <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
@@ -174,9 +204,10 @@
                 </c:forEach>
                 </span> <br>
             </c:if>
+            <c:if test="${fn:length(hit.sourceAsMap.studyNames)>0 || fn:length(hit.sourceAsMap.experimentNames)>0}">
             <small class="text-muted">View Associated:&nbsp;</small><%@include file="associations.jsp"%>
 
-
+            </c:if>
 
             <!--c:if test="$-{hit.sourceAsMap.experimentCount>0}"-->
                 <!--i class="fas fa-eye"></i-->

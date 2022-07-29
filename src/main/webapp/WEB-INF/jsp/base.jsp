@@ -77,7 +77,16 @@
 </head>
 
 <body>
-
+<style>
+    .jumbotron{
+        /*    background-image: url("/toolkit/images/banner.jpg");
+            background-image: linear-gradient(to right, #1a80b6  , #e6f3fa);*/
+      /*  background: rgb(139,194,226);
+        background: radial-gradient(circle, rgba(139,194,226,1) 0%, rgba(247,247,247,1) 100%);*/
+        background-color: transparent;
+        border-bottom: 1px solid lightgrey;
+    }
+</style>
 <%@include file="feedbackForm.jsp"%>
 
 <div id="devSystemWarning" style="display:none; font-size:12px; color:white; background-color: #770C0E; width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System<br><%=seoTitle%><br><%=seoDescription%></div>
@@ -171,7 +180,45 @@
 
                         </c:when>
                         <c:otherwise>
-                                        <div class="container-fluid" align="center" id="home-page-search" style="background-color: #FFFFFF;">
+                            <form id="searchFormBasePage" action="/toolkit/data/search/results" >
+                        <div class="container-fluid  jumbotron"  id="home-page-search" style="background-color: #FFFFFF;padding-top: 20px;padding-bottom: 20px">
+                            <div>
+                                <div class="row d-flex justify-content-center" align="center">
+                                    <div class="col-lg-1" style="padding-top:0;">
+                                        <!--td><img src="/toolkit/images/scge-logo-200w.png" border="0"/></td-->
+                                        <img src="/toolkit/images/scge-logo-200w.png" width="150" style="padding-top: 0;margin-top: 0" alt="SCGE"/>
+                                    </div>
+                                    <div class="col-lg-6" style="padding-top: 22px;padding-left:5%">
+                                        <div class="input-group md-form form-sm form-2 pl-0">
+                                            <input class="form-control my-0 py-1 amber-border" id="searchTerm" name="searchTerm" type="text" placeholder="Search SCGE Toolkit" aria-label="Search">
+                                            <div class="input-group-append">
+                                             <span class="input-group-text amber lighten-3 btn" id="basic-text1" onclick="$('#searchFormBasePage').submit()"><i class="fas fa-search text-grey"
+                                                                                   aria-hidden="true"></i></span>
+                                            </div>
+                                        </div>
+                                        <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
+                                            <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
+                                        </small>
+                                    </div>
+                                    <!--div class="col-sm-6">
+                                        <form action="/toolkit/data/search/results"  class="form-inline my-2 my-lg-0">
+                                            <input class="form-control searchTerm" id="searchTerm" name="searchTerm" type="search" placeholder="Search SCGE (Models, Editors, Delivery, Guides)" aria-label="Search">
+                                            <button class="btn btn-outline-secondary" type="submit">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </form>
+                                        <div>
+                                            <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
+                                                <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
+                                            </small>
+                                        </div>
+                                    </div-->
+
+                                </div>
+                            </div>
+                        </div>
+                            </form>
+                                        <!--div class="container-fluid" align="center" id="home-page-search" style="background-color: #FFFFFF;">
                                             <table align="center">
                                                 <tr>
                                                     <td><img src="/toolkit/images/scge-logo-200w.png" border="0"/></td>
@@ -193,7 +240,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                        </div>
+                                        </div-->
 
                         </c:otherwise>
                     </c:choose>
@@ -213,7 +260,7 @@
 
 <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
     <div class="container text-center">
-        <a class="nav-link" href="https://scge.mcw.edu/contact/" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fa fa-phone" aria-hidden="true"></i>Contact Us</a>&nbsp;&nbsp;&nbsp;&nbsp;<small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2022 SCGE | All Rights Reserved</small>
+        <a class="nav-link" onclick="openForm()" href="javascript:void(0)" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fa fa-phone" aria-hidden="true"></i>Contact Us</a>&nbsp;&nbsp;&nbsp;&nbsp;<small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2022 SCGE | All Rights Reserved</small>
     </div>
     <!-- Bootstrap core JavaScript
 ================================================== -->

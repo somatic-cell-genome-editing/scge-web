@@ -19,7 +19,7 @@ $(function () {
 
     })
         .autocomplete( "instance" )._renderItem = function( ul, item ) {
-        console.log(item);
+      //  console.log(item);
         return $( "<li>" )
             .attr( "data-value", item.value.replace("<strong>").replace("</strong>") )
             .append( "<div>" + item.label+"</div>" )

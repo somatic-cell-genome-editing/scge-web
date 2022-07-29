@@ -27,6 +27,6 @@
     </tr>
 <tr>
     <td valign="top"><img src="/toolkit/images/bullet_30.png" style="padding-left:25px;padding-right:10px;"/></td>
-    <td style="padding-bottom:5px;font-size:16px;font-family: 'Roboto', sans-serif;">Need help finding something? Please <a href="https://scge.mcw.edu/contact/">contact us</a>.</td>
+    <td style="padding-bottom:5px;font-size:16px;font-family: 'Roboto', sans-serif;">Need help finding something? Please <a onclick="openForm()" href="javascript:void(0)">contact us</a>.</td>
 </tr>
 </table>

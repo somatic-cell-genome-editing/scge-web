@@ -6,10 +6,32 @@
   To change this template use File | Settings | File Templates.
 --%>
 <nav class="navbar navbar-expand-lg flex-md-nowrap p-0 shadow" style="background-color: black" >
-    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/toolkit/loginSuccess">
+    <div class="container-fluid">
+    <a class="navbar-brand" href="/toolkit/loginSuccess">
         <img src="/toolkit/images/scge-logo-70w.png" width="70" height="50" ></a>
+    <button class="navbar-toggler btn-sm" type="button" data-toggle="collapse" data-target="#navbarResponsiveTop" aria-controls="navbarResponsiveTop" aria-expanded="false" aria-label="Toggle navigation">
+        <!--span class="navbar-toggler-icon"></span-->
+        <span style="color:white"><i class="fa fa-user" aria-hidden="true"></i></span>
+    </button>
+
+        <form id="searchForm" class="input-group md-form form-sm form-2 pl-0 d-flex justify-content-center mx-4 mt-2" action="/toolkit/data/search/results">
+        <div class="input-group md-form form-sm form-2 pl-0">
+
+            <input class="form-control my-0 py-1 amber-border" id="commonSearchTerm" name="searchTerm" type="text" placeholder="Search SCGE Toolkit" aria-label="Search">
+            <div class="input-group-append">
+            <span class="input-group-text amber lighten-3" id="basic-text1" onclick="$('#searchForm').submit()"><i class="fas fa-search text-grey"
+                                                                       aria-hidden="true"></i></span>
+            </div>
+
+
+        </div>
+            <small class="form-text text-light" style="font-size: 11px;">Examples:&nbsp;<a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a class="text-light" href="/toolkit/data/search/results?searchTerm=crispr" style="font-size: 11px;" >CRISPR</a>,
+                <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
+            </small>
+        </form>
+
     <!--div class="input-group col-sm-4"-->
-    <form class="form-inline" action="/toolkit/data/search/results" >
+    <!--form class="form-inline" action="/toolkit/data/search/results" >
 
         <div class="input-group"  style="padding-top:2%;width: 100%">
             <input  class="form-control form-control-sm border-secondary" type="search" id="commonSearchTerm" name="searchTerm" placeholder="Enter Search Term ...." value=""/>
@@ -24,9 +46,9 @@
         <small class="form-text text-light" style="font-size: 11px;">Examples:&nbsp;<a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a class="text-light" href="/toolkit/data/search/results?searchTerm=crispr" style="font-size: 11px;" >CRISPR</a>,
             <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
         </small>
-    </form>
+    </form-->
     <!--/div-->
-
+    <div class="collapse navbar-collapse" id="navbarResponsiveTop">
     <ul class="navbar-nav ml-auto" style="padding-right: 2%">
 
         <c:if test="${userAttributes.get('name')!=null}">
@@ -68,6 +90,6 @@
 
         </li>
     </ul>
-
-
+    </div>
+    </div>
 </nav>

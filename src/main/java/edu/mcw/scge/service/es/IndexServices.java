@@ -43,9 +43,9 @@ public class IndexServices {
        searchRequest.source(srb);
 
        SearchResponse sr= ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
-        for(SearchHit hit:sr.getHits().getHits()){
+      /*  for(SearchHit hit:sr.getHits().getHits()){
             System.out.println(hit.getHighlightFields().keySet().toString());
-        }
+        }*/
        return sr;
 
     }
@@ -130,9 +130,9 @@ public class IndexServices {
             hb.field(field);
         }
        hb.field("*");
-       hb.numOfFragments(1);
+      // hb.numOfFragments(1);
      //  hb.field("*");
-        System.out.println(gson.toJson(hb));
+      //  System.out.println(gson.toJson(hb));
         return hb;
     }
 
@@ -288,13 +288,13 @@ public class IndexServices {
         for(Terms.Bucket b:categoryAggs.getBuckets()){
             if(  b.getAggregations()!=null) {
                 Terms typeAggs = b.getAggregations().get("type");
-                System.out.println(b.getKey() + "\t" + b.getDocCount());
+              //  System.out.println(b.getKey() + "\t" + b.getDocCount());
                 if (typeAggs != null) {
                     aggregations.put(b.getKey() + "TypeAggs", (List<Terms.Bucket>) typeAggs.getBuckets());
                     for (Terms.Bucket bkt : typeAggs.getBuckets()) {
                         Terms subtypeAggs = bkt.getAggregations().get("subtype");
                         aggregations.put(bkt.getKey() + "SubtypeAggs", (List<Terms.Bucket>) subtypeAggs.getBuckets());
-                        System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() + "\tsubtypeAggsSize: " + subtypeAggs.getBuckets().size());
+                       // System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() + "\tsubtypeAggsSize: " + subtypeAggs.getBuckets().size());
 
                     }
                 }
@@ -322,6 +322,21 @@ public class IndexServices {
     public BoolQueryBuilder buildBoolQuery(List<String> categories, String searchTerm , Map<String, String> filterMap, boolean DCCNIHMember,boolean consortiumMember){
         BoolQueryBuilder q=new BoolQueryBuilder();
         q.must(buildQuery(searchTerm));
+
+      if(!DCCNIHMember && consortiumMember) {
+            q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
+            q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
+                    should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
+        }
+        if(!consortiumMember){
+           q.filter(QueryBuilders.termQuery("accessLevel.keyword", "public"));
+           q.filter((QueryBuilders.termQuery("tier", 4)));
+
+        }
+
+        if(DCCNIHMember){
+            q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
+        }
         if(categories!=null && categories.size()>0) {
             q.filter(QueryBuilders.termsQuery("category.keyword", categories.toArray()));
 
@@ -332,16 +347,8 @@ public class IndexServices {
                 q.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
 
             }
-        if(!DCCNIHMember && consortiumMember) {
-            q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
-                    should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
-        }
-        if(!consortiumMember){
-            q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
-                    should(QueryBuilders.termQuery("tier", 4))));
-        }
 
-   //    System.out.println(q);
+
         return q;
     }
     public SearchResponse getFilteredAggregations(List<String> categories, String searchTerm,
@@ -411,7 +418,7 @@ public class IndexServices {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .analyzer("pattern")
+                       // .analyzer("pattern")
                 );
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
@@ -482,8 +489,10 @@ public class IndexServices {
 
                 "tissueIds", "tissueTerm", "termSynonyms",
                 "site", "sequence", "pam", "detectionMethod","target",
-               "studyNames",
-                "experimentNames"
+               "experimentName","experimentType"
+
+              /* "studyNames",
+                "experimentNames"*/
 
 
 
