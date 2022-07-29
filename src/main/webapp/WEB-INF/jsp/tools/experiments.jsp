@@ -88,26 +88,29 @@
         <div class="container-fluid" style="margin-top: 1%;">
 
             <% if (study != null) { %>
-            <div >
-                <div>
-                    <%
-                        GrantDao grantDao = new GrantDao();
-                        PersonDao personDao = new PersonDao();
-                        if (study.getGroupId() == 1410 || study.getGroupId() == 1412) {// 1410-Baylor;1412-Jackson
-                            if (study.getStudy().equalsIgnoreCase(grantDao.getGrantByGroupId(study.getGroupId()).getGrantTitle())) {%>
-                    <%=study.getStudy()%>
-                    <% } else {%>
-                    <strong>VALIDATION&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
-                    <% }%>
-                    <%}%>
-                </div>
-                <span class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;-&nbsp;Submission
-                Date:&nbsp;<%=study.getSubmissionDate()%>&nbsp;
-            </div>
 
-            <div align="right"  >
-                <table style="width: 30%">
+            <div >
+                <table width="95%">
                     <tr>
+                        <td>
+                            <div >
+                                <div>
+                                    <%
+                                        GrantDao grantDao = new GrantDao();
+                                        PersonDao personDao = new PersonDao();
+                                        if (study.getGroupId() == 1410 || study.getGroupId() == 1412) {// 1410-Baylor;1412-Jackson
+                                            if (study.getStudy().equalsIgnoreCase(grantDao.getGrantByGroupId(study.getGroupId()).getGrantTitle())) {%>
+                                    <%=study.getStudy()%>
+                                    <% } else {%>
+                                    <strong>VALIDATION&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
+                                    <% }%>
+                                    <%}%>
+                                </div>
+                                <span  class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;-&nbsp;Submission
+                                Date:&nbsp;<%=study.getSubmissionDate()%>&nbsp;
+                            </div>
+
+                        </td>
                         <td>
                             <%
                                 try {
@@ -121,7 +124,7 @@
                         </td>
                         <td>
 
-                            <button class="btn btn-primary btn-sm" type="button"
+                            <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
                                     onclick="javascript:location.href='/toolkit/download/<%=study.getStudyId()%>'"><i
                                     class='fas fa-download'></i>&nbsp;View & Download Submitted files
                             </button>
@@ -137,7 +140,7 @@
                 <table class="table bg-light">
                     <thead>
                     <tr>
-                        <th>Tier</th>
+                        <!--<th>Tier</th>-->
 
                         <th>Experiment Name</th>
                         <th>Type</th>
@@ -154,7 +157,7 @@
                     <% if (access.hasStudyAccess(s, p)) { %>
 
                     <tr>
-                        <td width="10"><%=s.getTier()%>
+                        <!--<td width="10"><%=s.getTier()%>-->
                         </td>
                         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>">
                             <%=exp.getName()%></a><br>
