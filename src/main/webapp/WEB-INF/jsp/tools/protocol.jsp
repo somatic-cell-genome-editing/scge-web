@@ -56,26 +56,24 @@
         <h4 class="page-header" style="color:grey;">Summary</h4>
 
         <div class="d-flex bg-light" >
-            <div class="col-7">
 
-        <table  style="width:80%">
-            <tr ><td class="header">Title</td><td><%=p.getTitle()%></td></tr>
-            <tr><td class="header">Description</td><td><%=p.getDescription()%></td></tr>
-            <tr><td class="header">Tier</td><td><%=p.getTier()%></td></tr>
-            <tr><td class="header">File Download</td><td><a href="/toolkit/files/protocol/<%=p.getFilename()%>"><%=p.getFilename()%></a></td></tr>
-            <tr><td class="header">Additional Information</td><td><%=p.getXref()%></td></tr>
-            <tr><td class="header">Keywords</td><td><%=p.getKeywords()%></td></tr>
+        <table  style="width:100%">
+            <tr ><td class="header" valign="top">Title</td><td><%=p.getTitle()%></td></tr>
+            <tr><td class="header"  valign="top">Description</td><td><%=p.getDescription()%></td></tr>
+            <tr><td class="header" valign="top">Tier</td><td><%=p.getTier()%></td></tr>
+            <tr><td class="header" valign="top">File Download</td><td><a href="/toolkit/files/protocol/<%=p.getFilename()%>"><%=p.getFilename()%></a></td></tr>
+            <tr><td class="header" valign="top">Additional Information</td><td><%=p.getXref()%></td></tr>
+            <tr><td class="header" valign="top">Keywords</td><td><%=p.getKeywords()%></td></tr>
         </table>
 
-</div>
+
 
             <div class="ml-auto col-3" style="margin-right: 5%">
 
                 <div class="card">
-                    <div class="card-header">Protocol</div>
                     <div class="card-body">
                         <table >
-                            <tr ><th class="scge-details-label">SCGE:<%=p.getId()%></th></tr>
+                            <tr ><th class="scge-details-label"><%=p.getId()%></th></tr>
 
                         </table>
                     </div>
