@@ -30,8 +30,8 @@
         }
         for (Experiment experiment : experimentsValidatedMap.get(exp.getExperimentId())) {%>
         <form action="/toolkit/data/experiments/validations/study/<%=experiment.getStudyId()%>" >
-        <input type="hidden" name="experimentIds" value="<%=experimentIDS%>"/>
-            <button class="btn btn-success btn-sm" type="submit">View Experiments Validated</button>
+        <input  type="hidden" name="experimentIds" value="<%=experimentIDS%>"/>
+            <button style="margin-top:15px;"class="btn btn-success btn-sm" type="submit">View Experiments Validated</button>
         </form>
     <%break;}%>
     <!--button class="btn btn-success btn-sm">
