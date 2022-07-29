@@ -55,7 +55,7 @@
                         <td><%
                             int count=1;
                             for (String assay: deliveryAssay.keySet()) { %>
-                            <span style="adding-left:20px;"><b><%=count%>.</b>&nbsp;<%=assay%></span><br>
+                            <span style="adding-left:20px;"><b>-</b>&nbsp;<%=assay%></span><br>
                             <%
                                 count++;
                             } %>
@@ -72,7 +72,7 @@
                             <td> <%
                                 int count=1;
                                 for (String assay: editingAssay.keySet()) { %>
-                                <span style="adding-left:20px;"><b><%=count%>.</b>&nbsp;<%=assay%></span><br>
+                                <span style="adding-left:20px;"><b>-</b>&nbsp;<%=assay%></span><br>
                                 <%
                                     count++;
                                 } %>
