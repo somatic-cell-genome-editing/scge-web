@@ -115,7 +115,7 @@
                             <%
                                 try {
                                     if(access.isAdmin(p)){%>
-                                    <div><a href="/toolkit/data/experiments/edit?studyId=<%=study.getStudyId()%>"><button class="btn btn-primary btn-sm">Create&nbsp;Experiment</button></a></div>
+                                    <div><a href="/toolkit/data/experiments/edit?studyId=<%=study.getStudyId()%>"><button style="margin-bottom:15px;" class="btn btn-primary btn-sm">Create&nbsp;Experiment</button></a></div>
                                     <%}
                             } catch (Exception e) {
                                 e.printStackTrace();
