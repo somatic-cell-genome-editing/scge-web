@@ -129,7 +129,7 @@ public class IndexServices {
 
             hb.field(field);
         }
-       hb.field("*");
+     //  hb.field("*");
       // hb.numOfFragments(1);
      //  hb.field("*");
       //  System.out.println(gson.toJson(hb));
@@ -418,7 +418,7 @@ public class IndexServices {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
-                       // .analyzer("pattern")
+                        .analyzer("pattern")
                 );
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
