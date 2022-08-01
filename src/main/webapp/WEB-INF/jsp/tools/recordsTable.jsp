@@ -245,7 +245,7 @@ List<String> options = new ArrayList<>();
             <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
         <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
             <% if (sexList.size() > 0) { %><td><%=SFN.parse(exp.getSex())%></td><% } %>
-        <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=UI.replacePhiSymbol(exp.getEditorSymbol())%></a></td><% } %>
+        <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=exp.getEditorSymbol()%></a></td><% } %>
             <% if (hrdonorList.size() > 0) { %><td><a href="/toolkit/data/hrdonors/hrdonor?id=<%=exp.getHrdonorId()%>"><%=SFN.parse(exp.getHrdonorName())%></a></td><% } %>
             <% if (modelList.size() > 0 ) { %><td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td><% } %>
         <% if (deliverySystemList.size() > 0 ) { %><td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemName())%></a></td><% } %>
@@ -663,13 +663,13 @@ List<String> options = new ArrayList<>();
                 }
             }
             function applyFilters(obj)  {
-
+                console.log("EDITOR:" +obj.id)
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
                 for (i = 1; i < rowLength; i++){
                         var cells = table.rows.item(i).cells;
                         for (k=0; k<cells.length;k++ ) {
-                            //console.log("innser = " + cells.item(k).innerText + "!");
+                            console.log("innser = " + cells.item(k).innerText + "!");
                             //if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                             if ((cells.item(k).innerText == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                                if (obj.checked) {
