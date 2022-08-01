@@ -11,6 +11,10 @@
     <title>Login Failure</title>
 </head>
 <body>
-<p>Hello, ${msg} <a href="mailto:s&#99;g&#101;&#64;&#109;&#99;&#119;&#46;e&#100;&#117;">s&#99;g&#101;&#64;&#109;&#99;&#119;&#46;e&#100;&#117;</a> &nbsp;and register your google id</p>
+<p>${msg} <a href="mailto:s&#99;g&#101;&#64;&#109;&#99;&#119;&#46;e&#100;&#117;">s&#99;g&#101;&#64;&#109;&#99;&#119;&#46;e&#100;&#117;</a> &nbsp;and register your google id</p>
+<br><br>
+If you have more than one Google account,  try logging out to ensure you are using the account registered with SCGE
+<br><br>
+<a href="www.google.com">Log out at Google</a>
 </body>
 </html>
