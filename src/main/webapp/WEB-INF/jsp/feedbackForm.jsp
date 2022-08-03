@@ -28,7 +28,7 @@
 <script>
     function openForm() {
         document.getElementById("messageVue").style.display = "block";
-        document.getElementById("headMsg").innerText = 'Provide Feedback To SCGE';
+        document.getElementById("headMsg").innerText = 'We value your feedback';
     }
 
     function closeForm() {
