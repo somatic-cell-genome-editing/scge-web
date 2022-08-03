@@ -8,8 +8,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
     <small>
+        <c:set var="first" value="true"/>
         <c:forEach items="${pub.authorList}" var="author">
-            ${author.firstName},${author.lastName}, ${author.initials};&nbsp;
+            <c:choose>
+            <c:when test="${first=='true'}">
+            ${author.lastName}&nbsp;${author.initials}&nbsp;
+                <c:set var="first" value="false"/>
+            </c:when>
+                <c:otherwise>
+                    ,&nbsp;${author.lastName}&nbsp;${author.initials}&nbsp;
+                </c:otherwise>
+            </c:choose>
         </c:forEach>
     </small>
     <br>
