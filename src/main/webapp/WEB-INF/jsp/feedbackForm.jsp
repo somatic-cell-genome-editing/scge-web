@@ -2,7 +2,7 @@
     <button type="button" class="openLikeBtn" onclick="openForm()"></button>
 </div>
 
-<div class="chat-popup" id="messageVue">
+<div class="chat-popup" id="messageVue" style="border:1px solid black;">
     <form class="form-container">
         <button type="button" id="close" onclick="closeForm()" class="closeForm">x</button>
         <h2 id="headMsg">Contact SCGE</h2>
@@ -28,7 +28,7 @@
 <script>
     function openForm() {
         document.getElementById("messageVue").style.display = "block";
-        document.getElementById("headMsg").innerText = 'How can we help?';
+        document.getElementById("headMsg").innerText = 'Provide Feedback To SCGE';
     }
 
     function closeForm() {
@@ -85,5 +85,15 @@
 
 
     // };
+
+
+    if (sessionStorage.getItem("sawFeedback") === "true") {
+
+    }else {
+        sessionStorage.setItem('sawFeedback', 'true');
+        openForm();
+    }
+
+
 
 </script>
