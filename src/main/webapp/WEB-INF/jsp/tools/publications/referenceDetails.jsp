@@ -12,11 +12,11 @@
         <c:forEach items="${pub.authorList}" var="author">
             <c:choose>
             <c:when test="${first=='true'}">
-            ${author.lastName}&nbsp;${author.initials}&nbsp;
+            ${author.lastName}&nbsp;${author.initials}
                 <c:set var="first" value="false"/>
             </c:when>
                 <c:otherwise>
-                    ,&nbsp;${author.lastName}&nbsp;${author.initials}&nbsp;
+                    ,&nbsp;${author.lastName}&nbsp;${author.initials}
                 </c:otherwise>
             </c:choose>
         </c:forEach>
