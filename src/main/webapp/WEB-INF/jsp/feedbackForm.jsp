@@ -2,9 +2,9 @@
     <button type="button" class="openLikeBtn" onclick="openForm()"></button>
 </div>
 
-<div class="chat-popup" id="messageVue" style="border:1px solid black;">
+<div class="chat-popup" id="messageVue">
     <form class="form-container">
-        <button type="button" id="close" onclick="closeForm()" class="closeForm">x</button>
+        <img src="/toolkit/images/close30.png" id="close" onclick="closeForm()" class="closeForm"/>
         <h2 id="headMsg">Contact SCGE</h2>
         <input type="hidden" name="subject" value="Help and Feedback Form">
         <input type="hidden" name="found" value="0">
@@ -84,14 +84,11 @@
     }
 
 
-    // };
-
-
     if (sessionStorage.getItem("sawFeedback") === "true") {
 
     }else {
         sessionStorage.setItem('sawFeedback', 'true');
-        openForm();
+        setTimeout("openForm()",4000);
     }
 
 
