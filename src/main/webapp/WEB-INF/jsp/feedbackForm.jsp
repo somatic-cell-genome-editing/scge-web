@@ -4,7 +4,7 @@
 
 <div class="chat-popup" id="messageVue">
     <form class="form-container">
-        <button type="button" id="close" onclick="closeForm()" class="closeForm">x</button>
+        <img src="/toolkit/images/close30.png" id="close" onclick="closeForm()" class="closeForm"/>
         <h2 id="headMsg">Contact SCGE</h2>
         <input type="hidden" name="subject" value="Help and Feedback Form">
         <input type="hidden" name="found" value="0">
@@ -28,7 +28,7 @@
 <script>
     function openForm() {
         document.getElementById("messageVue").style.display = "block";
-        document.getElementById("headMsg").innerText = 'How can we help?';
+        document.getElementById("headMsg").innerText = 'We value your feedback';
     }
 
     function closeForm() {
@@ -84,6 +84,13 @@
     }
 
 
-    // };
+    if (sessionStorage.getItem("sawFeedback") === "true") {
+
+    }else {
+        sessionStorage.setItem('sawFeedback', 'true');
+        setTimeout("openForm()",4000);
+    }
+
+
 
 </script>

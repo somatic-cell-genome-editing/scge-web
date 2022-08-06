@@ -87,7 +87,7 @@
             </div>
         </div>
 
-
+<!--
         <div class="card">
             <div class="card-body">
                 <ul class="nav flex-column">
@@ -108,6 +108,7 @@
                 </ul>
             </div>
         </div>
+        -->
 
         <div class="card">
             <div class="card-body">
