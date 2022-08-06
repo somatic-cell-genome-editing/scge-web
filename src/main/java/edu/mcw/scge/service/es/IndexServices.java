@@ -378,14 +378,14 @@ public class IndexServices {
                 q.add(QueryBuilders.multiMatchQuery(searchString)
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .operator(Operator.AND)
-                        .analyzer("pattern")
+                        .analyzer("stop")
 
                 );
 
                 q.add(QueryBuilders.multiMatchQuery(searchString)
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .analyzer("pattern")
+                        .analyzer("stop")
                         .boost(1000)
                 );
 
@@ -394,7 +394,7 @@ public class IndexServices {
                 q.add(QueryBuilders.multiMatchQuery(searchString)
                                 .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.OR)
-                        .analyzer("pattern")
+                        .analyzer("stop")
 
                 );
 
@@ -408,7 +408,7 @@ public class IndexServices {
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .operator(Operator.AND)
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .analyzer("pattern")
+                        .analyzer("stop")
                         .boost(1000)
                 );
 
@@ -418,12 +418,12 @@ public class IndexServices {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .analyzer("pattern")
+                        .analyzer("stop")
                 );
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .operator(Operator.AND)
-                        .analyzer("pattern")
+                        .analyzer("stop")
                 );
             }
         }
@@ -432,11 +432,11 @@ public class IndexServices {
             q.add(QueryBuilders.termQuery("name.custom", searchTerm).boost(1000));
             q.add(QueryBuilders.termQuery("pi", searchTerm).boost(1000));
 
-            q.add(QueryBuilders.matchPhrasePrefixQuery("symbol.custom", searchTerm).boost(400));
-            q.add(QueryBuilders.matchPhrasePrefixQuery("name.custom", searchTerm).boost(400));
+            q.add(QueryBuilders.matchPhrasePrefixQuery("symbol.custom", searchTerm).analyzer("stop").boost(400));
+            q.add(QueryBuilders.matchPhrasePrefixQuery("name.custom", searchTerm).analyzer("stop").boost(400));
 
-            q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).boost(100));
-            q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).boost(100));
+            q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).analyzer("stop").boost(100));
+            q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).analyzer("stop").boost(100));
 
             q.add(QueryBuilders.matchPhrasePrefixQuery("pi", searchTerm).boost(500));
             q.add(QueryBuilders.matchPhraseQuery("pi", searchTerm).boost(200));
