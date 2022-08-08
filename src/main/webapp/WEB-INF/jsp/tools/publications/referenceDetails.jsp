@@ -7,20 +7,20 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<small>
-    <c:set var="first" value="true"/>
-    <c:forEach items="${pub.authorList}" var="author">
-        <c:choose>
+    <small>
+        <c:set var="first" value="true"/>
+        <c:forEach items="${pub.authorList}" var="author">
+            <c:choose>
             <c:when test="${first=='true'}">
-                ${author.lastName}&nbsp;${author.initials}
+            ${author.lastName}&nbsp;${author.initials}
                 <c:set var="first" value="false"/>
             </c:when>
-            <c:otherwise>
-                ,&nbsp;${author.lastName}&nbsp;${author.initials}
-            </c:otherwise>
-        </c:choose>
-    </c:forEach>
-</small>
+                <c:otherwise>
+                    ,&nbsp;${author.lastName}&nbsp;${author.initials}
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+    </small>
     <br>
     <a style="text-decoration: underline; cursor: pointer" data-toggle="collapse" data-target="#refDetails${pub.reference.key}" aria-expanded="false" aria-controls="refDetails${pub.reference.key}" title="View Abstract">
     View Abstract

@@ -35,9 +35,11 @@
                 <li class="nav-item text-nowrap text-responsive Protocols" id="Protocols">
                     <a class="nav-link Protocols" href="/toolkit/data/protocols/search" >Protocols</a>
                 </li>
+                <!--
                 <li class="nav-item text-nowrap text-responsive Publications" id="Publications">
                     <a class="nav-link Publications" href="/toolkit/data/publications/search" >Publications</a>
                 </li>
+                -->
 
 <c:if test="${action==null}">
     <li class="nav-item dropdown text-nowrap">

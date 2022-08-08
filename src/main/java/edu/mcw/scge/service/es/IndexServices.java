@@ -33,27 +33,27 @@ public class IndexServices {
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(this.buildBoolQuery(categories, searchTerm, filterMap, DCCNIHMember,consortiumMember));
         srb.aggregation(this.buildSearchAggregations("category"));
-        buildAggregations(srb, categories);
+          buildAggregations(srb, categories);
         srb.highlighter(this.buildHighlights());
         srb.size(10000);
         if(searchTerm.equals("")){
             srb.sort("name.keyword");
         }
-        SearchRequest searchRequest=new SearchRequest(searchIndex);
-        searchRequest.source(srb);
+       SearchRequest searchRequest=new SearchRequest(searchIndex);
+       searchRequest.source(srb);
 
-        SearchResponse sr= ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
+       SearchResponse sr= ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
       /*  for(SearchHit hit:sr.getHits().getHits()){
             System.out.println(hit.getHighlightFields().keySet().toString());
         }*/
-        return sr;
+       return sr;
 
     }
     public void buildAggregations(SearchSourceBuilder srb, List<String> categories){
         if(categories!=null && categories.size()==1 || (categories==null || (categories.size()==0))){
             if(categories==null || categories.get(0).equalsIgnoreCase("Genome Editor")
                     || categories.get(0).equalsIgnoreCase("Delivery System")
-                    ||categories.get(0).equalsIgnoreCase("Vector")
+            ||categories.get(0).equalsIgnoreCase("Vector")
                     ||categories.get(0).equalsIgnoreCase("Experiment")){
                 srb.aggregation(this.buildSearchAggregations("editorType"));
                 srb.aggregation(this.buildSearchAggregations("editorSubType"));
@@ -61,13 +61,13 @@ public class IndexServices {
             }
             if(categories==null ||  categories.get(0).equalsIgnoreCase("Model System")
                     || categories.get(0).equalsIgnoreCase("Delivery System")
-                    || categories.get(0).equalsIgnoreCase("Vector")
+            || categories.get(0).equalsIgnoreCase("Vector")
                     ||categories.get(0).equalsIgnoreCase("Experiment")){
                 srb.aggregation(this.buildSearchAggregations("modelType"));
                 srb.aggregation(this.buildSearchAggregations("modelSubtype"));
                 srb.aggregation(this.buildSearchAggregations("modelOrganism"));
                 if(categories==null || categories.get(0).equalsIgnoreCase("Model System"))
-                    srb.aggregation(this.buildSearchAggregations("transgeneReporter"));
+                srb.aggregation(this.buildSearchAggregations("transgeneReporter"));
             }
             if(categories==null || categories.get(0).equalsIgnoreCase("Delivery System")
                     ||categories.get(0).equalsIgnoreCase("Experiment")){
@@ -86,7 +86,7 @@ public class IndexServices {
                 srb.aggregation(this.buildSearchAggregations("guideSpecies"));
                 srb.aggregation(this.buildSearchAggregations("guideCompatibility"));
 
-                //   srb.aggregation(this.buildSearchAggregations("target"));
+             //   srb.aggregation(this.buildSearchAggregations("target"));
 
             }
             if(categories==null || categories.get(0).equalsIgnoreCase("Guide") ||
@@ -122,17 +122,17 @@ public class IndexServices {
 
     }
     public HighlightBuilder buildHighlights(){
-        // List<String> fields= Stream.concat(searchFields().stream(), mustFields().stream()).collect(Collectors.toList());
+       // List<String> fields= Stream.concat(searchFields().stream(), mustFields().stream()).collect(Collectors.toList());
         List<String> fields = new ArrayList<>(searchFields());
         HighlightBuilder hb=new HighlightBuilder();
-        for(String field:fields){
+       for(String field:fields){
 
             hb.field(field);
         }
-        //  hb.field("*");
-        // hb.numOfFragments(1);
-        //  hb.field("*");
-        //  System.out.println(gson.toJson(hb));
+     //  hb.field("*");
+      // hb.numOfFragments(1);
+     //  hb.field("*");
+      //  System.out.println(gson.toJson(hb));
         return hb;
     }
 
@@ -156,10 +156,10 @@ public class IndexServices {
             else*/
             aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword") .size(1000).order(BucketOrder.key(true));
 
-            //   aggs= AggregationBuilders.terms(fieldName).field(fieldName+".type.keyword");
+         //   aggs= AggregationBuilders.terms(fieldName).field(fieldName+".type.keyword");
 
         }else {
-            fieldName="category";
+                fieldName="category";
             aggs = AggregationBuilders.terms(fieldName).field(fieldName + ".keyword") .size(1000).order(BucketOrder.key(true));
         }
     /*    if(selectedCategory!=null && !selectedCategory.equals("")) {
@@ -175,7 +175,7 @@ public class IndexServices {
     public AggregationBuilder buildFilterAggregations(String fieldName, String selectedCategory){
         AggregationBuilder aggs= null;
 
-        aggs= AggregationBuilders.terms(fieldName.replace(".type","").trim()).field(fieldName+".keyword").size(1000).order(BucketOrder.key(true));
+            aggs= AggregationBuilders.terms(fieldName.replace(".type","").trim()).field(fieldName+".keyword").size(1000).order(BucketOrder.key(true));
 
 
 
@@ -186,7 +186,7 @@ public class IndexServices {
         /********************Category aggs*****************************/
         Terms categoryAggs=sr.getAggregations().get("category");
         if(categoryAggs!=null)
-            aggregations.put("catBkts", (List<Terms.Bucket>) categoryAggs.getBuckets());
+        aggregations.put("catBkts", (List<Terms.Bucket>) categoryAggs.getBuckets());
         /********************Category specific aggs *****************************/
         addAllCategorySpecificAggs(sr, aggregations);
         /********************experiment aggs *****************************/
@@ -288,13 +288,13 @@ public class IndexServices {
         for(Terms.Bucket b:categoryAggs.getBuckets()){
             if(  b.getAggregations()!=null) {
                 Terms typeAggs = b.getAggregations().get("type");
-                //  System.out.println(b.getKey() + "\t" + b.getDocCount());
+              //  System.out.println(b.getKey() + "\t" + b.getDocCount());
                 if (typeAggs != null) {
                     aggregations.put(b.getKey() + "TypeAggs", (List<Terms.Bucket>) typeAggs.getBuckets());
                     for (Terms.Bucket bkt : typeAggs.getBuckets()) {
                         Terms subtypeAggs = bkt.getAggregations().get("subtype");
                         aggregations.put(bkt.getKey() + "SubtypeAggs", (List<Terms.Bucket>) subtypeAggs.getBuckets());
-                        // System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() + "\tsubtypeAggsSize: " + subtypeAggs.getBuckets().size());
+                       // System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() + "\tsubtypeAggsSize: " + subtypeAggs.getBuckets().size());
 
                     }
                 }
@@ -323,14 +323,14 @@ public class IndexServices {
         BoolQueryBuilder q=new BoolQueryBuilder();
         q.must(buildQuery(searchTerm));
 
-        if(!DCCNIHMember && consortiumMember) {
+      if(!DCCNIHMember && consortiumMember) {
             q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
             q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
                     should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
         }
         if(!consortiumMember){
-            q.filter(QueryBuilders.termQuery("accessLevel.keyword", "public"));
-            q.filter((QueryBuilders.termQuery("tier", 4)));
+           q.filter(QueryBuilders.termQuery("accessLevel.keyword", "public"));
+           q.filter((QueryBuilders.termQuery("tier", 4)));
 
         }
 
@@ -392,18 +392,18 @@ public class IndexServices {
             }else if(searchTerm.toLowerCase().contains(" or ")){
                 String searchString=String.join(" ", searchTerm.toLowerCase().split(" or "));
                 q.add(QueryBuilders.multiMatchQuery(searchString)
-                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                        .operator(Operator.OR)
+                                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                                .operator(Operator.OR)
                         .analyzer("pattern")
 
                 );
 
             }else if(!searchTerm.toLowerCase().contains(" and ") && searchTerm.toLowerCase().contains(" ") ) {
-                q.add(QueryBuilders.multiMatchQuery(searchTerm)
-                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                        .operator(Operator.AND)
+            q.add(QueryBuilders.multiMatchQuery(searchTerm)
+                    .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                    .operator(Operator.AND)
 
-                );
+            );
                 q.add(QueryBuilders.multiMatchQuery(searchTerm)
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .operator(Operator.AND)
@@ -426,7 +426,7 @@ public class IndexServices {
                         .analyzer("pattern")
                 );
             }
-            }
+        }
 
             q.add(QueryBuilders.termQuery("symbol.custom", searchTerm).boost(1000));
             q.add(QueryBuilders.termQuery("name.custom", searchTerm).boost(1000));
@@ -457,7 +457,7 @@ public class IndexServices {
     }
     public static List<String> mustFields(){
         return Arrays.asList(
-                "name", "name.ngram", "symbol", "symbol.ngram",
+              "name", "name.ngram", "symbol", "symbol.ngram",
                 "type", "subType","tissueTerm",
                 "termSynonyms"
 
@@ -467,35 +467,35 @@ public class IndexServices {
     }
     public static List<String> searchFields(){
         return Arrays.asList(
-                // "name", "name.ngram", "symbol", "symbol.ngram",
-                //  "type", "subType",
+              // "name", "name.ngram", "symbol", "symbol.ngram",
+              //  "type", "subType",
 
-                "name", "name.ngram", "symbol", "symbol.ngram", "name.custom", "symbol.custom",
+               "name", "name.ngram", "symbol", "symbol.ngram", "name.custom", "symbol.custom",
                 "species", "sex",
                 "description",
                 "study", "labName" , "pi", "initiative",
-                "externalId", "aliases", "generatedDescription",
+                 "externalId", "aliases", "generatedDescription",
 
                 "editorType" , "editorSubType" ,  "editorSymbol" ,  "editorAlias" , "editorSpecies" ,
-                "editorPamPreference" , "substrateTarget" , "activity" , "fusion" , "dsbCleavageType" , "editorSource" ,
+                 "editorPamPreference" , "substrateTarget" , "activity" , "fusion" , "dsbCleavageType" , "editorSource" ,
 
-                "deliveryType" ,"deliverySubType", "deliverySystemName","deliverySource" ,
-                "modelType" , "modelName" , "modelOrganism" , "transgene" , "transgeneReporter" , "strainCode",
+                 "deliveryType" ,"deliverySubType", "deliverySystemName","deliverySource" ,
+                 "modelType" , "modelName" , "modelOrganism" , "transgene" , "transgeneReporter" , "strainCode",
 
-                "guideSpecies", "guideTargetLocus", "guideTargetLocus.ngram", "guideTargetSequence", "guidePam", "grnaLabId","grnaLabId.ngram", "guide", "guideSource","guideCompatibility",
+                 "guideSpecies", "guideTargetLocus", "guideTargetLocus.ngram", "guideTargetSequence", "guidePam", "grnaLabId","grnaLabId.ngram", "guide", "guideSource","guideCompatibility",
 
-                "vectorName", "vectorType", "vectorSubtype", "genomeSerotype", "capsidSerotype", "capsidVariant", "vectorSource", "vectorLabId",
+                 "vectorName", "vectorType", "vectorSubtype", "genomeSerotype", "capsidSerotype", "capsidVariant", "vectorSource", "vectorLabId",
                 "vectorAnnotatedMap", "titerMethod", "modifications", "proteinSequence",
 
                 "tissueIds", "tissueTerm", "termSynonyms",
                 "site", "sequence", "pam", "detectionMethod","target",
-                "experimentName","experimentType"
+               "experimentName","experimentType"
 
               /* "studyNames",
                 "experimentNames"*/
 
 
 
-        );
+         );
     }
 }

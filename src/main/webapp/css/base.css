@@ -83,7 +83,7 @@ input[type="email"] {
     position: fixed;
     background-size: 100%;
     border: white;
-    background-image: url("/toolkit/images/mailChat.png");
+    background-image: url("/toolkit/images/Feedback_Red.png");
     border-radius: 24px;
     cursor: pointer;
     opacity: .7;
@@ -108,18 +108,19 @@ input[type="email"] {
 
 /* The popup chat - hidden by default */
 .chat-popup {
+    box-shadow: -6px 11px 8px #888888;
     display: none;
     position: fixed;
     bottom: 30px;
     right: 20px;
-    border: 3px solid #f1f1f1;
+    border: 1px solid black;
     z-index: 501;
     box-sizing: border-box;
     background-color:#5D8DAF;
     color:white;
     width:500px;
     height:500px;
-    border-radius:10px;
+    border-radius:5px;
 }
 
 /* Add styles to the form container */
@@ -166,11 +167,12 @@ input[type="email"] {
 
 .closeForm {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #770C0E;
-    color: white;
-    border:0px solid black;
+    top: -10px;
+    right: -10px;
+    cursor:pointer;
+    ackground-color: #770C0E;
+    olor: white;
+    order:0px solid black;
 
 }
 /* Add some hover effects to buttons */

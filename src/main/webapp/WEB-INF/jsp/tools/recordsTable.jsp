@@ -663,13 +663,13 @@ List<String> options = new ArrayList<>();
                 }
             }
             function applyFilters(obj)  {
-                console.log("EDITOR:" +obj.id)
+
                 var table = document.getElementById('myTable'); //to remove filtered rows
                 var rowLength = table.rows.length;
                 for (i = 1; i < rowLength; i++){
                         var cells = table.rows.item(i).cells;
                         for (k=0; k<cells.length;k++ ) {
-                            console.log("innser = " + cells.item(k).innerText + "!");
+                            //console.log("innser = " + cells.item(k).innerText + "!");
                             //if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                             if ((cells.item(k).innerText == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                                if (obj.checked) {
