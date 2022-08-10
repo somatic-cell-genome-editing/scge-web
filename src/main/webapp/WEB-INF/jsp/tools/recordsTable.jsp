@@ -800,25 +800,18 @@ List<String> options = new ArrayList<>();
                     applyFilters(ele);
                 });
 
-/*
-            <div id="graphOptions">
-                    3 different Units displayed in table<br>
-                <li><a href='javascript:void(0)'>Graph Unit 1</a></li>
-                <li>Graph Unit 2</li>
-                <li>Graph Unit 2</li>
-                <li>Display All Records (Mix Units)</li>
-                </div>
-*/
 
                 var elms = document.getElementsByName("checkunits");
                 var count=0;
                 var graphOps = "";
                 elms.forEach(function(ele) {
-                    count++
-                    graphOps+="<li><a href='javascript:graphUnit(\"" + ele.id + "\")'>Graph " + ele.id + "</a></li>";
+                    if (ele.id != "Signal") {
+                        count++
+                        graphOps += "<li><a href='javascript:graphUnit(\"" + ele.id + "\")'>Graph " + ele.id + "</a></li>";
+                    }
                 });
 
-                graphOps+="<li><a href='javascript:graphUnit(\"all\")'>Graph All Records (Mixed Units)</a></li>";
+                //graphOps+="<li><a href='javascript:graphUnit(\"all\")'>Graph All Records (Mixed Units)</a></li>";
 
 
 
