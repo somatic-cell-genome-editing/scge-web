@@ -559,7 +559,7 @@ List<String> options = new ArrayList<>();
                     if(table.rows.item(i).style.display != 'none') {
 
                             var cells = table.rows.item(i).cells;
-                            if (cells.item(aveIndex - 1).innerText != "signal") {
+                            if (cells.item(aveIndex - 1).innerText.toLowerCase() != "signal") {
                             var cellLength = cells.length-1;
                             var column = cells.item(0); //points to condition column
                             var avg = cells.item(aveIndex);
@@ -805,7 +805,7 @@ List<String> options = new ArrayList<>();
                 var count=0;
                 var graphOps = "";
                 elms.forEach(function(ele) {
-                    if (ele.id != "Signal") {
+                    if (ele.id.toLowerCase() != "signal") {
                         count++
                         graphOps += "<li><a href='javascript:graphUnit(\"" + ele.id + "\")'>Graph " + ele.id + "</a></li>";
                     }
@@ -854,7 +854,7 @@ List<String> options = new ArrayList<>();
                     if(table.rows.item(i).style.display != 'none') {
 
                         var cells = table.rows.item(i).cells;
-                        if (cells.item(aveIndex - 1).innerText != "signal") {
+                        if (cells.item(aveIndex - 1).innerText.toLowerCase() != "signal") {
                            // var cellLength = cells.length-1;
                             var column = cells.item(0); //points to condition column
                             var avg = cells.item(aveIndex);
