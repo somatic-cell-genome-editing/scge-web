@@ -106,7 +106,7 @@
   <%  for(Map.Entry e:groupedStudies.entrySet()){
         int groupId= (int) e.getKey();
         List<Study> studies1= (List<Study>) e.getValue();%>
-     <% if(studies1.size()>1 || studies1.get(0).getGroupId()==1410){%>
+     <% if(studies1.size()>1 || (studies1.get(0)!=null && studies1.get(0).getGroupId()==1410)){%>
 
             <tr class="header1" style="display:table-row;">
                 <td class="toggle" style="cursor:pointer;text-align:center;" width="20"><i class="fa fa-plus-circle expand" aria-hidden="true" style="font-size:medium;color:green" title="Click to expand"></i></td>
@@ -123,7 +123,7 @@
 
     <%}%>
         <% for (Study s: studies1) {
-            if(studies1.size()>1 || studies1.get(0).getGroupId()==1410) {%>
+            if(studies1.size()>1 || (studies1.get(0)!=null && studies1.get(0).getGroupId()==1410)) {%>
         <tr class="tablesorter-childRow" >
                 <%}else{%>
         <tr class="header1" style="display:table-row;">
@@ -175,7 +175,7 @@
                             if(s.getStudy().equalsIgnoreCase(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle())){%>
                                         <%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
                            <% }else{%>
-                <strong>VALIDATION - <%=personDao.getPersonById(s.getDeliveryPiId()).get(0).getName()%></strong>&nbsp;<%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                <strong>VALIDATION - <%--=personDao.getPersonById(s.getDeliveryPiId()).get(0).getName()--%></strong>&nbsp;<%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
                           <%  }%>
                 <%}else{%>
                     <a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a>
