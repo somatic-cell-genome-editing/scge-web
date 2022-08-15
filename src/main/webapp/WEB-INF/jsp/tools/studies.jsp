@@ -163,29 +163,25 @@
             %>
             <td>
 
-                <%if(access.hasStudyAccess(s,person)) {if(studies1.size()>1 && studies1.get(0).getGroupId()!=1410 && studies1.get(0).getGroupId()!=1412 ) { %>
-                    <%-- if (!hasRecords) { %>
-                    <%=s.getStudy()%>
-                        <span style="font-size:10px;">(Submission Received: Processing)</span>
-                    <% } else { --%>
-                        Submission SCGE-<%=s.getStudyId()%>
-                    <%-- } --%>
-                    <%}else
+                <%if(access.hasStudyAccess(s,person)) {
                         if(studies1.get(0).getGroupId()==1410 || studies1.get(0).getGroupId()==1412){// 1410-Baylor;1412-Jackson
-                            if(s.getStudy().equalsIgnoreCase(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle())){%>
+                            if(s.getIsValidationStudy()!=1){%>
                                         <%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
                            <% }else{%>
-                <strong>VALIDATION - </strong>&nbsp;<%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                                <strong>VALIDATION -</strong>&nbsp;<%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
                           <%  }%>
-                <%}else{%>
-                    <a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a>
-                <%}%>
-                <%} else { if(studies1.size()>1){ %>
-                    Submission SCGE-<%=s.getStudyId()%>
-                <%}else%>
-                <%=s.getStudy()%>
+                        <%}else{%>
+                            <a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a>
+                        <%}%>
+                <%} else {
+                    if(s.getIsValidationStudy()!=1){%>
+                            <%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                        <% }else{%>
+                            <strong>VALIDATION -</strong>&nbsp;<%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                        <%  }
+                }%>
 
-                <% } %>
+
             </td>
             <td>
                 <%if(studies1.size()<=1){ %>
