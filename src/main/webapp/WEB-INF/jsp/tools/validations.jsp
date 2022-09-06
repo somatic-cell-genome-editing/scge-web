@@ -31,7 +31,7 @@
         for (Experiment experiment : experimentsValidatedMap.get(exp.getExperimentId())) {%>
         <form action="/toolkit/data/experiments/validations/study/<%=experiment.getStudyId()%>" >
         <input  type="hidden" name="experimentIds" value="<%=experimentIDS%>"/>
-            <button style="margin-top:15px;"class="btn btn-success btn-sm" type="submit">View Experiments Validated</button>
+            <button style="margin-top:15px;"class="btn btn-success btn-sm" type="submit">View Delivery System Experiments</button>
         </form>
     <%break;}%>
     <!--button class="btn btn-success btn-sm">
@@ -68,7 +68,7 @@
     <form action="/toolkit/data/experiments/validations/study/<%=experiment.getStudyId()%>" >
         <input type="hidden" name="experimentIds" value="<%=experimentIDS%>"/>
 
-        <button class="btn btn-success btn-sm" type="submit">View Validation</button>
+        <button class="btn btn-warning btn-sm" type="submit">View Validation Experiment</button>
     </form>
     <%break;}%>
     <!--button class="btn btn-success btn-sm"><a href="/toolkit/data/compare/delivery/<%=exp.getExperimentId()%>/<%=((List<Experiment>)validationExperimentsMap.get(exp.getExperimentId())).get(0).getExperimentId()%>>">Compare</a>
