@@ -30,8 +30,8 @@
 
 </style>
 
-
-<table width="70%" align="center" >
+<div class="container" align="center">
+<table align="center" >
     <tr>
         <td colspan="2">
             <b style="color:black;font-size:24px;font-family: 'Roboto', sans-serif;">What you need to know about the SCGE Toolkit</b>
@@ -58,7 +58,7 @@
             </td>
         </tr>
 </table>
-
+</div>
 <hr>
 
 <div class="row" style="width:1000px;margin:auto;padding-top:15px;">
