@@ -288,25 +288,46 @@
     %>
 
 
+<div style="font-size:20px; color:#1A80B6;">Organ&nbsp;System&nbsp;Overview</div>
 
-    <table align="right">
-        <tr>
-            <td> <div style="border-color:blue;background-color: blue;width:20px;height:20px "></div></td><td>Delivery Efficiency</td>
-        </tr>
-        <tr>
-            <td><div style="border-color:orange;background-color: orange;width:20px;height:20px "></div></td><td>Editing Efficiency</td>
-        </tr>
-        <tr>
-            <td><div style="border-color:orange;background-color: #DA70D6;width:20px;height:20px "></div></td><td>Target Tissue</td>
-        </tr>
+<table style="border:1px solid black;" border="1" align="center">
+    <tr>
+        <td style="padding:10px;">
+            <table>
+                <tr>
+                    <td>Legend:</td>
+                    <td>&nbsp;</td>
+                    <td align="center">
+                        <table>
+                            <tr>
+                                <td><div style="border:1px solid black;"> <div  style="border-right: 20px solid transparent; border-top: 20px solid blue;width:20px;height:20px;"></div></div></td><td>Delivery Efficiency</td>
+                            </tr>
+                            <tr>
+                                <td><div style="border:1px solid black;"><div style="border-bottom: 20px solid orange;border-left: 20px solid transparent;width:20px;height:20px "></div></div></td><td>Editing Efficiency</td>
+                            </tr>
+                            <tr>
+                                <td><div style="border:3px solid #DA70D6;background-color: white;width:22px;height:22px "></div></td><td>Target Tissue</td>
+                            </tr>
+                            <tr>
+                                <td><div style="border:1px solid black;background-color: #F7F7F7;width:22px;height:22px "></div></td><td>Not Available</td>
+                            </tr>
 
-    </table>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 
 
 
 
 
-<h6 style="color:#1A80B6;">Organ System Overview</h6>
+
+
+
 <br><br>
 
 
