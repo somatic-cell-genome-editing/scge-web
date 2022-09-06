@@ -260,7 +260,10 @@
 
 <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
     <div class="container text-center">
-        <a class="nav-link" onclick="openForm()" href="javascript:void(0)" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fa fa-phone" aria-hidden="true"></i>Contact Us</a>&nbsp;&nbsp;&nbsp;&nbsp;<small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2022 SCGE | All Rights Reserved</small>
+        <a  onclick="openForm()" href="javascript:void(0)" style="font-weight: 400;font-size: 16px;color:#FFFFFF"><i class="fa fa-phone" aria-hidden="true"></i>Contact Us</a>&nbsp;
+        &nbsp;|&nbsp;
+        <a href="https://creativecommons.org/licenses/by/4.0/" style=";color:#FFFFFF">License CC BY 4.0</a>&nbsp;&nbsp;&nbsp;<br>
+        <small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2022 SCGE | All Rights Reserved</small>
     </div>
     <!-- Bootstrap core JavaScript
 ================================================== -->
