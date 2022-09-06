@@ -133,6 +133,11 @@
                 String selectedCellType = (String)request.getAttribute("cellType");
                 String selectedResultType = (String)request.getAttribute("resultType");
 
+                for (int i =0; i< cellTypeList.size(); i++) {
+                    if (cellTypeList.get(i) == null) {
+                        cellTypeList.set(i,"Unspecified");
+                    }
+                }
             %>
 
 
