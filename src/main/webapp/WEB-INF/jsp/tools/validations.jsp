@@ -29,14 +29,10 @@
             }
         }
         for (Experiment experiment : experimentsValidatedMap.get(exp.getExperimentId())) {%>
-<% if(experimentIds.size()>1){%>
         <form action="/toolkit/data/experiments/validations/study/<%=experiment.getStudyId()%>" >
         <input  type="hidden" name="experimentIds" value="<%=experimentIDS%>"/>
-            <button style="margin-top:15px;"class="btn btn-success btn-sm" type="submit">View Original Experiments Validated</button>
+            <button style="margin-top:15px;"class="btn btn-success btn-sm" type="submit">View Original Experiment(s)</button>
         </form>
-<%}else{%>
-<a href="/toolkit/data/experiments/experiment/<%=experimentIds.get(0)%>"><button class="btn btn-success btn-sm" type="submit">View Original Experiments Validated</button></a>
-<%}%>
     <%break;}%>
     <!--button class="btn btn-success btn-sm">
         <a href="/toolkit/data/compare/delivery/<%=exp.getExperimentId()%>/<%=((List<Experiment>)experimentsValidatedMap.get(exp.getExperimentId())).get(0).getExperimentId()%>">Compare</a>
@@ -69,16 +65,11 @@
             }        }
 
         for (Experiment experiment : validationExperimentsMap.get(exp.getExperimentId())) { %>
-<% if(experimentIds.size()>1){%>
     <form action="/toolkit/data/experiments/validations/study/<%=experiment.getStudyId()%>" >
         <input type="hidden" name="experimentIds" value="<%=experimentIDS%>"/>
 
         <button class="btn btn-warning btn-sm" type="submit">View Validation of this Experiment</button>
     </form>
-<%}
-else{%>
-        <a href="/toolkit/data/experiments/experiment/<%=experimentIds.get(0)%>"><button class="btn btn-warning btn-sm" type="submit">View Validation of this Experiment</button></a>
-<%}%>
     <%break;}%>
     <!--button class="btn btn-success btn-sm"><a href="/toolkit/data/compare/delivery/<%=exp.getExperimentId()%>/<%=((List<Experiment>)validationExperimentsMap.get(exp.getExperimentId())).get(0).getExperimentId()%>>">Compare</a>
     </button-->
