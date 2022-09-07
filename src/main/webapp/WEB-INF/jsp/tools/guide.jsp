@@ -184,8 +184,8 @@
         //  var range="<%--=g.getChr().replace("chr", "")+":"+g.getStart()+".."+g.getStop()--%>";
 
         var chr='<%=g.getChr().replace("chr", "")%>';
-        var start="<%=g.getStart()%>";
-        var stop="<%=g.getStop()%>";
+        var start="<%=g.getStart() - 1000000%>";
+        var stop="<%=g.getStop() + 1000000%>";
         var guideId="<%=g.getGuide_id()%>";
         var guide='<%=new Gson().toJson(g)%>';
 
