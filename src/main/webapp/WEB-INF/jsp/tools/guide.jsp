@@ -110,8 +110,8 @@
             <tr><td colspan="2"><hr></td></tr>
 
             <tr ><th class="header">Target Sequence</th><td>&nbsp;<%=SFN.parse(g.getTargetSequence())%></td></tr>
-            <tr ><th class="header" style=" white-space: nowrap;">Target Sequence&nbsp;+ PAM</th><td>&nbsp;<%=SFN.parse(g.getPam())%></td></tr>
-            <tr ><th class="header">Position</th><td style="white-space: nowrap">
+            <tr ><th class="header" style=" ;">Target Sequence&nbsp;+ PAM</th><td>&nbsp;<%=SFN.parse(g.getPam())%></td></tr>
+            <tr ><th class="header">Position</th><td style="">
                 <% if (!SFN.parse(g.getChr()).equals("")) {%>
                 &nbsp;<%=SFN.parse(g.getAssembly())%>/<%=SFN.parse(g.getChr())%>:<%=SFN.parse(g.getStart())%>-<%=SFN.parse(g.getStop())%> (<%=SFN.parse(g.getStrand())%>)
                 <%}%>
