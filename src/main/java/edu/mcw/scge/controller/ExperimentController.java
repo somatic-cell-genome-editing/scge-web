@@ -527,6 +527,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         }
 
         List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
+
         List<String> tissuesTarget = edao.getExperimentRecordTargetTissueList(experimentId);
         System.out.println("TARGET TISSUES SIZE:" +tissuesTarget.size());
         List<String> tissuesNonTargetTmp = edao.getExperimentRecordNonTargetTissueList(experimentId);

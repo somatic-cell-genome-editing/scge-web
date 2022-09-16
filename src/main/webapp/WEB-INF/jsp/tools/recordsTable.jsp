@@ -24,8 +24,8 @@
     td{
         font-size: 12px;
     }
-    .desc {
-        font-size:14px;
+    .tablesorter.target tr td{
+        border:3px solid #DA70D6;
     }
 </style>
 <script>
@@ -49,6 +49,7 @@
         $("#myTable").tableSelectionToCSV();
     }
 </script>
+
 
 <% ImageDao idao = new ImageDao();
     List<String> options = new ArrayList<>();
@@ -222,12 +223,21 @@
     %>
 
     <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) {
+        String border=new String();
+        String target=new String();
+        if(tissuesTarget.contains(exp.getTissueTerm())){
+            border="3px solid #DA70D6";
+            target="Target Tissue";
+        }else{
+            border="";
+        }
+
     %>
-    <tr>
-        <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(experimentName)%></a></td>
+    <tr title="<%=target%>">
+        <td id="<%=SFN.parse(exp.getExperimentName())%>" ><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(experimentName)%></a></td>
 
 
-        <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
+        <% if (tissueList.size() > 0 ) { %><td style="border:<%=border%>"><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
         <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
         <% if (sexList.size() > 0) { %><td><%=SFN.parse(exp.getSex())%></td><% } %>
         <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=exp.getEditorSymbol()%></a></td><% } %>
@@ -314,7 +324,7 @@
     }
     function imageMouseOver(img, legend, title) {
         var sourceImage = document.createElement('img'),
-                imgContainer = document.getElementById("imageViewer");
+            imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
         //resizeThis(sourceImage);
         if (title != "") {
@@ -621,7 +631,7 @@
             for (k=0; k<cells.length;k++ ) {
                 //console.log("innser = " + cells.item(k).innerText + "!");
                 //if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
-                if ((cells.item(k).innerText.toLowerCase() == obj.id.toLowerCase()) || (cells.item(k).innerHTML.toLowerCase().search(">" + obj.id.toLowerCase() + "<") > -1)) {
+                if ((cells.item(k).innerText == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                     if (obj.checked) {
                         cells.item(k).off=false;
                         var somethingOff = false;
@@ -757,7 +767,7 @@
                 graphOps += "<li><a href='javascript:graphUnit(\"" + ele.id + "\")'>Graph " + ele.id + "</a></li>";
             }
         });
-      //  graphOps+="<li><a href='javascript:graphUnit(\"all\")'>Graph All Records (Mixed Units)</a></li>";
+        //  graphOps+="<li><a href='javascript:graphUnit(\"all\")'>Graph All Records (Mixed Units)</a></li>";
         if(count > 1) {
             document.getElementById("graphOptions").innerHTML=count + " Different Units Exist in Dataset<br>" + graphOps;
             document.getElementById("barChart").style.display="none";
