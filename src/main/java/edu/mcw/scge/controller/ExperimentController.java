@@ -528,6 +528,25 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
 
+        List<String> tissuesTarget = edao.getExperimentRecordTargetTissueList(experimentId);
+        System.out.println("TARGET TISSUES SIZE:" +tissuesTarget.size());
+        List<String> tissuesNonTargetTmp = edao.getExperimentRecordNonTargetTissueList(experimentId);
+        List<String> tissuesNonTarget=new ArrayList<>();
+        if(tissuesNonTargetTmp.size()>0)
+        for(String t:tissuesNonTargetTmp){
+            boolean exists=false;
+            for(String target:tissuesTarget){
+                if (t.equalsIgnoreCase(target)) {
+
+                    exists=true;
+                }
+            }
+            if(!exists){
+                tissuesNonTarget.add(t);
+            }
+        }
+        System.out.println("NON TARGET TISSUES SIZE:" +tissuesNonTarget.size());
+
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(experimentId);
         req.setAttribute("protocols", protocols);
@@ -657,6 +676,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         plotData.put("Mean",mean);
 
         req.setAttribute("tissues",tissues);
+        req.setAttribute("tissuesTarget",tissuesTarget);
+        req.setAttribute("tissuesNonTarget",tissuesNonTarget);
         req.setAttribute("conditions",conditions);
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>  / <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Study</a>");
         req.setAttribute("replicateResult",replicateResult);

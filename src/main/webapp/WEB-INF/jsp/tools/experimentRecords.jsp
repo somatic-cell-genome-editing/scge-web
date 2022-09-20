@@ -128,6 +128,10 @@
                 List<String> sexList = edao.getExperimentRecordSexList(ex.getExperimentId());
                 List<String> hrdonorList = edao.getExperimentRecordHrdonorList(ex.getExperimentId());
                 List<String> tissues = (List<String>)request.getAttribute("tissues");
+
+                List<String> tissuesTarget = (List<String>)request.getAttribute("tissuesTarget");
+                List<String> tissuesNonTarget = (List<String>)request.getAttribute("tissuesNonTarget");
+
                 LinkedHashSet<String> conditions = (LinkedHashSet<String>) request.getAttribute("conditions");
                 String selectedTissue = (String)request.getAttribute("tissue");
                 String selectedCellType = (String)request.getAttribute("cellType");
