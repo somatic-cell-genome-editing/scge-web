@@ -135,7 +135,7 @@
 
                 for (int i =0; i< cellTypeList.size(); i++) {
                     if (cellTypeList.get(i) == null) {
-                        cellTypeList.set(i,"Unspecified");
+                        cellTypeList.set(i,"unspecified");
                     }
                 }
             %>
