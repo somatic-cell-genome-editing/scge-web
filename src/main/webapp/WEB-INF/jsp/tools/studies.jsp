@@ -194,9 +194,18 @@
                 <%}%>
             </td>
             <td style="white-space: nowrap;width:15%">
-                <%if(studies1.size()<=1){ %>
+                <%if(studies1.size()<=1){
+                    if(s.getPi()!=null){
+                %>
+
                 <%=s.getPiLastName()%>,&nbsp;<%=s.getPiFirstName()%>
-                <%}%>
+                <%}else{
+                    for(Person pi:s.getMultiplePis())  {%>
+                <%=pi.getFirstName()%>,&nbsp;<%=pi.getLastName()%><br>
+                   <% }%>
+
+
+                <%}}%>
             </td>
             <td>
                 <%if(studies1.size()<=1){ %>
