@@ -50,7 +50,8 @@ public class EditController {
 
         service.insertTierUpdates(studyId, tier, userId, groupIdsJson );
         Study study= sdao.getStudyById(studyId).get(0);
-        List<Person> pi=pdao.getPersonById(study.getPiId());
+        List<Person> pi=sdao.getStudyPi(study);
+       // List<Person> pi=pdao.getPersonById(study.getPiId());
         List<Person> submitter=pdao.getPersonById(study.getSubmitterId());
         List<Person> pocs=sdao.getStudyPOC(studyId);
         String emailMsg="Dear SCGE Member"/*+pi.get(0).getFirstName()+"/"+submitter.get(0).getFirstName()*/+",\n\nThe Study SCGE-"+studyId+" - "+study.getStudy().trim() +" is updated." +

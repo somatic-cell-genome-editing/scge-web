@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Access {
     DataAccessService service=new DataAccessService();
@@ -61,9 +62,9 @@ public class Access {
     public boolean canUpdateTier(Person p, Study s) throws Exception {
 
      //   List<PersonInfo> personInfoRecords= this.getPersonInfoRecords(p.getId());
-
+            List<Integer> piIds=s.getMultiplePis().stream().map(pi->pi.getId()).collect(Collectors.toList());
      //   for(PersonInfo i:personInfoRecords){
-              if (s.getSubmitterId()==p.getId() || s.getPiId()==p.getId()) {
+              if (s.getSubmitterId()==p.getId() || piIds.contains(p.getId())) {
                   return true;
               }else{
                   List<Person> pocs=sdao.getStudyPOC(s.getStudyId());

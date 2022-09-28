@@ -105,7 +105,9 @@
         %>
   <%  for(Map.Entry e:groupedStudies.entrySet()){
         int groupId= (int) e.getKey();
-        List<Study> studies1= (List<Study>) e.getValue();%>
+        List<Study> studies1= (List<Study>) e.getValue();
+        List<Study> studiesByGroupId=studyDao.getStudiesByGroupId(groupId);
+  %>
      <% if(studies1.size()>1 || studies1.get(0).getGroupId()==1410){%>
 
             <tr class="header1" style="display:table-row;">
@@ -114,7 +116,11 @@
                 <td ><a href="/toolkit/data/experiments/group/<%=studies1.get(0).getGroupId()%>"><%=grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle()%></a></td>
                 <td><%=studies1.size()%></td>
                 <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantInitiative())%></td>
-                <td><%=studyDao.getStudiesByGroupId(groupId).get(0).getPiLastName()%>,&nbsp;<%=studyDao.getStudiesByGroupId(groupId).get(0).getPiFirstName()%></td>
+                <td>
+                    <%for(Person pi:studiesByGroupId.get(0).getMultiplePis()){%>
+                    <%=pi.getName().replaceAll(","," ")%>
+                    <% }%>
+                    <%--=studyDao.getStudiesByGroupId(groupId).get(0).getPiLastName()%>,&nbsp;<%=studyDao.getStudiesByGroupId(groupId).get(0).getPiFirstName()--%></td>
                 <td><%=studyDao.getStudiesByGroupId(groupId).get(0).getLabName()%></td>
                 <td></td>
                 <td></td>
@@ -195,17 +201,9 @@
             </td>
             <td style="white-space: nowrap;width:15%">
                 <%if(studies1.size()<=1){
-                    if(s.getPi()!=null){
-                %>
-
-                <%=s.getPiLastName()%>,&nbsp;<%=s.getPiFirstName()%>
-                <%}else{
                     for(Person pi:s.getMultiplePis())  {%>
                 <%=pi.getFirstName()%>,&nbsp;<%=pi.getLastName()%><br>
-                   <% }%>
-
-
-                <%}}%>
+                   <% }}%>
             </td>
             <td>
                 <%if(studies1.size()<=1){ %>

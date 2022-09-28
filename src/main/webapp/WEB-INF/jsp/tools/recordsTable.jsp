@@ -149,7 +149,12 @@
     Experiment dExperiment = (Experiment) request.getAttribute("experiment");
     Study dStudy = (Study) request.getAttribute("study");
 %>
-<div id="fileCitation" style="display:none;">SCGE Toolkit downloaded on: <%=dtf.format(now)%>; Please cite the Somatic Cell Genome Editing Consortium Toolkit NIH HG010423 when using publicly accessible data in formal presentation or publication. SCGE Experment ID: <%=dExperiment.getExperimentId()%>. PI: <%=dStudy.getPi().replaceAll(","," ")%></div>
+<div id="fileCitation" style="display:none;">SCGE Toolkit downloaded on: <%=dtf.format(now)%>; Please cite the Somatic Cell Genome Editing Consortium Toolkit NIH HG010423 when using publicly accessible data in formal presentation or publication. SCGE Experment ID: <%=dExperiment.getExperimentId()%>. PI:
+    <%for(Person pi:dStudy.getMultiplePis()){%>
+    <%=pi.getName().replaceAll(","," ")%>
+    <% }%>
+
+</div>
 <table id="myTable" class="table tablesorter table-striped table-sm">
     <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
     <thead>

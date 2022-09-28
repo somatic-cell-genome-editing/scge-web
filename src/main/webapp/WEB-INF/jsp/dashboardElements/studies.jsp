@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="java.util.List" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -62,7 +63,11 @@
 
         <td><%=s.getStudy()%></td>
         <td><%=s.getLabName()%></td>
-        <td><%=s.getPi()%></td>
+        <td>
+            <%for(Person p:s.getMultiplePis()){%>
+            <%=p.getName()%><br>
+           <% }%>
+          </td>
         <td><%=s.getSubmissionDate()%></td>
         <td><%=s.getStudyId()%></td>
     </tr>

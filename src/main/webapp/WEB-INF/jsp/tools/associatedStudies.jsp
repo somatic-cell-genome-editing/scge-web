@@ -43,7 +43,13 @@
         <tr>
             <td><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a></td>
             <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())%></td>
-            <td><%=s.getPi()%><br>(<%=s.getLabName()%>)</td>
+            <td>
+                <%for(Person pi:s.getMultiplePis()){%>
+                <%=pi.getName()%>
+               <% }%>
+
+
+                <br>(<%=s.getLabName()%>)</td>
             <%
                 String pattern = "MM/dd/yyyy";
                 SimpleDateFormat format = new SimpleDateFormat(pattern);

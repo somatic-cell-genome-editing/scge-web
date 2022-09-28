@@ -3,6 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -26,7 +27,11 @@
         <td style="font-weight:700">Name:</td><td>&nbsp;&nbsp;</td><td><%=study.getStudy()%></td>
     </tr>
     <tr>
-        <td style="font-weight:700">PI:</td><td>&nbsp;&nbsp;</td><td><%=study.getPi()%></td>
+        <td style="font-weight:700">PI:</td><td>&nbsp;&nbsp;</td><td>
+        <%for(Person p:study.getMultiplePis()){%>
+        <%=p.getName()%><br>
+       <% }%>
+      </td>
     </tr>
     <tr>
         <td style="font-weight:700">Institution:</td><td>&nbsp;&nbsp;</td><td><%=study.getLabName()%><br></td>

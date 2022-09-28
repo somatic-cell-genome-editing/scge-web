@@ -117,8 +117,8 @@
                     <c:choose>
                         <c:when test="${action!=null}">
                             <h4 style="color:#1A80B6;padding-top:10px;">${action}  </h4>
-                    <c:if test="${study!=null && (study.pi!=null || study.multiplePis!=null)}">
-                    <small><strong>PI:</strong> ${study.pi}&nbsp; &nbsp;
+                    <c:if test="${study!=null && ( study.multiplePis!=null)}">
+                    <small><strong>PI:</strong>  &nbsp;
                         <c:forEach items="${study.multiplePis}" var="pi">
                           ${pi.name}&nbsp;
                         </c:forEach>

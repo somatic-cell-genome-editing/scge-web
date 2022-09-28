@@ -119,8 +119,6 @@ public class LoginController{
        req.setAttribute("msg",msg);
         return "loginFailure" ;
     }
- //   @ModelAttribute("userAttributes")
-
  public Map getUserAttributes(OAuth2AuthenticationToken authentication){
      if(authentication!=null) {
          OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
@@ -143,15 +141,5 @@ public class LoginController{
      }
      return null;
  }
-
- /*  @ModelAttribute("tiers")
-    public List<String> getTiers() {
-        List<String> tiers = new ArrayList<String>();
-        tiers.add("1");
-        tiers.add("2");
-        tiers.add("3");
-        tiers.add("4");
-        return tiers;
-    }*/
 
 }

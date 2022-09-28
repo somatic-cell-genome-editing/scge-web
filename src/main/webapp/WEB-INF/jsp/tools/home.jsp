@@ -273,77 +273,8 @@
         <!-- end studies by initiative card -->
     </div>
 </div>
-</td></tr></table>
-<!--
 
-<div class="row">
-    <div class=" col-sm-3">
-        <div class="card ">
-            <div class="card-header ">
-                Quick Links
-            </div>
-            <div class="card-body">
-                <ul class="nav flex-column mb-2">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="layers"></span>
-                        Point of Contact </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Consortium Groups
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Upload Docs
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Forms
-                    </a>
-                </li>
 
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-9" style="margin-top:1%">
-        <div class="card">
-            <div class="card-header ">
-                Updates/Upcoming Features ..
-            </div>
-            <div class="card-body">
-                <ul class="nav flex-column mb-2">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="layers"></span>
-                        Online Data Submission </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Upload Docs
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Forms
-                    </a>
-                </li>
-
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
--->
 
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>

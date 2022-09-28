@@ -27,18 +27,13 @@
 
                     Principal Investigator:
                     <div  class="card form-control" style="height: fit-content" >
-                        <%if(s.getPi()!=null){%>
-                        <%=s.getPi()%>
-                        <%}else{%>
+
                             <ul>
-                           <% for(Person pi:s.getMultiplePis()){
-                            %>
+                           <% for(Person pi:s.getMultiplePis()){%>
                                 <li><%=pi.getName()%></li>
-
-
-                        <%}%>
+                                <%}%>
                             </ul>
-                        <%}%>
+
                     </div>
 
             </div>

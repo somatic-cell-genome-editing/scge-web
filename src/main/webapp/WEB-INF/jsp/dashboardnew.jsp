@@ -100,7 +100,12 @@
                         <a href="/toolkit/data/experiments/study/<%=shared.getStudyId()%>"><%=shared.getStudy()%></a>
                     </td>
                     <td><%=shared.getLabName()%></td>
-                    <td><%=shared.getPi()%></td>
+                    <td>
+                        <%for(Person pi:shared.getMultiplePis()){%>
+                        <%=pi.getName()%><br>
+                        <%}%>
+
+                      </td>
                     <td><%=UI.formatDate(shared.getSubmissionDate())%></td>
                 </tr>
             <%}%>

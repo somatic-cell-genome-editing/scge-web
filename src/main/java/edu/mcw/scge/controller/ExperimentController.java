@@ -287,11 +287,16 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             if(!access.hasStudyAccess(study,p))
                 studies.remove(s);
             else {
-                String piname = study.getPi();
-                String label = piname.split(",")[0];
-                int index=label.lastIndexOf(" ");
-                label = label.substring(index);
-                studyNames.put(s,label);
+                StringBuffer sb=new StringBuffer();
+                List<Person> studyPis=sdao.getStudyPi(sdao.getStudyById(s).get(0));
+                for(Person pi:studyPis) {
+                    String piname = pi.getName();
+                    String label = piname.split(",")[0];
+                    int index = label.lastIndexOf(" ");
+                    label = label.substring(index);
+                    sb.append(label);
+                }
+                studyNames.put(s,sb.toString());
             }
         }
 
