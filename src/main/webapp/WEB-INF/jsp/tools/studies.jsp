@@ -82,7 +82,6 @@
             <th class="tablesorter-header filter-false">No. of Submissions</th>
             <th class="tablesorter-header">Initiative</th>
             <th class="tablesorter-header">Contact PI</th>
-            <th class="tablesorter-header">Institution</th>
 
             <th class="tablesorter-header filter-false" >Submission Date</th>
             <th class="tablesorter-header filter-false" >Last Updated Date</th>
@@ -118,10 +117,10 @@
                 <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantInitiative())%></td>
                 <td>
                     <%for(Person pi:studiesByGroupId.get(0).getMultiplePis()){%>
-                    <%=pi.getName().replaceAll(","," ")%>
+                    <%=pi.getName().replaceAll(","," ")%>&nbsp;<small class="text-muted">(<%=pi.getInstitutionName()%>)</small><br>
                     <% }%>
                     <%--=studyDao.getStudiesByGroupId(groupId).get(0).getPiLastName()%>,&nbsp;<%=studyDao.getStudiesByGroupId(groupId).get(0).getPiFirstName()--%></td>
-                <td><%=studyDao.getStudiesByGroupId(groupId).get(0).getLabName()%></td>
+
                 <td></td>
                 <td></td>
                 <td></td>
@@ -202,14 +201,10 @@
             <td style="white-space: nowrap;width:15%">
                 <%if(studies1.size()<=1){
                     for(Person pi:s.getMultiplePis())  {%>
-                <%=pi.getFirstName()%>,&nbsp;<%=pi.getLastName()%><br>
+                <%=pi.getFirstName()%>,&nbsp;<%=pi.getLastName()%>&nbsp;<small class="text-muted">(<%=pi.getInstitutionName()%>)</small><br>
                    <% }}%>
             </td>
-            <td>
-                <%if(studies1.size()<=1){ %>
-                <%=s.getLabName()%>
-                <%}%>
-            </td>
+
             <td><%=UI.formatDate(s.getSubmissionDate())%></td>
             <td>
                 <%if( s.getLastModifiedDate()!=null){%>
