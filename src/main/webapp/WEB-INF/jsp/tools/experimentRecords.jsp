@@ -51,7 +51,7 @@
             <% if (deliveryAssay.size() != 0) { %>
                 <table>
                     <tr>
-                        <td valign="top" width="150"><span style="width:100px; color:#1A80B6;font-weight:700;">Delivery Assays:</span></td>
+                        <td valign="top" width="150"><span style="width:100px; ;font-weight:700;">Delivery Assays:</span></td>
                         <td><%
                             int count=1;
                             for (String assay: deliveryAssay.keySet()) { %>
@@ -68,7 +68,7 @@
             <% if (editingAssay.size() != 0) { %>
                     <table>
                         <tr>
-                            <td valign="top" width="150"><span style="color:#1A80B6;margin-top:10px;font-weight:700;">Editing Assay:</span></td>
+                            <td valign="top" width="150"><span style=";margin-top:10px;font-weight:700;">Editing Assay:</span></td>
                             <td> <%
                                 int count=1;
                                 for (String assay: editingAssay.keySet()) { %>
