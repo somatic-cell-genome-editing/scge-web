@@ -395,7 +395,7 @@
                         fontFamily: 'Calibri'
                     },
                     ticks:{
-                        fontColor: "rgb(0,75,141)",
+                     /*   fontColor: "rgb(0,75,141)",*/
                         fontSize: 10,
                         autoSkip: false,
                         callback: function(t) {
