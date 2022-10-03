@@ -113,8 +113,9 @@
 
 <div>
 </div>
-
+<c:if test="${fn:length(plotData['Mean'])>0}">
 <div id="barChart">
+
     <% if( options.size() == 1 ) {
     }  else { %>
     <hr>
@@ -132,7 +133,7 @@
     </div>
 </div>
 <hr>
-
+</c:if>
 
 <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
