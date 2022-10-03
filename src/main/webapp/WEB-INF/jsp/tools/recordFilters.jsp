@@ -17,7 +17,7 @@
         background-color: white;
         overflow-x: hidden;
         transition: 0.5s;
-        padding-top: 60px;
+        padding-top: 20px;
         opacity: 0.8;
     }
 
@@ -149,7 +149,7 @@
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
 </div>
 <div id="mySidenav" class="sidenav">
-
+    <h5 style="margin-left: 10px;">Interact Graph by filters.. <i class="fa-solid fa-down"></i></h5>
     <table align="center" border="0" style="margin-left:35px;">
 
         <% if (tissueList.size() > 0 ) { %>
@@ -212,20 +212,13 @@
                         <td>
                             <div class="recordFilterBlock">
                                 <table>
-                                    <% for (String cellType: cellTypeList) { if(selectedCellType == null || cellType.equalsIgnoreCase(selectedCellType)) {
-                                    %>
+                                    <% for (String cellType: cellTypeList) {%>
                                     <tr>
                                         <td>
                                             <input onclick="applyFilters(this)"  name="checkcelltype" id="<%=cellType%>" type="checkbox" checked>&nbsp;<%=cellType%>
                                         </td>
                                     </tr>
-                                    <%} else { %>
-                                    <tr>
-                                        <td>
-                                            <input onclick="applyFilters(this)" name="checkcelltype" id="<%=cellType%>" type="checkbox" unchecked>&nbsp;<%=cellType%>
-                                        </td>
-                                    </tr>
-                                    <% }} %>
+                                 <%} %>
                                 </table>
                             </div>
                         </td>
