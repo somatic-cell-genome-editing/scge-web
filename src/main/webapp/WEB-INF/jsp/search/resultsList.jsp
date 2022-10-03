@@ -91,7 +91,7 @@
             <c:if test="${hit.sourceAsMap.name!=null}">
             <h6>
                 <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
-                    <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> [<i class="fa-solid fa-v" style="color:darkorange"></i>]</span>
+                    <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> <span style="color:darkorange">[Validation]</span>
                 </c:if>
                 <c:choose>
                     <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
