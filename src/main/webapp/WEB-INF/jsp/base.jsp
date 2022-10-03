@@ -89,23 +89,6 @@
 </style>
 <%@include file="feedbackForm.jsp"%>
 
-<div id="devSystemWarning" style="display:none; font-size:12px; color:white; background-color: #770C0E; width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System<br><%=seoTitle%><br><%=seoDescription%></div>
-
-<div style="font-size:12px; color:white; background-color: black; width:100%;padding-left:15px;padding-top:4px; padding-bottom:2px;">
-    <div style="text-align:right; color:white;padding-right:12px;">
-        <a href="https://https://scge.mcw.edu" style="color:white;">SCGE Consortium Home</a>&nbsp;&nbsp;
-        |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/initiatives">About SCGE</a>&nbsp;&nbsp;
-        |&nbsp;&nbsp;<a style="color:white;" onclick="openForm()" href="javascript:void(0)">Contact Us</a>&nbsp;&nbsp;
-        |&nbsp;&nbsp;<a style="color:white;" href="">Citing SCGE</a>&nbsp;&nbsp;
-        |&nbsp;&nbsp;<a style="color:white;" href="https://creativecommons.org/licenses/by/4.0/">License</a>&nbsp;&nbsp;
-    </div>
-</div>
-
-<script>
-    if (location.href.indexOf("dev.") > 0 || location.href.indexOf("localhost") > 0) {
-        document.getElementById("devSystemWarning").style.display="block";
-    }
-</script>
 
 <%
 
@@ -114,6 +97,24 @@
 
 %>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
+    <div id="devSystemWarning" style="display:none; font-size:12px; color:white; background-color: #770C0E; width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System<br><%=seoTitle%><br><%=seoDescription%></div>
+
+    <div style="font-size:12px; color:white; background-color: black; width:100%;padding-left:15px;padding-top:4px; padding-bottom:2px;">
+        <div style="text-align:right; color:white;padding-right:12px;">
+            <a href="https://https://scge.mcw.edu" style="color:white;">SCGE Consortium Home</a>&nbsp;&nbsp;
+            |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/initiatives">About SCGE</a>&nbsp;&nbsp;
+            |&nbsp;&nbsp;<a style="color:white;" onclick="openForm()" href="javascript:void(0)">Contact Us</a>&nbsp;&nbsp;
+            |&nbsp;&nbsp;<a style="color:white;" href="">Citing SCGE</a>&nbsp;&nbsp;
+            |&nbsp;&nbsp;<a style="color:white;" href="https://creativecommons.org/licenses/by/4.0/">License</a>&nbsp;&nbsp;
+        </div>
+    </div>
+
+    <script>
+        if (location.href.indexOf("dev.") > 0 || location.href.indexOf("localhost") > 0) {
+            document.getElementById("devSystemWarning").style.display="block";
+        }
+    </script>
+
     <%@include file="navbarTop.jsp"%>
     <%@include file="navbar.jsp"%>
 

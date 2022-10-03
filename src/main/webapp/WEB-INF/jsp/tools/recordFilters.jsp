@@ -74,6 +74,26 @@
         .sidenav {padding-top: 15px;}
         .sidenav a {font-size: 18px;}
     }
+    .recordFilterBlock {
+        max-height:250px;
+        width: 200px;
+        border: 1px solid gainsboro;
+        padding-left:5px;
+        padding-right:5px;
+        padding-top:7px;
+        padding-bottom:6px;
+        overflow-y:auto;
+
+    }
+    .recordFilterTitle {
+        padding-top:6px;
+        font-size:20px;
+        ackground-color:#818181;
+        color:#818181;
+
+
+
+    }
 </style>
 
 <!--
@@ -119,26 +139,7 @@
 
 
 <style>
-    .recordFilterBlock {
-        max-height:250px;
-        width: 200px;
-        border: 1px solid #4A4A4A;
-        padding-left:5px;
-        padding-right:5px;
-        padding-top:7px;
-        padding-bottom:6px;
-        overflow-y:auto;
 
-    }
-    .recordFilterTitle {
-        padding-top:6px;
-        font-size:20px;
-        ackground-color:#818181;
-        color:#818181;
-
-
-
-    }
 </style>
 
 <div class="filterOptions" id="filterClose">
