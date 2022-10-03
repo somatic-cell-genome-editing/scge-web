@@ -17,7 +17,7 @@
         background-color: white;
         overflow-x: hidden;
         transition: 0.5s;
-        padding-top: 20px;
+        padding-top: 60px;
         opacity: 0.8;
     }
 
@@ -212,13 +212,20 @@
                         <td>
                             <div class="recordFilterBlock">
                                 <table>
-                                    <% for (String cellType: cellTypeList) {%>
+                                    <% for (String cellType: cellTypeList) { if(selectedCellType == null || cellType.equalsIgnoreCase(selectedCellType)) {
+                                    %>
                                     <tr>
                                         <td>
                                             <input onclick="applyFilters(this)"  name="checkcelltype" id="<%=cellType%>" type="checkbox" checked>&nbsp;<%=cellType%>
                                         </td>
                                     </tr>
-                                 <%} %>
+                                    <%} else { %>
+                                    <tr>
+                                        <td>
+                                            <input onclick="applyFilters(this)" name="checkcelltype" id="<%=cellType%>" type="checkbox" unchecked>&nbsp;<%=cellType%>
+                                        </td>
+                                    </tr>
+                                    <% }} %>
                                 </table>
                             </div>
                         </td>
