@@ -14,7 +14,7 @@
         z-index: 1;
         top: 0;
         left: 0;
-        background-color: #111;
+        background-color: white;
         overflow-x: hidden;
         transition: 0.5s;
         padding-top: 60px;
@@ -25,7 +25,7 @@
         padding: 8px 8px 8px 8px;
         text-decoration: none;
         font-size: 25px;
-        color: #818181;
+        color: black;
         display: block;
         transition: 0.3s;
     }
@@ -34,7 +34,7 @@
         adding: 8px 8px 8px 30px;
         text-decoration: none;
         font-size: 14px;
-        color: white;
+        color: black;
         display: block;
         transition: 0.3s;
         opacity:1;

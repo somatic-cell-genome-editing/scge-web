@@ -127,7 +127,7 @@
 
 
     <br><br>
-    <div class="chart-container" id = "chartDiv">
+    <div class="chart-container" style="display:none;" id = "chartDiv">
         <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
     </div>
 </div>

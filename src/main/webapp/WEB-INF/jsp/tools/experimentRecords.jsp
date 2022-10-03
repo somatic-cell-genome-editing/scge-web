@@ -163,6 +163,7 @@
         </div>
 
 
+    <%@include file="modal.jsp"%>
 
 <% } catch (Exception e) {
         e.printStackTrace();
