@@ -39,16 +39,12 @@
   }
 </style>
 
-<!-- Trigger/Open The Modal -->
-<button id="myBtn">Open Modal</button>
-
 <!-- The Modal -->
 <div id="myModal" class="modal">
-
   <!-- Modal content -->
   <div class="modal-content">
-    <span class="close">&times; Close</span>
-    <img src="/toolkit/images/experimentHelpModal.png"/>
+    <span class="close">&times; Close Overview</span>
+    <img src="<%=modalFilePath%>"/>
   </div>
 
 </div>
@@ -63,7 +59,6 @@
   // Get the <span> element that closes the modal
   var span = document.getElementsByClassName("close")[0];
 
-
   // When the user clicks on <span> (x), close the modal
   span.onclick = function() {
     modal.style.display = "none";
@@ -76,9 +71,16 @@
     }
   }
 
+  if (localStorage.getItem("<%=modalFilePath%>") === "true") {
+
+  }else {
+    localStorage.setItem('<%=modalFilePath%>', 'true');
+    modal.style.display = "block";
+  }
+
   // When the user clicks on the button, open the modal
   //btn.onclick = function() {
-  modal.style.display = "block";
+
   //}
 
 </script>

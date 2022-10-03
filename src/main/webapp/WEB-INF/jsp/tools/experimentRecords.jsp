@@ -162,7 +162,7 @@
 
         </div>
 
-
+    <% String modalFilePath="/toolkit/images/experimentHelpModal.png"; %>
     <%@include file="modal.jsp"%>
 
 <% } catch (Exception e) {
