@@ -130,6 +130,26 @@
                 </ul>
             </div>
         </div>
+        <div class="card">
+            <div class="card-body">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/studies/search">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="rounded" ><i class="fa-solid fa-users" style="font-size:70px;color:steelblue"></i></div>
+                                    </td>
+                                    <td class="card-label">
+                                       View & Download submissions that are available public
+                                    </td>
+                                </tr>
+                            </table>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div> <!--close col -->
 
     <div class="col-sm-4">
