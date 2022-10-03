@@ -149,7 +149,7 @@
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
 </div>
 <div id="mySidenav" class="sidenav">
-    <h5 style="margin-left: 10px;">Interact Graph by filters.. <i class="fa-solid fa-down"></i></h5>
+    <h5 style="margin-left: 20px;">Filter graph .. <i class="fa-solid fa-down"></i></h5>
     <table align="center" border="0" style="margin-left:35px;">
 
         <% if (tissueList.size() > 0 ) { %>
