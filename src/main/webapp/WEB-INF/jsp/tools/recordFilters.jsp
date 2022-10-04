@@ -14,11 +14,11 @@
         z-index: 1;
         top: 0;
         left: 0;
-        background-color: white;
+        background-color: #f8f9fa;
         overflow-x: hidden;
         transition: 0.5s;
-        padding-top: 60px;
-        opacity: 0.8;
+        padding-top: 20px;
+
     }
 
     .sidenav a {
@@ -170,21 +170,24 @@
                                     <% for (String tissue: tissues) {
                                         String title="";
                                         String color="";
+                                        String fontWeight="";
                                         if(tissuesTarget.contains(tissue)){
                                             title="Target Tissue";
                                             color="#DA70D6";
+                                            fontWeight="bold";
+
                                         }
                                         if(selectedTissue == null || tissue.equalsIgnoreCase(selectedTissue)) {
 
                                     %>
                                     <tr>
-                                        <td  title="<%=title%>" style="color:<%=color%>">
+                                        <td  title="<%=title%>" style="color:<%=color%>;font-weight: <%=fontWeight%>">
                                             <input onclick="applyFilters(this)" name="tissue"  id="<%=tissue%>" type="checkbox" checked>&nbsp;<%=tissue%>
                                         </td>
                                     </tr>
                                     <%} else { %>
                                     <tr>
-                                        <td  title="<%=title%>" style="color:<%=color%>">
+                                        <td  title="<%=title%>" style="color:<%=color%>;font-weight: <%=fontWeight%>">
                                             <input onclick="applyFilters(this)" name="tissue" id="<%=tissue%>" type="checkbox" unchecked>&nbsp;<%=tissue%>
                                         </td>
                                     </tr>
