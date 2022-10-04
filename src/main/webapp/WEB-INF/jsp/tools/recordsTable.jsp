@@ -41,6 +41,9 @@
                 update(false);
             }
         });
+
+
+
     });
     function download(){
         $("#myTable").tableToCSV();
@@ -48,6 +51,8 @@
     function downloadSelected(){
         $("#myTable").tableSelectionToCSV();
     }
+
+
 </script>
 
 
@@ -136,12 +141,23 @@
 </c:if>
 
 <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
+<script> entireExperimentRecordCount=<%=experimentRecordsMap.size()%>
+    $(function () {
 
+        if(filtersApplied())
+        $('#downloadChartBelow').show();
+        else
+            $('#downloadChartBelow').hide();
+    })
+
+
+
+</script>
 <table width="100%">
     <tr>
         <td><h3>Results</h3></td>
-        <td width="100" align="right"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Chart Below" onclick="downloadSelected()"/></td>
-        <td width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment" onclick="download()"/></td>
+        <td id="downloadChartBelow" width="100" align="right" style="display:none"><input type="button" style=";border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Chart Below" onclick="downloadSelected()"/></td>
+        <td id="downloadEntireExperiment" width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment" onclick="download()"/></td>
     </tr>
 </table>
 <%
@@ -156,6 +172,7 @@
     <% }%>
 
 </div>
+
 <table id="myTable" class="table tablesorter table-striped table-sm">
     <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
     <thead>
@@ -629,6 +646,16 @@
             });
         }
     }
+    function filtersApplied() {
+        var table = document.getElementById('myTable');
+        var rowLength = table.rows.length;
+        for (i = 1; i < rowLength; i++) {
+           if( table.rows.item(i).style.display == "none"){
+                return true;
+           }
+        }
+        return false;
+    }
     function applyFilters(obj)  {
         var table = document.getElementById('myTable'); //to remove filtered rows
         var rowLength = table.rows.length;
@@ -658,7 +685,12 @@
                     }
                 }
             }
+
         }
+        if(filtersApplied())
+            $('#downloadChartBelow').show();
+        else
+            $('#downloadChartBelow').hide();
         if(resultTypes.length > 1){
             dualAxis = true;
             for (var i = 0; i < resultTypes.length; i++) {
@@ -672,6 +704,10 @@
         }else {
             update(true);
         }
+
+
+
+
     }
     function generateData() {
         var noOfDatasets=${replicateResult.keySet().size()}
