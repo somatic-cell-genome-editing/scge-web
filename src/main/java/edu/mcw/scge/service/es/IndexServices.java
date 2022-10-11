@@ -32,8 +32,8 @@ public class IndexServices {
         searchIndex= SCGEContext.getESIndexName();
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(this.buildBoolQuery(categories, searchTerm, filterMap, DCCNIHMember,consortiumMember));
-        srb.aggregation(this.buildSearchAggregations("category"));
-          buildAggregations(srb, categories);
+       srb.aggregation(this.buildSearchAggregations("category"));
+         buildAggregations(srb, categories);
         srb.highlighter(this.buildHighlights());
         srb.size(10000);
         if(searchTerm.equals("")){
@@ -118,7 +118,6 @@ public class IndexServices {
             srb.aggregation(this.buildSearchAggregations("initiative"));
             srb.aggregation(this.buildSearchAggregations("studyType"));
         }
-
 
     }
     public HighlightBuilder buildHighlights(){
@@ -323,21 +322,21 @@ public class IndexServices {
         BoolQueryBuilder q=new BoolQueryBuilder();
         q.must(buildQuery(searchTerm));
 
-      if(!DCCNIHMember && consortiumMember) {
+     if(!DCCNIHMember && consortiumMember && !categories.get(0).equalsIgnoreCase("Grant")) {
             q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
             q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
                     should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
         }
-        if(!consortiumMember){
+        if(!consortiumMember && !categories.get(0).equalsIgnoreCase("Grant")){
            q.filter(QueryBuilders.termQuery("accessLevel.keyword", "public"));
            q.filter((QueryBuilders.termQuery("tier", 4)));
 
         }
 
-        if(DCCNIHMember){
+        if(DCCNIHMember && !categories.get(0).equalsIgnoreCase("Grant") ){
             q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
         }
-        if(categories!=null && categories.size()>0) {
+        if( categories.size()>0) {
             q.filter(QueryBuilders.termsQuery("category.keyword", categories.toArray()));
 
 
@@ -347,7 +346,6 @@ public class IndexServices {
                 q.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
 
             }
-
 
         return q;
     }

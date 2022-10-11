@@ -84,6 +84,9 @@
         <c:if test="${category=='Study'}">
             <%@include file="studyFacets.jsp"%>
         </c:if>
+        <c:if test="${category=='Grant'}">
+            <%@include file="studyFacets.jsp"%>
+        </c:if>
         <c:if test="${category=='Genome Editor'}">
             <%@include file="editorFacets.jsp"%>
         </c:if>

@@ -115,7 +115,8 @@
                 <a class="search-results-anchor" style="text-decoration: none;cursor: pointer" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
               +
             </a>
-            <%}%></h6>
+            <%}%>
+            </h6>
             </c:if>
 
             <c:if test="${hit.sourceAsMap.symbol!=null}">
@@ -145,8 +146,20 @@
                         </div>
                     </div>
                 </div>
-                <small>  <c:if test="${hit.sourceAsMap.category=='Study' || hit.sourceAsMap.category=='Experiment'}">
-                    ${hit.sourceAsMap.pi.get(0)}
+                <small>  <c:if test="${hit.sourceAsMap.category=='Study' || hit.sourceAsMap.category=='Experiment' || hit.sourceAsMap.category=='Grant'}">
+                   <c:set var="first" value="true"/>
+                    <c:forEach items="${hit.sourceAsMap.pi}" var="item">
+                        <c:choose>
+                            <c:when test="${first=='true'}">
+                                ${item}
+                                <c:set var="first" value="false"/>
+                            </c:when>
+                            <c:otherwise>
+                                ,&nbsp;${item}
+                            </c:otherwise>
+                        </c:choose>
+                   </c:forEach>
+
                     <c:if test="${hit.sourceAsMap.category=='Study'}">
                         &nbsp;&nbsp;<span class="header">Date Of Submission:</span> ${hit.sourceAsMap.submissionDate}
                     </c:if>
