@@ -322,18 +322,18 @@ public class IndexServices {
         BoolQueryBuilder q=new BoolQueryBuilder();
         q.must(buildQuery(searchTerm));
 
-     if(!DCCNIHMember && consortiumMember && (categories!=null && !categories.get(0).equalsIgnoreCase("Grant"))) {
+     if(!DCCNIHMember && consortiumMember ) {
             q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
             q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
                     should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
         }
-        if(!consortiumMember && (categories!=null &&!categories.get(0).equalsIgnoreCase("Grant"))){
+        if(!consortiumMember){
            q.filter(QueryBuilders.termQuery("accessLevel.keyword", "public"));
            q.filter((QueryBuilders.termQuery("tier", 4)));
 
         }
 
-        if(DCCNIHMember && (categories!=null && !categories.get(0).equalsIgnoreCase("Grant") )){
+        if(DCCNIHMember ){
             q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
         }
         if( categories!=null &&categories.size()>0) {
