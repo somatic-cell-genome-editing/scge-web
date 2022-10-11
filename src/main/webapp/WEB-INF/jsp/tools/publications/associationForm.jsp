@@ -79,7 +79,7 @@
                     <ul>
                         <c:forEach  items="${references}" var="ref">
                             <input type="hidden" name="refKey" value="${ref.key}">
-                            <li><a href="https://pubmed.ncbi.nlm.nih.gov/${ref.pubmedId}/">${ref.title}</a></li>
+                            <li>${ref.title}&nbsp;<a href="https://pubmed.ncbi.nlm.nih.gov/${ref.pubmedId}/">NCBI</a></li>
                         </c:forEach>
                     </ul>
                 </div>
