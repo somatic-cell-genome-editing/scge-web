@@ -134,7 +134,7 @@
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Grant?searchTerm=">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=">
                             <table>
                                 <tr>
                                     <td>

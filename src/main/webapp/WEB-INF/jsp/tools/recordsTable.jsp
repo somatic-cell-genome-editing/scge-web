@@ -391,6 +391,7 @@
     var ctx = document.getElementById("resultChart");
     var colorArray = [];
     var filterValues = [];
+    if(ctx!=null){
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -474,6 +475,7 @@
             }
         }
     });
+    }
     function getRandomColor() {
         var letters = 'BCDEF'.split('');
         var color = '#';
@@ -503,112 +505,114 @@
         return detail;
     }
     function update(updateColor){
-        var table = document.getElementById('myTable'); //to remove filtered rows
-        var xArray=[];
-        var yArray=[];
-        var rowLength = table.rows.length;
-        var j = 0;
-        var selected = 0;
-        var count = 0;
-        count = <%=options.size()%>;
-        var filter = 'None';
-        /* var colors = ['rgba(255, 140, 102,0.5)','rgba(140, 255, 102,0.5)','rgba(102, 217, 255,0.5)','rgba(217, 102, 255,0.5)',
-         'rgba(255, 179, 102,0.5)','rgba(102, 255, 102,0.5)','rgba(102, 179, 255,0.5)','rgba(255, 102, 255,0.5)',
-         'rgba(255, 217, 102,0.5)', 'rgba(102, 255, 140,0.5)', 'rgba(102, 140, 255,0.5)','rgba(255, 102, 217,0.5)',
-         'rgba(255, 255, 102,0.5)', 'rgba(102, 255, 179,0.5)', 'rgba(102, 102, 255,0.5)', 'rgba(255, 102, 179,0.5)',
-         'rgba(217, 255, 102,0.5)', 'rgba(102, 255, 217,0.5)', 'rgba(140, 102, 255,0.5)', 'rgba(255, 102, 140,0.5)',
-         'rgba(179, 255, 102,0.5)','rgba(102, 255, 255,0.5)','rgba(179, 102, 255,0.5)','rgba(255, 102, 102,0.5)'
-         ];*/
-        var colors = [
-            'rgba(230, 159, 0, 0.5)','rgba(86, 180, 233, 0.5)','rgba(0, 158, 115, 0.5)','rgba(240, 228, 66, 0.5)',
-            'rgba(0, 114, 178, 0.5)','rgba(213, 94, 0, 0.5)', 'rgba(204, 121, 167, 0.5)','rgba(0, 0, 0, 0.5)',
-            'rgba(233, 150, 122, 0.5)','rgba(139, 0, 139, 0.5)','rgba(169, 169, 169, 0.5)','rgba(220, 20, 60, 0.5)',
-            'rgba(100, 149, 237, 0.5)','rgba(127, 255, 0, 0.5)','rgba(0, 0, 128, 0.5)','rgba(255, 222, 173, 0.5)',
-            'rgba(128, 0, 0, 0.5)','rgba(224, 255, 255, 0.5)','rgba(32, 178, 170, 0.5)','rgba(160, 82, 45, 0.5)',
-            'rgba(238, 130, 238, 0.5)','rgba(154, 205, 50, 0.5)','rgba(219, 112, 147, 0.5)','rgba(199, 21, 133, 0.5)',
-            'rgba(102, 205, 170, 0.5)','rgba(240, 128, 128, 0.5)','rgba(222, 184, 135, 0.5)','rgba(95, 158, 160, 0.5)',
-            'rgba(189, 183, 107, 0.5)','rgba(0, 100, 0, 0.5)', 'rgba(0, 191, 255, 0.5)','rgba(255, 0, 255, 0.5)',
-            'rgba(218, 165, 32, 0.5)','rgba(75, 0, 130, 0.5)'
-        ];
-        var aveIndex = table.rows.item(0).cells.length -2;
-        var cells = table.rows.item(0).cells;
-        if(count != 1) {
-            filter = document.getElementById("graphFilter").value;
-            for (var i = 0; i < cells.length; i++) {
-                if (cells.item(i).innerText.includes(filter)) { //check the column of selected filter
-                    selected = i;
+        if(document.getElementById("chartDiv")!=null) {
+            var table = document.getElementById('myTable'); //to remove filtered rows
+            var xArray = [];
+            var yArray = [];
+            var rowLength = table.rows.length;
+            var j = 0;
+            var selected = 0;
+            var count = 0;
+            count = <%=options.size()%>;
+            var filter = 'None';
+            /* var colors = ['rgba(255, 140, 102,0.5)','rgba(140, 255, 102,0.5)','rgba(102, 217, 255,0.5)','rgba(217, 102, 255,0.5)',
+             'rgba(255, 179, 102,0.5)','rgba(102, 255, 102,0.5)','rgba(102, 179, 255,0.5)','rgba(255, 102, 255,0.5)',
+             'rgba(255, 217, 102,0.5)', 'rgba(102, 255, 140,0.5)', 'rgba(102, 140, 255,0.5)','rgba(255, 102, 217,0.5)',
+             'rgba(255, 255, 102,0.5)', 'rgba(102, 255, 179,0.5)', 'rgba(102, 102, 255,0.5)', 'rgba(255, 102, 179,0.5)',
+             'rgba(217, 255, 102,0.5)', 'rgba(102, 255, 217,0.5)', 'rgba(140, 102, 255,0.5)', 'rgba(255, 102, 140,0.5)',
+             'rgba(179, 255, 102,0.5)','rgba(102, 255, 255,0.5)','rgba(179, 102, 255,0.5)','rgba(255, 102, 102,0.5)'
+             ];*/
+            var colors = [
+                'rgba(230, 159, 0, 0.5)', 'rgba(86, 180, 233, 0.5)', 'rgba(0, 158, 115, 0.5)', 'rgba(240, 228, 66, 0.5)',
+                'rgba(0, 114, 178, 0.5)', 'rgba(213, 94, 0, 0.5)', 'rgba(204, 121, 167, 0.5)', 'rgba(0, 0, 0, 0.5)',
+                'rgba(233, 150, 122, 0.5)', 'rgba(139, 0, 139, 0.5)', 'rgba(169, 169, 169, 0.5)', 'rgba(220, 20, 60, 0.5)',
+                'rgba(100, 149, 237, 0.5)', 'rgba(127, 255, 0, 0.5)', 'rgba(0, 0, 128, 0.5)', 'rgba(255, 222, 173, 0.5)',
+                'rgba(128, 0, 0, 0.5)', 'rgba(224, 255, 255, 0.5)', 'rgba(32, 178, 170, 0.5)', 'rgba(160, 82, 45, 0.5)',
+                'rgba(238, 130, 238, 0.5)', 'rgba(154, 205, 50, 0.5)', 'rgba(219, 112, 147, 0.5)', 'rgba(199, 21, 133, 0.5)',
+                'rgba(102, 205, 170, 0.5)', 'rgba(240, 128, 128, 0.5)', 'rgba(222, 184, 135, 0.5)', 'rgba(95, 158, 160, 0.5)',
+                'rgba(189, 183, 107, 0.5)', 'rgba(0, 100, 0, 0.5)', 'rgba(0, 191, 255, 0.5)', 'rgba(255, 0, 255, 0.5)',
+                'rgba(218, 165, 32, 0.5)', 'rgba(75, 0, 130, 0.5)'
+            ];
+            var aveIndex = table.rows.item(0).cells.length - 2;
+            var cells = table.rows.item(0).cells;
+            if (count != 1) {
+                if (document.getElementById("graphFilter") != null)
+                    filter = document.getElementById("graphFilter").value;
+                for (var i = 0; i < cells.length; i++) {
+                    if (cells.item(i).innerText.includes(filter)) { //check the column of selected filter
+                        selected = i;
+                    }
                 }
             }
-        }
-        if(updateColor == true && count != 1) {
-            filterValues = [];
+            if (updateColor == true && count != 1) {
+                filterValues = [];
+                for (var i = 1; i < rowLength; i++) {
+                    var cells = table.rows.item(i).cells;
+                    var value = cells.item(selected).innerText;
+                    if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
+                        filterValues.push(value);
+                    }
+                }
+            }
+            var replicate = [];
             for (var i = 1; i < rowLength; i++) {
-                var cells = table.rows.item(i).cells;
-                var value = cells.item(selected).innerText;
-                if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
-                    filterValues.push(value);
+                if (table.rows.item(i).style.display != 'none') {
+                    var cells = table.rows.item(i).cells;
+                    if (cells.item(aveIndex - 1).innerText.toLowerCase() != "signal") {
+                        var cellLength = cells.length - 1;
+                        var column = cells.item(0); //points to condition column
+                        var avg = cells.item(aveIndex);
+                        xArray[j] = column.innerText;
+                        yArray[j] = avg.innerHTML;
+                        var index = filterValues.indexOf(cells.item(selected).innerText);
+                        if (filter != 'None') {
+                            if (filterValues.length <= colors.length)
+                                colorArray[j] = colors[index];
+                            else colorArray[j] = colors[0];
+                        } else colorArray[j] = colors[0];
+                        for (var k = aveIndex + 1; k < cellLength; k++) {
+                            var arr = [];
+                            if (j != 0 && replicate[k - aveIndex - 1] != null)
+                                arr = replicate[k - aveIndex - 1];
+                            arr.push(cells.item(k).innerHTML);
+                            replicate[k - aveIndex - 1] = arr;
+                        }
+                        j++;
+                    }
                 }
             }
-        }
-        var replicate = [];
-        for (var i = 1; i < rowLength; i++){
-            if(table.rows.item(i).style.display != 'none') {
-                var cells = table.rows.item(i).cells;
-                if (cells.item(aveIndex - 1).innerText.toLowerCase() != "signal") {
-                    var cellLength = cells.length-1;
-                    var column = cells.item(0); //points to condition column
-                    var avg = cells.item(aveIndex);
-                    xArray[j] = column.innerText;
-                    yArray[j] = avg.innerHTML;
-                    var index = filterValues.indexOf(cells.item(selected).innerText);
-                    if(filter != 'None') {
-                        if (filterValues.length <= colors.length)
-                            colorArray[j] = colors[index];
-                        else colorArray[j] = colors[0];
-                    }
-                    else colorArray[j] = colors[0];
-                    for (var k = aveIndex + 1; k < cellLength; k++) {
-                        var arr = [];
-                        if (j != 0 && replicate[k - aveIndex - 1] != null)
-                            arr = replicate[k - aveIndex - 1];
-                        arr.push(cells.item(k).innerHTML);
-                        replicate[k - aveIndex - 1] = arr;
-                    }
-                    j++;
-                }
-            }
-        }
-        if(xArray.length > 0) {
-            var data={
-                label: "Mean",
-                data: yArray,
-                yAxisID: 'delivery',
-                backgroundColor: colorArray,
-                borderWidth: 1
-            };
-            myChart.data.labels = xArray;
-            myChart.data.datasets[0] = data;
-            for(var i = 0;i < replicate.length;i++){
-                var dataSet = {
-                    data: replicate[i],
-                    label: "Replicate: "+(i+1),
+            if (xArray.length > 0) {
+                var data = {
+                    label: "Mean",
+                    data: yArray,
                     yAxisID: 'delivery',
-                    backgroundColor: 'rgba(255,99,132,1)',
-                    borderColor: 'rgba(255,99,132,1)',
-                    type: "scatter",
-                    showLine: false
+                    backgroundColor: colorArray,
+                    borderWidth: 1
                 };
-                myChart.data.datasets[i+1] = dataSet;
+                myChart.data.labels = xArray;
+                myChart.data.datasets[0] = data;
+                for (var i = 0; i < replicate.length; i++) {
+                    var dataSet = {
+                        data: replicate[i],
+                        label: "Replicate: " + (i + 1),
+                        yAxisID: 'delivery',
+                        backgroundColor: 'rgba(255,99,132,1)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        type: "scatter",
+                        showLine: false
+                    };
+                    myChart.data.datasets[i + 1] = dataSet;
+                }
+                myChart.options.scales.yAxes[1].display = false;
+                myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString(null);
+                myChart.options.legend.display = false;
+                myChart.update();
+                document.getElementById("chartDiv").style.display = "block";
+                document.getElementById("resultChart").style.display = "block";
+            } else {
+                document.getElementById("chartDiv").style.display = "none";
+                document.getElementById("resultChart").style.display = "none";
             }
-            myChart.options.scales.yAxes[1].display = false;
-            myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString(null);
-            myChart.options.legend.display = false;
-            myChart.update();
-            document.getElementById("chartDiv").style.display = "block";
-            document.getElementById("resultChart").style.display = "block";
-        } else {
-            document.getElementById("chartDiv").style.display = "none";
-            document.getElementById("resultChart").style.display = "none";
         }
     }
     function getLabelString(result){
@@ -691,7 +695,7 @@
             $('#downloadChartBelow').show();
         else
             $('#downloadChartBelow').hide();
-        if(resultTypes.length > 1){
+        if(resultTypes!=null && resultTypes.length > 1){
             dualAxis = true;
             for (var i = 0; i < resultTypes.length; i++) {
                 if(document.getElementById((resultTypes[i])).checked == false){
@@ -829,6 +833,7 @@
         });
     }
     function updateAxis(){
+        if(document.getElementById("chartDiv")!=null){
         var table = document.getElementById('myTable'); //to remove filtered rows
         var labels=[];
         var editing=[];
@@ -888,11 +893,14 @@
             document.getElementById("resultChart").style.display = "none";
         }
     }
+    }
     var quantitative = 0;
     quantitative = <%=resultMap.size()%>;
     console.log(quantitative);
     if(quantitative == 0) {
+        if(document.getElementById("chartDiv")!=null)
         document.getElementById("chartDiv").style.display = "none";
+        if(document.getElementById("resultChart")!=null)
         document.getElementById("resultChart").style.display = "none";
     }
     setTimeout("load()",500);

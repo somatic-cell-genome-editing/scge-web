@@ -28,7 +28,50 @@
         color:deeppink;
     }
 </style>
+<style>
+     .myUL {
+     list-style-type: none;
+    }
+
+    .myUL {
+        margin: 0;
+        padding: 0;
+    }
+
+    .caret {
+        cursor: pointer;
+        -webkit-user-select: none; /* Safari 3.1+ */
+        -moz-user-select: none; /* Firefox 2+ */
+        -ms-user-select: none; /* IE 10+ */
+        user-select: none;
+    }
+
+    .caret::before {
+        content: "\25B6";
+        color: black;
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    .caret-down::before {
+        -ms-transform: rotate(90deg); /* IE 9 */
+        -webkit-transform: rotate(90deg); /* Safari */'
+    transform: rotate(90deg);
+    }
+
+    .nested {
+        display: none;
+    }
+
+    .active {
+        display: block;
+    }
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script>
+
+</script>
+
 
 <script>
     $(function() {
@@ -62,9 +105,20 @@
         }).on('hide.bs.collapse', function(){
             $(this).prev(".card-header").find(".fas").removeClass("fa-angle-down").addClass("fa-angle-up");
         });
+        var toggler = document.getElementsByClassName("caret");
+        var i;
+
+        for (i = 0; i < toggler.length; i++) {
+            toggler[i].addEventListener("click", function() {
+                this.parentElement.querySelector(".nested").classList.toggle("active");
+                this.classList.toggle("caret-down");
+            });
+        }
     })
 
 </script>
+
+
 <%
     Access access=new Access();
     Person person = null;
@@ -105,7 +159,7 @@
                         </c:if>
                     </c:otherwise>
                 </c:choose>
-                <!--a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a--> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>
+                <!--a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a--> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>&nbsp;<small>${hit.sourceAsMap.initiative}</small>
            <small>
             <c:if test="${hit.sourceAsMap.experimentType!=null}">
                -  ${hit.sourceAsMap.experimentType}
@@ -131,8 +185,11 @@
                         <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                     </c:if>                </c:otherwise>
             </c:choose>
-               &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}
+               &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}&nbsp;
             </small>
+                <small>
+                        ${hit.sourceAsMap.initiative}
+                </small>
                 <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
                 <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
                 +
@@ -146,7 +203,7 @@
                         </div>
                     </div>
                 </div>
-                <small>  <c:if test="${hit.sourceAsMap.category=='Study' || hit.sourceAsMap.category=='Experiment' || hit.sourceAsMap.category=='Grant'}">
+                <small>  <c:if test="${hit.sourceAsMap.category=='Study' || hit.sourceAsMap.category=='Experiment' || hit.sourceAsMap.category=='Project'}">
                    <c:set var="first" value="true"/>
                     <c:forEach items="${hit.sourceAsMap.pi}" var="item">
                         <c:choose>
@@ -217,8 +274,9 @@
                 </c:forEach>
                 </span> <br>
             </c:if>
+
             <c:if test="${fn:length(hit.sourceAsMap.studyNames)>0 || fn:length(hit.sourceAsMap.experimentNames)>0}">
-            <small class="text-muted">View Associated:&nbsp;</small><%@include file="associations.jsp"%>
+            <!--small class="text-muted">View Associated:&nbsp;</small--><%@include file="associations.jsp"%>
 
             </c:if>
 

@@ -128,7 +128,7 @@ public class IndexServices {
 
             hb.field(field);
         }
-     //  hb.field("*");
+      hb.field("*");
       // hb.numOfFragments(1);
      //  hb.field("*");
       //  System.out.println(gson.toJson(hb));
@@ -438,6 +438,8 @@ public class IndexServices {
 
             q.add(QueryBuilders.matchPhrasePrefixQuery("pi", searchTerm).boost(500));
             q.add(QueryBuilders.matchPhraseQuery("pi", searchTerm).boost(200));
+            q.add(QueryBuilders.termQuery("currentGrantNumber.keyword", searchTerm));
+            q.add(QueryBuilders.termQuery("formerGrantNumbers.keyword", searchTerm));
 
 
         }else{
@@ -488,6 +490,7 @@ public class IndexServices {
                 "tissueIds", "tissueTerm", "termSynonyms",
                 "site", "sequence", "pam", "detectionMethod","target",
                "experimentName","experimentType"
+              //  , "currentGrantNumber.keyword", "formerGrantNumbers.keyword"
 
               /* "studyNames",
                 "experimentNames"*/

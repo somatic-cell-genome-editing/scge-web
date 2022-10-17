@@ -37,7 +37,7 @@ public class Facet {
         displayNames.put("access", "Access");
         displayNames.put("status", "Status");
         displayNames.put("pi", "Principal Investigator");
-        displayNames.put("initiative", "Grant Inititative");
+        displayNames.put("initiative", "Inititative");
         displayNames.put("studyType", "Study Type");
         displayNames.put("experimentType", "Experiment Type");
 
