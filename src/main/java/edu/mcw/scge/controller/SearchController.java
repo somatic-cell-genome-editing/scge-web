@@ -59,7 +59,6 @@ public class SearchController{
         if(selectedView==null || selectedView.equals("")){
             selectedView="list";
         }
-        System.out.println("RESULTS VIEW:"+ selectedView);
         req.setAttribute("selectedView",selectedView);
      //   req.setAttribute("aggregations",aggregations);
         if(facetSearch) {
@@ -126,7 +125,6 @@ public class SearchController{
         if(selectedView==null || selectedView.equals("")){
             selectedView="list";
         }
-        System.out.println("RESULTS VIEW:"+ selectedView);
         req.setAttribute("selectedView",selectedView);
       /*  System.out.println("CATEGORY:" +category+"\nFacets ===============================");
         Iterator iterator= sr.getAggregations().iterator();
@@ -228,7 +226,6 @@ public class SearchController{
         if(selectedView==null || selectedView.equals("")){
             selectedView="list";
         }
-        System.out.println("RESULTS VIEW:"+ selectedView);
         req.setAttribute("selectedView",selectedView);
         req.setAttribute("crumbTrailMap",   breadCrumb.getCrumbTrailMap(req,null,null, "search"));
       /*  if(facetSearch) {
