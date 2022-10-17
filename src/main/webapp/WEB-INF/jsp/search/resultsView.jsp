@@ -1,7 +1,41 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script>
-    function removeFilter(filter, name) {
+
+       var view='${selectedView}'
+       $(function () {
+           if(view=='table'){
+               $('#listViewTab').removeClass('active')
+               $('#listViewContent').removeClass('active')
+               $('#tableViewTab').addClass('active')
+               $('#tableViewContent').addClass('active')
+           }else{
+               $('#listViewTab').addClass('active')
+               $('#listViewContent').addClass('active')
+               $('#tableViewTab').removeClass('active')
+               $('#tableViewContent').removeClass('active')
+           }
+       })
+
+
+
+
+    function switchView(view) {
+    $('#selectedView').val(view)
+        if(view=='table'){
+            $('#listViewTab').removeClass('active')
+            $('#listViewContent').removeClass('active')
+            $('#tableViewTab').addClass('active')
+            $('#tableViewContent').addClass('active')
+        }else{
+            $('#listViewTab').addClass('active')
+            $('#listViewContent').addClass('active')
+            $('#tableViewTab').removeClass('active')
+            $('#tableViewContent').removeClass('active')
+        }
+}
+
+function removeFilter(filter, name) {
         $.each($('input[type="checkbox"]'),function () {
             var _this=$(this);
             var val=_this.val();
@@ -53,13 +87,13 @@
         </span>
         </c:if>
 
-<ul class="nav nav-tabs" role="tablist">
+<ul class="nav nav-tabs" role="tablist" >
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#listView" role="tab">
+            <a class="nav-link active" id="listViewTab" data-toggle="tab" href="#listView" onclick="switchView('list')" role="tab">
                 <span data-feather="list"></span>&nbsp;List View</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#tableView" role="tab">
+            <a class="nav-link" data-toggle="tab" id="tableViewTab" href="#tableView" onclick="switchView('table')" role="tab">
                 <span data-feather="grid"></span>&nbsp;Table View</a>
         </li>
 
@@ -67,10 +101,10 @@
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div class="tab-pane active" id="listView" role="tabpanel">
+        <div class="tab-pane active" id="listViewContent" role="tabpanel">
             <%@include file="resultsList.jsp"%>
         </div>
-        <div class="tab-pane" id="tableView" role="tabpanel">
+        <div class="tab-pane" id="tableViewContent" role="tabpanel">
             <%@include file="resultsTable.jsp"%></div>
 
     </div>

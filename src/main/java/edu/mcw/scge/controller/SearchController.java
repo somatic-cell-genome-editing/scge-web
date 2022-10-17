@@ -55,7 +55,12 @@ public class SearchController{
         Aggregations aggs=sr.getAggregations();
         Map<String, Aggregation> aggregationMap = new HashMap<>(aggs.asMap());
         req.setAttribute("aggregations",aggregationMap);
-
+        String selectedView=req.getParameter("selectedView");
+        if(selectedView==null || selectedView.equals("")){
+            selectedView="list";
+        }
+        System.out.println("RESULTS VIEW:"+ selectedView);
+        req.setAttribute("selectedView",selectedView);
      //   req.setAttribute("aggregations",aggregations);
         if(facetSearch) {
             //   return "search/resultsTable";
@@ -117,6 +122,12 @@ public class SearchController{
         req.setAttribute("searchTerm", searchTerm);
         req.setAttribute("category",category);
         req.setAttribute("sr", sr);
+        String selectedView=req.getParameter("selectedView");
+        if(selectedView==null || selectedView.equals("")){
+            selectedView="list";
+        }
+        System.out.println("RESULTS VIEW:"+ selectedView);
+        req.setAttribute("selectedView",selectedView);
       /*  System.out.println("CATEGORY:" +category+"\nFacets ===============================");
         Iterator iterator= sr.getAggregations().iterator();
         while (iterator.hasNext()){
@@ -196,6 +207,8 @@ public class SearchController{
                 req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
          /*   }
         }*/
+
+
         return null;
     }
 
@@ -211,7 +224,12 @@ public class SearchController{
         req.setAttribute("sr", sr);
         Map<String, Aggregation> aggregationMap = new HashMap<>(sr.getAggregations().asMap());
         req.setAttribute("aggregations",aggregationMap);
-
+        String selectedView=req.getParameter("selectedView");
+        if(selectedView==null || selectedView.equals("")){
+            selectedView="list";
+        }
+        System.out.println("RESULTS VIEW:"+ selectedView);
+        req.setAttribute("selectedView",selectedView);
         req.setAttribute("crumbTrailMap",   breadCrumb.getCrumbTrailMap(req,null,null, "search"));
       /*  if(facetSearch) {
             System.out.println("FACET SEARCH: "+ facetSearch);
