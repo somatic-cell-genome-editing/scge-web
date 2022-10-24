@@ -86,6 +86,7 @@
         background-color: transparent;
         border-bottom: 1px solid lightgrey;
     }
+
 </style>
 <%@include file="feedbackForm.jsp"%>
 
@@ -96,6 +97,59 @@
     Person person = access.getUser(request.getSession());
 
 %>
+<style>
+    .myUL {
+        list-style-type: none;
+    }
+
+    .myUL {
+        margin: 0;
+        padding: 0;
+    }
+
+    .caret {
+        cursor: pointer;
+        -webkit-user-select: none; /* Safari 3.1+ */
+        -moz-user-select: none; /* Firefox 2+ */
+        -ms-user-select: none; /* IE 10+ */
+        user-select: none;
+    }
+
+    .caret::before {
+        content: "\25B6";
+        color: black;
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    .caret-down::before {
+        -ms-transform: rotate(90deg); /* IE 9 */
+        -webkit-transform: rotate(90deg); /* Safari */'
+    transform: rotate(90deg);
+    }
+
+    .nested {
+        display: none;
+    }
+
+    .active {
+        display: block;
+    }
+</style>
+<script>
+    $(function () {
+        var toggler = document.getElementsByClassName("caret");
+        var i;
+
+        for (i = 0; i < toggler.length; i++) {
+            toggler[i].addEventListener("click", function() {
+                this.parentElement.querySelector(".nested").classList.toggle("active");
+                this.classList.toggle("caret-down");
+            });
+        }
+    })
+
+</script>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
     <div id="devSystemWarning" style="display:none; font-size:12px; color:white; background-color: #770C0E; width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System<br><%=seoTitle%><br><%=seoDescription%></div>
 
@@ -122,17 +176,17 @@
         <% if (request.getAttribute("crumbtrail") != null) {%>
         <div class="container-fluid" style="padding-bottom: 2px;"><%=request.getAttribute("crumbtrail")%></div>
         <%}%>
-        <c:if test="${destination!='create'}">
+
             <div class="" style="margin-top: 0;padding-top: 0">
                 <div class="container-fluid">
                     <c:choose>
                         <c:when test="${action!=null}">
                             <h4 style=";padding-top:10px;">${action}  </h4>
-                    <c:if test="${study!=null && ( study.multiplePis!=null)}">
-                    <small><strong>PI:</strong>  &nbsp;
-                        <c:forEach items="${study.multiplePis}" var="pi">
-                          ${pi.name}&nbsp;
-                        </c:forEach>
+                            <c:if test="${study!=null && ( study.multiplePis!=null)}">
+                                <small><strong>PI:</strong>  &nbsp;
+                                    <c:forEach items="${study.multiplePis}" var="pi">
+                                      ${pi.name}&nbsp;
+                                    </c:forEach>
                         <c:if test="${fn:length( publication.articleIds)>0}">
                         <span style="color:orange; font-weight: bold">Publication IDs:</span>
                         <c:forEach items="${publication.articleIds}" var="id">
@@ -149,9 +203,27 @@
                             </c:choose>
                         </c:forEach>
                         </c:if>
-
+                        <c:if test="${grantNumber!=null}">
+                            <a href="https://reporter.nih.gov/project-details/${grantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
+                        </c:if>
                     </small>
                     </c:if>
+                        <c:if test="${projectDescription!=null}">
+                            <div>
+
+                                <ul class="myUL">
+                                    <li><span class="caret"><b>Description</b></span>
+                                        <div class="card" style="border:transparent">
+                                            <div class="nested" style="margin-left:5%">
+                                                ${projectDescription}
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </c:if>
                         <hr>
                             <c:if test="${action=='Dashboard'}">
                                 <div align="right">
@@ -267,7 +339,7 @@
                     </div>
                 </div>
             </div>
-        </c:if>
+
     </div>
 </div>
 

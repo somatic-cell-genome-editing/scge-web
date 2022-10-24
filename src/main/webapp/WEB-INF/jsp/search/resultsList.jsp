@@ -28,45 +28,7 @@
         color:deeppink;
     }
 </style>
-<style>
-     .myUL {
-     list-style-type: none;
-    }
 
-    .myUL {
-        margin: 0;
-        padding: 0;
-    }
-
-    .caret {
-        cursor: pointer;
-        -webkit-user-select: none; /* Safari 3.1+ */
-        -moz-user-select: none; /* Firefox 2+ */
-        -ms-user-select: none; /* IE 10+ */
-        user-select: none;
-    }
-
-    .caret::before {
-        content: "\25B6";
-        color: black;
-        display: inline-block;
-        margin-right: 6px;
-    }
-
-    .caret-down::before {
-        -ms-transform: rotate(90deg); /* IE 9 */
-        -webkit-transform: rotate(90deg); /* Safari */'
-    transform: rotate(90deg);
-    }
-
-    .nested {
-        display: none;
-    }
-
-    .active {
-        display: block;
-    }
-</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script>
 
@@ -105,15 +67,7 @@
         }).on('hide.bs.collapse', function(){
             $(this).prev(".card-header").find(".fas").removeClass("fa-angle-down").addClass("fa-angle-up");
         });
-        var toggler = document.getElementsByClassName("caret");
-        var i;
 
-        for (i = 0; i < toggler.length; i++) {
-            toggler[i].addEventListener("click", function() {
-                this.parentElement.querySelector(".nested").classList.toggle("active");
-                this.classList.toggle("caret-down");
-            });
-        }
     })
 
 </script>
@@ -219,6 +173,9 @@
 
                     <c:if test="${hit.sourceAsMap.category=='Study'}">
                         &nbsp;&nbsp;<span class="header">Date Of Submission:</span> ${hit.sourceAsMap.submissionDate}
+                    </c:if>
+                    <c:if test="${hit.sourceAsMap.grantNumber!=null}">
+                        <a href="https://reporter.nih.gov/project-details/${hit.sourceAsMap.currentGrantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
                     </c:if>
                 </c:if></small>
             </div>
