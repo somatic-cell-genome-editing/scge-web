@@ -21,8 +21,11 @@
                 <li class="nav-item   text-responsive Studies" id="Studies">
                     <a class="nav-link" href="/toolkit/data/search/results/Experiment?searchTerm=" >Explore Data <span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item   text-responsive Studies" id="Projects">
+                    <a class="nav-link" href="/toolkit/data/search/results/Project?searchTerm=" >Explore Projects </a>
+                </li>
                 <li class="nav-item  text-responsive" id="Genome Editors">
-                    <a class="nav-link" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=" >Genome Editors <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=" >Genome Editors</a>
                 </li>
                 <li class="nav-item  text-responsive" id="Model Systems">
                     <a class="nav-link" href="/toolkit/data/search/results/Model%20System?searchTerm=" >Model Systems</a>
