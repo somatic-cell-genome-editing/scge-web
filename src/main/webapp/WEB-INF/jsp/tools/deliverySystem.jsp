@@ -42,8 +42,7 @@
 
     <a href="#associatedProtocols">Protocols</a>
 
-    <a href="#associatedStudies">Associated Studies</a>
-    <a href="#associatedExperiments">Associated Experiments</a>
+    <a href="#associatedStudies">Projects & Experiments</a>
     <!--a href="#publications">Related Publications</a-->
 
 
@@ -131,8 +130,5 @@
 <jsp:include page="associatedStudies.jsp"/>
         </div>
 
-        <div id="associatedExperiments">
-<jsp:include page="associatedExperiments.jsp"/>
-        </div>
 
 </main>

@@ -83,8 +83,7 @@ color: #064579;
     <%if(offTargets!=null && offTargets.size()>0){%>
     <a href="#offTargets">Off Targets</a>
     <%}%>
-    <a href="#associatedStudies">Associated Studies</a>
-    <a href="#associatedExperiments">Associated Experiments</a>
+    <a href="#associatedStudies">Projects & Experiments</a>
 
 
 </div>
@@ -382,9 +381,7 @@ color: #064579;
     <div id="associatedStudies">
         <jsp:include page="associatedStudies.jsp"/>
     </div>
-    <div id="associatedExperiments">
-        <jsp:include page="associatedExperiments.jsp"/>
-    </div>
+
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>

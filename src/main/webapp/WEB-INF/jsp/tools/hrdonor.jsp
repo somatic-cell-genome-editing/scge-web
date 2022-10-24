@@ -77,8 +77,7 @@
 <div id="associatedPublications">
     <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
 </div>
-<hr>
+
 <jsp:include page="associatedStudies.jsp"/>
-<br>
-<hr>
-<jsp:include page="associatedExperiments.jsp"/>
+
+
