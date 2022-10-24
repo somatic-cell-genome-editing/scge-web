@@ -11,7 +11,14 @@
             Menu
         </button>
         -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <!--span class="navbar-toggler-icon" ></span-->
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
+
+
 
             <ul class="navbar-nav">
                 <li class="nav-item   text-responsive Home" id="Home">
@@ -22,10 +29,10 @@
                     <a class="nav-link" href="/toolkit/data/search/results/Experiment?searchTerm=" >Explore Data <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item   text-responsive Studies" id="Projects">
-                    <a class="nav-link" href="/toolkit/data/search/results/Project?searchTerm=" >Explore Projects </a>
+                    <a class="nav-link" href="/toolkit/data/search/results/Project?searchTerm=" >Explore Projects <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item  text-responsive" id="Genome Editors">
-                    <a class="nav-link" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=" >Genome Editors</a>
+                    <a class="nav-link" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=" >Genome Editors <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item  text-responsive" id="Model Systems">
                     <a class="nav-link" href="/toolkit/data/search/results/Model%20System?searchTerm=" >Model Systems</a>
