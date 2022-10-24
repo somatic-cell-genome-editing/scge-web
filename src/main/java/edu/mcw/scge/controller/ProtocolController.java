@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/protocols")
-public class ProtocolController {
+public class ProtocolController extends ObjectController{
     ProtocolDao protocolDao = new ProtocolDao();
 
     @RequestMapping(value="/search")

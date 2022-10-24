@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @Controller
 @RequestMapping(value="/data/guide")
-public class GuideController {
+public class GuideController extends ObjectController{
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     GuideDao guideDao = new GuideDao();
     PublicationDAO publicationDAO=new PublicationDAO();
@@ -117,14 +117,8 @@ public class GuideController {
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
-            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
-            List<Experiment> assocatedExperiments=new ArrayList<>();
-
-            for(long id:associatedExperimentIds){
-                assocatedExperiments.add(experimentDao.getExperiment(id));
-            }
-
-            req.setAttribute("associatedExperiments", assocatedExperiments);}
+            mapProjectNExperiments(experimentRecords, req);
+           }
         List<Publication> associatedPublications=new ArrayList<>();
         associatedPublications.addAll(publicationDAO.getAssociatedPublications(guide.getGuide_id()));
         for(long experimentId:experimentIds) {

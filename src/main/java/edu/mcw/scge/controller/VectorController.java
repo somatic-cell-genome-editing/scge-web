@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/vector")
-public class VectorController {
+public class VectorController extends ObjectController{
     VectorDao dao = new VectorDao();
     PublicationDAO publicationDAO=new PublicationDAO();
     @RequestMapping(value="/search")
@@ -84,13 +84,7 @@ public class VectorController {
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
-            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
-            List<Experiment> assocatedExperiments=new ArrayList<>();
-
-            for(long id:associatedExperimentIds){
-                assocatedExperiments.add(experimentDao.getExperiment(id));
-            }
-            req.setAttribute("associatedExperiments", assocatedExperiments);}
+            mapProjectNExperiments(experimentRecords, req);}
         List<Publication> associatedPublications=new ArrayList<>();
         associatedPublications.addAll(publicationDAO.getAssociatedPublications(v.getVectorId()));
         for(long experimentId:experimentIds) {

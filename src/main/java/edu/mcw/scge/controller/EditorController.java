@@ -1,5 +1,6 @@
 package edu.mcw.scge.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/editors")
-public class EditorController {
+public class EditorController extends ObjectController {
     EditorDao editorDao = new EditorDao();
     PublicationDAO publicationDAO=new PublicationDAO();
     @RequestMapping(value="/search")
@@ -114,14 +115,7 @@ public class EditorController {
         /*************************************************************/
 
         if(studies!=null && studies.size()>0) {
-            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
-            List<Experiment> assocatedExperiments=new ArrayList<>();
-
-            for(long id:associatedExperimentIds){
-                assocatedExperiments.add(experimentDao.getExperiment(id));
-            }
-            req.setAttribute("associatedExperiments", assocatedExperiments);
-
+            mapProjectNExperiments(experimentRecords, req);
             List<Object> comparableEditors=new ArrayList<>();
             List<Experiment> experiments=new ArrayList<>();
 

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/delivery")
-public class DeliveryController {
+public class DeliveryController extends ObjectController{
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     DeliveryDao dao = new DeliveryDao();
     PublicationDAO publicationDAO=new PublicationDAO();
@@ -92,13 +92,8 @@ public class DeliveryController {
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
-            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
-            List<Experiment> assocatedExperiments=new ArrayList<>();
-
-            for(long id:associatedExperimentIds){
-                assocatedExperiments.add(experimentDao.getExperiment(id));
-            }
-            req.setAttribute("associatedExperiments", assocatedExperiments);}
+            mapProjectNExperiments(experimentRecords, req);
+           }
         List<Publication> associatedPublications=new ArrayList<>();
         associatedPublications.addAll(publicationDAO.getAssociatedPublications(system.getId()));
         for(long experimentId:experimentIds) {

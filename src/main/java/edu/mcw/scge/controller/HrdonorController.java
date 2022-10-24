@@ -8,6 +8,7 @@ import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.datamodel.publications.Publication;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
+import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/hrdonors")
-public class HrdonorController {
+public class HrdonorController extends ObjectController {
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     HRDonorDao dao = new HRDonorDao();
     PublicationDAO publicationDAO=new PublicationDAO();
@@ -91,13 +92,7 @@ public class HrdonorController {
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
-            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
-            List<Experiment> assocatedExperiments=new ArrayList<>();
-
-            for(long id:associatedExperimentIds){
-                assocatedExperiments.add(experimentDao.getExperiment(id));
-            }
-            req.setAttribute("associatedExperiments", assocatedExperiments);}
+            mapProjectNExperiments(experimentRecords, req);}
         List<Publication> associatedPublications=new ArrayList<>();
         associatedPublications.addAll(publicationDAO.getAssociatedPublications(hrDonor.getId()));
         for(long experimentId:experimentIds) {

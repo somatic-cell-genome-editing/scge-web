@@ -1,11 +1,14 @@
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
-<%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ExperimentDao" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.datamodel.Experiment" %>
+<%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.scge.datamodel.Grant" %>
 
 <script>
     $(function() {
@@ -16,11 +19,14 @@
     });
 </script>
 <%
+    Access localExpAccess = new Access();
+    Person localExpPerson = new UserService().getCurrentUser(request.getSession());
     List<Study> studies = (List<Study>)request.getAttribute("studies");
+    Map<Integer, List<Experiment>> projectNexperiments= (Map<Integer, List<Experiment>>) request.getAttribute("studyExperimentsMap");
     if (studies.size() > 0) {
     %>
 <hr>
-<h4 class="page-header" style="color:grey;">Associated SCGE Studies</h4>
+<h4 class="page-header" style="color:grey;">Projects & Experiments</h4> This <%=request.getAttribute("action")%> is being used
 
 <%
    Access localStudyAccess = new Access();
@@ -31,17 +37,54 @@
     <thead>
     <tr><!--th>Select</th-->
         <!--th>Action</th-->
-        <th>Grant Title</th>
+        <th>Project</th>
         <th>Initiative</th>
         <th>Contact PI</th>
-        <th>Submission Date</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
-    <% for (Study s: studies) { %>
+    <%
+        Set<Integer> groupIds=new HashSet<>();
+        for (Study s: studies) {
+            List<Experiment> experiments=new ArrayList<>();
+            if(!groupIds.contains(s.getGroupId())){
+                groupIds.add(s.getGroupId());
+                experiments.addAll(projectNexperiments.get(s.getGroupId()));
+                Grant grant=grantDao.getGrantByGroupId(s.getGroupId());
+
+    %>
     <% if (localStudyAccess.hasStudyAccess(s,localStudyPerson)) { %>
         <tr>
-            <td><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a></td>
+            <td>
+
+                <div>
+
+                    <ul class="myUL">
+                        <li><span class="caret"><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=grant.getGrantTitle()%></a></span>
+
+                                <ul class="nested">
+                                    <li style="text-decoration: none"><span class="caret">Experiments</span>
+                                        <div class="card" style="background-color: #f0ffff;border:transparent">
+                                        <ul class="nested">
+                                    <%
+                                        for(Experiment experiment:experiments){
+                                            if (localExpAccess.hasExperimentAccess(experiment.getExperimentId(),localExpPerson.getId())) {
+                                    %>
+
+                                    <li><span><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></span></li>
+                                    <%}}%>
+
+                                </ul> </div>
+
+                                    </li>
+                                </ul>
+
+                        </li>
+                    </ul>
+
+                </div>
+            </td>
             <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(s.getGroupId()).getGrantInitiative())%></td>
             <td>
                 <%for(Person pi:s.getMultiplePis()){%>
@@ -54,9 +97,15 @@
                 String pattern = "MM/dd/yyyy";
                 SimpleDateFormat format = new SimpleDateFormat(pattern);
             %>
-            <td><%=format.format(s.getSubmissionDate())%></td>
+            <!--td><%--=format.format(s.getSubmissionDate())--%></td-->
+            <td>
+
+
+                    <a href="https://reporter.nih.gov/project-details/<%=grant.getCurrentGrantNumber()%>" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
+
+            </td>
         </tr>
-    <% } %>
+    <% } }%>
     <% } %>
     </tbody>
 </table>

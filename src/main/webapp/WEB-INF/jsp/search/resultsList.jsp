@@ -174,10 +174,12 @@
                     <c:if test="${hit.sourceAsMap.category=='Study'}">
                         &nbsp;&nbsp;<span class="header">Date Of Submission:</span> ${hit.sourceAsMap.submissionDate}
                     </c:if>
-                    <c:if test="${hit.sourceAsMap.grantNumber!=null}">
+
+                </c:if>
+                    <c:if test="${hit.sourceAsMap.currentGrantNumber!=null}">
                         <a href="https://reporter.nih.gov/project-details/${hit.sourceAsMap.currentGrantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
                     </c:if>
-                </c:if></small>
+                </small>
             </div>
             <c:if test="${hit.sourceAsMap.description!=null}">
                 <span>${hit.sourceAsMap.description}</span><br>
