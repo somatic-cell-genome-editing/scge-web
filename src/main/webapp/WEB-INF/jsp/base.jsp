@@ -209,11 +209,20 @@
                     </small>
 
                                 <c:if test="${fn:contains(action,'Experiment' )}">
-                                  <div style="float:right">
+                                  <div style="margin-left: 60%">
+                                      <div class="row">
+                                          <div class="col-lg-push-2">
+                                      <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
+                                              onclick="javascript:location.href='/toolkit/data/experiments/group/${study.groupId}'">Go to Project
+                                      </button>&nbsp;
+                                          </div>
+                                          <div class="col-lg-push-3">
                                 <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
                                         onclick="javascript:location.href='/toolkit/download/${study.studyId}'"><i
-                                        class='fas fa-download'></i>&nbsp;View & Download Submitted files
+                                        class='fas fa-download'></i>&nbsp;Download Submitted files
                                 </button>
+                                          </div>
+                                      </div>
                         </div>
                                 </c:if>
                     </c:if>

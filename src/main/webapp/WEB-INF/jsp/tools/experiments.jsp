@@ -126,7 +126,7 @@
 
                             <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
                                     onclick="javascript:location.href='/toolkit/download/<%=study.getStudyId()%>'"><i
-                                    class='fas fa-download'></i>&nbsp;View & Download Submitted files
+                                    class='fas fa-download'></i>&nbsp;Download Submitted files
                             </button>
                         </td>
                     </tr>
