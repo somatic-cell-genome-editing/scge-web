@@ -207,6 +207,15 @@
                             <a href="https://reporter.nih.gov/project-details/${grantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
                         </c:if>
                     </small>
+
+                                <c:if test="${fn:contains(action,'Experiment' )}">
+                                  <div style="float:right">
+                                <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
+                                        onclick="javascript:location.href='/toolkit/download/${study.studyId}'"><i
+                                        class='fas fa-download'></i>&nbsp;View & Download Submitted files
+                                </button>
+                        </div>
+                                </c:if>
                     </c:if>
                         <c:if test="${projectDescription!=null}">
                             <div>
