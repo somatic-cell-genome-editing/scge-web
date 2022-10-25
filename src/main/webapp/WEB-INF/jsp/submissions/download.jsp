@@ -21,8 +21,7 @@
 
     <div style="float:right">
         <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
-                onclick="javascript:location.href='/toolkit/data/experiments/group/${study.groupId}'"><i
-                class='fas fa-download'></i>&nbsp;Go to Project
+                onclick="javascript:location.href='/toolkit/data/experiments/group/${study.groupId}'">Go to Project
         </button>
     </div>
 
