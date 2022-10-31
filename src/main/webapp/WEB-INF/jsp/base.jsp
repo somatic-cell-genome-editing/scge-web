@@ -218,7 +218,7 @@
                                           </div>
                                           <div class="col-lg-push-3">
                                               <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button"
-                                                      onclick="javascript:location.href='/toolkit/data/experiments/group/${study.groupId}'">Show Help
+                                                      onclick="javascript:openModalDialog()">Show Help
                                               </button>&nbsp;
                                           </div>
                                           <div class="col-lg-push-3">
