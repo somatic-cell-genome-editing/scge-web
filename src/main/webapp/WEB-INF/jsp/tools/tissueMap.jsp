@@ -309,7 +309,7 @@
                                 <td><div style="border:3px solid #DA70D6;background-color: white;width:22px;height:22px "></div></td><td>Target Tissue</td>
                             </tr>
                             <tr>
-                                <td><div style="border:1px solid black;background-color: #F7F7F7;width:22px;height:22px "></div></td><td>Not Available</td>
+                                <td><div style="border:1px solid black;background-color: #F7F7F7;width:22px;height:22px "></div></td><td>Not Specified</td>
                             </tr>
 
                         </table>

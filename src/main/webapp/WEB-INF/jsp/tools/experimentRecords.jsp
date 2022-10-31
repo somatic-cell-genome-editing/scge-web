@@ -142,6 +142,10 @@
                         cellTypeList.set(i,"unspecified");
                     }
                 }
+
+                if (cellTypeList.size() == 1 && cellTypeList.get(0).equals("unspecified")) {
+                    cellTypeList = new ArrayList<String>();
+                }
             %>
 
 
