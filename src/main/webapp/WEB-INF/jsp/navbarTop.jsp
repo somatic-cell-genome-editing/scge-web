@@ -63,9 +63,9 @@
                     <a class="dropdown-item" href="/toolkit/admin/users">Manage Users</a>
                     <a class="dropdown-item" href="/toolkit/admin">Sudo User</a>
                     <a class="dropdown-item" href="/toolkit/admin/groupOverview">Groups Overview</a>
-                    <a class="dropdown-item" href="/toolkit/data/studies/search">Study Browser</a>
+                    <a class="dropdown-item" href="/toolkit/data/studies/search">Project Browser</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Study Tier Updates</a>
+                    <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Project Tier Updates</a>
                 </div>
             </li>
             <%}%>
