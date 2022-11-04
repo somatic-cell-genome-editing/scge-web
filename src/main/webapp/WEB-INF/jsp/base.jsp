@@ -233,17 +233,13 @@
                     </c:if>
                         <c:if test="${projectDescription!=null}">
                             <div>
-
-                                <ul class="myUL">
-                                    <li><span class="caret"><b>Description</b></span>
                                         <div class="card" style="border:transparent">
-                                            <div class="nested" style="margin-left:5%">
-                                                ${projectDescription}
+                                            <div >
+                                                <b>Description:</b>&nbsp;${projectDescription}
 
                                             </div>
                                         </div>
-                                    </li>
-                                </ul>
+
 
                             </div>
                         </c:if>
