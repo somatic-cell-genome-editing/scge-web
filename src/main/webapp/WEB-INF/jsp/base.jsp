@@ -100,9 +100,6 @@
 <style>
     .myUL {
         list-style-type: none;
-    }
-
-    .myUL {
         margin: 0;
         padding: 0;
     }

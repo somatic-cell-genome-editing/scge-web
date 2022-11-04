@@ -120,6 +120,9 @@
                 List<String> modelList = edao.getExperimentRecordModelList(ex.getExperimentId());
                 List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
                 List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
+                Set<String> resultTypeSet = (Set<String>) request.getAttribute("resultTypesSet");
+                Map<String, List<String>> resultTypeNunits = (Map<String, List<String>>) request.getAttribute("resultTypeNUnits");
+
                 List<String> unitList = erdao.getUnitsByExpId(ex.getExperimentId());
                 List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
                 List<String> guideTargetLocusList=edao.getExperimentRecordGuideTargetLocusList(ex.getExperimentId());

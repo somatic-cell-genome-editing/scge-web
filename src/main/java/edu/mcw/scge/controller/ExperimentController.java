@@ -581,7 +581,12 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         String efficiency = null;
         int i=0;
         List values = new ArrayList<>();
-        List<String> resultTypes = dbService.getResultTypes(experimentId);
+        List<String> resultTypesList = dbService.getResultTypes(experimentId);
+        Set<String> resultTypesSet=new HashSet<>(resultTypesList);
+        Map<String, List<String>> resultTypeNUnits=dbService.getResultTypeNUnits(experimentId);
+        req.setAttribute("resultTypesSet", resultTypesSet);
+        req.setAttribute("resultTypeNUnits", resultTypeNUnits);
+
         HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
         LinkedHashSet<String> conditions=new LinkedHashSet<>();

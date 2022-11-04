@@ -185,9 +185,18 @@
 
             <th>Dosage</th>
         </c:if>
-        <% if (resultTypeList.size() > 0 ) { %><th>Result Type</th><% } %>
-        <% if (unitList.size() > 0 ) {  %><th>Units</th><% } %>
-        <th id="result">Result/Mean</th>
+        <% if (resultTypeNunits!=null && resultTypeNunits.size() > 0 ) {
+            for(Map.Entry resultType:resultTypeNunits.entrySet()){
+                List<String> units= (List<String>) resultType.getValue();
+                for(String unit:units){
+
+
+        %>
+        <th><%=resultType.getKey()%>&nbsp;(<%=unit%>)</th><%
+
+                } } } %>
+        <% if (unitList.size() > 0 ) {  %><!--th>Units</th--><% } %>
+        <!--th id="result">Result/Mean</th-->
         <th>Image</th>
     </tr>
     </thead>
@@ -275,14 +284,32 @@
 
             <td><%=exp.getDosage()%></td>
         </c:if>
-        <% if (resultTypeList.size() > 0 ) { %><td><%=ers.get(0).getResultType()%></td><% } %>
-        <% if (unitList.size() > 0 ) { %><td><%=ers.get(0).getUnits()%></td><% } %>
+        <% if (resultTypeSet.size() > 0 ) {
+            for(Map.Entry resultType:resultTypeNunits.entrySet()){
+            List<String> units= (List<String>) resultType.getValue();
+            for(String unit:units){
+
+
+        %>
+        <td>
+         <%       for(ExperimentResultDetail result:ers){
+                    if(result.getResultType().equalsIgnoreCase((String) resultType.getKey()) && result.getExperimentRecordId()==exp.getExperimentRecordId() && result.getReplicate()==0 && result.getUnits().equalsIgnoreCase(unit)){
+
+
+        %>
+       <%=result.getResult()%>
+
+        <%     }
+        }%>
+        </td>
+             <%  }}} %>
+        <% if (unitList.size() > 0 ) { %><!--td><%--=ers.get(0).getUnits()--%></td--><% } %>
         <% for(ExperimentResultDetail e:ers) {
             if(e.getReplicate() == 0) { %>
-        <td><%=e.getResult()%></td>
+        <!--td><%--=e.getResult()--%></td-->
         <% } } for(ExperimentResultDetail e:ers) {
             if(e.getReplicate() != 0) { %>
-        <td style="display: none"><%=e.getResult()%></td>
+        <!--td style="display: none"><%--=e.getResult()--%></td-->
         <%}}%>
         <%
             List<Image> images = idao.getImage(exp.getExperimentRecordId(),"main1");
