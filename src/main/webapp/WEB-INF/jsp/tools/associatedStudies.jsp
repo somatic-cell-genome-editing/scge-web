@@ -16,8 +16,24 @@
             theme : 'blue'
 
         });
+
     });
 </script>
+<style>
+    .caret::before {
+        content: "\2BC6";
+        color: black;
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    .caret-down::before {
+        -ms-transform: rotate(270deg); /* IE 9 */
+        -webkit-transform: rotate(270deg); /* Safari */'
+    transform: rotate(270deg);
+    }
+
+</style>
 <%
     Access localExpAccess = new Access();
     Person localExpPerson = new UserService().getCurrentUser(request.getSession());
@@ -63,10 +79,10 @@
                     <ul class="myUL">
                         <li><span class="caret"><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=grant.getGrantTitle()%></a></span>
 
-                                <ul class="nested">
+                                <ul class="nested active" id="">
                                     <li style="text-decoration: none"><span class="caret">Experiments</span>
                                         <div class="card" style="background-color: #f0ffff;border:transparent">
-                                        <ul class="nested">
+                                        <ul class="nested active">
                                     <%
                                         for(Experiment experiment:experiments){
                                             if (localExpAccess.hasExperimentAccess(experiment.getExperimentId(),localExpPerson.getId())) {
