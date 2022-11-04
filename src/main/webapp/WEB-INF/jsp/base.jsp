@@ -209,12 +209,17 @@
                     </small>
 
                                 <c:if test="${fn:contains(action,'Experiment' )}">
-                                  <div style="margin-left: 60%">
+                                  <div style="margin-left: 40%">
                                       <div class="row">
                                           <div class="col-lg-push-2">
                                       <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
-                                              onclick="javascript:location.href='/toolkit/data/experiments/group/${study.groupId}'">Go to Project
+                                              onclick="javascript:location.href='/toolkit/data/experiments/group/${study.groupId}'">Parent Project Page
                                       </button>&nbsp;
+                                          </div>
+                                          <div class="col-lg-push-3">
+                                              <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button"
+                                                      onclick="javascript:openModalDialog()">Show Help
+                                              </button>&nbsp;
                                           </div>
                                           <div class="col-lg-push-3">
                                 <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"

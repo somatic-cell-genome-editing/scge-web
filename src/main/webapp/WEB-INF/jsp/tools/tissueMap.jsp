@@ -144,13 +144,13 @@
                 targetTissues.add(er.getOrganSystemID());
                 targetTissueRecordIds.add(er.getExperimentRecordId());
 
-                if (er.getCellType() !=null && !er.getCellType().equals("") ) {
+                if (er.getCellType() !=null && !er.getCellType().equals("") && !er.getCellType().equals("unspecified") ) {
                     targetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
                 }else {
                     targetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
                 }
             }else {
-                if (er.getCellType() !=null && !er.getCellType().equals("") ) {
+                if (er.getCellType() !=null && !er.getCellType().equals("") && !er.getCellType().equals("unspecified")) {
                     nonTargetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
                 }else {
                     nonTargetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
@@ -199,7 +199,7 @@
             }
 
 
-            if (cellType != null) {
+            if (cellType != null && !cellType.equals("unspecified")) {
                 if (hasDelivery) {
                     String url = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Delivery&tissue=" + tissueTerm + "&cellType=" + cellType;
                     tm.addDelivery(organSystem, tissueTerm + " (" + cellType + ")", url);
@@ -221,13 +221,13 @@
 
 
             String tissueName = "\"" + organSystem + ">" + tissueTerm + ">";
-            if (cellType != null && !cellType.equals(""))
+            if (cellType != null && !cellType.equals("") && !cellType.equals("unspecified"))
                 tissueName += cellType + "\"";
             else tissueName += "\"";
             tissueNames.put(tissueName, er.getTissueTerm() + "," + er.getCellTypeTerm());
             tissueNameNIdMap.put(tissueName, er.getExperimentRecordId());
             String tissueLabel = organSystem + "<br><br>" + tissueTerm + "<br><br>";
-            if (cellType != null && !cellType.equals(""))
+            if (cellType != null && !cellType.equals("") && !cellType.equals("unpecified"))
                 tissueLabel += cellType;
             tissueLabels.put(tissueName, tissueLabel);
 
@@ -309,7 +309,7 @@
                                 <td><div style="border:3px solid #DA70D6;background-color: white;width:22px;height:22px "></div></td><td>Target Tissue</td>
                             </tr>
                             <tr>
-                                <td><div style="border:1px solid black;background-color: #F7F7F7;width:22px;height:22px "></div></td><td>Not Available</td>
+                                <td><div style="border:1px solid black;background-color: #F7F7F7;width:22px;height:22px "></div></td><td>Not Specified</td>
                             </tr>
 
                         </table>
