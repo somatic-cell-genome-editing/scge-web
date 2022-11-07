@@ -181,6 +181,15 @@
                     </c:if>
                 </small>
             </div>
+            <c:if test="${hit.sourceAsMap.category=='Antibody' && fn:length(hit.sourceAsMap.externalId)>0}">
+                <span><b>Other Id:</b>
+                <c:forEach items="${hit.sourceAsMap.externalId}" var="item">
+                    <c:if test="${item!=hit.sourceAsMap.name}">
+                    ${item}&nbsp;
+                    </c:if>
+                </c:forEach>
+                </span><br>
+            </c:if>
             <c:if test="${hit.sourceAsMap.description!=null}">
                 <span>${hit.sourceAsMap.description}</span><br>
             </c:if>
