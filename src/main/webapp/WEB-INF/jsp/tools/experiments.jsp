@@ -145,6 +145,7 @@
                         <th>Experiment Name</th>
                         <th>Type</th>
                         <th>Description</th>
+                        <th></th>
                         <!--<th>SCGE ID</th>-->
                     </tr>
                     </thead>
@@ -166,6 +167,9 @@
                         <td style="white-space: nowrap"><%=exp.getType()%>
                         </td>
                         <td><%=SFN.parse(exp.getDescription())%><br>
+
+                        </td>
+                        <td>
                             <%@include file="validations.jsp"%>
                         </td>
                         <!--<td><%=exp.getExperimentId()%></td>-->
