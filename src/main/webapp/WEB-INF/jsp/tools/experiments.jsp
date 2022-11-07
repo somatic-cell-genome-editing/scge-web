@@ -158,13 +158,15 @@
 
                     <tr>
                         <!--<td width="10"><%=s.getTier()%>-->
-                        </td>
+
                         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>">
                             <%=exp.getName()%></a><br>
-                            <%@include file="validations.jsp"%></td>
+
+                        </td>
                         <td style="white-space: nowrap"><%=exp.getType()%>
                         </td>
-                        <td><%=SFN.parse(exp.getDescription())%>
+                        <td><%=SFN.parse(exp.getDescription())%><br>
+                            <%@include file="validations.jsp"%>
                         </td>
                         <!--<td><%=exp.getExperimentId()%></td>-->
 
