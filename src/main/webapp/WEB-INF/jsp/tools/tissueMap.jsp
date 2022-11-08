@@ -290,36 +290,7 @@
 
 <div style="font-size:20px; color:#1A80B6;">Organ&nbsp;System&nbsp;Overview</div>
 
-<table style="border:1px solid black;" border="1" align="center">
-    <tr>
-        <td style="padding:10px;">
-            <table>
-                <tr>
-                    <td>Legend:</td>
-                    <td>&nbsp;</td>
-                    <td align="center">
-                        <table>
-                            <tr>
-                                <td><div style="border:1px solid black;"> <div  style="border-right: 20px solid transparent; border-top: 20px solid blue;width:20px;height:20px;"></div></div></td><td>Delivery Efficiency</td>
-                            </tr>
-                            <tr>
-                                <td><div style="border:1px solid black;"><div style="border-bottom: 20px solid orange;border-left: 20px solid transparent;width:20px;height:20px "></div></div></td><td>Editing Efficiency</td>
-                            </tr>
-                            <tr>
-                                <td><div style="border:3px solid #DA70D6;background-color: white;width:22px;height:22px "></div></td><td>Target Tissue</td>
-                            </tr>
-                            <tr>
-                                <td><div style="border:1px solid black;background-color: #F7F7F7;width:22px;height:22px "></div></td><td>Not Available</td>
-                            </tr>
 
-                        </table>
-
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
 
 
 
@@ -416,6 +387,38 @@
 
 
         </td>
+        <td>
+            <table style="border:1px solid black;" border="1" align="center">
+                <tr>
+                    <td style="padding:10px;">
+                        <table>
+                            <tr>
+                                <td>Legend:</td>
+                                <td>&nbsp;</td>
+                                <td align="center">
+                                    <table>
+                                        <tr>
+                                            <td><div style="border:1px solid black;"> <div  style="border-right: 20px solid transparent; border-top: 20px solid blue;width:20px;height:20px;"></div></div></td><td>Delivery Efficiency</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div style="border:1px solid black;"><div style="border-bottom: 20px solid orange;border-left: 20px solid transparent;width:20px;height:20px "></div></div></td><td>Editing Efficiency</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div style="border:3px solid #DA70D6;background-color: white;width:22px;height:22px "></div></td><td>Target Tissue</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div style="border:1px solid black;background-color: #F7F7F7;width:22px;height:22px "></div></td><td>Not Available</td>
+                                        </tr>
+
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
     </tr>
     <tr><td>&nbsp;</td></tr>
     <tr><td><hr></td></tr>
@@ -436,7 +439,7 @@
 
 
 
-<table align="center" tyle="border:1px solid #F7F7F7;margin-left:30px;" border="0" width="700">
+<!--table align="center" tyle="border:1px solid #F7F7F7;margin-left:30px;" border="0" width="700">
     <tr>
         <td colspan="2" style="font-size:16px; font-weight:700;">Analyze Data Sets Available for this Experiment</td><td style="font-size:16px; font-weight:700;" align="center">Delivery</td><td style="font-size:16px; font-weight:700;" align="center">Editing</td>
     </tr>
@@ -490,7 +493,7 @@
     </tr>
     </td>
     </tr>
-</table>
+</table-->
 
 
         </td>
@@ -498,7 +501,7 @@
 </table>
 
 
-<hr>
+
 
 
 

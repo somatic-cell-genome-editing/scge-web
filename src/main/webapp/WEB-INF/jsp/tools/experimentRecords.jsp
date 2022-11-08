@@ -155,13 +155,13 @@
 
 
          <% }  %>
-            <% if (tissueList.size() == 0 || selectedResultType != null) { %>
+
 
 
 
             <%@include file="recordsTable.jsp"%>
 
-            <% }  %>
+
 
         </div>
 
