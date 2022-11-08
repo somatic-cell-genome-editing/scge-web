@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.Descriptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -71,6 +72,7 @@ public class GuideController extends ObjectController{
         req.setAttribute("synonymousGuides",synononymousGuides);
 
 
+        req.setAttribute("summary", getSummary(guide));
 
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,guide,null,null));
 
@@ -259,5 +261,73 @@ public class GuideController extends ObjectController{
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;
+    }
+    public Map<String, String> getSummary(Guide object){
+        Map<String, String> summary=new LinkedHashMap<>();
+        summary.put("SCGE ID", String.valueOf(object.getGuide_id()));
+        if(object.getGrnaLabId()!=null && !object.getGrnaLabId().equals(""))
+            summary.put("Name", object.getGrnaLabId());
+        if(object.getSource()!=null && !object.getSource().equals(""))
+            summary.put("Source", object.getSource());
+        if(object.getTargetLocus()!=null && !object.getTargetLocus().equals(""))
+
+            summary.put("Target Locus", object.getTargetLocus());
+        if(object.getSpecies()!=null && !object.getSpecies().equals(""))
+
+            summary.put("Species", object.getSpecies());
+        if(object.getGuideCompatibility()!=null && !object.getGuideCompatibility().equals(""))
+
+            summary.put("Description", object.getGuideCompatibility());
+        if(object.getGuideCompatibility()!=null && !object.getGuideCompatibility().equals(""))
+
+            summary.put("Guide Compatability", object.getGuideCompatibility());
+        if(object.getGuideFormat()!=null && !object.getGuideFormat().equals(""))
+
+            summary.put("Guide Format", object.getGuideFormat());
+        if(object.getSpecificityRatio()!=null && !object.getSpecificityRatio().equals(""))
+
+            summary.put("Specificity Ratio", object.getSpecificityRatio());
+        if(object.getTargetSequence()!=null && !object.getTargetSequence().equals(""))
+
+            summary.put("Target Sequence", object.getTargetSequence());
+        if(object.getAssembly()!=null && !object.getAssembly().equals(""))
+
+            summary.put("Position", object.getAssembly()+"/"+object.getChr()+":"+object.getStart()+"-"+object.getStop());
+        if(object.getFullGuide()!=null && !object.getFullGuide().equals(""))
+
+            summary.put("Full Guide Sequence", object.getFullGuide());
+        if(object.getSpacerSequence()!=null && !object.getSpacerSequence().equals(""))
+
+            summary.put("Spacer Sequence", object.getSpacerSequence());
+        if(object.getSpacerLength()!=null && !object.getSpacerLength().equals(""))
+
+            summary.put("Spacer Length", object.getSpacerLength());
+        if(object.getModifications()!=null && !object.getModifications().equals(""))
+
+            summary.put("Modifications", object.getModifications());
+        if(object.getRepeatSequence()!=null && !object.getRepeatSequence().equals(""))
+
+            summary.put("Repeat Sequence", object.getRepeatSequence());
+        if(object.getAntiRepeatSequence()!=null && !object.getAntiRepeatSequence().equals(""))
+
+            summary.put("Anit-Repeat Sequence", object.getAntiRepeatSequence());
+        if(object.getStemloop1Sequence()!=null && !object.getStemloop1Sequence().equals(""))
+
+            summary.put("Stemloop 1 Sequence", object.getStemloop1Sequence());
+        if(object.getStemloop2Sequence()!=null && !object.getStemloop2Sequence().equals(""))
+
+            summary.put("Stemloop 2 Sequence", object.getStemloop2Sequence());
+        if(object.getStemloop3Sequence()!=null && !object.getStemloop3Sequence().equals(""))
+
+            summary.put("Stemloop 3 Sequence", object.getStemloop3Sequence());
+        if(object.getForwardPrimer()!=null && !object.getForwardPrimer().equals(""))
+
+            summary.put("Forward Primer", object.getForwardPrimer());
+        if(object.getReversePrimer()!=null && !object.getReversePrimer().equals(""))
+
+            summary.put("Reverse Primer", object.getReversePrimer());
+
+
+        return summary;
     }
 }

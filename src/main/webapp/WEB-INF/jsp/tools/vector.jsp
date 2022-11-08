@@ -46,58 +46,7 @@
 
 </div>
 <main role="main" class="col-md-10 ml-sm-auto px-4"  >
-    <div id="summary">
-        <h4 class="page-header" style="color:grey;">Summary</h4>
-
-        <div class="d-flex bg-light" >
-            <div class="col-7">
-
-        <table class="table table-sm summary">
-            <tr><td class="header">Name</td><td><%=v.getName()%></td></tr>
-            <tr><td class="header">Description</td><td><%=SFN.parse(v.getDescription())%></td></tr>
-            <tr><td class="header" width="150">Type</td><td><%=v.getType()%></td></tr>
-            <tr><td class="header">Subtype</td><td><%=SFN.parse(v.getSubtype())%></td></tr>
-
-            <tr><td colspan="2"><hr></td></tr>
-
-            <tr><td class="header">Source</td><td><%=SFN.parse(v.getSource())%></td></tr>
-            <tr><td class="header">Catalog</td><td></td></tr>
-            <tr><td class="header">RRID</td><td></td></tr>
-            <tr><td colspan="2"><hr></td></tr>
-
-
-            <tr><td class="header">Genome Serotype</td><td><%=SFN.parse(v.getGenomeSerotype())%></td></tr>
-            <tr><td class="header">Capsid Serotype</td><td><%=SFN.parse(v.getCapsidSerotype())%></td></tr>
-            <tr><td class="header">Capsid Variant</td><td><%=SFN.parse(v.getCapsidVariant())%></td></tr>
-
-            <!--
-            <% if (v.getSource().toLowerCase().equals("addgene")) { %>
-                <tr><td class="header">Stock/Catalog/RRID</td><td><a href="https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/">https://www.addgene.org/<%=SFN.parse(v.getLabId())%>/</a></td></tr>
-            <% } else {%>
-                <tr><td class="header">Stock/Catalog/RRID</td><td><%=SFN.parse(v.getLabId())%></td></tr>
-            <% } %>
-
-            -->
-            <tr><td colspan="2"><hr></td></tr>
-
-            <tr><td class="header">Annotated Map</td><td><%=SFN.parse(v.getAnnotatedMap())%></td></tr>
-
-        </table>
-    </div>
-            <div class="ml-auto col-3" style="margin-right: 5%">
-
-                <div class="card">
-                    <!--<div class="card-header">SCGE ID</div>-->
-                    <div class="card-body">
-                        <table >
-                            <tr ><th class="scge-details-label" style="color:black;">SCGE:<%=v.getVectorId()%></th></tr>
-
-                        </table>
-                    </div>
-                </div>
-            </div>
-</div>
-    </div>
+   <%@include file="summary.jsp"%>
 <%
     long objectId = v.getVectorId();
     String redirectURL = "/data/vector/format?id=" + objectId;

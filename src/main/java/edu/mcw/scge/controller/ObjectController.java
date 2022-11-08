@@ -18,7 +18,7 @@ public class ObjectController  {
     StudyDao studyDao=new StudyDao();
     public  void mapProjectNExperiments(List<ExperimentRecord> experimentRecords, HttpServletRequest req) throws Exception {
         Map<Integer, List<Experiment>> studyExperimentsMap=new HashMap<>();
-        List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
+        List<Long> associatedExperimentIds=experimentRecords.stream().map(ExperimentRecord::getExperimentId).distinct().collect(Collectors.toList());
         List<Experiment> assocatedExperiments=new ArrayList<>();
 
         for(long id:associatedExperimentIds){

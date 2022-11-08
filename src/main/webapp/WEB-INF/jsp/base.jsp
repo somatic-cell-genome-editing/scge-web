@@ -74,22 +74,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="/toolkit/css/reportPage.css" rel="stylesheet" type="text/css"/>
+    <link href="/toolkit/css/caret.css" rel="stylesheet" type="text/css"/>
+    <script src="/toolkit/js/scge.js"></script>
 </head>
 
 <body>
-<style>
-    .jumbotron{
-        /*    background-image: url("/toolkit/images/banner.jpg");
-            background-image: linear-gradient(to right, #1a80b6  , #e6f3fa);*/
-      /*  background: rgb(139,194,226);
-        background: radial-gradient(circle, rgba(139,194,226,1) 0%, rgba(247,247,247,1) 100%);*/
-        background-color: transparent;
-        border-bottom: 1px solid lightgrey;
-    }
-
-</style>
 <%@include file="feedbackForm.jsp"%>
-
 
 <%
 
@@ -97,59 +88,6 @@
     Person person = access.getUser(request.getSession());
 
 %>
-<style>
-    .myUL {
-        list-style-type: none;
-    }
-
-    .myUL {
-        margin: 0;
-        padding: 0;
-    }
-
-    .caret {
-        cursor: pointer;
-        -webkit-user-select: none; /* Safari 3.1+ */
-        -moz-user-select: none; /* Firefox 2+ */
-        -ms-user-select: none; /* IE 10+ */
-        user-select: none;
-    }
-
-    .caret::before {
-        content: "\25B6";
-        color: black;
-        display: inline-block;
-        margin-right: 6px;
-    }
-
-    .caret-down::before {
-        -ms-transform: rotate(90deg); /* IE 9 */
-        -webkit-transform: rotate(90deg); /* Safari */'
-    transform: rotate(90deg);
-    }
-
-    .nested {
-        display: none;
-    }
-
-    .active {
-        display: block;
-    }
-</style>
-<script>
-    $(function () {
-        var toggler = document.getElementsByClassName("caret");
-        var i;
-
-        for (i = 0; i < toggler.length; i++) {
-            toggler[i].addEventListener("click", function() {
-                this.parentElement.querySelector(".nested").classList.toggle("active");
-                this.classList.toggle("caret-down");
-            });
-        }
-    })
-
-</script>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
     <div id="devSystemWarning" style="display:none; font-size:12px; color:white; background-color: #770C0E; width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System<br><%=seoTitle%><br><%=seoDescription%></div>
 
@@ -305,47 +243,11 @@
                                             <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
                                         </small>
                                     </div>
-                                    <!--div class="col-sm-6">
-                                        <form action="/toolkit/data/search/results"  class="form-inline my-2 my-lg-0">
-                                            <input class="form-control searchTerm" id="searchTerm" name="searchTerm" type="search" placeholder="Search SCGE (Models, Editors, Delivery, Guides)" aria-label="Search">
-                                            <button class="btn btn-outline-secondary" type="submit">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </form>
-                                        <div>
-                                            <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
-                                                <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
-                                            </small>
-                                        </div>
-                                    </div-->
 
                                 </div>
                             </div>
                         </div>
                             </form>
-                                        <!--div class="container-fluid" align="center" id="home-page-search" style="background-color: #FFFFFF;">
-                                            <table align="center">
-                                                <tr>
-                                                    <td><img src="/toolkit/images/scge-logo-200w.png" border="0"/></td>
-                                                    <td>
-                                                        <div>
-                                                        <form action="/toolkit/data/search/results"  class="form-inline my-2 my-lg-0">
-                                                            <input size=60 class="form-control searchTerm" id="searchTerm" name="searchTerm" type="search" placeholder="Search SCGE (Models, Editors, Delivery, Guides)" aria-label="Search">
-                                                            <button class="btn btn-outline-secondary" type="submit">
-                                                                <i class="fa fa-search"></i>
-                                                            </button>                                                            <br>
-                                                        </form>
-
-                                                        </div>
-                                                        <div>
-                                                            <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
-                                                                <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
-                                                            </small>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div-->
 
                         </c:otherwise>
                     </c:choose>
@@ -370,12 +272,6 @@
         <a href="https://creativecommons.org/licenses/by/4.0/" style=";color:#FFFFFF">License CC BY 4.0</a>&nbsp;&nbsp;&nbsp;<br>
         <small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2022 SCGE | All Rights Reserved</small>
     </div>
-    <!-- Bootstrap core JavaScript
-================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-
-    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script-->
-    <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script-->
     <script src="/toolkit/js/search/autocomplete.js"></script>
 
 </footer>
