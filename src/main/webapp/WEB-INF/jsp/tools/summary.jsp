@@ -13,8 +13,19 @@
 
         <div>
             <table class="table summary" >
-                <c:forEach items="${summary}" var="item">
-                <tr ><td class="header" >${item.key}</td><td>${item.value}</td></tr>
+                <c:set var="first" value="true"/>
+                <c:forEach items="${summaryBlocks}" var="block">
+                    <c:choose>
+                        <c:when test="${first==true}">
+                            <c:set var="first" value="false"/>
+                        </c:when>
+                        <c:otherwise>
+                            <tr><td colspan="2"><hr></td></tr>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:forEach items="${block.value}" var="item">
+                        <tr ><td class="header" >${item.key}</td><td>${item.value}</td></tr>
+                    </c:forEach>
                 </c:forEach>
             </table>
 

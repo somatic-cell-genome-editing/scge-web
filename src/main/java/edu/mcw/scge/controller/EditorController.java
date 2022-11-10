@@ -76,7 +76,7 @@ public class EditorController extends ObjectController {
 
         }
 
-        req.setAttribute("summary", getSummary(editor));
+        req.setAttribute("summaryBlocks", getSummary(editor));
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Genome%20Editor?searchTerm='>Editors</a>");
         req.setAttribute("editor", editor);
         req.setAttribute("objectId", editor.getId());
@@ -254,8 +254,11 @@ public class EditorController extends ObjectController {
 
         return null;
     }
-    public Map<String, String> getSummary(Editor editor){
+    public  Map<String, Map<String, String>> getSummary(Editor editor){
+        Map<String, Map<String, String>> summaryBlocks=new LinkedHashMap<>();
+
         Map<String, String> summary=new LinkedHashMap<>();
+        int i=0;
         summary.put("SCGE ID", String.valueOf(editor.getId()));
         if(editor.getSymbol()!=null && !editor.getSymbol().equals(""))
         summary.put("Symbol", editor.getSymbol());
@@ -269,6 +272,11 @@ public class EditorController extends ObjectController {
         summary.put("Subtype", editor.getSubType());
         if(editor.getAlias()!=null && !editor.getAlias().equals(""))
         summary.put("Alias", editor.getAlias());
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary=new LinkedHashMap<>();
+        }
         if(editor.getActivity()!=null && !editor.getActivity().equals(""))
         summary.put("Activity", editor.getActivity());
         if(editor.getSubstrateTarget()!=null && !editor.getSubstrateTarget().equals(""))
@@ -283,18 +291,29 @@ public class EditorController extends ObjectController {
         summary.put("Fusion", editor.getFusion());
         if(editor.getAnnotatedMap()!=null && !editor.getAnnotatedMap().equals(""))
         summary.put("Annotated Map", editor.getAnnotatedMap());
-        if(editor.getSource()!=null && !editor.getSource().equals(""))
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary=new LinkedHashMap<>();
+        }        if(editor.getSource()!=null && !editor.getSource().equals(""))
         summary.put("Source", editor.getSource());
         if(editor.getCatalog()!=null && !editor.getCatalog().equals(""))
         summary.put("Catalog", editor.getCatalog());
         if(editor.getRrid()!=null && !editor.getRrid().equals(""))
         summary.put("RRID", editor.getRrid());
-        if(editor.getTargetLocus()!=null && !editor.getTargetLocus().equals(""))
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary=new LinkedHashMap<>();
+        }        if(editor.getTargetLocus()!=null && !editor.getTargetLocus().equals(""))
         summary.put("Target Locus", editor.getTargetLocus());
         if(editor.getTarget_sequence()!=null && !editor.getTarget_sequence().equals(""))
         summary.put("Target Sequence", editor.getTarget_sequence());
         if(editor.getAssembly()!=null && !editor.getAssembly().equals(""))
         summary.put("Position", editor.getAssembly()+"/"+editor.getChr()+":"+editor.getStart()+"-"+editor.getStop());
-        return summary;
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+        }
+        return summaryBlocks;
     }
 }

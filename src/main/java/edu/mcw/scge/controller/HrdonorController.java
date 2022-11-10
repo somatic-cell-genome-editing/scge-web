@@ -56,7 +56,7 @@ public class HrdonorController extends ObjectController {
 
         }
 
-        req.setAttribute("summary", getSummary(hrDonor));
+        req.setAttribute("summaryBlocks", getSummary(hrDonor));
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,hrDonor,null,null));
 
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/hrdonors/search'>Hr Donors</a>");
@@ -112,8 +112,10 @@ public class HrdonorController extends ObjectController {
 
         return null;
     }
-    public Map<String, String> getSummary(HRDonor object){
+    public  Map<String, Map<String, String>> getSummary(HRDonor object){
+        Map<String, Map<String, String>> summaryBlocks= new LinkedHashMap<>();
         Map<String, String> summary=new LinkedHashMap<>();
+        int i=0;
         summary.put("SCGE ID", String.valueOf(object.getId()));
         if(object.getLabId()!=null && !object.getLabId().equals(""))
             summary.put("Name", object.getLabId());
@@ -131,7 +133,10 @@ public class HrdonorController extends ObjectController {
         if(object.getSequence()!=null && !object.getSequence().equals(""))
             summary.put("Sequence", object.getSequence());
 
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
 
-        return summary;
+        }
+        return summaryBlocks;
     }
 }

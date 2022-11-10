@@ -72,7 +72,7 @@ public class GuideController extends ObjectController{
         req.setAttribute("synonymousGuides",synononymousGuides);
 
 
-        req.setAttribute("summary", getSummary(guide));
+        req.setAttribute("summaryBlocks", getSummary(guide));
 
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,guide,null,null));
 
@@ -262,11 +262,13 @@ public class GuideController extends ObjectController{
 
         return null;
     }
-    public Map<String, String> getSummary(Guide object){
+    public Map<String, Map<String, String>> getSummary(Guide object){
         Map<String, String> summary=new LinkedHashMap<>();
+        Map<String, Map<String, String>> summaryBlocks= new LinkedHashMap<>();
+        int i=0;
         summary.put("SCGE ID", String.valueOf(object.getGuide_id()));
         if(object.getGrnaLabId()!=null && !object.getGrnaLabId().equals(""))
-            summary.put("Name", object.getGrnaLabId());
+            summary.put("Lab ID", object.getGrnaLabId());
         if(object.getSource()!=null && !object.getSource().equals(""))
             summary.put("Source", object.getSource());
         if(object.getTargetLocus()!=null && !object.getTargetLocus().equals(""))
@@ -281,18 +283,36 @@ public class GuideController extends ObjectController{
         if(object.getGuideCompatibility()!=null && !object.getGuideCompatibility().equals(""))
 
             summary.put("Guide Compatability", object.getGuideCompatibility());
+
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary = new LinkedHashMap<>();
+        }
         if(object.getGuideFormat()!=null && !object.getGuideFormat().equals(""))
 
             summary.put("Guide Format", object.getGuideFormat());
         if(object.getSpecificityRatio()!=null && !object.getSpecificityRatio().equals(""))
 
             summary.put("Specificity Ratio", object.getSpecificityRatio());
+
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+2, summary);
+            i++;
+            summary = new LinkedHashMap<>();
+        }
         if(object.getTargetSequence()!=null && !object.getTargetSequence().equals(""))
-
             summary.put("Target Sequence", object.getTargetSequence());
+        if(object.getPam()!=null && !object.getPam().equals(""))
+            summary.put("Target Sequence + PAM", object.getPam());
         if(object.getAssembly()!=null && !object.getAssembly().equals(""))
-
             summary.put("Position", object.getAssembly()+"/"+object.getChr()+":"+object.getStart()+"-"+object.getStop());
+
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary = new LinkedHashMap<>();
+        }
         if(object.getFullGuide()!=null && !object.getFullGuide().equals(""))
 
             summary.put("Full Guide Sequence", object.getFullGuide());
@@ -305,6 +325,13 @@ public class GuideController extends ObjectController{
         if(object.getModifications()!=null && !object.getModifications().equals(""))
 
             summary.put("Modifications", object.getModifications());
+
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary = new LinkedHashMap<>();
+        }
+
         if(object.getRepeatSequence()!=null && !object.getRepeatSequence().equals(""))
 
             summary.put("Repeat Sequence", object.getRepeatSequence());
@@ -320,14 +347,20 @@ public class GuideController extends ObjectController{
         if(object.getStemloop3Sequence()!=null && !object.getStemloop3Sequence().equals(""))
 
             summary.put("Stemloop 3 Sequence", object.getStemloop3Sequence());
-        if(object.getForwardPrimer()!=null && !object.getForwardPrimer().equals(""))
 
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary = new LinkedHashMap<>();
+        }
+        if(object.getForwardPrimer()!=null && !object.getForwardPrimer().equals(""))
             summary.put("Forward Primer", object.getForwardPrimer());
         if(object.getReversePrimer()!=null && !object.getReversePrimer().equals(""))
-
             summary.put("Reverse Primer", object.getReversePrimer());
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+        }
 
-
-        return summary;
+        return summaryBlocks;
     }
 }
