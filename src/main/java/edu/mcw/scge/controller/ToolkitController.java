@@ -208,5 +208,14 @@ public class ToolkitController {
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
     }
+    @RequestMapping(value="/citation")
+    public String getCitation(HttpServletRequest req) throws Exception {
+        req.setAttribute("action","Citing SCGE");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/citation");
+        return "base";
+    }
+
+
+
 
 }
