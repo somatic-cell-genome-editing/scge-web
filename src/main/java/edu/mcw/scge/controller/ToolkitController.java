@@ -210,7 +210,7 @@ public class ToolkitController {
     }
     @RequestMapping(value="/citation")
     public String getCitation(HttpServletRequest req) throws Exception {
-        req.setAttribute("action","Citing SCGE");
+        req.setAttribute("action","Citing the Toolkit");
         req.setAttribute("page", "/WEB-INF/jsp/tools/citation");
         return "base";
     }

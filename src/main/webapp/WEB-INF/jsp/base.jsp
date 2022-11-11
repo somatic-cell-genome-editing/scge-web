@@ -95,7 +95,7 @@
             <a href="https://https://scge.mcw.edu" style="color:white;">SCGE Consortium Home</a>&nbsp;&nbsp;
             |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/initiatives">About SCGE</a>&nbsp;&nbsp;
             |&nbsp;&nbsp;<a style="color:white;" onclick="openForm()" href="javascript:void(0)">Contact Us</a>&nbsp;&nbsp;
-            |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/citation">Citing SCGE</a>&nbsp;&nbsp;
+            |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/citation">Citing the Toolkit</a>&nbsp;&nbsp;
             |&nbsp;&nbsp;<a style="color:white;" href="https://creativecommons.org/licenses/by/4.0/">License</a>&nbsp;&nbsp;
         </div>
     </div>
