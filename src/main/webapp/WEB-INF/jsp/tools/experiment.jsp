@@ -173,7 +173,7 @@ ExperimentResultDetail detail = experimentResults.get(0);
             <tr>
                 <td class="header"><b>Tissue&nbsp;Measured:</b></td><td><%=SFN.parse(experimentRecord.getTissueTerm())%></td>
             </tr>
-            <% if(experimentRecord.getCellTypeTerm()!=null && !experimentRecord.getCellTypeTerm().equals("")){%>
+            <% if(experimentRecord.getCellTypeTerm()!=null && !experimentRecord.getCellTypeTerm().equals("") && !experimentRecord.getCellTypeTerm().equals("unspecified")){%>
             <tr>
                 <td class="header"><b>Cell Type&nbsp;:</b></td><td><%=SFN.parse(experimentRecord.getCellTypeTerm())%></td>
             </tr>
