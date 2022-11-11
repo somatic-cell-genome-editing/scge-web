@@ -6,6 +6,8 @@
   Time: 9:23 AM
   To change this template use File | Settings | File Templates.
 --%>
+<link href="/toolkit/css/reportPage.css" rel="stylesheet" type="text/css"/>
+
 <div id="summary">
     <h4 class="page-header" style="color:grey;">Summary</h4>
 
