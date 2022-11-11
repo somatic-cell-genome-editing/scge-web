@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <div class="card">
-<div class="card-header">Acknowledgement  of the Toolkit:</div>
+<div class="card-header" style="font-weight: bold">Acknowledgement  of the Toolkit:</div>
     <div class="card-body">
 <p>Dissemination and Coordinating Center for the SCGE Consortium; NIH NHGRI U24 HG010423; Principal Investigator: Melinda Dwinell, PhD
 </p>
