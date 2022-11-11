@@ -6,9 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <div class="card">
-<div class="card-header" style="font-weight: bold">Acknowledgement  of the Toolkit:</div>
     <div class="card-body">
-<p>Dissemination and Coordinating Center for the SCGE Consortium; NIH NHGRI U24 HG010423; Principal Investigator: Melinda Dwinell, PhD
+
+<p><span style="text-decoration: underline;font-weight: bold">Acknowledgement  of the Toolkit:</span><br>Dissemination and Coordinating Center for the SCGE Consortium; NIH NHGRI U24 HG010423; Principal Investigator: Melinda Dwinell, PhD
 </p>
 <b style="text-decoration: underline">General Citation for the Toolkit:</b>
 <p><b>The NIH Somatic Cell Genome Editing program.</b></p>
