@@ -51,7 +51,7 @@
                             <input type="checkbox" name="refKey" value="${pub.reference.key}"/>&nbsp;
 
                         <%}%>
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/${pmid}" target="_blank" >${pub.reference.title}</a></h5>
+                            ${pub.reference.title}<a href="https://pubmed.ncbi.nlm.nih.gov/${pmid}" target="_blank" >NCBI</a></h5>
 
            <%@include file="referenceDetails.jsp"%>
                 </div>

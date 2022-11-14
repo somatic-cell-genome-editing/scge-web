@@ -51,7 +51,7 @@
             <% if (deliveryAssay.size() != 0) { %>
                 <table>
                     <tr>
-                        <td valign="top" width="150"><span style="width:100px; color:#1A80B6;font-weight:700;">Delivery Assays:</span></td>
+                        <td valign="top" width="150"><span style="width:100px; ;font-weight:700;">Delivery Assays:</span></td>
                         <td><%
                             int count=1;
                             for (String assay: deliveryAssay.keySet()) { %>
@@ -68,7 +68,7 @@
             <% if (editingAssay.size() != 0) { %>
                     <table>
                         <tr>
-                            <td valign="top" width="150"><span style="color:#1A80B6;margin-top:10px;font-weight:700;">Editing Assay:</span></td>
+                            <td valign="top" width="150"><span style=";margin-top:10px;font-weight:700;">Editing Assay:</span></td>
                             <td> <%
                                 int count=1;
                                 for (String assay: editingAssay.keySet()) { %>
@@ -128,11 +128,24 @@
                 List<String> sexList = edao.getExperimentRecordSexList(ex.getExperimentId());
                 List<String> hrdonorList = edao.getExperimentRecordHrdonorList(ex.getExperimentId());
                 List<String> tissues = (List<String>)request.getAttribute("tissues");
+
+                List<String> tissuesTarget = (List<String>)request.getAttribute("tissuesTarget");
+                List<String> tissuesNonTarget = (List<String>)request.getAttribute("tissuesNonTarget");
+
                 LinkedHashSet<String> conditions = (LinkedHashSet<String>) request.getAttribute("conditions");
                 String selectedTissue = (String)request.getAttribute("tissue");
                 String selectedCellType = (String)request.getAttribute("cellType");
                 String selectedResultType = (String)request.getAttribute("resultType");
 
+                for (int i =0; i< cellTypeList.size(); i++) {
+                    if (cellTypeList.get(i) == null) {
+                        cellTypeList.set(i,"unspecified");
+                    }
+                }
+
+                if (cellTypeList.size() == 1 && cellTypeList.get(0).equals("unspecified")) {
+                    cellTypeList = new ArrayList<String>();
+                }
             %>
 
 
@@ -153,7 +166,8 @@
 
         </div>
 
-
+    <% String modalFilePath="/toolkit/images/experimentHelpModal.png"; %>
+    <%@include file="modal.jsp"%>
 
 <% } catch (Exception e) {
         e.printStackTrace();

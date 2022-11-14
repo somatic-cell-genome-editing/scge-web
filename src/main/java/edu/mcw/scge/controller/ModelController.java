@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/models")
-public class ModelController {
+public class ModelController extends ObjectController{
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     PublicationDAO publicationDAO=new PublicationDAO();
     ExperimentDao experimentDao=new ExperimentDao();
@@ -59,7 +59,7 @@ public class ModelController {
         }
 
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,mod,null,null));
-
+        req.setAttribute("summaryBlocks", getSummary(mod));
         req.setAttribute("model", mod);
         req.setAttribute("action","Model System: " + mod.getDisplayName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/model");
@@ -89,13 +89,7 @@ public class ModelController {
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
-            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
-            List<Experiment> assocatedExperiments=new ArrayList<>();
-
-            for(long id:associatedExperimentIds){
-                assocatedExperiments.add(experimentDao.getExperiment(id));
-            }
-            req.setAttribute("associatedExperiments", assocatedExperiments);}
+            mapProjectNExperiments(experimentRecords, req);}
         List<Publication> associatedPublications=new ArrayList<>();
         associatedPublications.addAll(publicationDAO.getAssociatedPublications(mod.getModelId()));
         for(long experimentId:experimentIds) {
@@ -188,6 +182,57 @@ public class ModelController {
 
         req.getRequestDispatcher("/data/models/model?id="+modelId).forward(req,res);
         return null;
+    }
+    public Map<String, Map<String, String>> getSummary(edu.mcw.scge.datamodel.Model object){
+        Map<String, Map<String, String>> summaryBlocks=new LinkedHashMap<>();
+        Map<String, String> summary=new LinkedHashMap<>();
+        int i=0;
+        summary.put("SCGE ID", String.valueOf(object.getModelId()));
+        if(object.getDisplayName()!=null && !object.getDisplayName().equals(""))
+            summary.put("Name", object.getDisplayName());
+        if(object.getName()!=null && !object.getName().equals(""))
+            summary.put("Official Name", object.getName());
+        if(object.getStrainAlias()!=null && !object.getStrainAlias().equals(""))
+            summary.put("Alias", object.getStrainAlias());
+        if(object.getOrganism()!=null && !object.getOrganism().equals(""))
+            summary.put("Species", object.getOrganism());
+        if(object.getType()!=null && !object.getType().equals(""))
+            summary.put("Type", object.getType());
+        if(object.getSubtype()!=null && !object.getSubtype().equals(""))
+            summary.put("Subtype", object.getSubtype());
+
+        if(object.getDescription()!=null && !object.getDescription().equals(""))
+            summary.put("Description", object.getDescription());
+        if(object.getParentalOrigin()!=null && !object.getParentalOrigin().equals(""))
+            summary.put("Parental Origin", object.getParentalOrigin());
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary=new LinkedHashMap<>();
+        }
+
+        if(object.getSource()!=null && !object.getSource().equals(""))
+            summary.put("Source", object.getSource());
+        if(object.getRrid()!=null && !object.getRrid().equals(""))
+            summary.put("RRID", object.getRrid());
+
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary=new LinkedHashMap<>();
+        }
+        if(object.getTransgene()!=null && !object.getTransgene().equals(""))
+            summary.put("Transgene", object.getTransgene());
+        if(object.getTransgeneDescription()!=null && !object.getTransgeneDescription().equals(""))
+            summary.put("Transgene Description", object.getTransgeneDescription());
+        if(object.getTransgeneReporter()!=null && !object.getTransgeneReporter().equals(""))
+            summary.put("Reporter", object.getTransgeneReporter());
+        if(object.getAnnotatedMap()!=null && !object.getAnnotatedMap().equals(""))
+            summary.put("Annotated Map", object.getAnnotatedMap());
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+        }
+        return summaryBlocks;
     }
 
 }

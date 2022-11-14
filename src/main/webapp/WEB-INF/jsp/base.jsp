@@ -74,28 +74,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="/toolkit/css/caret.css" rel="stylesheet" type="text/css"/>
+    <script src="/toolkit/js/scge.js"></script>
 </head>
 
 <body>
-<style>
-    .jumbotron{
-        /*    background-image: url("/toolkit/images/banner.jpg");
-            background-image: linear-gradient(to right, #1a80b6  , #e6f3fa);*/
-      /*  background: rgb(139,194,226);
-        background: radial-gradient(circle, rgba(139,194,226,1) 0%, rgba(247,247,247,1) 100%);*/
-        background-color: transparent;
-        border-bottom: 1px solid lightgrey;
-    }
-</style>
 <%@include file="feedbackForm.jsp"%>
-
-<div id="devSystemWarning" style="display:none; font-size:12px; color:white; background-color: #770C0E; width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System<br><%=seoTitle%><br><%=seoDescription%></div>
-
-<script>
-    if (location.href.indexOf("dev.") > 0 || location.href.indexOf("localhost") > 0) {
-        document.getElementById("devSystemWarning").style.display="block";
-    }
-</script>
 
 <%
 
@@ -104,6 +88,24 @@
 
 %>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
+    <div id="devSystemWarning" style="display:none; font-size:12px; color:white; background-color: #770C0E; width:100%;padding-left:15px;padding-top:4px; padding-bottom:4px;">Development System<br><%=seoTitle%><br><%=seoDescription%></div>
+
+    <div style="font-size:12px; color:white; background-color: black; width:100%;padding-left:15px;padding-top:4px; padding-bottom:2px;">
+        <div style="text-align:right; color:white;padding-right:12px;">
+            <a href="https://https://scge.mcw.edu" style="color:white;">SCGE Consortium Home</a>&nbsp;&nbsp;
+            |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/initiatives">About SCGE</a>&nbsp;&nbsp;
+            |&nbsp;&nbsp;<a style="color:white;" onclick="openForm()" href="javascript:void(0)">Contact Us</a>&nbsp;&nbsp;
+            |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/citation">Citing the Toolkit</a>&nbsp;&nbsp;
+            |&nbsp;&nbsp;<a style="color:white;" href="https://creativecommons.org/licenses/by/4.0/">License</a>&nbsp;&nbsp;
+        </div>
+    </div>
+
+    <script>
+        if (location.href.indexOf("dev.") > 0 || location.href.indexOf("localhost") > 0) {
+            document.getElementById("devSystemWarning").style.display="block";
+        }
+    </script>
+
     <%@include file="navbarTop.jsp"%>
     <%@include file="navbar.jsp"%>
 
@@ -111,14 +113,17 @@
         <% if (request.getAttribute("crumbtrail") != null) {%>
         <div class="container-fluid" style="padding-bottom: 2px;"><%=request.getAttribute("crumbtrail")%></div>
         <%}%>
-        <c:if test="${destination!='create'}">
+
             <div class="" style="margin-top: 0;padding-top: 0">
                 <div class="container-fluid">
                     <c:choose>
                         <c:when test="${action!=null}">
-                            <h4 style="color:#1A80B6;padding-top:10px;">${action}  </h4>
-                    <c:if test="${study!=null && study.pi!=null}">
-                    <small><strong>PI:</strong> ${study.pi}&nbsp; &nbsp;
+                            <h4 style=";padding-top:10px;">${action}  </h4>
+                            <c:if test="${study!=null && ( study.multiplePis!=null)}">
+                                <small><strong>PI:</strong>  &nbsp;
+                                    <c:forEach items="${study.multiplePis}" var="pi">
+                                      ${pi.name}&nbsp;
+                                    </c:forEach>
                         <c:if test="${fn:length( publication.articleIds)>0}">
                         <span style="color:orange; font-weight: bold">Publication IDs:</span>
                         <c:forEach items="${publication.articleIds}" var="id">
@@ -135,9 +140,46 @@
                             </c:choose>
                         </c:forEach>
                         </c:if>
-
+                        <c:if test="${grantNumber!=null}">
+                            <a href="https://reporter.nih.gov/project-details/${grantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
+                        </c:if>
                     </small>
+
+                                <c:if test="${fn:contains(action,'Experiment' )}">
+                                  <div style="margin-left: 40%">
+                                      <div class="row">
+                                          <div class="col-lg-push-2">
+                                      <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
+                                              onclick="javascript:location.href='/toolkit/data/experiments/group/${study.groupId}'">Parent Project Page
+                                      </button>&nbsp;
+                                          </div>
+                                          <div class="col-lg-push-3">
+                                              <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button"
+                                                      onclick="javascript:openModalDialog()">Show Help
+                                              </button>&nbsp;
+                                          </div>
+                                          <div class="col-lg-push-3">
+                                <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
+                                        onclick="javascript:location.href='/toolkit/download/${study.studyId}'"><i
+                                        class='fas fa-download'></i>&nbsp;Download Submitted files
+                                </button>
+                                          </div>
+                                      </div>
+                        </div>
+                                </c:if>
                     </c:if>
+                        <c:if test="${projectDescription!=null}">
+                            <div>
+                                        <div class="card" style="border:transparent">
+                                            <div >
+                                                <b>Description:</b>&nbsp;${projectDescription}
+
+                                            </div>
+                                        </div>
+
+
+                            </div>
+                        </c:if>
                         <hr>
                             <c:if test="${action=='Dashboard'}">
                                 <div align="right">
@@ -200,47 +242,11 @@
                                             <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
                                         </small>
                                     </div>
-                                    <!--div class="col-sm-6">
-                                        <form action="/toolkit/data/search/results"  class="form-inline my-2 my-lg-0">
-                                            <input class="form-control searchTerm" id="searchTerm" name="searchTerm" type="search" placeholder="Search SCGE (Models, Editors, Delivery, Guides)" aria-label="Search">
-                                            <button class="btn btn-outline-secondary" type="submit">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </form>
-                                        <div>
-                                            <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
-                                                <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
-                                            </small>
-                                        </div>
-                                    </div-->
 
                                 </div>
                             </div>
                         </div>
                             </form>
-                                        <!--div class="container-fluid" align="center" id="home-page-search" style="background-color: #FFFFFF;">
-                                            <table align="center">
-                                                <tr>
-                                                    <td><img src="/toolkit/images/scge-logo-200w.png" border="0"/></td>
-                                                    <td>
-                                                        <div>
-                                                        <form action="/toolkit/data/search/results"  class="form-inline my-2 my-lg-0">
-                                                            <input size=60 class="form-control searchTerm" id="searchTerm" name="searchTerm" type="search" placeholder="Search SCGE (Models, Editors, Delivery, Guides)" aria-label="Search">
-                                                            <button class="btn btn-outline-secondary" type="submit">
-                                                                <i class="fa fa-search"></i>
-                                                            </button>                                                            <br>
-                                                        </form>
-
-                                                        </div>
-                                                        <div>
-                                                            <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
-                                                                <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
-                                                            </small>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div-->
 
                         </c:otherwise>
                     </c:choose>
@@ -253,7 +259,7 @@
                     </div>
                 </div>
             </div>
-        </c:if>
+
     </div>
 </div>
 
@@ -265,12 +271,6 @@
         <a href="https://creativecommons.org/licenses/by/4.0/" style=";color:#FFFFFF">License CC BY 4.0</a>&nbsp;&nbsp;&nbsp;<br>
         <small>Copyright &copy; This website is hosted by the SCGE DCC | Copyright 2022 SCGE | All Rights Reserved</small>
     </div>
-    <!-- Bootstrap core JavaScript
-================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-
-    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script-->
-    <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script-->
     <script src="/toolkit/js/search/autocomplete.js"></script>
 
 </footer>

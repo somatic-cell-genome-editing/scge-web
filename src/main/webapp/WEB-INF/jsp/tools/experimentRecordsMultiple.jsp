@@ -50,7 +50,9 @@ Experiment ex = (Experiment) request.getAttribute("experiment");
             <td class="desc" style="font-weight:700;"><%=study.getStudy()%>:</td>
             <td>&nbsp;&nbsp;&nbsp;</td>
             <td class="desc"   style="font-weight:700;">PI:</td>
-            <td class="desc" ><%=study.getPi()%></td>
+            <td class="desc" > <%for(Person pi:study.getMultiplePis()){%>
+                <%=pi.getName()%><br>
+                <% }%></td>
             <td>&nbsp;&nbsp;&nbsp;</td>
             <td class="desc"  style="font-weight:700;">Submission Date:</td>
             <td class="desc" ><%=study.getSubmissionDate()%></td>

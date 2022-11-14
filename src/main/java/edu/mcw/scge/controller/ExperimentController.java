@@ -124,7 +124,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
         req.setAttribute("validationExperimentsMap",validationExperimentsMap);
         req.setAttribute("studyExperimentMap", studyExperimentMap);
-        req.setAttribute("action","Study: " + grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantTitle());
+        req.setAttribute("action","Project: " + grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantTitle());
+        req.setAttribute("projectDescription", grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getDescription());
+        req.setAttribute("grantNumber", grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantNumber());
+
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
@@ -287,11 +290,16 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             if(!access.hasStudyAccess(study,p))
                 studies.remove(s);
             else {
-                String piname = study.getPi();
-                String label = piname.split(",")[0];
-                int index=label.lastIndexOf(" ");
-                label = label.substring(index);
-                studyNames.put(s,label);
+                StringBuffer sb=new StringBuffer();
+                List<Person> studyPis=sdao.getStudyPi(sdao.getStudyById(s).get(0));
+                for(Person pi:studyPis) {
+                    String piname = pi.getName();
+                    String label = piname.split(",")[0];
+                    int index = label.lastIndexOf(" ");
+                    label = label.substring(index);
+                    sb.append(label);
+                }
+                studyNames.put(s,sb.toString());
             }
         }
 
@@ -511,7 +519,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         if (records.size() == 0 ) {
 
             req.setAttribute("study",localStudy);
-            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>  / <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Study</a>");
+            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>  / <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Project</a>");
             req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
             req.setAttribute("deliveryAssay",new HashMap<String,String>());
             req.setAttribute("editingAssay",new HashMap<String,String>());
@@ -527,6 +535,25 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         }
 
         List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
+
+        List<String> tissuesTarget = edao.getExperimentRecordTargetTissueList(experimentId);
+        System.out.println("TARGET TISSUES SIZE:" +tissuesTarget.size());
+        List<String> tissuesNonTargetTmp = edao.getExperimentRecordNonTargetTissueList(experimentId);
+        List<String> tissuesNonTarget=new ArrayList<>();
+        if(tissuesNonTargetTmp.size()>0)
+        for(String t:tissuesNonTargetTmp){
+            boolean exists=false;
+            for(String target:tissuesTarget){
+                if (t.equalsIgnoreCase(target)) {
+
+                    exists=true;
+                }
+            }
+            if(!exists){
+                tissuesNonTarget.add(t);
+            }
+        }
+        System.out.println("NON TARGET TISSUES SIZE:" +tissuesNonTarget.size());
 
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(experimentId);
@@ -657,8 +684,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         plotData.put("Mean",mean);
 
         req.setAttribute("tissues",tissues);
+        req.setAttribute("tissuesTarget",tissuesTarget);
+        req.setAttribute("tissuesNonTarget",tissuesNonTarget);
         req.setAttribute("conditions",conditions);
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>  / <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Study</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>  / <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Project</a>");
         req.setAttribute("replicateResult",replicateResult);
         req.setAttribute("experiments",labels);
         req.setAttribute("plotData",plotData);

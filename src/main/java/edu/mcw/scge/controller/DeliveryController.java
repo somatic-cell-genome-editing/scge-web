@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/delivery")
-public class DeliveryController {
+public class DeliveryController extends ObjectController{
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     DeliveryDao dao = new DeliveryDao();
     PublicationDAO publicationDAO=new PublicationDAO();
@@ -58,7 +58,7 @@ public class DeliveryController {
 
         }
 
-
+        req.setAttribute("summaryBlocks", getSummary(system));
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,system,null,null));
 
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Delivery%20System?searchTerm='>Delivery Systems</a>");
@@ -92,13 +92,8 @@ public class DeliveryController {
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
-            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
-            List<Experiment> assocatedExperiments=new ArrayList<>();
-
-            for(long id:associatedExperimentIds){
-                assocatedExperiments.add(experimentDao.getExperiment(id));
-            }
-            req.setAttribute("associatedExperiments", assocatedExperiments);}
+            mapProjectNExperiments(experimentRecords, req);
+           }
         List<Publication> associatedPublications=new ArrayList<>();
         associatedPublications.addAll(publicationDAO.getAssociatedPublications(system.getId()));
         for(long experimentId:experimentIds) {
@@ -204,4 +199,53 @@ public class DeliveryController {
         return null;
     }
 
+    public  Map<String, Map<String, String>> getSummary(Delivery object){
+        Map<String, Map<String, String>> summaryBlocks=new LinkedHashMap<>();
+
+        Map<String, String> summary=new LinkedHashMap<>();
+        int i=0;
+        summary.put("SCGE ID", String.valueOf(object.getId()));
+        if(object.getName()!=null && !object.getName().equals(""))
+        summary.put("Name", object.getName());
+        if(object.getDescription()!=null && !object.getDescription().equals(""))
+        summary.put("Description", object.getDescription());
+        if(object.getType()!=null && !object.getType().equals(""))
+        summary.put("Type", object.getType());
+        if(object.getSubtype()!=null && !object.getSubtype().equals(""))
+            summary.put("Subtype", object.getSubtype());
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary=new LinkedHashMap<>();
+        }
+        if(object.getSource()!=null && !object.getSource().equals(""))
+        summary.put("Source", object.getSource());
+        if(object.getRrid()!=null && !object.getRrid().equals(""))
+        summary.put("RRID", object.getRrid());
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary=new LinkedHashMap<>();
+        }
+        if(object.getSequence()!=null && !object.getSequence().equals(""))
+        summary.put("Sequence", object.getSequence());
+        if(object.getAnnotatedMap()!=null && !object.getAnnotatedMap().equals(""))
+        summary.put("Annotated Map", object.getAnnotatedMap());
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary=new LinkedHashMap<>();
+        }
+        if(object.getNpSize()!=null && !object.getNpSize().equals("")) {
+            summary.put("Nanopartical Size", object.getNpSize());
+            if (object.getZetaPotential() != null && !object.getZetaPotential().equals(""))
+                summary.put("Zeta Potential", object.getZetaPotential());
+            if (object.getNpPolydispersityIndex() != null && !object.getNpPolydispersityIndex().equals(""))
+                summary.put("Poly Dispersity Index", object.getNpPolydispersityIndex());
+        }
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+        }
+        return summaryBlocks;
+    }
 }

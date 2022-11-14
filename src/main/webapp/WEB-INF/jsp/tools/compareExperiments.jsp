@@ -55,7 +55,9 @@
         <td class="desc" style="font-weight:700;"><%=study.getStudy()%>:</td>
         <td>&nbsp;&nbsp;&nbsp;</td>
         <td class="desc"   style="font-weight:700;">PI:</td>
-        <td class="desc" ><%=study.getPi()%></td>
+        <td class="desc" > <%for(Person p:study.getMultiplePis()){%>
+            <%=p.getName()%><br>
+            <% }%></td>
         <td>&nbsp;&nbsp;&nbsp;</td>
         <td class="desc"  style="font-weight:700;">Submission Date:</td>
         <td class="desc" ><%=study.getSubmissionDate()%></td>

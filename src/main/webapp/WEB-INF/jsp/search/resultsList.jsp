@@ -28,7 +28,12 @@
         color:deeppink;
     }
 </style>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script>
+
+</script>
+
 
 <script>
     $(function() {
@@ -62,9 +67,12 @@
         }).on('hide.bs.collapse', function(){
             $(this).prev(".card-header").find(".fas").removeClass("fa-angle-down").addClass("fa-angle-up");
         });
+
     })
 
 </script>
+
+
 <%
     Access access=new Access();
     Person person = null;
@@ -91,7 +99,7 @@
             <c:if test="${hit.sourceAsMap.name!=null}">
             <h6>
                 <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
-                    <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> [<i class="fa-solid fa-v" style="color:darkorange"></i>]</span>
+                    <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> <span style="color:darkorange">[Validation]</span>
                 </c:if>
                 <c:choose>
                     <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
@@ -105,7 +113,7 @@
                         </c:if>
                     </c:otherwise>
                 </c:choose>
-                <!--a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a--> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>
+                <!--a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a--> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>&nbsp;<small>${hit.sourceAsMap.initiative}</small>
            <small>
             <c:if test="${hit.sourceAsMap.experimentType!=null}">
                -  ${hit.sourceAsMap.experimentType}
@@ -115,7 +123,8 @@
                 <a class="search-results-anchor" style="text-decoration: none;cursor: pointer" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
               +
             </a>
-            <%}%></h6>
+            <%}%>
+            </h6>
             </c:if>
 
             <c:if test="${hit.sourceAsMap.symbol!=null}">
@@ -130,8 +139,11 @@
                         <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                     </c:if>                </c:otherwise>
             </c:choose>
-               &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}
+               &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}&nbsp;
             </small>
+                <small>
+                        ${hit.sourceAsMap.initiative}
+                </small>
                 <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
                 <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
                 +
@@ -145,13 +157,39 @@
                         </div>
                     </div>
                 </div>
-                <small>  <c:if test="${hit.sourceAsMap.category=='Study' || hit.sourceAsMap.category=='Experiment'}">
-                    ${hit.sourceAsMap.pi.get(0)}
+                <small>  <c:if test="${hit.sourceAsMap.category=='Study' || hit.sourceAsMap.category=='Experiment' || hit.sourceAsMap.category=='Project'}">
+                   <c:set var="first" value="true"/>
+                    <c:forEach items="${hit.sourceAsMap.pi}" var="item">
+                        <c:choose>
+                            <c:when test="${first=='true'}">
+                                ${item}
+                                <c:set var="first" value="false"/>
+                            </c:when>
+                            <c:otherwise>
+                                ,&nbsp;${item}
+                            </c:otherwise>
+                        </c:choose>
+                   </c:forEach>
+
                     <c:if test="${hit.sourceAsMap.category=='Study'}">
                         &nbsp;&nbsp;<span class="header">Date Of Submission:</span> ${hit.sourceAsMap.submissionDate}
                     </c:if>
-                </c:if></small>
+
+                </c:if>
+                    <c:if test="${hit.sourceAsMap.currentGrantNumber!=null}">
+                        <a href="https://reporter.nih.gov/project-details/${hit.sourceAsMap.currentGrantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
+                    </c:if>
+                </small>
             </div>
+            <c:if test="${hit.sourceAsMap.category=='Antibody' && fn:length(hit.sourceAsMap.externalId)>0}">
+                <span><b>Other Id:</b>
+                <c:forEach items="${hit.sourceAsMap.externalId}" var="item">
+                    <c:if test="${item!=hit.sourceAsMap.name}">
+                    ${item}&nbsp;
+                    </c:if>
+                </c:forEach>
+                </span><br>
+            </c:if>
             <c:if test="${hit.sourceAsMap.description!=null}">
                 <span>${hit.sourceAsMap.description}</span><br>
             </c:if>
@@ -204,8 +242,9 @@
                 </c:forEach>
                 </span> <br>
             </c:if>
+
             <c:if test="${fn:length(hit.sourceAsMap.studyNames)>0 || fn:length(hit.sourceAsMap.experimentNames)>0}">
-            <small class="text-muted">View Associated:&nbsp;</small><%@include file="associations.jsp"%>
+            <!--small class="text-muted">View Associated:&nbsp;</small--><%@include file="associations.jsp"%>
 
             </c:if>
 

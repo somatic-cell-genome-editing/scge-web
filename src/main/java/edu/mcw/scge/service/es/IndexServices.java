@@ -32,8 +32,8 @@ public class IndexServices {
         searchIndex= SCGEContext.getESIndexName();
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(this.buildBoolQuery(categories, searchTerm, filterMap, DCCNIHMember,consortiumMember));
-        srb.aggregation(this.buildSearchAggregations("category"));
-          buildAggregations(srb, categories);
+       srb.aggregation(this.buildSearchAggregations("category"));
+         buildAggregations(srb, categories);
         srb.highlighter(this.buildHighlights());
         srb.size(10000);
         if(searchTerm.equals("")){
@@ -119,7 +119,6 @@ public class IndexServices {
             srb.aggregation(this.buildSearchAggregations("studyType"));
         }
 
-
     }
     public HighlightBuilder buildHighlights(){
        // List<String> fields= Stream.concat(searchFields().stream(), mustFields().stream()).collect(Collectors.toList());
@@ -129,7 +128,7 @@ public class IndexServices {
 
             hb.field(field);
         }
-     //  hb.field("*");
+      hb.field("*");
       // hb.numOfFragments(1);
      //  hb.field("*");
       //  System.out.println(gson.toJson(hb));
@@ -323,7 +322,7 @@ public class IndexServices {
         BoolQueryBuilder q=new BoolQueryBuilder();
         q.must(buildQuery(searchTerm));
 
-      if(!DCCNIHMember && consortiumMember) {
+     if(!DCCNIHMember && consortiumMember ) {
             q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
             q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
                     should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
@@ -334,10 +333,10 @@ public class IndexServices {
 
         }
 
-        if(DCCNIHMember){
+        if(DCCNIHMember ){
             q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
         }
-        if(categories!=null && categories.size()>0) {
+        if( categories!=null &&categories.size()>0) {
             q.filter(QueryBuilders.termsQuery("category.keyword", categories.toArray()));
 
 
@@ -347,7 +346,6 @@ public class IndexServices {
                 q.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
 
             }
-
 
         return q;
     }
@@ -378,14 +376,14 @@ public class IndexServices {
                 q.add(QueryBuilders.multiMatchQuery(searchString)
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .operator(Operator.AND)
-                        .analyzer("pattern")
+                        .analyzer("stop")
 
                 );
 
                 q.add(QueryBuilders.multiMatchQuery(searchString)
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .analyzer("pattern")
+                        .analyzer("stop")
                         .boost(1000)
                 );
 
@@ -394,7 +392,7 @@ public class IndexServices {
                 q.add(QueryBuilders.multiMatchQuery(searchString)
                                 .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                                 .operator(Operator.OR)
-                        .analyzer("pattern")
+                        .analyzer("stop")
 
                 );
 
@@ -408,7 +406,7 @@ public class IndexServices {
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .operator(Operator.AND)
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .analyzer("pattern")
+                        .analyzer("stop")
                         .boost(1000)
                 );
 
@@ -418,12 +416,12 @@ public class IndexServices {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .analyzer("pattern")
+                        .analyzer("stop")
                 );
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
                         .operator(Operator.AND)
-                        .analyzer("pattern")
+                        .analyzer("stop")
                 );
             }
         }
@@ -432,14 +430,16 @@ public class IndexServices {
             q.add(QueryBuilders.termQuery("name.custom", searchTerm).boost(1000));
             q.add(QueryBuilders.termQuery("pi", searchTerm).boost(1000));
 
-            q.add(QueryBuilders.matchPhrasePrefixQuery("symbol.custom", searchTerm).boost(400));
-            q.add(QueryBuilders.matchPhrasePrefixQuery("name.custom", searchTerm).boost(400));
+            q.add(QueryBuilders.matchPhrasePrefixQuery("symbol.custom", searchTerm).analyzer("stop").boost(400));
+            q.add(QueryBuilders.matchPhrasePrefixQuery("name.custom", searchTerm).analyzer("stop").boost(400));
 
-            q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).boost(100));
-            q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).boost(100));
+            q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).analyzer("stop").boost(100));
+            q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).analyzer("stop").boost(100));
 
             q.add(QueryBuilders.matchPhrasePrefixQuery("pi", searchTerm).boost(500));
             q.add(QueryBuilders.matchPhraseQuery("pi", searchTerm).boost(200));
+            q.add(QueryBuilders.termQuery("currentGrantNumber.keyword", searchTerm));
+            q.add(QueryBuilders.termQuery("formerGrantNumbers.keyword", searchTerm));
 
 
         }else{
@@ -490,6 +490,7 @@ public class IndexServices {
                 "tissueIds", "tissueTerm", "termSynonyms",
                 "site", "sequence", "pam", "detectionMethod","target",
                "experimentName","experimentType"
+              //  , "currentGrantNumber.keyword", "formerGrantNumbers.keyword"
 
               /* "studyNames",
                 "experimentNames"*/

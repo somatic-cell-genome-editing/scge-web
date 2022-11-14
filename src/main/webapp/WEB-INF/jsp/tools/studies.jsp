@@ -82,7 +82,6 @@
             <th class="tablesorter-header filter-false">No. of Submissions</th>
             <th class="tablesorter-header">Initiative</th>
             <th class="tablesorter-header">Contact PI</th>
-            <th class="tablesorter-header">Institution</th>
 
             <th class="tablesorter-header filter-false" >Submission Date</th>
             <th class="tablesorter-header filter-false" >Last Updated Date</th>
@@ -105,7 +104,9 @@
         %>
   <%  for(Map.Entry e:groupedStudies.entrySet()){
         int groupId= (int) e.getKey();
-        List<Study> studies1= (List<Study>) e.getValue();%>
+        List<Study> studies1= (List<Study>) e.getValue();
+        List<Study> studiesByGroupId=studyDao.getStudiesByGroupId(groupId);
+  %>
      <% if(studies1.size()>1 || studies1.get(0).getGroupId()==1410){%>
 
             <tr class="header1" style="display:table-row;">
@@ -114,8 +115,12 @@
                 <td ><a href="/toolkit/data/experiments/group/<%=studies1.get(0).getGroupId()%>"><%=grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle()%></a></td>
                 <td><%=studies1.size()%></td>
                 <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantInitiative())%></td>
-                <td><%=studyDao.getStudiesByGroupId(groupId).get(0).getPiLastName()%>,&nbsp;<%=studyDao.getStudiesByGroupId(groupId).get(0).getPiFirstName()%></td>
-                <td><%=studyDao.getStudiesByGroupId(groupId).get(0).getLabName()%></td>
+                <td>
+                    <%for(Person pi:studiesByGroupId.get(0).getMultiplePis()){%>
+                    <%=pi.getName().replaceAll(","," ")%>&nbsp;<small class="text-muted">(<%=pi.getInstitutionName()%>)</small><br>
+                    <% }%>
+                    <%--=studyDao.getStudiesByGroupId(groupId).get(0).getPiLastName()%>,&nbsp;<%=studyDao.getStudiesByGroupId(groupId).get(0).getPiFirstName()--%></td>
+
                 <td></td>
                 <td></td>
                 <td></td>
@@ -161,28 +166,28 @@
                       hasRecords=true;
                }
             %>
-    <td>
+            <td>
 
-        <%if(access.hasStudyAccess(s,person)) {
-            if(studies1.get(0).getGroupId()==1410 || studies1.get(0).getGroupId()==1412){// 1410-Baylor;1412-Jackson
-                if(s.getIsValidationStudy()!=1){%>
-        <%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
-        <% }else{%>
-        <strong>VALIDATION -</strong>&nbsp;<%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
-        <%  }%>
-        <%}else{%>
-        <a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a>
-        <%}%>
-        <%} else {
-            if(s.getIsValidationStudy()!=1){%>
-        <%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
-        <% }else{%>
-        <strong>VALIDATION -</strong>&nbsp;<%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
-        <%  }
-        }%>
+                <%if(access.hasStudyAccess(s,person)) {
+                        if(studies1.get(0).getGroupId()==1410 || studies1.get(0).getGroupId()==1412){// 1410-Baylor;1412-Jackson
+                            if(s.getIsValidationStudy()!=1){%>
+                                        <%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                           <% }else{%>
+                                <strong>VALIDATION -</strong>&nbsp;<%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                          <%  }%>
+                        <%}else{%>
+                            <a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a>
+                        <%}%>
+                <%} else {
+                    if(s.getIsValidationStudy()!=1){%>
+                            <%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                        <% }else{%>
+                            <strong>VALIDATION -</strong>&nbsp;<%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                        <%  }
+                }%>
 
 
-    </td>
+            </td>
             <td>
                 <%if(studies1.size()<=1){ %>
                 <%=studies1.size()%>
@@ -194,15 +199,12 @@
                 <%}%>
             </td>
             <td style="white-space: nowrap;width:15%">
-                <%if(studies1.size()<=1){ %>
-                <%=s.getPiLastName()%>,&nbsp;<%=s.getPiFirstName()%>
-                <%}%>
+                <%if(studies1.size()<=1){
+                    for(Person pi:s.getMultiplePis())  {%>
+                <%=pi.getFirstName()%>,&nbsp;<%=pi.getLastName()%>&nbsp;<small class="text-muted">(<%=pi.getInstitutionName()%>)</small><br>
+                   <% }}%>
             </td>
-            <td>
-                <%if(studies1.size()<=1){ %>
-                <%=s.getLabName()%>
-                <%}%>
-            </td>
+
             <td><%=UI.formatDate(s.getSubmissionDate())%></td>
             <td>
                 <%if( s.getLastModifiedDate()!=null){%>

@@ -24,8 +24,8 @@
     td{
         font-size: 12px;
     }
-    .desc {
-        font-size:14px;
+    .tablesorter.target tr td{
+        border:3px solid #DA70D6;
     }
 </style>
 <script>
@@ -41,6 +41,9 @@
                 update(false);
             }
         });
+
+
+
     });
     function download(){
         $("#myTable").tableToCSV();
@@ -48,7 +51,10 @@
     function downloadSelected(){
         $("#myTable").tableSelectionToCSV();
     }
+
+
 </script>
+
 
 <% ImageDao idao = new ImageDao();
     List<String> options = new ArrayList<>();
@@ -112,8 +118,9 @@
 
 <div>
 </div>
-
+<c:if test="${fn:length(plotData['Mean'])>0}">
 <div id="barChart">
+
     <% if( options.size() == 1 ) {
     }  else { %>
     <hr>
@@ -126,20 +133,31 @@
 
 
     <br><br>
-    <div class="chart-container" id = "chartDiv">
+    <div class="chart-container" style="display:none;" id = "chartDiv">
         <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
     </div>
 </div>
 <hr>
-
+</c:if>
 
 <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
+<script> entireExperimentRecordCount=<%=experimentRecordsMap.size()%>
+    $(function () {
 
+        if(filtersApplied())
+        $('#downloadChartBelow').show();
+        else
+            $('#downloadChartBelow').hide();
+    })
+
+
+
+</script>
 <table width="100%">
     <tr>
         <td><h3>Results</h3></td>
-        <td width="100" align="right"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Chart Below" onclick="downloadSelected()"/></td>
-        <td width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment" onclick="download()"/></td>
+        <td id="downloadChartBelow" width="100" align="right" style="display:none"><input type="button" style=";border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Chart Below" onclick="downloadSelected()"/></td>
+        <td id="downloadEntireExperiment" width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment" onclick="download()"/></td>
     </tr>
 </table>
 <%
@@ -148,7 +166,13 @@
     Experiment dExperiment = (Experiment) request.getAttribute("experiment");
     Study dStudy = (Study) request.getAttribute("study");
 %>
-<div id="fileCitation" style="display:none;">SCGE Toolkit downloaded on: <%=dtf.format(now)%>; Please cite the Somatic Cell Genome Editing Consortium Toolkit NIH HG010423 when using publicly accessible data in formal presentation or publication. SCGE Experment ID: <%=dExperiment.getExperimentId()%>. PI: <%=dStudy.getPi().replaceAll(","," ")%></div>
+<div id="fileCitation" style="display:none;">SCGE Toolkit downloaded on: <%=dtf.format(now)%>; Please cite the Somatic Cell Genome Editing Consortium Toolkit NIH HG010423 when using publicly accessible data in formal presentation or publication. SCGE Experment ID: <%=dExperiment.getExperimentId()%>. PI:
+    <%for(Person pi:dStudy.getMultiplePis()){%>
+    <%=pi.getName().replaceAll(","," ")%>
+    <% }%>
+
+</div>
+
 <table id="myTable" class="table tablesorter table-striped table-sm">
     <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
     <thead>
@@ -222,15 +246,24 @@
     %>
 
     <% if (access.hasStudyAccess(exp.getStudyId(),p.getId())) {
+        String border=new String();
+        String target=new String();
+        if(tissuesTarget.contains(exp.getTissueTerm())){
+            border="3px solid #DA70D6";
+            target="Target Tissue";
+        }else{
+            border="";
+        }
+
     %>
-    <tr>
-        <td id="<%=SFN.parse(exp.getExperimentName())%>"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(experimentName)%></a></td>
+    <tr title="<%=target%>">
+        <td id="<%=SFN.parse(exp.getExperimentName())%>" ><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>/record/<%=exp.getExperimentRecordId()%>/"><%=SFN.parse(experimentName)%></a></td>
 
 
-        <% if (tissueList.size() > 0 ) { %><td><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
+        <% if (tissueList.size() > 0 ) { %><td style="border:<%=border%>"><%=SFN.parse(exp.getTissueTerm())%></td><% } %>
         <% if (cellTypeList.size() > 0) { %><td><%=SFN.parse(exp.getCellTypeTerm())%></td><% } %>
         <% if (sexList.size() > 0) { %><td><%=SFN.parse(exp.getSex())%></td><% } %>
-        <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=exp.getEditorSymbol()%></a></td><% } %>
+        <% if (editorList.size() > 0 ) { %><td><a href="/toolkit/data/editors/editor?id=<%=exp.getEditorId()%>"><%=SFN.parse(exp.getEditorSymbol())%></a></td><% } %>
         <% if (hrdonorList.size() > 0) { %><td><a href="/toolkit/data/hrdonors/hrdonor?id=<%=exp.getHrdonorId()%>"><%=SFN.parse(exp.getHrdonorName())%></a></td><% } %>
         <% if (modelList.size() > 0 ) { %><td><a href="/toolkit/data/models/model?id=<%=exp.getModelId()%>"><%=SFN.parse(exp.getModelName())%></a></td><% } %>
         <% if (deliverySystemList.size() > 0 ) { %><td><a href="/toolkit/data/delivery/system?id=<%=exp.getDeliverySystemId()%>"><%=SFN.parse(exp.getDeliverySystemName())%></a></td><% } %>
@@ -314,7 +347,7 @@
     }
     function imageMouseOver(img, legend, title) {
         var sourceImage = document.createElement('img'),
-                imgContainer = document.getElementById("imageViewer");
+            imgContainer = document.getElementById("imageViewer");
         sourceImage.src = img.src;
         //resizeThis(sourceImage);
         if (title != "") {
@@ -358,6 +391,7 @@
     var ctx = document.getElementById("resultChart");
     var colorArray = [];
     var filterValues = [];
+    if(ctx!=null){
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -380,7 +414,7 @@
                         fontFamily: 'Calibri'
                     },
                     ticks:{
-                        fontColor: "rgb(0,75,141)",
+                     /*   fontColor: "rgb(0,75,141)",*/
                         fontSize: 10,
                         autoSkip: false,
                         callback: function(t) {
@@ -441,6 +475,7 @@
             }
         }
     });
+    }
     function getRandomColor() {
         var letters = 'BCDEF'.split('');
         var color = '#';
@@ -470,112 +505,114 @@
         return detail;
     }
     function update(updateColor){
-        var table = document.getElementById('myTable'); //to remove filtered rows
-        var xArray=[];
-        var yArray=[];
-        var rowLength = table.rows.length;
-        var j = 0;
-        var selected = 0;
-        var count = 0;
-        count = <%=options.size()%>;
-        var filter = 'None';
-        /* var colors = ['rgba(255, 140, 102,0.5)','rgba(140, 255, 102,0.5)','rgba(102, 217, 255,0.5)','rgba(217, 102, 255,0.5)',
-         'rgba(255, 179, 102,0.5)','rgba(102, 255, 102,0.5)','rgba(102, 179, 255,0.5)','rgba(255, 102, 255,0.5)',
-         'rgba(255, 217, 102,0.5)', 'rgba(102, 255, 140,0.5)', 'rgba(102, 140, 255,0.5)','rgba(255, 102, 217,0.5)',
-         'rgba(255, 255, 102,0.5)', 'rgba(102, 255, 179,0.5)', 'rgba(102, 102, 255,0.5)', 'rgba(255, 102, 179,0.5)',
-         'rgba(217, 255, 102,0.5)', 'rgba(102, 255, 217,0.5)', 'rgba(140, 102, 255,0.5)', 'rgba(255, 102, 140,0.5)',
-         'rgba(179, 255, 102,0.5)','rgba(102, 255, 255,0.5)','rgba(179, 102, 255,0.5)','rgba(255, 102, 102,0.5)'
-         ];*/
-        var colors = [
-            'rgba(230, 159, 0, 0.5)','rgba(86, 180, 233, 0.5)','rgba(0, 158, 115, 0.5)','rgba(240, 228, 66, 0.5)',
-            'rgba(0, 114, 178, 0.5)','rgba(213, 94, 0, 0.5)', 'rgba(204, 121, 167, 0.5)','rgba(0, 0, 0, 0.5)',
-            'rgba(233, 150, 122, 0.5)','rgba(139, 0, 139, 0.5)','rgba(169, 169, 169, 0.5)','rgba(220, 20, 60, 0.5)',
-            'rgba(100, 149, 237, 0.5)','rgba(127, 255, 0, 0.5)','rgba(0, 0, 128, 0.5)','rgba(255, 222, 173, 0.5)',
-            'rgba(128, 0, 0, 0.5)','rgba(224, 255, 255, 0.5)','rgba(32, 178, 170, 0.5)','rgba(160, 82, 45, 0.5)',
-            'rgba(238, 130, 238, 0.5)','rgba(154, 205, 50, 0.5)','rgba(219, 112, 147, 0.5)','rgba(199, 21, 133, 0.5)',
-            'rgba(102, 205, 170, 0.5)','rgba(240, 128, 128, 0.5)','rgba(222, 184, 135, 0.5)','rgba(95, 158, 160, 0.5)',
-            'rgba(189, 183, 107, 0.5)','rgba(0, 100, 0, 0.5)', 'rgba(0, 191, 255, 0.5)','rgba(255, 0, 255, 0.5)',
-            'rgba(218, 165, 32, 0.5)','rgba(75, 0, 130, 0.5)'
-        ];
-        var aveIndex = table.rows.item(0).cells.length -2;
-        var cells = table.rows.item(0).cells;
-        if(count != 1) {
-            filter = document.getElementById("graphFilter").value;
-            for (var i = 0; i < cells.length; i++) {
-                if (cells.item(i).innerText.includes(filter)) { //check the column of selected filter
-                    selected = i;
+        if(document.getElementById("chartDiv")!=null) {
+            var table = document.getElementById('myTable'); //to remove filtered rows
+            var xArray = [];
+            var yArray = [];
+            var rowLength = table.rows.length;
+            var j = 0;
+            var selected = 0;
+            var count = 0;
+            count = <%=options.size()%>;
+            var filter = 'None';
+            /* var colors = ['rgba(255, 140, 102,0.5)','rgba(140, 255, 102,0.5)','rgba(102, 217, 255,0.5)','rgba(217, 102, 255,0.5)',
+             'rgba(255, 179, 102,0.5)','rgba(102, 255, 102,0.5)','rgba(102, 179, 255,0.5)','rgba(255, 102, 255,0.5)',
+             'rgba(255, 217, 102,0.5)', 'rgba(102, 255, 140,0.5)', 'rgba(102, 140, 255,0.5)','rgba(255, 102, 217,0.5)',
+             'rgba(255, 255, 102,0.5)', 'rgba(102, 255, 179,0.5)', 'rgba(102, 102, 255,0.5)', 'rgba(255, 102, 179,0.5)',
+             'rgba(217, 255, 102,0.5)', 'rgba(102, 255, 217,0.5)', 'rgba(140, 102, 255,0.5)', 'rgba(255, 102, 140,0.5)',
+             'rgba(179, 255, 102,0.5)','rgba(102, 255, 255,0.5)','rgba(179, 102, 255,0.5)','rgba(255, 102, 102,0.5)'
+             ];*/
+            var colors = [
+                'rgba(230, 159, 0, 0.5)', 'rgba(86, 180, 233, 0.5)', 'rgba(0, 158, 115, 0.5)', 'rgba(240, 228, 66, 0.5)',
+                'rgba(0, 114, 178, 0.5)', 'rgba(213, 94, 0, 0.5)', 'rgba(204, 121, 167, 0.5)', 'rgba(0, 0, 0, 0.5)',
+                'rgba(233, 150, 122, 0.5)', 'rgba(139, 0, 139, 0.5)', 'rgba(169, 169, 169, 0.5)', 'rgba(220, 20, 60, 0.5)',
+                'rgba(100, 149, 237, 0.5)', 'rgba(127, 255, 0, 0.5)', 'rgba(0, 0, 128, 0.5)', 'rgba(255, 222, 173, 0.5)',
+                'rgba(128, 0, 0, 0.5)', 'rgba(224, 255, 255, 0.5)', 'rgba(32, 178, 170, 0.5)', 'rgba(160, 82, 45, 0.5)',
+                'rgba(238, 130, 238, 0.5)', 'rgba(154, 205, 50, 0.5)', 'rgba(219, 112, 147, 0.5)', 'rgba(199, 21, 133, 0.5)',
+                'rgba(102, 205, 170, 0.5)', 'rgba(240, 128, 128, 0.5)', 'rgba(222, 184, 135, 0.5)', 'rgba(95, 158, 160, 0.5)',
+                'rgba(189, 183, 107, 0.5)', 'rgba(0, 100, 0, 0.5)', 'rgba(0, 191, 255, 0.5)', 'rgba(255, 0, 255, 0.5)',
+                'rgba(218, 165, 32, 0.5)', 'rgba(75, 0, 130, 0.5)'
+            ];
+            var aveIndex = table.rows.item(0).cells.length - 2;
+            var cells = table.rows.item(0).cells;
+            if (count != 1) {
+                if (document.getElementById("graphFilter") != null)
+                    filter = document.getElementById("graphFilter").value;
+                for (var i = 0; i < cells.length; i++) {
+                    if (cells.item(i).innerText.includes(filter)) { //check the column of selected filter
+                        selected = i;
+                    }
                 }
             }
-        }
-        if(updateColor == true && count != 1) {
-            filterValues = [];
+            if (updateColor == true && count != 1) {
+                filterValues = [];
+                for (var i = 1; i < rowLength; i++) {
+                    var cells = table.rows.item(i).cells;
+                    var value = cells.item(selected).innerText;
+                    if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
+                        filterValues.push(value);
+                    }
+                }
+            }
+            var replicate = [];
             for (var i = 1; i < rowLength; i++) {
-                var cells = table.rows.item(i).cells;
-                var value = cells.item(selected).innerText;
-                if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
-                    filterValues.push(value);
+                if (table.rows.item(i).style.display != 'none') {
+                    var cells = table.rows.item(i).cells;
+                    if (cells.item(aveIndex - 1).innerText.toLowerCase() != "signal") {
+                        var cellLength = cells.length - 1;
+                        var column = cells.item(0); //points to condition column
+                        var avg = cells.item(aveIndex);
+                        xArray[j] = column.innerText;
+                        yArray[j] = avg.innerHTML;
+                        var index = filterValues.indexOf(cells.item(selected).innerText);
+                        if (filter != 'None') {
+                            if (filterValues.length <= colors.length)
+                                colorArray[j] = colors[index];
+                            else colorArray[j] = colors[0];
+                        } else colorArray[j] = colors[0];
+                        for (var k = aveIndex + 1; k < cellLength; k++) {
+                            var arr = [];
+                            if (j != 0 && replicate[k - aveIndex - 1] != null)
+                                arr = replicate[k - aveIndex - 1];
+                            arr.push(cells.item(k).innerHTML);
+                            replicate[k - aveIndex - 1] = arr;
+                        }
+                        j++;
+                    }
                 }
             }
-        }
-        var replicate = [];
-        for (var i = 1; i < rowLength; i++){
-            if(table.rows.item(i).style.display != 'none') {
-                var cells = table.rows.item(i).cells;
-                if (cells.item(aveIndex - 1).innerText.toLowerCase() != "signal") {
-                    var cellLength = cells.length-1;
-                    var column = cells.item(0); //points to condition column
-                    var avg = cells.item(aveIndex);
-                    xArray[j] = column.innerText;
-                    yArray[j] = avg.innerHTML;
-                    var index = filterValues.indexOf(cells.item(selected).innerText);
-                    if(filter != 'None') {
-                        if (filterValues.length <= colors.length)
-                            colorArray[j] = colors[index];
-                        else colorArray[j] = colors[0];
-                    }
-                    else colorArray[j] = colors[0];
-                    for (var k = aveIndex + 1; k < cellLength; k++) {
-                        var arr = [];
-                        if (j != 0 && replicate[k - aveIndex - 1] != null)
-                            arr = replicate[k - aveIndex - 1];
-                        arr.push(cells.item(k).innerHTML);
-                        replicate[k - aveIndex - 1] = arr;
-                    }
-                    j++;
-                }
-            }
-        }
-        if(xArray.length > 0) {
-            var data={
-                label: "Mean",
-                data: yArray,
-                yAxisID: 'delivery',
-                backgroundColor: colorArray,
-                borderWidth: 1
-            };
-            myChart.data.labels = xArray;
-            myChart.data.datasets[0] = data;
-            for(var i = 0;i < replicate.length;i++){
-                var dataSet = {
-                    data: replicate[i],
-                    label: "Replicate: "+(i+1),
+            if (xArray.length > 0) {
+                var data = {
+                    label: "Mean",
+                    data: yArray,
                     yAxisID: 'delivery',
-                    backgroundColor: 'rgba(255,99,132,1)',
-                    borderColor: 'rgba(255,99,132,1)',
-                    type: "scatter",
-                    showLine: false
+                    backgroundColor: colorArray,
+                    borderWidth: 1
                 };
-                myChart.data.datasets[i+1] = dataSet;
+                myChart.data.labels = xArray;
+                myChart.data.datasets[0] = data;
+                for (var i = 0; i < replicate.length; i++) {
+                    var dataSet = {
+                        data: replicate[i],
+                        label: "Replicate: " + (i + 1),
+                        yAxisID: 'delivery',
+                        backgroundColor: 'rgba(255,99,132,1)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        type: "scatter",
+                        showLine: false
+                    };
+                    myChart.data.datasets[i + 1] = dataSet;
+                }
+                myChart.options.scales.yAxes[1].display = false;
+                myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString(null);
+                myChart.options.legend.display = false;
+                myChart.update();
+                document.getElementById("chartDiv").style.display = "block";
+                document.getElementById("resultChart").style.display = "block";
+            } else {
+                document.getElementById("chartDiv").style.display = "none";
+                document.getElementById("resultChart").style.display = "none";
             }
-            myChart.options.scales.yAxes[1].display = false;
-            myChart.options.scales.yAxes[0].scaleLabel.labelString = getLabelString(null);
-            myChart.options.legend.display = false;
-            myChart.update();
-            document.getElementById("chartDiv").style.display = "block";
-            document.getElementById("resultChart").style.display = "block";
-        } else {
-            document.getElementById("chartDiv").style.display = "none";
-            document.getElementById("resultChart").style.display = "none";
         }
     }
     function getLabelString(result){
@@ -613,6 +650,16 @@
             });
         }
     }
+    function filtersApplied() {
+        var table = document.getElementById('myTable');
+        var rowLength = table.rows.length;
+        for (i = 1; i < rowLength; i++) {
+           if( table.rows.item(i).style.display == "none"){
+                return true;
+           }
+        }
+        return false;
+    }
     function applyFilters(obj)  {
         var table = document.getElementById('myTable'); //to remove filtered rows
         var rowLength = table.rows.length;
@@ -642,8 +689,13 @@
                     }
                 }
             }
+
         }
-        if(resultTypes.length > 1){
+        if(filtersApplied())
+            $('#downloadChartBelow').show();
+        else
+            $('#downloadChartBelow').hide();
+        if(resultTypes!=null && resultTypes.length > 1){
             dualAxis = true;
             for (var i = 0; i < resultTypes.length; i++) {
                 if(document.getElementById((resultTypes[i])).checked == false){
@@ -656,6 +708,10 @@
         }else {
             update(true);
         }
+
+
+
+
     }
     function generateData() {
         var noOfDatasets=${replicateResult.keySet().size()}
@@ -757,7 +813,7 @@
                 graphOps += "<li><a href='javascript:graphUnit(\"" + ele.id + "\")'>Graph " + ele.id + "</a></li>";
             }
         });
-      //  graphOps+="<li><a href='javascript:graphUnit(\"all\")'>Graph All Records (Mixed Units)</a></li>";
+        //  graphOps+="<li><a href='javascript:graphUnit(\"all\")'>Graph All Records (Mixed Units)</a></li>";
         if(count > 1) {
             document.getElementById("graphOptions").innerHTML=count + " Different Units Exist in Dataset<br>" + graphOps;
             document.getElementById("barChart").style.display="none";
@@ -777,6 +833,7 @@
         });
     }
     function updateAxis(){
+        if(document.getElementById("chartDiv")!=null){
         var table = document.getElementById('myTable'); //to remove filtered rows
         var labels=[];
         var editing=[];
@@ -836,11 +893,14 @@
             document.getElementById("resultChart").style.display = "none";
         }
     }
+    }
     var quantitative = 0;
     quantitative = <%=resultMap.size()%>;
     console.log(quantitative);
     if(quantitative == 0) {
+        if(document.getElementById("chartDiv")!=null)
         document.getElementById("chartDiv").style.display = "none";
+        if(document.getElementById("resultChart")!=null)
         document.getElementById("resultChart").style.display = "none";
     }
     setTimeout("load()",500);

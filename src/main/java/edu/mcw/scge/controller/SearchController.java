@@ -55,7 +55,11 @@ public class SearchController{
         Aggregations aggs=sr.getAggregations();
         Map<String, Aggregation> aggregationMap = new HashMap<>(aggs.asMap());
         req.setAttribute("aggregations",aggregationMap);
-
+        String selectedView=req.getParameter("selectedView");
+        if(selectedView==null || selectedView.equals("")){
+            selectedView="list";
+        }
+        req.setAttribute("selectedView",selectedView);
      //   req.setAttribute("aggregations",aggregations);
         if(facetSearch) {
             //   return "search/resultsTable";
@@ -117,6 +121,11 @@ public class SearchController{
         req.setAttribute("searchTerm", searchTerm);
         req.setAttribute("category",category);
         req.setAttribute("sr", sr);
+        String selectedView=req.getParameter("selectedView");
+        if(selectedView==null || selectedView.equals("")){
+            selectedView="list";
+        }
+        req.setAttribute("selectedView",selectedView);
       /*  System.out.println("CATEGORY:" +category+"\nFacets ===============================");
         Iterator iterator= sr.getAggregations().iterator();
         while (iterator.hasNext()){
@@ -181,7 +190,11 @@ public class SearchController{
               req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
               req.setAttribute("seoTitle","Experiments");
           }
-
+          if(category.trim().equalsIgnoreCase("Project")) {
+              req.setAttribute("action", "Projects");
+              req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
+              req.setAttribute("seoTitle","Experiments");
+          }
       }else {
           req.setAttribute("action", "Search Results");
           req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
@@ -192,6 +205,8 @@ public class SearchController{
                 req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
          /*   }
         }*/
+
+
         return null;
     }
 
@@ -207,7 +222,11 @@ public class SearchController{
         req.setAttribute("sr", sr);
         Map<String, Aggregation> aggregationMap = new HashMap<>(sr.getAggregations().asMap());
         req.setAttribute("aggregations",aggregationMap);
-
+        String selectedView=req.getParameter("selectedView");
+        if(selectedView==null || selectedView.equals("")){
+            selectedView="list";
+        }
+        req.setAttribute("selectedView",selectedView);
         req.setAttribute("crumbTrailMap",   breadCrumb.getCrumbTrailMap(req,null,null, "search"));
       /*  if(facetSearch) {
             System.out.println("FACET SEARCH: "+ facetSearch);

@@ -38,7 +38,7 @@
                             All Studies
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!--li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="users"></span>
                             My Groups
@@ -49,7 +49,7 @@
                             <span data-feather="users"></span>
                             My Account
                         </a>
-                    </li>
+                    </li-->
 
                 </ul>
 
@@ -100,7 +100,12 @@
                         <a href="/toolkit/data/experiments/study/<%=shared.getStudyId()%>"><%=shared.getStudy()%></a>
                     </td>
                     <td><%=shared.getLabName()%></td>
-                    <td><%=shared.getPi()%></td>
+                    <td>
+                        <%for(Person pi:shared.getMultiplePis()){%>
+                        <%=pi.getName()%><br>
+                        <%}%>
+
+                      </td>
                     <td><%=UI.formatDate(shared.getSubmissionDate())%></td>
                 </tr>
             <%}%>

@@ -14,18 +14,18 @@
         z-index: 1;
         top: 0;
         left: 0;
-        background-color: #f8f9fa;
+        background-color: #111;
         overflow-x: hidden;
         transition: 0.5s;
-        padding-top: 20px;
-
+        padding-top: 60px;
+        opacity: 0.8;
     }
 
     .sidenav a {
         padding: 8px 8px 8px 8px;
         text-decoration: none;
         font-size: 25px;
-        color: black;
+        color: #818181;
         display: block;
         transition: 0.3s;
     }
@@ -34,7 +34,7 @@
         adding: 8px 8px 8px 30px;
         text-decoration: none;
         font-size: 14px;
-        color: black;
+        color: white;
         display: block;
         transition: 0.3s;
         opacity:1;
@@ -73,26 +73,6 @@
     @media screen and (max-height: 450px) {
         .sidenav {padding-top: 15px;}
         .sidenav a {font-size: 18px;}
-    }
-    .recordFilterBlock {
-        max-height:250px;
-        width: 200px;
-        border: 1px solid gainsboro;
-        padding-left:5px;
-        padding-right:5px;
-        padding-top:7px;
-        padding-bottom:6px;
-        overflow-y:auto;
-
-    }
-    .recordFilterTitle {
-        padding-top:6px;
-        font-size:20px;
-        ackground-color:#818181;
-        color:#818181;
-
-
-
     }
 </style>
 
@@ -139,7 +119,26 @@
 
 
 <style>
+    .recordFilterBlock {
+        max-height:250px;
+        width: 200px;
+        border: 1px solid #4A4A4A;
+        padding-left:5px;
+        padding-right:5px;
+        padding-top:7px;
+        padding-bottom:6px;
+        overflow-y:auto;
 
+    }
+    .recordFilterTitle {
+        padding-top:6px;
+        font-size:20px;
+        ackground-color:#818181;
+        color:#818181;
+
+
+
+    }
 </style>
 
 <div class="filterOptions" id="filterClose">
@@ -148,9 +147,9 @@
 <div class="filterOptions" id="filterOpen">
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
 </div>
-<div id="mySidenav" class="sidenav">
-    <h5 style="margin-left: 20px;">Filter Results .. <i class="fa-solid fa-down"></i></h5>
-    <table align="center" border="0" style="margin-left:35px;">
+<div>
+
+    <table>
 
         <% if (tissueList.size() > 0 ) { %>
         <tr>
@@ -170,24 +169,21 @@
                                     <% for (String tissue: tissues) {
                                         String title="";
                                         String color="";
-                                        String fontWeight="";
                                         if(tissuesTarget.contains(tissue)){
                                             title="Target Tissue";
                                             color="#DA70D6";
-                                            fontWeight="bold";
-
                                         }
                                         if(selectedTissue == null || tissue.equalsIgnoreCase(selectedTissue)) {
 
                                     %>
                                     <tr>
-                                        <td  title="<%=title%>" style="color:<%=color%>;font-weight: <%=fontWeight%>">
+                                        <td  title="<%=title%>" style="color:<%=color%>">
                                             <input onclick="applyFilters(this)" name="tissue"  id="<%=tissue%>" type="checkbox" checked>&nbsp;<%=tissue%>
                                         </td>
                                     </tr>
                                     <%} else { %>
                                     <tr>
-                                        <td  title="<%=title%>" style="color:<%=color%>;font-weight: <%=fontWeight%>">
+                                        <td  title="<%=title%>" style="color:<%=color%>">
                                             <input onclick="applyFilters(this)" name="tissue" id="<%=tissue%>" type="checkbox" unchecked>&nbsp;<%=tissue%>
                                         </td>
                                     </tr>
@@ -225,7 +221,7 @@
                                     <%} else { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)" name="checkcelltype" id="<%=cellType%>" type="checkbox" checked>&nbsp;<%=cellType%>
+                                            <input onclick="applyFilters(this)" name="checkcelltype" id="<%=cellType%>" type="checkbox" unchecked>&nbsp;<%=cellType%>
                                         </td>
                                     </tr>
                                     <% }} %>

@@ -1,3 +1,4 @@
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
@@ -23,10 +24,18 @@
                 </label>
             </div>
             <div class="col">
-                <label>
+
                     Principal Investigator:
-                    <input type="text" class="form-control" value="<%=s.getPi()%>" disabled>
-                </label>
+                    <div  class="card form-control" style="height: fit-content" >
+
+                            <ul>
+                           <% for(Person pi:s.getMultiplePis()){%>
+                                <li><%=pi.getName()%></li>
+                                <%}%>
+                            </ul>
+
+                    </div>
+
             </div>
         </div>
     <div class="form-inline">

@@ -8,7 +8,6 @@ import java.util.Date;
 public class Study {
     private int studyId;
     private String study;
-    private String pi;
     private String initiativeId;
     private String access;
     private String status; //uploaded, deleteted, modified for log
@@ -33,13 +32,6 @@ public class Study {
         this.study = study;
     }
 
-    public String getPi() {
-        return pi;
-    }
-
-    public void setPi(String pi) {
-        this.pi = pi;
-    }
 
     public String getInitiativeId() {
         return initiativeId;

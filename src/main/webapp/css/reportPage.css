@@ -1,5 +1,6 @@
 .table{
     border:1px solid transparent;
+    width: 100%;
 }
 .table td, .table th{
 
@@ -7,7 +8,7 @@
 
 }
 .header{
-    width:30%;
+    width:100px;
     background-color: aliceblue;
     padding-left: 20px;
     font-weight: bold;

@@ -32,7 +32,7 @@
                                 <c:set var="pmid" value="${id.id}"/>
                             </c:if>
                         </c:forEach>
-                        <a href="https://pubmed.ncbi.nlm.nih.gov/${pmid}" target="_blank">${pub.reference.title}</a></td>
+                            ${pub.reference.title}&nbsp; <a href="https://pubmed.ncbi.nlm.nih.gov/${pmid}" target="_blank">NCBI</a></td>
                 </tr>
             </c:forEach>
             </tbody>

@@ -10,7 +10,6 @@ import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/hrdonors")
-public class HrdonorController {
+public class HrdonorController extends ObjectController {
     BreadCrumbImpl breadCrumb=new BreadCrumbImpl();
     HRDonorDao dao = new HRDonorDao();
     PublicationDAO publicationDAO=new PublicationDAO();
@@ -57,7 +56,7 @@ public class HrdonorController {
 
         }
 
-
+        req.setAttribute("summaryBlocks", getSummary(hrDonor));
         req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,hrDonor,null,null));
 
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/hrdonors/search'>Hr Donors</a>");
@@ -91,13 +90,7 @@ public class HrdonorController {
         }
         req.setAttribute("vectorMap", vectorMap);
         if(studies!=null && studies.size()>0) {
-            List<Long> associatedExperimentIds=experimentRecords.stream().map(r->r.getExperimentId()).distinct().collect(Collectors.toList());
-            List<Experiment> assocatedExperiments=new ArrayList<>();
-
-            for(long id:associatedExperimentIds){
-                assocatedExperiments.add(experimentDao.getExperiment(id));
-            }
-            req.setAttribute("associatedExperiments", assocatedExperiments);}
+            mapProjectNExperiments(experimentRecords, req);}
         List<Publication> associatedPublications=new ArrayList<>();
         associatedPublications.addAll(publicationDAO.getAssociatedPublications(hrDonor.getId()));
         for(long experimentId:experimentIds) {
@@ -119,5 +112,31 @@ public class HrdonorController {
 
         return null;
     }
+    public  Map<String, Map<String, String>> getSummary(HRDonor object){
+        Map<String, Map<String, String>> summaryBlocks= new LinkedHashMap<>();
+        Map<String, String> summary=new LinkedHashMap<>();
+        int i=0;
+        summary.put("SCGE ID", String.valueOf(object.getId()));
+        if(object.getLabId()!=null && !object.getLabId().equals(""))
+            summary.put("Name", object.getLabId());
+        if(object.getDescription()!=null && !object.getDescription().equals(""))
 
+            summary.put("Description", object.getDescription());
+        if(object.getSource()!=null && !object.getSource().equals(""))
+            summary.put("Source", object.getSource());
+        if(object.getType()!=null && !object.getType().equals(""))
+            summary.put("Type", object.getType());
+
+        if(object.getModification()!=null && !object.getModification().equals(""))
+            summary.put("Modification", object.getModification());
+
+        if(object.getSequence()!=null && !object.getSequence().equals(""))
+            summary.put("Sequence", object.getSequence());
+
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+
+        }
+        return summaryBlocks;
+    }
 }

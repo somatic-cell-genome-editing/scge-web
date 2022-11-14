@@ -20,5 +20,14 @@ public class StringUtils {
 
         return sb.toString();
     }
+    public static String capitalizeFirst( String s )
+    {
+        if( s == null || s.length() == 0 )
+            return s;
+        else
+
+
+        return org.apache.commons.lang3.StringUtils.capitalize(s);
+    }
 }
 
