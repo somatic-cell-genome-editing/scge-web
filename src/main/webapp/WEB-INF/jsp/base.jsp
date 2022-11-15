@@ -154,9 +154,11 @@
                                       </button>&nbsp;
                                           </div>
                                           <div class="col-lg-push-3">
+                                              <c:if test="${fn:length(tissues)==0 || resultType!=null}">
                                               <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button"
                                                       onclick="javascript:openModalDialog()">Show Help
                                               </button>&nbsp;
+                                              </c:if>
                                           </div>
                                           <div class="col-lg-push-3">
                                 <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"

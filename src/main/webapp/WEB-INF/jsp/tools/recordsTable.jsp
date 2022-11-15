@@ -914,5 +914,6 @@
     e.printStackTrace();
 }
 %>
-
+<% String modalFilePath="/toolkit/images/experimentHelpModal.png"; %>
+<%@include file="modal.jsp"%>
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
