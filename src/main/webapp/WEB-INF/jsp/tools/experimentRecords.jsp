@@ -115,7 +115,8 @@
                 ExperimentResultDao erdao = new ExperimentResultDao();
                 List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
 
-                List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
+           //     List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
+                List<String> tissueList = (List<String>) request.getAttribute("tissues");
                 List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
                 List<String> modelList = edao.getExperimentRecordModelList(ex.getExperimentId());
                 List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
@@ -166,8 +167,7 @@
 
         </div>
 
-    <% String modalFilePath="/toolkit/images/experimentHelpModal.png"; %>
-    <%@include file="modal.jsp"%>
+
 
 <% } catch (Exception e) {
         e.printStackTrace();
