@@ -98,13 +98,12 @@
                                     <%
                                         GrantDao grantDao = new GrantDao();
                                         PersonDao personDao = new PersonDao();
-                                        if (study.getGroupId() == 1410 || study.getGroupId() == 1412) {// 1410-Baylor;1412-Jackson
-                                            if (study.getStudy().equalsIgnoreCase(grantDao.getGrantByGroupId(study.getGroupId()).getGrantTitle())) {%>
-                                    <%=study.getStudy()%>
+                                        if (study.getIsValidationStudy()!=1)// 1410-Baylor;1412-Jackson
+                                             {%>
+                                                    <%=study.getStudy()%>
                                     <% } else {%>
                                     <strong>VALIDATION&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
                                     <% }%>
-                                    <%}%>
                                 </div>
                                 <span  class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;-&nbsp;Submission
                                 Date:&nbsp;<%=study.getSubmissionDate()%>&nbsp;
