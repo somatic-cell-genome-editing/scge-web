@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
+import edu.mcw.scge.dao.implementation.ExperimentDao;
+import edu.mcw.scge.datamodel.Experiment;
 import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.service.es.IndexServices;
 import edu.mcw.scge.web.Facet;
@@ -33,6 +35,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping(value="/data/search")
 public class SearchController{
+    ExperimentDao experimentDao=new ExperimentDao();
     private final RequestCache requestCache = new HttpSessionRequestCache();
     IndexServices services=new IndexServices();
     Access access=new Access();
@@ -44,6 +47,15 @@ public class SearchController{
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
         boolean consortiumMember=access.isConsortiumMember(user.getId());
+        if(!DCCNIHMember) {
+            List<Experiment> experiments = experimentDao.getExperimentsByPersonId(user.getId());
+            experiments.addAll(experimentDao.getAllTier4Experiments());
+            if (consortiumMember) {
+                experiments.addAll(experimentDao.getAllTier3Experiments());
+            }
+            Set<Long> experimentIds=experiments.stream().map(experiment -> experiment.getExperimentId()).collect(Collectors.toSet());
+            req.setAttribute("userAccessExperimentIds", experimentIds);
+        }
         SearchResponse sr=services.getSearchResults(null, searchTerm, getFilterMap(req),DCCNIHMember,consortiumMember);
 
         boolean facetSearch=false;
@@ -112,6 +124,15 @@ public class SearchController{
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
         boolean consortiumMember=access.isConsortiumMember(user.getId());
+        if(!DCCNIHMember) {
+            List<Experiment> experiments = experimentDao.getExperimentsByPersonId(user.getId());
+            experiments.addAll(experimentDao.getAllTier4Experiments());
+            if (consortiumMember) {
+                experiments.addAll(experimentDao.getAllTier3Experiments());
+            }
+            Set<Long> experimentIds=experiments.stream().map(experiment -> experiment.getExperimentId()).collect(Collectors.toSet());
+            req.setAttribute("userAccessExperimentIds", experimentIds);
+        }
         List<String> categories=Arrays.asList(category);
         SearchResponse sr=services.getSearchResults(categories,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
         req.setAttribute("facets", Facet.displayNames);
@@ -216,6 +237,15 @@ public class SearchController{
         Person user=userService.getCurrentUser(req.getSession());
         boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
         boolean consortiumMember=access.isConsortiumMember(user.getId());
+        if(!DCCNIHMember) {
+            List<Experiment> experiments = experimentDao.getExperimentsByPersonId(user.getId());
+            experiments.addAll(experimentDao.getAllTier4Experiments());
+            if (consortiumMember) {
+                experiments.addAll(experimentDao.getAllTier3Experiments());
+            }
+            Set<Long> experimentIds=experiments.stream().map(experiment -> experiment.getExperimentId()).collect(Collectors.toSet());
+            req.setAttribute("userAccessExperimentIds", experimentIds);
+        }
         List<String> categories=Arrays.asList(category1, category2);
         SearchResponse sr=services.getSearchResults(categories,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
         req.setAttribute("searchTerm", searchTerm);

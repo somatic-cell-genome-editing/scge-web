@@ -14,52 +14,14 @@
   Time: 4:25 PM
   To change this template use File | Settings | File Templates.
 --%>
-<link href="/toolkit/css/reportPage.css" rel="stylesheet" type="text/css"/>
-
-<!--style>
-.table{
-border:1px solid white;
-}
-.table td, .table th{
-
-border: 1px solid white;
-padding: 0;
-}
-.sidenav {
-width: auto;
-position: fixed;
-z-index: 1;
-overflow-x: hidden;
-
-}
-
-.sidenav a {
-padding: 6px 8px 6px 16px;
-text-decoration: none;
-font-size: 15px;
-color: #2196F3;
-display: block;
-}
-
-.sidenav a:hover {
-color: #064579;
-}
-
-</style-->
 
 <% Guide g = (Guide) request.getAttribute("guide"); %>
 <% List<Editor> relatedEditors = (List<Editor>) request.getAttribute("editors");
     List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
     List<OffTargetSite> offTargetSites = (List<OffTargetSite>) request.getAttribute("offTargetSites");
-
     List<Guide> synonymousGuides = (List<Guide>) request.getAttribute("synonymousGuides");
-
-%>
-
-<%
     Access access= new Access();
     Person p = access.getUser(request.getSession());
-
     if (access.isAdmin(p)) {
 %>
 
@@ -88,74 +50,7 @@ color: #064579;
 
 </div>
 <main role="main" class="col-md-10 ml-sm-auto px-4"  >
-    <div id="summary">
-        <h4 class="page-header" style="color:grey;">Summary</h4>
-
-        <div class="d-flex bg-light" >
-
-            <div class="p-2">
-                <table class="table table-sm summary">
-                    <tr ><th class="header">Lab ID</th><td>&nbsp;<%=SFN.parse(g.getGrnaLabId())%></td></tr>
-                    <tr ><th class="header">Source</th><td>&nbsp;<%=SFN.parse(g.getSource())%></td></tr>
-                    <tr ><th  class="header" >Target Locus</th><td>&nbsp;<%=SFN.parse(g.getTargetLocus())%></td></tr>
-                    <tr ><th class="header">Species</th><td>&nbsp;<%=SFN.parse(g.getSpecies())%></td></tr>
-                    <tr ><th >Description</th><td>&nbsp;<%=SFN.parse(g.getGuideDescription())%></td></tr>
-                    <tr ><th class="header">Guide Compatability</th><td>&nbsp;<%=SFN.parse(g.getGuideCompatibility())%></td></tr>
-                    <tr><td colspan="2"><hr></td></tr>
-
-                    <tr ><th class="header">Guide Format</th><td>&nbsp;<%=SFN.parse(g.getGuideFormat())%></td></tr>
-                    <tr ><th class="header">Specificity Ratio</th><td>&nbsp;<%=SFN.parse(g.getSpecificityRatio())%></td></tr>
-
-                    <tr><td colspan="2"><hr></td></tr>
-
-                    <tr ><th class="header">Target Sequence</th><td>&nbsp;<%=SFN.parse(g.getTargetSequence())%></td></tr>
-                    <tr ><th class="header" style=" ;">Target Sequence&nbsp;+ PAM</th><td>&nbsp;<%=SFN.parse(g.getPam())%></td></tr>
-                    <tr ><th class="header">Position</th><td style="">
-                        <% if (!SFN.parse(g.getChr()).equals("")) {%>
-                        &nbsp;<%=SFN.parse(g.getAssembly())%>/<%=SFN.parse(g.getChr())%>:<%=SFN.parse(g.getStart())%>-<%=SFN.parse(g.getStop())%> (<%=SFN.parse(g.getStrand())%>)
-                        <%}%>
-                    </td></tr>
-                    <tr><td colspan="2"><hr></td></tr>
-                    <tr ><th class="header">Full Guide Sequence</th><td>&nbsp;<%=SFN.parse(g.getFullGuide())%></td></tr>
-                    <tr ><th class="header" >Spacer Sequence</th><td>&nbsp;<%=SFN.parse(g.getSpacerSequence())%></td></tr>
-                    <tr ><th class="header">Spacer Length</th><td>&nbsp;<%=SFN.parse(g.getSpacerLength())%></td></tr>
-                    <tr ><th class="header" >Modifications</th><td>&nbsp;<%=SFN.parse(g.getModifications())%></td></tr>
-
-
-                    <% if (!SFN.parse(g.getRepeatSequence()).equals("") || !SFN.parse(g.getAntiRepeatSequence()).equals("") || !SFN.parse(g.getStemloop1Sequence()).equals("")) {%>
-                    <tr><td colspan="2"><hr></td></tr>
-                    <tr ><th class="header">Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getRepeatSequence())%></td></tr>
-                    <tr ><th class="header">Anti-Repeat Sequence</th><td>&nbsp;<%=SFN.parse(g.getAntiRepeatSequence())%></td></tr>
-                    <tr ><th class="header">Stemloop 1 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop1Sequence())%></td></tr>
-                    <tr ><th class="header">Stemloop 2 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop2Sequence())%></td></tr>
-                    <tr ><th class="header">Stemloop 3 Sequence</th><td>&nbsp;<%=SFN.parse(g.getStemloop3Sequence())%></td></tr>
-                    <% } %>
-
-                    <% if (!SFN.parse(g.getForwardPrimer()).equals("") || !SFN.parse(g.getReversePrimer()).equals("")) { %>
-                    <tr><td colspan="2"><hr></td></tr>
-                    <tr ><th class="header">Forward Primer</th><td>&nbsp;<%=SFN.parse(g.getForwardPrimer())%></td></tr>
-                    <tr ><th class="header">Reverse Primer</th><td>&nbsp;<%=SFN.parse(g.getReversePrimer())%></td></tr>
-                    <% } %>
-
-
-                </table>
-            </div>
-            <div class="ml-auto p-2" style="margin-right: 5%">
-
-                <div class="card">
-                    <!--<div class="card-header">Guide</div>-->
-                    <div class="card-body">
-                        <table >
-                            <tr ><th class="scge-details-label" style="color:black;">SCGE ID</th><td>&nbsp;<%=g.getGuide_id()%></td></tr>
-
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
+ <%@include file="summary.jsp"%>
     <hr>
 
 
@@ -179,9 +74,7 @@ color: #064579;
     %>
     <script>
         //  var range="13:32315508..32400268";
-
         //  var range="<%--=g.getChr().replace("chr", "")+":"+g.getStart()+".."+g.getStop()--%>";
-
         var chr='<%=g.getChr().replace("chr", "")%>';
         var start="<%=g.getStart()%>";
         var stop="<%=g.getStop()%>";

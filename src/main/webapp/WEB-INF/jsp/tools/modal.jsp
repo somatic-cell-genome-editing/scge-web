@@ -78,6 +78,9 @@
     modal.style.display = "block";
   }
 
+  function openModalDialog() {
+    modal.style.display = "block";
+  }
   // When the user clicks on the button, open the modal
   //btn.onclick = function() {
 

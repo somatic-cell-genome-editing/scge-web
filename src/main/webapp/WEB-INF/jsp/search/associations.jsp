@@ -27,7 +27,18 @@
                 <div class="card" style="background-color: #f0ffff;border:transparent">
                 <ul class="nested">
                     <c:forEach items="${hit.sourceAsMap.experimentNames}" var="map">
-                        <li><span><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a></span></li>
+                        <c:choose>
+                            <c:when test="${userAccessExperimentIds!=null}">
+                                <c:if test="${fn:contains(userAccessExperimentIds,map.key )}">
+                                    <li><span><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a></span></li>
+
+                                </c:if>
+                            </c:when>
+                            <c:otherwise>
+                                <li><span><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a></span></li>
+
+                            </c:otherwise>
+                        </c:choose>
 
                     </c:forEach>
 

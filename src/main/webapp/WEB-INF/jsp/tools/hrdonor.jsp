@@ -4,29 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-<style>
-    td{
-        font-size: 12px;
-        padding-left:1%;
-    }
-    .header{
-        font-weight: bold;
-        font-size: 12px;
-        color:steelblue;
-        width: 25%;
-        background-color: #ECECF9;
-    }
 
-</style>
-<script>
-    $(function() {
-        $("#myTable").tablesorter({
-            theme : 'blue'
-
-        });
-    });
-</script>
 
 <% HRDonor h = (HRDonor) request.getAttribute("hrdonor"); %>
 
@@ -35,29 +13,18 @@
     Person p = access.getUser(request.getSession());
 %>
 
-<div>
-    <div>
-        <table  style="width:80%">
-
-            <tbody>
-            <tr><td class="header"><strong>SCGE ID</strong></td><td><%=h.getId()%></td></tr>
-            <tr><td class="header"><strong>Name</strong></td><td><%=h.getLabId()%></td></tr>
-            <tr><td class="header"><strong>Description</strong></td><td><%=SFN.parse(h.getDescription())%></td></tr>
-            <tr><td class="header"><strong>Source</strong></td><td><%=SFN.parse(h.getSource())%></td></tr>
-            <tr><td class="header" width="150"><strong>Type</strong></td><td><%=SFN.parse(h.getType())%></td></tr>
-            <tr><td class="header"><strong>Modification</strong></td><td><%=SFN.parse(h.getModification())%></td></tr>
-            <tr><td class="header"><strong>Sequence</strong></td><td><%=SFN.parse(h.getSequence())%></td></tr>
-
-
-        </table>
-
-    </div>
-    <hr>
+<div class="col-md-2 sidenav bg-light">
+    <a href="#summary">Summary</a>
+    <a href="#associatedProtocols">Protocols</a>
+    <a href="#associatedStudies">Projects & Experiments</a>
 </div>
+<main role="main" class="col-md-10 ml-sm-auto px-4"  >
+    <%@include file="summary.jsp"%>
+
 
 <%
     long objectId = h.getId();
-                            String redirectURL = "/data/hrdonors/hrdonor?id=" + objectId;
+    String redirectURL = "/data/hrdonors/hrdonor?id=" + objectId;
     String bucket="main1";
 %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
@@ -77,7 +44,8 @@
 <div id="associatedPublications">
     <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
 </div>
-
+        <div id="associatedStudies">
 <jsp:include page="associatedStudies.jsp"/>
+        </div>
 
 

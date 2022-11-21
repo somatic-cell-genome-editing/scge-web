@@ -63,10 +63,12 @@
     <%
         Set<Integer> groupIds=new HashSet<>();
         for (Study s: studies) {
-            List<Experiment> experiments=new ArrayList<>();
             if(!groupIds.contains(s.getGroupId())){
                 groupIds.add(s.getGroupId());
-                experiments.addAll(projectNexperiments.get(s.getGroupId()));
+                List<Experiment> experiments = new ArrayList<>();
+                if(projectNexperiments.get(s.getGroupId())!=null){
+                    experiments.addAll(projectNexperiments.get(s.getGroupId()));
+                }
                 Grant grant=grantDao.getGrantByGroupId(s.getGroupId());
 
     %>

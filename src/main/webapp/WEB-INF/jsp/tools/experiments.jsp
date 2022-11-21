@@ -98,13 +98,12 @@
                                     <%
                                         GrantDao grantDao = new GrantDao();
                                         PersonDao personDao = new PersonDao();
-                                        if (study.getGroupId() == 1410 || study.getGroupId() == 1412) {// 1410-Baylor;1412-Jackson
-                                            if (study.getStudy().equalsIgnoreCase(grantDao.getGrantByGroupId(study.getGroupId()).getGrantTitle())) {%>
-                                    <%=study.getStudy()%>
+                                        if (study.getIsValidationStudy()!=1)// 1410-Baylor;1412-Jackson
+                                             {%>
+                                                    <%=study.getStudy()%>
                                     <% } else {%>
                                     <strong>VALIDATION&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
                                     <% }%>
-                                    <%}%>
                                 </div>
                                 <span  class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;-&nbsp;Submission
                                 Date:&nbsp;<%=study.getSubmissionDate()%>&nbsp;
@@ -145,6 +144,7 @@
                         <th>Experiment Name</th>
                         <th>Type</th>
                         <th>Description</th>
+                        <th></th>
                         <!--<th>SCGE ID</th>-->
                     </tr>
                     </thead>
@@ -158,13 +158,18 @@
 
                     <tr>
                         <!--<td width="10"><%=s.getTier()%>-->
-                        </td>
+
                         <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>">
                             <%=exp.getName()%></a><br>
-                            <%@include file="validations.jsp"%></td>
+
+                        </td>
                         <td style="white-space: nowrap"><%=exp.getType()%>
                         </td>
-                        <td><%=SFN.parse(exp.getDescription())%>
+                        <td><%=SFN.parse(exp.getDescription())%><br>
+
+                        </td>
+                        <td>
+                            <%@include file="validations.jsp"%>
                         </td>
                         <!--<td><%=exp.getExperimentId()%></td>-->
 

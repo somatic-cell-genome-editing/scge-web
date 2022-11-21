@@ -53,6 +53,7 @@ public class VectorController extends ObjectController{
 
         }
 
+        req.setAttribute("summaryBlocks", getSummary(v));
         req.setAttribute("vector", v);
         req.setAttribute("action", "Vector/Format: " + v.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/vector");
@@ -195,6 +196,61 @@ public class VectorController extends ObjectController{
 
         req.getRequestDispatcher("/data/vector/format?id="+vectorId).forward(req,res);
         return null;
+    }
+    public  Map<String, Map<String, String>>  getSummary(Vector object){
+        Map<String, Map<String, String>> summaryBlocks= new LinkedHashMap<>();
+
+        Map<String, String> summary=new LinkedHashMap<>();
+        int i=0;
+        summary.put("SCGE ID", String.valueOf(object.getVectorId()));
+        if(object.getName()!=null && !object.getName().equals(""))
+            summary.put("Name", object.getName());
+        if(object.getDescription()!=null && !object.getDescription().equals(""))
+            summary.put("Description", object.getDescription());
+
+        if(object.getType()!=null && !object.getType().equals(""))
+            summary.put("Type", object.getType());
+        if(object.getSubtype()!=null && !object.getSubtype().equals(""))
+            summary.put("Subtype", object.getSubtype());
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary = new LinkedHashMap<>();
+        }
+
+        if(object.getSource()!=null && !object.getSource().equals(""))
+            summary.put("Source", object.getSource());
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary = new LinkedHashMap<>();
+        }
+        if(object.getGenomeSerotype()!=null && !object.getGenomeSerotype().equals(""))
+            summary.put("Genome Serotype", object.getGenomeSerotype());
+        if(object.getCapsidSerotype()!=null && !object.getCapsidSerotype().equals(""))
+            summary.put("Capsid Serotype", object.getCapsidSerotype());
+        if(object.getCapsidVariant()!=null && !object.getCapsidVariant().equals(""))
+            summary.put("Capsid Variant", object.getCapsidVariant());
+            if(object.getSource().equalsIgnoreCase("addGene")){
+                summary.put("Stock/Catalog/RRID","<a href='https://www.addgene.org/"+object.getLabId()+"'>"+object.getLabId()+"</a>");
+            }else{
+                summary.put("Stock/Catalog/RRID", object.getLabId());
+
+            }
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary = new LinkedHashMap<>();
+        }
+        if(object.getAnnotatedMap()!=null && !object.getAnnotatedMap().equals(""))
+            summary.put("Annotated Map", object.getAnnotatedMap());
+        if(object.getTiterMethod()!=null && !object.getTiterMethod().equals(""))
+            summary.put("Titer Method", object.getTiterMethod());
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+
+        }
+        return summaryBlocks;
     }
 
 }
