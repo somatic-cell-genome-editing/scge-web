@@ -34,11 +34,18 @@
             theme : 'blue',
             widgets: ['zebra','resizable', 'stickyHeaders'],
         });
-        $("#myTable").tablesorter().bind("sortEnd", function (e, t) {
+        $("#myTable").tablesorter( {sortList: [[9, 0]]}).bind("sortEnd", function (e, t) {
+            var table = e.target,
+                currentSort = table.config.sortList,
+                // target the first sorted column
+                columnNum = currentSort[0][0],
+                columnName = $(table.config.headerList[columnNum]).text();
+
+            console.log(columnName);
             if(dualAxis) {
                 updateAxis();
             } else {
-                update(false);
+                update(false, );
             }
         });
 
@@ -189,12 +196,19 @@
             for(Map.Entry resultType:resultTypeNunits.entrySet()){
                 List<String> units= (List<String>) resultType.getValue();
                 for(String unit:units){
+                if(unit.toLowerCase().contains("signal")){
+
 
 
         %>
         <th><%=resultType.getKey()%>&nbsp;(<%=unit%>)</th><%
 
-                } } } %>
+                } }
+            for(String unit:units){
+                if(!unit.toLowerCase().contains("signal")){%>
+        <th><%=resultType.getKey()%>&nbsp;(<%=unit%>)</th>
+
+            <% } } }} %>
         <% if (unitList.size() > 0 ) {  %><!--th>Units</th--><% } %>
         <!--th id="result">Result/Mean</th-->
         <th>Image</th>
@@ -288,7 +302,7 @@
             for(Map.Entry resultType:resultTypeNunits.entrySet()){
             List<String> units= (List<String>) resultType.getValue();
             for(String unit:units){
-
+                if(unit.toLowerCase().contains("signal")){
 
         %>
         <td>
@@ -299,10 +313,25 @@
         %>
        <%=result.getResult()%>
 
-        <%     }
-        }%>
+        <%     } }%>
         </td>
-             <%  }}} %>
+             <%  }}
+                 for(String unit:units) {
+                     if (!unit.toLowerCase().contains("signal")) {%>
+        <td>
+            <%       for(ExperimentResultDetail result:ers){
+                if(result.getResultType().equalsIgnoreCase((String) resultType.getKey()) && result.getExperimentRecordId()==exp.getExperimentRecordId() && result.getReplicate()==0 && result.getUnits().equalsIgnoreCase(unit)){
+
+
+            %>
+            <%=result.getResult()%>
+
+            <%     }
+            }%>
+        </td>
+        <%}
+                 }
+            }} %>
         <% if (unitList.size() > 0 ) { %><!--td><%--=ers.get(0).getUnits()--%></td--><% } %>
         <% for(ExperimentResultDetail e:ers) {
             if(e.getReplicate() == 0) { %>
@@ -585,12 +614,18 @@
             for (var i = 1; i < rowLength; i++) {
                 if (table.rows.item(i).style.display != 'none') {
                     var cells = table.rows.item(i).cells;
-                    if (cells.item(aveIndex - 1).innerText.toLowerCase() != "signal") {
+                  //  if (cells.item(aveIndex - 1).innerText.toLowerCase() != "signal") {
                         var cellLength = cells.length - 1;
                         var column = cells.item(0); //points to condition column
                         var avg = cells.item(aveIndex);
+                        if (avg.innerHTML.trim() != null && avg.innerHTML.trim() != '' && !containsAnyLetters(avg.innerHTML) ) {
+
                         xArray[j] = column.innerText;
                         yArray[j] = avg.innerHTML;
+
+                        //console.log(xArray[j] + "\t" + yArray[j])
+                            j++;
+                            }
                         var index = filterValues.indexOf(cells.item(selected).innerText);
                         if (filter != 'None') {
                             if (filterValues.length <= colors.length)
@@ -604,8 +639,8 @@
                             arr.push(cells.item(k).innerHTML);
                             replicate[k - aveIndex - 1] = arr;
                         }
-                        j++;
-                    }
+
+                   // }
                 }
             }
             if (xArray.length > 0) {
@@ -642,6 +677,11 @@
             }
         }
     }
+
+        function containsAnyLetters(str) {
+            return /[a-zA-Z]/.test(str);
+        }
+
     function getLabelString(result){
         var table = document.getElementById('myTable'); //to remove filtered rows
         var labelString;
@@ -723,7 +763,7 @@
         else
             $('#downloadChartBelow').hide();
         if(resultTypes!=null && resultTypes.length > 1){
-            dualAxis = true;
+         //   dualAxis = true;
             for (var i = 0; i < resultTypes.length; i++) {
                 if(document.getElementById((resultTypes[i])).checked == false){
                     dualAxis = false;
