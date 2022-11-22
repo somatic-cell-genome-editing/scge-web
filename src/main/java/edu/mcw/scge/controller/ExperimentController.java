@@ -499,9 +499,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
     }
 
     @RequestMapping(value="/experiment/{experimentId}")
-    public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res,
-                                               @PathVariable(required = true) long experimentId
-    ) throws Exception {
+    public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res, @PathVariable(required = true) long experimentId) throws Exception {
 
         String resultType = req.getParameter("resultType");
         String tissue = req.getParameter("tissue");
@@ -535,9 +533,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         }
 
         List<String> tissues = edao.getExperimentRecordTissueList(experimentId);
-
         List<String> tissuesTarget = edao.getExperimentRecordTargetTissueList(experimentId);
-        System.out.println("TARGET TISSUES SIZE:" +tissuesTarget.size());
         List<String> tissuesNonTargetTmp = edao.getExperimentRecordNonTargetTissueList(experimentId);
         List<String> tissuesNonTarget=new ArrayList<>();
         if(tissuesNonTargetTmp.size()>0)
@@ -553,25 +549,22 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 tissuesNonTarget.add(t);
             }
         }
-        System.out.println("NON TARGET TISSUES SIZE:" +tissuesNonTarget.size());
 
         ProtocolDao pdao = new ProtocolDao();
         List<Protocol> protocols = pdao.getProtocolsForObject(experimentId);
         req.setAttribute("protocols", protocols);
-
-
-        Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
+       // Study study = sdao.getStudyById(records.get(0).getStudyId()).get(0);
         GrantDao grantDao=new GrantDao();
-        Grant grant=grantDao.getGrantByGroupId(study.getGroupId());
-       Map<String, Integer> objectSizeMap=customLabels.getObjectSizeMap(records);
-        if (!access.hasStudyAccess(study,p)) {
+        Grant grant=grantDao.getGrantByGroupId(localStudy.getGroupId());
+        Map<String, Integer> objectSizeMap=customLabels.getObjectSizeMap(records);
+        if (!access.hasStudyAccess(localStudy,p)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
             return null;
 
         }
        List<String> uniqueFields=customLabels.getLabelFields(records, objectSizeMap, grant.getGrantInitiative());
-   //     System.out.print("UNIQUE FIELDS:"+ uniqueFields.toString());
+
         List<String> labels=new ArrayList<>();
         Map<String, List<Double>> plotData=new HashMap<>();
         HashMap<Integer,List<Integer>> replicateResult = new HashMap<>();
@@ -579,8 +572,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         HashMap<Long,Double> resultMap = new HashMap<>();
         TreeMap<Long,List<ExperimentResultDetail>> resultDetail = new TreeMap<>();
         String efficiency = null;
-        int i=0;
         List values = new ArrayList<>();
+
         List<String> resultTypesList = dbService.getResultTypes(experimentId);
         Set<String> resultTypesSet=new HashSet<>(resultTypesList);
         Map<String, List<String>> resultTypeNUnits=dbService.getResultTypeNUnits(experimentId);
@@ -590,23 +583,20 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         HashMap<Long,List<Guide>> guideMap = new HashMap<>();
         HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
         LinkedHashSet<String> conditions=new LinkedHashSet<>();
-        List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByExpId(experimentId);
         LinkedHashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new LinkedHashMap<>();
-        String editingAssay = null,deliveryAssay=null;
-
         HashMap<String, String> deliveryMap = new HashMap<String,String>();
         HashMap<String, String> editingMap = new HashMap<String,String>();
 
+        List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByExpId(experimentId);
         for(ExperimentResultDetail er:experimentResults){
-
-            if(experimentResultsMap != null && experimentResultsMap.containsKey(er.getResultId())) {
+            if( experimentResultsMap.containsKey(er.getResultId())) {
                 values = experimentResultsMap.get(er.getResultId());
             } else {
                 values = new ArrayList<>();
             }
 
             values.add(er);
-
+            experimentResultsMap.put(er.getResultId(),values);
 
             if(er.getResultType().contains("Delivery")) {
                 //deliveryAssay += " -- " + er.getAssayDescription();
@@ -615,74 +605,61 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 editingMap.put(er.getAssayDescription(),null);
                 //editingAssay += " -- " + er.getAssayDescription();
             }
-            experimentResultsMap.put(er.getResultId(),values);
         }
         HashMap<Long,ExperimentRecord> recordMap = new HashMap<>();
-
         for(ExperimentRecord rec:records) {
             recordMap.put(rec.getExperimentRecordId(), rec);
         }
 
         for (Long resultId : experimentResultsMap.keySet()) {
-            List<ExperimentResultDetail> erdList=experimentResultsMap.get(resultId); //multiple replicate values for each result
+            List<ExperimentResultDetail> erdList = experimentResultsMap.get(resultId); //multiple replicate values for each result
             resultDetail.put(resultId, erdList);
             long expRecId = experimentResultsMap.get(resultId).get(0).getExperimentRecordId();
             guideMap.put(expRecId, dbService.getGuidesByExpRecId(expRecId));
             vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
-            String labelTrimmed=new String();
             ExperimentRecord record = recordMap.get(expRecId);
             List<String> modifiedLabels = uniqueFields;
-            if(uniqueFields.contains("guide") && (objectSizeMap.get("guide") == guideMap.get(expRecId).size())) {
+            if (uniqueFields.contains("guide") && (objectSizeMap.get("guide") == guideMap.get(expRecId).size())) {
                 modifiedLabels.remove("guide");
             }
-            if(uniqueFields.contains("vector") && (objectSizeMap.get("vector") == vectorMap.get(expRecId).size()))
+            if (uniqueFields.contains("vector") && (objectSizeMap.get("vector") == vectorMap.get(expRecId).size()))
                 modifiedLabels.remove("vector");
-                StringBuilder label = (customLabels.getLabel(record, grant.getGrantInitiative(),objectSizeMap, modifiedLabels,resultId));
-
-                if(tissue!=null && !tissue.equals("") || tissues.size()>0) {
-                    if(record.getCellTypeTerm()!=null && record.getTissueTerm()!=null)
-                        labelTrimmed= label.toString().replace(record.getTissueTerm(), "").replace(record.getCellTypeTerm(),"");
-                    else if(record.getTissueTerm()!=null)
-                        labelTrimmed= label.toString().replace(record.getTissueTerm(), "");
-                    else labelTrimmed= label.toString();
-
-                    //if (record.getCondition() != null) {
-                    record.setCondition(record.getExperimentRecordName());
-                    conditions.add(record.getExperimentRecordName());
-                    //}else {
-
-                    //record.setCondition(labelTrimmed);
-                    //conditions.add(labelTrimmed.trim());
-                }
+            if (tissue != null && !tissue.equals("") || tissues.size() > 0) {
+                record.setCondition(record.getExperimentRecordName());
+                conditions.add(record.getExperimentRecordName());
+            }
 
             labels.add("\"" + record.getExperimentName() + "\"");
             record.setExperimentName(record.getExperimentName());
-                double average = 0;
+            double average = 0;
 
-                for (ExperimentResultDetail result : experimentResultsMap.get(resultId)) {
-                    if(resultType == null || result.getResultType().contains(resultType)) {
-                        if (!result.getUnits().equalsIgnoreCase("signal")) {
+            for (ExperimentResultDetail result : experimentResultsMap.get(resultId)) {
+                if (resultType == null || result.getResultType().contains(resultType)) {
+                    if (!result.getUnits().equalsIgnoreCase("signal")) {
+                        efficiency = "\"" + result.getResultType() + " in " + result.getUnits() + "\"";
+                        if (result.getReplicate() != 0) {
+                            values = replicateResult.get(result.getReplicate());
+                            if (values == null)
+                                values = new ArrayList<>();
+                            if (result.getResult() == null || result.getResult().isEmpty())
+                                values.add(null);
+                            else {
+                                values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
+                            }
 
-                            efficiency = "\"" + result.getResultType() + " in " + result.getUnits() + "\"";
-                            if (result.getReplicate() != 0) {
-                                values = replicateResult.get(result.getReplicate());
-                                if (values == null)
-                                    values = new ArrayList<>();
-                                if (result.getResult() == null || result.getResult().isEmpty())
-                                    values.add(null);
-                                else {
-                                    values.add(Math.round(Double.valueOf(result.getResult()) * 100) / 100.0);
-                                }
+                            replicateResult.put(result.getReplicate(), values);
+                        } else average = Double.valueOf(result.getResult());
 
-                                replicateResult.put(result.getReplicate(), values);
-                            } else average = Double.valueOf(result.getResult());
 
-                            mean.add(average);
-                            resultMap.put(resultId, average);
-                        }
                     }
+                }
             }
+            if (average > 0){
+                mean.add(average);
+            resultMap.put(resultId, average);
         }
+        }
+        System.out.println("MEAN:"+ Arrays.toString(new List[]{mean}));
         req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(experimentId));
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experimentId));
 
@@ -700,7 +677,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("experimentRecordsMap", recordMap);
         req.setAttribute("resultDetail",resultDetail);
         req.setAttribute("resultMap",resultMap);
-        req.setAttribute("study", study);
+        req.setAttribute("study", localStudy);
         req.setAttribute("experiment",e);
         req.setAttribute("guideMap",guideMap);
         req.setAttribute("vectorMap",vectorMap);
