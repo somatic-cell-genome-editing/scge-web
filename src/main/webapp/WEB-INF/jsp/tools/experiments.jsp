@@ -96,14 +96,16 @@
                             <div >
                                 <div>
                                     <%
-                                        GrantDao grantDao = new GrantDao();
-                                        PersonDao personDao = new PersonDao();
+                                        if(study.getGroupId()==1410 || study.getGroupId()==1412){
                                         if (study.getIsValidationStudy()!=1)// 1410-Baylor;1412-Jackson
                                              {%>
-                                                    <%=study.getStudy()%>
+                                    <strong>NEW MODEL DEVELOPMENT&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
                                     <% } else {%>
                                     <strong>VALIDATION&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
-                                    <% }%>
+                                    <% }
+                                        }else{%>
+                                    <%=study.getStudy()%>
+                                  <%}%>
                                 </div>
                                 <span  class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;-&nbsp;Submission
                                 Date:&nbsp;<%=study.getSubmissionDate()%>&nbsp;
