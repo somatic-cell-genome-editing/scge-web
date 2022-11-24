@@ -277,13 +277,15 @@ public class GuideController extends ObjectController{
         if(object.getSpecies()!=null && !object.getSpecies().equals(""))
 
             summary.put("Species", object.getSpecies());
-        if(object.getGuideCompatibility()!=null && !object.getGuideCompatibility().equals(""))
-
-            summary.put("Description", object.getGuideCompatibility());
-        if(object.getGuideCompatibility()!=null && !object.getGuideCompatibility().equals(""))
-
-            summary.put("Guide Compatability", object.getGuideCompatibility());
-
+			
+        if(object.getGuideDescription()!=null && !object.getGuideDescription().equals("")) {
+            summary.put("Description", object.getGuideDescription());
+		}
+		
+        if(object.getGuideCompatibility()!=null && !object.getGuideCompatibility().equals("")) {
+            summary.put("Guide Compatibility", object.getGuideCompatibility());
+		}
+		
         if(summary.size()>0) {
             summaryBlocks.put("block"+i, summary);
             i++;
