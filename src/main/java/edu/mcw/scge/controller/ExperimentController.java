@@ -530,7 +530,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 Map<String, List<Double>> plotData=new HashMap<>();
                 List<Double> values=new ArrayList<>();
                 for (ExperimentRecord record : records) {
-                    labels.add(record.getCondition());
+                    labels.add(record.getExperimentName());
                     values.add(Double.parseDouble(record.getResultDetails().stream().filter(r->r.getReplicate()==0).collect(Collectors.toList()).get(0).getResult()));
                 }
                 plotData.put(resultType, values);
