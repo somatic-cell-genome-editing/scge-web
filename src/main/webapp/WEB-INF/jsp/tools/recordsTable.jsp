@@ -93,9 +93,12 @@
     <%} %>
     </select>
     <% } %>
-    <div class="chart-container" style="display:none;" id = "chartDiv">
-        <canvas id="resultChart" style="position: relative; height:400px; width:80vw;"></canvas>
+    <%for(int i=0;i<resultTypeSet.size();i++){%>
+    <div class="chart-container" style="display:none;" id = "chartDiv<%=i%>">
+        <canvas id="resultChart<%=i%>" style="position: relative; height:400px; width:80vw;"></canvas>
     </div>
+   <%}%>
+
 </div>
 
 </c:if>

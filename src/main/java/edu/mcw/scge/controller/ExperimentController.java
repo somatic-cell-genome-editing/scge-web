@@ -1,6 +1,5 @@
 package edu.mcw.scge.controller;
 
-import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
@@ -15,13 +14,9 @@ import edu.mcw.scge.service.db.DBService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -500,6 +495,70 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
     @RequestMapping(value="/experiment/{experimentId}")
     public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res, @PathVariable(required = true) long experimentId) throws Exception {
+        Person p=userService.getCurrentUser(req.getSession());
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+        List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
+        Experiment e = edao.getExperiment(experimentId);
+        Study localStudy=sdao.getStudyByExperimentId(experimentId).get(0);
+        Map<String, List<ExperimentRecord>> resultTypeRecords=getSegregatedRecords(records);
+
+        req.setAttribute("plots", getPlotData(resultTypeRecords));
+        req.setAttribute("resultTypeRecords", resultTypeRecords);
+        req.setAttribute("records", records);
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>  / <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Project</a>");
+        req.setAttribute("page", "/WEB-INF/jsp/tools/experiment/experimentDetails");
+        req.setAttribute("experiment",e);
+        req.setAttribute("action", "Experiment: " + e.getName());
+        req.setAttribute("seoDescription",e.getDescription());
+        req.setAttribute("seoTitle",e.getName());
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }
+    public  List<Plot> getPlotData(Map<String, List<ExperimentRecord>> resultTypeRecords){
+        List<Plot> plots=new ArrayList<>();
+        for(Map.Entry entry:resultTypeRecords.entrySet()){
+            String resultType= (String) entry.getKey();
+            if(!resultType.toLowerCase().contains("signal")) {
+                Plot plot = new Plot();
+                plot.setXaxisLabel(resultType);
+                plot.setTitle(resultType);
+                List<ExperimentRecord> records = (List<ExperimentRecord>) entry.getValue();
+                List<String> labels = new ArrayList<>();
+                Map<String, List<Double>> plotData=new HashMap<>();
+                List<Double> values=new ArrayList<>();
+                for (ExperimentRecord record : records) {
+                    labels.add(record.getCondition());
+                    values.add(Double.parseDouble(record.getResultDetails().stream().filter(r->r.getReplicate()==0).collect(Collectors.toList()).get(0).getResult()));
+                }
+                plotData.put(resultType, values);
+                plot.setTickLabels(labels);
+                plot.setPlotData(plotData);
+                plots.add(plot);
+            }
+        }
+        return plots;
+    }
+    public Map<String, List<ExperimentRecord>> getSegregatedRecords(List<ExperimentRecord> records){
+        Map<String, List<ExperimentRecord>> resultTypes=new HashMap<>();
+        for(ExperimentRecord er:records){
+            if(er.getResultDetails()!=null && er.getResultDetails().get(0)!=null) {
+                String resultType = er.getResultDetails().get(0).getResultType() + " (" + er.getResultDetails().get(0).getUnits() + ")";
+                List<ExperimentRecord> segregatedRecords=new ArrayList<>();
+                segregatedRecords.add(er);
+                if (resultTypes.get(resultType)!=null){
+                    segregatedRecords.addAll(resultTypes.get(resultType));
+
+                }
+                resultTypes.put(resultType, segregatedRecords);
+            }
+        }
+        return resultTypes;
+    }
+  //      @RequestMapping(value="/experiment/{experimentId}")
+    public String getExperimentsByExperimentIdOLD(HttpServletRequest req, HttpServletResponse res, @PathVariable(required = true) long experimentId) throws Exception {
 
         String resultType = req.getParameter("resultType");
         String tissue = req.getParameter("tissue");
