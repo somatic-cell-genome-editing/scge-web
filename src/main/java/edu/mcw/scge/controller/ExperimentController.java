@@ -12,6 +12,8 @@ import edu.mcw.scge.datamodel.publications.Reference;
 import edu.mcw.scge.process.customLabels.CustomUniqueLabels;
 import edu.mcw.scge.service.db.DBService;
 
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.SearchHit;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -504,6 +506,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         Study localStudy=sdao.getStudyByExperimentId(experimentId).get(0);
         Map<String, List<ExperimentRecord>> resultTypeRecords=getSegregatedRecords(records);
 
+        req.setAttribute("tableColumns", getTableColumns(records));
         req.setAttribute("plots", getPlotData(resultTypeRecords));
         req.setAttribute("resultTypeRecords", resultTypeRecords);
         req.setAttribute("records", records);
@@ -517,6 +520,49 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         return null;
     }
+    public  Map<String, String> getTableColumns(List<ExperimentRecord> records){
+        Map<String, String> columnMap=new HashMap<>();
+        for(ExperimentRecord record:records){
+            if(record.getTissueTerm()!=null && !record.getTissueTerm().equals(""))
+                columnMap.put("tissueTerm", "");
+            if(record.getCellTypeTerm()!=null && !record.getCellTypeTerm().equals("") && !record.getCellTypeTerm().equals("unspecified"))
+                columnMap.put("cellTypeTerm", "");
+            if(record.getModelDisplayName()!=null && !record.getModelDisplayName().equals(""))
+                columnMap.put("modelDisplayName", "");
+            if(record.getAge()!=null && !record.getAge().equals(""))
+                columnMap.put("age", "");
+            if(record.getSex()!=null && !record.getSex().equals(""))
+                columnMap.put("sex", "");
+            if(record.getGenotype()!=null && !record.getGenotype().equals(""))
+                columnMap.put("genoType", "");
+            if(record.getEditorSymbol()!=null && !record.getEditorSymbol().equals(""))
+                columnMap.put("editorSymbol", "");
+            if(record.getDeliverySystemName()!=null && !record.getDeliverySystemName().equals(""))
+                columnMap.put("deliverySystemName", "");
+            if(record.getGuides()!=null && record.getGuides().size()>0)
+                columnMap.put("guide", "");
+            if(record.getGuides()!=null && record.getGuides().size()>0){
+               List<String> targetLocus= record.getGuides().stream().map(Guide::getTargetLocus).collect(Collectors.toList());
+               if(targetLocus.size()>0){
+                   columnMap.put("targetLocus", "");
+               }
+            }
+
+            if(record.getVectors()!=null && record.getVectors().size()>0)
+                columnMap.put("vector", "");
+            if(record.getHrDonors()!=null && record.getHrDonors().size()>0)
+                columnMap.put("hrDonor", "");
+            if(record.getDosage()!=null && !record.getDosage().equals(""))
+                columnMap.put("dosage", "");
+            if(record.getInjectionFrequency()!=null && !record.getInjectionFrequency().equals("")) {
+                System.out.println("INJECTION FREQUENCY:" +record.getInjectionFrequency());
+                columnMap.put("injectionFrequency", "");
+
+            }
+
+        }
+        return columnMap;
+    }
     public  List<Plot> getPlotData(Map<String, List<ExperimentRecord>> resultTypeRecords){
         List<Plot> plots=new ArrayList<>();
         for(Map.Entry entry:resultTypeRecords.entrySet()){
@@ -526,6 +572,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 plot.setXaxisLabel(resultType);
                 plot.setTitle(resultType);
                 List<ExperimentRecord> records = (List<ExperimentRecord>) entry.getValue();
+                plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
                 List<String> labels = new ArrayList<>();
                 Map<String, List<Double>> plotData=new HashMap<>();
                 List<Double> values=new ArrayList<>();
@@ -539,13 +586,14 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 plots.add(plot);
             }
         }
+        System.out.println("PLOTS SIZE:" +plots.size());
         return plots;
     }
     public Map<String, List<ExperimentRecord>> getSegregatedRecords(List<ExperimentRecord> records){
         Map<String, List<ExperimentRecord>> resultTypes=new HashMap<>();
         for(ExperimentRecord er:records){
             if(er.getResultDetails()!=null && er.getResultDetails().get(0)!=null) {
-                String resultType = er.getResultDetails().get(0).getResultType() + " (" + er.getResultDetails().get(0).getUnits() + ")";
+                String resultType = er.getResultDetails().get(0).getResultType().trim() + " (" + er.getResultDetails().get(0).getUnits().trim() + ")";
                 List<ExperimentRecord> segregatedRecords=new ArrayList<>();
                 segregatedRecords.add(er);
                 if (resultTypes.get(resultType)!=null){
