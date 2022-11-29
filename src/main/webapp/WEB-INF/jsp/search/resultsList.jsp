@@ -193,9 +193,7 @@
             <c:if test="${hit.sourceAsMap.description!=null}">
                 <span>${hit.sourceAsMap.description}</span><br>
             </c:if>
-            <c:if test="${hit.sourceAsMap.generatedDescription!=null}">
-                <!--span><span class="header">Generated Description</span>&nbsp;${hit.sourceAsMap.generatedDescription}</span><br-->
-            </c:if>
+
             <!--c:if test="$-{hit.sourceAsMap.type!=null}"-->
                 <!--span><span class="header">$-{hit.sourceAsMap.category}&nbsp;Type:&nbsp;</span> $-{hit.sourceAsMap.type}</span><br-->
             <!--/c:if-->
