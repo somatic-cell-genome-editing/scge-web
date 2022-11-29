@@ -567,11 +567,13 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         List<Plot> plots=new ArrayList<>();
         for(Map.Entry entry:resultTypeRecords.entrySet()){
             String resultType= (String) entry.getKey();
+            List<ExperimentRecord> records = (List<ExperimentRecord>) entry.getValue();
+            String tissue=records.get(0).getTissueTerm();
             if(!resultType.toLowerCase().contains("signal")) {
                 Plot plot = new Plot();
                 plot.setXaxisLabel(resultType);
-                plot.setTitle(resultType);
-                List<ExperimentRecord> records = (List<ExperimentRecord>) entry.getValue();
+                plot.setTitle(resultType+" - "+tissue);
+
                 plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
                 List<String> labels = new ArrayList<>();
                 Map<String, List<Double>> plotData=new HashMap<>();
