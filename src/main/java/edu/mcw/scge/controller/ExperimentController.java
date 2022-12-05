@@ -612,7 +612,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 Plot plot = new Plot();
                 plot.setXaxisLabel(resultType);
                 if(tissue!=null)
-                plot.setTitle(resultType+" - "+tissue);
+                plot.setTitle("'"+resultType+"' , '"+tissue+"'");
                 else
                     plot.setTitle(resultType);
 

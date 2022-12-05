@@ -161,7 +161,7 @@
             <div style="display: none" id="popover-${record.experimentRecordId}">
                 <div class="popover-body">
                     <c:forEach items="${record.resultDetails}" var="r">
-                        <c:if test="${r.replicate!=0}">
+                        <c:if test="${r.replicate!=0 && !fn:containsIgnoreCase(r.result, 'nan' )}">
                             ${r.replicate}&nbsp;(${r.units}):&nbsp;${r.result}<br>
                         </c:if>
                     </c:forEach>

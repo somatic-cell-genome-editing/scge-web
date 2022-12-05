@@ -34,7 +34,14 @@
              chartWidth=chartWidth/plots.size();
 
          }
-         for (int r=0; r<(plots.size()/3);r++ ){%>
+         int plotSize=plots.size();
+         int rows=plotSize/3;
+         if(plotSize%3!=0 )
+             rows=rows+1;
+
+         for (int r=0; r<rows;r++ ){
+
+     %>
        <tr>
          <% for(int c=0;c<plots.size() && c<3;c++){%>
            <td style="height:<%=chartHeight%>px">
@@ -73,7 +80,7 @@
             title: {
                 display: true,
 
-                text: '<%=plot.getTitle()%>',
+                text: [<%=plot.getTitle()%>],
                 color:"#FF8C00"
             },
 
