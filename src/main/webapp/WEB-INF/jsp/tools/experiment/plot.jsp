@@ -11,7 +11,6 @@
 <%@ page import="java.util.Map" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 <script>
 
 </script>
@@ -28,12 +27,6 @@
          if(plots.size()>3) {
              chartHeight = chartHeight / (plots.size() / 3);
          }
-         if(plots.size()>=3){
-             chartWidth=chartWidth/3;
-         }else{
-             chartWidth=chartWidth/plots.size();
-
-         }
          int plotSize=plots.size();
          int rows=plotSize/3;
          if(plotSize%3!=0 )
@@ -45,7 +38,7 @@
        <tr>
          <% for(int c=0;c<plots.size() && c<3;c++){%>
            <td style="height:<%=chartHeight%>px">
-           <div class="chart-container bg-light" style="height:30vh;width: 30vw">
+           <div class="chart-container bg-light" style="height:30vh;width: 25vw" id = "chartDiv<%=cellCount%>">
                <canvas  id="resultChart<%=cellCount%>" ></canvas>
            </div>
            </td>
@@ -54,7 +47,7 @@
        <%}%>
    </table>
     <%}else{ if(plots.size()==1){%>
-    <div class="chart-container bg-light" style="height:60vh; width:60vw">
+    <div class="chart-container bg-light" style="height:60vh; width:60vw" id = "chartDiv0">
         <canvas  id="resultChart<%=cellCount%>" ></canvas>
     </div>
    <%}}%>
