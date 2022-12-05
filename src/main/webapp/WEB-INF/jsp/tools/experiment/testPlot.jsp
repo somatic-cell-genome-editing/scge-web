@@ -8,6 +8,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="edu.mcw.scge.datamodel.Plot" %>
+<%@ page import="java.util.Map" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
@@ -33,7 +34,7 @@
              chartWidth=chartWidth/plots.size();
 
          }
-         for (int r=0; r<=(plots.size()/3);r++ ){%>
+         for (int r=0; r<(plots.size()/3);r++ ){%>
        <tr>
          <% for(int c=0;c<plots.size() && c<3;c++){%>
            <td style="height:<%=chartHeight%>px">
@@ -46,7 +47,7 @@
        <%}%>
    </table>
     <%}else{ if(plots.size()==1){%>
-    <div class="chart-container bg-light" style="height:30vh;width: 30vw">
+    <div class="chart-container bg-light" style="height:60vh; width:60vw">
         <canvas  id="resultChart<%=cellCount%>" ></canvas>
     </div>
    <%}}%>
@@ -172,16 +173,29 @@
             borderColor: color,
             borderWidth: 1
         });
-        <%}%>
+        <% for(Map.Entry entry:plot.getReplicateResult().entrySet()){
+            int replicate=(int) entry.getKey();
+            List<Double> values=(List<Double>) entry.getValue();
+        %>
+        data.push({
+            label: "Replicate - <%=replicate%>",
+            data: <%=values%>,
+            type: "scatter",
+            backgroundColor:"red",
+            showLine: false
+
+        })
+        <%}}%>
 
         return data;
     }
-    function getRandomColor() {
-        var letters = '0123456789ABCDEF';
-        var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-        /* for (var i = 0; i < 6; i++) {
-             color += letters[Math.floor(Math.random() * 16)];
-         }*/
+     function getRandomColor() {
+        var trans = '0.5'; // 50% transparency
+        var color = 'rgba(';
+        for (var i = 0; i < 3; i++) {
+            color += Math.floor(Math.random() * 255) + ',';
+        }
+        color += trans + ')'; // add the transparency
         return color;
     }
 </script>

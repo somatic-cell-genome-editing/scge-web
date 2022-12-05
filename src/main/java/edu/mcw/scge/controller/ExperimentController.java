@@ -1,5 +1,6 @@
 package edu.mcw.scge.controller;
 
+import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
@@ -40,6 +41,7 @@ public class ExperimentController extends UserController {
     PublicationDAO publicationDAO=new PublicationDAO();
     GuideDao guideDao=new GuideDao();
     VectorDao vectorDao=new VectorDao();
+    Gson gson=new Gson();
     @RequestMapping(value="/search")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         ExperimentDao edao=new ExperimentDao();
@@ -520,6 +522,43 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         return null;
     }
+    public Map<Integer, List<Double>> getReplicateData(List<ExperimentRecord> records, String resultType){
+        Map<Integer, List<Double>> replicateResults=new HashMap<>();
+        Set<Integer> replicatesSize=records.stream().filter(r->r.getResultDetails().size()>1).map(r->r.getResultDetails().size()-1).collect(Collectors.toSet());
+        int maxReplicates=Collections.max(replicatesSize);
+
+        for (int i=1;i<=maxReplicates;i++) {
+        for(ExperimentRecord record:records) {
+            List<ExperimentResultDetail> resultDetails = record.getResultDetails();
+            List<Double> replicateValues = new ArrayList<>();
+            if (replicateResults.get(i) != null) {
+                replicateValues.addAll(replicateResults.get(i));
+            }
+            if (resultDetails.size() > 1 && resultDetails.size() > i) { //verifying if replicate data available in addition to result mean.
+                boolean repFlag=false;
+                for (ExperimentResultDetail resultDetail : resultDetails) {
+                    if (resultDetail.getReplicate() == i && resultType.contains(resultDetail.getUnits())) {
+                        if(!resultDetail.getResult().equalsIgnoreCase("nan"))
+                        replicateValues.add(Double.valueOf(resultDetail.getResult()));
+                        else
+                            replicateValues.add(null);
+                        repFlag=true;
+                    }
+
+                }
+                if(!repFlag){
+                    replicateValues.add(null);
+                }
+            }else
+                replicateValues.add(null);
+            replicateResults.put(i, replicateValues);
+        }
+        }
+        System.out.println(gson.toJson(replicateResults));
+        return replicateResults;
+    }
+
+
     public  Map<String, String> getTableColumns(List<ExperimentRecord> records){
         Map<String, String> columnMap=new HashMap<>();
         for(ExperimentRecord record:records){
@@ -569,18 +608,36 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             String resultType= (String) entry.getKey();
             List<ExperimentRecord> records = (List<ExperimentRecord>) entry.getValue();
             String tissue=records.get(0).getTissueTerm();
-            if(!resultType.toLowerCase().contains("signal")) {
+            if(!resultType.toLowerCase().contains("signal") || resultType.toLowerCase().contains("signal detection")) {
                 Plot plot = new Plot();
                 plot.setXaxisLabel(resultType);
+                if(tissue!=null)
                 plot.setTitle(resultType+" - "+tissue);
+                else
+                    plot.setTitle(resultType);
 
-                plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
+                plot.setReplicateResult((HashMap<Integer, List<Double>>) getReplicateData(records, resultType));
+                for (ExperimentRecord record : records) {
+                   // plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
+                    for(ExperimentResultDetail rd:record.getResultDetails()){
+                        if(resultType.contains(rd.getUnits()) && rd.getReplicate()==0){
+                            plot.setYaxisLabel(rd.getUnits());
+                        }
+                    }
+                }
                 List<String> labels = new ArrayList<>();
                 Map<String, List<Double>> plotData=new HashMap<>();
                 List<Double> values=new ArrayList<>();
                 for (ExperimentRecord record : records) {
+
                     labels.add(record.getExperimentName());
-                    values.add(Double.parseDouble(record.getResultDetails().stream().filter(r->r.getReplicate()==0).collect(Collectors.toList()).get(0).getResult()));
+                  //  values.add(Double.parseDouble(record.getResultDetails().stream().filter(r->r.getReplicate()==0 && resultType.contains(r.getUnits())).collect(Collectors.toList()).get(0).getResult()));
+
+                    for(ExperimentResultDetail rd:record.getResultDetails()){
+                        if(resultType.contains(rd.getUnits()) && rd.getReplicate()==0){
+                           values.add(Double.valueOf(rd.getResult()));
+                        }
+                    }
                 }
                 plotData.put(resultType, values);
                 plot.setTickLabels(labels);
@@ -595,14 +652,24 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         Map<String, List<ExperimentRecord>> resultTypes=new HashMap<>();
         for(ExperimentRecord er:records){
             if(er.getResultDetails()!=null && er.getResultDetails().get(0)!=null) {
-                String resultType = er.getResultDetails().get(0).getResultType().trim() + " (" + er.getResultDetails().get(0).getUnits().trim() + ")";
-                List<ExperimentRecord> segregatedRecords=new ArrayList<>();
-                segregatedRecords.add(er);
-                if (resultTypes.get(resultType)!=null){
-                    segregatedRecords.addAll(resultTypes.get(resultType));
+                for (ExperimentResultDetail erd : er.getResultDetails()) {
+                    String resultType = erd.getResultType().trim() + " (" + erd.getUnits().trim() + ")";
+                    List<ExperimentRecord> segregatedRecords = new ArrayList<>();
 
+                    if (resultTypes.get(resultType) != null) {
+                        segregatedRecords.addAll(resultTypes.get(resultType));
+
+                    }
+                    boolean found=false;
+                    for(ExperimentRecord r:segregatedRecords){
+                        if(r.getExperimentRecordId()==er.getExperimentRecordId()){
+                            found=true;
+                        }
+                    }
+                    if(!found)
+                        segregatedRecords.add(er);
+                    resultTypes.put(resultType, segregatedRecords);
                 }
-                resultTypes.put(resultType, segregatedRecords);
             }
         }
         return resultTypes;

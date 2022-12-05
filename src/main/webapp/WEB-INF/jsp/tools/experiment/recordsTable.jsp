@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -6,6 +7,31 @@
   Time: 2:56 PM
   To change this template use File | Settings | File Templates.
 --%>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            content: function () {
+                var content = $(this).attr("data-popover-content");
+                return $(content).children(".popover-body").html();
+            }
+
+        })
+            .on("focus", function () {
+                $(this).popover("show");
+            }).on("focusout", function () {
+            var _this = this;
+            if (!$(".popover:hover").length) {
+                $(this).popover("hide");
+            } else {
+                $('.popover').mouseleave(function () {
+                    $(_this).popover("hide");
+                    $(this).off('mouseleave');
+                });
+            }
+        });
+    })
+</script>
 <table id="myTable">
     <thead>
     <tr>
@@ -119,22 +145,40 @@
         <c:if test="${tableColumns.injectionFrequency!=null}">
         <td>${record.injectionFrequency}</td>
         </c:if>
+        <td>
 
 
-            <c:forEach items="${record.resultDetails}" var="erd">
-                <c:if test="${erd.replicate==0}">
-                    <td>${erd.numberOfSamples}</td>
-                    <!--td>${erd.resultType}</td>
-                    <td> ${erd.result} (${erd.units}  </td-->
+            <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${record.experimentRecordId}" title="Replicate Values" style="background-color: transparent">
+                        <span style="text-decoration:underline">
+                            <c:forEach items="${record.resultDetails}" var="erd">
+                                <c:if test="${erd.replicate==0}">
+                                    ${erd.numberOfSamples}
+                                </c:if>
+                            </c:forEach>
 
-                </c:if>
-            </c:forEach>
+                        </span>
+            </button>
+            <div style="display: none" id="popover-${record.experimentRecordId}">
+                <div class="popover-body">
+                    <c:forEach items="${record.resultDetails}" var="r">
+                        <c:if test="${r.replicate!=0}">
+                            ${r.replicate}&nbsp;(${r.units}):&nbsp;${r.result}<br>
+                        </c:if>
+                    </c:forEach>
+                </div>
+            </div>
+
+
+
+        </td>
+
         <c:forEach items="${resultTypeRecords}" var="resultType">
+
             <td>
             <c:forEach items="${resultType.value}" var="rt">
                 <c:if test="${rt.experimentRecordId==record.experimentRecordId}">
                     <c:forEach items="${record.resultDetails}" var="erd">
-                        <c:if test="${erd.replicate==0}">
+                        <c:if test="${erd.replicate==0 && fn:contains(resultType.key, erd.units)}">
                              ${erd.result}
 
                         </c:if>
