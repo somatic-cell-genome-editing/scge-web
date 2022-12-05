@@ -83,7 +83,7 @@
         <c:forEach items="${resultTypeRecords}" var="resultType">
             <th>${resultType.key}</th>
         </c:forEach>
-
+        <th>Image</th>
 
 
     </tr>
@@ -188,7 +188,7 @@
             </c:forEach>
             </td>
         </c:forEach>
-
+        <td></td>
     </tr>
 </c:forEach>
 </table>
