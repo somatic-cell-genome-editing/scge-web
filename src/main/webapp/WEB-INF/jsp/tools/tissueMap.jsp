@@ -439,7 +439,7 @@
 
 
 
-<!--table align="center" tyle="border:1px solid #F7F7F7;margin-left:30px;" border="0" width="700">
+<table align="center" tyle="border:1px solid #F7F7F7;margin-left:30px;" border="0" width="700">
     <tr>
         <td colspan="2" style="font-size:16px; font-weight:700;">Analyze Data Sets Available for this Experiment</td><td style="font-size:16px; font-weight:700;" align="center">Delivery</td><td style="font-size:16px; font-weight:700;" align="center">Editing</td>
     </tr>
@@ -491,9 +491,8 @@
     <%}
     } %>
     </tr>
-    </td>
-    </tr>
-</table-->
+
+</table>
 
 
         </td>
