@@ -35,6 +35,7 @@
 <table id="myTable">
     <thead>
     <tr>
+        <th>Record Id</th>
         <th>Condition</th>
         <c:if test="${tableColumns.sex!=null}">
         <th>Sex</th>
@@ -91,6 +92,7 @@
     <tbody></tbody>
 <c:forEach items="${records}" var="record">
     <tr>
+        <td>${record.experimentRecordId}</td>
         <td>${record.experimentRecordName}</td>
         <c:if test="${tableColumns.sex!=null}">
         <td>${record.sex}</td>

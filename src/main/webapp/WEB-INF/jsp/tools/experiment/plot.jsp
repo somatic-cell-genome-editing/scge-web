@@ -38,7 +38,7 @@
        <tr>
          <% for(int c=0;c<plots.size() && c<3;c++){%>
            <td style="height:<%=chartHeight%>px">
-           <div class="chart-container bg-light" style="height:30vh;width: 25vw" id = "chartDiv<%=cellCount%>">
+           <div class="chart-container bg-light" style="height:30vh;width: 25vw" id="chartDiv<%=cellCount%>">
                <canvas  id="resultChart<%=cellCount%>" ></canvas>
            </div>
            </td>
@@ -47,7 +47,7 @@
        <%}%>
    </table>
     <%}else{ if(plots.size()==1){%>
-    <div class="chart-container bg-light" style="height:60vh; width:60vw" id = "chartDiv0">
+    <div class="chart-container bg-light" style="height:60vh; width:60vw">
         <canvas  id="resultChart<%=cellCount%>" ></canvas>
     </div>
    <%}}%>
@@ -58,7 +58,7 @@
      %>
 <script>
     var ctx = document.getElementById("resultChart<%=i%>");
-    var myChart = new Chart(ctx, {
+     myChart<%=i%> = new Chart(ctx, {
         type: 'bar',
         <%Gson gson=new Gson();%>
         data: {

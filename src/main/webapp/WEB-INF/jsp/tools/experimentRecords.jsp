@@ -38,7 +38,7 @@
         Experiment ex = (Experiment) request.getAttribute("experiment");
     %>
 
-    <table><tr><td style="font-size:18px;"><%=SFN.parse(ex.getDescription())%></td></tr></table>
+    <table><tr><td style="font-size:18px;"><%=ex.getDescription()%></td></tr></table>
     <div id="recordTableContent" style="position:relative; left:0px; top:00px;padding-top:20px;">
 
             <%
@@ -159,14 +159,14 @@
                 <%@include file="tissueMap.jsp"%>
 
 
-         <% }  %>
+         <% }else{  %>
 
 
 
 
             <%@include file="recordsTable.jsp"%>
 
-
+<%}%>
 
         </div>
 
