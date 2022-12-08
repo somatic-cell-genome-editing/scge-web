@@ -70,8 +70,8 @@
             options.add("Vector");
     }
     if (unitList.size() > 0 ) {
-        if (unitList.size() > 1 && unitList.size() != resultDetail.keySet().size())
-            options.add("Units");
+      //  if (unitList.size() > 1 && unitList.size() != resultDetail.keySet().size())
+        //    options.add("Units");
     }
 %>
 
@@ -147,7 +147,7 @@
             if(dualAxis) {
                 updateAxis();
             } else {
-                update(false, columnNum);
+                update(false);
             }
         });
         if(filtersApplied())
@@ -336,7 +336,7 @@
         }
         return detail;
     }
-    function update(updateColor, columnNum){
+    function update(updateColor){
         var table = document.getElementById('myTable'); //to remove filtered rows
         var rowLength=table.rows.length;
         var sortedValues=[];
@@ -349,13 +349,14 @@
             }
         }
         for(var i=0;i<rowLength;i++){
-            var recordId= table.rows[i].cells.item(recordIdIndex).innerHTML;
-            var value= document.getElementById("myTable").rows[i].cells.item(columnNum).innerHTML;
-            var valueObj={};
-            valueObj.id=recordId;
-           // valueObj.value=value;
-            sortedValues.push(valueObj);
-            console.log("recordId:"+ recordId)
+            if (table.rows.item(i).style.display != 'none') {
+                var recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
+                var valueObj = {};
+                valueObj.id = recordId;
+                // valueObj.value=value;
+                sortedValues.push(valueObj);
+                console.log("recordId:" + recordId)
+            }
         }
 
 
@@ -379,15 +380,28 @@
           var color= myChart<%=c%>.data.datasets[0].backgroundColor;
           var  arrayOfObj = arrayLabel.map(function(d, i) {
               var reps=[];
+              var dataArray=null;
                                                 for(var key in replicateResults){
                                                     if (replicateResults.hasOwnProperty(key)) {
                                                         rr = replicateResults[key];
                                                         reps.push(rr[i])
                                                     }
                                                 }
+                                                var filtered=true;
+                                                for(var v in sortedValues){
+                                                    var sortedVal=sortedValues[v];
+                                                    if(sortedVal.id==recordIds[i]){
+                                                        filtered=false;
+                                                    }
+                                                }
+                                                if(filtered==false){
+                                                    dataArray=arrayData[i];
+                                                }else{
+                                                    reps=[];
+                                                }
                                                 return {
                                                     label: d,
-                                                    data: arrayData[i] ,
+                                                    data: dataArray ,
                                                     recordId:recordIds[i],
                                                     replicates:reps
                                                 };
@@ -646,9 +660,9 @@
         for (i = 1; i < rowLength; i++){
             var cells = table.rows.item(i).cells;
             for (k=0; k<cells.length;k++ ) {
-                //console.log("innser = " + cells.item(k).innerText + "!");
+                console.log("innser = " + cells.item(k).innerText + "!" + obj.id);
                 //if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
-                if ((cells.item(k).innerText == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+                if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                     if (obj.checked) {
                         cells.item(k).off=false;
                         var somethingOff = false;
@@ -675,14 +689,7 @@
             $('#downloadChartBelow').show();
         else
             $('#downloadChartBelow').hide();
-        if(resultTypes!=null && resultTypes.length > 1){
-            //   dualAxis = true;
-            for (var i = 0; i < resultTypes.length; i++) {
-                if(document.getElementById((resultTypes[i])).checked == false){
-                    dualAxis = false;
-                }
-            }
-        }
+
         if(dualAxis) {
             updateAxis();
         }else {

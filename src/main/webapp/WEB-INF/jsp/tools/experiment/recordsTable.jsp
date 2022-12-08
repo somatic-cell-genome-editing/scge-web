@@ -120,22 +120,56 @@
         </c:if>
         <c:if test="${tableColumns.targetLocus!=null}">
         <td>
+
+            <c:set var="first" value="true"/>
             <c:forEach items="${record.guides}" var="guide">
-                ${guide.targetLocus}<br>
+                <c:choose>
+                    <c:when test="${first=='true'}">
+                        <c:set var="first" value="false"/>
+                        ${guide.targetLocus}
+                    </c:when>
+                    <c:otherwise>
+                        ;${guide.targetLocus}
+                    </c:otherwise>
+                </c:choose>
+
             </c:forEach>
+
         </td>
         </c:if>
         <c:if test="${tableColumns.guide!=null}">
         <td>
+            <c:set var="first" value="true"/>
             <c:forEach items="${record.guides}" var="guide">
-                ${guide.guide}<br>
+                <c:choose>
+                    <c:when test="${first=='true'}">
+                        <c:set var="first" value="false"/>
+                        ${guide.guide}
+                    </c:when>
+                    <c:otherwise>
+                        ;${guide.guide}
+                    </c:otherwise>
+                </c:choose>
+
             </c:forEach>
         </td>
         </c:if>
         <c:if test="${tableColumns.vector!=null}">
-        <td> <c:forEach items="${record.vectors}" var="vector">
-            ${vector.name}<br>
-        </c:forEach>
+        <td>
+            <c:set var="first" value="true"/>
+            <c:forEach items="${record.vectors}" var="vector">
+                <c:choose>
+                    <c:when test="${first=='true'}">
+                        <c:set var="first" value="false"/>
+                        ${vector.name}
+                    </c:when>
+                    <c:otherwise>
+                        ;${vector.name}
+                    </c:otherwise>
+                </c:choose>
+
+            </c:forEach>
+
         </td>
         </c:if>
         <c:if test="${tableColumns.hrDonor!=null}">
