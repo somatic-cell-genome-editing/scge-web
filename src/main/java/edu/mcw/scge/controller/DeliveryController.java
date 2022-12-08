@@ -237,7 +237,7 @@ public class DeliveryController extends ObjectController{
             summary=new LinkedHashMap<>();
         }
         if(object.getNpSize()!=null && !object.getNpSize().equals("")) {
-            summary.put("Nanopartical Size", object.getNpSize());
+            summary.put("Nanoparticle Size", object.getNpSize());
             if (object.getZetaPotential() != null && !object.getZetaPotential().equals(""))
                 summary.put("Zeta Potential", object.getZetaPotential());
             if (object.getNpPolydispersityIndex() != null && !object.getNpPolydispersityIndex().equals(""))
