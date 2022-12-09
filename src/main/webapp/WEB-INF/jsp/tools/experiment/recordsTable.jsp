@@ -34,6 +34,11 @@
 </script>
 <table id="myTable">
     <thead>
+    <!--tr class="tablesorter-ignoreRow hasSpan" role="row">
+        <th colspan="${fn:length(tableColumns)+3}" data-column="0" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="${fn:length(tableColumns)+3}" style="background-color: whitesmoke"></th>
+        <th colspan="${fn:length(resultTypeRecords)}" data-column="${fn:length(tableColumns)+3}" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="${fn:length(resultTypeRecords)}" style="background-color: orange">Results</th>
+
+    </tr-->
     <tr>
         <th>Record Id</th>
         <th>Condition</th>

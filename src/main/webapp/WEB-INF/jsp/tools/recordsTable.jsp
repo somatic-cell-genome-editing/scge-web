@@ -154,6 +154,7 @@
             $('#downloadChartBelow').show();
         else
             $('#downloadChartBelow').hide();
+
     })
     function download(){
         $("#myTable").tableToCSV();
@@ -336,29 +337,60 @@
         }
         return detail;
     }
+
+     colorPalette = [
+        'rgba(230, 159, 0, 0.5)', 'rgba(86, 180, 233, 0.5)', 'rgba(0, 158, 115, 0.5)', 'rgba(240, 228, 66, 0.5)',
+        'rgba(0, 114, 178, 0.5)', 'rgba(213, 94, 0, 0.5)', 'rgba(204, 121, 167, 0.5)', 'rgba(0, 0, 0, 0.5)',
+        'rgba(233, 150, 122, 0.5)', 'rgba(139, 0, 139, 0.5)', 'rgba(169, 169, 169, 0.5)', 'rgba(220, 20, 60, 0.5)',
+        'rgba(100, 149, 237, 0.5)', 'rgba(127, 255, 0, 0.5)', 'rgba(0, 0, 128, 0.5)', 'rgba(255, 222, 173, 0.5)',
+        'rgba(128, 0, 0, 0.5)', 'rgba(224, 255, 255, 0.5)', 'rgba(32, 178, 170, 0.5)', 'rgba(160, 82, 45, 0.5)',
+        'rgba(238, 130, 238, 0.5)', 'rgba(154, 205, 50, 0.5)', 'rgba(219, 112, 147, 0.5)', 'rgba(199, 21, 133, 0.5)',
+        'rgba(102, 205, 170, 0.5)', 'rgba(240, 128, 128, 0.5)', 'rgba(222, 184, 135, 0.5)', 'rgba(95, 158, 160, 0.5)',
+        'rgba(189, 183, 107, 0.5)', 'rgba(0, 100, 0, 0.5)', 'rgba(0, 191, 255, 0.5)', 'rgba(255, 0, 255, 0.5)',
+        'rgba(218, 165, 32, 0.5)', 'rgba(75, 0, 130, 0.5)'
+    ];
     function update(updateColor){
         var table = document.getElementById('myTable'); //to remove filtered rows
         var rowLength=table.rows.length;
         var sortedValues=[];
         var cellLength=  table.rows[0].cells.length;
         var recordIdIndex=0;
+        var selected=0;
+        var filter;
+        if (document.getElementById("graphFilter") != null)
+            filter = document.getElementById("graphFilter").value;
+        //Find record id column index
         for(var j=0;j<cellLength;j++){
             var cellText= table.rows[0].cells[j].innerHTML;
             if(cellText.includes( "Record ID")){
                 recordIdIndex=j;
             }
+            if(updateColor)
+            if (cellText.includes(filter)) { //check the column of selected filter
+                selected = j;
+            }
         }
+        //implement color by selected
+        //record ids ordered after sorting the column
+        var colorByRecords={}
         for(var i=0;i<rowLength;i++){
             if (table.rows.item(i).style.display != 'none') {
                 var recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
                 var valueObj = {};
                 valueObj.id = recordId;
+
                 // valueObj.value=value;
+                if(updateColor) {
+                    var cells = table.rows.item(i).cells;
+                    var value = cells.item(selected).innerText;
+                    colorByRecords[value]=colorByRecords[value] || [];
+                    colorByRecords[value].push(recordId);
+                }
                 sortedValues.push(valueObj);
                 console.log("recordId:" + recordId)
             }
         }
-
+        var colorByRecordsJson=JSON.stringify(colorByRecords)
 
         <%
         Gson gson=new Gson();
@@ -371,52 +403,77 @@
             }
         %>
 
-          var  arrayLabel=<%=gson.toJson(plot.getTickLabels())%>;
-          var  arrayData =<%=values%>;
-          var  recordIds=<%=plot.getRecordIds()%>;
-          var replicateSize=<%=plot.getReplicateResult().size()%>
-          var replicateResults=<%=gson.toJson(plot.getReplicateResult())%>
-
-          var color= myChart<%=c%>.data.datasets[0].backgroundColor;
+        var  arrayLabel=<%=gson.toJson(plot.getTickLabels())%>;
+        var  arrayData =<%=values%>;
+        var  recordIds=<%=plot.getRecordIds()%>;
+        var replicateSize=<%=plot.getReplicateResult().size()%>
+        var replicateResults=<%=gson.toJson(plot.getReplicateResult())%>
+        var color;
+        var colors= myChart<%=c%>.data.datasets[0].backgroundColor;
+        var colorChoice=0;
           var  arrayOfObj = arrayLabel.map(function(d, i) {
               var reps=[];
               var dataArray=null;
-                                                for(var key in replicateResults){
-                                                    if (replicateResults.hasOwnProperty(key)) {
-                                                        rr = replicateResults[key];
-                                                        reps.push(rr[i])
-                                                    }
-                                                }
-                                                var filtered=true;
-                                                for(var v in sortedValues){
-                                                    var sortedVal=sortedValues[v];
-                                                    if(sortedVal.id==recordIds[i]){
-                                                        filtered=false;
-                                                    }
-                                                }
-                                                if(filtered==false){
-                                                    dataArray=arrayData[i];
-                                                }else{
-                                                    reps=[];
-                                                }
-                                                return {
-                                                    label: d,
-                                                    data: dataArray ,
-                                                    recordId:recordIds[i],
-                                                    replicates:reps
-                                                };
-                                            });
+              for(var key in replicateResults){
+                  if (replicateResults.hasOwnProperty(key)) {
+                      rr = replicateResults[key];
+                      reps.push(rr[i])
+                  }
+              }
+              var filtered=true;
+              for(var v in sortedValues){
+                  var sortedVal=sortedValues[v];
+                  if(sortedVal.id==recordIds[i]){
+                      filtered=false;
+                  }
+              }
+              if(filtered==false){
+                  dataArray=arrayData[i];
+              }else{
+                  reps=[];
+              }
+                if(colors.length==arrayLabel.length){
+                    color=colors[i];
+                }else
+                    color=colors;
 
-           var  sortedArrayOfObj=sortByValues(sortedValues, arrayOfObj);
+                if(updateColor){
+                    var colorChoice=0;
+                    for(var c in colorByRecords){
+                        if(colorByRecords.hasOwnProperty(c)){
+                        var colorRecIds=colorByRecords[c];
+                        for(var id in colorRecIds) {
+                            if (colorRecIds[id]==(recordIds[i])) {
+                                color = colorPalette[colorChoice];
+
+                            }
+                        }
+                        colorChoice++;
+                    }}
+
+                }
+              return {
+                  label: d,
+                  data: dataArray ,
+                  recordId:recordIds[i],
+                  bgColor:color,
+                  replicates:reps
+              };
+          });
+
+
+        var  sortedArrayOfObj=sortByValues(sortedValues, arrayOfObj);
            var  newArrayLabel = [];
            var  newArrayData = [];
            var newArrayIndividuals=[];
+           var bgColorArray=[];
            var j=0;
            var data=[];
 
                 sortedArrayOfObj.forEach(function(d){
                     newArrayLabel.push(d.label);
                     newArrayData.push(d.data);
+                    bgColorArray.push(d.bgColor);
                     newArrayIndividuals[j]=(d.replicates);
                     j++;
 
@@ -427,7 +484,7 @@
                 data.push({
                     label:"Value",
                     data: newArrayData,
-                    backgroundColor: color,
+                    backgroundColor: bgColorArray,
                 });
 
         var counter=0;
