@@ -309,14 +309,14 @@
             });
         }
     }*/
-    function getRandomColor() {
+   /* function getRandomColor() {
         var letters = 'BCDEF'.split('');
         var color = '#';
         for (var i = 0; i < 6; i++ ) {
             color += letters[Math.floor(Math.random() * letters.length)];
         }
         return color;
-    }
+    }*/
     function getDetails(index) {
         var table = document.getElementById('myTable');
         var j = 0;
@@ -374,7 +374,7 @@
         //record ids ordered after sorting the column
         var colorByRecords={}
         for(var i=1;i<rowLength;i++) {
-            if (updateColor) {
+            if (updateColor && filter!='None') {
                 var recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
                 var cells = table.rows.item(i).cells;
                 var value = cells.item(selected).innerText;
@@ -412,6 +412,7 @@
         var  recordIds=<%=plot.getRecordIds()%>;
         var replicateSize=<%=plot.getReplicateResult().size()%>
         var replicateResults=<%=gson.toJson(plot.getReplicateResult())%>
+        var noneColor=getRandomColor();
         var color;
         var colors= myChart<%=c%>.data.datasets[0].backgroundColor;
           var  arrayOfObj = arrayLabel.map(function(d, i) {
@@ -435,12 +436,12 @@
               }else{
                   reps=[];
               }
-                if(colors.length==arrayLabel.length){
+                if(colors.length==arrayLabel.length && filter!='None'){
                     color=colors[i];
                 }else
-                    color=colors;
+                    color=noneColor;
 
-                if(updateColor){
+                if(updateColor && filter!='None'){
                     var colorChoice=0;
                     for(var c in colorByRecords){
                         if(colorByRecords.hasOwnProperty(c)){
