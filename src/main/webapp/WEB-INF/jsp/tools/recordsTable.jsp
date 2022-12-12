@@ -373,25 +373,29 @@
         //implement color by selected
         //record ids ordered after sorting the column
         var colorByRecords={}
-        for(var i=0;i<rowLength;i++){
+        for(var i=1;i<rowLength;i++) {
+            if (updateColor) {
+                var recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
+                var cells = table.rows.item(i).cells;
+                var value = cells.item(selected).innerText;
+                colorByRecords[value] = colorByRecords[value] || [];
+                colorByRecords[value].push(recordId);
+            }
+        }
+            for(var i=1;i<rowLength;i++){
             if (table.rows.item(i).style.display != 'none') {
                 var recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
                 var valueObj = {};
                 valueObj.id = recordId;
 
                 // valueObj.value=value;
-                if(updateColor) {
-                    var cells = table.rows.item(i).cells;
-                    var value = cells.item(selected).innerText;
-                    colorByRecords[value]=colorByRecords[value] || [];
-                    colorByRecords[value].push(recordId);
-                }
+
                 sortedValues.push(valueObj);
                 console.log("recordId:" + recordId)
             }
         }
-        var colorByRecordsJson=JSON.stringify(colorByRecords)
-
+     //   var colorByRecordsJson=JSON.stringify(colorByRecords)
+    //    console.log("COLOR RECS:"+ colorByRecordsJson)
         <%
         Gson gson=new Gson();
         int c=0;
@@ -410,7 +414,6 @@
         var replicateResults=<%=gson.toJson(plot.getReplicateResult())%>
         var color;
         var colors= myChart<%=c%>.data.datasets[0].backgroundColor;
-        var colorChoice=0;
           var  arrayOfObj = arrayLabel.map(function(d, i) {
               var reps=[];
               var dataArray=null;

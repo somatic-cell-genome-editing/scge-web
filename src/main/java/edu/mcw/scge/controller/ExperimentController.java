@@ -497,8 +497,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         return null;
     }
 
-    @RequestMapping(value="/experiment/{experimentId}")
-    public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res, @PathVariable(required = true) long experimentId) throws Exception {
+  //  @RequestMapping(value="/experiment/{experimentId}")
+    public String getExperimentsByExperimentIdNEW(HttpServletRequest req, HttpServletResponse res, @PathVariable(required = true) long experimentId) throws Exception {
         Person p=userService.getCurrentUser(req.getSession());
         if(!access.isLoggedIn()) {
             return "redirect:/";
@@ -614,7 +614,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(tissue!=null)
                 plot.setTitle("'"+resultType+"' , '"+tissue+"'");
                 else
-                    plot.setTitle(resultType);
+                    plot.setTitle("'"+resultType+"'");
 
                 plot.setReplicateResult((HashMap<Integer, List<Double>>) getReplicateData(records, resultType));
                 for (ExperimentRecord record : records) {
@@ -626,11 +626,13 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     }
                 }
                 List<String> labels = new ArrayList<>();
+                List<Long> recordIds = new ArrayList<>();
                 Map<String, List<Double>> plotData=new HashMap<>();
                 List<Double> values=new ArrayList<>();
                 for (ExperimentRecord record : records) {
 
                     labels.add(record.getExperimentName());
+                    recordIds.add(record.getExperimentRecordId());
                   //  values.add(Double.parseDouble(record.getResultDetails().stream().filter(r->r.getReplicate()==0 && resultType.contains(r.getUnits())).collect(Collectors.toList()).get(0).getResult()));
 
                     for(ExperimentResultDetail rd:record.getResultDetails()){
@@ -641,6 +643,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 }
                 plotData.put(resultType, values);
                 plot.setTickLabels(labels);
+                plot.setRecordIds(recordIds);
                 plot.setPlotData(plotData);
                 plots.add(plot);
             }
@@ -674,8 +677,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         }
         return resultTypes;
     }
-  //      @RequestMapping(value="/experiment/{experimentId}")
-    public String getExperimentsByExperimentIdOLD(HttpServletRequest req, HttpServletResponse res, @PathVariable(required = true) long experimentId) throws Exception {
+      @RequestMapping(value="/experiment/{experimentId}")
+    public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res, @PathVariable(required = true) long experimentId) throws Exception {
 
         String resultType = req.getParameter("resultType");
         String tissue = req.getParameter("tissue");
@@ -840,6 +843,14 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experimentId));
 
         plotData.put("Mean",mean);
+
+          Map<String, List<ExperimentRecord>> resultTypeRecords=getSegregatedRecords(records);
+          req.setAttribute("tableColumns", getTableColumns(records));
+          req.setAttribute("plots", getPlotData(resultTypeRecords));
+          req.setAttribute("resultTypeRecords", resultTypeRecords);
+          req.setAttribute("records", records);
+
+
 
         req.setAttribute("tissues",tissues);
         req.setAttribute("tissuesTarget",tissuesTarget);
