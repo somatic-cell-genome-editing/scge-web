@@ -154,7 +154,7 @@
 
 
 
-            <% if (( tissueList.size() > 0 && selectedResultType == null )) { %>
+            <% if (( tissueList.size() > 0 && selectedResultType == null && request.getAttribute("viewAll")!="true")) { %>
 
                 <%@include file="tissueMap.jsp"%>
 

@@ -142,7 +142,7 @@
                 // target the first sorted column
                 columnNum = currentSort[0][0],
                 columnName = $(table.config.headerList[columnNum]).text();
-            console.log(columnName +"\tINDEX:"+ columnNum);
+          //  console.log(columnName +"\tINDEX:"+ columnNum);
 
             if(dualAxis) {
                 updateAxis();
@@ -359,7 +359,7 @@
         var filter;
         if (document.getElementById("graphFilter") != null)
             filter = document.getElementById("graphFilter").value;
-        //Find record id column index
+        //Find record id column index && selected colorBy option column index in the table
         for(var j=0;j<cellLength;j++){
             var cellText= table.rows[0].cells[j].innerHTML;
             if(cellText.includes( "Record ID")){
@@ -370,8 +370,7 @@
                 selected = j;
             }
         }
-        //implement color by selected
-        //record ids ordered after sorting the column
+        // to implement color by selected, generate map<colorBy_column_value,  List<record_id>>
         var colorByRecords={}
         for(var i=1;i<rowLength;i++) {
             if (updateColor && filter!='None') {
@@ -382,6 +381,7 @@
                 colorByRecords[value].push(recordId);
             }
         }
+        //record ids ordered after sorting the column
             for(var i=1;i<rowLength;i++){
             if (table.rows.item(i).style.display != 'none') {
                 var recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
@@ -391,7 +391,7 @@
                 // valueObj.value=value;
 
                 sortedValues.push(valueObj);
-                console.log("recordId:" + recordId)
+              //  console.log("recordId:" + recordId)
             }
         }
      //   var colorByRecordsJson=JSON.stringify(colorByRecords)
@@ -406,7 +406,7 @@
                 values.addAll((Collection<? extends Double>) entry.getValue());
             }
         %>
-
+        // creating array of bars
         var  arrayLabel=<%=gson.toJson(plot.getTickLabels())%>;
         var  arrayData =<%=values%>;
         var  recordIds=<%=plot.getRecordIds()%>;
@@ -418,12 +418,7 @@
           var  arrayOfObj = arrayLabel.map(function(d, i) {
               var reps=[];
               var dataArray=null;
-              for(var key in replicateResults){
-                  if (replicateResults.hasOwnProperty(key)) {
-                      rr = replicateResults[key];
-                      reps.push(rr[i])
-                  }
-              }
+
               var filtered=true;
               for(var v in sortedValues){
                   var sortedVal=sortedValues[v];
@@ -433,13 +428,17 @@
               }
               if(filtered==false){
                   dataArray=arrayData[i];
-              }else{
-                  reps=[];
+                  for(var key in replicateResults){
+                      if (replicateResults.hasOwnProperty(key)) {
+                          rr = replicateResults[key];
+                          reps.push(rr[i])
+                      }
+                  }
               }
                 if(colors.length==arrayLabel.length && filter!='None'){
                     color=colors[i];
                 }else
-                    color=noneColor;
+                    color=colors;
 
                 if(updateColor && filter!='None'){
                     var colorChoice=0;
@@ -465,7 +464,7 @@
               };
           });
 
-
+        //Sorting array of objects by sortedValues
         var  sortedArrayOfObj=sortByValues(sortedValues, arrayOfObj);
            var  newArrayLabel = [];
            var  newArrayData = [];
@@ -474,6 +473,7 @@
            var j=0;
            var data=[];
 
+           // generating updated data for the plots from the sorted objects
                 sortedArrayOfObj.forEach(function(d){
                     newArrayLabel.push(d.label);
                     newArrayData.push(d.data);
@@ -518,7 +518,7 @@
             //   document.getElementById("chartDiv<-%=c%>").style.display = "block";
                 document.getElementById("resultChart<%=c%>").style.display = "block";
 
-                console.log("DATA SETS LENGTH:"+myChart<%=c%>.data.datasets[0].data)
+           //     console.log("DATA SETS LENGTH:"+myChart<%=c%>.data.datasets[0].data);
 
         <%c++;}%>
     }
@@ -721,9 +721,9 @@
         for (i = 1; i < rowLength; i++){
             var cells = table.rows.item(i).cells;
             for (k=0; k<cells.length;k++ ) {
-                console.log("innser = " + cells.item(k).innerText + "!" + obj.id);
-                //if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
-                if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+            //    console.log("innser = " + cells.item(k).innerText + "!" + obj.id);
+              if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+             //   if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                     if (obj.checked) {
                         cells.item(k).off=false;
                         var somethingOff = false;
@@ -917,14 +917,9 @@
     }
     var quantitative = 0;
     quantitative =quantitativeSize;
-    console.log(quantitative);
-    if(quantitative == 0) {
-        if(document.getElementById("chartDiv")!=null)
-            document.getElementById("chartDiv").style.display = "none";
-        if(document.getElementById("resultChart")!=null)
-            document.getElementById("resultChart").style.display = "none";
-    }
-   // setTimeout("load()",500);
+  //  console.log(quantitative);
+
+  //  setTimeout("load()",500);
 </script>
 
 <%

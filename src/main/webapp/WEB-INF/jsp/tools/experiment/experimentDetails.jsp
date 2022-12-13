@@ -7,4 +7,4 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="plot.jsp"%>
-<%@include file="recordsTable.jsp"%>
+<%@include file="experimentResultsTable.jsp"%>

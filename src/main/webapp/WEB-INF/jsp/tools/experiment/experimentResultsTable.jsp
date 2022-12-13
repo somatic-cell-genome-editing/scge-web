@@ -42,23 +42,27 @@
     <tr>
         <th>Record Id</th>
         <th>Condition</th>
-        <c:if test="${tableColumns.sex!=null}">
-        <th>Sex</th>
-        </c:if>
+
         <c:if test="${tableColumns.tissueTerm!=null}">
         <th>Tissue</th>
         </c:if>
         <c:if test="${tableColumns.cellTypeTerm!=null}">
         <th>Cell Type</th>
         </c:if>
-        <c:if test="${tableColumns.age!=null}">
-        <th>Age</th>
+        <c:if test="${tableColumns.sex!=null}">
+            <th>Sex</th>
         </c:if>
-        <c:if test="${tableColumns.genoType!=null}">
-        <th>Genotype</th>
-        </c:if>
+        <!--c:if test="$-{tableColumns.age!=null}"-->
+        <!--th>Age</th-->
+        <!--/c:if-->
+        <!--c:if test="$-{tableColumns.genoType!=null}"-->
+        <!--th>Genotype</th-->
+        <!--/c:if-->
         <c:if test="${tableColumns.editorSymbol!=null}">
         <th>Editor</th>
+        </c:if>
+        <c:if test="${tableColumns.hrDonor!=null}">
+            <th>HR Donor</th>
         </c:if>
         <c:if test="${tableColumns.modelDisplayName!=null}">
         <th>Model</th>
@@ -75,9 +79,7 @@
         <c:if test="${tableColumns.vector!=null}">
         <th>Vector</th>
         </c:if>
-        <c:if test="${tableColumns.hrDonor!=null}">
-        <th>HR Donor</th>
-        </c:if>
+
         <c:if test="${tableColumns.dosage!=null}">
         <th>Dosage</th>
         </c:if>
@@ -98,30 +100,29 @@
 <c:forEach items="${records}" var="record">
     <tr>
         <td>${record.experimentRecordId}</td>
-        <td>${record.experimentRecordName}</td>
-        <c:if test="${tableColumns.sex!=null}">
-        <td>${record.sex}</td>
-        </c:if>
+        <td><a href="/toolkit/data/experiments/experiment/${record.experimentId}/record/${record.experimentRecordId}/">${record.experimentRecordName}</a></td>
+
         <c:if test="${tableColumns.tissueTerm!=null}">
         <td>${record.tissueTerm}</td>
         </c:if>
         <c:if test="${tableColumns.cellTypeTerm!=null}">
         <td>${record.cellTypeTerm}</td>
         </c:if>
-        <c:if test="${tableColumns.age!=null}">
-        <td>${record.age}</td>
+        <c:if test="${tableColumns.sex!=null}">
+            <td>${record.sex}</td>
         </c:if>
-        <c:if test="${tableColumns.genoType!=null}">
-        <td>${record.genotype}</td>
-        </c:if>
+
         <c:if test="${tableColumns.editorSymbol!=null}">
-        <td>${record.editorSymbol}</td>
+            <td><a href="/toolkit/data/editors/editor?id=${record.editorId}">${record.editorSymbol}</a></td>
+        </c:if>
+        <c:if test="${tableColumns.hrDonor!=null}">
+            <td><a href="/toolkit/data/hrdonors/hrdonor?id=${record.hrDonorId}">${record.hrdonorName}</a></td>
         </c:if>
         <c:if test="${tableColumns.modelDisplayName!=null}">
-        <td>${record.modelDisplayName}</td>
+            <td><a href="/toolkit/data/models/model?id=${record.modelId}">${record.modelDisplayName}</a></td>
         </c:if>
         <c:if test="${tableColumns.deliverySystemName!=null}">
-        <td>${record.deliverySystemName}</td>
+            <td><a href="/toolkit/data/delivery/system?id=${record.deliverySystemId}">${record.deliverySystemName}</a></td>
         </c:if>
         <c:if test="${tableColumns.targetLocus!=null}">
         <td>
@@ -177,9 +178,7 @@
 
         </td>
         </c:if>
-        <c:if test="${tableColumns.hrDonor!=null}">
-        <td>${record.hrdonorName}</td>
-        </c:if>
+
         <c:if test="${tableColumns.dosage!=null}">
         <td>${record.dosage}</td>
         </c:if>

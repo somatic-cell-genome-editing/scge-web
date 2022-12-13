@@ -881,6 +881,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("uniqueFields", uniqueFields);
         req.setAttribute("seoDescription",e.getDescription());
         req.setAttribute("seoTitle",e.getName());
+        if(req.getParameter("viewAll")!=null)
+        req.setAttribute("viewAll", req.getParameter("viewAll"));
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
         return null;

@@ -126,7 +126,8 @@
                         return this._data.labels[tooltipItem[0].index];
                     },
                     afterLabel: function(tooltipItem) {
-                        return tooltipItem.index;
+                        var index = tooltipItem.index;
+                        return getDetails(index);
 
                     }
 

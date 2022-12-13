@@ -432,7 +432,7 @@
         </div>
         <% } %>
 
-    </td></tr>
+    </td><td> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?viewAll=true">View All</a></td></tr>
     <tr>
         <td>
 
