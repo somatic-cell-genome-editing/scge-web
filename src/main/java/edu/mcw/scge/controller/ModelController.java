@@ -209,7 +209,7 @@ public class ModelController extends ObjectController{
             long modelId = 0;
             try {
                 modelId = Long.parseLong(parentalOrigin);
-                summary.put("Parental Origin", parentalOrigin + " <a href='/data/models/model?id='"+modelId+"'>View animal model</a>");
+                summary.put("Parental Origin", parentalOrigin + " <a href='/data/models/model?id="+modelId+"'>View animal model</a>");
 
             } catch(NumberFormatException e) {
                 summary.put("Parental Origin", parentalOrigin);
