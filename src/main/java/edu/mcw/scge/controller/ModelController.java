@@ -203,8 +203,18 @@ public class ModelController extends ObjectController{
 
         if(object.getDescription()!=null && !object.getDescription().equals(""))
             summary.put("Description", object.getDescription());
-        if(object.getParentalOrigin()!=null && !object.getParentalOrigin().equals(""))
-            summary.put("Parental Origin", object.getParentalOrigin());
+        if(object.getParentalOrigin()!=null && !object.getParentalOrigin().equals("") ) {
+
+            String parentalOrigin = object.getParentalOrigin();
+            long modelId = 0;
+            try {
+                modelId = Long.parseLong(parentalOrigin);
+                summary.put("Parental Origin", parentalOrigin + " <a href='/data/models/model?id='"+modelId+"'>View animal model</a>");
+
+            } catch(NumberFormatException e) {
+                summary.put("Parental Origin", parentalOrigin);
+            }
+        }
         if(summary.size()>0) {
             summaryBlocks.put("block"+i, summary);
             i++;
