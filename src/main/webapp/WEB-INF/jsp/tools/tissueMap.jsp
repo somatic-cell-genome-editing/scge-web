@@ -432,7 +432,8 @@
         </div>
         <% } %>
 
-    </td><td> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?viewAll=true">View All</a></td></tr>
+    </td>
+    </tr>
     <tr>
         <td>
 
@@ -442,6 +443,8 @@
 <table align="center" tyle="border:1px solid #F7F7F7;margin-left:30px;" border="0" width="700">
     <tr>
         <td colspan="2" style="font-size:16px; font-weight:700;">Analyze Data Sets Available for this Experiment</td><td style="font-size:16px; font-weight:700;" align="center">Delivery</td><td style="font-size:16px; font-weight:700;" align="center">Editing</td>
+        <td> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View All</button></a></td>
+
     </tr>
     <% for (String organ: tm.getChildTerms().keySet()) {
         if (!tm.getChildTerms().get(organ).isEmpty()) {

@@ -34,11 +34,7 @@
         });
     })
 </script>
-<%
-    Map<String, String> tableColumns= (Map<String, String>) request.getAttribute("tableColumns");
-    List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
-    Map<java.lang.String, List<ExperimentRecord>> resultTypeRecords= (Map<java.lang.String, List<ExperimentRecord>>) request.getAttribute("resultTypeRecords");
-%>
+
 
 <table id="myTable">
     <thead>

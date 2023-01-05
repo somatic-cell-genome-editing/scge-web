@@ -1,3 +1,4 @@
+
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
@@ -24,53 +25,57 @@
 </style>
 
 
-<% ImageDao idao = new ImageDao();
+<%    Gson gson=new Gson();
+    ImageDao idao = new ImageDao();
+    List<Plot> plots= (List<Plot>) request.getAttribute("plots");
+    Map<String, List<String>> tableColumns= (Map<String, List<String>>) request.getAttribute("tableColumns");
     List<String> options = new ArrayList<>();
-    List<String> headers = new ArrayList<>();
+    if(plots.size()>1)
+        options.add("Condition");
     options.add("None");
-    if (tissueList.size() > 0 ) {
-        headers.add("Tissue");
-        if(tissueList.size() > 1 && tissueList.size() != resultDetail.keySet().size())
+
+    if (tableColumns.get("tissueTerm") !=null && ( (List<String>)tableColumns.get("tissueTerm")).size()>1
+            && ( (List<String>)tableColumns.get("tissueTerm")).size()!=records.size()) {
             options.add("Tissue");
-    }if (cellTypeList.size() > 0) {
-        headers.add("Cell Type");
-        if(cellTypeList.size() > 1 && cellTypeList.size() != resultDetail.keySet().size())
+    }
+    if (tableColumns.get("cellTypeTerm") !=null && ( (List<String>)tableColumns.get("cellTypeTerm")).size()>1
+            && ( (List<String>)tableColumns.get("cellTypeTerm")).size()!=records.size()) {
             options.add("Cell Type");
-    }if (sexList.size() > 0) {
-        headers.add("Sex");
-        if(sexList.size() > 1)
+    }
+    if (tableColumns.get("sex") !=null && ( (List<String>)tableColumns.get("sex")).size()>1
+            && ( (List<String>)tableColumns.get("sex")).size()!=records.size()) {
             options.add("Sex");
-    }if (editorList.size() > 0 ) {
-        headers.add("Editor");
-        if(editorList.size() > 1 && editorList.size() != resultDetail.keySet().size())
+    }
+    if (tableColumns.get("editorSymbol") !=null && ( (List<String>)tableColumns.get("editorSymbol")).size()>1
+            && ( (List<String>)tableColumns.get("editorSymbol")).size()!=records.size()) {
             options.add("Editor");
-    }if (hrdonorList.size() > 0 ){
-        headers.add("Hr Donor");
-        if(hrdonorList.size() > 1 && hrdonorList.size() != resultDetail.keySet().size())
-            options.add("Hr Donor");
-    }if (modelList.size() > 0 ) {
-        headers.add("Model");
-        if(modelList.size() > 1 && modelList.size() != resultDetail.keySet().size())
+    }
+    if (tableColumns.get("hrDonor") !=null && ( (List<String>)tableColumns.get("hrDonor")).size()>1
+            && ( (List<String>)tableColumns.get("hrDonor")).size()!=records.size()) {
+        options.add("Hr Donor");
+    }
+    if (tableColumns.get("modalDisplayName") !=null && ( (List<String>)tableColumns.get("modalDisplayName")).size()>1
+            && ( (List<String>)tableColumns.get("modalDisplayName")).size()!=records.size()) {
             options.add("Model");
-    }if (deliverySystemList.size() > 0 ) {
-        headers.add("Delivery System");
-        if (deliverySystemList.size() > 1 && deliverySystemList.size() != resultDetail.keySet().size())
+    }
+    if (tableColumns.get("deliverySystemName") !=null && ( (List<String>)tableColumns.get("deliverySystemName")).size()>1
+            && ( (List<String>)tableColumns.get("deliverySystemName")).size()!=records.size()) {
             options.add("Delivery System");
-    }if (guideList.size() > 0 ) {
-        headers.add("Target Locus");
-        if (guideTargetLocusList.size() > 1 && guideTargetLocusList.size() != resultDetail.keySet().size())
+    }
+    if (tableColumns.get("targetLocus") !=null && ( (List<String>)tableColumns.get("targetLocus")).size()>1
+            && ( (List<String>)tableColumns.get("targetLocus")).size()!=records.size()) {
             options.add("Target Locus");
-    }if (guideList.size() > 0 ) {
-        headers.add("Guide");
-        if (guideList.size() > 1 && guideList.size() != resultDetail.keySet().size())
+    }
+    if (tableColumns.get("guide") !=null && ( (List<String>)tableColumns.get("guide")).size()>1
+            && ( (List<String>)tableColumns.get("guide")).size()!=records.size()) {
             options.add("Guide");
-    }if (vectorList.size() > 0 ) {
-        headers.add("Vector");
-        if (vectorList.size() > 1 && vectorList.size() != resultDetail.keySet().size())
+    }
+    if (tableColumns.get("vector") !=null && ( (List<String>)tableColumns.get("vector")).size()>1
+            && ( (List<String>)tableColumns.get("vector")).size()!=records.size()) {
             options.add("Vector");
     }
-    if (unitList.size() > 0 ) {
-      //  if (unitList.size() > 1 && unitList.size() != resultDetail.keySet().size())
+    if (tableColumns.get("units") !=null && ( (List<String>)tableColumns.get("units")).size()>1
+            && ( (List<String>)tableColumns.get("units")).size()!=records.size()) {
         //    options.add("Units");
     }
 %>
@@ -82,19 +87,19 @@
 <!--div id="graphOptions" style="padding:10px;margin-bottome:15px;display:none;"></div-->
 
 <c:if test="${fn:length(plots)>0}">
-<div id="barChart">
+    <div id="barChart">
 
-    <% if( options.size() > 1 ) {%>
-    <hr>
-    <b style="font-size:16px;">Make a selection to highlight records on the chart: </b>
-    <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
-    <% for(String filter: options) {%>
-    <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
-    <%} %>
-    </select>
-    <% } %>
 
-</div>
+        <hr>
+        <b style="font-size:16px;">Make a selection to highlight records on the chart: </b>
+        <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
+            <% for(String filter: options) {%>
+            <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
+            <%} %>
+        </select>
+
+
+    </div>
 
 </c:if>
 
@@ -142,7 +147,7 @@
                 // target the first sorted column
                 columnNum = currentSort[0][0],
                 columnName = $(table.config.headerList[columnNum]).text();
-          //  console.log(columnName +"\tINDEX:"+ columnNum);
+            //  console.log(columnName +"\tINDEX:"+ columnNum);
 
             if(dualAxis) {
                 updateAxis();
@@ -219,136 +224,8 @@
         return txt.value;
     }
     setTimeout("resizeImages()",500);
-   /* for(let c=0; c<resultTypes.length; c++) {
-        var ctx = document.getElementById("resultChart"+c);
-        var colorArray = [];
-        var filterValues = [];
-        if (ctx != null) {
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: $-{experiments},
-                    datasets: generateData()
-                },
-                options: {
-                    responsive: true,
-                    scaleShowValues: true,
-                    scales: {
-                        xAxes: [{
-                            gridLines: {
-                                color: "rgba(0, 0, 0, 0)"
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Experiment Conditions',
-                                fontSize: 14,
-                                fontStyle: 'bold',
-                                fontFamily: 'Calibri'
-                            },
-                            ticks: {
-                                /*   fontColor: "rgb(0,75,141)",*/
-   /*                             fontSize: 10,
-                                autoSkip: false,
-                                callback: function (t) {
-                                    var maxLabelLength = 40;
-                                    if (t.length > maxLabelLength) return t.substr(0, maxLabelLength - 20) + '...';
-                                    else return t;
-                                }
-                            }
-                        }],
-                        yAxes: [{
-                            id: 'delivery',
-                            type: 'linear',
-                            position: 'left',
-                            ticks: {
-                                beginAtZero: true
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: getLabelString(null),
-                                fontSize: 14,
-                                fontStyle: 'bold',
-                                fontFamily: 'Calibri'
-                            }
-                        }, {
-                            id: 'editing',
-                            display: false,
-                            type: 'linear',
-                            position: 'right',
-                            ticks: {
-                                beginAtZero: true
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: getLabelString(null),
-                                fontSize: 14,
-                                fontStyle: 'bold',
-                                fontFamily: 'Calibri'
-                            }
-                        }]
-                    },
-                    tooltips: {
-                        callbacks: {
-                            title: function (tooltipItem) {
-                                return this._data.labels[tooltipItem[0].index];
-                            },
-                            afterLabel: function (tooltipItem) {
-                                var index = tooltipItem.index;
-                                return getDetails(index);
-                            }
-                        }
-                    },
-                    hover: {
-                        mode: 'index',
-                        intersect: false
-                    },
-                    legend: {
-                        display: true
-                    }
-                }
-            });
-        }
-    }*/
-   /* function getRandomColor() {
-        var letters = 'BCDEF'.split('');
-        var color = '#';
-        for (var i = 0; i < 6; i++ ) {
-            color += letters[Math.floor(Math.random() * letters.length)];
-        }
-        return color;
-    }*/
-    function getDetails(index) {
-        var table = document.getElementById('myTable');
-        var j = 0;
-        var detail = [];
-        var rowLength = table.rows.length;
-        var avgIndex = table.rows.item(0).cells.length -2;
-        for (i = 1; i < rowLength; i++) {
-            if (table.rows.item(i).style.display !== 'none') {
-                if (j === index) {
-                    for(k = 1;k < avgIndex-2;k++){
-                        var label = table.rows.item(0).cells.item(k).innerText;
-                        var value = table.rows.item(i).cells.item(k).innerText;
-                        detail.push(label + ':' + value) ;
-                    }
-                }
-                j++;
-            }
-        }
-        return detail;
-    }
 
-     colorPalette = [
-        'rgba(230, 159, 0, 0.5)', 'rgba(86, 180, 233, 0.5)', 'rgba(0, 158, 115, 0.5)', 'rgba(240, 228, 66, 0.5)',
-        'rgba(0, 114, 178, 0.5)', 'rgba(213, 94, 0, 0.5)', 'rgba(204, 121, 167, 0.5)', 'rgba(0, 0, 0, 0.5)',
-        'rgba(233, 150, 122, 0.5)', 'rgba(139, 0, 139, 0.5)', 'rgba(169, 169, 169, 0.5)', 'rgba(220, 20, 60, 0.5)',
-        'rgba(100, 149, 237, 0.5)', 'rgba(127, 255, 0, 0.5)', 'rgba(0, 0, 128, 0.5)', 'rgba(255, 222, 173, 0.5)',
-        'rgba(128, 0, 0, 0.5)', 'rgba(224, 255, 255, 0.5)', 'rgba(32, 178, 170, 0.5)', 'rgba(160, 82, 45, 0.5)',
-        'rgba(238, 130, 238, 0.5)', 'rgba(154, 205, 50, 0.5)', 'rgba(219, 112, 147, 0.5)', 'rgba(199, 21, 133, 0.5)',
-        'rgba(102, 205, 170, 0.5)', 'rgba(240, 128, 128, 0.5)', 'rgba(222, 184, 135, 0.5)', 'rgba(95, 158, 160, 0.5)',
-        'rgba(189, 183, 107, 0.5)', 'rgba(0, 100, 0, 0.5)', 'rgba(0, 191, 255, 0.5)', 'rgba(255, 0, 255, 0.5)',
-        'rgba(218, 165, 32, 0.5)', 'rgba(75, 0, 130, 0.5)'
-    ];
+
     function update(updateColor){
         var table = document.getElementById('myTable'); //to remove filtered rows
         var rowLength=table.rows.length;
@@ -365,39 +242,40 @@
             if(cellText.includes( "Record ID")){
                 recordIdIndex=j;
             }
-            if(updateColor)
-            if (cellText.includes(filter)) { //check the column of selected filter
-                selected = j;
-            }
+            if(filter!='None')
+                if (cellText.includes(filter)) { //check the column of selected filter
+                    selected = j; // selected filter column index of colorBy
+                }
         }
         // to implement color by selected, generate map<colorBy_column_value,  List<record_id>>
         var colorByRecords={}
-        for(var i=1;i<rowLength;i++) {
-            if (updateColor && filter!='None') {
-                var recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
+        var filterValues=[];
+        if (filter!='None') {
+            for(var i=1;i<rowLength;i++) {
+                recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
                 var cells = table.rows.item(i).cells;
                 var value = cells.item(selected).innerText;
+                if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
+                    filterValues.push(value);
+                }
                 colorByRecords[value] = colorByRecords[value] || [];
                 colorByRecords[value].push(recordId);
             }
         }
+        filterValues.sort();
         //record ids ordered after sorting the column
-            for(var i=1;i<rowLength;i++){
+        for(var i=1;i<rowLength;i++){
             if (table.rows.item(i).style.display != 'none') {
-                var recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
+                recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
                 var valueObj = {};
                 valueObj.id = recordId;
-
-                // valueObj.value=value;
-
                 sortedValues.push(valueObj);
-              //  console.log("recordId:" + recordId)
             }
         }
-     //   var colorByRecordsJson=JSON.stringify(colorByRecords)
-    //    console.log("COLOR RECS:"+ colorByRecordsJson)
+        //   var colorByRecordsJson=JSON.stringify(colorByRecords)
+        //    console.log("COLOR RECS:"+ colorByRecordsJson)
         <%
-        Gson gson=new Gson();
+
         int c=0;
         for(Plot plot:plots){
             Map<String, List<Double>> plotData=plot.getPlotData();
@@ -410,86 +288,82 @@
         var  arrayLabel=<%=gson.toJson(plot.getTickLabels())%>;
         var  arrayData =<%=values%>;
         var  recordIds=<%=plot.getRecordIds()%>;
-        var replicateSize=<%=plot.getReplicateResult().size()%>
-        var replicateResults=<%=gson.toJson(plot.getReplicateResult())%>
-        var noneColor=getRandomColor();
-        var color;
-        var colors= myChart<%=c%>.data.datasets[0].backgroundColor;
-          var  arrayOfObj = arrayLabel.map(function(d, i) {
-              var reps=[];
-              var dataArray=null;
+        var replicateSize=<%=plot.getReplicateResult().size()%>;
+        var replicateResults=<%=gson.toJson(plot.getReplicateResult())%>;
+        //   var noneColor=getRandomColor();
+        var color=colorPalette[0];
+        var  arrayOfObj = arrayLabel.map(function(d, i) {
+            var reps=[];
+            var dataArray=null;
 
-              var filtered=true;
-              for(var v in sortedValues){
-                  var sortedVal=sortedValues[v];
-                  if(sortedVal.id==recordIds[i]){
-                      filtered=false;
-                  }
-              }
-              if(filtered==false){
-                  dataArray=arrayData[i];
-                  for(var key in replicateResults){
-                      if (replicateResults.hasOwnProperty(key)) {
-                          rr = replicateResults[key];
-                          reps.push(rr[i])
-                      }
-                  }
-              }
-                if(colors.length==arrayLabel.length && filter!='None'){
-                    color=colors[i];
-                }else
-                    color=colors;
+            var filtered=true;
+            for(var v in sortedValues){
+                var sortedVal = sortedValues[v];
+                if (sortedVal.id == recordIds[i]) {
+                    filtered = false;
+                }
 
-                if(updateColor && filter!='None'){
-                    var colorChoice=0;
-                    for(var c in colorByRecords){
-                        if(colorByRecords.hasOwnProperty(c)){
+            }
+            if(filtered==false){
+                dataArray=arrayData[i];
+                for(var key in replicateResults){
+                    if (replicateResults.hasOwnProperty(key)) {
+                        var rr = replicateResults[key];
+                        reps.push(rr[i])
+                    }
+                }
+            }
+            if(filter!='None'){
+                for(var c in colorByRecords){
+                    if(colorByRecords.hasOwnProperty(c)){
                         var colorRecIds=colorByRecords[c];
                         for(var id in colorRecIds) {
                             if (colorRecIds[id]==(recordIds[i])) {
-                                color = colorPalette[colorChoice];
+                                var index = filterValues.indexOf(c);
+                                color=colorPalette[index]
 
                             }
                         }
-                        colorChoice++;
-                    }}
 
+                    }
                 }
-              return {
-                  label: d,
-                  data: dataArray ,
-                  recordId:recordIds[i],
-                  bgColor:color,
-                  replicates:reps
-              };
-          });
+
+            }
+            return {
+                label: d,
+                data: dataArray ,
+                recordId:recordIds[i],
+                bgColor:color,
+                replicates:reps
+            };
+        });
 
         //Sorting array of objects by sortedValues
         var  sortedArrayOfObj=sortByValues(sortedValues, arrayOfObj);
-           var  newArrayLabel = [];
-           var  newArrayData = [];
-           var newArrayIndividuals=[];
-           var bgColorArray=[];
-           var j=0;
-           var data=[];
+        var  newArrayLabel = [];
+        var  newArrayData = [];
+        var newArrayIndividuals=[];
+        var bgColorArray=[];
+        var j=0;
+        var data=[];
 
-           // generating updated data for the plots from the sorted objects
-                sortedArrayOfObj.forEach(function(d){
-                    newArrayLabel.push(d.label);
-                    newArrayData.push(d.data);
-                    bgColorArray.push(d.bgColor);
-                    newArrayIndividuals[j]=(d.replicates);
-                    j++;
+        // generating updated data for the plots from the sorted objects
+        sortedArrayOfObj.forEach(function(d){
+            newArrayLabel.push(d.label);
+            newArrayData.push(d.data);
+            bgColorArray.push(d.bgColor);
+            newArrayIndividuals[j]=(d.replicates);
+            j++;
 
-                });
+        });
 
-                myChart<%=c%>.data.labels=newArrayLabel;
+        myChart<%=c%>.data.labels=newArrayLabel;
 
-                data.push({
-                    label:"Value",
-                    data: newArrayData,
-                    backgroundColor: bgColorArray,
-                });
+        data.push({
+            label:"Value",
+            data: newArrayData,
+            backgroundColor: bgColorArray,
+        });
 
         var counter=0;
         if(newArrayIndividuals.length>0) {
@@ -513,12 +387,10 @@
             }
 
         }
-                myChart<%=c%>.data.datasets=data;
-                myChart<%=c%>.update();
-            //   document.getElementById("chartDiv<-%=c%>").style.display = "block";
-                document.getElementById("resultChart<%=c%>").style.display = "block";
-
-           //     console.log("DATA SETS LENGTH:"+myChart<%=c%>.data.datasets[0].data);
+        myChart<%=c%>.data.datasets=data;
+        myChart<%=c%>.update();
+         document.getElementById("chartDiv<%=c%>").style.display = "block";
+        document.getElementById("resultChart<%=c%>").style.display = "block";
 
         <%c++;}%>
     }
@@ -526,13 +398,13 @@
         var sortedObjArray=[];
         var index=0;
         for(var i=0;i<sortedValues.length;i++){
-        for(var j=0;j<arrayOfObj.length;j++){
+            for(var j=0;j<arrayOfObj.length;j++){
 
-             if(arrayOfObj[j].recordId==sortedValues[i].id) {
+                if(arrayOfObj[j].recordId==sortedValues[i].id) {
 
-                        sortedObjArray[index] = arrayOfObj[j];
-                        index++;
-                        break;
+                    sortedObjArray[index] = arrayOfObj[j];
+                    index++;
+                    break;
 
                 }
             }
@@ -721,9 +593,9 @@
         for (i = 1; i < rowLength; i++){
             var cells = table.rows.item(i).cells;
             for (k=0; k<cells.length;k++ ) {
-            //    console.log("innser = " + cells.item(k).innerText + "!" + obj.id);
-              if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
-             //   if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+                //    console.log("innser = " + cells.item(k).innerText + "!" + obj.id);
+                if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+                    //   if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                     if (obj.checked) {
                         cells.item(k).off=false;
                         var somethingOff = false;
@@ -761,32 +633,32 @@
 
 
     }
-    function generateData() {
-        var noOfDatasets=${replicateResult.keySet().size()};
-        var dataSet = ${replicateResult.values()};;
-        var data=[];
-        data.push({
-            label: "Mean",
-            data: ${plotData.get("Mean")},
-            yAxisID: 'delivery',
-            backgroundColor: 'rgba(255, 206, 99, 0.6)',
-            borderColor:    'rgba(255, 206, 99, 0.8)',
-            borderWidth: 1
-        });
-        for(var i=0;i< noOfDatasets;i++){
-            data.push({
-                data: dataSet[i],
-                label: "Replicate: "+(i+1),
-                yAxisID: 'delivery',
-                backgroundColor: 'rgba(220,220,220,0.5)',
-                borderColor: 'rgba(255,99,132,1)',
-                type: "scatter",
-                showLine: false
-            });
-        }
-        return data;
-    }
-
+    /*   function generateData() {
+           var noOfDatasets=$-{replicateResult.keySet().size()};
+           var dataSet = $-{replicateResult.values()};;
+           var data=[];
+           data.push({
+               label: "Mean",
+               data: $-{plotData.get("Mean")},
+               yAxisID: 'delivery',
+               backgroundColor: 'rgba(255, 206, 99, 0.6)',
+               borderColor:    'rgba(255, 206, 99, 0.8)',
+               borderWidth: 1
+           });
+           for(var i=0;i< noOfDatasets;i++){
+               data.push({
+                   data: dataSet[i],
+                   label: "Replicate: "+(i+1),
+                   yAxisID: 'delivery',
+                   backgroundColor: 'rgba(220,220,220,0.5)',
+                   borderColor: 'rgba(255,99,132,1)',
+                   type: "scatter",
+                   showLine: false
+               });
+           }
+           return data;
+       }
+   */
     var dualAxis = false;
     function load() {
         console.log("in load");
@@ -917,9 +789,9 @@
     }
     var quantitative = 0;
     quantitative =quantitativeSize;
-  //  console.log(quantitative);
+    //  console.log(quantitative);
 
-  //  setTimeout("load()",500);
+     setTimeout("load()",500);
 </script>
 
 <%

@@ -27,9 +27,12 @@
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 
-<% try {  %>
+
 <div>
-<%
+        <%
+    List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
+    Map<java.lang.String, List<ExperimentRecord>> resultTypeRecords= (Map<java.lang.String, List<ExperimentRecord>>) request.getAttribute("resultTypeRecords");
+
         HashMap<Long,ExperimentRecord> experimentRecordsMap = (HashMap<Long,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
         ExperimentDao edao = new ExperimentDao();
         Study study = (Study) request.getAttribute("study");
@@ -172,9 +175,6 @@
 
 
 
-<% } catch (Exception e) {
-        e.printStackTrace();
- }
-%>
+
 
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
