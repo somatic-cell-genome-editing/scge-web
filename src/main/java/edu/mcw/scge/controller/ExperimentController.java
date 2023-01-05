@@ -559,43 +559,136 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
     }
 
 
-    public  Map<String, String> getTableColumns(List<ExperimentRecord> records){
-        Map<String, String> columnMap=new HashMap<>();
+    public  Map<String, List<String>> getTableColumns(List<ExperimentRecord> records){
+        Map<String, List<String>> columnMap=new HashMap<>();
         for(ExperimentRecord record:records){
-            if(record.getTissueTerm()!=null && !record.getTissueTerm().equals(""))
-                columnMap.put("tissueTerm", "");
+            if(record.getTissueTerm()!=null && !record.getTissueTerm().equals("")) {
+                Set<String> tissueTerm= new HashSet<>();
+                if(columnMap.get("tissueTerm")!=null){
+                tissueTerm.addAll(columnMap.get("tissueTerm"));
+                }
+                tissueTerm.add(record.getTissueTerm());
+                columnMap.put("tissueTerm", new ArrayList<>(tissueTerm));
+            }
             if(record.getCellTypeTerm()!=null && !record.getCellTypeTerm().equals("") && !record.getCellTypeTerm().equals("unspecified"))
-                columnMap.put("cellTypeTerm", "");
+            {
+                Set<String> cellTypeTerm= new HashSet<>();
+                if(columnMap.get("cellTypeTerm")!=null){
+                    cellTypeTerm.addAll(columnMap.get("cellTypeTerm"));
+                }
+                cellTypeTerm.add(record.getCellTypeTerm());
+                columnMap.put("cellTypeTerm", new ArrayList<>( cellTypeTerm));
+            }
             if(record.getModelDisplayName()!=null && !record.getModelDisplayName().equals(""))
-                columnMap.put("modelDisplayName", "");
+            {
+                Set<String> modelDisplayName= new HashSet<>();
+                if(columnMap.get("modelDisplayName")!=null){
+                    modelDisplayName.addAll(columnMap.get("modelDisplayName"));
+                }
+                modelDisplayName.add(record.getModelDisplayName());
+                columnMap.put("modelDisplayName", new ArrayList<>(modelDisplayName));
+            }else{
+                if(record.getModelName()!=null && !record.getModelName().equals("")){
+                    Set<String> modelDisplayName= new HashSet<>();
+                    if(columnMap.get("modelDisplayName")!=null){
+                        modelDisplayName.addAll(columnMap.get("modelDisplayName"));
+                    }
+                    modelDisplayName.add(record.getModelName());
+                    columnMap.put("modelDisplayName", new ArrayList<>(modelDisplayName));
+                }
+            }
             if(record.getAge()!=null && !record.getAge().equals(""))
-                columnMap.put("age", "");
+            {
+                Set<String> age= new HashSet<>();
+                if(columnMap.get("age")!=null){
+                    age.addAll(columnMap.get("age"));
+                }
+                age.add(record.getAge());
+                columnMap.put("age", new ArrayList<>(age));
+            }
             if(record.getSex()!=null && !record.getSex().equals(""))
-                columnMap.put("sex", "");
-            if(record.getGenotype()!=null && !record.getGenotype().equals(""))
-                columnMap.put("genoType", "");
+            {
+                Set<String> sex= new HashSet<>();
+                if(columnMap.get("sex")!=null){
+                    sex.addAll(columnMap.get("sex"));
+                }
+                sex.add(record.getSex());
+                columnMap.put("sex", new ArrayList<>(sex));
+            }
+
             if(record.getEditorSymbol()!=null && !record.getEditorSymbol().equals(""))
-                columnMap.put("editorSymbol", "");
+            { Set<String> editorSymbol= new HashSet<>();
+                if(columnMap.get("editorSymbol")!=null){
+                    editorSymbol.addAll(columnMap.get("editorSymbol"));
+                }
+                editorSymbol.add(record.getEditorSymbol());
+                columnMap.put("editorSymbol", new ArrayList<>(editorSymbol));
+            }
             if(record.getDeliverySystemName()!=null && !record.getDeliverySystemName().equals(""))
-                columnMap.put("deliverySystemName", "");
+            {
+                Set<String> deliverySystemName= new HashSet<>();
+                if(columnMap.get("deliverySystemName")!=null){
+                    deliverySystemName.addAll(columnMap.get("deliverySystemName"));
+                }
+                deliverySystemName.add(record.getDeliverySystemName());
+                columnMap.put("deliverySystemName", new ArrayList<>(deliverySystemName));
+            }
             if(record.getGuides()!=null && record.getGuides().size()>0)
-                columnMap.put("guide", "");
+            {
+                Set<String> guide= new HashSet<>();
+                if(columnMap.get("guide")!=null){
+                    guide.addAll(columnMap.get("guide"));
+                }
+                guide.addAll(record.getGuides().stream().map(g->g.getGuide()).collect(Collectors.toSet()));
+                columnMap.put("guide", new ArrayList<>(guide));
+            }
             if(record.getGuides()!=null && record.getGuides().size()>0){
                List<String> targetLocus= record.getGuides().stream().map(Guide::getTargetLocus).collect(Collectors.toList());
                if(targetLocus.size()>0){
-                   columnMap.put("targetLocus", "");
+
+                   Set<String> targetLocusSet= new HashSet<>();
+                   if(columnMap.get("targetLocus")!=null){
+                       targetLocusSet.addAll(columnMap.get("targetLocus"));
+                   }
+                   targetLocusSet.addAll(record.getGuides().stream().map(Guide::getTargetLocus).collect(Collectors.toSet()));
+                   columnMap.put("targetLocus", new ArrayList<>(targetLocusSet));
                }
             }
 
             if(record.getVectors()!=null && record.getVectors().size()>0)
-                columnMap.put("vector", "");
+            {
+                Set<String> vector= new HashSet<>();
+                if(columnMap.get("vector")!=null){
+                    vector.addAll(columnMap.get("vector"));
+                }
+                vector.addAll(record.getVectors().stream().map(v->v.getName()).collect(Collectors.toSet()));
+                columnMap.put("vector", new ArrayList<>(vector));
+            }
             if(record.getHrDonors()!=null && record.getHrDonors().size()>0)
-                columnMap.put("hrDonor", "");
+            {
+                Set<String> hrDonor= new HashSet<>();
+                if(columnMap.get("hrDonor")!=null){
+                    hrDonor.addAll(columnMap.get("hrDonor"));
+                }
+                hrDonor.addAll(record.getHrDonors().stream().map(h->String.valueOf(h.getId())).collect(Collectors.toSet()));
+                columnMap.put("hrDonor", new ArrayList<>(hrDonor));
+            }
             if(record.getDosage()!=null && !record.getDosage().equals(""))
-                columnMap.put("dosage", "");
+            {
+                Set<String> dosage= new HashSet<>();
+                if(columnMap.get("dosage")!=null){
+                    dosage.addAll(columnMap.get("dosage"));
+                }
+                dosage.add(record.getDosage());
+                columnMap.put("dosage", new ArrayList<>(dosage));
+            }
             if(record.getInjectionFrequency()!=null && !record.getInjectionFrequency().equals("")) {
-                System.out.println("INJECTION FREQUENCY:" +record.getInjectionFrequency());
-                columnMap.put("injectionFrequency", "");
+                Set<String> injectionFrequency= new HashSet<>();
+                if(columnMap.get("injectionFrequency")!=null){
+                    injectionFrequency.addAll(columnMap.get("injectionFrequency"));
+                }
+                injectionFrequency.add(record.getInjectionFrequency());
+                columnMap.put("injectionFrequency", new ArrayList<>(injectionFrequency));
 
             }
 
@@ -653,6 +746,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
     }
     public Map<String, List<ExperimentRecord>> getSegregatedRecords(List<ExperimentRecord> records){
         Map<String, List<ExperimentRecord>> resultTypes=new HashMap<>();
+        Map<String, List<ExperimentRecord>> resultTypesSorted=new LinkedHashMap<>();
         for(ExperimentRecord er:records){
             if(er.getResultDetails()!=null && er.getResultDetails().get(0)!=null) {
                 for (ExperimentResultDetail erd : er.getResultDetails()) {
@@ -675,7 +769,18 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 }
             }
         }
-        return resultTypes;
+        for(String key:resultTypes.keySet()){
+            if(key.toLowerCase().contains("efficiency")){
+                resultTypesSorted.put(key, resultTypes.get(key));
+
+            }
+        }
+        for(String key:resultTypes.keySet()){
+            if(!key.toLowerCase().contains("efficiency")){
+                resultTypesSorted.put(key, resultTypes.get(key));
+            }
+        }
+        return resultTypesSorted;
     }
       @RequestMapping(value="/experiment/{experimentId}")
     public String getExperimentsByExperimentId(HttpServletRequest req, HttpServletResponse res, @PathVariable(required = true) long experimentId) throws Exception {
