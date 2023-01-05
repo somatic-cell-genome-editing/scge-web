@@ -11,15 +11,86 @@
 <%@ page import="java.util.Map" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <script>
+    colorPalette = [
+        'rgba(230, 159, 0, 0.5)', 'rgba(86, 180, 233, 0.5)', 'rgba(0, 158, 115, 0.5)', 'rgba(240, 228, 66, 0.5)',
+        'rgba(0, 114, 178, 0.5)', 'rgba(213, 94, 0, 0.5)', 'rgba(204, 121, 167, 0.5)', 'rgba(0, 0, 0, 0.5)',
+        'rgba(233, 150, 122, 0.5)', 'rgba(139, 0, 139, 0.5)', 'rgba(169, 169, 169, 0.5)', 'rgba(220, 20, 60, 0.5)',
+        'rgba(100, 149, 237, 0.5)', 'rgba(127, 255, 0, 0.5)', 'rgba(0, 0, 128, 0.5)', 'rgba(255, 222, 173, 0.5)',
+        'rgba(128, 0, 0, 0.5)', 'rgba(224, 255, 255, 0.5)', 'rgba(32, 178, 170, 0.5)', 'rgba(160, 82, 45, 0.5)',
+        'rgba(238, 130, 238, 0.5)', 'rgba(154, 205, 50, 0.5)', 'rgba(219, 112, 147, 0.5)', 'rgba(199, 21, 133, 0.5)',
+        'rgba(102, 205, 170, 0.5)', 'rgba(240, 128, 128, 0.5)', 'rgba(222, 184, 135, 0.5)', 'rgba(95, 158, 160, 0.5)',
+        'rgba(189, 183, 107, 0.5)', 'rgba(0, 100, 0, 0.5)', 'rgba(0, 191, 255, 0.5)', 'rgba(255, 0, 255, 0.5)',
+        'rgba(218, 165, 32, 0.5)', 'rgba(75, 0, 130, 0.5)'
+    ];
+    function  generateDataSets(mean, replicates, recordIds, replicateResultSize, index) {
+
+        var data=[];
+        $.each(mean, function(i, val) {
+            //     $("#" + i).append(document.createTextNode(" - " + val));
+            data.push({
+                label:"Mean",
+                data: val,
+                backgroundColor: colorPalette[index],
+                borderColor: colorPalette[index],
+                borderWidth: 1,
+                recordIds:recordIds,
+                replicateResultSize:replicateResultSize
+            });
+        });
+
+        $.each(replicates, function(i, val) {
+            data.push({
+                label: "Replicate - "+i,
+                data:val,
+                type: "scatter",
+                backgroundColor:"red",
+                showLine: false
+
+            });
+
+
+        });
+
+
+        return data;
+    }
+    function getRandomColor() {
+        var trans = '0.5'; // 50% transparency
+        var color = 'rgba(';
+        for (var i = 0; i < 3; i++) {
+            color += Math.floor(Math.random() * 255) + ',';
+        }
+        color += trans + ')'; // add the transparency
+        return color;
+    }
+    function getDetails(index) {
+        var table = document.getElementById('myTable');
+        var j = 0;
+        var detail = [];
+        var rowLength = table.rows.length;
+        var avgIndex = table.rows.item(0).cells.length -2;
+        for (i = 1; i < rowLength; i++) {
+            if (table.rows.item(i).style.display !== 'none') {
+                if (j === index) {
+                    for(k = 1;k < avgIndex-2;k++){
+                        var label = table.rows.item(0).cells.item(k).innerText;
+                        var value = table.rows.item(i).cells.item(k).innerText;
+                        detail.push(label + ':' + value) ;
+                    }
+                }
+                j++;
+            }
+        }
+        return detail;
+    }
 
 </script>
 <%
-    List<Plot> plots= (List<Plot>) request.getAttribute("plots");
     int cellCount=0;
     if(plots.size()>1){
 %>
-
    <table style="height: 400px;width:100%">
      <%
          int chartHeight=400;
@@ -60,7 +131,6 @@
     var ctx = document.getElementById("resultChart<%=i%>");
      myChart<%=i%> = new Chart(ctx, {
         type: 'bar',
-        <%Gson gson=new Gson();%>
         data: {
             labels: <%=gson.toJson(plot.getTickLabels())%>,
             datasets: generateData()
@@ -73,7 +143,7 @@
             title: {
                 display: true,
 
-                text: [<%=plot.getTitle()%>],
+              //  text: [<%--=plot.getTitle()--%>],
                 color:"#FF8C00"
             },
 
