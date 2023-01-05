@@ -1,3 +1,5 @@
+<%@ page import="edu.mcw.scge.datamodel.Vector" %>
+<%@ page import="java.util.Map" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -32,11 +34,17 @@
         });
     })
 </script>
+<%
+    Map<String, String> tableColumns= (Map<String, String>) request.getAttribute("tableColumns");
+    List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
+    Map<java.lang.String, List<ExperimentRecord>> resultTypeRecords= (Map<java.lang.String, List<ExperimentRecord>>) request.getAttribute("resultTypeRecords");
+%>
+
 <table id="myTable">
     <thead>
     <!--tr class="tablesorter-ignoreRow hasSpan" role="row">
-        <th colspan="${fn:length(tableColumns)+3}" data-column="0" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="${fn:length(tableColumns)+3}" style="background-color: whitesmoke"></th>
-        <th colspan="${fn:length(resultTypeRecords)}" data-column="${fn:length(tableColumns)+3}" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="${fn:length(resultTypeRecords)}" style="background-color: orange">Results</th>
+        <th colspan="$-{fn:length(tableColumns)+3}" data-column="0" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="$-{fn:length(tableColumns)+3}" style="background-color: whitesmoke"></th>
+        <th colspan="$-{fn:length(resultTypeRecords)}" data-column="$-{fn:length(tableColumns)+3}" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="$-{fn:length(resultTypeRecords)}" style="background-color: orange">Results</th>
 
     </tr-->
     <tr>
@@ -52,12 +60,6 @@
         <c:if test="${tableColumns.sex!=null}">
             <th>Sex</th>
         </c:if>
-        <!--c:if test="$-{tableColumns.age!=null}"-->
-        <!--th>Age</th-->
-        <!--/c:if-->
-        <!--c:if test="$-{tableColumns.genoType!=null}"-->
-        <!--th>Genotype</th-->
-        <!--/c:if-->
         <c:if test="${tableColumns.editorSymbol!=null}">
         <th>Editor</th>
         </c:if>
@@ -86,7 +88,7 @@
         <c:if test="${tableColumns.injectionFrequency!=null}">
         <th>Injection Frequency</th>
         </c:if>
-        <th>No. of Replicates</th>
+
 
         <c:forEach items="${resultTypeRecords}" var="resultType">
             <th>${resultType.key}</th>
@@ -96,139 +98,159 @@
 
     </tr>
     </thead>
-    <tbody></tbody>
-<c:forEach items="${records}" var="record">
+    <tbody>
+    <% for(ExperimentRecord record:records){%>
     <tr>
-        <td>${record.experimentRecordId}</td>
-        <td><a href="/toolkit/data/experiments/experiment/${record.experimentId}/record/${record.experimentRecordId}/">${record.experimentRecordName}</a></td>
+
+        <td><%=record.getExperimentRecordId()%></td>
+        <td><a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><%=record.getExperimentRecordName()%></a></td>
 
         <c:if test="${tableColumns.tissueTerm!=null}">
-        <td>${record.tissueTerm}</td>
+        <td><%=record.getTissueTerm()%></td>
         </c:if>
         <c:if test="${tableColumns.cellTypeTerm!=null}">
-        <td>${record.cellTypeTerm}</td>
+        <td><%=record.getCellTypeTerm()%></td>
         </c:if>
         <c:if test="${tableColumns.sex!=null}">
-            <td>${record.sex}</td>
+            <td><%=record.getSex()%></td>
         </c:if>
 
         <c:if test="${tableColumns.editorSymbol!=null}">
-            <td><a href="/toolkit/data/editors/editor?id=${record.editorId}">${record.editorSymbol}</a></td>
+            <td>
+                <%if(record.getEditorId()>0){%>
+                <a href="/toolkit/data/editors/editor?id=<%=record.getEditorId()%>"><%=record.getEditorSymbol()%></a>
+                <%}%>
+            </td>
         </c:if>
         <c:if test="${tableColumns.hrDonor!=null}">
-            <td><a href="/toolkit/data/hrdonors/hrdonor?id=${record.hrDonorId}">${record.hrdonorName}</a></td>
+            <td>
+                <%if(record.getHrdonorId()>0){%>
+                <a href="/toolkit/data/hrdonors/hrdonor?id=<%=record.getHrdonorId()%>"><%=record.getHrdonorName()%></a>
+            <%}%>
+            </td>
         </c:if>
         <c:if test="${tableColumns.modelDisplayName!=null}">
-            <td><a href="/toolkit/data/models/model?id=${record.modelId}">${record.modelDisplayName}</a></td>
+
+            <td>
+                <%if(record.getModelId()>0){%>
+                <a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelDisplayName()%></a>
+            <%}%>
+            </td>
         </c:if>
         <c:if test="${tableColumns.deliverySystemName!=null}">
-            <td><a href="/toolkit/data/delivery/system?id=${record.deliverySystemId}">${record.deliverySystemName}</a></td>
+            <td>
+                <%if(record.getDeliverySystemId()>0){%>
+                <a href="/toolkit/data/delivery/system?id=<%=record.getDeliverySystemId()%>"><%=record.getDeliverySystemName()%></a>
+                <%}%>
+            </td>
         </c:if>
         <c:if test="${tableColumns.targetLocus!=null}">
-        <td>
+            <td>
+            <%if(record.getGuides()!=null) {
+                    boolean first = true;
+                    for (Guide guide : record.getGuides()) {
+                        if (first) {
+                            first = false;
+                            if (guide.getTargetLocus() != null){%>
+                               <%=guide.getTargetLocus()%>
+                          <%} } else {
+                            if (guide.getTargetLocus() != null){%>
+                           ;&nbsp;<%=guide.getTargetLocus()%>
 
-            <c:set var="first" value="true"/>
-            <c:forEach items="${record.guides}" var="guide">
-                <c:choose>
-                    <c:when test="${first=='true'}">
-                        <c:set var="first" value="false"/>
-                        ${guide.targetLocus}
-                    </c:when>
-                    <c:otherwise>
-                        ;${guide.targetLocus}
-                    </c:otherwise>
-                </c:choose>
-
-            </c:forEach>
-
-        </td>
+                       <%} }
+                    }
+                }%>
+            </td>
         </c:if>
         <c:if test="${tableColumns.guide!=null}">
-        <td>
-            <c:set var="first" value="true"/>
-            <c:forEach items="${record.guides}" var="guide">
-                <c:choose>
-                    <c:when test="${first=='true'}">
-                        <c:set var="first" value="false"/>
-                        ${guide.guide}
-                    </c:when>
-                    <c:otherwise>
-                        ;${guide.guide}
-                    </c:otherwise>
-                </c:choose>
+            <td>
+                <%if(record.getGuides()!=null) {
+                    boolean first = true;
+                    for (Guide guide : record.getGuides()) {
+                        if (first) {
+                            first = false;
+                            if (guide.getGuide_id() >0){%>
+                <a href="/toolkit/data/guide/system?id=<%=guide.getGuide_id()%>"><%=guide.getGuide()%></a>
+                <%} } else {
+                    if (guide.getGuide_id() >0){%>
+                ;&nbsp;<a href="/toolkit/data/guide/system?id=<%=guide.getGuide_id()%>"><%=guide.getGuide()%></a>
 
-            </c:forEach>
-        </td>
+                <%} }
+                }
+                }%>
+            </td>
         </c:if>
+
         <c:if test="${tableColumns.vector!=null}">
-        <td>
-            <c:set var="first" value="true"/>
-            <c:forEach items="${record.vectors}" var="vector">
-                <c:choose>
-                    <c:when test="${first=='true'}">
-                        <c:set var="first" value="false"/>
-                        ${vector.name}
-                    </c:when>
-                    <c:otherwise>
-                        ;${vector.name}
-                    </c:otherwise>
-                </c:choose>
+            <td>
+        <%
+            boolean firstVector=true;
+        if(record.getVectors()!=null)
+        for(Vector v:record.getVectors()){
+                if (firstVector) {
+                    firstVector = false;
+         %>
+                <a href="/toolkit/data/vector/format?id=<%=v.getVectorId()%>"><%=v.getName()%></a>
+                <%}else {%>
+                <a href="/toolkit/data/vector/format?id=<%=v.getVectorId()%>">;&nbsp;<%=v.getName()%></a>
+                <%  }
+                }
+                %>
 
-            </c:forEach>
-
-        </td>
+           </td>
         </c:if>
 
         <c:if test="${tableColumns.dosage!=null}">
-        <td>${record.dosage}</td>
+        <td><%=record.getDosage()%></td>
         </c:if>
         <c:if test="${tableColumns.injectionFrequency!=null}">
-        <td>${record.injectionFrequency}</td>
+        <td><%=record.getInjectionFrequency()%></td>
         </c:if>
+        <%
+                int popover=0;
+                for(Map.Entry resultType: resultTypeRecords.entrySet()){
+                    String result="";
+                    StringBuilder replicates=new StringBuilder();
+                    String resultTypeKey= (String) resultType.getKey();
+                    List<ExperimentRecord> rtRecords= (List<ExperimentRecord>) resultType.getValue();
+                    for(ExperimentRecord rtRecord:rtRecords){
+                        if(rtRecord.getExperimentRecordId()==record.getExperimentRecordId()){
+                            for(ExperimentResultDetail erd: record.getResultDetails()){
+                                if(erd.getReplicate()==0){
+                                    if(erd.getUnits()!=null && resultTypeKey.contains(erd.getUnits())){
+                                        result=erd.getResult();
+                                    }
+                                }else{
+                                    if(erd.getUnits()!=null && resultTypeKey.contains(erd.getUnits()) &&!erd.getResult().equalsIgnoreCase("nan"))
+                                    replicates.append(erd.getReplicate()).append(" (").append(erd.getUnits()).append(")").append(":").append(erd.getResult()).append("<br>");
+                                }
+
+                            }
+                        }
+                    }%>
+
         <td>
-
-
-            <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-${record.experimentRecordId}" title="Replicate Values" style="background-color: transparent">
+            <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values" style="background-color: transparent">
                         <span style="text-decoration:underline">
-                            <c:forEach items="${record.resultDetails}" var="erd">
-                                <c:if test="${erd.replicate==0}">
-                                    ${erd.numberOfSamples}
-                                </c:if>
-                            </c:forEach>
+                          <%=result%>
 
                         </span>
             </button>
-            <div style="display: none" id="popover-${record.experimentRecordId}">
+            <div style="display: none" id="popover-<%=record.getExperimentRecordId()%><%=popover%>">
                 <div class="popover-body">
-                    <c:forEach items="${record.resultDetails}" var="r">
-                        <c:if test="${r.replicate!=0 && !fn:containsIgnoreCase(r.result, 'nan' )}">
-                            ${r.replicate}&nbsp;(${r.units}):&nbsp;${r.result}<br>
-                        </c:if>
-                    </c:forEach>
+
+                  <%=replicates.toString()%>
+
                 </div>
             </div>
 
 
 
+
         </td>
-
-        <c:forEach items="${resultTypeRecords}" var="resultType">
-
-            <td>
-            <c:forEach items="${resultType.value}" var="rt">
-                <c:if test="${rt.experimentRecordId==record.experimentRecordId}">
-                    <c:forEach items="${record.resultDetails}" var="erd">
-                        <c:if test="${erd.replicate==0 && fn:contains(resultType.key, erd.units)}">
-                             ${erd.result}
-
-                        </c:if>
-                    </c:forEach>
-                </c:if>
-
-            </c:forEach>
-            </td>
-        </c:forEach>
+        <%popover++;}%>
         <td></td>
     </tr>
-</c:forEach>
+<%}%>
+    </tbody>
 </table>
