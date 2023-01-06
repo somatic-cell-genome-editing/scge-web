@@ -118,7 +118,7 @@
        <%}%>
    </table>
     <%}else{ if(plots.size()==1){%>
-    <div class="chart-container bg-light" style="height:60vh; width:60vw">
+    <div class="chart-container bg-light" id="chartDiv<%=cellCount%>" style="height:60vh; width:60vw">
         <canvas  id="resultChart<%=cellCount%>" ></canvas>
     </div>
    <%}}%>
