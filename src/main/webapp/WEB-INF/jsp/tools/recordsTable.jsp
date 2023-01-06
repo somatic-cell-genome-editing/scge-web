@@ -14,7 +14,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <script src="/toolkit/common/js/jquery.tabletoCSV.js"> </script>
-
 <style>
     td{
         font-size: 12px;
@@ -23,73 +22,18 @@
         border:3px solid #DA70D6;
     }
 </style>
-
-
-<%    Gson gson=new Gson();
+<%  Gson gson=new Gson();
     ImageDao idao = new ImageDao();
     List<Plot> plots= (List<Plot>) request.getAttribute("plots");
     Map<String, List<String>> tableColumns= (Map<String, List<String>>) request.getAttribute("tableColumns");
-    List<String> options = new ArrayList<>();
-    if(plots.size()>1)
-        options.add("Condition");
-    options.add("None");
 
-    if (tableColumns.get("tissueTerm") !=null && ( (List<String>)tableColumns.get("tissueTerm")).size()>1
-            && ( (List<String>)tableColumns.get("tissueTerm")).size()!=records.size()) {
-            options.add("Tissue");
-    }
-    if (tableColumns.get("cellTypeTerm") !=null && ( (List<String>)tableColumns.get("cellTypeTerm")).size()>1
-            && ( (List<String>)tableColumns.get("cellTypeTerm")).size()!=records.size()) {
-            options.add("Cell Type");
-    }
-    if (tableColumns.get("sex") !=null && ( (List<String>)tableColumns.get("sex")).size()>1
-            && ( (List<String>)tableColumns.get("sex")).size()!=records.size()) {
-            options.add("Sex");
-    }
-    if (tableColumns.get("editorSymbol") !=null && ( (List<String>)tableColumns.get("editorSymbol")).size()>1
-            && ( (List<String>)tableColumns.get("editorSymbol")).size()!=records.size()) {
-            options.add("Editor");
-    }
-    if (tableColumns.get("hrDonor") !=null && ( (List<String>)tableColumns.get("hrDonor")).size()>1
-            && ( (List<String>)tableColumns.get("hrDonor")).size()!=records.size()) {
-        options.add("Hr Donor");
-    }
-    if (tableColumns.get("modalDisplayName") !=null && ( (List<String>)tableColumns.get("modalDisplayName")).size()>1
-            && ( (List<String>)tableColumns.get("modalDisplayName")).size()!=records.size()) {
-            options.add("Model");
-    }
-    if (tableColumns.get("deliverySystemName") !=null && ( (List<String>)tableColumns.get("deliverySystemName")).size()>1
-            && ( (List<String>)tableColumns.get("deliverySystemName")).size()!=records.size()) {
-            options.add("Delivery System");
-    }
-    if (tableColumns.get("targetLocus") !=null && ( (List<String>)tableColumns.get("targetLocus")).size()>1
-            && ( (List<String>)tableColumns.get("targetLocus")).size()!=records.size()) {
-            options.add("Target Locus");
-    }
-    if (tableColumns.get("guide") !=null && ( (List<String>)tableColumns.get("guide")).size()>1
-            && ( (List<String>)tableColumns.get("guide")).size()!=records.size()) {
-            options.add("Guide");
-    }
-    if (tableColumns.get("vector") !=null && ( (List<String>)tableColumns.get("vector")).size()>1
-            && ( (List<String>)tableColumns.get("vector")).size()!=records.size()) {
-            options.add("Vector");
-    }
-    if (tableColumns.get("units") !=null && ( (List<String>)tableColumns.get("units")).size()>1
-            && ( (List<String>)tableColumns.get("units")).size()!=records.size()) {
-        //    options.add("Units");
-    }
 %>
-
-<% try {  %>
-
+<%@include file="experiment/colorByOptions.jsp"%>
 <%@include file="recordFilters.jsp"%>
 
 <!--div id="graphOptions" style="padding:10px;margin-bottome:15px;display:none;"></div-->
-
 <c:if test="${fn:length(plots)>0}">
     <div id="barChart">
-
-
         <hr>
         <b style="font-size:16px;">Make a selection to highlight records on the chart: </b>
         <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
@@ -97,12 +41,10 @@
             <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
             <%} %>
         </select>
-
-
     </div>
 
 </c:if>
-
+<%@include file="experiment/plot.jsp"%>
 <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 <script> entireExperimentRecordCount=<%=experimentRecordsMap.size()%></script>
 <table width="100%">
@@ -126,7 +68,7 @@
 </div>
 
 
-<%@include file="experiment/experimentDetails.jsp"%>
+<%@include file="experiment/experimentResultsTable.jsp"%>
 <script>
 
     var tissues = [];
@@ -825,10 +767,7 @@
     feather.replace()
 </script>
 
-<% } catch (Exception e) {
-    e.printStackTrace();
-}
-%>
+
 <% String modalFilePath="/toolkit/images/experimentHelpModal.png"; %>
 <%@include file="modal.jsp"%>
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->

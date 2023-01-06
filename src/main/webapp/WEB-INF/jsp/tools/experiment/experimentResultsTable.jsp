@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="edu.mcw.scge.service.StringUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -95,7 +96,8 @@
     </tr>
     </thead>
     <tbody>
-    <% for(ExperimentRecord record:records){%>
+    <%  int rowCount =1;
+        for(ExperimentRecord record:records){%>
     <tr>
 
         <td><%=record.getExperimentRecordId()%></td>
@@ -245,7 +247,15 @@
 
         </td>
         <%popover++;}%>
+        <%
+            List<Image> images = idao.getImage(record.getExperimentRecordId(),"main1");
+            if (images.size() > 0) {
+        %>
+        <td align="center"><a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="https://scge.mcw.edu<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
+        <% rowCount++;
+        }else { %>
         <td></td>
+        <%}%>
     </tr>
 <%}%>
     </tbody>
