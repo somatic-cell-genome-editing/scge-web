@@ -25,7 +25,6 @@
 <%  Gson gson=new Gson();
     ImageDao idao = new ImageDao();
     List<Plot> plots= (List<Plot>) request.getAttribute("plots");
-    Map<String, List<String>> tableColumns= (Map<String, List<String>>) request.getAttribute("tableColumns");
 
 %>
 <%@include file="experiment/colorByOptions.jsp"%>
@@ -329,6 +328,7 @@
             }
 
         }
+        console.log("DATA:"+ JSON.stringify(data))
         myChart<%=c%>.data.datasets=data;
         myChart<%=c%>.update();
          document.getElementById("chartDiv<%=c%>").style.display = "block";

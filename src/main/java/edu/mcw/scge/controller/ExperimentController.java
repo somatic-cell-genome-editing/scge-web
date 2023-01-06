@@ -691,6 +691,15 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 columnMap.put("injectionFrequency", new ArrayList<>(injectionFrequency));
 
             }
+            if(record.getResultDetails()!=null && record.getResultDetails().size()>0)
+            {
+                Set<String> units= new HashSet<>();
+                if(columnMap.get("units")!=null){
+                    units.addAll(columnMap.get("units"));
+                }
+                units.addAll(record.getResultDetails().stream().map(r->r.getUnits()).collect(Collectors.toSet()));
+                columnMap.put("units", new ArrayList<>(units));
+            }
 
         }
         return columnMap;

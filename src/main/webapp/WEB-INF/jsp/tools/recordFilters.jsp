@@ -138,7 +138,7 @@
     <h5 style="margin-left: 20px;">Filter Results .. <i class="fa-solid fa-down"></i></h5>
     <table align="center" border="0" style="margin-left:35px;">
 
-        <% if (tissueList.size() > 0 ) { %>
+        <% if (tissueList!=null && tissueList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -192,7 +192,7 @@
         </tr>
         <% } %>
 
-        <% if (cellTypeList.size() > 0 ) { %>
+        <% if (cellTypeList!=null && cellTypeList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -232,7 +232,7 @@
         </tr>
         <% } %>
 
-        <% if (editorList.size() > 0) { %>
+        <% if (editorList!=null && editorList.size() > 0) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -263,7 +263,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (guideList.size() > 0) { %>
+        <% if (guideTargetLocusList!=null && guideTargetLocusList.size() > 0) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -295,7 +295,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (guideList.size() > 0) { %>
+        <% if (guideList!=null && guideList.size() > 0) { %>
 
         <tr>
             <td valign="top">
@@ -327,7 +327,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (deliverySystemList.size() > 0 ) { %>
+        <% if (deliverySystemList !=null && deliverySystemList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -358,7 +358,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (modelList.size() > 0 ) { %>
+        <% if (modelList!=null && modelList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -391,7 +391,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (hrdonorList.size() > 0 ) { %>
+        <% if (hrdonorList!=null && hrdonorList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -424,7 +424,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (sexList.size() > 0 ) { %>
+        <% if (sexList !=null && sexList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -497,7 +497,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (unitList.size() > 0 ) { %>
+        <% if (unitList!=null && unitList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -529,7 +529,7 @@
         </tr>
         <% } %>
 
-        <% if (vectorList.size() > 0 ) { %>
+        <% if (vectorList!=null && vectorList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
