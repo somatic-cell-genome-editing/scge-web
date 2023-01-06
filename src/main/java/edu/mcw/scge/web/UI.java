@@ -166,7 +166,11 @@ public class UI {
     public static String formatNumber(String number, int digits) {
 
         int pos = number.indexOf(".");
+        if (pos == -1) {
+            return number;
+        }
 
+        pos = number.indexOf("E");
         if (pos == -1) {
             return number;
         }

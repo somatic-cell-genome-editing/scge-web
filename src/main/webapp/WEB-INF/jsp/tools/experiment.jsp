@@ -267,7 +267,7 @@ ExperimentResultDetail detail = experimentResults.get(0);
                  <%
                    for(String unit: unitList) {
                %>
-                     <td class="header"><b>Measurment Units:</b></td>
+                     <td class="header"><b>Measurement Units:</b></td>
                      <td class="header"><%=unit%></td>
                      </tr>
 
