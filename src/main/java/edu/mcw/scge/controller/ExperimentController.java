@@ -796,8 +796,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         }
         List<ExperimentRecord> records = edao.getExperimentRecords(experimentId);
         Experiment e = edao.getExperiment(experimentId);
-        Study localStudy=sdao.getStudyByExperimentId(experimentId).get(0);
-
+        List<Study> studies=sdao.getStudyByExperimentId(experimentId);
+        Study localStudy=studies.size()>0?studies.get(0):null;
+        if(localStudy==null)
+            return "redirect:/";
         if (records.size() == 0 ) {
 
             req.setAttribute("study",localStudy);

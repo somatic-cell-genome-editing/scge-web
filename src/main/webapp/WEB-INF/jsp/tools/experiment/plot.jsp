@@ -109,8 +109,8 @@
        <tr>
          <% for(int c=0;c<plots.size() && c<3;c++){%>
            <td style="height:<%=chartHeight%>px">
-           <div class="chart-container bg-light" style="height:30vh;width: 25vw" id="chartDiv<%=cellCount%>">
-               <canvas  id="resultChart<%=cellCount%>" ></canvas>
+           <div class="chart-container bg-light" id="chartDiv<%=cellCount%>"  style="display:block; height:30vh; width:25vw;">
+               <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:30vh; width:25vw;" ></canvas>
            </div>
            </td>
             <%cellCount++;}%>
@@ -118,8 +118,8 @@
        <%}%>
    </table>
     <%}else{ if(plots.size()==1){%>
-    <div class="chart-container bg-light" id="chartDiv<%=cellCount%>" style="height:60vh; width:60vw">
-        <canvas  id="resultChart<%=cellCount%>" ></canvas>
+    <div class="chart-container bg-light" id="chartDiv<%=cellCount%>" style="display: block; height:60vh; width:60vw;">
+        <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:60vh; width:60vw;" ></canvas>
     </div>
    <%}}%>
      <%
@@ -162,7 +162,6 @@
 
 
                     ticks:{
-                        fontColor: "rgb(0,75,141)",
                         fontSize: 10,
                         autoSkip: false,
                         callback: function(t) {
@@ -171,8 +170,7 @@
                             else return t;
 
                         }
-                    },
-                    barPercentage: 0.4
+                    }
                 }],
                 yAxes: [{
                     id: 'delivery',
