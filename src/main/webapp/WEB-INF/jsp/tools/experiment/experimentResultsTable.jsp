@@ -45,7 +45,7 @@
 
     </tr-->
     <tr>
-        <th>Record Id</th>
+        <th style="display: none">Record Id</th>
         <th>Condition</th>
 
         <c:if test="${tableColumns.tissueTerm!=null}">
@@ -96,15 +96,28 @@
     </tr>
     </thead>
     <tbody>
-    <%  int rowCount =1;
-        for(ExperimentRecord record:records){%>
-    <tr>
 
-        <td><%=record.getExperimentRecordId()%></td>
+
+    <%  int rowCount =1;
+        for(ExperimentRecord record:records){ %>
+    <% if (access.hasStudyAccess(record.getStudyId(),p.getId())) {
+        String border=new String();
+        String target=new String();
+        if(tissuesTarget.contains(record.getTissueTerm())){
+            border="3px solid #DA70D6";
+            target="Target Tissue";
+        }else{
+            border="";
+        }
+
+    %>
+    <tr title="<%=target%>">
+
+        <td style="display: none"><%=record.getExperimentRecordId()%></td>
         <td><a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><%=record.getExperimentRecordName()%></a></td>
 
         <c:if test="${tableColumns.tissueTerm!=null}">
-        <td><%=record.getTissueTerm()%></td>
+        <td style="border:<%=border%>"><%=record.getTissueTerm()%></td>
         </c:if>
         <c:if test="${tableColumns.cellTypeTerm!=null}">
         <td><%=record.getCellTypeTerm()%></td>
@@ -211,6 +224,7 @@
                     StringBuilder replicates=new StringBuilder();
                     String resultTypeKey= (String) resultType.getKey();
                     List<ExperimentRecord> rtRecords= (List<ExperimentRecord>) resultType.getValue();
+                    int actualRepCount=0;
                     for(ExperimentRecord rtRecord:rtRecords){
                         if(rtRecord.getExperimentRecordId()==record.getExperimentRecordId()){
                             for(ExperimentResultDetail erd: record.getResultDetails()){
@@ -219,8 +233,11 @@
                                         result=erd.getResult();
                                     }
                                 }else{
-                                    if(erd.getUnits()!=null && resultTypeKey.contains(erd.getUnits()) &&!erd.getResult().equalsIgnoreCase("nan"))
-                                    replicates.append(erd.getReplicate()).append(" (").append(erd.getUnits()).append(")").append(":").append(erd.getResult()).append("<br>");
+                                    if(erd.getUnits()!=null && resultTypeKey.contains(erd.getUnits()) && !erd.getResult().equalsIgnoreCase("nan") && !erd.getResult().equals("")) {
+                                        // replicates.append(erd.getReplicate()).append(" (").append(erd.getUnits()).append(")").append(":").append(erd.getResult()).append("<br>");
+                                        replicates.append(erd.getResult()).append("<br>");
+                                        actualRepCount++;
+                                    }
                                 }
 
                             }
@@ -228,7 +245,7 @@
                     }%>
 
         <td>
-            <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values" style="background-color: transparent">
+            <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values <%=actualRepCount%>" style="background-color: transparent">
                         <span style="text-decoration:underline">
                           <%=result%>
 
@@ -257,6 +274,6 @@
         <td></td>
         <%}%>
     </tr>
-<%}%>
+<%}}%>
     </tbody>
 </table>
