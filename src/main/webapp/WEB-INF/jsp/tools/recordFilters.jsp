@@ -457,7 +457,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (resultTypeList.size() > 0 ) { %>
+        <% if (resultTypeList!=null && resultTypeList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
