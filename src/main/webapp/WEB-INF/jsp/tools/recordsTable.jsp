@@ -75,7 +75,7 @@
     var resultTypes = <%=JSONValue.toJSONString(resultTypeList)%>;
     var cellTypes = [];
     cellTypes = <%= JSONValue.toJSONString(cellTypeList) %>;
-    quantitativeSize= <%=resultMap.size()%>;
+  //  quantitativeSize= <%--=resultMap.size()--%>;
 
     $(function () {
         $("#myTable").tablesorter({
