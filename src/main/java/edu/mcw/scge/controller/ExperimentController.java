@@ -722,8 +722,13 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 for (ExperimentRecord record : records) {
                    // plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
                     for(ExperimentResultDetail rd:record.getResultDetails()){
+                        String yaxisLabel=new String();
                         if(resultType.contains(rd.getUnits()) && rd.getReplicate()==0){
-                            plot.setYaxisLabel(rd.getUnits());
+                            if(!rd.getResultType().toLowerCase().contains("biomarker"))
+                                yaxisLabel=resultType;
+                            else
+                            yaxisLabel=rd.getUnits();
+                            plot.setYaxisLabel(yaxisLabel);
                         }
                     }
                 }

@@ -195,7 +195,7 @@
             for(var i=1;i<rowLength;i++) {
                 recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
                 var cells = table.rows.item(i).cells;
-                var value = cells.item(selected).innerText;
+                var value = cells.item(selected).innerText.trim();
                 if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
                     filterValues.push(value);
                 }
@@ -213,8 +213,8 @@
                 sortedValues.push(valueObj);
             }
         }
-        //   var colorByRecordsJson=JSON.stringify(colorByRecords)
-        //    console.log("COLOR RECS:"+ colorByRecordsJson)
+          var colorByRecordsJson=JSON.stringify(colorByRecords)
+         console.log("COLOR RECS:"+ colorByRecordsJson)
         <%
 
         int c=0;
@@ -328,7 +328,7 @@
             }
 
         }
-        console.log("DATA:"+ JSON.stringify(data))
+     //   console.log("DATA:"+ JSON.stringify(data))
         myChart<%=c%>.data.datasets=data;
         myChart<%=c%>.update();
          document.getElementById("chartDiv<%=c%>").style.display = "block";
@@ -729,9 +729,9 @@
             }
         }
     }
-    var quantitative = 0;
+   /* var quantitative = 0;
     quantitative =quantitativeSize;
-    //  console.log(quantitative);
+    //  console.log(quantitative);*/
 
      setTimeout("load()",500);
 </script>
