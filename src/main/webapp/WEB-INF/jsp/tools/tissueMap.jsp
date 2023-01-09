@@ -115,7 +115,7 @@
         List<Set<Double>> deliveryResults = new ArrayList<>();
         List<Set<Double>> editingResults = new ArrayList<>();
 
-        int noOfRecords = experimentRecords.size();
+        int noOfRecords = records.size();
         int noOfEditors = 0;
         int noOfDelivery = 0;
         int noOfModel = 0;
