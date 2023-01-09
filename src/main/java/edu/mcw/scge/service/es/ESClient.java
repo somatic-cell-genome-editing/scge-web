@@ -1,5 +1,6 @@
 package edu.mcw.scge.service.es;
 
+import edu.mcw.scge.web.SCGEContext;
 import io.netty.util.internal.InternalThreadLocalMap;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -14,32 +15,63 @@ import java.util.Properties;
 
 public class ESClient {
     private static RestHighLevelClient client=null;
+
     public static RestHighLevelClient init(){
         if(client==null) {
-            try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
+           try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
+       
                 Properties props= new Properties();
                 props.load(input);
-                String VARIANTS_HOST= (String) props.get("VARIANTS_HOST");
-                //    String VARIANTS_HOST= (String) props.get("HOST1");
-                int port=Integer.parseInt((String) props.get("PORT"));
-                client = new RestHighLevelClient(
-                        RestClient.builder(
-                                new HttpHost(VARIANTS_HOST, port, "http")
-                        ).setRequestConfigCallback(
-                                new RestClientBuilder.RequestConfigCallback(){
-                                    @Override
-                                    public RequestConfig.Builder customizeRequestConfig(
-                                            RequestConfig.Builder requestConfigBuilder) {
-                                        return requestConfigBuilder
-                                                .setConnectTimeout(5000)
-                                                .setSocketTimeout(120000)
-                                                .setConnectionRequestTimeout(0);
+                if(SCGEContext.isProduction()){
+                    String HOST1 = (String) props.get("HOST1");
+                    String HOST2 = (String) props.get("HOST2");
+                    String HOST3 = (String) props.get("HOST3");
+                    String HOST4 = (String) props.get("HOST4");
+                    String HOST5 = (String) props.get("HOST5");
+                    //    String VARIANTS_HOST= (String) props.get("HOST1");
+                    int port = Integer.parseInt((String) props.get("PORT"));
+                    client = new RestHighLevelClient(
+                            RestClient.builder(
+                                    new HttpHost(HOST1, port, "http"),
+                    new HttpHost(HOST2, port, "http"),
+                    new HttpHost(HOST3, port, "http"),
+                    new HttpHost(HOST4, port, "http") ,
+                                    new HttpHost(HOST5, port, "http")
+                            ).setRequestConfigCallback(
+                                    new RestClientBuilder.RequestConfigCallback() {
+                                        @Override
+                                        public RequestConfig.Builder customizeRequestConfig(
+                                                RequestConfig.Builder requestConfigBuilder) {
+                                            return requestConfigBuilder
+                                                    .setConnectTimeout(5000)
+                                                    .setSocketTimeout(120000)
+                                                    .setConnectionRequestTimeout(0);
+                                        }
+
                                     }
+                            )
+                    );
+                }else {
+                    String DEV_HOST = (String) props.get("DEV_HOST");
+                    int port = Integer.parseInt((String) props.get("PORT"));
+                    client = new RestHighLevelClient(
+                            RestClient.builder(
+                                    new HttpHost(DEV_HOST, port, "http")
+                            ).setRequestConfigCallback(
+                                    new RestClientBuilder.RequestConfigCallback() {
+                                        @Override
+                                        public RequestConfig.Builder customizeRequestConfig(
+                                                RequestConfig.Builder requestConfigBuilder) {
+                                            return requestConfigBuilder
+                                                    .setConnectTimeout(5000)
+                                                    .setSocketTimeout(120000)
+                                                    .setConnectionRequestTimeout(0);
+                                        }
 
-                                }
-                        )
-                );
-
+                                    }
+                            )
+                    );
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }

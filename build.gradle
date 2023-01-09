@@ -15,7 +15,11 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'// https://mvnrepository.com/artifact/org.springframework/spring-core
     compile fileTree(dir: 'lib', include: '*.jar')
 
-    compile 'org.apache.commons:commons-lang3:3.11'
+    compile 'commons-io:commons-io:2.11.0'
+
+    compile group: 'com.mortennobel', name: 'java-image-scaling', version: '0.8.4'
+//Thanks for using https://jar-download.com
+
 
     compile group: 'org.springframework', name: 'spring-core', version: '5.1.9.RELEASE'
 // https://mvnrepository.com/artifact/org.springframework/spring-context
@@ -102,6 +106,9 @@ dependencies {
 
 // https://mvnrepository.com/artifact/org.json/json
     compile group: 'org.json', name: 'json', version: '20201115'
+
+// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 
 
 }

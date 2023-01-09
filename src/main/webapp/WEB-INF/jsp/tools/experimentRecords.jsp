@@ -4,6 +4,7 @@
 <%@ page import="edu.mcw.scge.dao.implementation.ExperimentResultDao" %>
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
+<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 
 
 <%--
@@ -28,57 +29,129 @@
 
 <% try {  %>
 <div>
-    <%
-
-        ExperimentDao edao = new ExperimentDao();
+<%
         HashMap<Long,ExperimentRecord> experimentRecordsMap = (HashMap<Long,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
-        List<ExperimentRecord> experimentRecords = new ArrayList<>(experimentRecordsMap.values());
-        HashMap<Long,Double> resultMap = (HashMap<Long, Double>) request.getAttribute("resultMap");
+        ExperimentDao edao = new ExperimentDao();
         Study study = (Study) request.getAttribute("study");
         Access access = new Access();
         Person p = access.getUser(request.getSession());
         Experiment ex = (Experiment) request.getAttribute("experiment");
-        //out.println(experiments.size());
-
-        TreeMap<Long,List<ExperimentResultDetail>> resultDetail= (TreeMap<Long, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
-            HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
-            HashMap<Long,List<Vector>> vectorMap = (HashMap<Long,List<Vector>>)request.getAttribute("vectorMap");
-        ExperimentResultDao erdao = new ExperimentResultDao();
-       List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
-
-        List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
-        List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
-        List<String> modelList = edao.getExperimentRecordModelList(ex.getExperimentId());
-        List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
-        List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
-        List<String> unitList = erdao.getUnitsByExpId(ex.getExperimentId());
-        List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
-        List<String> guideTargetLocusList=edao.getExperimentRecordGuideTargetLocusList(ex.getExperimentId());
-        List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
-        List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
-        List<String> tissues = (List<String>)request.getAttribute("tissues");
-        List<String> conditions = (List<String>) request.getAttribute("conditions");
-        String selectedTissue = (String)request.getAttribute("tissue");
-        String selectedCellType = (String)request.getAttribute("cellType");
-        String selectedResultType = (String)request.getAttribute("resultType");
-
-
     %>
-        <div id="recordTableContent" style="position:relative; left:0px; top:00px;">
-    <!--table>
-        <tr>
-            <td class="desc" style="font-weight:700;"><%=study.getStudy()%>:</td>
-            <td>&nbsp;&nbsp;&nbsp;</td>
-            <td class="desc"   style="font-weight:700;">PI:</td>
-            <td class="desc" ><%=study.getPi()%></td>
-            <td>&nbsp;&nbsp;&nbsp;</td>
-            <td class="desc"  style="font-weight:700;">Submission Date:</td>
-            <td class="desc" ><%=study.getSubmissionDate()%></td>
-        </tr>
-    </table-->
 
-        <% if (( tissueList.size() > 0 && selectedResultType == null )) { %>
+    <table><tr><td style="font-size:18px;"><%=SFN.parse(ex.getDescription())%></td></tr></table>
+    <div id="recordTableContent" style="position:relative; left:0px; top:00px;padding-top:20px;">
 
+            <%
+                HashMap<String,String> deliveryAssay = (HashMap<String,String>) request.getAttribute("deliveryAssay");
+                HashMap<String,String> editingAssay = (HashMap<String,String>) request.getAttribute("editingAssay");
+            %>
+
+            <div style="padding:10px; border:1px solid black; background-color: #F7F7F7;font-size:12px;">
+
+            <% if (deliveryAssay.size() != 0) { %>
+                <table>
+                    <tr>
+                        <td valign="top" width="150"><span style="width:100px; ;font-weight:700;">Delivery Assays:</span></td>
+                        <td><%
+                            int count=1;
+                            for (String assay: deliveryAssay.keySet()) { %>
+                            <span style="adding-left:20px;"><b>-</b>&nbsp;<%=assay%></span><br>
+                            <%
+                                count++;
+                            } %>
+                        </td>
+                    </tr>
+                </table>
+
+
+            <% } %>
+            <% if (editingAssay.size() != 0) { %>
+                    <table>
+                        <tr>
+                            <td valign="top" width="150"><span style=";margin-top:10px;font-weight:700;">Editing Assay:</span></td>
+                            <td> <%
+                                int count=1;
+                                for (String assay: editingAssay.keySet()) { %>
+                                <span style="adding-left:20px;"><b>-</b>&nbsp;<%=assay%></span><br>
+                                <%
+                                    count++;
+                                } %>
+                            </td>
+                        </tr>
+                    </table>
+
+
+            <% } %>
+            </div>
+            <br>
+
+            <% if (experimentRecordsMap.isEmpty()) { %>
+                    <%
+                        long objectId = ex.getExperimentId();
+                        String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
+                        String bucket="belowExperimentTable1";
+                    %>
+
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="belowExperimentTable2"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="belowExperimentTable3"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="belowExperimentTable4"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+                    <% bucket="belowExperimentTable5"; %>
+                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+
+            <% return;
+               }%>
+
+            <%
+                List<ExperimentRecord> experimentRecords = new ArrayList<>(experimentRecordsMap.values());
+                HashMap<Long,Double> resultMap = (HashMap<Long, Double>) request.getAttribute("resultMap");
+
+                TreeMap<Long,List<ExperimentResultDetail>> resultDetail= (TreeMap<Long, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
+                HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
+                HashMap<Long,List<Vector>> vectorMap = (HashMap<Long,List<Vector>>)request.getAttribute("vectorMap");
+                ExperimentResultDao erdao = new ExperimentResultDao();
+                List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
+
+           //     List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
+                List<String> tissueList = (List<String>) request.getAttribute("tissues");
+                List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
+                List<String> modelList = edao.getExperimentRecordModelList(ex.getExperimentId());
+                List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
+                List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
+                List<String> unitList = erdao.getUnitsByExpId(ex.getExperimentId());
+                List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
+                List<String> guideTargetLocusList=edao.getExperimentRecordGuideTargetLocusList(ex.getExperimentId());
+                List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
+                List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
+                List<String> sexList = edao.getExperimentRecordSexList(ex.getExperimentId());
+                List<String> hrdonorList = edao.getExperimentRecordHrdonorList(ex.getExperimentId());
+                List<String> tissues = (List<String>)request.getAttribute("tissues");
+
+                List<String> tissuesTarget = (List<String>)request.getAttribute("tissuesTarget");
+                List<String> tissuesNonTarget = (List<String>)request.getAttribute("tissuesNonTarget");
+
+                LinkedHashSet<String> conditions = (LinkedHashSet<String>) request.getAttribute("conditions");
+                String selectedTissue = (String)request.getAttribute("tissue");
+                String selectedCellType = (String)request.getAttribute("cellType");
+                String selectedResultType = (String)request.getAttribute("resultType");
+
+                for (int i =0; i< cellTypeList.size(); i++) {
+                    if (cellTypeList.get(i) == null) {
+                        cellTypeList.set(i,"unspecified");
+                    }
+                }
+
+                if (cellTypeList.size() == 1 && cellTypeList.get(0).equals("unspecified")) {
+                    cellTypeList = new ArrayList<String>();
+                }
+            %>
+
+
+
+            <% if (( tissueList.size() > 0 && selectedResultType == null )) { %>
 
                 <%@include file="tissueMap.jsp"%>
 
@@ -86,10 +159,16 @@
          <% }  %>
             <% if (tissueList.size() == 0 || selectedResultType != null) { %>
 
+
+
             <%@include file="recordsTable.jsp"%>
+
             <% }  %>
 
         </div>
+
+
+
 <% } catch (Exception e) {
         e.printStackTrace();
  }

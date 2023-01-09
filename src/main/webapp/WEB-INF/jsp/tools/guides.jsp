@@ -17,7 +17,10 @@
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <style>
     td{
-        font-size: 12px;
+        display:table-cell
+    }
+    .tablesorter-childRow td{
+        background-color: lightcyan;
     }
 </style>
 <script>
@@ -49,18 +52,20 @@
         Access access = new Access();
         Person p = access.getUser(request.getSession());
     %>
-
+      <% if (access.isAdmin(p)) { %>
+        <div align="right"><a href="/toolkit/data/guide/edit"><button class="btn btn-primary">Add Guide</button></a></div>
+        <% } %>
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
         <th>Tier</th>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Subtype</th>
-    <td>Alias</td>
-    <th>Target Locus</th>
-    <td>Species</td>
-    <td>SCGE ID</td>
+        <th>Name</th>
+        <td>Species</td>
+        <th>Target Locus</th>
+        <th>Description</th>
+        <td>Guide Compatability</td>
+        <td>Specificity Ratio</td>
+        <td>SCGE ID</td>
     </tr>
     </thead>
 
@@ -70,11 +75,11 @@
     <tr>
         <td width="10"><%=g.getTier()%></td>
         <td><a href="/toolkit/data/guide/system?id=<%=g.getGuide_id()%>"><%=g.getGuide()%></a></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><%=SFN.parse(g.getTargetLocus())%></td>
         <td><%=SFN.parse(g.getSpecies())%></td>
+        <td><%=SFN.parse(g.getTargetLocus())%></td>
+        <td><%=SFN.parse(g.getGuideDescription())%></td>
+        <td><%=SFN.parse(g.getGuideCompatibility())%></td>
+        <td><%=SFN.parse(g.getSpecificityRatio())%></td>
         <td><%=g.getGuide_id()%></td>
     </tr>
         <% } %>

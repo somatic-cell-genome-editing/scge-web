@@ -1,0 +1,49 @@
+.table{
+    border:1px solid transparent;
+    width: 100%;
+}
+.table td, .table th{
+
+    border-color: transparent;
+
+}
+.header{
+    width:100px;
+    background-color: aliceblue;
+    padding-left: 20px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+.summary tr th, .summary tr td{
+
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.sidenav {
+    width: auto;
+    position: fixed;
+    z-index: 1;
+    overflow-x: hidden;
+
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #2196F3;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #064579;
+}
+
+.scge-details-label{
+    color:#2a6496;
+    font-weight: bold;
+}
+.report-section tr td, .report-section tr th{
+    padding-top:0;
+    padding-bottom: 0;
+}

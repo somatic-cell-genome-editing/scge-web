@@ -1,8 +1,7 @@
 package edu.mcw.scge.storage;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -11,6 +10,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.stream.Collectors;
+
+import edu.mcw.scge.dao.implementation.ImageDao;
+import edu.mcw.scge.datamodel.Image;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -33,10 +35,12 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.core.io.UrlResource;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.mortennobel.imagescaling.*;
+import java.awt.*;
 
 
 @Controller
@@ -111,25 +115,55 @@ public class FileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
-	@RequestMapping(value = "/store/{type}/{oid}/{bucket}/{filename}.{ext}", method = RequestMethod.GET)
+
+	@GetMapping("/files/protocol/{filename:.+}")
 	@ResponseBody
-	public ResponseEntity<byte[]>  getImageAsByteArray(HttpServletRequest req, HttpServletResponse res,@PathVariable String type,@PathVariable String oid,@PathVariable String bucket,@PathVariable String filename,@PathVariable String ext) throws Exception {
+	public ResponseEntity<Resource> serveProtocolFile(HttpServletRequest req, @PathVariable String filename) throws Exception{
 
 		UserService userService=new UserService();
 		Access access= new Access();
 		Person p = userService.getCurrentUser(req.getSession());
 
-		System.out.println("here");
+		/*
+		if (!access.hasStudyAccess(Integer.parseInt(studyId),p.getId())) {
+			return null;
+		}
+		 */
+
+		StorageProperties properties=new StorageProperties();
+		//	properties.setLocation("C:/tmp/upload-dir" );
+		properties.setLocation("/data/scge_protocols");
+		//properties.setLocation("/Users/jdepons/scge_protocols");
+		FileSystemStorageService service=new FileSystemStorageService(properties);
+
+		Resource file = service.loadAsResource(filename);
+
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+	}
+
+
+
+	@RequestMapping(value = "/store/{oid}/{bucket}/{filename}.{ext}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<byte[]>  getImageAsByteArray(HttpServletRequest req, HttpServletResponse res,@PathVariable String oid,@PathVariable String bucket,@PathVariable String filename,@PathVariable String ext) throws Exception {
+
+
+		UserService userService=new UserService();
+		Access access= new Access();
+		Person p = userService.getCurrentUser(req.getSession());
+
+		/*
 		if (type.equals(ImageTypes.EDITOR)) {
-			if (!access.hasEditorAccess(Integer.parseInt(oid),p.getId())) {
+			if (!access.hasEditorAccess(Long.parseLong(oid),p.getId())) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}else if (type.equals(ImageTypes.MODEL)) {
-			if (!access.hasModelAccess(Integer.parseInt(oid),p)) {
+			if (!access.hasModelAccess(Long.parseLong(oid),p)) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}else if (type.equals(ImageTypes.DELIVERY_SYSTEM)) {
-			if (!access.hasDeliveryAccess(Integer.parseInt(oid),p.getId())) {
+			if (!access.hasDeliveryAccess(Long.parseLong(oid),p.getId())) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}else if (type.equals(ImageTypes.GUIDE)) {
@@ -145,42 +179,24 @@ public class FileUploadController {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}else if (type.equals(ImageTypes.VECTOR)) {
-			if (!access.hasVectorAccess(Integer.parseInt(oid),p.getId())) {
+			if (!access.hasVectorAccess(Long.parseLong(oid),p.getId())) {
+				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+			}
+		}else if (type.equals(ImageTypes.EXPERIMENT)) {
+			if (!access.hasExperimentAccess(Long.parseLong(oid),p.getId())) {
 				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
 			}
 		}
-		System.out.println("here2");
 
-		Resource resource=null;
-		try {
+		 */
 
-			Path file = new File(StorageProperties.rootLocation + "/" + type + "/" + oid + "/" + bucket + "/").toPath().resolve(filename + "." + ext);
-			System.out.println(file.toString());
-			//Path file = load(filename);
-			resource = new UrlResource(file.toUri());
-
-			if (resource.exists() || resource.isReadable()) {
-				//System.out.println("resource exists and is readable");
-			}
-			else {
-				throw new StorageFileNotFoundException(
-						"Could not read file: " + filename);
-
-			}
-		}
-		catch (MalformedURLException e) {
-			e.printStackTrace();
-			throw new StorageFileNotFoundException("Could not read file: " + filename, e);
-		}
-
-		//Resource file = storageService.loadAsResource("naturezoom.jpeg");
+		ImageDao idao = new ImageDao();
 
 		HttpHeaders headers = new HttpHeaders();
-		InputStream in = resource.getInputStream();
-		byte[] media = IOUtils.toByteArray(in);
+		byte[] media = idao.getImageBytes(Long.parseLong(oid),bucket,ImageDao.WIDE_700);
+
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-		headers.setContentType(MediaType.IMAGE_JPEG);
-		in.close();
+		headers.setContentType(MediaType.IMAGE_PNG);
 
 		return new ResponseEntity<byte[]>(media, headers, HttpStatus.OK);
 	}
@@ -200,6 +216,9 @@ public class FileUploadController {
 	public String handleFileUpload(HttpServletRequest req, HttpServletResponse res, @RequestParam("filename") MultipartFile file,
 								   RedirectAttributes redirectAttributes) throws Exception {
 
+		ImageDao idao = new ImageDao();
+
+
 		UserService userService=new UserService();
 		Access access= new Access();
 		Person p = userService.getCurrentUser(req.getSession());
@@ -208,7 +227,9 @@ public class FileUploadController {
 			return null;
 		}
 
+		String legend=req.getParameter("legend");
 		String type=req.getParameter("type");
+		String title=req.getParameter("title");
 		String id = req.getParameter("id");
 		String url = req.getParameter("url");
 		String bucket = req.getParameter("bucket");
@@ -225,21 +246,112 @@ public class FileUploadController {
 								+ filename);
 			}
 
-			File f = new File(StorageProperties.rootLocation + "/" +  type + "/" + id + "/" + bucket);
-			if (!f.exists()) {
-				f.mkdirs();
+			InputStream is = new ByteArrayInputStream(file.getBytes());
+			BufferedImage originalImage = ImageIO.read(is);
+			int goal =700;
+			int width = originalImage.getWidth();
+			int height = originalImage.getHeight();
+			float diff = width - goal;
+			float percentDiff = (float) 1 - ((float)diff/(float)width);
+			int newHeight = Math.round(height * percentDiff);
+
+			byte[] image700 = null;
+			if (width < goal) {
+				image700 = file.getBytes();
+			}else {
+
+
+				BufferedImage outputImage = new MultiStepRescaleOp(700, newHeight, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(originalImage, null);
+
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				ImageIO.write(outputImage, "png", baos);
+				image700 = baos.toByteArray();
+
+
+/*
+				java.awt.Image resultingImage = originalImage.getScaledInstance(goal, newHeight, java.awt.Image.SCALE_DEFAULT);
+				BufferedImage outputImage = new BufferedImage(700, newHeight, BufferedImage.TYPE_INT_RGB);
+				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				ImageIO.write(outputImage, "png", baos);
+				image700 = baos.toByteArray();
+*/
 			}
 
-			Path rootLocation = f.toPath();
 
 
-			try (InputStream inputStream = file.getInputStream()) {
-				Files.copy(inputStream, rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-			}
+
+
+			goal =75;
+			width = originalImage.getWidth();
+			height = originalImage.getHeight();
+			diff = height - goal;
+			percentDiff = (float)1 - ((float)diff/(float)height);
+			int newWidth = Math.round(width * percentDiff);
+
+
+
+			BufferedImage outputImage = new MultiStepRescaleOp(newWidth, goal, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(originalImage, null);
+
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(outputImage,"png",baos);
+			byte[] thumbnail = baos.toByteArray();
+
+
+/*
+			java.awt.Image resultingImage = originalImage.getScaledInstance(newWidth, goal, java.awt.Image.SCALE_DEFAULT);
+			BufferedImage outputImage = new BufferedImage(newWidth, goal, BufferedImage.TYPE_INT_RGB);
+			outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(outputImage,"png",baos);
+			byte[] thumbnail = baos.toByteArray();
+*/
+
+
+
+
+			Image image = new Image();
+
+			image.setPosIndex(1);
+			image.setFileType(type);
+			image.setTitle(title);
+			image.setLegend(legend);
+			image.setBucket(bucket);
+			image.setImage(file.getBytes());
+			image.setThumbnail(thumbnail);
+			image.setImage700Wide(image700);
+			image.setScgeId(Long.parseLong(id));
+			image.setFileName(filename);
+
+			idao.insertImage(image);
+
 		}
 		catch (IOException e) {
 			throw new StorageException("Failed to store file " + filename, e);
 		}
+
+		return "redirect:" + url;
+
+	}
+
+	@PostMapping("/store/updateLegend")
+	public String handleUpdateLegend(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
+		UserService userService=new UserService();
+		Access access= new Access();
+		Person p = userService.getCurrentUser(req.getSession());
+
+		if (!access.isAdmin(p)) {
+			return null;
+		}
+
+		String id = req.getParameter("id");
+		String url = req.getParameter("url");
+		String bucket=req.getParameter("bucket");
+		String legend = req.getParameter("legend");
+
+		ImageDao idao = new ImageDao();
+		idao.updateImageLegend(Long.parseLong(id),bucket,legend);
 
 		return "redirect:" + url;
 
@@ -258,17 +370,19 @@ public class FileUploadController {
 		}
 
 
-		String type=req.getParameter("type");
 		String id = req.getParameter("id");
 		String url = req.getParameter("url");
-		String filename = req.getParameter("filename");
 		String bucket=req.getParameter("bucket");
 
+		ImageDao idao = new ImageDao();
+		idao.deleteImage(Long.parseLong(id), bucket);
+
+		/*
 		File f = new File(StorageProperties.rootLocation + "/" + type + "/" + id + "/" + bucket + "/" +  filename);
 		if (!f.delete()) {
 			System.out.println("could not delete");
 		}
-
+*/
 		return "redirect:" + url;
 
 	}

@@ -1,15 +1,6 @@
-<%@ page import="edu.mcw.scge.datamodel.Study" %>
-<%@ page import="java.util.List" %>
-<%@ page import="edu.mcw.scge.datamodel.Guide" %>
-<%@ page import="edu.mcw.scge.datamodel.Editor" %>
-<%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="edu.mcw.scge.storage.ImageStore" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
-<%@ page import="edu.mcw.scge.configuration.UserService" %>
-<%@ page import="edu.mcw.scge.datamodel.Person" %>
-<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
+<%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -19,107 +10,92 @@
   Time: 4:25 PM
   To change this template use File | Settings | File Templates.
 --%>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<link href="/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-<link href="/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-<link href="/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
-
-<script src="/common/tableSorter/js/tablesorter.js"> </script>
-<script src="/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-<style>
-    td{
-        font-size: 12px;
-        padding-left:1%;
-    }
-    .header{
-        font-weight: bold;
-        font-size: 12px;
-        color:steelblue;
-        width: 25%;
-        background-color: #ECECF9;
-    }
-
-</style>
-<script>
-    $(function() {
-        $("#myTable").tablesorter({
-            theme : 'blue'
-
-        });
-    });
-</script>
 
 <% List<Guide> relatedGuides = (List<Guide>) request.getAttribute("guides");
-   Editor editor = (Editor) request.getAttribute("editor");
-
+    Editor editor = (Editor) request.getAttribute("editor");
+    Access access= new Access();
+    Person p = access.getUser(request.getSession());
+    if (access.isAdmin(p)) {
 %>
+<div align="right"><a href="/toolkit/data/editors/edit?id=<%=editor.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
+<% } %>
 
+<div class="col-md-2 sidenav bg-light">
+    <a href="#summary">Summary</a>
+    <%if(editor.getProteinSequence()!=null && !editor.getProteinSequence().equals("")){%>
+    <a href="#proteinSequence">Protein Sequence</a>
+    <%}%>
 
-<div>
-    <div>
-        <table  style="width:80%">
-
-            <tr ><td class="header"><strong>SCGE ID</strong></td><td><%=editor.getId()%></td></tr>
-            <tr ><td class="header" ><strong>Name</strong></td><td><%=UI.replacePhiSymbol(editor.getSymbol())%></td></tr>
-            <tr ><td class="header" ><strong>Description</strong></td><td><%=SFN.parse(editor.getEditorDescription())%></td></tr>
-            <tr ><td class="header"><strong>Type</strong></td><td><%=editor.getType()%></td></tr>
-            <tr ><td class="header"><strong>Subtype</strong></td><td><%=editor.getSubType()%></td></tr>
-            <tr ><td class="header"><strong>Alias</strong></td><td><%=editor.getAlias()%></td></tr>
-
-        </table>
-        <hr>
-        <table style="width:80%">
-
-            <tr ><td class="header"><strong>Origin Species</strong></td><td><%=editor.getSpecies()%></td></tr>
-            <tr ><td class="header"><strong>PAM</strong></td><td><%=editor.getPamPreference()%></td></tr>
-            <tr ><td class="header"><strong>Variant</strong></td><td><%=editor.getEditorVariant()%></td></tr>
-            <tr ><td class="header"><strong>Activity</strong></td><td><%=editor.getActivity()%></td></tr>
-            <tr ><td class="header"><strong>Cleavage Type</strong></td><td><%=editor.getDsbCleavageType()%></td></tr>
-
-
-        </table>
-        <hr>
-        <table style="width:80%">
-
-            <tr ><td class="header"><strong>Source</strong></td><td><%=editor.getSource()%></td></tr>
-            <tr ><td class="header"><strong>Stock/Catalog/RRID</strong></td><td></td></tr>
-        </table>
-        <hr>
-        <table style="width:80%">
-
-            <tr ><td class="header"><strong>Protein Sequence</strong></td><td><pre><%=UI.formatFASTA(editor.getProteinSequence())%></pre></td></tr>
-
-        </table>
-        <hr>
-        <table style="width:80%">
-            <tr><td class="header"><strong>Related Guides</strong></td>
-                <td>
-                    <%for (Guide relatedGuide: relatedGuides) { %>
-                    <a href="/toolkit/data/guide/system?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence()%></a><br>
-                    <% } %>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <hr>
+    <% if(relatedGuides!=null && relatedGuides.size()>0){%>
+    <a href="#relatedGuides">Related Guides</a>
+    <%}%>
+    <a href="#associatedStudies">Projects & Experiments</a>
 </div>
+<main role="main" class="col-md-10 ml-sm-auto px-4"  >
+ <%@include file="summary.jsp"%>
+    <hr>
+    <%if(editor.getProteinSequence()!=null && !editor.getProteinSequence().equals("")){%>
+
+    <div id="proteinSequence">
+        <h4 class="page-header" style="color:grey;">Protein Sequence</h4>
+        <div class="container" align="center">
+            <table style="width: 80%">
+
+                <tr ><td style="width: 10%"></td><td><pre><%=UI.formatFASTA(editor.getProteinSequence())%></pre></td></tr>
+
+            </table>
+        </div>
+    </div>
+    <%}%>
+    <%if(relatedGuides!=null && relatedGuides.size()>0){%>
+    <hr>
+    <div id="relatedGuides">
+        <h4 class="page-header" style="color:grey;">Related Guides (<%=relatedGuides.size()%>)</h4>
+        <div class="container" align="center">
+            <table style="width:80%">
+                <tr><td style="width: 10%"></td>
+                    <td>
+                        <div style="height:200px; overflow:auto;border:1px solid #E5E5E5;">
+                        <%
+
+                            for (Guide relatedGuide: relatedGuides) {
+                                if (access.hasGuideAccess(relatedGuide,p)) {
+                        %>
+                                    <a style="padding-top:3px;" href="/toolkit/data/guide/system?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence().toUpperCase()%></a><br>
+                        <%      }
+                            } %>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <%}%>
+    <%
+        long objectId = editor.getId();
+        String redirectURL = "/data/editors/editor?id=" + objectId;
+        String bucket="main1";
+    %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main2"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main3"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main4"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <% bucket="main5"; %>
+    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
 
+    <div id="associatedProtocols">
+        <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
+    </div>
+    <div id="associatedPublications">
+        <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+    </div>
 
-<%
-    long objectId = editor.getId();
-    String objectType= ImageTypes.EDITOR;
-    String redirectURL = "/data/editors/editor?id=" + objectId;
-    String bucket="main";
+    <div id="associatedStudies">
+        <jsp:include page="associatedStudies.jsp"/>
+    </div>
 
-%>
-<%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
-
-<br>
-<jsp:include page="associatedStudies.jsp"/>
-<br>
-<hr>
-<jsp:include page="associatedExperiments.jsp"/>
+</main>

@@ -3,6 +3,8 @@
 <%@ page import="edu.mcw.scge.datamodel.Delivery" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
+<%@ page import="edu.mcw.scge.configuration.UserService" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -40,7 +42,14 @@
 </table>
 <br>
 
+<%
+    Access access = new Access();
+    UserService userService = new UserService();
+%>
 
+  <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
+    <div align="right"><a href="/toolkit/data/vector/edit"><button class="btn btn-primary">Add Vector</button></a></div>
+<% } %>
 
 <div>
     <%
@@ -50,19 +59,29 @@
     <table id="myTable" class="table tablesorter table-striped">
     <thead>
     <tr>
+        <th>Tier</th>
         <th>Name</th>
         <th>Type</th>
         <th>Subtype</th>
+        <th>Description</th>
         <th>SCGE ID</th>
     </tr>
     </thead>
+        <%
 
-    <% for (Vector d: systems) { %>
+            for (Vector vector: systems) {
+
+      if (access.hasVectorAccess(vector, userService.getCurrentUser(request.getSession()))) {%>
+
+
     <tr>
-        <td><a href="/toolkit/data/vector/format/?id=<%=d.getVectorId()%>"><%=d.getName()%></a></td>
-        <td><%=d.getType()%></td>
-        <td><%=d.getSubtype()%></td>
-        <td><%=d.getVectorId()%></td>
+        <td><%=vector.getTier()%></td>
+        <td><a href="/toolkit/data/vector/format/?id=<%=vector.getVectorId()%>"><%=vector.getName()%></a></td>
+        <td><%=vector.getType()%></td>
+        <td><%=vector.getSubtype()%></td>
+        <td><%=vector.getDescription()%></td>
+        <td><%=vector.getVectorId()%></td>
     </tr>
-        <% } %>
+        <% }
+            } %>
 </table>

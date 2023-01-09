@@ -44,7 +44,8 @@ List<SCGEGroup> groups = gdao.getAllGroups();
 
             for (Study s: sList) {
                 submitter.put(s.getSubmitterId(),null);
-                pi.put(s.getPiId(),null);
+                for(Person i:s.getMultiplePis())
+                pi.put(i.getId(),null);
             %>
 
             <tr>

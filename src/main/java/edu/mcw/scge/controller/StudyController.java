@@ -7,6 +7,7 @@ import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.Data;
 import edu.mcw.scge.service.DataAccessService;
+import edu.mcw.scge.service.ProcessUtils;
 import edu.mcw.scge.service.db.DBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,15 +26,11 @@ public class StudyController{
     DBService dbService=new DBService();
     DataAccessService service=new DataAccessService();
     UserService userService=new UserService();
-    Access access= new Access();
+    ProcessUtils processUtils=new ProcessUtils();
     StudyDao sdao=new StudyDao();
-    GrantDao grantDao=new GrantDao();
 
     @RequestMapping(value="/search")
     public String getStudies( HttpServletRequest req, HttpServletResponse res) throws Exception {
-
-
-
         int initiative = 0;
         String initiativeName="";
         String initiativeTitle="";
@@ -63,39 +60,17 @@ public class StudyController{
             initiativeName="New Editors Initiative";
             initiativeTitle="Genome Editors Initiative";
         }
-
         Person p=userService.getCurrentUser(req.getSession());
         if(p!=null) {
             List<Study> studies = null;
             if (initiative > 0) {
                 studies = sdao.getStudiesByInitiative(initiativeName);
-                Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
-                req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
-                req.setAttribute("tierUpdateMap", tierUpdateMap);
+
             }else {
                 studies = sdao.getStudies();
-                TreeMap<String, Map<Integer, List<Study>>> sortedStudies=new TreeMap<>();
-                Map<Integer, String> groupGrantMap=new HashMap<>();
-                for(Study study:studies){
-                  String grantInitiative=  grantDao.getGrantByGroupId(study.getGroupId()).getGrantInitiative();
-                  groupGrantMap.put(study.getGroupId(), grantInitiative);
-                  sortedStudies.put(grantInitiative, new HashMap<>());
-                }
-                for(Study study:studies){
-                    String grantInitiative=groupGrantMap.get(study.getGroupId());
-                    Map<Integer, List<Study>> groupStudiesMap=sortedStudies.get(grantInitiative);
-                    List<Study> grantStudies=new ArrayList<>();
-                    grantStudies.add(study);
-                        if (groupStudiesMap.get(study.getGroupId()) != null) {
-                            grantStudies.addAll(groupStudiesMap.get(study.getGroupId()));
-                        }
-
-                        groupStudiesMap.put(study.getGroupId(), grantStudies);
-
-                    sortedStudies.put(grantInitiative, groupStudiesMap);
-                }
-
-                req.setAttribute("sortedStudies", sortedStudies);
+            }
+            TreeMap<String, Map<Integer, List<Study>>> sortedStudies=processUtils.getSortedStudiesByInitiative(studies);
+            req.setAttribute("sortedStudies", sortedStudies);
 
                 req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>");
                 req.setAttribute("groupsMap1", Data.getInstance().getConsortiumGroups());
@@ -109,18 +84,20 @@ public class StudyController{
                 Map<Integer, Integer> tierUpdateMap = service.getTierUpdate(studies);
                 req.setAttribute("tierUpdateMap", tierUpdateMap);
 
-            }
+
 
             req.setAttribute("status", req.getParameter("status"));
 
+
             req.setAttribute("studies", studies);
+
             req.setAttribute("person", p);
 
             if (initiative > 0) {
                 req.setAttribute("action", "Studies: " + initiativeTitle);
 
             }else {
-                req.setAttribute("action", "Studies by initiative");
+                req.setAttribute("action", "Studies");
 
             }
 

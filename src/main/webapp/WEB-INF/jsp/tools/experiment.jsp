@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
+<%@ page import="java.util.Set" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -114,8 +115,8 @@
         font-weight: bold;
         font-size: 12px;
         color:steelblue;
-        width: 25%;
         background-color: #ECECF9;
+        padding:3px;
     }
     td{
         padding-left:1%;
@@ -132,37 +133,57 @@
 <% try { %>
 
 <%
+
+    Access access= new Access();
+    Person p = access.getUser(request.getSession());
+
+
 List<Delivery> dList = (List<Delivery>) request.getAttribute("deliveryList");
 List<Editor> editorList = (List<Editor>) request.getAttribute("editorList");
 List<Guide> guideList = (List<Guide>) request.getAttribute("guideList");
 List<Vector> vectorList = (List<Vector>) request.getAttribute("vectorList");
 List<ApplicationMethod> methods = (List<ApplicationMethod>) request.getAttribute("applicationMethod");
+List<Antibody> antibodyList = (List<Antibody>) request.getAttribute("antibodyList");
+Set<String> unitList = (Set<String>) request.getAttribute("unitList");
 ExperimentRecord experimentRecord = (ExperimentRecord) request.getAttribute("experimentRecord");
 Model model = (Model) request.getAttribute("model");
 Experiment experiment = (Experiment) request.getAttribute("experiment");
 List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)request.getAttribute("experimentResults");
+ExperimentResultDetail detail = experimentResults.get(0);
+
 //req.setAttribute("reporterElements", reporterElements);
 //req.setAttribute("experimentResults",experimentResults);
 //req.setAttribute("results", results);
 %>
 
+<table width="100%" border="0">
+    <tr>
+        <td valign="top" >
+
+
 
 <div>
-    <div>
-        <table style="width:80%">
-
+        <table >
             <tbody>
-            <tr><td class="header"><strong>Experiment</strong></td><td><%=experiment.getName()%></td></tr>
-            <tr><td class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
+            <tr><td width="200" class="header"><strong>Experiment</strong></td><td><%=experiment.getName()%></td></tr>
+            <tr><td width="200" class="header"><strong>Experiment Condition</strong></td><td><%=experimentRecord.getExperimentRecordName()%></td></tr>
+            <tr>
+                <td class="header"><b>Assay&nbsp;Description:</b> </td><td><%=detail.getAssayDescription()%></td>
+            </tr>
+            <tr>
+                <td class="header"><b>Tissue&nbsp;Measured:</b></td><td><%=SFN.parse(experimentRecord.getTissueTerm())%></td>
+            </tr>
+            <% if(experimentRecord.getCellTypeTerm()!=null && !experimentRecord.getCellTypeTerm().equals("") && !experimentRecord.getCellTypeTerm().equals("unspecified")){%>
+            <tr>
+                <td class="header"><b>Cell Type&nbsp;:</b></td><td><%=SFN.parse(experimentRecord.getCellTypeTerm())%></td>
+            </tr>
+            <%}%>
+            <tr>
+                <td class="header"><b>Measurement&nbsp;Type:</b></td><td><%=detail.getResultType()%></td>
+            </tr>
 
-            </tbody>
-        </table>
-
-    </div>
-
-    <hr>
-    <div>
-        <table style="width:80%">
+            <tr><td width="200" class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
 
             <%
 
@@ -197,114 +218,119 @@ List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)r
                 if(methods !=null && methods.size() > 0)
                     a = methods.get(0);
             %>
-                <tr><td class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=<%=e.getId()%>"><%=SFN.parse(e.getSymbol())%></a></td></tr>
-                <tr><td class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=SFN.parse(d.getName())%></a></td></tr>
-                <tr><td class="header"><strong>Delivery System Subtype</strong></td><td><%=SFN.parse(d.getType())%></td></tr>
+                <tr><td width="200" class="header"><strong>Editor</strong></td><td><a href="/toolkit/data/editors/editor?id=<%=e.getId()%>"><%=SFN.parse(e.getSymbol())%></a></td></tr>
+                <tr><td  class="header"><strong>Delivery System</strong></td><td><a href="/toolkit/data/delivery/system?id=<%=d.getId()%>"><%=SFN.parse(d.getName())%></a></td></tr>
+                <tr><td  class="header"><strong>Delivery&nbsp;System&nbsp;Subtype</strong></td><td><%=SFN.parse(d.getType())%></td></tr>
                 <tr><td class="header"><strong>Guide</strong></td><td><%=guide%></td></tr>
-            <tr><td class="header"><strong>Vector</strong></td><td><%=vector%></td></tr>
-            </tbody>
-        </table>
-    </div>
-    <hr>
+            <tr><td width="150" class="header"><strong>Vector</strong></td><td><%=vector%></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
 
 
-    <hr>
-    <div>
-<table  style="width:80%">
+    <tr><td class="header"><strong>Model Species</strong></td><td><%=SFN.parse(model.getOrganism())%></td></tr>
+        <tr><td class="header"><strong>Model Name</strong></td><td><a href="/toolkit/data/models/model?id=${model.modelId}"><%=SFN.parse(model.getName())%></a></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
 
-    <tbody>
-    <tr><td class="header"><strong>Model Species</strong></td><td><%=model.getOrganism()%></td></tr>
-        <tr><td class="header"><strong>Model Name</strong></td><td><a href="/toolkit/data/models/model?id=${model.modelId}"><%=model.getName()%></a></td></tr>
-    </tbody>
-</table>
-    </div>
-    <hr>
-    <div>
 
-    </div>
-    <hr>
-    <div>
-        <table style="width:80%">
-
-            <tbody>
-
-                <tr><td class="header"><strong>Application Method</strong></td><td><%=a.getApplicationType()%></td></tr>
-                <tr><td class="header"><strong>Application Site</strong></td><td><%=SFN.parse(a.getSiteOfApplication())%></td></tr>
+                <tr><td class="header"><strong>Application&nbsp;Method</strong></td><td><%=a.getApplicationType()%></td></tr>
+                <tr><td class="header"><strong>Application&nbsp;Site</strong></td><td><%=SFN.parse(a.getSiteOfApplication())%></td></tr>
                 <tr><td class="header"><strong>Dosage</strong></td><td><%=SFN.parse(a.getDosage())%></td></tr>
-                <tr><td class="header"><strong>Injection Frequency</strong></td><td><%=SFN.parse(a.getInjectionFrequency())%></td></tr>
-                <tr><td class="header"><strong>Injection Rate</strong></td><td><%=SFN.parse(a.getInjectionRate())%></td></tr>
-                <tr><td class="header"><strong>Injection Volume</strong></td><td><%=SFN.parse(a.getInjectionVolume())%></td></tr>
-                <tr><td class="header"><strong>Days post injection</strong></td><td><%=SFN.parse(a.getDaysPostInjection())%></td></tr>
-                <tr><td class="header"><strong>Editor Format</strong></td><td><%=a.getEditorFormat()%></td></tr>
+                <tr><td class="header"><strong>Injection&nbsp;Frequency</strong></td><td><%=SFN.parse(a.getInjectionFrequency())%></td></tr>
+                <tr><td class="header"><strong>Injection&nbsp;Rate</strong></td><td><%=SFN.parse(a.getInjectionRate())%></td></tr>
+                <tr><td class="header"><strong>Injection&nbsp;Volume</strong></td><td><%=SFN.parse(a.getInjectionVolume())%></td></tr>
+                <tr><td class="header"><strong>Days&nbsp;post&nbsp;injection</strong></td><td><%=SFN.parse(a.getDaysPostInjection())%></td></tr>
+                <tr><td class="header"><strong>Editor Format</strong></td><td><%=SFN.parse(a.getEditorFormat())%></td></tr>
                 <tr><td class="header"><strong>Antidote Id</strong></td><td><%=SFN.parse(a.getAntidoteId())%></td></tr>
-                <tr><td class="header"><strong>Antidote Description</strong></td><td><%=SFN.parse(a.getAntidoteDescription())%></td></tr>
-            </tbody>
-        </table>
-    </div>
-    <hr>
-    <hr>
-
-
-    <div class="row">
-        <div class="col-lg-3">
-            <table width="600"><tr><td><h3>Experimental Record Detail</h3></td><td align="right"></td></tr></table>
-        </div>
-    </div>
-    <br>
-
-        <%ExperimentResultDetail detail = experimentResults.get(0);%>
-    <table align="center" width="800">
-        <tr>
-            <td><b>Number of Samples:</b> </td><td>&nbsp;&nbsp;</td><td><%=detail.getNumberOfSamples()%></td>
-        </tr>
-        <tr>
-            <td><b>Assay Description:</b> </td><td>&nbsp;&nbsp;</td><td><%=detail.getAssayDescription()%></td>
-        </tr>
-        <tr>
-            <td><b>Tissue Measured:</b></td><td>&nbsp;&nbsp;</td><td><%=SFN.parse(experimentRecord.getTissueTerm())%></td>
-        </tr>
-        <tr>
-            <td><b>Measurement Type:</b></td><td>&nbsp;&nbsp;</td><td><%=detail.getResultType()%></td>
-        </tr>
-        <tr>
-            <td><b>Measurment Units:</b></td><td>&nbsp;&nbsp;</td><td><%=detail.getUnits()%></td>
-        </tr>
-    </table>
-
-        <%
-    long objectId = experimentRecord.getExperimentRecordId();
-    String objectType= ImageTypes.RECORD;
-    String redirectURL = "/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "/record/" + objectId;
-    String bucket="main";
+                <tr><td class="header"><strong>Antidote&nbsp;Description</strong></td><td><%=SFN.parse(a.getAntidoteDescription())%></td></tr>
+                <tr><td colspan="2"><hr></td></tr>
+<%
+            for(Antibody antibody: antibodyList) { %>
+            <tr><td class="header"><strong>Antibody&nbsp;RRID</strong></td><td><%=SFN.parse(antibody.getRrid())%></td></tr>
+            <tr><td class="header"><strong>Antibody&nbsp;Other&nbsp;ID</strong></td><td><%=SFN.parse(antibody.getOtherId())%></td></tr>
+             <tr><td class="header"><strong>Antibody&nbsp;Description</strong></td><td><%=SFN.parse(antibody.getDescription())%></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
+            <%            }
 
 %>
+            <tr>
+                <td colspan="2" style="color:#4984B5;font-size:26px;">Measured Values</td>
+            </tr>
 
-    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+            <tr>
+                <td><b>Samples Size:</b> </td><td><%=detail.getNumberOfSamples()%></td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td class="header">Replicate</td>
+                <td class="header">Result (<%=detail.getResultType()%>)</td>
+            </tr>
+            <tr>
+                 <%
+                   for(String unit: unitList) {
+               %>
+                     <td class="header"><b>Measurement Units:</b></td>
+                     <td class="header"><%=unit%></td>
+                     </tr>
 
-    <br>
-        <table width="800">
-            <thead><tr>
-                <th>Replicate</th>
-                <th>Result</th>
-            </tr></thead>
-            <tbody>
-              <% for (ExperimentResultDetail erd: experimentResults) { %>
-                <tr>
-                    <% if (erd.getReplicate() == 0) { %>
+                    <% for (ExperimentResultDetail erd: experimentResults) { %>
+            <tr>
+                <% if(erd.getUnits().equalsIgnoreCase(unit)) {
+                    if (erd.getReplicate() == 0) { %>
 
-                    <td>Mean</td>
-                    <% } else {%>
-                    <td><%=erd.getReplicate()%></td>
+                <td>Mean</td>
+                <% } else {%>
+                <td><%=erd.getReplicate()%></td>
 
-                    <% } %>
-                    <td><%=UI.formatNumber(erd.getResult(),2)%></td>
-                </tr>
                 <% } %>
+                <td><%=UI.formatNumber(erd.getResult(),2)%>&nbsp</td>
+            </tr>
+            <% }} %>
+               <% } %>
+            </tr>
+
+
+
+
             </tbody>
         </table>
+    </div>
 
+        <td>&nbsp;&nbsp;</td>
+        </td>
+        <td valign="top">
+            <%
+                long objectId = experimentRecord.getExperimentRecordId();
+                String redirectURL = "/data/experiments/experiment/" + experiment.getExperimentId() + "/record/" + objectId;
+                String bucket="main1";
+            %>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+            <% bucket="main2"; %>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+            <% bucket="main3"; %>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+            <% bucket="main4"; %>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+            <% bucket="main5"; %>
+            <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
-    <% } catch (Exception e) {
+        </td>
+    </tr>
+</table>
+
+<div id="associatedProtocols">
+    <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
+</div>
+
+<%objectId = experimentRecord.getExperimentId();%>
+
+<div id="associatedProtocols">
+    <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
+</div>
+
+<div id="associatedPublications">
+    <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+</div>
+
+<% } catch (Exception e) {
         e.printStackTrace();
 
     }%>

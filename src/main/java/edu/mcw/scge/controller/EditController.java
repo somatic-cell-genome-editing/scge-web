@@ -8,6 +8,7 @@ import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.datamodel.Study;
 import edu.mcw.scge.service.DataAccessService;
 
+import edu.mcw.scge.web.SCGEContext;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,7 @@ public class EditController {
 
         req.getSession().getAttribute("personId");
         int userId= (int) req.getSession().getAttribute("personId");
+        Person loggedInUser=pdao.getPersonById(userId).get(0);
         if (!access.hasStudyAccess(studyId,userId)) {
             req.setAttribute("page", "/WEB-INF/jsp/error");
             req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
@@ -48,13 +50,38 @@ public class EditController {
 
         service.insertTierUpdates(studyId, tier, userId, groupIdsJson );
         Study study= sdao.getStudyById(studyId).get(0);
-        List<Person> p=pdao.getPersonById(study.getPiId());
-        String emailMsg=" Study:"+studyId+" - "+study.getStudy() +" is updated. These changes will get executed after 24 hours";
+        List<Person> pi=sdao.getStudyPi(study);
+       // List<Person> pi=pdao.getPersonById(study.getPiId());
+        List<Person> submitter=pdao.getPersonById(study.getSubmitterId());
+        List<Person> pocs=sdao.getStudyPOC(studyId);
+        String emailMsg="Dear SCGE Member"/*+pi.get(0).getFirstName()+"/"+submitter.get(0).getFirstName()*/+",\n\nThe Study SCGE-"+studyId+" - "+study.getStudy().trim() +" is updated." +
+                " \nThe study TIER is elevated to "+tier+ " by "+loggedInUser.getFirstName()+" "+loggedInUser.getLastName()+
+                "\n\nThese changes will get executed after 24 hours. \n\nBest,\nSCGE Toolkit Team.";
+        String title="SCGE Study Tier Updated";
        // sendEmailNotification("jthota@mcw.edu", "SCGE Study Updated",emailMsg);
      //   sendEmailNotification(p.get(0).getEmail(), "SCGE Study Updated",emailMsg);
-        sendEmailNotification("ageurts@mcw.edu", "SCGE Study Updated",emailMsg);
+   /*     if(SCGEContext.isDev())
+        sendEmailNotification("ageurts@mcw.edu",title ,emailMsg);
+       else*/ if(SCGEContext.isProduction()){
+            sendEmailNotification(pi.get(0).getEmail(), title,emailMsg);
+            if(pi.get(0).getId()!=submitter.get(0).getId())
+            sendEmailNotification(submitter.get(0).getEmail(), title,emailMsg);
+            sendEmailNotification("scge_toolkit@mcw.edu", title,emailMsg);
+            if(pocs.size()>0) {
+                for (Person poc : pocs) {
+                    if(poc.getId()!=pi.get(0).getId() && poc.getId()!=submitter.get(0).getId()) {
+                        try {
+                            sendEmailNotification(poc.getEmail(), title, emailMsg);
+                        } catch (Exception e) {
 
-        String message="Confirmation request sent to PI. Requested changes will get executed after 24 hours";
+                        }
+                    }
+                }
+            }
+        }else{
+           sendEmailNotification(loggedInUser.getEmail(),"DEV "+title,emailMsg);
+        }
+        String message="Confirmation request sent to PI and POC. Requested changes will get executed after 24 hours";
         return "redirect:/db?message="+message+"&studyId="+studyId+"&tier="+tier;
 
     }

@@ -14,16 +14,14 @@
 --%>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<link href="/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-<link href="/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-<link href="/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
 
-<script src="/common/tableSorter/js/tablesorter.js"> </script>
-<script src="/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <style>
     td{
-        font-size: 12px;
+        display:table-cell
+    }
+    .tablesorter-childRow td{
+        background-color: lightcyan;
     }
 </style>
 <script>
@@ -49,38 +47,43 @@
 </table>
 <br>
 
-<% List<Model> models = (List<Model>) request.getAttribute("models"); %>
+<% List<Model> models = (List<Model>) request.getAttribute("models");
 
+    Access access = new Access();
+    UserService userService = new UserService();
+%>
 
+<% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
+<div align="right"><a href="/toolkit/data/models/edit"><button class="btn btn-primary">Add Model</button></a></div>
+<% } %>
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
         <tr>
             <th>Tier</th>
         <th>Name</th>
+        <th>Species</th>
         <th>Model Type</th>
         <th>Subtype</th>
-        <th>Alias</th>
-        <th>Species</th>
+            <th>Description</th>
+
         <th>SCGE ID</th>
     </tr>
     </thead>
 
 
     <%
-        Access access = new Access();
-        UserService userService = new UserService();
         for (Model model: models )  { %>
-
 
     <% if (access.hasModelAccess(model, userService.getCurrentUser(request.getSession()))) {%>
 
     <tr>
         <td width="10"><%=model.getTier()%></td>
-        <td><a href="/toolkit/data/models/model/?id=<%=model.getModelId()%>"><%=model.getName()%></a></td>
+        <td><a href="/toolkit/data/models/model/?id=<%=model.getModelId()%>"><%=model.getDisplayName()%></a></td>
+        <td><%=model.getOrganism()%></td>
         <td><%=model.getType()%></td>
         <td><%=SFN.parse(model.getSubtype())%></td>
-        <td><%=model.getOrganism()%></td>
-        <td></td>
+        <td><%=SFN.parse(model.getDescription())%></td>
+
         <td><%=model.getModelId()%></td>
     </tr>
     <% } %>

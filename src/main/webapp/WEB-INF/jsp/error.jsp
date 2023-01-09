@@ -289,9 +289,10 @@
 <div class="wrapper fadeInDown" style="background-color:#F1EDEA" >
 
 
-    Access Denied<br><br>
+    Sorry,  This page is not available.<br><br>
 
-    If you feel you should have access to this page please contact scge@mcw.edu
+    If you feel you should have access to this page make sure you are logged in with the correct account<br><br>
+    If you are still having trouble please <a onclick="openForm()" href="javascript:void(0)">Contact Us</a>.
 
 
 

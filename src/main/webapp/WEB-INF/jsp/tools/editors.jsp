@@ -19,16 +19,14 @@
 --%>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<link href="/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-<link href="/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-<link href="/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
 
-<script src="/common/tableSorter/js/tablesorter.js"> </script>
-<script src="/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <style>
     td{
-        font-size: 12px;
+        display:table-cell
+    }
+    .tablesorter-childRow td{
+        background-color: lightcyan;
     }
 </style>
 <script>
@@ -39,6 +37,8 @@
         });
     });
 </script>
+
+<% try { %>
 
 
 <table align="center">
@@ -67,6 +67,16 @@
 <span style="color:#1A80B6; padding-left:10px;">Displaying <b><%=editors.size()%></b> of <b><%=total%></b> Editors.  <%=(total - editors.size())%> Editors hidden from view (tier 1 or 2)</span>
 <% } %>
 
+<%
+    UserService userService=new UserService();
+    Access access= new Access();
+    Person p = access.getUser(request.getSession());
+
+    if (access.isAdmin(p)) {
+    %>
+        <div align="right"><a href="/toolkit/data/editors/edit"><button class="btn btn-primary">Add Editor</button></a></div>
+    <%  } %>
+
 <table id="myTable" class="table tablesorter table-striped">
         <thead>
         <tr>
@@ -84,9 +94,6 @@
     </thead>
 
 <%
-    UserService userService=new UserService();
-    Access access= new Access();
-    Person p = access.getUser(request.getSession());
     for (Editor editor: editors) { %>
 
         <% if (access.hasEditorAccess(editor, p)) {%>
@@ -96,13 +103,17 @@
             <td><%=editor.getType()%></td>
             <td><%=editor.getSubType()%></td>
             <td><%=SFN.parse(editor.getAlias())%></td>
-            <td><%=editor.getSpecies()%></td>
-            <td><%=editor.getActivity()%></td>
-            <td><%=editor.getDsbCleavageType()%></td>
-            <td><%=editor.getSource()%></td>
+            <td><%=SFN.parse(editor.getSpecies())%></td>
+            <td><%=SFN.parse(editor.getActivity())%></td>
+            <td><%=SFN.parse(editor.getDsbCleavageType())%></td>
+            <td><%=SFN.parse(editor.getSource())%></td>
             <td><%=editor.getId()%></td>
 
         </tr>
         <% } %>
     <% } %>
 </table>
+
+<% } catch (Exception e) {
+        e.printStackTrace();
+}  %>

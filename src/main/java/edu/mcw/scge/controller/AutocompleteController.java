@@ -1,7 +1,12 @@
 package edu.mcw.scge.controller;
 
 import com.google.gson.Gson;
+import edu.mcw.scge.configuration.Access;
+import edu.mcw.scge.configuration.UserService;
+import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.service.es.ESClient;
+import edu.mcw.scge.service.es.IndexServices;
+import edu.mcw.scge.web.SCGEContext;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -21,64 +26,46 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Controller
 @RequestMapping(value="/data/")
 public class AutocompleteController {
-    @RequestMapping(value="autocomplete" , method = RequestMethod.POST)
-    public String getAutocompleteTerms(HttpServletRequest req, HttpServletResponse res){
-        List<String> autocompleteList=new ArrayList<>();
+    IndexServices services=new IndexServices();
+    Access access=new Access();
+    UserService userService=new UserService();
+    @RequestMapping(value="autocomplete" , method = RequestMethod.GET)
+    public String getAutocompleteTerms(HttpServletRequest req, HttpServletResponse res) throws Exception {
+        LinkedHashMap<String, String> autocompleteList=new LinkedHashMap<>();
         String searchTerm=req.getParameter("searchTerm");
-        System.out.println("AUTOCOMPLETE WORKING: "+ searchTerm);
+        Person user=userService.getCurrentUser(req.getSession());
+        boolean DCCNIHMember=access.isInDCCorNIHGroup(user);
+        boolean consortiumMember=access.isConsortiumMember(user.getId());
+
 
         if(searchTerm!=null && !searchTerm.equals("")) {
             searchTerm = searchTerm.replaceAll("/", "\\/");
-            DisMaxQueryBuilder qb = new DisMaxQueryBuilder();
-            BoolQueryBuilder query = new BoolQueryBuilder();
-            query.must(qb);
-            qb.add(QueryBuilders.multiMatchQuery( searchTerm,
-                    "type.ngram", "subtype.ngram",
-                    "name.ngram", "symbol.ngram"));
-
-
-            query.must(qb);
-      /*  if(aspect.equals("D") || aspect.equals("N")){
-            query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
-        }*/
-            SearchSourceBuilder srb = new SearchSourceBuilder();
-            srb.query(query);
-            srb.highlighter(this.buildHighlights());
-
-            srb.size(1000);
-            SearchRequest searchRequest = new SearchRequest("scge_search_test");
-            searchRequest.source(srb);
-            SearchResponse sr = null;
-            try {
-                sr = ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            SearchResponse sr=services.getSearchResults(null, searchTerm, null,DCCNIHMember,consortiumMember);
             if (sr != null) {
                 for (SearchHit h : sr.getHits().getHits()) {
                     for (Map.Entry e : h.getHighlightFields().entrySet()) {
                         HighlightField field = (HighlightField) e.getValue();
                         for (Text s : field.fragments()) {
-                            //     System.out.println(s);
+                               System.out.println(s.bytes().utf8ToString());
                             String str = s.toString().replace("<em>", "<strong>")
                                     .replace("</em>", "</strong>");
-                            if (!autocompleteList.contains(str))
-                                autocompleteList.add(str);
+                            autocompleteList.put(str,"");
                         }
                     }
                 }
 
             }
             Gson gson = new Gson();
-            String autoList = gson.toJson(autocompleteList);
-            System.out.println("AUTO LIST:"+autoList);
+            String autoList = gson.toJson(autocompleteList.keySet());
+           // System.out.println("AUTO LIST:"+autoList);
             try {
+                res.setContentType ("text/html;charset=utf-8");
                 res.getWriter().write(autoList);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -91,9 +78,10 @@ public class AutocompleteController {
                 "type.ngram", "subtype.ngram", "name.ngram", "symbol.ngram"
         ));
         HighlightBuilder hb=new HighlightBuilder();
-        for(String field:fields){
+      /*  for(String field:fields){
             hb.field(field);
-        }
+        }*/
+      hb.field("*");
         return hb;
     }
 }

@@ -52,7 +52,7 @@
             <form  action="/toolkit/data/search/results">
             <div class="form-group row"  align="center" >
                 <div class="input-group col-lg-2">
-                    <img src="https://scge.mcw.edu/wp-content/uploads/2019/03/logo-png-1.png" border="0" alt="SCGE"/>
+                    <img src="/toolkit/images/scge-logo-200w.png" border="0" alt="SCGE"/>
                 </div>
                 <div class="input-group col-lg-10">
                 <div class="input-group" align="center">
@@ -65,7 +65,7 @@
 
                 </div>
 
-                    <small class="form-text text-muted" style="font-size: 11px">Examples:<a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a> <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
+                    <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
                         <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
                     </small>
                 </div>

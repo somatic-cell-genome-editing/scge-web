@@ -1,5 +1,4 @@
 <%@ page import="edu.mcw.scge.datamodel.Experiment" %>
-<%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="edu.mcw.scge.web.UI" %>
@@ -7,6 +6,10 @@
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
+<%@ page import="edu.mcw.scge.service.StringUtils" %>
+<%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
+<%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
+<%@ page import="java.util.*" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -15,172 +18,294 @@
   Time: 4:25 PM
   To change this template use File | Settings | File Templates.
 --%>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<link href="/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-<link href="/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-<link href="/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
 
-<script src="/common/tableSorter/js/tablesorter.js"> </script>
-<script src="/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <style>
-   #scge-details td{
-       white-space: nowrap;
-   }
-    .desc {
-        font-size:14px;
+    #scge-details td {
+        white-space: nowrap;
     }
-   .scge-details-label{
-       color:#2a6496;
-         font-weight: bold;
-   }
+
+    .desc {
+        font-size: 14px;
+    }
+
+    .scge-details-label {
+        color: #2a6496;
+        font-weight: bold;
+    }
+
+    table tr, table tr td {
+        background-color: transparent;
+    }
 </style>
 <script>
-    $(function() {
+    $(function () {
         $("#myTable").tablesorter({
-            theme : 'blue'
+            theme: 'blue'
 
         });
+
     });
 </script>
-<%
-    Access access = new Access();
-    StudyDao sdao = new StudyDao();
-    Person p = access.getUser(request.getSession());
-    List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
-    Study study = null;
-    if (request.getAttribute("study") != null) {
-        study = (Study) request.getAttribute("study");
-    }
+<div class="container-fluid">
+    <%
+        ImageDao idao = new ImageDao();
+        int rowCount = 1;
+        Access access = new Access();
+        StudyDao sdao = new StudyDao();
+        Person p = access.getUser(request.getSession());
+//    List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
+        LinkedHashMap<Study, List<Experiment>> studyExperimentMap = (LinkedHashMap<Study, List<Experiment>>) request.getAttribute("studyExperimentMap");
+        Map<Long, List<Experiment>> validationExperimentsMap = new HashMap<>();
+        if (request.getAttribute("validationExperimentsMap") != null)
+            validationExperimentsMap = (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
+        Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
+        if (request.getAttribute("experimentsValidatedMap") != null)
+            experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
 
-%>
-<div class="row">
-<div class="col-md-3 sidenav">
+        for (Map.Entry entry : studyExperimentMap.entrySet()) {
+            Study study = ((Study) entry.getKey());
+            List<Experiment> experiments = (List<Experiment>) entry.getValue();
 
+    %>
+    <%if (study.getStudyId() == 1026) {%>
+    <!--h4 class="page-header" style="color:grey;">Study Overview</h4>
 
-        <div class="card">
-            <div class="card-header scge-details-label">Submission - SCGE:<%=study.getStudyId()%></div>
-            <div class="card-body">
-                <table id="scge-details">
-                    <tr ><td class="scge-details-label">PI</td><td>: <%=study.getPi()%></td></tr>
-                    <tr ><td class="scge-details-label">Submission Date</td><td>: <%=study.getSubmissionDate()%></td></tr>
-                    <tr ><td class="scge-details-label" >Publication ID</td><td>: <%=study.getReference()%></td></tr>
-                    <tr ><td class="scge-details-label">Status</td><td>
-                        <% if(access.isInDCCorNIHGroup(p)){%>
-                        <select class="form-control" id="statusControlSelect">
-                            <option selected>Verified</option>
-                            <option>Received</option>
-                            <option>In Processing</option>
-                            <option>DCC Review</option>
-                            <option>PI Review</option>
-                        </select>
-                        <%}
-                        else{
-                            if(experiments.size()>0){%><span>DCC Review</span>
-                        <%}else{%><span>Received</span><%}}%>
-                    </td></tr>
-                    <tr ><td class="scge-details-label">Last Updated Date</td><td>: <%=study.getSubmissionDate()%></td></tr>
-
-                </table>
-            </div>
-        </div>
-
+    <div class="card" style="border:1px solid white">
+        Specific aims: 1) to predict which unintended editing sites have biological effects on human T-cells by integrating large-scale genome-wide activity and epigenomic profiles with state-of-the-art deep learning models and 2) to develop a human primary T-cell platform to detect functional effects of genome editing by measuring clonal representation, off-target mutation frequencies, immunogenicity, or gene expression.
 
     </div>
-    <main role="main" class="col-md-9 ml-sm-auto px-4 bg-light"  >
 
-        <% if (study != null) { %>
+    <hr-->
+    <%}%>
+    <div id="imageViewer"
+         style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
-        <table width="95%">
-        <tr>
-            <td align="right">
-                <button class="btn btn-primary" type="button" onclick="javascript:location.href='/toolkit/download/<%=study.getStudyId()%>'"><i class='fas fa-download'></i>&nbsp;Download Submitted Data</button>
-            </td>
-        </tr>
-    </table>
 
-    <% } %>
+    <div class="container-fluid bg-light shadow p-3 mb-5 bg-white rounded">
 
-        <h4 class="page-header" style="color:grey;">Study Overview</h4>
-        <%if(study.getStudyId()==1026){%>
-        <div class="card" style="border:1px solid white">
-            Specific aims: 1) to predict which unintended editing sites have biological effects on human T-cells by integrating large-scale genome-wide activity and epigenomic profiles with state-of-the-art deep learning models and 2) to develop a human primary T-cell platform to detect functional effects of genome editing by measuring clonal representation, off-target mutation frequencies, immunogenicity, or gene expression.
-            <div class="container">
-            <div class="card" style="border:1px solid white">
-                <div class="card-body" style="align-content: center">
-                    <table class="scge-details" >
-                        <tr ><td class="scge-details-label">Model</td><td>: CD4/CD8 Human Primary T cell</tr>
-                        <tr ><td class="scge-details-label">Editor</td><td>: SpCas9</td></tr>
-                        <tr ><td class="scge-details-label" >Delivery System</td><td>: P3 Nucleofection Kit</td></tr>
-                        <tr ><td class="scge-details-label">Target Locus</td><td>: AAVS1,
-                            B2M,
-                            CBLB,
-                            CCR5,
-                            CTLA4,
-                            CXCR4,
-                            FAS,
-                            LAG3,
-                            PDCD1,
-                            PTPN2,
-                            PTPN6,
-                            TRAC,
-                            TRBC1</td>
+        <div class="container-fluid" style="margin-top: 1%;">
 
-                        </tr>
-                        <tr><td class="scge-details-label">Observation</td><td>: Editing Efficiency</td></tr>
+            <% if (study != null) { %>
 
-                    </table>
-                </div>
-            </div>
+            <div >
+                <table width="95%">
+                    <tr>
+                        <td>
+                            <div >
+                                <div>
+                                    <%
+                                        if(study.getGroupId()==1410 || study.getGroupId()==1412){
+                                        if (study.getIsValidationStudy()!=1)// 1410-Baylor;1412-Jackson
+                                             {%>
+                                    <strong>NEW MODEL DEVELOPMENT&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
+                                    <% } else {%>
+                                    <strong>VALIDATION&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
+                                    <% }
+                                        }else{%>
+                                    <%=study.getStudy()%>
+                                  <%}%>
+                                </div>
+                                <span  class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;-&nbsp;Submission
+                                Date:&nbsp;<%=study.getSubmissionDate()%>&nbsp;
+                            </div>
+
+                        </td>
+                        <td>
+                            <%
+                                try {
+                                    if(access.isAdmin(p)){%>
+                                    <div><a href="/toolkit/data/experiments/edit?studyId=<%=study.getStudyId()%>"><button style="margin-bottom:15px;" class="btn btn-primary btn-sm">Create&nbsp;Experiment</button></a></div>
+                                    <%}
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            %>
+                        </td>
+                        <td>
+
+                            <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
+                                    onclick="javascript:location.href='/toolkit/download/<%=study.getStudyId()%>'"><i
+                                    class='fas fa-download'></i>&nbsp;Download Submitted files
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+
+                <% } %>
+
+                <%if (experiments.size() > 0) {%>
+
+
+                <table class="table bg-light">
+                    <thead>
+                    <tr>
+                        <!--<th>Tier</th>-->
+
+                        <th>Experiment Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th></th>
+                        <!--<th>SCGE ID</th>-->
+                    </tr>
+                    </thead>
+
+                    <%
+                        for (Experiment exp : experiments) {
+                            Study s = sdao.getStudyById(exp.getStudyId()).get(0);
+                    %>
+
+                    <% if (access.hasStudyAccess(s, p)) { %>
+
+                    <tr>
+                        <!--<td width="10"><%=s.getTier()%>-->
+
+                        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>">
+                            <%=exp.getName()%></a><br>
+
+                        </td>
+                        <td style="white-space: nowrap"><%=exp.getType()%>
+                        </td>
+                        <td><%=SFN.parse(exp.getDescription())%><br>
+
+                        </td>
+                        <td>
+                            <%@include file="validations.jsp"%>
+                        </td>
+                        <!--<td><%=exp.getExperimentId()%></td>-->
+
+
+
+                    </tr>
+                    <%
+                        List<Image> images = idao.getImage(exp.getExperimentId());
+                        if (images.size() > 0) {
+                    %>
+
+                    <tr style="border-top: 1px red">
+                        <td colspan="5" align="right" style="border-top:2px blueviolet">
+                            <table>
+                                <tr>
+                                    <% for (Image image : images) { %>
+                                    <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><img
+                                            onmouseover="imageMouseOver(this,'<%=StringUtils.encode(image.getLegend())%>', '<%=image.getTitle()%>')"
+                                            onmouseout="imageMouseOut(this)" id="img<%=rowCount%>"
+                                            src="<%=image.getPath()%>" height="1" width="1"></a></td>
+
+                                    <% rowCount++;
+                                    }
+                                    %>
+                                </tr>
+                            </table>
+                        </td>
+
+                    </tr>
+                    <%
+                        }
+                    %>
+
+                    <% } %>
+                    <% } %>
+                </table>
+
+
+                <%}%>
+                <%
+                    long objectId = study.getStudyId();
+                    String redirectURL = "/data/experiments/study/" + objectId;
+                    String bucket = "main1";
+                %>
+                <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
+                <% bucket = "main2"; %>
+                <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
+                <% bucket = "main3"; %>
+                <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
+                <% bucket = "main4"; %>
+                <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
+                <% bucket = "main5"; %>
+                <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
+                <% bucket = "main6"; %>
+                <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
+
+
             </div>
         </div>
+    </div>
 
-            <hr>
-        <%}%>
-        <h4 class="page-header" style="color:grey;">Experiments</h4>
-
-    <table class="table tablesorter table-striped">
-    <thead>
-    <tr>
-        <th>Tier</th>
-
-    <th>Name</th>
-    <th>Type</th>
-        <!--th>Contact PI</th-->
-        <th>SCGE ID</th>
-    </tr>
-    </thead>
-
-        <% for (Experiment exp: experiments) {
-            System.out.println(exp.getStudyId());
-            Study s = sdao.getStudyById(exp.getStudyId()).get(0);
-        %>
-
-        <% if (access.hasStudyAccess(s,p)) { %>
-
-    <tr>
-        <td width="10"><%=s.getTier()%></td>
-        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td>
-        <td style="white-space: nowrap"><%=exp.getType()%></td>
-        <!--td><%=s.getPi()%></td-->
-        <td><%=exp.getExperimentId()%></td>
-    </tr>
-        <% } %>
-        <% } %>
-    </table>
-        <hr>
-        <h4 class="page-header" style="color:grey;">Protocols</h4>
-
-        <div class="container">
-        <ul>
-            <li><a href="/toolkit/images/1026/CHANGEseq_Protocol_Tsai_lab.pdf"><i class="fas fa-file-pdf" style="color:red;font-size: medium"></i>&nbsp;CHANGEseq Protocol</a>
-            </li>
-            <!--li> <a href="/toolkit/images/1026/Data_for_SCGE_toolkit.xlsx"><i class="fas fa-file-excel" style="color:green;font-size: medium"></i>&nbsp;Data for the toolkit</a>
-            </li-->
-        </ul>
-
-            <!--embed src="/toolkit/images/CRISPR-CAS.pdf" type="application/pdf" width="100%" height="600px" /-->
-        </div>
-    </main>
+    <%}%>
 </div>
+
+<script>
+    function resizeImages() {
+        var count = 1;
+        while (true) {
+            var img = document.getElementById("img" + count);
+            if (img) {
+                //get the height to 60
+                var goal = 75;
+                var height = img.naturalHeight;
+                var diff = height - goal;
+                var percentDiff = 1 - (diff / height);
+                img.height = goal;
+                img.width = parseInt(img.naturalWidth * percentDiff);
+
+            } else {
+                break;
+            }
+            count++;
+        }
+
+    }
+
+    function imageMouseOver(img, legend, title) {
+        var sourceImage = document.createElement('img'),
+            imgContainer = document.getElementById("imageViewer");
+        sourceImage.src = img.src;
+        //resizeThis(sourceImage);
+
+        if (title != "") {
+            imgContainer.innerHTML = "<div style='padding:8px;font-weight:700;font-size:18px;'>" + title + "</div>"
+        }
+
+        imgContainer.appendChild(sourceImage);
+        //imgContainer.style.width=img.naturalWidth;
+
+        if (legend != "") {
+            imgContainer.innerHTML = imgContainer.innerHTML + "<div style='border:1px solid black;padding:8px;'>" + decodeHtml(legend) + "</div>";
+        }
+        imgContainer.style.visibility = "visible";
+    }
+
+    function resizeThis(img) {
+        if (img) {
+            //get the height to 60
+            var goal = 700;
+            var width = img.naturalWidth;
+
+            if (width < goal) {
+                return;
+            }
+
+            var diff = width - goal;
+            var percentDiff = 1 - (diff / width);
+            img.width = goal;
+            img.height = parseInt(img.naturalHeight * percentDiff);
+
+        }
+    }
+
+    function imageMouseOut(img) {
+        document.getElementById("imageViewer").innerHTML = "";
+        document.getElementById("imageViewer").style.visibility = "hidden";
+    }
+
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
+    setTimeout("resizeImages()", 500);
+
+</script>

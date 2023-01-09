@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Access {
     DataAccessService service=new DataAccessService();
@@ -51,16 +52,31 @@ public class Access {
         }
     }
 
+    /**
+     * verify if the logged in person is PI or Submitter or POC
+     * @param p
+     * @param s
+     * @return
+     * @throws Exception
+     */
     public boolean canUpdateTier(Person p, Study s) throws Exception {
 
-        List<PersonInfo> personInfoRecords= this.getPersonInfoRecords(p.getId());
-
-        for(PersonInfo i:personInfoRecords){
-              if (s.getSubmitterId()==p.getId() || s.getPiId()==p.getId()) {
+     //   List<PersonInfo> personInfoRecords= this.getPersonInfoRecords(p.getId());
+            List<Integer> piIds=s.getMultiplePis().stream().map(pi->pi.getId()).collect(Collectors.toList());
+     //   for(PersonInfo i:personInfoRecords){
+              if (s.getSubmitterId()==p.getId() || piIds.contains(p.getId())) {
                   return true;
+              }else{
+                  List<Person> pocs=sdao.getStudyPOC(s.getStudyId());
+
+                  for (Person poc : pocs) {
+                      if(poc.getId()==p.getId()) {
+                       return true;
+                      }
+                  }
               }
-        }
-        return false;
+    //    }
+        return isAdmin(p);
     }
 
 
@@ -128,6 +144,20 @@ public class Access {
         return false;
     }
 
+    public boolean isConsortiumMember(int personId) throws Exception {
+        List<PersonInfo> piList = pdao.getPersonInfo(personId);
+
+        if (piList != null) {
+                for (PersonInfo pi: piList) {
+                    if (pi.getGroupId() == 1411) {
+                        return true;
+                    }
+                }
+         }
+         return false;
+    }
+
+
     public boolean hasStudyAccess(int studyId, int personId) throws Exception{
         StudyDao sdao = new StudyDao();
         PersonDao personDao = new PersonDao();
@@ -145,7 +175,13 @@ public class Access {
         if (s.getTier()==4) {
             return true;
         }
-        if (s.getTier()==3 && a.isLoggedIn()) {
+
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
+        }
+
+
+        if (s.getTier()==3) {
             return true;
         }
 
@@ -156,14 +192,24 @@ public class Access {
         return sdao.verifyStudyAccessByPesonId(s.getStudyId(),p.getId());
     }
 
-    public boolean hasExperimentAccess(int experimentId, int personId) throws Exception{
-        return sdao.getStudyByExperimentId(experimentId, personId).size()>0;
+    public boolean hasExperimentAccess(long experimentId, int personId) throws Exception{
+        List<Study> studies = sdao.getStudyByExperimentId(experimentId);
+        if (studies.size()==0) {
+            return false;
+        }
+
+        return hasStudyAccess(studies.get(0).getStudyId(),personId);
+
     }
 
 
     public boolean hasModelAccess(Model m, Person p) throws Exception{
         if (m.getTier() == 4) {
             return true;
+        }
+
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
         }
 
         if (m.getTier() == 3) {
@@ -178,10 +224,63 @@ public class Access {
         //return modelDao.verifyModelAccess(m.getModelId(), p.getId());
     }
 
-    public boolean hasModelAccess(int modelId, Person p) throws Exception{
+    public boolean hasModelAccess(long modelId, Person p) throws Exception{
         ModelDao mdao = new ModelDao();
         Model m = mdao.getModelById(modelId);
         return this.hasModelAccess(m,p);
+    }
+    public boolean hasHrdonorAccess(HRDonor h, Person p) throws Exception{
+        if (h.getTier() == 4) {
+            return true;
+        }
+
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
+        }
+
+        if (h.getTier() == 3) {
+            return true;
+        }
+
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
+        return adao.verifyHrdonorAccess(h,p);
+        //return modelDao.verifyModelAccess(m.getModelId(), p.getId());
+    }
+
+    public boolean hasHrdonorAccess(long hrdonorId, Person p) throws Exception{
+        HRDonorDao dao = new HRDonorDao();
+        HRDonor h = dao.getHRDonorById(hrdonorId).get(0);
+        return this.hasHrdonorAccess(h,p);
+    }
+    public boolean hasProtocolAccess(Protocol protocol, Person p) throws Exception{
+        if (protocol.getTier() == 4) {
+            return true;
+        }
+
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
+        }
+
+        if (protocol.getTier() == 3) {
+            return true;
+        }
+
+        if (isInDCCorNIHGroup(p)) {
+            return true;
+        }
+
+        return false;
+        //return protocolDao.verifyProtocolAccess(protocol,p);
+        //return modelDao.verifyModelAccess(m.getModelId(), p.getId());
+    }
+
+    public boolean hasProtocolAccess(long protocolId, Person p) throws Exception{
+        ProtocolDao pdao = new ProtocolDao();
+        Protocol protocol= pdao.getProtocolById(protocolId);
+        return this.hasProtocolAccess(protocol,p);
     }
 
     public boolean hasRecordAccess(ExperimentRecord r, Person p) throws Exception{
@@ -210,6 +309,10 @@ public class Access {
             return true;
         }
 
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
+        }
+
         if (e.getTier() == 3) {
             return true;
         }
@@ -223,7 +326,7 @@ public class Access {
         //return editorDao.verifyEditorAccess(e.getId(), p.getId());
     }
 
-    public boolean hasEditorAccess(int editorId, int personId) throws Exception{
+    public boolean hasEditorAccess(long editorId, int personId) throws Exception{
         EditorDao edao = new EditorDao();
         Editor e = edao.getEditorById(editorId).get(0);
         PersonDao personDao = new PersonDao();
@@ -234,6 +337,10 @@ public class Access {
     public boolean hasGuideAccess(Guide g, Person p) throws Exception{
         if (g.getTier() == 4) {
             return true;
+        }
+
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
         }
 
         if (g.getTier() == 3) {
@@ -247,7 +354,7 @@ public class Access {
         return adao.verifyGuideAccess(g,p);
     }
 
-    public boolean hasVectorAccess(int vectorId, int personId) throws Exception{
+    public boolean hasVectorAccess(long vectorId, int personId) throws Exception{
         VectorDao edao = new VectorDao();
         Vector v = edao.getVectorById(vectorId).get(0);
         PersonDao personDao = new PersonDao();
@@ -258,6 +365,10 @@ public class Access {
     public boolean hasVectorAccess(Vector v, Person p) throws Exception{
         if (v.getTier() == 4) {
             return true;
+        }
+
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
         }
 
         if (v.getTier() == 3) {
@@ -285,6 +396,10 @@ public class Access {
             return true;
         }
 
+        if (!this.isConsortiumMember(p.getId())) {
+            return false;
+        }
+
         if (d.getTier() == 3) {
             return true;
         }
@@ -297,7 +412,7 @@ public class Access {
         //return deliveryDao.verifyDeliveryAccess(d.getId(), p.getId());
     }
 
-    public boolean hasDeliveryAccess(int deliveryId, int personId) throws Exception{
+    public boolean hasDeliveryAccess(long deliveryId, int personId) throws Exception{
         DeliveryDao ddao = new DeliveryDao();
         PersonDao pdao = new PersonDao();
         return this.hasDeliveryAccess(ddao.getDeliverySystemsById(deliveryId).get(0),pdao.getPersonById(personId).get(0));
