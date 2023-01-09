@@ -96,18 +96,6 @@
     }
 </style>
 
-<!--
-<div id="mySidenav" class="sidenav">
-<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-<a href="#">About</a>
-<a href="#">Services</a>
-<a href="#">Clients</a>
-<a href="#">Contact</a>
-</div>
--->
-<!--
-<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
--->
 <script>
     function openNav() {
         if (document.getElementById("mySidenav").style.width == "300px") {
@@ -138,9 +126,7 @@
 
 
 
-<style>
 
-</style>
 
 <div class="filterOptions" id="filterClose">
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Close Options</a>
@@ -152,7 +138,7 @@
     <h5 style="margin-left: 20px;">Filter Results .. <i class="fa-solid fa-down"></i></h5>
     <table align="center" border="0" style="margin-left:35px;">
 
-        <% if (tissueList.size() > 0 ) { %>
+        <% if (tissueList!=null && tissueList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -182,13 +168,18 @@
                                     %>
                                     <tr>
                                         <td  title="<%=title%>" style="color:<%=color%>;font-weight: <%=fontWeight%>">
-                                            <input onclick="applyFilters(this)" name="tissue"  id="<%=tissue%>" type="checkbox" checked>&nbsp;<%=tissue%>
+                                            <% if (tissueList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="tissue"  id="<%=tissue%>" type="checkbox" checked>
+                                            <%}%>
+                                            &nbsp;<%=tissue%>
                                         </td>
                                     </tr>
                                     <%} else { %>
                                     <tr>
                                         <td  title="<%=title%>" style="color:<%=color%>;font-weight: <%=fontWeight%>">
-                                            <input onclick="applyFilters(this)" name="tissue" id="<%=tissue%>" type="checkbox" unchecked>&nbsp;<%=tissue%>
+                                            <% if (tissueList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="tissue" id="<%=tissue%>" type="checkbox" unchecked>&nbsp;
+                                            <%}%><%=tissue%>
                                         </td>
                                     </tr>
                                     <% }} %>
@@ -201,7 +192,7 @@
         </tr>
         <% } %>
 
-        <% if (cellTypeList.size() > 0 ) { %>
+        <% if (cellTypeList!=null && cellTypeList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -219,13 +210,15 @@
                                     %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)"  name="checkcelltype" id="<%=cellType%>" type="checkbox" checked>&nbsp;<%=cellType%>
+                                            <% if (cellTypeList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)"  name="checkcelltype" id="<%=cellType%>" type="checkbox" checked><%}%>&nbsp;<%=cellType%>
                                         </td>
                                     </tr>
                                     <%} else { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)" name="checkcelltype" id="<%=cellType%>" type="checkbox" checked>&nbsp;<%=cellType%>
+                                            <% if (cellTypeList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="checkcelltype" id="<%=cellType%>" type="checkbox" checked><%}%>&nbsp;<%=cellType%>
                                         </td>
                                     </tr>
                                     <% }} %>
@@ -239,7 +232,7 @@
         </tr>
         <% } %>
 
-        <% if (editorList.size() > 0) { %>
+        <% if (editorList!=null && editorList.size() > 0) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -257,7 +250,8 @@
                                     <% for (String editor: editorList) { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)" name="checkeditor" id="<%=editor%>" type="checkbox" checked>&nbsp;<%=editor%>
+                                            <% if (editorList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="checkeditor" id="<%=editor%>" type="checkbox" checked><%}%>&nbsp;<%=editor%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -269,13 +263,13 @@
             </td>
         </tr>
         <% } %>
-        <% if (guideList.size() > 0) { %>
+        <% if (guideTargetLocusList!=null && guideTargetLocusList.size() > 0) { %>
         <tr>
             <td valign="top">
                 <table>
                     <tr>
                         <td  ><div class="recordFilterTitle">
-                            <% if (guideList.size() > 1) { %>
+                            <% if (guideTargetLocusList.size() > 1) { %>
                             <input onchange="applyAllFilters(this, 'checktargetlocus')" id="allTargetLocus"  type="checkbox" checked>&nbsp;
                             <%}%>
                             Guide Target Locus
@@ -288,7 +282,8 @@
                                     <% for (String locus: guideTargetLocusList) { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)" name="checktargetlocus" id="<%=locus%>" type="checkbox" checked>&nbsp;<%=locus%>
+                                            <% if (guideTargetLocusList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="checktargetlocus" id="<%=locus%>" type="checkbox" checked><%}%>&nbsp;<%=locus%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -300,7 +295,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (guideList.size() > 0) { %>
+        <% if (guideList!=null && guideList.size() > 0) { %>
 
         <tr>
             <td valign="top">
@@ -319,7 +314,8 @@
                                     <% for (String guide: guideList) { %>
                                     <tr>
                                         <td>
-                                            <input onchange="applyFilters(this)" name="checkguide" id="<%=guide%>" type="checkbox" checked>&nbsp;<%=guide%>
+                                            <% if (guideList.size() > 1) { %>
+                                            <input onchange="applyFilters(this)" name="checkguide" id="<%=guide%>" type="checkbox" checked><%}%>&nbsp;<%=guide%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -331,7 +327,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (deliverySystemList.size() > 0 ) { %>
+        <% if (deliverySystemList !=null && deliverySystemList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -349,7 +345,8 @@
                                     <% for (String system: deliverySystemList) { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)" name="checkdelivery" id="<%=system%>" type="checkbox" checked>&nbsp;<%=system%>
+                                            <% if (deliverySystemList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="checkdelivery" id="<%=system%>" type="checkbox" checked><%}%>&nbsp;<%=system%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -361,7 +358,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (modelList.size() > 0 ) { %>
+        <% if (modelList!=null && modelList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -379,7 +376,8 @@
                                     <% for (String model: modelList) { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)" name="checkmodel"  id="<%=model%>" type="checkbox" checked>&nbsp;<%=model%>
+                                            <% if (modelList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="checkmodel"  id="<%=model%>" type="checkbox" checked><%}%>&nbsp;<%=model%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -393,7 +391,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (hrdonorList.size() > 0 ) { %>
+        <% if (hrdonorList!=null && hrdonorList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -411,7 +409,8 @@
                                     <% for (String hrdonor: hrdonorList) { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)" name="checkhrdonor"  id="<%=hrdonor%>" type="checkbox" checked>&nbsp;<%=hrdonor%>
+                                            <% if (hrdonorList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="checkhrdonor"  id="<%=hrdonor%>" type="checkbox" checked><%}%>&nbsp;<%=hrdonor%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -425,7 +424,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (sexList.size() > 0 ) { %>
+        <% if (sexList !=null && sexList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -443,7 +442,8 @@
                                     <% for (String sex: sexList) { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)" name="checksex"  id="<%=sex%>" type="checkbox" checked>&nbsp;<%=sex%>
+                                            <% if (sexList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="checksex"  id="<%=sex%>" type="checkbox" checked><%}%>&nbsp;<%=sex%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -464,7 +464,7 @@
                     <tr>
                         <td  ><div class="recordFilterTitle">
                             <% if (resultTypeList.size() > 1) { %>
-                            <input onchange="applyAllFilters(this, 'checkresulttype')" id="allResultTypes"  type="checkbox" checked>&nbsp;
+                            <!--input onchange="applyAllFilters(this, 'checkresulttype')" id="allResultTypes"  type="checkbox" checked-->&nbsp;
                             <%}%>
                             Result Types</div></td>
                     </tr>
@@ -477,13 +477,15 @@
                                     %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)" name="checkresulttype" id="<%=resultType%>" type="checkbox" checked>&nbsp;<%=resultType%>
+                                            <% if (resultTypeList.size() > 1) { %>
+                                            <!--input onclick="applyFilters(this)" name="checkresulttype" id="<-%=resultType%>" type="checkbox" checked--><%}%>&nbsp;<%=resultType%>
                                         </td>
                                     </tr>
                                     <%} else { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)"  name="checkresulttype" id="<%=resultType%>" type="checkbox" unchecked>&nbsp;<%=resultType%>
+                                            <% if (resultTypeList.size() > 1) { %>
+                                            <!--input onclick="applyFilters(this)"  name="checkresulttype" id="<-%=resultType%>" type="checkbox" unchecked--><%}%>&nbsp;<%=resultType%>
                                         </td>
                                     </tr>
                                     <% }} %>
@@ -495,14 +497,14 @@
             </td>
         </tr>
         <% } %>
-        <% if (unitList.size() > 0 ) { %>
+        <% if (unitList!=null && unitList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
                     <tr>
                         <td  ><div class="recordFilterTitle">
                             <% if (unitList.size() > 1) { %>
-                            <input onchange="applyAllFilters(this, 'checkunits')" id="allUnits"  type="checkbox" checked>&nbsp;
+                            <!--input onchange="applyAllFilters(this, 'checkunits')" id="allUnits"  type="checkbox" checked-->&nbsp;
                             <%}%>
                             Units</div></td>
                     </tr>
@@ -513,7 +515,8 @@
                                     <% for (String unit: unitList) { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)" name="checkunits"  id="<%=unit%>" type="checkbox" checked>&nbsp;<%=unit%>
+                                            <% if (unitList.size() > 1) { %>
+                                            <!--input onclick="applyFilters(this)" name="checkunits"  id="<-%=unit%>" type="checkbox" checked--><%}%>&nbsp;<%=unit%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -526,7 +529,7 @@
         </tr>
         <% } %>
 
-        <% if (vectorList.size() > 0 ) { %>
+        <% if (vectorList!=null && vectorList.size() > 0 ) { %>
         <tr>
             <td valign="top">
                 <table>
@@ -535,7 +538,8 @@
                             <% if (vectorList.size() > 1) { %>
                             <input onchange="applyAllFilters(this, 'checkvector')" id="allVectors"  type="checkbox" checked>&nbsp;
                             <%}%>
-                            Vectors</div></td>
+                            Vectors</div>
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -544,7 +548,8 @@
                                     <% for (String vector: vectorList) { %>
                                     <tr>
                                         <td>
-                                            <input onclick="applyFilters(this)" name="checkvector" id="<%=vector%>" type="checkbox" checked>&nbsp;<%=vector%>
+                                            <% if (vectorList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="checkvector" id="<%=vector%>" type="checkbox" checked><%}%>&nbsp;<%=vector%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -557,53 +562,11 @@
             </td>
         </tr>
         <% } %>
-        <!--tr>
-            <td valign="top">
-                <table>
 
-                    <tr>
-                        <td ><div class="recordFilterTitle">Conditions</div></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="recordFilterBlock">
-                                <table>
-                                  <!--c:forEach items="${experiments}" var="condition"-->
-        <!--tr>
-                                        <td><input onclick='applyFilters(${condition})' id='${fn:replace(condition,"\"", "")}' type="checkbox" checked>&nbsp;${fn:replace(condition,"\"", "")} &nbsp;</td>
-                                    </tr-->
-        <!--/c:forEach-->
-        <!--/table>
-    </div>
-</td>
-</tr>
-</table>
-</td>
-</tr-->
     </table>
 
 </div>
 <script>
     setTimeout(openNav,1000);
-    /*   $(document).ready(function()
-        {
-            $("#allGuides").on("change", function()
-            {
-            //    var table = document.getElementById('myTable'); //to remove filtered rows
-              $('input[name=checkguide]').attr('checked', $(this).prop('checked'));
-             /*       $.each(guideList, function (i,g) {
-                        table.rows.item(g).style.display = "none";
-                    })
-    */
-    /*         applyAllFilters()
-            });
-        });*/
-    /*  function toggleFilters( objectType, _this) {
-          var checked= _this.prop('checked');
-          alert("checked:"+ checked);
 
-          $('input[name=checkguide]').attr('checked', checked);
-
-
-      }*/
 </script>
