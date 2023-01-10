@@ -652,6 +652,13 @@
         elms.forEach(function(ele) {
             applyFilters(ele);
         });
+        if(elms.length==0){
+            if (document.getElementById("graphFilter") != null) {
+                filter = document.getElementById("graphFilter").value;
+                if (filter != 'None')
+                    update(true)
+            }
+        }
 
 
     }
