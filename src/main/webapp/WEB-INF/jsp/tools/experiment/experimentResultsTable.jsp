@@ -123,7 +123,10 @@
         <td><%=record.getCellTypeTerm()%></td>
         </c:if>
         <c:if test="${tableColumns.sex!=null}">
-            <td><%=record.getSex()%></td>
+            <td><%if(record.getSex()!=null && !record.getSex().equals("null")){%>
+                <%=record.getSex()%><%}%>
+            </td>
+
         </c:if>
 
         <c:if test="${tableColumns.editorSymbol!=null}">
@@ -229,11 +232,11 @@
                         if(rtRecord.getExperimentRecordId()==record.getExperimentRecordId()){
                             for(ExperimentResultDetail erd: record.getResultDetails()){
                                 if(erd.getReplicate()==0){
-                                    if(erd.getUnits()!=null && resultTypeKey.contains(erd.getUnits())){
+                                    if(erd.getUnits()!=null && resultTypeKey.contains(erd.getUnits().trim())){
                                         result=erd.getResult();
                                     }
                                 }else{
-                                    if(erd.getUnits()!=null && resultTypeKey.contains(erd.getUnits()) && !erd.getResult().equalsIgnoreCase("nan") && !erd.getResult().equals("")) {
+                                    if(erd.getUnits()!=null && resultTypeKey.contains(erd.getUnits().trim()) && !erd.getResult().equalsIgnoreCase("nan") && !erd.getResult().equals("")) {
                                         // replicates.append(erd.getReplicate()).append(" (").append(erd.getUnits()).append(")").append(":").append(erd.getResult()).append("<br>");
                                         replicates.append(erd.getResult()).append("<br>");
                                         actualRepCount++;

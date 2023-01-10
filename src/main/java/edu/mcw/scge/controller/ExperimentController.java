@@ -537,7 +537,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             if (resultDetails.size() > 1 && resultDetails.size() > i) { //verifying if replicate data available in addition to result mean.
                 boolean repFlag=false;
                 for (ExperimentResultDetail resultDetail : resultDetails) {
-                    if (resultDetail.getReplicate() == i && resultType.contains(resultDetail.getUnits())) {
+
+                    if (resultDetail.getReplicate() == i && resultType.contains(resultDetail.getUnits().trim())) {
+                        System.out.println("RESULT TYPE:"+resultType+"\tRESULT DETAIL UNITS:" + resultDetail.getUnits());
                         if(!resultDetail.getResult().equalsIgnoreCase("nan"))
                         replicateValues.add(Double.valueOf(resultDetail.getResult()));
                         else
@@ -554,7 +556,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             replicateResults.put(i, replicateValues);
         }
         }
-        System.out.println(gson.toJson(replicateResults));
+        System.out.println("REPLICATE RESULTS:"+gson.toJson(replicateResults));
         return replicateResults;
     }
 
@@ -723,7 +725,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                    // plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
                     for(ExperimentResultDetail rd:record.getResultDetails()){
                         String yaxisLabel=new String();
-                        if(resultType.contains(rd.getUnits()) && rd.getReplicate()==0){
+                        if(resultType.contains(rd.getUnits().trim()) && rd.getReplicate()==0){
                             if(!rd.getResultType().toLowerCase().contains("biomarker"))
                                 yaxisLabel=resultType;
                             else
@@ -743,7 +745,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                   //  values.add(Double.parseDouble(record.getResultDetails().stream().filter(r->r.getReplicate()==0 && resultType.contains(r.getUnits())).collect(Collectors.toList()).get(0).getResult()));
 
                     for(ExperimentResultDetail rd:record.getResultDetails()){
-                        if(resultType.contains(rd.getUnits()) && rd.getReplicate()==0){
+                        if(resultType.contains(rd.getUnits().trim()) && rd.getReplicate()==0){
                            values.add(Double.valueOf(rd.getResult()));
                         }
                     }
