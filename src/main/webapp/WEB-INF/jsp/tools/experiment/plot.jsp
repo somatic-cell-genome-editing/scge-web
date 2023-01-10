@@ -234,7 +234,7 @@
                 key=k;
             }
         %>
-        color=getRandomColor();
+        color=colorPalette[0];
         data.push({
             label: '<%=key%>',
             data: <%=plot.getPlotData().get(key)%>,
