@@ -298,7 +298,7 @@
 
         });
 
-        myChart<%=c%>.data.labels=newArrayLabel;
+
 
         data.push({
             label:"Value",
@@ -329,11 +329,26 @@
 
         }
      //   console.log("DATA:"+ JSON.stringify(data))
-        myChart<%=c%>.data.datasets=data;
-        myChart<%=c%>.update();
-         document.getElementById("chartDiv<%=c%>").style.display = "block";
-        document.getElementById("resultChart<%=c%>").style.display = "block";
+        plotsSize=<%=plots.size()%>;
+        if(plotsSize==1){
 
+            if(newArrayData.length>0){
+                myChart<%=c%>.data.labels=newArrayLabel;
+                myChart<%=c%>.data.datasets = data;
+                myChart<%=c%>.update();
+                document.getElementById("chartDiv<%=c%>").style.display = "block";
+                document.getElementById("resultChart<%=c%>").style.display = "block";
+            }else{
+                document.getElementById("chartDiv<%=c%>").style.display="none";
+                document.getElementById("resultChart<%=c%>").style.display = "none";
+            }
+        }else {
+            myChart<%=c%>.data.labels=newArrayLabel;
+            myChart<%=c%>.data.datasets = data;
+            myChart<%=c%>.update();
+            document.getElementById("chartDiv<%=c%>").style.display = "block";
+            document.getElementById("resultChart<%=c%>").style.display = "block";
+        }
         <%c++;}%>
     }
     function sortByValues(sortedValues, arrayOfObj) {

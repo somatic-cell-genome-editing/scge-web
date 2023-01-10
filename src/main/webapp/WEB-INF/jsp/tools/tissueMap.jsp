@@ -472,7 +472,7 @@
     <% }
     }
     %>
-    <%=upCaseChildTerm%>
+    <a href="<%=tm.getEditingURL(organ,childTerm)%>"><%=upCaseChildTerm%></a>
     <% if (targetTissues2.containsKey(childTerm)) { %>
     &nbsp;<span style="color:#DA70D6">(TARGET)</span>
     <%} %>
