@@ -248,6 +248,7 @@
                     }%>
 
         <td>
+            <% if(result!=null && !result.equals("")){%>
             <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values <%=actualRepCount%>" style="background-color: transparent">
                         <span style="text-decoration:underline">
                           <%=result%>
@@ -261,7 +262,7 @@
 
                 </div>
             </div>
-
+            <%}%>
 
 
 
