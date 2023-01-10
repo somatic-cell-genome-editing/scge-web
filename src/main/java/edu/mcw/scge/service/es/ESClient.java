@@ -18,8 +18,8 @@ public class ESClient {
 
     public static RestHighLevelClient init(){
         if(client==null) {
-         //  try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
-              try(InputStream input= new FileInputStream("C:/Apps/elasticsearchProps.properties")){
+           try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
+          //    try(InputStream input= new FileInputStream("C:/Apps/elasticsearchProps.properties")){
                 Properties props= new Properties();
                 props.load(input);
                 if(SCGEContext.isProduction()){
