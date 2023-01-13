@@ -91,44 +91,7 @@
     <%
         LinkedHashMap<String, Boolean> tissueEditingMap = new LinkedHashMap<String, Boolean>();
         LinkedHashMap<String, Boolean> tissueDeliveryMap = new LinkedHashMap<String, Boolean>();
-        LinkedHashMap<String,Set<Double>> tissueEditingResults = new LinkedHashMap<>();
-        LinkedHashMap<String,Set<Double>> tissueDeliveryResults = new LinkedHashMap<>();
-        LinkedHashMap<String,Set<String>> tissueDeliveryConditions = new LinkedHashMap<>();
-        LinkedHashMap<String,Set<String>> tissueEditingConditions = new LinkedHashMap<>();
-        LinkedHashMap<String,List<ExperimentResultDetail>> qualEditingResults = new LinkedHashMap<>();
-        LinkedHashMap<String,List<ExperimentResultDetail>> qualDeliveryResults = new LinkedHashMap<>();
-        LinkedHashMap<String,ExperimentRecord> experimentRecordHashMap = new LinkedHashMap<>();
-        List<String> uniqueObjects = new ArrayList<>();
-        Set<Double> resultDetails = new TreeSet<>();
-        Set<String> labelDetails = new TreeSet<>();
-        LinkedHashMap<String,String> tissueNames = new LinkedHashMap<>();
-        Map<String, Long> tissueNameNIdMap=new HashMap<>();
-        LinkedHashMap<String,String> tissueLabels = new LinkedHashMap<>();
-        List<ExperimentResultDetail> qualResults = new ArrayList<>();
 
-        LinkedHashMap<String, LinkedHashMap<String,String>> organs = new LinkedHashMap<>();
-
-        List<Set<String>> deliveryConditions = new ArrayList<>();
-        List<Set<String>> editingConditions = new ArrayList<>();
-        List<String> deliveryNames = new ArrayList<>();
-        List<String> editingNames = new ArrayList<>();
-        List<Set<Double>> deliveryResults = new ArrayList<>();
-        List<Set<Double>> editingResults = new ArrayList<>();
-
-        int noOfRecords = records.size();
-        int noOfEditors = 0;
-        int noOfDelivery = 0;
-        int noOfModel = 0;
-        if(editorList != null && editorList.size() == 1)
-            uniqueObjects.add(editorList.get(0));
-        if(deliverySystemList != null && deliverySystemList.size() == 1)
-            uniqueObjects.add(deliverySystemList.get(0));
-        if(modelList != null && modelList.size() == 1)
-            uniqueObjects.add(modelList.get(0));
-        if(guideList != null  && guideList.size() == 1 && !guideMap.values().contains(null))
-            uniqueObjects.add(guideList.get(0));
-        if(vectorList != null && vectorList.size() == 1 && vectorMap.values().contains(null))
-            uniqueObjects.add(vectorList.get(0));
         Set<String> targetTissues=new HashSet<>();
         Set<Long> targetTissueRecordIds=new HashSet<>();
 
@@ -136,10 +99,9 @@
         HashMap<String,Long> targetTissues2=new HashMap<String,Long>();
         HashMap<String,Long> nonTargetTissues2=new HashMap<String,Long>();
 
-        for (Long resultId: resultDetail.keySet()) {
-            List<ExperimentResultDetail> erdList = resultDetail.get(resultId);
-            long expRecordId = erdList.get(0).getExperimentRecordId();
-            ExperimentRecord er = experimentRecordsMap.get(expRecordId);
+        for (ExperimentRecord er: records) {
+            List<ExperimentResultDetail> erdList = er.getResultDetails();
+
             if(er.getIsTargetTissue()==1){
                 targetTissues.add(er.getOrganSystemID());
                 targetTissueRecordIds.add(er.getExperimentRecordId());
@@ -156,23 +118,15 @@
                     nonTargetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
                 }
             }
-            experimentRecordHashMap.put(er.getExperimentName(), er);
             String labelTrimmed = new String();
 
 
             if (er.getCellTypeTerm() != null && er.getTissueTerm() != null)
-                labelTrimmed = er.getCondition().toString().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(), "").trim();
+                labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(), "").replaceAll("/","").trim();
             else if (er.getTissueTerm() != null)
-                labelTrimmed = er.getCondition().toString().replace(er.getTissueTerm(), "").trim();
-            else labelTrimmed = er.getCondition().toString().trim();
+                labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").replaceAll("/","").trim();
+            else labelTrimmed = er.getCondition().trim();
 
-
-            if (uniqueObjects.contains(er.getEditorSymbol()))
-                noOfEditors++;
-            if (uniqueObjects.contains(er.getDeliverySystemType()))
-                noOfDelivery++;
-            if (uniqueObjects.contains(er.getModelName()))
-                noOfModel++;
 
             String tissue = "unknown";
             String organSystemID = er.getOrganSystemID();
@@ -218,69 +172,12 @@
                     tm.addEditing(organSystem, tissueTerm, url);
                 }
             }
-
-
-            String tissueName = "\"" + organSystem + ">" + tissueTerm + ">";
-            if (cellType != null && !cellType.equals(""))
-                tissueName += cellType + "\"";
-            else tissueName += "\"";
-            tissueNames.put(tissueName, er.getTissueTerm() + "," + er.getCellTypeTerm());
-            tissueNameNIdMap.put(tissueName, er.getExperimentRecordId());
-            String tissueLabel = organSystem + "<br><br>" + tissueTerm + "<br><br>";
-            if (cellType != null && !cellType.equals(""))
-                tissueLabel += cellType;
-            tissueLabels.put(tissueName, tissueLabel);
-
-
             for (ExperimentResultDetail erd : erdList) {
                 if (erd.getResultType().equals("Delivery Efficiency")) {
                     tissueDeliveryMap.put(tissue + "-" + labelTrimmed, true);
-
-
-                    if (tissueDeliveryResults == null || !tissueDeliveryResults.containsKey(tissueName))
-                        resultDetails = new TreeSet<>();
-                    else resultDetails = tissueDeliveryResults.get(tissueName);
-                    if (erd.getReplicate() == 0 && !erd.getUnits().equalsIgnoreCase("signal")) {
-                        resultDetails.add(Double.valueOf(erd.getResult()));
-                        tissueDeliveryResults.put(tissueName, resultDetails);
-
-                        if (tissueDeliveryConditions == null || !tissueDeliveryConditions.containsKey(tissueName))
-                            labelDetails = new TreeSet<>();
-                        else labelDetails = tissueDeliveryConditions.get(tissueName);
-                        labelDetails.add("\"" + er.getExperimentName() + "\"");
-                        tissueDeliveryConditions.put(tissueName, labelDetails);
-                    }
-                    if(erd.getUnits().toLowerCase().contains("signal") && erd.getReplicate() == 0){
-                        if (qualDeliveryResults == null || !qualDeliveryResults.containsKey(tissueName))
-                            qualResults = new ArrayList<>();
-                        else qualResults = qualDeliveryResults.get(tissueName);
-                        qualResults.add(erd);
-                        qualDeliveryResults.put(tissueName, qualResults);
-                    }
                 }
                 if (erd.getResultType().equals("Editing Efficiency")) {
                     tissueEditingMap.put(tissue + "-" + labelTrimmed, true);
-
-                    if(tissueEditingResults == null || !tissueEditingResults.containsKey(tissueName))
-                        resultDetails = new TreeSet<>();
-                    else  resultDetails = tissueEditingResults.get(tissueName);
-                    if (erd.getReplicate() == 0 && !erd.getUnits().equalsIgnoreCase("signal")) {
-                        resultDetails.add(Double.valueOf(erd.getResult()));
-                        tissueEditingResults.put(tissueName, resultDetails);
-
-                        if(tissueEditingConditions == null || !tissueEditingConditions.containsKey(tissueName))
-                            labelDetails = new TreeSet<>();
-                        else  labelDetails = tissueEditingConditions.get(tissueName);
-                        labelDetails.add("\""+er.getExperimentName()+"\"");
-                        tissueEditingConditions.put(tissueName,labelDetails);
-                    }
-                    if(erd.getUnits().toLowerCase().contains("signal") && erd.getReplicate() == 0){
-                        if (qualEditingResults == null || !qualEditingResults.containsKey(tissueName))
-                            qualResults = new ArrayList<>();
-                        else qualResults = qualEditingResults.get(tissueName);
-                        qualResults.add(erd);
-                        qualEditingResults.put(tissueName, qualResults);
-                    }
                 }
             }
         }
@@ -289,25 +186,15 @@
 
 
 <div style="font-size:20px; color:#1A80B6;">Organ&nbsp;System&nbsp;Overview</div>
-<div style="margin-left:70%"> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View All</button></a></div>
-
-
-
-
-
-
-
-
-
+<div style="margin-left:70%"> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></div>
 <br><br>
-
 
 <table align="center">
     <tr>
         <td>
 
 
-<table align="center">
+        <table align="center">
         <tr>
             <td>
                 <table >
@@ -317,7 +204,6 @@
 
                             <%
                                 boolean first = true;
-                                //for (String tissue: tissues) {
                                 for (String tissue: rootTissues.keySet()) {
                                     String tissueTerm=rootTissues.get(tissue);
                             %>
@@ -436,14 +322,10 @@
     </tr>
     <tr>
         <td>
-
-
-
-
-<table align="center" tyle="border:1px solid #F7F7F7;margin-left:30px;" border="0" width="700">
+            <table align="center" tyle="border:1px solid #F7F7F7;margin-left:30px;" border="0" width="700">
     <tr>
         <td colspan="2" style="font-size:16px; font-weight:700;">Analyze Data Sets Available for this Experiment</td><!--td style="font-size:16px; font-weight:700;" align="center">Delivery</td><td style="font-size:16px; font-weight:700;" align="center">Editing</td-->
-        <td> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View All</button></a></td>
+        <td> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></td>
 
     </tr>
     <% for (String organ: tm.getChildTerms().keySet()) {
@@ -476,28 +358,11 @@
     <% if (targetTissues2.containsKey(childTerm)) { %>
     &nbsp;<span style="color:#DA70D6">(TARGET)</span>
     <%} %>
-    </td>
-            <% if (tm.hasDelivery(organ,childTerm)) { %>
-                <!--td width="75" style="border-bottom:1px solid black;border-color:#770C0E;" align="center"><input onclick="location.href='<%--=tm.getDeliveryURL(organ,childTerm)--%>'" type="button" style="margin-left:5px;border:0px solid black; font-size:10px; background-color:#007BFF;color:white;border-radius: 5px;" value="View Delivery Data"/></td-->
-            <% } else { %>
-                <!--td width="75"  style="border-bottom:1px solid black;border-color:#770C0E;" align="center">n/a</td-->
-            <% } %>
-
-            <% if (tm.hasEditing(organ,childTerm)) { %>
-                <!--td width="75" style="border-bottom:1px solid black;border-color:#770C0E;" align="center"><input onClick="location.href='<%--=tm.getEditingURL(organ,childTerm)--%>'" type="button" style="margin-left:5px;border:0px solid black; font-size:10px; background-color:#FFA500;color:white;border-radius: 5px;" value="View Editing Data"></td-->
-            <% } else { %>
-                <!--td width="75" style="border-bottom:1px solid black;border-color:#770C0E;" align="center">n/a</td-->
-            <% } %>
-
-
-            <% } %>
-    <%}
-    } %>
+    </td><% } %>
+    <%}} %>
     </tr>
 
 </table>
-
-
         </td>
     </tr>
 </table>
@@ -581,96 +446,7 @@
 
 </script>
 <script>
-   var tissueDeliveryConditions = [];
-   var tissuesDelivery = [];
-   var tissuesEditing = [];
-   var tissueEditingConditions = [];
 
-   var tissueDeliveryData = <%=deliveryResults%>; //data
-   tissueDeliveryConditions = <%=deliveryConditions%>; //labels
-   tissuesDelivery = <%=deliveryNames%>; //each tissue
-
-
-   var tissueEditingData = <%=editingResults%>;
-   tissueEditingConditions = <%=editingConditions%>;
-   tissuesEditing = <%=editingNames%>;
-
-   function generateDeliveryData(index){
-       var data=[];
-       data.push({
-           label: "Mean",
-           data: tissueDeliveryData[index],
-           backgroundColor: 'rgba(255, 206, 99, 0.6)',
-           borderColor:    'rgba(255, 206, 99, 0.8)',
-           borderWidth: 1
-       });
-       return data;
-   }
-   function generateEditingData(index){
-       var data=[];
-       data.push({
-           label: "Mean",
-           data: tissueEditingData[index],
-           backgroundColor: 'rgba(255, 206, 99, 0.6)',
-           borderColor:    'rgba(255, 206, 99, 0.8)',
-           borderWidth: 1
-       });
-       return data;
-   }
-
-   var deliveryCtxs = [];
-   var deliveryCharts = [];
-   var editingCtxs = [];
-   var editingCharts = [];
-
-   for(var i = 0;i<tissuesDelivery.length;i++) {
-       deliveryCtxs[i] = document.getElementById("canvasDelivery" + i);
-       deliveryCharts[i] = new Chart(deliveryCtxs[i], {
-           type: 'bar',
-           data: {
-               labels: tissueDeliveryConditions[i],
-               datasets: generateDeliveryData(i)
-           },
-           options: {
-               events: [],
-
-               scales:{
-                   xAxes:[{
-                       gridLines: {
-                           color: "rgba(0, 0, 0, 0)"
-                       },
-                       ticks:{
-                           display:false
-
-                           }
-                   }]
-               }
-           }
-       });
-   }
-   for(var i = 0;i<tissuesEditing.length;i++) {
-       editingCtxs[i] = document.getElementById("canvasEditing" + i);
-       editingCharts[i] = new Chart(editingCtxs[i], {
-           type: 'bar',
-           data: {
-               labels: tissueEditingConditions[i],
-               datasets: generateEditingData(i)
-           },
-           options: {
-               events: [],
-               scales:{
-                   xAxes:[{
-                       gridLines: {
-                           color: "rgba(0, 0, 0, 0)"
-                       },
-                       ticks:{
-                           display:false
-                       }
-                   }]
-               }
-           }
-       });
-   }
    function generateTissuePage(resultType,selectedTissue) {
        params = new Object();
        var form = document.createElement("form");
