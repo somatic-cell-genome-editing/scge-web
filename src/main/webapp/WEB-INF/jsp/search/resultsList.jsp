@@ -30,6 +30,7 @@
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
 <script>
 
 </script>
@@ -96,12 +97,12 @@
         <div>
             <div>
                 <div style="padding-bottom: 0;margin-bottom: 0">
-            <c:if test="${hit.sourceAsMap.name!=null}">
-            <h6>
-                <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
-                    <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large"> <span style="color:darkorange">[Validation]</span>
-                </c:if>
-                <c:choose>
+                    <h6>
+                    <c:if test="${hit.sourceAsMap.name!=null}">
+                        <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
+                            <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large;color:darkorange"> [Validation]</span>
+                        </c:if>
+                    <c:choose>
                     <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
                         <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
                                 ${hit.sourceAsMap.name}</a>
@@ -112,23 +113,11 @@
                             <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                         </c:if>
                     </c:otherwise>
-                </c:choose>
-                <!--a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a--> &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}</small>&nbsp;<small>${hit.sourceAsMap.initiative}</small>
-           <small>
-            <c:if test="${hit.sourceAsMap.experimentType!=null}">
-               -  ${hit.sourceAsMap.experimentType}
-            </c:if>
-            </small>
-               <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
-                <a class="search-results-anchor" style="text-decoration: none;cursor: pointer" data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
-              +
-            </a>
-            <%}%>
-            </h6>
-            </c:if>
+                    </c:choose>
+                 </c:if>
 
             <c:if test="${hit.sourceAsMap.symbol!=null}">
-            <h6><c:choose>
+            <c:choose>
                 <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
                     <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
                             ${hit.sourceAsMap.symbol}</a>
@@ -139,18 +128,32 @@
                         <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                     </c:if>                </c:otherwise>
             </c:choose>
-               &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}&nbsp;
+            </c:if>
+             &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}&nbsp</small>
+            <small>
+                <c:if test="${hit.sourceAsMap.experimentType!=null}">
+                    -  ${hit.sourceAsMap.experimentType}
+                </c:if>
             </small>
-                <small>
-                        ${hit.sourceAsMap.initiative}
-                </small>
+            <small>
+                ${hit.sourceAsMap.initiative}
+            </small>
+                ${hit.sourceAsMap.modelOrganism}
+                 <c:forEach items="${hit.sourceAsMap.modelOrganism}" var="organism">
+                      <c:if test="${organism=='Mouse'}">
+                        <img src="/toolkit/images/models/mouse.png" height="30px" width="30px" alt="${hit.sourceAsMap.modelOrganism}">
+                        </c:if>
+                        <c:if test="${organism=='Human'}">
+                            <i class="fas fa-thin fa-person"></i>
+                        </c:if>
+                  </c:forEach>
+
+
                 <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
                 <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
-                +
-            </a>
-            <%}%>
-            </h6>
-            </c:if>
+                +</a><%}%>
+
+        </h6>
                     <div class="collapse" id="highlights-${hit.sourceAsMap.id}" style="padding: 0; margin: 0">
                         <div class="card card-body" style="margin-bottom: 0;padding-bottom: 0">
                     <%@include file="highlights.jsp"%>
