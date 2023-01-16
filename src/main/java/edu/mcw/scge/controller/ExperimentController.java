@@ -708,10 +708,13 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     for(ExperimentResultDetail rd:record.getResultDetails()){
                         String yaxisLabel=new String();
                         if(resultType.contains(rd.getUnits().trim()) && rd.getReplicate()==0){
-                            if(!rd.getResultType().toLowerCase().contains("biomarker"))
-                                yaxisLabel=resultType;
+                            if(!rd.getResultType().toLowerCase().contains("biomarker")) {
+                                 yaxisLabel = "'" + resultType.substring(0, resultType.indexOf("(") - 1) +
+                                        "'," + "'" + resultType.substring(resultType.indexOf("(") + 1, resultType.indexOf(")")) + "'";
+
+                            }
                             else
-                                yaxisLabel=rd.getUnits();
+                            yaxisLabel= "'" +rd.getUnits()+ "'" ;
                             plot.setYaxisLabel(yaxisLabel);
                         }
                     }

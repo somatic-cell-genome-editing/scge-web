@@ -65,7 +65,7 @@
         color += trans + ')'; // add the transparency
         return color;
     }
-    function getDetails(index) {
+    function getDetailsOLD(index) {
         var table = document.getElementById('myTable');
         var j = 0;
         var detail = [];
@@ -85,8 +85,38 @@
         }
         return detail;
     }
+    function getDetails(recordId) {
+        var table = document.getElementById('myTable');
+        var recordIdIndex=0;
+        var cellLength=  table.rows[0].cells.length;
+        for(var j=0;j<cellLength;j++){
+            var cellText= table.rows[0].cells[j].innerHTML;
+            if(cellText.includes( "Record ID")){
+                recordIdIndex=j;
+            }
+        }
+
+        var detail = [];
+        var rowLength = table.rows.length;
+        var avgIndex = table.rows.item(0).cells.length -2;
+        for (i = 1; i < rowLength; i++) {
+            if (table.rows.item(i).style.display !== 'none') {
+               var recordIdColValue = table.rows[i].cells.item(recordIdIndex).innerHTML;
+                if (recordIdColValue == recordId) {
+                    for(k = 1;k < avgIndex-2;k++){
+                        var label = table.rows.item(0).cells.item(k).innerText;
+                        var value = table.rows.item(i).cells.item(k).innerText;
+                        detail.push(label + ':' + value) ;
+                    }
+                }
+
+            }
+        }
+        return detail;
+    }
 
 </script>
+
 <%
     int cellCount=0;
     if(plots.size()>1){
@@ -99,6 +129,10 @@
              chartHeight = chartHeight / (plots.size() / 3);
          }
          int plotSize=plots.size();
+         int width=30;
+         if(plotSize==2){
+             width=50;
+         }
          int rows=plotSize/3;
          if(plotSize%3!=0 )
              rows=rows+1;
@@ -109,8 +143,8 @@
        <tr>
          <% for(int c=0;c<plots.size() && c<3;c++){%>
            <td style="height:<%=chartHeight%>px">
-           <div class="chart-container bg-light" id="chartDiv<%=cellCount%>"  style="display:block; height:30vh; width:25vw;">
-               <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:30vh; width:25vw;" ></canvas>
+           <div class="chart-container bg-light" id="chartDiv<%=cellCount%>"  style="display:block; height:<%=width%>vh; width:<%=width%>vw;">
+               <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:<%=width%>vh; width:<%=width%>vw;" ></canvas>
            </div>
            </td>
             <%cellCount++;}%>
@@ -129,10 +163,11 @@
      %>
 <script>
     var ctx = document.getElementById("resultChart<%=i%>");
+    var recordIds=<%=plot.getRecordIds()%>;
      myChart<%=i%> = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: <%=gson.toJson(plot.getTickLabels())%>,
+            labels: <%=plot.getTickLabels()%>,
             datasets: generateData()
         },
         options: {
@@ -140,16 +175,9 @@
             scaleShowValues: true,
 
 
-            title: {
-                display: true,
-
-              //  text: [<%--=plot.getTitle()--%>],
-                color:"#FF8C00"
-            },
-
             scales: {
-                xAxes: [{
-                    gridLines: {
+                x: {
+                    grid: {
                         color: "rgba(0, 0, 0, 0)"
                     },
 
@@ -161,54 +189,129 @@
                     },
 
 
-                    ticks:{
+                    ticks: {
                         fontSize: 10,
-                        autoSkip: false,
-                        callback: function(t) {
-                            var maxLabelLength = 40;
-                            if (t.length > maxLabelLength) return t.substr(0, maxLabelLength-20) + '...';
-                            else return t;
+                        autoSkip: false
 
-                        }
                     }
-                }],
-                yAxes: [{
-                    id: 'delivery',
-                    type: 'linear',
-                    position: 'left',
+                },
+                y: {
                     ticks: {
                         beginAtZero: true
                     },
-                    scaleLabel: {
+                    title: {
                         display: true,
-                        labelString: '<%=plot.getYaxisLabel()%>',
-                        fontSize: 14,
-                        fontStyle: 'bold',
-                        fontFamily: 'Calibri'
-                    }
-                }]
-            },
-            tooltips: {
-                callbacks: {
-                    title: function(tooltipItem) {
-                        return this._data.labels[tooltipItem[0].index];
-                    },
-                    afterLabel: function(tooltipItem) {
-                        var index = tooltipItem.index;
-                        return getDetails(index);
+                        text: [<%=plot.getYaxisLabel()%>]
 
                     }
-
                 }
-
             },
+
 
             hover: {
                 mode: 'index',
                 intersect: false
             },
-            legend:{
-                display:false
+            plugins: {
+                legend: {
+                    display: false
+                }
+                ,
+                title: {
+                    display: true,
+
+                    //  text: [<%--=plot.getTitle()--%>],
+                    text: '<%=plot.getTitle()%>',
+                    color: "#FF8C00"
+                },
+
+                    tooltip:{
+                        enabled:false,
+
+                        external:function (context){
+                            let tooltipEl = document.getElementById('chartjs-tooltip');
+
+                            // Create element on first render
+                            if (!tooltipEl) {
+                                tooltipEl = document.createElement('div');
+                                tooltipEl.id = 'chartjs-tooltip';
+                                tooltipEl.innerHTML = '<table></table>';
+                                document.body.appendChild(tooltipEl);
+                            }
+
+                            // Hide if no tooltip
+                            const tooltipModel = context.tooltip;
+                            if (tooltipModel.opacity === 0) {
+                                tooltipEl.style.opacity = 0;
+                                return;
+                            }
+
+                            // Set caret Position
+                            tooltipEl.classList.remove('above', 'below', 'no-transform');
+                            if (tooltipModel.yAlign) {
+                                tooltipEl.classList.add(tooltipModel.yAlign);
+                            } else {
+                                tooltipEl.classList.add('no-transform');
+                            }
+
+                            function getBody(bodyItem) {
+                                return bodyItem.lines;
+                            }
+
+                            // Set Text
+                            if (tooltipModel.body) {
+                                const titleLines = tooltipModel.title || [];
+                                const bodyLines = tooltipModel.body.map(getBody);
+                                var details="";
+
+                                if (tooltipModel.dataPoints.length) {
+                                    var index=tooltipModel.dataPoints[0].dataIndex;
+                                    var recordId=recordIds[index]
+                                    details=getDetails(recordId);
+                                }
+                                let innerHtml = '<thead>';
+
+                                titleLines.forEach(function(title) {
+                                    innerHtml += '<tr><th>' + title + '</th></tr>';
+                                });
+                                innerHtml += '</thead><tbody>';
+
+                                bodyLines.forEach(function(body, i) {
+                                    const colors = tooltipModel.labelColors[i];
+                                    let style = 'background:' + colors.backgroundColor;
+                                    style += '; border-color:' + colors.borderColor;
+                                    style += '; border-width: 2px';
+                                    const span = '<span style="' + style + '">' + body + '</span>';
+                                    innerHtml += '<tr><td>' + span + '</td></tr>';
+
+                                    for(var item=0;item<details.length;item++)
+                                        innerHtml += '<tr><td >' +details[item] + '</td></tr>';
+                                    //innerHtml += '</tbody>';
+                                });
+                                innerHtml += '</tbody>';
+
+                                let tableRoot = tooltipEl.querySelector('table');
+                                tableRoot.innerHTML = innerHtml;
+                            }
+
+                            const position = context.chart.canvas.getBoundingClientRect();
+                            const bodyFont = Chart.helpers.toFont(tooltipModel.options.bodyFont);
+
+                            // Display, position, and set styles for font
+                            tooltipEl.style.opacity = 1;
+                            tooltipEl.style.position = 'absolute';
+                            tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+                            tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
+                            tooltipEl.style.font = bodyFont.string;
+                            tooltipEl.style.padding = tooltipModel.padding + 'px ' + tooltipModel.padding + 'px';
+                            tooltipEl.style.pointerEvents = 'none';
+                            tooltipEl.style.color='white';
+                            tooltipEl.style.backgroundColor= 'rgba(0, 0, 0, 0.7)';
+                        }
+                    }
+
+
+
             }
         }
     });
