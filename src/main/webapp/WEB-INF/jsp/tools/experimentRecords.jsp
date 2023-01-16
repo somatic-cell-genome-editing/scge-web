@@ -33,7 +33,7 @@
     List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
     Map<java.lang.String, List<ExperimentRecord>> resultTypeRecords= (Map<java.lang.String, List<ExperimentRecord>>) request.getAttribute("resultTypeRecords");
     Map<String, List<String>> tableColumns=(Map<String, List<String>>) request.getAttribute("tableColumns");
-        HashMap<Long,ExperimentRecord> experimentRecordsMap = (HashMap<Long,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
+     //   HashMap<Long,ExperimentRecord> experimentRecordsMap = (HashMap<Long,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
         ExperimentDao edao = new ExperimentDao();
         Study study = (Study) request.getAttribute("study");
         Access access = new Access();
@@ -88,37 +88,12 @@
             </div>
             <br>
 
-            <% if (experimentRecordsMap.isEmpty()) { %>
-                    <%
-                        long objectId = ex.getExperimentId();
-                        String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
-                        String bucket="belowExperimentTable1";
-                    %>
-
-                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-                    <% bucket="belowExperimentTable2"; %>
-                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-                    <% bucket="belowExperimentTable3"; %>
-                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-                    <% bucket="belowExperimentTable4"; %>
-                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-                    <% bucket="belowExperimentTable5"; %>
-                    <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
-
-            <% return;
-               }%>
-
             <%
-                List<ExperimentRecord> experimentRecords = new ArrayList<>(experimentRecordsMap.values());
-                HashMap<Long,Double> resultMap = (HashMap<Long, Double>) request.getAttribute("resultMap");
-
-                TreeMap<Long,List<ExperimentResultDetail>> resultDetail= (TreeMap<Long, List<ExperimentResultDetail>>) request.getAttribute("resultDetail");
                 HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
                 HashMap<Long,List<Vector>> vectorMap = (HashMap<Long,List<Vector>>)request.getAttribute("vectorMap");
                 ExperimentResultDao erdao = new ExperimentResultDao();
                 List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
 
-           //     List<String> tissueList = edao.getExperimentRecordTissueList(ex.getExperimentId());
                 List<String> tissueList = (List<String>) request.getAttribute("tissues");
                 List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
                 List<String> modelList = tableColumns.get("modelDisplayName");

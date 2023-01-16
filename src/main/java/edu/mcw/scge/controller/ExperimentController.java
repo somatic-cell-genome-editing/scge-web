@@ -557,6 +557,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 cellTypeTerm.add(record.getCellTypeTerm());
                 columnMap.put("cellTypeTerm", new ArrayList<>( cellTypeTerm));
             }
+            System.out.println("MODEL DISPLAY NAME:"+ record.getModelDisplayName()+"\nMODEL NAME:"+ record.getModelName()+"\nMODEL ID:"+record.getModelId());
             if(record.getModelDisplayName()!=null && !record.getModelDisplayName().equals(""))
             {
                 Set<String> modelDisplayName= new HashSet<>();
@@ -575,6 +576,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     columnMap.put("modelDisplayName", new ArrayList<>(modelDisplayName));
                 }
             }
+
             if(record.getAge()!=null && !record.getAge().equals(""))
             {
                 Set<String> age= new HashSet<>();
@@ -707,8 +709,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                         String yaxisLabel=new String();
                         if(resultType.contains(rd.getUnits().trim()) && rd.getReplicate()==0){
                             if(!rd.getResultType().toLowerCase().contains("biomarker")) {
-                                 yaxisLabel = "\"" + resultType.substring(0, resultType.indexOf("(") - 1) +
-                                        "\"," + "\"" + resultType.substring(resultType.indexOf("(") + 1, resultType.indexOf(")")) + "\"";
+                                 yaxisLabel = "'" + resultType.substring(0, resultType.indexOf("(") - 1) +
+                                        "'," + "'" + resultType.substring(resultType.indexOf("(") + 1, resultType.indexOf(")")) + "'";
 
                             }
                             else

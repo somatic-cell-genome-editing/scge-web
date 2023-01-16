@@ -45,7 +45,6 @@
 </c:if>
 <%@include file="experiment/plot.jsp"%>
 <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
-<script> entireExperimentRecordCount=<%=experimentRecordsMap.size()%></script>
 <table width="100%">
     <tr>
         <td><h3>Results</h3></td>
@@ -226,7 +225,7 @@
             }
         %>
         // creating array of bars
-        var  arrayLabel=<%=gson.toJson(plot.getTickLabels())%>;
+        var  arrayLabel=<%=plot.getTickLabels()%>;
         var  arrayData =<%=values%>;
         var  recordIds=<%=plot.getRecordIds()%>;
         var replicateSize=<%=plot.getReplicateResult().size()%>;
