@@ -213,7 +213,7 @@
             }
         }
           var colorByRecordsJson=JSON.stringify(colorByRecords)
-         console.log("COLOR RECS:"+ colorByRecordsJson)
+        // console.log("COLOR RECS:"+ colorByRecordsJson)
         <%
 
         int c=0;

@@ -66,7 +66,7 @@
         return color;
     }
     function getDetailsOLD(index) {
-        var table = document.getElementById('myTable');
+        var table = document.getElementById('myTable');n
         var j = 0;
         var detail = [];
         var rowLength = table.rows.length;
@@ -129,9 +129,10 @@
              chartHeight = chartHeight / (plots.size() / 3);
          }
          int plotSize=plots.size();
-         int width=30;
+         int width=25;
+
          if(plotSize==2){
-             width=50;
+             width=35;
          }
          int rows=plotSize/3;
          if(plotSize%3!=0 )
@@ -143,8 +144,8 @@
        <tr>
          <% for(int c=0;c<plots.size() && c<3;c++){%>
            <td style="height:<%=chartHeight%>px">
-           <div class="chart-container bg-light" id="chartDiv<%=cellCount%>"  style="display:block; height:<%=width%>vh; width:<%=width%>vw;">
-               <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:<%=width%>vh; width:<%=width%>vw;" ></canvas>
+           <div class="chart-container bg-light" id="chartDiv<%=cellCount%>"  style="display:block; position: relative; height:<%=width%>vh;width: <%=width%>vw">
+               <canvas  id="resultChart<%=cellCount%>" style=" " ></canvas>
            </div>
            </td>
             <%cellCount++;}%>
@@ -191,8 +192,14 @@
 
                     ticks: {
                         fontSize: 10,
-                        autoSkip: false
-
+                        autoSkip: false,
+                     /*   callback: function(t) {
+                            var maxLabelLength = 40;
+                            if (t.length > maxLabelLength) {
+                                return t.substr(0, maxLabelLength - 20) + '...';
+                            }
+                            else return data.labels[t];
+                        }*/
                     }
                 },
                 y: {

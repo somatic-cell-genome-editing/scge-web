@@ -149,9 +149,9 @@
                 <%if(record.getModelId()>0 && record.getModelDisplayName()!=null && !record.getModelDisplayName().equals("")){%>
                 <a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelDisplayName()%></a>
             <%}
-            else{%>
+            else{ if(record.getModelName()!=null && !record.getModelName().equals("") && record.getModelId()>0){%>
                 <a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelName()%></a>
-                <%}%>
+                <%}}%>
             </td>
         </c:if>
         <c:if test="${tableColumns.deliverySystemName!=null}">
