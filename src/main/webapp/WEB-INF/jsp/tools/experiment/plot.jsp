@@ -66,7 +66,7 @@
         return color;
     }
     function getDetailsOLD(index) {
-        var table = document.getElementById('myTable');n
+        var table = document.getElementById('myTable');
         var j = 0;
         var detail = [];
         var rowLength = table.rows.length;
@@ -85,7 +85,8 @@
         }
         return detail;
     }
-    function getDetails(recordId) {
+    function getDetails(index) {
+        var recordId=plotRecordIds[index];
         var table = document.getElementById('myTable');
         var recordIdIndex=0;
         var cellLength=  table.rows[0].cells.length;
@@ -164,7 +165,7 @@
      %>
 <script>
     var ctx = document.getElementById("resultChart<%=i%>");
-    var recordIds=<%=plot.getRecordIds()%>;
+     plotRecordIds=<%=plot.getRecordIds()%>;
      myChart<%=i%> = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -192,7 +193,7 @@
 
                     ticks: {
                         fontSize: 10,
-                        autoSkip: false,
+                        autoSkip: false
                      /*   callback: function(t) {
                             var maxLabelLength = 40;
                             if (t.length > maxLabelLength) {
@@ -273,8 +274,8 @@
 
                                 if (tooltipModel.dataPoints.length) {
                                     var index=tooltipModel.dataPoints[0].dataIndex;
-                                    var recordId=recordIds[index]
-                                    details=getDetails(recordId);
+                                 //   var recordId=plotRecordIds[index]
+                                    details=getDetails( index);
                                 }
                                 let innerHtml = '<thead>';
 

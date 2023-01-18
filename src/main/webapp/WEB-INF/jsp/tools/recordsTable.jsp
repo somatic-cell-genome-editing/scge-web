@@ -174,6 +174,7 @@
         var recordIdIndex=0;
         var selected=0;
         var filter;
+        plotRecordIds=[];
         if (document.getElementById("graphFilter") != null)
             filter = document.getElementById("graphFilter").value;
         //Find record id column index && selected colorBy option column index in the table
@@ -241,6 +242,7 @@
                 var sortedVal = sortedValues[v];
                 if (sortedVal.id == recordIds[i]) {
                     filtered = false;
+
                 }
 
             }
@@ -292,6 +294,7 @@
             newArrayLabel.push(d.label);
             newArrayData.push(d.data);
             bgColorArray.push(d.bgColor);
+            plotRecordIds.push(d.recordId);
             newArrayIndividuals[j]=(d.replicates);
             j++;
 
