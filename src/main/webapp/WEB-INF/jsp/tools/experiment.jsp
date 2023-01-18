@@ -1,9 +1,8 @@
 <%@ page import="edu.mcw.scge.web.UI" %>
-<%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
-<%@ page import="java.util.Set" %>
+<%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -183,6 +182,17 @@ ExperimentResultDetail detail = experimentResults.get(0);
             </tr>
 
             <tr><td width="200" class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
+
+            <% //other experiment details
+            Map<String,String> otherExpRecDetails = (Map<String,String>) request.getAttribute("otherExpRecDetails");
+            if( otherExpRecDetails!=null ) {
+                for( Map.Entry<String,String> entry: otherExpRecDetails.entrySet() ) {
+            %>
+            <tr>
+                <td class="header"><b><%=entry.getKey()%>>:</b></td><td><%=entry.getValue()%></td>
+            </tr>
+            <% }} %>
+
             <tr><td colspan="2"><hr></td></tr>
 
             <%

@@ -1031,6 +1031,11 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         }
 
+        Map<String,String> otherExpRecDetails = erDao.getExperimentRecordDetails(expRecordId);
+        if( !otherExpRecDetails.isEmpty() ) {
+            req.setAttribute("otherExpRecDetails", otherExpRecDetails);
+        }
+
         req.setAttribute("associatedPublications", associatedPublications);
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experiment.getExperimentId()));
 
