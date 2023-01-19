@@ -226,7 +226,7 @@
             }
         %>
         // creating array of bars
-        var  arrayLabel=<%=plot.getTickLabels()%>;
+        var  arrayLabel=<%=gson.toJson(plot.getTickLabels())%>;
         var  arrayData =<%=values%>;
         var  recordIds=<%=plot.getRecordIds()%>;
         var replicateSize=<%=plot.getReplicateResult().size()%>;
@@ -289,6 +289,7 @@
         var j=0;
         var data=[];
 
+        var  plotRecordIds=[];
         // generating updated data for the plots from the sorted objects
         sortedArrayOfObj.forEach(function(d){
             newArrayLabel.push(d.label);
@@ -305,6 +306,7 @@
         data.push({
             label:"Value",
             data: newArrayData,
+            recordIds:plotRecordIds,
             backgroundColor: bgColorArray,
         });
 
@@ -753,11 +755,8 @@
             }
         }
     }
-   /* var quantitative = 0;
-    quantitative =quantitativeSize;
-    //  console.log(quantitative);*/
 
-     setTimeout("load()",500);
+    setTimeout("load()",500);
 </script>
 
 <%

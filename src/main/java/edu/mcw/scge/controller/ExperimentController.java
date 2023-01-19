@@ -11,6 +11,7 @@ import edu.mcw.scge.datamodel.publications.Author;
 import edu.mcw.scge.datamodel.publications.Publication;
 import edu.mcw.scge.datamodel.publications.Reference;
 import edu.mcw.scge.process.customLabels.CustomUniqueLabels;
+import edu.mcw.scge.service.ProcessUtils;
 import edu.mcw.scge.service.db.DBService;
 
 
@@ -41,6 +42,8 @@ public class ExperimentController extends UserController {
     GuideDao guideDao=new GuideDao();
     VectorDao vectorDao=new VectorDao();
     ProtocolDao pdao = new ProtocolDao();
+
+    ProcessUtils processUtils=new ProcessUtils();
     Gson gson=new Gson();
     @RequestMapping(value="/search")
     public String getAllExperiments(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
@@ -160,7 +163,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         List<Study> studies = sdao.getStudiesByGroupId(s.getGroupId());
         String experimentIds=  req.getParameter("experimentIds");
-        System.out.println("EXPERIMENT IDS: "+ req.getParameter("experimentIds"));
+       // System.out.println("EXPERIMENT IDS: "+ req.getParameter("experimentIds"));
         if(!access.isLoggedIn()) {
             return "redirect:/";
         }
@@ -240,7 +243,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                }
 
        }
-        System.out.println("Validations:"+ validationExperimentsMap.size());
+      //  System.out.println("Validations:"+ validationExperimentsMap.size());
         return validationExperimentsMap;
     }
     public Map<Long, List<Experiment>> getExperimentsValidated(List<Study> studies) throws Exception {
@@ -261,7 +264,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
 
         }
-        System.out.println("Experiments validated:"+ experimentsValidatedMap.size());
+     //   System.out.println("Experiments validated:"+ experimentsValidatedMap.size());
 
         return experimentsValidatedMap;
     }
@@ -500,8 +503,21 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
     public Map<Integer, List<Double>> getReplicateData(List<ExperimentRecord> records, String resultType){
         Map<Integer, List<Double>> replicateResults=new HashMap<>();
-        Set<Integer> replicatesSize=records.stream().filter(r->r.getResultDetails().size()>1).map(r->r.getResultDetails().size()-1).collect(Collectors.toSet());
-        int maxReplicates=Collections.max(replicatesSize);
+        Set<Integer> replicatesSize=new HashSet<>();
+       for(ExperimentRecord record:records){
+           List<ExperimentResultDetail> filteredResultDetails=new ArrayList<>();
+           for(ExperimentResultDetail rd: record.getResultDetails()){
+               String resultTypeKey=processUtils.getResultKey(rd);
+               if(resultTypeKey.equalsIgnoreCase(resultType)){
+                   filteredResultDetails.add(rd);
+               }
+           }
+           if(filteredResultDetails.size()>1)
+           replicatesSize.add(filteredResultDetails.size()-1);
+       }
+    //    Set<Integer> replicatesSize=filteredRDRecords.stream().filter(r->r.getResultDetails().size()>1).map(r->r.getResultDetails().size()-1).collect(Collectors.toSet());
+
+        int maxReplicates=replicatesSize.size()>0? Collections.max(replicatesSize):1;
 
         for (int i=1;i<=maxReplicates;i++) {
         for(ExperimentRecord record:records) {
@@ -513,9 +529,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             if (resultDetails.size() > 1 && resultDetails.size() > i) { //verifying if replicate data available in addition to result mean.
                 boolean repFlag=false;
                 for (ExperimentResultDetail resultDetail : resultDetails) {
-
-                    if (resultDetail.getReplicate() == i && resultType.contains(resultDetail.getUnits().trim())) {
-                        System.out.println("RESULT TYPE:"+resultType+"\tRESULT DETAIL UNITS:" + resultDetail.getUnits());
+                        String resultKey=processUtils.getResultKey(resultDetail);
+                    if (resultDetail.getReplicate() == i && resultType.equalsIgnoreCase(resultKey)) {
+                     //   System.out.println("RESULT TYPE:"+resultType+"\tRESULT DETAIL UNITS:" + resultDetail.getUnits());
                         if(!resultDetail.getResult().equalsIgnoreCase("nan"))
                         replicateValues.add(Double.valueOf(resultDetail.getResult()));
                         else
@@ -532,10 +548,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             replicateResults.put(i, replicateValues);
         }
         }
-        System.out.println("REPLICATE RESULTS:"+gson.toJson(replicateResults));
+      //  System.out.println("REPLICATE RESULTS:"+gson.toJson(replicateResults));
         return replicateResults;
     }
-
 
     public  Map<String, List<String>> getTableColumns(List<ExperimentRecord> records){
         Map<String, List<String>> columnMap=new HashMap<>();
@@ -557,7 +572,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 cellTypeTerm.add(record.getCellTypeTerm());
                 columnMap.put("cellTypeTerm", new ArrayList<>( cellTypeTerm));
             }
-            System.out.println("MODEL DISPLAY NAME:"+ record.getModelDisplayName()+"\nMODEL NAME:"+ record.getModelName()+"\nMODEL ID:"+record.getModelId());
+        //    System.out.println("MODEL DISPLAY NAME:"+ record.getModelDisplayName()+"\nMODEL NAME:"+ record.getModelName()+"\nMODEL ID:"+record.getModelId());
             if(record.getModelDisplayName()!=null && !record.getModelDisplayName().equals(""))
             {
                 Set<String> modelDisplayName= new HashSet<>();
@@ -707,7 +722,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                    // plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
                     for(ExperimentResultDetail rd:record.getResultDetails()){
                         String yaxisLabel=new String();
-                        if(resultType.contains(rd.getUnits().trim()) && rd.getReplicate()==0){
+                        if(resultType.equalsIgnoreCase(processUtils.getResultKey(rd)) && rd.getReplicate()==0){
                             if(!rd.getResultType().toLowerCase().contains("biomarker")) {
                                  yaxisLabel = "'" + resultType.substring(0, resultType.indexOf("(") - 1) +
                                         "'," + "'" + resultType.substring(resultType.indexOf("(") + 1, resultType.indexOf(")")) + "'";
@@ -725,16 +740,17 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 List<Double> values=new ArrayList<>();
                 for (ExperimentRecord record : records) {
 
-                    if(record.getExperimentRecordName().contains(",")){
+                   /* if(record.getExperimentRecordName().contains(",")){
                         String[] tokens=record.getExperimentRecordName().split(",");
                         labels.add("["+Arrays.stream(tokens).map(t->"\""+t+"\"").collect(Collectors.joining(", "))+"]");
                     }else
-                    labels.add("[\""+record.getExperimentRecordName()+"\"]");
+                    labels.add("[\""+record.getExperimentRecordName()+"\"]");*/
+                   labels.add(record.getExperimentRecordName());
                     recordIds.add(record.getExperimentRecordId());
                   //  values.add(Double.parseDouble(record.getResultDetails().stream().filter(r->r.getReplicate()==0 && resultType.contains(r.getUnits())).collect(Collectors.toList()).get(0).getResult()));
 
                     for(ExperimentResultDetail rd:record.getResultDetails()){
-                        if(resultType.contains(rd.getUnits().trim()) && rd.getReplicate()==0){
+                        if(resultType.equalsIgnoreCase(processUtils.getResultKey(rd)) && rd.getReplicate()==0){
                            values.add(Double.valueOf(rd.getResult()));
                         }
                     }
@@ -746,16 +762,19 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 plots.add(plot);
             }
         }
-        System.out.println("PLOTS SIZE:" +plots.size());
+      //  System.out.println("PLOTS SIZE:" +plots.size());
+      //  System.out.println("PLOTS JSON:" +gson.toJson(plots));
         return plots;
     }
-    public Map<String, List<ExperimentRecord>> getSegregatedRecords(List<ExperimentRecord> records){
+
+
+    public Map<String, List<ExperimentRecord>> getSegregatedRecords(List<ExperimentRecord> records,Map<String, Integer> resultTypeColumnCount){
         Map<String, List<ExperimentRecord>> resultTypes=new HashMap<>();
         Map<String, List<ExperimentRecord>> resultTypesSorted=new LinkedHashMap<>();
         for(ExperimentRecord er:records){
             if(er.getResultDetails()!=null && er.getResultDetails().get(0)!=null) {
                 for (ExperimentResultDetail erd : er.getResultDetails()) {
-                    String resultType = erd.getResultType().trim() + " (" + erd.getUnits().trim() + ")";
+                    String resultType = processUtils.getResultKey(erd);
                     List<ExperimentRecord> segregatedRecords = new ArrayList<>();
 
                     if (resultTypes.get(resultType) != null) {
@@ -768,23 +787,48 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                             found=true;
                         }
                     }
-                    if(!found)
+                    if(!found) {
+
                         segregatedRecords.add(er);
+                    }
                     resultTypes.put(resultType, segregatedRecords);
                 }
             }
         }
         for(String key:resultTypes.keySet()){
-            if(key.toLowerCase().contains("efficiency")){
+            if(key.toLowerCase().contains("editing efficiency")){
                 resultTypesSorted.put(key, resultTypes.get(key));
+                int count=1;
+                if(resultTypeColumnCount.get("editing efficiency")!=null){
+                    count=count+(Integer)resultTypeColumnCount.get("editing efficiency");
+                }
+                resultTypeColumnCount.put("editing efficiency", count);
+            }
 
+        }
+        for(String key:resultTypes.keySet()){
+            if(key.toLowerCase().contains("delivery efficiency")){
+                resultTypesSorted.put(key, resultTypes.get(key));
+                int count=1;
+                if(resultTypeColumnCount.get("delivery efficiency")!=null){
+                    count=count+(Integer)resultTypeColumnCount.get("delivery efficiency");
+                }
+                resultTypeColumnCount.put("delivery efficiency", count);
             }
         }
         for(String key:resultTypes.keySet()){
             if(!key.toLowerCase().contains("efficiency")){
                 resultTypesSorted.put(key, resultTypes.get(key));
+                int count=1;
+                if(resultTypeColumnCount.get("other")!=null){
+                    count=count+(Integer)resultTypeColumnCount.get("other");
+                }
+                resultTypeColumnCount.put("other", count);
             }
         }
+      //  System.out.println("RESULT TYPE COUNT MAP:"+ gson.toJson(resultTypeColumnCount));
+      //  System.out.println("SEGREGATED Sorted RECORDS:"+ gson.toJson(resultTypes));
+
         return resultTypesSorted;
     }
       @RequestMapping(value="/experiment/{experimentId}")
@@ -854,10 +898,13 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
               StringBuilder experimentRecordName=new StringBuilder();
               experimentRecordName.append( record.getExperimentRecordName());
               if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")){
-                  experimentRecordName.append("/").append( record.getTissueTerm());
+                  experimentRecordName.append("(").append( record.getTissueTerm());
               }
               if(record.getCellTypeTerm()!=null && !record.getCellTypeTerm().equalsIgnoreCase("unspecified") && !record.getCellTypeTerm().equals("")) {
                   experimentRecordName.append("/").append( record.getCellTypeTerm());
+              }
+              if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")){
+                  experimentRecordName.append(")");
               }
               record.setExperimentRecordName(experimentRecordName.toString());
           }
@@ -900,8 +947,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(experimentId));
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experimentId));
 
-
-          Map<String, List<ExperimentRecord>> resultTypeRecords=getSegregatedRecords(records);
+        Map<String, Integer> resultTypeColumnCount=new HashMap<>();
+          Map<String, List<ExperimentRecord>> resultTypeRecords=getSegregatedRecords(records, resultTypeColumnCount);
+          req.setAttribute("resultTypeColumnCount", resultTypeColumnCount);
           req.setAttribute("tableColumns", getTableColumns(records));
           req.setAttribute("plots", getPlotData(resultTypeRecords));
           req.setAttribute("resultTypeRecords", resultTypeRecords);
@@ -1003,11 +1051,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
            // req.setAttribute("reporterElements", reporterElements);
             req.setAttribute("experimentResults",experimentResults);
             //req.setAttribute("results", results);
-            System.out.println("Applications: "+ applicationMethod.size()+
-                    "\ndelivery lsit: "+deliveryList.size()+
-            "\nexperimentRecords: "+records.size()+
-            "\nmodel:" +m.getName()+
-                    "\nresults:"+experimentResults.size());
 
         }
         List<Publication> associatedPublications=new ArrayList<>();
@@ -1060,8 +1103,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 erDao.updateTargetTissue(experimentId, erIds);
         }
         }
-        System.out.println("EXPERIMENTID:"+ experimentId);
-        System.out.println("Experiment REcord IDS:"+ req.getParameter("experimentRecordIds"));
+     //   System.out.println("EXPERIMENTID:"+ experimentId);
+     //   System.out.println("Experiment REcord IDS:"+ req.getParameter("experimentRecordIds"));
 
         return "redirect:/data/experiments/experiment/"+experimentId;
     }

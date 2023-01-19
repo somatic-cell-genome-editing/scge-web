@@ -85,13 +85,13 @@
         }
         return detail;
     }
-    function getDetails(index) {
-        var recordId=plotRecordIds[index];
+    function getDetails(recordId) {
+      //  var recordId=plotRecordIds[index];
         var table = document.getElementById('myTable');
         var recordIdIndex=0;
-        var cellLength=  table.rows[0].cells.length;
+        var cellLength=  table.rows[1].cells.length;
         for(var j=0;j<cellLength;j++){
-            var cellText= table.rows[0].cells[j].innerHTML;
+            var cellText= table.rows[1].cells[j].innerHTML;
             if(cellText.includes( "Record ID")){
                 recordIdIndex=j;
             }
@@ -99,13 +99,13 @@
 
         var detail = [];
         var rowLength = table.rows.length;
-        var avgIndex = table.rows.item(0).cells.length -2;
-        for (i = 1; i < rowLength; i++) {
+        var avgIndex = table.rows.item(1).cells.length -3;
+        for (i = 2; i < rowLength; i++) {
             if (table.rows.item(i).style.display !== 'none') {
                var recordIdColValue = table.rows[i].cells.item(recordIdIndex).innerHTML;
                 if (recordIdColValue == recordId) {
                     for(k = 1;k < avgIndex-2;k++){
-                        var label = table.rows.item(0).cells.item(k).innerText;
+                        var label = table.rows.item(1).cells.item(k).innerText;
                         var value = table.rows.item(i).cells.item(k).innerText;
                         detail.push(label + ':' + value) ;
                     }
@@ -165,11 +165,11 @@
      %>
 <script>
     var ctx = document.getElementById("resultChart<%=i%>");
-     plotRecordIds=<%=plot.getRecordIds()%>;
+     //plotRecordIds=<%--=plot.getRecordIds()--%>;
      myChart<%=i%> = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: <%=plot.getTickLabels()%>,
+            labels: <%=gson.toJson(plot.getTickLabels())%>,
             datasets: generateData()
         },
         options: {
@@ -193,14 +193,17 @@
 
                     ticks: {
                         fontSize: 10,
-                        autoSkip: false
-                     /*   callback: function(t) {
+                        autoSkip: false,
+                        callback: function(val, index) {
+                            // Hide every 2nd tick label
+                            var t=this.getLabelForValue(val);
+
                             var maxLabelLength = 40;
                             if (t.length > maxLabelLength) {
                                 return t.substr(0, maxLabelLength - 20) + '...';
                             }
-                            else return data.labels[t];
-                        }*/
+                            return t;
+                        }
                     }
                 },
                 y: {
@@ -274,8 +277,11 @@
 
                                 if (tooltipModel.dataPoints.length) {
                                     var index=tooltipModel.dataPoints[0].dataIndex;
-                                 //   var recordId=plotRecordIds[index]
-                                    details=getDetails( index);
+                                    var recordIds=tooltipModel.dataPoints[0].dataset.recordIds;
+                                    if(typeof recordIds!='undefined') {
+                                        var recordId = tooltipModel.dataPoints[0].dataset.recordIds[index];
+                                        details = getDetails(recordId);
+                                    }
                                 }
                                 let innerHtml = '<thead>';
 
@@ -328,32 +334,17 @@
     function generateData() {
 
         var data=[];
-
-        <%
-        boolean flag=false;
-        for(String key :plot.getPlotData().keySet()){
-            if(key.contains("dead")){
-               flag=true;
-
-            }}
-
-        for(String k :plot.getPlotData().keySet()){
-            String key=new String();
-            if(flag){
-              key=  k.replaceAll("\n", "");
-            }else{
-                key=k;
-            }
-        %>
         color=colorPalette[0];
+        <%for(String key:plot.getPlotData().keySet()){%>
         data.push({
-            label: '<%=key%>',
+            label: '<%=key%>>',
             data: <%=plot.getPlotData().get(key)%>,
+            recordIds:<%=plot.getRecordIds()%>,
             backgroundColor: color,
             borderColor: color,
             borderWidth: 1
         });
-        <% for(Map.Entry entry:plot.getReplicateResult().entrySet()){
+        <%} for(Map.Entry entry:plot.getReplicateResult().entrySet()){
             int replicate=(int) entry.getKey();
             List<Double> values=(List<Double>) entry.getValue();
         %>
@@ -365,7 +356,7 @@
             showLine: false
 
         })
-        <%}}%>
+        <%}%>
 
         return data;
     }

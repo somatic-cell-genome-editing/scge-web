@@ -32,6 +32,8 @@
         <%
     List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
     Map<java.lang.String, List<ExperimentRecord>> resultTypeRecords= (Map<java.lang.String, List<ExperimentRecord>>) request.getAttribute("resultTypeRecords");
+        Map<java.lang.String, Integer> resultTypeColumnCount= (Map<java.lang.String,Integer>) request.getAttribute("resultTypeColumnCount");
+
     Map<String, List<String>> tableColumns=(Map<String, List<String>>) request.getAttribute("tableColumns");
      //   HashMap<Long,ExperimentRecord> experimentRecordsMap = (HashMap<Long,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
         ExperimentDao edao = new ExperimentDao();

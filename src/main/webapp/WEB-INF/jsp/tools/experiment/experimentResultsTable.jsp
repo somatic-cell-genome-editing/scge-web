@@ -1,6 +1,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="edu.mcw.scge.service.StringUtils" %>
+<%@ page import="edu.mcw.scge.service.ProcessUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -35,15 +36,33 @@
         });
     })
 </script>
-
+<% ProcessUtils processUtils=new ProcessUtils();%>
 
 <table id="myTable">
     <thead>
-    <!--tr class="tablesorter-ignoreRow hasSpan" role="row">
-        <th colspan="$-{fn:length(tableColumns)+3}" data-column="0" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="$-{fn:length(tableColumns)+3}" style="background-color: whitesmoke"></th>
-        <th colspan="$-{fn:length(resultTypeRecords)}" data-column="$-{fn:length(tableColumns)+3}" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="$-{fn:length(resultTypeRecords)}" style="background-color: orange">Results</th>
+    <tr class="tablesorter-ignoreRow hasSpan" role="row">
+        <th data-sorter="false" colspan="<%=tableColumns.size()%>" data-column="0" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=tableColumns.size()%>" style="background-color: white"></th>
+        <%if(resultTypeColumnCount.get("editing efficiency")!=null && resultTypeColumnCount.get("editing efficiency")>0){%>
+        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("editing efficiency")%>" data-column="<%=tableColumns.size()%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("editing efficiency")%>" style="background-color: orange;text-align: center">Editing Efficiency</th>
+       <%}%>
+        <%if(resultTypeColumnCount.get("delivery efficiency")!=null && resultTypeColumnCount.get("delivery efficiency")>0){
+            int dataColumn=tableColumns.size();
+            if(resultTypeColumnCount.get("editing efficiency")!=null)
+                dataColumn=dataColumn+resultTypeColumnCount.get("editing efficiency");
+        %>
+        <th colspan="<%=resultTypeColumnCount.get("delivery efficiency")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("delivery efficiency")%>" style="background-color: blue;color:white;text-align: center" >Delivery Efficiency</th>
+        <%}%>
+        <%if(resultTypeColumnCount.get("other")!=null && resultTypeColumnCount.get("other")>0){
+            int dataColumn=tableColumns.size();
+            if(resultTypeColumnCount.get("editing efficiency")!=null)
+            dataColumn=dataColumn+resultTypeColumnCount.get("editing efficiency");
+            if(resultTypeColumnCount.get("delivery efficieny")!=null)
+            dataColumn=dataColumn+resultTypeColumnCount.get("delivery efficiency");
+        %>
+        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("other")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("other")%>" style="background-color: lightgrey;text-align: center">Other Measurement</th>
+        <%}%>
 
-    </tr-->
+    </tr>
     <tr>
         <th style="display: none">Record Id</th>
         <th>Condition</th>
@@ -88,9 +107,9 @@
 
 
         <c:forEach items="${resultTypeRecords}" var="resultType">
-            <th>${resultType.key}</th>
+            <th>${fn:replace(fn:substring(resultType.key, fn:indexOf(resultType.key, "(" )+1,fn:indexOf(resultType.key,")")), "(","")}</th>
         </c:forEach>
-        <th>Image</th>
+        <th data-sorter="false">Image</th>
 
 
     </tr>
@@ -234,12 +253,13 @@
                     for(ExperimentRecord rtRecord:rtRecords){
                         if(rtRecord.getExperimentRecordId()==record.getExperimentRecordId()){
                             for(ExperimentResultDetail erd: record.getResultDetails()){
+                                String resultKey=processUtils.getResultKey(erd);
                                 if(erd.getReplicate()==0){
-                                    if(erd.getUnits()!=null && resultTypeKey.contains(erd.getUnits().trim())){
+                                    if(erd.getUnits()!=null && resultTypeKey.equalsIgnoreCase(resultKey)){
                                         result=erd.getResult();
                                     }
                                 }else{
-                                    if(erd.getUnits()!=null && resultTypeKey.contains(erd.getUnits().trim()) && !erd.getResult().equalsIgnoreCase("nan") && !erd.getResult().equals("")) {
+                                    if(erd.getUnits()!=null && resultTypeKey.equalsIgnoreCase(resultKey) && !erd.getResult().equalsIgnoreCase("nan") && !erd.getResult().equals("")) {
                                         // replicates.append(erd.getReplicate()).append(" (").append(erd.getUnits()).append(")").append(":").append(erd.getResult()).append("<br>");
                                         replicates.append(erd.getResult()).append("<br>");
                                         actualRepCount++;
