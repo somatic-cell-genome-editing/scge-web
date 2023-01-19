@@ -170,7 +170,7 @@
         var table = document.getElementById('myTable'); //to remove filtered rows
         var rowLength=table.rows.length;
         var sortedValues=[];
-        var cellLength=  table.rows[0].cells.length;
+        var cellLength=  table.rows[1].cells.length;
         var recordIdIndex=0;
         var selected=0;
         var filter;
@@ -179,7 +179,7 @@
             filter = document.getElementById("graphFilter").value;
         //Find record id column index && selected colorBy option column index in the table
         for(var j=0;j<cellLength;j++){
-            var cellText= table.rows[0].cells[j].innerHTML;
+            var cellText= table.rows[1].cells[j].innerHTML;
             if(cellText.includes( "Record ID")){
                 recordIdIndex=j;
             }
@@ -192,7 +192,7 @@
         var colorByRecords={}
         var filterValues=[];
         if (filter!='None') {
-            for(var i=1;i<rowLength;i++) {
+            for(var i=2;i<rowLength;i++) {
                 recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
                 var cells = table.rows.item(i).cells;
                 var value = cells.item(selected).innerText.trim();
@@ -205,7 +205,7 @@
         }
         filterValues.sort();
         //record ids ordered after sorting the column
-        for(var i=1;i<rowLength;i++){
+        for(var i=2;i<rowLength;i++){
             if (table.rows.item(i).style.display != 'none') {
                 recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
                 var valueObj = {};

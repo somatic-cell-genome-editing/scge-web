@@ -745,7 +745,19 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                         labels.add("["+Arrays.stream(tokens).map(t->"\""+t+"\"").collect(Collectors.joining(", "))+"]");
                     }else
                     labels.add("[\""+record.getExperimentRecordName()+"\"]");*/
-                   labels.add(record.getExperimentRecordName());
+                    StringBuilder experimentRecordName=new StringBuilder();
+                    experimentRecordName.append( record.getExperimentRecordName());
+                    if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")){
+                        experimentRecordName.append("(").append( record.getTissueTerm());
+                    }
+                    if(record.getCellTypeTerm()!=null && !record.getCellTypeTerm().equalsIgnoreCase("unspecified") && !record.getCellTypeTerm().equals("")) {
+                        experimentRecordName.append("/").append( record.getCellTypeTerm());
+                    }
+                    if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")){
+                        experimentRecordName.append(")");
+                    }
+                   // record.setExperimentRecordName(experimentRecordName.toString());
+                   labels.add(experimentRecordName.toString());
                     recordIds.add(record.getExperimentRecordId());
                   //  values.add(Double.parseDouble(record.getResultDetails().stream().filter(r->r.getReplicate()==0 && resultType.contains(r.getUnits())).collect(Collectors.toList()).get(0).getResult()));
 
@@ -895,18 +907,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                   record.setCondition(record.getExperimentRecordName());
                   conditions.add(record.getExperimentRecordName());
               }
-              StringBuilder experimentRecordName=new StringBuilder();
-              experimentRecordName.append( record.getExperimentRecordName());
-              if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")){
-                  experimentRecordName.append("(").append( record.getTissueTerm());
-              }
-              if(record.getCellTypeTerm()!=null && !record.getCellTypeTerm().equalsIgnoreCase("unspecified") && !record.getCellTypeTerm().equals("")) {
-                  experimentRecordName.append("/").append( record.getCellTypeTerm());
-              }
-              if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")){
-                  experimentRecordName.append(")");
-              }
-              record.setExperimentRecordName(experimentRecordName.toString());
+
           }
 
         List<Protocol> protocols = pdao.getProtocolsForObject(experimentId);
