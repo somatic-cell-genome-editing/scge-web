@@ -190,7 +190,7 @@ ExperimentResultDetail detail = experimentResults.get(0);
                     for( java.util.Map.Entry<String,String> entry: otherExpRecDetails.entrySet() ) {
             %>
             <tr>
-                <td class="header"><b><%=entry.getKey()%>>:</b></td><td><%=entry.getValue()%></td>
+                <td class="header"><b><%=entry.getKey()%>:</b></td><td><%=entry.getValue()%></td>
             </tr>
             <% }} %>
 
