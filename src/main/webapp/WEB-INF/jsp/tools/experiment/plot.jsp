@@ -153,9 +153,11 @@
        <%}%>
    </div>
     <%}else{ if(plots.size()==1){%>
+<div class="justify-content-md-center">
     <div class="chart-container bg-light" id="chartDiv<%=cellCount%>" style="display: block; height:60vh; width:60vw;">
         <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:60vh; width:60vw;" ></canvas>
     </div>
+</div>
    <%}}%>
      <%
          int i=0;
@@ -197,7 +199,7 @@
                         callback: function(val, index) {
                             // Hide every 2nd tick label
                             var t=this.getLabelForValue(val);
-                            var maxLabelLength = 20;
+                            var maxLabelLength = 30;
                             if (t.length > maxLabelLength) {
                                 var tokenLength=t.length/3;
                                 var token1=t.substr(0, t.indexOf(" "));
