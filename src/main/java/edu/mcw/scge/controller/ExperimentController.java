@@ -748,7 +748,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     StringBuilder experimentRecordName=new StringBuilder();
                     experimentRecordName.append( record.getExperimentRecordName());
                     if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")){
-                        experimentRecordName.append("(").append( record.getTissueTerm());
+                        experimentRecordName.append(" (").append( record.getTissueTerm());
                     }
                     if(record.getCellTypeTerm()!=null && !record.getCellTypeTerm().equalsIgnoreCase("unspecified") && !record.getCellTypeTerm().equals("")) {
                         experimentRecordName.append("/").append( record.getCellTypeTerm());

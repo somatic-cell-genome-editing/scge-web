@@ -197,10 +197,45 @@
                         callback: function(val, index) {
                             // Hide every 2nd tick label
                             var t=this.getLabelForValue(val);
-
-                            var maxLabelLength = 40;
+                            var maxLabelLength = 20;
                             if (t.length > maxLabelLength) {
-                                return t.substr(0, maxLabelLength - 20) + '...';
+                                var tokenLength=t.length/3;
+                                var token1=t.substr(0, t.indexOf(" "));
+                                var token2='';
+                                if(t.indexOf(",")>0)
+                                  token2=  t.substr(t.indexOf(",")+1, t.substr(t.indexOf(",")+1).trim().indexOf("(")+1).trim();
+                                var token3='';
+                                if(t.indexOf("(")>0) {
+                                    var tmp = t.substr(t.indexOf("(") + 1, t.substr(t.indexOf("(") + 1).indexOf(")"));
+                                    var tmp1=tmp;
+                                    if(tmp.indexOf('/')>0){
+                                        tmp1=tmp.substr(0, tmp.indexOf('/'))
+                                    }
+                                    if(tmp1.indexOf(" ")>0)
+                                        tmp1=tmp1.substr(0, tmp1.indexOf(" "));
+                                    token3=tmp1;
+                                }
+                                var token4='';
+                                if(t.indexOf("/")>0){
+                                    token4= t.substr(t.indexOf("/")+1, t.substr(t.indexOf("/")+1).indexOf(")"));
+                                }
+
+                              /*  console.log("TICK:"+t +"\tLENGTH:"+tokenLength);
+                                console.log("TOKEN1:"+token1);
+                                console.log("TOKEN2:"+token2);
+
+                                console.log("TOKEN3:"+token3);
+                                console.log("TOKEN4:"+token4);*/
+                                var newLabel=token1;
+                                if(typeof token2!='undefined' && token2!='')
+                                    newLabel+="..."+token2;
+                                if(typeof token3!='undefined' && token3!='')
+                                    newLabel+="..."+token3;
+                                if(typeof token4!='undefined' && token4!='')
+                                    newLabel+="..."+token4;
+                              //  console.log("NEW LABEL:"+ newLabel);
+                              //  return t.substr(0, maxLabelLength) + '...';
+                                return newLabel
                             }
                             return t;
                         }
