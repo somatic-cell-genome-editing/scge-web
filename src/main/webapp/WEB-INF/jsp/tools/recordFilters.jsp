@@ -206,7 +206,8 @@
                         <td>
                             <div class="recordFilterBlock">
                                 <table>
-                                    <% for (String cellType: cellTypeList) { if(selectedCellType == null || cellType.equalsIgnoreCase(selectedCellType)) {
+                                    <% for (String cellType: cellTypeList) {
+                                        if(selectedCellType == null || cellType.equalsIgnoreCase(selectedCellType)) {
                                     %>
                                     <tr>
                                         <td>

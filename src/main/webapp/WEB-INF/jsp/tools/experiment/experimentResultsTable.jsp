@@ -139,7 +139,10 @@
         <td style="border:<%=border%>"><%=record.getTissueTerm()%></td>
         </c:if>
         <c:if test="${tableColumns.cellTypeTerm!=null}">
-        <td><%=record.getCellTypeTerm()%></td>
+        <td><%if(!record.getCellTypeTerm().equalsIgnoreCase("unspecified")){%>
+            <%=record.getCellTypeTerm()%>
+            <%}%>
+        </td>
         </c:if>
         <c:if test="${tableColumns.sex!=null}">
             <td><%if(record.getSex()!=null && !record.getSex().equals("null")){%>

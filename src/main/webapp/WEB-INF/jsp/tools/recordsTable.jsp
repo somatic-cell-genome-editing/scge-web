@@ -73,7 +73,9 @@
     tissues= <%= JSONValue.toJSONString(tissues) %>;
     var resultTypes = <%=JSONValue.toJSONString(resultTypeList)%>;
     var cellTypes = [];
+    <%if(cellTypeList!=null){%>
     cellTypes = <%= JSONValue.toJSONString(cellTypeList) %>;
+    <%}%>
   //  quantitativeSize= <%--=resultMap.size()--%>;
 
     $(function () {

@@ -108,7 +108,7 @@
                 List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
                 List<String> guideTargetLocusList=edao.getExperimentRecordGuideTargetLocusList(ex.getExperimentId());
                 List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
-                List<String> cellTypeList = edao.getExperimentRecordCellTypeList(ex.getExperimentId());
+                List<String> cellTypeList =  tableColumns.get("cellTypeTerm");;
                 List<String> sexList = edao.getExperimentRecordSexList(ex.getExperimentId());
                 List<String> hrdonorList = edao.getExperimentRecordHrdonorList(ex.getExperimentId());
                 List<String> tissues = (List<String>)request.getAttribute("tissues");
@@ -121,14 +121,19 @@
                 String selectedCellType = (String)request.getAttribute("cellType");
                 String selectedResultType = (String)request.getAttribute("resultType");
 
-                for (int i =0; i< cellTypeList.size(); i++) {
+               /* for (int i =0; i< cellTypeList.size(); i++) {
                     if (cellTypeList.get(i) == null) {
                         cellTypeList.set(i,"unspecified");
                     }
-                }
+                }*/
+               if(cellTypeList==null){
+                   cellTypeList=new ArrayList<>();
+               }
 
-                if (cellTypeList.size() == 1 && cellTypeList.get(0).equals("unspecified")) {
+                if ( cellTypeList.size() == 1){
+                    if(cellTypeList.get(0) == null || cellTypeList.get(0).equals("unspecified")) {
                     cellTypeList = new ArrayList<String>();
+                    }
                 }
             %>
 
