@@ -43,8 +43,11 @@
     </div>
 
 </c:if>
+<div>
 <%@include file="experiment/plot.jsp"%>
+</div>
 <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
+<div>
 <table width="100%">
     <tr>
         <td><h3>Results</h3></td>
@@ -67,6 +70,7 @@
 
 
 <%@include file="experiment/experimentResultsTable.jsp"%>
+</div>
 <script>
 
     var tissues = [];

@@ -118,11 +118,9 @@
 
 </script>
 
-<%
-    int cellCount=0;
-    if(plots.size()>1){
-%>
-   <table style="height: 400px;width:100%">
+<%int cellCount=0;
+    if(plots.size()>1){%>
+   <div>
      <%
          int chartHeight=400;
          int chartWidth=90;
@@ -131,28 +129,29 @@
          }
          int plotSize=plots.size();
          int width=25;
-
+         int columnSize=4;
+         String colClass="col-sm-4";
          if(plotSize==2){
              width=35;
+             columnSize=5;
+             colClass="col-md-auto";
          }
          int rows=plotSize/3;
          if(plotSize%3!=0 )
              rows=rows+1;
 
-         for (int r=0; r<rows;r++ ){
-
-     %>
-       <tr>
+         for (int r=0; r<rows;r++ ){%>
+       <div class="row justify-content-md-center">
          <% for(int c=0;c<plots.size() && c<3;c++){%>
-           <td style="height:<%=chartHeight%>px">
-           <div class="chart-container bg-light" id="chartDiv<%=cellCount%>"  style="display:block; position: relative; height:<%=width%>vh;width: <%=width%>vw">
-               <canvas  id="resultChart<%=cellCount%>" style=" " ></canvas>
+           <div class="<%=colClass%>">
+           <div class="chart-container bg-light" id="chartDiv<%=cellCount%>"  >
+               <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:<%=width+5%>vh;width: <%=width%>vw;padding-top: 5%" ></canvas>
            </div>
-           </td>
+           </div>
             <%cellCount++;}%>
-       </tr>
+       </div>
        <%}%>
-   </table>
+   </div>
     <%}else{ if(plots.size()==1){%>
     <div class="chart-container bg-light" id="chartDiv<%=cellCount%>" style="display: block; height:60vh; width:60vw;">
         <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:60vh; width:60vw;" ></canvas>
