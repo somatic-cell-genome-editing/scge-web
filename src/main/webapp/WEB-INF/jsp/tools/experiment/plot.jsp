@@ -192,6 +192,7 @@
 
 
                     ticks: {
+                      //  minRotation: 30 ,// angle in degrees
                         fontSize: 10,
                         autoSkip: false,
                         callback: function(val, index) {

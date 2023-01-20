@@ -711,25 +711,33 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             if(!resultType.toLowerCase().contains("signal") || resultType.toLowerCase().contains("signal detection")) {
                 Plot plot = new Plot();
                 plot.setXaxisLabel(resultType);
-                if(tissue!=null)
+                /*if(tissue!=null)
                 plot.setTitle(tissue);
                 else
                     plot.setTitle("");
 
-
+*/
+                if(resultType.toLowerCase().contains("efficiency")){
+                    plot.setTitle(resultType.substring(0, resultType.indexOf("(")).trim());
+                }else plot.setTitle("");
                 plot.setReplicateResult((HashMap<Integer, List<Double>>) getReplicateData(records, resultType));
                 for (ExperimentRecord record : records) {
                    // plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
                     for(ExperimentResultDetail rd:record.getResultDetails()){
                         String yaxisLabel=new String();
                         if(resultType.equalsIgnoreCase(processUtils.getResultKey(rd)) && rd.getReplicate()==0){
-                            if(!rd.getResultType().toLowerCase().contains("biomarker")) {
-                                 yaxisLabel = "'" + resultType.substring(0, resultType.indexOf("(") - 1) +
-                                        "'," + "'" + resultType.substring(resultType.indexOf("(") + 1, resultType.indexOf(")")) + "'";
+                           /* if(!rd.getResultType().toLowerCase().contains("biomarker")) {
+                                 yaxisLabel = /*"'" + resultType.substring(0, resultType.indexOf("(") - 1) +
+                                        "'," +*/
+                                   /*      "'" + resultType.substring(resultType.indexOf("(") + 1, resultType.indexOf(")")) + "'";
 
                             }
-                            else
-                            yaxisLabel= "'" +rd.getUnits()+ "'" ;
+                            else {
+                                yaxisLabel = "'" + rd.getUnits() + "'";
+                            }*/
+                            String[] tokens=rd.getUnits().split(",");
+
+                            yaxisLabel = Arrays.stream(tokens).map(t->"'"+t+"'").collect(Collectors.joining(","));
                             plot.setYaxisLabel(yaxisLabel);
                         }
                     }
