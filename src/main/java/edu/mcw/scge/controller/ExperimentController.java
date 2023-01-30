@@ -717,9 +717,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     plot.setTitle("");
 
 */
-                if(resultType.toLowerCase().contains("efficiency")){
+               /* if(resultType.toLowerCase().contains("efficiency")){
                     plot.setTitle(resultType.substring(0, resultType.indexOf("(")).trim());
-                }else plot.setTitle("");
+                }else plot.setTitle("");*/
+                plot.setTitle(resultType);
                 plot.setReplicateResult((HashMap<Integer, List<Double>>) getReplicateData(records, resultType));
                 for (ExperimentRecord record : records) {
                    // plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
