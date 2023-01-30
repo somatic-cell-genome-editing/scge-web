@@ -144,7 +144,7 @@
        <div class="row justify-content-md-center">
          <% for(int c=0;c<plots.size() && c<3;c++){%>
            <div class="<%=colClass%>">
-           <div class="chart-container bg-light" id="chartDiv<%=cellCount%>"  >
+           <div class="chart-container" id="chartDiv<%=cellCount%>"  >
                <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:<%=width+5%>vh;width: <%=width%>vw;padding-top: 5%" ></canvas>
            </div>
            </div>
@@ -154,7 +154,7 @@
    </div>
     <%}else{ if(plots.size()==1){%>
 <div class="justify-content-md-center">
-    <div class="chart-container bg-light" id="chartDiv<%=cellCount%>" style="display: block; height:60vh; width:60vw;">
+    <div class="chart-container" id="chartDiv<%=cellCount%>" style="display: block; height:60vh; width:60vw;">
         <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:60vh; width:60vw;" ></canvas>
     </div>
 </div>
