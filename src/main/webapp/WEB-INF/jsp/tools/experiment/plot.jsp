@@ -99,12 +99,12 @@
 
         var detail = [];
         var rowLength = table.rows.length;
-        var avgIndex = table.rows.item(1).cells.length -3;
+        var avgIndex = table.rows.item(1).cells.length -1-<%=resultTypeRecords.size()%>;
         for (i = 2; i < rowLength; i++) {
             if (table.rows.item(i).style.display !== 'none') {
                var recordIdColValue = table.rows[i].cells.item(recordIdIndex).innerHTML;
                 if (recordIdColValue == recordId) {
-                    for(k = 1;k < avgIndex-2;k++){
+                    for(k = 1;k < avgIndex;k++){
                         var label = table.rows.item(1).cells.item(k).innerText;
                         var value = table.rows.item(i).cells.item(k).innerText;
                         detail.push(label + ':' + value) ;
