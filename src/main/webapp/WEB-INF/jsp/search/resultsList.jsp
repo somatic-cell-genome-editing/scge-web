@@ -160,7 +160,7 @@
                         </div>
                     </div>
                 </div>
-                <small>  <c:if test="${hit.sourceAsMap.category=='Study' || hit.sourceAsMap.category=='Experiment' || hit.sourceAsMap.category=='Project'}">
+                <small>  <c:if test="${ hit.sourceAsMap.category=='Experiment' || hit.sourceAsMap.category=='Project'}">
                    <c:set var="first" value="true"/>
                     <c:forEach items="${hit.sourceAsMap.pi}" var="item">
                         <c:choose>
@@ -174,15 +174,16 @@
                         </c:choose>
                    </c:forEach>
 
-                    <c:if test="${hit.sourceAsMap.category=='Study'}">
-                        &nbsp;&nbsp;<span class="header">Date Of Submission:</span> ${hit.sourceAsMap.submissionDate}
+                    <c:if test="${hit.sourceAsMap.lastModifiedDate!=null}">
+                        &nbsp;<span class="header">Last Updated Date:</span> ${hit.sourceAsMap.lastModifiedDate}
                     </c:if>
-
                 </c:if>
                     <c:if test="${hit.sourceAsMap.currentGrantNumber!=null}">
                         <a href="https://reporter.nih.gov/project-details/${hit.sourceAsMap.currentGrantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
                     </c:if>
+
                 </small>
+
             </div>
             <c:if test="${hit.sourceAsMap.category=='Antibody' && fn:length(hit.sourceAsMap.externalId)>0}">
                 <span><b>Other Id:</b>
