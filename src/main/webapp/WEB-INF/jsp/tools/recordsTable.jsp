@@ -547,7 +547,7 @@
     function filtersApplied() {
         var table = document.getElementById('myTable');
         var rowLength = table.rows.length;
-        for (i = 1; i < rowLength; i++) {
+        for (i = 2; i < rowLength; i++) {
             if( table.rows.item(i).style.display == "none"){
                 return true;
             }
@@ -557,7 +557,7 @@
     function applyFilters(obj)  {
         var table = document.getElementById('myTable'); //to remove filtered rows
         var rowLength = table.rows.length;
-        for (i = 1; i < rowLength; i++){
+        for (i = 2; i < rowLength; i++){
             var cells = table.rows.item(i).cells;
             for (k=0; k<cells.length;k++ ) {
                 //    console.log("innser = " + cells.item(k).innerText + "!" + obj.id);
