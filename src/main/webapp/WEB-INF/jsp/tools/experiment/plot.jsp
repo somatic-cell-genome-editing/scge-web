@@ -251,6 +251,7 @@
                         display: true,
                         text: [<%=plot.getYaxisLabel()%>]
 
+
                     }
                 }
             },
@@ -270,7 +271,10 @@
 
                     //  text: [<%--=plot.getTitle()--%>],
                     text: '<%=plot.getTitle()%>',
-                    color: "#FF8C00"
+                    color:'<%=plot.getTitleColor()%>',
+                    font: {
+                        size:16
+                    }
                 },
 
                     tooltip:{

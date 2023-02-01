@@ -721,6 +721,11 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     plot.setTitle(resultType.substring(0, resultType.indexOf("(")).trim());
                 }else plot.setTitle("");*/
                 plot.setTitle(resultType);
+                if(resultType.toLowerCase().contains("delivery")){
+                    plot.setTitleColor("blue");
+                }else if(resultType.toLowerCase().contains("editing")){
+                    plot.setTitleColor("orange");
+                }else plot.setTitleColor("darkgray");
                 plot.setReplicateResult((HashMap<Integer, List<Double>>) getReplicateData(records, resultType));
                 for (ExperimentRecord record : records) {
                    // plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
