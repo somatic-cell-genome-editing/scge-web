@@ -137,7 +137,6 @@
                 }
             %>
 
-<h1><%=request.getAttribute("viewAll")%>,<%=selectedResultType%>,<%=tissueList.size()%>,<%=selectedTissue%></h1>
 
             <% if ( tissueList.size() > 0 && selectedTissue == null && (selectedResultType==null || !selectedResultType.equals("all"))) { %>
 
