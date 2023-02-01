@@ -137,9 +137,9 @@
                 }
             %>
 
+<h1><%=request.getAttribute("viewAll")%>,<%=selectedResultType%>,<%=tissueList.size()%>,<%=selectedTissue%></h1>
 
-
-            <% if (( tissueList.size() > 0 && selectedResultType == null && request.getAttribute("viewAll")!="true")) { %>
+            <% if ( tissueList.size() > 0 && selectedTissue == null && (selectedResultType==null || !selectedResultType.equals("all"))) { %>
 
                 <%@include file="tissueMap.jsp"%>
 

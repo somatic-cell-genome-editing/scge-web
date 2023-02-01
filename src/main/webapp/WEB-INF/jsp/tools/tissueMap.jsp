@@ -353,8 +353,9 @@
     <input type="checkbox" name="targetTissue" value="<%=nonTargetTissues2.get(childTerm)%>">
     <% }
     }
+    ///toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm
     %>
-    <a href="<%=tm.getEditingURL(organ,childTerm)%>"><%=upCaseChildTerm%></a>
+    <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?tissue=<%=upCaseChildTerm.substring(0,upCaseChildTerm.indexOf("(")).trim().toLowerCase()%>"><%=upCaseChildTerm%></a>
     <% if (targetTissues2.containsKey(childTerm)) { %>
     &nbsp;<span style="color:#DA70D6">(TARGET)</span>
     <%} %>
