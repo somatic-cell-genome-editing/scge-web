@@ -458,77 +458,7 @@
             </td>
         </tr>
         <% } %>
-        <% if (resultTypeList!=null && resultTypeList.size() > 0 ) { %>
-        <tr>
-            <td valign="top">
-                <table>
-                    <tr>
-                        <td  ><div class="recordFilterTitle">
-                            <% if (resultTypeList.size() > 1) { %>
-                            <!--input onchange="applyAllFilters(this, 'checkresulttype')" id="allResultTypes"  type="checkbox" checked-->&nbsp;
-                            <%}%>
-                            Result Types</div></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="recordFilterBlock">
-                                <table>
-                                    <% for (String resultType: resultTypeList) {
-                                        if(selectedResultType == null || resultType.contains(selectedResultType)) {
-                                    %>
-                                    <tr>
-                                        <td>
-                                            <% if (resultTypeList.size() > 1) { %>
-                                            <!--input onclick="applyFilters(this)" name="checkresulttype" id="<-%=resultType%>" type="checkbox" checked--><%}%>&nbsp;<%=resultType%>
-                                        </td>
-                                    </tr>
-                                    <%} else { %>
-                                    <tr>
-                                        <td>
-                                            <% if (resultTypeList.size() > 1) { %>
-                                            <!--input onclick="applyFilters(this)"  name="checkresulttype" id="<-%=resultType%>" type="checkbox" unchecked--><%}%>&nbsp;<%=resultType%>
-                                        </td>
-                                    </tr>
-                                    <% }} %>
-                                </table>
-                            </div></td>
-                    </tr>
-                </table>
 
-            </td>
-        </tr>
-        <% } %>
-        <% if (unitList!=null && unitList.size() > 0 ) { %>
-        <tr>
-            <td valign="top">
-                <table>
-                    <tr>
-                        <td  ><div class="recordFilterTitle">
-                            <% if (unitList.size() > 1) { %>
-                            <!--input onchange="applyAllFilters(this, 'checkunits')" id="allUnits"  type="checkbox" checked-->&nbsp;
-                            <%}%>
-                            Units</div></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="recordFilterBlock">
-                                <table>
-                                    <% for (String unit: unitList) { %>
-                                    <tr>
-                                        <td>
-                                            <% if (unitList.size() > 1) { %>
-                                            <!--input onclick="applyFilters(this)" name="checkunits"  id="<-%=unit%>" type="checkbox" checked--><%}%>&nbsp;<%=unit%>
-                                        </td>
-                                    </tr>
-                                    <% } %>
-                                </table>
-                            </div></td>
-                    </tr>
-                </table>
-
-            </td>
-        </tr>
-        <% } %>
 
         <% if (vectorList!=null && vectorList.size() > 0 ) { %>
         <tr>
