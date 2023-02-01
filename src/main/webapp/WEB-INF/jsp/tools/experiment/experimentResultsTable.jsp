@@ -50,7 +50,7 @@
             if(resultTypeColumnCount.get("editing efficiency")!=null)
                 dataColumn=dataColumn+resultTypeColumnCount.get("editing efficiency");
         %>
-        <th colspan="<%=resultTypeColumnCount.get("delivery efficiency")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("delivery efficiency")%>" style="background-color: blue;color:white;text-align: center" >Delivery Efficiency</th>
+        <th  data-sorter="false" colspan="<%=resultTypeColumnCount.get("delivery efficiency")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("delivery efficiency")%>" style="background-color: blue;color:white;text-align: center" >Delivery Efficiency</th>
         <%}%>
         <%if(resultTypeColumnCount.get("other")!=null && resultTypeColumnCount.get("other")>0){
             int dataColumn=tableColumns.size();
