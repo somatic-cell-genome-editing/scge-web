@@ -187,14 +187,19 @@
             <td>
             <%if(record.getGuides()!=null) {
                     boolean first = true;
+                    Set<String> targetLocus=new HashSet<>();
                     for (Guide guide : record.getGuides()) {
+                        if(guide.getTargetLocus() != null){
+                            targetLocus.add(guide.getTargetLocus().trim());
+                        }}
+                    for(String locus:targetLocus){
                         if (first) {
                             first = false;
-                            if (guide.getTargetLocus() != null){%>
-                               <%=guide.getTargetLocus()%>
+                            if (locus != null){%>
+                               <%=locus%>
                           <%} } else {
-                            if (guide.getTargetLocus() != null){%>
-                           ;&nbsp;<%=guide.getTargetLocus()%>
+                            if (locus != null){%>
+                           ;&nbsp;<%=locus%>
 
                        <%} }
                     }
