@@ -215,7 +215,7 @@
                                 }else{
                                     if(erd.getUnits()!=null && resultTypeKey.equalsIgnoreCase(resultKey) && !erd.getResult().equalsIgnoreCase("nan") && !erd.getResult().equals("")) {
                                         // replicates.append(erd.getReplicate()).append(" (").append(erd.getUnits()).append(")").append(":").append(erd.getResult()).append("<br>");
-                                        replicates.append(erd.getResult()).append("<br>");
+                                        replicates.append(" ").append(erd.getResult()).append(";<br>");
                                         actualRepCount++;
                                     }
                                 }
@@ -224,7 +224,7 @@
                         }
                     }%>
 
-        <td><% if(result!=null && !result.equals("")){%><button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values <%=actualRepCount%>" style="background-color: transparent"><span style="text-decoration:underline"><%=result%></span></button><div style="display: none" id="popover-<%=record.getExperimentRecordId()%><%=popover%>"><div class="popover-body"><%=replicates.toString()%></div></div><%}%></td>
+        <td><% if(result!=null && !result.equals("")){%><button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values <%=actualRepCount%>" style="background-color: transparent"><span style="display: none">Mean:</span><span style="text-decoration:underline"><%=result%></span><span style="display: none"> | Replicates:</span></button><div style="display: none" id="popover-<%=record.getExperimentRecordId()%><%=popover%>"><div class="popover-body"><%=replicates.toString()%></div></div><%}%></td>
         <%popover++;}%>
         <%
             List<Image> images = idao.getImage(record.getExperimentRecordId(),"main1");
