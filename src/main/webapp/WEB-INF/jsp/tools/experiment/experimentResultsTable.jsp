@@ -39,6 +39,7 @@
 <% ProcessUtils processUtils=new ProcessUtils();%>
 
 <table id="myTable">
+    <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
     <thead>
     <tr class="tablesorter-ignoreRow hasSpan" role="row">
         <th data-sorter="false" colspan="<%=tableColumns.size()%>" data-column="0" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=tableColumns.size()%>" style="background-color: white"></th>
@@ -107,7 +108,7 @@
 
 
         <c:forEach items="${resultTypeRecords}" var="resultType">
-            <th>${fn:replace(fn:substring(resultType.key, fn:indexOf(resultType.key, "(" )+1,fn:indexOf(resultType.key,")")), "(","")}</th>
+            <th><span style="display: none">${fn:substring(resultType.key, 0, fn:indexOf(resultType.key, "(" ))}</span> ${fn:replace(fn:substring(resultType.key, fn:indexOf(resultType.key, "(" )+1,fn:indexOf(resultType.key,")")), "(","")}</th>
         </c:forEach>
         <th data-sorter="false">Image</th>
 
@@ -139,109 +140,54 @@
         <td style="border:<%=border%>"><%=record.getTissueTerm()%></td>
         </c:if>
         <c:if test="${tableColumns.cellTypeTerm!=null}">
-        <td><%if(!record.getCellTypeTerm().equalsIgnoreCase("unspecified")){%>
-            <%=record.getCellTypeTerm()%>
-            <%}%>
-        </td>
+        <td><%if(!record.getCellTypeTerm().equalsIgnoreCase("unspecified")){%><%=record.getCellTypeTerm()%><%}%></td>
         </c:if>
         <c:if test="${tableColumns.sex!=null}">
-            <td><%if(record.getSex()!=null && !record.getSex().equals("null")){%>
-                <%=record.getSex()%><%}%>
-            </td>
-
+            <td><%if(record.getSex()!=null && !record.getSex().equals("null")){%><%=record.getSex()%><%}%></td>
         </c:if>
 
         <c:if test="${tableColumns.editorSymbol!=null}">
-            <td>
-                <%if(record.getEditorId()>0){%>
-                <a href="/toolkit/data/editors/editor?id=<%=record.getEditorId()%>"><%=record.getEditorSymbol()%></a>
-                <%}%>
-            </td>
+            <td><%if(record.getEditorId()>0){%><a href="/toolkit/data/editors/editor?id=<%=record.getEditorId()%>"><%=record.getEditorSymbol()%></a><%}%></td>
         </c:if>
         <c:if test="${tableColumns.hrDonor!=null}">
-            <td>
-                <%if(record.getHrdonorId()>0){%>
-                <a href="/toolkit/data/hrdonors/hrdonor?id=<%=record.getHrdonorId()%>"><%=record.getHrdonorName()%></a>
-            <%}%>
-            </td>
+            <td><%if(record.getHrdonorId()>0){%><a href="/toolkit/data/hrdonors/hrdonor?id=<%=record.getHrdonorId()%>"><%=record.getHrdonorName()%></a><%}%></td>
         </c:if>
         <c:if test="${tableColumns.modelDisplayName!=null}">
-
-            <td>
-                <%if(record.getModelId()>0 && record.getModelDisplayName()!=null && !record.getModelDisplayName().equals("")){%>
-                <a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelDisplayName()%></a>
-            <%}
-            else{ if(record.getModelName()!=null && !record.getModelName().equals("") && record.getModelId()>0){%>
-                <a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelName()%></a>
-                <%}}%>
-            </td>
+            <%if(record.getModelId()>0 && record.getModelDisplayName()!=null && !record.getModelDisplayName().equals("")){%>
+            <td><a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelDisplayName()%></a></td>
+            <%}else{ if(record.getModelName()!=null && !record.getModelName().equals("") && record.getModelId()>0){%>
+                <td><a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelName()%></a><%}}%></td>
         </c:if>
         <c:if test="${tableColumns.deliverySystemName!=null}">
-            <td>
-                <%if(record.getDeliverySystemId()>0){%>
-                <a href="/toolkit/data/delivery/system?id=<%=record.getDeliverySystemId()%>"><%=record.getDeliverySystemName()%></a>
-                <%}%>
-            </td>
+            <td><%if(record.getDeliverySystemId()>0){%><a href="/toolkit/data/delivery/system?id=<%=record.getDeliverySystemId()%>"><%=record.getDeliverySystemName()%></a><%}%></td>
         </c:if>
         <c:if test="${tableColumns.targetLocus!=null}">
-            <td>
-            <%if(record.getGuides()!=null) {
-                    boolean first = true;
-                    Set<String> targetLocus=new HashSet<>();
-                    for (Guide guide : record.getGuides()) {
-                        if(guide.getTargetLocus() != null){
-                            targetLocus.add(guide.getTargetLocus().trim());
-                        }}
-                    for(String locus:targetLocus){
-                        if (first) {
-                            first = false;
-                            if (locus != null){%>
-                               <%=locus%>
-                          <%} } else {
-                            if (locus != null){%>
-                           ;&nbsp;<%=locus%>
+            <%  StringBuilder sb=new StringBuilder();
+                if(record.getGuides()!=null) {
+                boolean first = true;
+                Set<String> targetLocus=new HashSet<>();
+                for (Guide guide : record.getGuides()) {
+                    if(guide.getTargetLocus() != null){
+                        targetLocus.add(guide.getTargetLocus().trim());
+                    }}
 
-                       <%} }
-                    }
-                }%>
-            </td>
+                for(String locus:targetLocus){
+                    if (first) {
+                        first = false;
+                        if (locus != null){
+                        sb.append(locus);
+                    } } else if (locus != null){
+                    sb.append(";").append(locus);
+
+            }}}%>
+            <td><%=sb.toString()%></td>
         </c:if>
         <c:if test="${tableColumns.guide!=null}">
-            <td>
-                <%if(record.getGuides()!=null) {
-                    boolean first = true;
-                    for (Guide guide : record.getGuides()) {
-                        if (first) {
-                            first = false;
-                            if (guide.getGuide_id() >0){%>
-                <a href="/toolkit/data/guide/system?id=<%=guide.getGuide_id()%>"><%=guide.getGuide()%></a>
-                <%} } else {
-                    if (guide.getGuide_id() >0){%>
-                ;&nbsp;<a href="/toolkit/data/guide/system?id=<%=guide.getGuide_id()%>"><%=guide.getGuide()%></a>
-
-                <%} }
-                }
-                }%>
-            </td>
+            <td><%if(record.getGuides()!=null) { boolean first = true;for (Guide guide : record.getGuides()) { if (first) { first = false;if (guide.getGuide_id() >0){%><a href="/toolkit/data/guide/system?id=<%=guide.getGuide_id()%>"><%=guide.getGuide()%></a><%} } else { if (guide.getGuide_id() >0){%>;&nbsp;<a href="/toolkit/data/guide/system?id=<%=guide.getGuide_id()%>"><%=guide.getGuide()%></a><%} } } }%></td>
         </c:if>
 
         <c:if test="${tableColumns.vector!=null}">
-            <td>
-        <%
-            boolean firstVector=true;
-        if(record.getVectors()!=null)
-        for(Vector v:record.getVectors()){
-                if (firstVector) {
-                    firstVector = false;
-         %>
-                <a href="/toolkit/data/vector/format?id=<%=v.getVectorId()%>"><%=v.getName()%></a>
-                <%}else {%>
-                <a href="/toolkit/data/vector/format?id=<%=v.getVectorId()%>">;&nbsp;<%=v.getName()%></a>
-                <%  }
-                }
-                %>
-
-           </td>
+            <td><%boolean firstVector=true;if(record.getVectors()!=null) for(Vector v:record.getVectors()){ if (firstVector) { firstVector = false;%><a href="/toolkit/data/vector/format?id=<%=v.getVectorId()%>"><%=v.getName()%></a><%}else {%><a href="/toolkit/data/vector/format?id=<%=v.getVectorId()%>">;&nbsp;<%=v.getName()%></a><%  } }%></td>
         </c:if>
 
         <c:if test="${tableColumns.dosage!=null}">
@@ -278,26 +224,7 @@
                         }
                     }%>
 
-        <td>
-            <% if(result!=null && !result.equals("")){%>
-            <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values <%=actualRepCount%>" style="background-color: transparent">
-                        <span style="text-decoration:underline">
-                          <%=result%>
-
-                        </span>
-            </button>
-            <div style="display: none" id="popover-<%=record.getExperimentRecordId()%><%=popover%>">
-                <div class="popover-body">
-
-                  <%=replicates.toString()%>
-
-                </div>
-            </div>
-            <%}%>
-
-
-
-        </td>
+        <td><% if(result!=null && !result.equals("")){%><button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values <%=actualRepCount%>" style="background-color: transparent"><span style="text-decoration:underline"><%=result%></span></button><div style="display: none" id="popover-<%=record.getExperimentRecordId()%><%=popover%>"><div class="popover-body"><%=replicates.toString()%></div></div><%}%></td>
         <%popover++;}%>
         <%
             List<Image> images = idao.getImage(record.getExperimentRecordId(),"main1");
