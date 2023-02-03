@@ -119,7 +119,7 @@
 </script>
 
 <%int cellCount=0;
-    if(plots.size()>1){%>
+    if(plots.size()>1 && maxBarCount<50){%>
    <div>
      <%
          int chartHeight=400;
@@ -152,7 +152,13 @@
        </div>
        <%}%>
    </div>
-    <%}else{ if(plots.size()==1){%>
+    <%}else{ if(maxBarCount>50 && plots.size()>1){
+            for(int c=0;c<plots.size();c++){%>
+                <div class="chart-container" id="chartDiv<%=cellCount%>"  >
+                    <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:60vh;width: 60vw;padding-top: 5%" ></canvas>
+                </div>
+           <%cellCount++;}}
+        if(plots.size()==1){%>
 <div class="justify-content-md-center">
     <div class="chart-container" id="chartDiv<%=cellCount%>" style="display: block; height:60vh; width:60vw;">
         <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:60vh; width:60vw;" ></canvas>

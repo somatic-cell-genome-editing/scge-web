@@ -25,7 +25,15 @@
 <%  Gson gson=new Gson();
     ImageDao idao = new ImageDao();
     List<Plot> plots= (List<Plot>) request.getAttribute("plots");
+    List<Integer> barCounts=new ArrayList<>();
+    for(Plot plot:plots){
+        for(String key:plot.getPlotData().keySet()){
+            List<Double> values=plot.getPlotData().get(key);
+            barCounts.add(values.size());
+        }
 
+    }
+    int maxBarCount=Collections.max(barCounts);
 %>
 <%@include file="experiment/colorByOptions.jsp"%>
 <%@include file="recordFilters.jsp"%>
