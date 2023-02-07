@@ -20,6 +20,7 @@ public class SCGEContext {
             hostname = InetAddress.getLocalHost().getHostName().toLowerCase();
             isProduction = hostname.contains("morn");
             isDev = hostname.contains("leeta");
+            isTest = hostname.contains("saru");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -36,6 +37,10 @@ public class SCGEContext {
         parseHostName();
         return isDev;
     }
+    public static boolean isTest() throws UnknownHostException {
+        parseHostName();
+        return isTest;
+    }
 
     public static String getESIndexName() {
         try {
@@ -45,6 +50,9 @@ public class SCGEContext {
 
             if( isDev() ) {
                 return "scge_search_dev";
+            }
+            if( isTest() ) {
+                return "scge_search_test";
             }
 
         } catch( UnknownHostException e ) {
