@@ -1,4 +1,4 @@
-<%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.process.UI" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

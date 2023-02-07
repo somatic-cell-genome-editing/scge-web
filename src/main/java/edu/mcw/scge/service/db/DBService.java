@@ -3,7 +3,10 @@ package edu.mcw.scge.service.db;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DBService {
 
@@ -90,6 +93,27 @@ public class DBService {
     public List<ExperimentResultDetail> getExpResultsByResultType(long expRecId,String resultType) throws Exception{
         ExperimentResultDao dao = new ExperimentResultDao();
         return dao.getResultsByExpResType(expRecId,resultType);
+    }
+    public Map<String, List<String> > getResultTypeNUnits(long expId) throws Exception {
+        Map<String, List<String>> resultTypeNUnits=new HashMap<>();
+        for(ExperimentResultDetail detail: getExpResultsByExpId(expId)){
+            List<String> units=new ArrayList<>();
+            if(resultTypeNUnits.get(detail.getResultType())!=null){
+                for(String unit:resultTypeNUnits.get(detail.getResultType())){
+                    if(!units.contains(unit)){
+                        units.add(unit);
+                    }
+                }
+            }
+            if(!units.contains(detail.getUnits())){
+                units.add(detail.getUnits());
+            }
+
+                resultTypeNUnits.put(detail.getResultType(), units);
+
+
+        }
+       return resultTypeNUnits;
     }
 
     public List<String> getResultTypes(long expId) throws Exception{

@@ -5,7 +5,7 @@
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
-<%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.process.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.Protocol" %>
 <%@ page import="edu.mcw.scge.dao.implementation.ProtocolDao" %>
 

@@ -17,6 +17,7 @@ import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 
 import javax.management.Query;
 import java.io.IOException;
@@ -36,8 +37,14 @@ public class IndexServices {
          buildAggregations(srb, categories);
         srb.highlighter(this.buildHighlights());
         srb.size(10000);
-        if(searchTerm.equals("")){
-            srb.sort("name.keyword");
+        if(searchTerm.equals("") && categories.size()==1 && (categories.get(0).equalsIgnoreCase("Project")|| categories.get(0).equalsIgnoreCase("Experiment"))){
+          //  srb.sort("name.keyword");
+            srb.sort("lastModifiedDate", SortOrder.DESC);
+
+        }else{
+            if(searchTerm.equals("")) {
+                srb.sort("name.keyword");
+            }
         }
        SearchRequest searchRequest=new SearchRequest(searchIndex);
        searchRequest.source(srb);

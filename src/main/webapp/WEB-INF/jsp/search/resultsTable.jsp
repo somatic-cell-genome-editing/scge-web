@@ -34,6 +34,7 @@
         <%if(access.isAdmin(person)){%>
         <th>Tier</th>
         <%}%>
+        <th>Last Updated Date</th>
         <th class="sorter-false">View Associated..</th>
     </tr>
     </thead>
@@ -103,6 +104,11 @@
                     ${hit.sourceAsMap.tier}
             </td>
             <%}%>
+            <td>
+                <c:if test="${hit.sourceAsMap.lastModifiedDate!=null}">
+                     ${hit.sourceAsMap.lastModifiedDate}
+                </c:if>
+            </td>
             <td>
                 <%@include file="associations.jsp"%>
             </td>

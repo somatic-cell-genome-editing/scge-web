@@ -1,4 +1,5 @@
-<%@ page import="edu.mcw.scge.web.UI" %><%--
+<%@ page import="edu.mcw.scge.process.UI" %>
+<%--
   Created by IntelliJ IDEA.
   User: jdepons
   Date: 11/9/20

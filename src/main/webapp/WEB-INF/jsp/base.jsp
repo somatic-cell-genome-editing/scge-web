@@ -92,7 +92,7 @@
 
     <div style="font-size:12px; color:white; background-color: black; width:100%;padding-left:15px;padding-top:4px; padding-bottom:2px;">
         <div style="text-align:right; color:white;padding-right:12px;">
-            <a href="https://https://scge.mcw.edu" style="color:white;">SCGE Consortium Home</a>&nbsp;&nbsp;
+            <a href="https://scge.mcw.edu" style="color:white;">SCGE Consortium Home</a>&nbsp;&nbsp;
             |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/initiatives">About SCGE</a>&nbsp;&nbsp;
             |&nbsp;&nbsp;<a style="color:white;" onclick="openForm()" href="javascript:void(0)">Contact Us</a>&nbsp;&nbsp;
             |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/citation">Citing the Toolkit</a>&nbsp;&nbsp;
@@ -240,8 +240,8 @@
                                                                                    aria-hidden="true"></i></span>
                                             </div>
                                         </div>
-                                        <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
-                                            <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
+                                        <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a href="/toolkit/data/search/results?searchTerm=CRISPR" >CRISPR</a>,
+                                            <a href="/toolkit/data/search/results?searchTerm=AAV" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=Ai9" >Ai9</a>
                                         </small>
                                     </div>
 
