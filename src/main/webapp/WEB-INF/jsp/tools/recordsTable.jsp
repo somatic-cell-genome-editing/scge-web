@@ -29,11 +29,14 @@
     for(Plot plot:plots){
         for(String key:plot.getPlotData().keySet()){
             List<Double> values=plot.getPlotData().get(key);
+            if(values!=null)
             barCounts.add(values.size());
         }
 
     }
-    int maxBarCount=Collections.max(barCounts);
+    int maxBarCount=0;
+    if(barCounts.size()>0)
+          maxBarCount=  Collections.max(barCounts);
 %>
 <%@include file="experiment/colorByOptions.jsp"%>
 <%@include file="recordFilters.jsp"%>

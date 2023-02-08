@@ -128,10 +128,10 @@
                 }*/
                if(cellTypeList==null){
                    cellTypeList=new ArrayList<>();
-               }
+               }else
 
                 if ( cellTypeList.size() == 1){
-                    if(cellTypeList.get(0) == null || cellTypeList.get(0).equals("unspecified")) {
+                    if(cellTypeList.get(0) == null || (cellTypeList.get(0)!=null && cellTypeList.get(0).equals("unspecified"))) {
                     cellTypeList = new ArrayList<String>();
                     }
                 }
