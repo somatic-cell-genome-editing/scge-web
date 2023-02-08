@@ -184,16 +184,6 @@ ExperimentResultDetail detail = experimentResults.get(0);
 
             <tr><td width="200" class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
 
-            <% //other experiment details
-                java.util.Map<String,String> otherExpRecDetails = (java.util.Map<String,String>) request.getAttribute("otherExpRecDetails");
-                if( otherExpRecDetails!=null ) {
-                    for( java.util.Map.Entry<String,String> entry: otherExpRecDetails.entrySet() ) {
-            %>
-            <tr>
-                <td class="header"><b><%=entry.getKey()%>:</b></td><td><%=entry.getValue()%></td>
-            </tr>
-            <% }} %>
-
             <tr><td colspan="2"><hr></td></tr>
 
             <%
@@ -261,6 +251,17 @@ ExperimentResultDetail detail = experimentResults.get(0);
             <%            }
 
 %>
+
+            <% //other experiment details
+                java.util.Map<String,String> otherExpRecDetails = (java.util.Map<String,String>) request.getAttribute("otherExpRecDetails");
+                if( otherExpRecDetails!=null && !otherExpRecDetails.isEmpty() ) {
+                    for( java.util.Map.Entry<String,String> entry: otherExpRecDetails.entrySet() ) {
+            %>
+                   <tr><td class="header"><b><%=entry.getKey()%>:</b></td><td><%=entry.getValue()%></td></tr>
+                 <% } %>
+              <tr><td colspan="2"><hr></td></tr>
+            <% } %>
+
             <tr>
                 <td colspan="2" style="color:#4984B5;font-size:26px;">Measured Values</td>
             </tr>
