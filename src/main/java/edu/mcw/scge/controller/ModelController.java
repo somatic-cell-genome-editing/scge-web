@@ -188,10 +188,15 @@ public class ModelController extends ObjectController{
         Map<String, String> summary=new LinkedHashMap<>();
         int i=0;
         summary.put("SCGE ID", String.valueOf(object.getModelId()));
-        if(object.getDisplayName()!=null && !object.getDisplayName().equals(""))
+
+        if(object.getDisplayName()!=null && !object.getDisplayName().equals("")) {
             summary.put("Name", object.getDisplayName());
-        if(object.getName()!=null && !object.getName().equals(""))
-            summary.put("Official Name", object.getName());
+        } else if(object.getName()!=null && !object.getName().equals("")) {
+            summary.put("Name", object.getName());
+        }
+
+        if(object.getOfficialName()!=null && !object.getOfficialName().equals(""))
+            summary.put("Official Name", object.getOfficialName());
         if(object.getStrainAlias()!=null && !object.getStrainAlias().equals(""))
             summary.put("Alias", object.getStrainAlias());
         if(object.getOrganism()!=null && !object.getOrganism().equals(""))
