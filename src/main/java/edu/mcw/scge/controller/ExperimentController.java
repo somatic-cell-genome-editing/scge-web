@@ -941,13 +941,15 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         LinkedHashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new LinkedHashMap<>();
         HashMap<String, String> deliveryMap = new HashMap<String,String>();
         HashMap<String, String> editingMap = new HashMap<String,String>();
-
+          HashMap<String, String> biomarkerMap = new HashMap<String,String>();
         List<ExperimentResultDetail> experimentResults = dbService.getExpResultsByExpId(experimentId);
         for(ExperimentResultDetail er:experimentResults){
             if(er.getResultType().contains("Delivery")) {
                 deliveryMap.put(er.getAssayDescription(),null);
-            } else {
+            } else if (er.getResultType().contains("Editing")){
                 editingMap.put(er.getAssayDescription(),null);
+            }else{
+                biomarkerMap.put(er.getAssayDescription(),null);
             }
         }
 
@@ -986,6 +988,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("cellType",cellType);
         req.setAttribute("deliveryAssay",deliveryMap);
         req.setAttribute("editingAssay",editingMap);
+        req.setAttribute("biomarkerAssay",biomarkerMap);
         req.setAttribute("action", "Experiment: " + e.getName());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
 

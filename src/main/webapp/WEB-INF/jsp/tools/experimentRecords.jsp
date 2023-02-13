@@ -49,6 +49,7 @@
             <%
                 HashMap<String,String> deliveryAssay = (HashMap<String,String>) request.getAttribute("deliveryAssay");
                 HashMap<String,String> editingAssay = (HashMap<String,String>) request.getAttribute("editingAssay");
+                HashMap<String,String> biomarkerAssay = (HashMap<String,String>) request.getAttribute("biomarkerAssay");
             %>
 
             <div style="padding:10px; border:1px solid black; background-color: #F7F7F7;font-size:12px;">
@@ -87,6 +88,23 @@
 
 
             <% } %>
+                <% if (editingAssay.size() != 0) { %>
+                <table>
+                    <tr>
+                        <td valign="top" width="150"><span style=";margin-top:10px;font-weight:700;">Biomarker Assay:</span></td>
+                        <td> <%
+                            int count=1;
+                            for (String assay: biomarkerAssay.keySet()) { %>
+                            <span style="adding-left:20px;"><b>-</b>&nbsp;<%=assay%></span><br>
+                            <%
+                                    count++;
+                                } %>
+                        </td>
+                    </tr>
+                </table>
+
+
+                <% } %>
             </div>
             <br>
 
