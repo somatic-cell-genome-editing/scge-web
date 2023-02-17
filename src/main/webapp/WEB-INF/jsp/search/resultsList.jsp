@@ -141,7 +141,7 @@
                 ${hit.sourceAsMap.modelOrganism}
                  <c:forEach items="${hit.sourceAsMap.modelOrganism}" var="organism">
                       <c:if test="${organism=='Mouse'}">
-                        <img src="/toolkit/images/models/mouse.png" height="30px" width="30px" alt="${hit.sourceAsMap.modelOrganism}">
+
                         </c:if>
                         <c:if test="${organism=='Human'}">
                             <i class="fas fa-thin fa-person"></i>
