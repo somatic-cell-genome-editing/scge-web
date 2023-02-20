@@ -117,7 +117,8 @@
                 List<String> tissueList = (List<String>) request.getAttribute("tissues");
                 List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
                 List<String> modelList = tableColumns.get("modelDisplayName");
-                List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
+              //  List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
+                List<String> deliverySystemList=tableColumns.get("delivery");
                 List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
                 Set<String> resultTypeSet = (Set<String>) request.getAttribute("resultTypesSet");
                 Map<String, List<String>> resultTypeNunits = (Map<String, List<String>>) request.getAttribute("resultTypeNUnits");
