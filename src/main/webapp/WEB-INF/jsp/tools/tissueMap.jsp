@@ -88,7 +88,7 @@
     rootTissues.put("Hematopoietic","UBERON:0002390");
 %>
 
-    <%
+    <% Gson gson=new Gson();
         LinkedHashMap<String, Boolean> tissueEditingMap = new LinkedHashMap<String, Boolean>();
         LinkedHashMap<String, Boolean> tissueDeliveryMap = new LinkedHashMap<String, Boolean>();
 
@@ -122,9 +122,9 @@
 
 
             if (er.getCellTypeTerm() != null && er.getTissueTerm() != null)
-                labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(), "").replaceAll("/","").trim();
+                labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(), "").trim();
             else if (er.getTissueTerm() != null)
-                labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").replaceAll("/","").trim();
+                labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").trim();
             else labelTrimmed = er.getCondition().trim();
 
 
@@ -183,7 +183,8 @@
         }
 
     %>
-
+<h1><%=gson.toJson(tissueEditingMap)%></h1>
+<h1><%=gson.toJson(conditions)%></h1>
 
 <div style="font-size:20px; color:#1A80B6;">Organ&nbsp;System&nbsp;Overview</div>
 <div style="margin-left:70%"> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></div>
