@@ -183,8 +183,6 @@
         }
 
     %>
-<h1><%=gson.toJson(tissueEditingMap)%></h1>
-<h1><%=gson.toJson(conditions)%></h1>
 
 <div style="font-size:20px; color:#1A80B6;">Organ&nbsp;System&nbsp;Overview</div>
 <div style="margin-left:70%"> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></div>
