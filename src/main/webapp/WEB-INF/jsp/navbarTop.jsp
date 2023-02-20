@@ -25,8 +25,8 @@
 
 
         </div>
-            <small class="form-text text-light" style="font-size: 11px;">Examples:&nbsp;<a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a class="text-light" href="/toolkit/data/search/results?searchTerm=crispr" style="font-size: 11px;" >CRISPR</a>,
-                <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
+            <small class="form-text text-light" style="font-size: 11px;">Examples:&nbsp;<a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a class="text-light" href="/toolkit/data/search/results?searchTerm=CRISPR" style="font-size: 11px;" >CRISPR</a>,
+                <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=AAV" >AAV</a>, <a class="text-light" style="font-size: 11px;" href="/toolkit/data/search/results?searchTerm=Ai9" >Ai9</a>
             </small>
         </form>
 

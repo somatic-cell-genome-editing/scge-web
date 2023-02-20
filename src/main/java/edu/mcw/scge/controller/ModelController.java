@@ -188,10 +188,15 @@ public class ModelController extends ObjectController{
         Map<String, String> summary=new LinkedHashMap<>();
         int i=0;
         summary.put("SCGE ID", String.valueOf(object.getModelId()));
-        if(object.getDisplayName()!=null && !object.getDisplayName().equals(""))
+
+        if(object.getDisplayName()!=null && !object.getDisplayName().equals("")) {
             summary.put("Name", object.getDisplayName());
-        if(object.getName()!=null && !object.getName().equals(""))
-            summary.put("Official Name", object.getName());
+        } else if(object.getName()!=null && !object.getName().equals("")) {
+            summary.put("Name", object.getName());
+        }
+
+        if(object.getOfficialName()!=null && !object.getOfficialName().equals(""))
+            summary.put("Official Name", object.getOfficialName());
         if(object.getStrainAlias()!=null && !object.getStrainAlias().equals(""))
             summary.put("Alias", object.getStrainAlias());
         if(object.getOrganism()!=null && !object.getOrganism().equals(""))
@@ -203,8 +208,18 @@ public class ModelController extends ObjectController{
 
         if(object.getDescription()!=null && !object.getDescription().equals(""))
             summary.put("Description", object.getDescription());
-        if(object.getParentalOrigin()!=null && !object.getParentalOrigin().equals(""))
-            summary.put("Parental Origin", object.getParentalOrigin());
+        if(object.getParentalOrigin()!=null && !object.getParentalOrigin().equals("") ) {
+
+            String parentalOrigin = object.getParentalOrigin();
+            long modelId = 0;
+            try {
+                modelId = Long.parseLong(parentalOrigin);
+                summary.put("Parental Origin", parentalOrigin + " <a href='/toolkit/data/models/model?id="+modelId+"'>View animal model</a>");
+
+            } catch(NumberFormatException e) {
+                summary.put("Parental Origin", parentalOrigin);
+            }
+        }
         if(summary.size()>0) {
             summaryBlocks.put("block"+i, summary);
             i++;

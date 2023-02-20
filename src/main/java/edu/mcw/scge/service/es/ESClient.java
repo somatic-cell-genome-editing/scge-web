@@ -18,11 +18,10 @@ public class ESClient {
 
     public static RestHighLevelClient init(){
         if(client==null) {
-           try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
-          //      try(InputStream input= new FileInputStream("C:/Apps/elasticsearchProps.properties")){
+         try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
                 Properties props= new Properties();
                 props.load(input);
-                if(SCGEContext.isProduction()){
+                if(SCGEContext.isProduction() || SCGEContext.isTest()){
                     String HOST1 = (String) props.get("HOST1");
                     String HOST2 = (String) props.get("HOST2");
                     String HOST3 = (String) props.get("HOST3");
@@ -52,7 +51,7 @@ public class ESClient {
                             )
                     );
                 }else {
-                    String VARIANTS_HOST = (String) props.get("VARIANTS_HOST");
+                    String VARIANTS_HOST = (String) props.get("DEV_HOST");
                     int port = Integer.parseInt((String) props.get("PORT"));
                     client = new RestHighLevelClient(
                             RestClient.builder(

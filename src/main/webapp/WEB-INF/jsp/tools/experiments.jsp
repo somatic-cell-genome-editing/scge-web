@@ -1,7 +1,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
-<%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.process.UI" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
@@ -96,14 +96,16 @@
                             <div >
                                 <div>
                                     <%
-                                        GrantDao grantDao = new GrantDao();
-                                        PersonDao personDao = new PersonDao();
+                                        if(study.getGroupId()==1410 || study.getGroupId()==1412){
                                         if (study.getIsValidationStudy()!=1)// 1410-Baylor;1412-Jackson
                                              {%>
-                                                    <%=study.getStudy()%>
+                                    <strong>NEW MODEL DEVELOPMENT&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
                                     <% } else {%>
                                     <strong>VALIDATION&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
-                                    <% }%>
+                                    <% }
+                                        }else{%>
+                                    <%=study.getStudy()%>
+                                  <%}%>
                                 </div>
                                 <span  class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;-&nbsp;Submission
                                 Date:&nbsp;<%=study.getSubmissionDate()%>&nbsp;

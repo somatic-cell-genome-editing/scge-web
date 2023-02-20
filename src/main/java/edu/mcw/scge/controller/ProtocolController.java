@@ -7,7 +7,7 @@ import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.storage.FileSystemStorageService;
 import edu.mcw.scge.storage.StorageProperties;
-import edu.mcw.scge.web.UI;
+
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

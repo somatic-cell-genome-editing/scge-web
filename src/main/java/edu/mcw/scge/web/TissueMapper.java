@@ -75,7 +75,7 @@ public class TissueMapper {
         LinkedHashMap<String,String> child = editing.get(rootTerm);
 
         for (String key: child.keySet()) {
-            if (key == childTerm) {
+            if (key.equals(childTerm)) {
                 return child.get(key);
             }
         }

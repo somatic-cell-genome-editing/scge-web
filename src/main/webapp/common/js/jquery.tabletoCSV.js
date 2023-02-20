@@ -10,8 +10,11 @@ jQuery.fn.tableToCSV = function() {
 			var caption = $(this).find('caption').text();
 			var title = [];
 			var rows = [];
-
+			var groupedHeader=true;
 			$(this).find('tr').each(function(){
+				if(groupedHeader){
+					groupedHeader=false;
+				}else{
 				var data = [];
 				$(this).find('th').each(function(){
                     var text = clean_text($(this).text());
@@ -19,11 +22,12 @@ jQuery.fn.tableToCSV = function() {
 					});
 				$(this).find('td').each(function(){
                     var text = clean_text($(this).text());
+                    console.log("TEXT:" +text);
 					data.push(text);
 					});
 				data = data.join(",");
 				rows.push(data);
-				});
+				}});
 			title = title.join(",");
 			rows = rows.join("\n");
 
@@ -42,7 +46,7 @@ jQuery.fn.tableToCSV = function() {
 			download_link.click();
 			document.body.removeChild(download_link);
 	});
-    
+
 };
 
 jQuery.fn.tableSelectionToCSV = function() {
@@ -51,7 +55,7 @@ jQuery.fn.tableSelectionToCSV = function() {
 		text = text.replace(/"/g, '\\"').replace(/'/g, "\\'");
 		return '"'+text+'"';
 	};
-
+	var groupedHeader=true;
 	$(this).each(function(){
 		var table = $(this);
 		var caption = $(this).find('caption').text();
@@ -62,18 +66,21 @@ jQuery.fn.tableSelectionToCSV = function() {
 			if (this.style.display === "none") {
 				return;
 			}
-
-			var data = [];
-			$(this).find('th').each(function(){
-				var text = clean_text($(this).text());
-				title.push(text);
-			});
-			$(this).find('td').each(function(){
-				var text = clean_text($(this).text());
-				data.push(text);
-			});
-			data = data.join(",");
-			rows.push(data);
+			if(groupedHeader){
+			groupedHeader=false;
+			}else {
+				var data = [];
+				$(this).find('th').each(function () {
+					var text = clean_text($(this).text());
+					title.push(text);
+				});
+				$(this).find('td').each(function () {
+					var text = clean_text($(this).text());
+					data.push(text);
+				});
+				data = data.join(",");
+				rows.push(data);
+		}
 		});
 		title = title.join(",");
 		rows = rows.join("\n");

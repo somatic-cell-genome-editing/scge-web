@@ -240,8 +240,8 @@
                                                                                    aria-hidden="true"></i></span>
                                             </div>
                                         </div>
-                                        <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a href="/toolkit/data/search/results?searchTerm=crispr" >CRISPR</a>,
-                                            <a href="/toolkit/data/search/results?searchTerm=aav" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=ai9" >Ai9</a>
+                                        <small class="form-text text-muted" style="font-size: 11px">Examples: <a href="/toolkit/data/search/results?searchTerm=Epithelium">Epithelium</a>, <a href="/toolkit/data/search/results?searchTerm=CRISPR" >CRISPR</a>,
+                                            <a href="/toolkit/data/search/results?searchTerm=AAV" >AAV</a>, <a href="/toolkit/data/search/results?searchTerm=Ai9" >Ai9</a>
                                         </small>
                                     </div>
 

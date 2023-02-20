@@ -1,4 +1,4 @@
-<%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.process.UI" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
@@ -183,10 +183,10 @@ ExperimentResultDetail detail = experimentResults.get(0);
             </tr>
 
             <tr><td width="200" class="header"><strong>Record ID</strong></td><td><%=experimentRecord.getExperimentRecordId()%></td></tr>
+
             <tr><td colspan="2"><hr></td></tr>
 
             <%
-
                 Delivery d =new Delivery();
                 if(dList!=null && dList.size()>0)
                     d=dList.get(0);
@@ -251,6 +251,17 @@ ExperimentResultDetail detail = experimentResults.get(0);
             <%            }
 
 %>
+
+            <% //other experiment details
+                java.util.Map<String,String> otherExpRecDetails = (java.util.Map<String,String>) request.getAttribute("otherExpRecDetails");
+                if( otherExpRecDetails!=null && !otherExpRecDetails.isEmpty() ) {
+                    for( java.util.Map.Entry<String,String> entry: otherExpRecDetails.entrySet() ) {
+            %>
+                   <tr><td class="header"><b><%=entry.getKey()%>:</b></td><td><%=entry.getValue()%></td></tr>
+                 <% } %>
+              <tr><td colspan="2"><hr></td></tr>
+            <% } %>
+
             <tr>
                 <td colspan="2" style="color:#4984B5;font-size:26px;">Measured Values</td>
             </tr>

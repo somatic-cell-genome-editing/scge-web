@@ -7,7 +7,6 @@ import edu.mcw.scge.dao.implementation.ExperimentDao;
 import edu.mcw.scge.dao.implementation.GuideDao;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.*;
-import edu.mcw.scge.web.UI;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 

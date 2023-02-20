@@ -1,28 +1,20 @@
 package edu.mcw.scge.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.datamodel.publications.Publication;
-import edu.mcw.scge.datamodel.publications.Reference;
+import edu.mcw.scge.process.UI;
 import edu.mcw.scge.service.db.DBService;
-import edu.mcw.scge.service.es.IndexServices;
-import edu.mcw.scge.web.UI;
-import org.elasticsearch.action.search.SearchResponse;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import edu.mcw.scge.configuration.Access;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -80,6 +72,7 @@ public class EditorController extends ObjectController {
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Genome%20Editor?searchTerm='>Editors</a>");
         req.setAttribute("editor", editor);
         req.setAttribute("objectId", editor.getId());
+
         req.setAttribute("action", "Genome Editor: " + UI.replacePhiSymbol(editor.getSymbol()));
         req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
 

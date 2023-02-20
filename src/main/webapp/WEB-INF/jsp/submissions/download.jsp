@@ -2,7 +2,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
-<%@ page import="edu.mcw.scge.web.UI" %>
+<%@ page import="edu.mcw.scge.process.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%--
   Created by IntelliJ IDEA.

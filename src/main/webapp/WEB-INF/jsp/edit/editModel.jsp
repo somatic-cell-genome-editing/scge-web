@@ -55,9 +55,6 @@
         <td class="header"> <form:input path="rrid" size="100"/></td></tr>
 
 
-    <hr>
-
-
     <tr> <td class="header">  <form:label path="transgene">Transgene: </form:label></td>
         <td class="header"><form:input path="transgene" size="100"/></td></tr>
     <tr> <td class="header">   <form:label path="transgeneDescription">Transgene Description: </form:label></td>
@@ -67,6 +64,12 @@
     <tr> <td class="header">   <form:label path="annotatedMap">Annotated Map: </form:label></td>
         <td class="header"><form:input path="annotatedMap" size="100"/></td></tr>
 
+    <tr> <td class="header">   <form:label path="catalog">Catalog Code: </form:label></td>
+        <td class="header"><form:input path="catalog" size="100"/></td></tr>
+    <tr> <td class="header">   <form:label path="ontology">Cell Ontology Acc: </form:label></td>
+        <td class="header"><form:input path="ontology" size="100"/></td></tr>
+    <tr> <td class="header">   <form:label path="officialName">Official Name: </form:label></td>
+        <td class="header"><form:input path="officialName" size="100"/></td></tr>
 
 </table>
 

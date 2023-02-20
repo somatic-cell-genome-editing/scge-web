@@ -1,6 +1,7 @@
 package edu.mcw.scge.service;
 
 import edu.mcw.scge.dao.implementation.GrantDao;
+import edu.mcw.scge.datamodel.ExperimentResultDetail;
 import edu.mcw.scge.datamodel.Study;
 
 import java.util.*;
@@ -31,5 +32,8 @@ public class ProcessUtils {
             sortedStudies.put(grantInitiative, groupStudiesMap);
         }
         return sortedStudies;
+    }
+    public String getResultKey(ExperimentResultDetail erd){
+        return erd.getResultType().trim() + " (" + erd.getUnits().trim() + ")";
     }
 }
