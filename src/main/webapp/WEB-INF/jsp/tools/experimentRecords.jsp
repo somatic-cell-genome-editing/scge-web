@@ -88,7 +88,7 @@
 
 
             <% } %>
-                <% if (editingAssay.size() != 0) { %>
+                <% if (biomarkerAssay.size() != 0) { %>
                 <table>
                     <tr>
                         <td valign="top" width="150"><span style=";margin-top:10px;font-weight:700;">Biomarker Assay:</span></td>
