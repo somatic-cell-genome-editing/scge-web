@@ -117,7 +117,10 @@
     }
 
 </script>
-
+<style>
+   
+</style>
+<div id="charts" style="visibility: hidden;">
 <%int cellCount=0;
     if(plots.size()>1 && maxBarCount<50){%>
    <div>
@@ -165,6 +168,7 @@
     </div>
 </div>
    <%}}%>
+</div>
      <%
          int i=0;
          for(Plot plot: plots){

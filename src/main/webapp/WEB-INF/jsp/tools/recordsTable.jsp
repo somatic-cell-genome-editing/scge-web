@@ -695,7 +695,7 @@
                     update(true)
             }
         }
-
+        document.getElementById("charts").style.visibility="visible"
 
     }
     function graphUnit(unit) {
