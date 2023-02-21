@@ -37,15 +37,7 @@
         });
     })
 </script>
-<% ProcessUtils processUtils=new ProcessUtils();
-    String hostUrl="";
-    if(SCGEContext.isProduction()){
-        hostUrl=hostUrl+"https://scge.mcw.edu";
-    }else if(SCGEContext.isTest()){
-        hostUrl=hostUrl+"https://stage.scge.mcw.edu";
-    }else hostUrl=hostUrl+"https://dev.scge.mcw.edu";
-
-%>
+<% ProcessUtils processUtils=new ProcessUtils();%>
 
 <table id="myTable">
     <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
@@ -240,7 +232,7 @@
             if (images.size() > 0) {
         %>
         <td align="center">
-            <a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=hostUrl%><%=images.get(0).getPath()%>" height="1" width="1"></a></td>
+            <a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
         <% rowCount++;
         }else { %>
         <td></td>
