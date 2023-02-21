@@ -2,6 +2,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="edu.mcw.scge.service.StringUtils" %>
 <%@ page import="edu.mcw.scge.service.ProcessUtils" %>
+<%@ page import="edu.mcw.scge.web.SCGEContext" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -36,7 +37,15 @@
         });
     })
 </script>
-<% ProcessUtils processUtils=new ProcessUtils();%>
+<% ProcessUtils processUtils=new ProcessUtils();
+    String hostUrl="";
+    if(SCGEContext.isProduction()){
+        hostUrl=hostUrl+"https://scge.mcw.edu";
+    }else if(SCGEContext.isTest()){
+        hostUrl=hostUrl+"https://stage.scge.mcw.edu";
+    }else hostUrl=hostUrl+"https://dev.scge.mcw.edu";
+
+%>
 
 <table id="myTable">
     <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
@@ -230,7 +239,8 @@
             List<Image> images = idao.getImage(record.getExperimentRecordId(),"main1");
             if (images.size() > 0) {
         %>
-        <td align="center"><a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="https://scge.mcw.edu<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
+        <td align="center">
+            <a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=hostUrl%><%=images.get(0).getPath()%>" height="1" width="1"></a></td>
         <% rowCount++;
         }else { %>
         <td></td>
