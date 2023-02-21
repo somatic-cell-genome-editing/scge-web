@@ -12,6 +12,12 @@
   Time: 2:56 PM
   To change this template use File | Settings | File Templates.
 --%>
+<style>
+    .image-table-cell{
+        height: auto;
+        width: 119px;
+    }
+</style>
 <script>
     $(function () {
         $('[data-toggle="popover"]').popover({
@@ -232,7 +238,7 @@
             if (images.size() > 0) {
         %>
         <td align="center">
-            <a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><img onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" height="1" width="1"></a></td>
+            <a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><img class="image-table-cell" onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>"></a></td>
         <% rowCount++;
         }else { %>
         <td></td>
