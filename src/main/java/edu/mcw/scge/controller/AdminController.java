@@ -113,6 +113,20 @@ public class AdminController extends LoginController{
 
     }
 
+    @RequestMapping(value = "/bulkUpload")
+    public void getBulkUpload(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+
+        UserService userService=new UserService();
+        Access access= new Access();
+        if (!access.isAdmin(userService.getCurrentUser(req.getSession()))) {
+            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
+        }
+
+        req.setAttribute("action", "Bulk Image Upload");
+        req.setAttribute("page", "/WEB-INF/jsp/admin/bulkUpload");
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+    }
 
     @RequestMapping(value = "/groups")
     public void getGroups(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
