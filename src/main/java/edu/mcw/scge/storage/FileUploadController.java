@@ -212,6 +212,100 @@ public class FileUploadController {
 		return null;
 	}
 
+	public static void handleFileUploadBatch(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
+		UserService userService=new UserService();
+		Access access= new Access();
+		Person p = userService.getCurrentUser(req.getSession());
+
+		if (!access.isAdmin(p)) {
+			throw new Exception("You do not have permissions to run this");
+		}
+
+		File index = new File(req.getParameter("index"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(index)));
+		String line;
+		String filename="not started";
+		while ((line=br.readLine()) != null) {
+			try {
+				String[] vals = line.split(",");
+
+				ImageDao idao = new ImageDao();
+
+				String legend=vals[3];
+				//String type=req.getParameter("type");
+				String title=vals[2];
+				String id = vals[0];
+				String bucket = req.getParameter("bucket");
+
+				System.out.println("about to load " + req.getParameter("dir") + "/" + vals[1] + "." + req.getParameter("type"));
+				File file = new File(req.getParameter("dir") + "/" + vals[1] + "." + req.getParameter("type"));
+				byte[] bytes = Files.readAllBytes(file.toPath());
+
+				filename = vals[1] + "." + req.getParameter("type");
+
+				InputStream is = new ByteArrayInputStream(bytes);
+				BufferedImage originalImage = ImageIO.read(is);
+				int goal =700;
+				int width = originalImage.getWidth();
+				int height = originalImage.getHeight();
+				float diff = width - goal;
+				float percentDiff = (float) 1 - ((float)diff/(float)width);
+				int newHeight = Math.round(height * percentDiff);
+
+				byte[] image700 = null;
+				if (width < goal) {
+					image700 = bytes;
+				}else {
+
+
+					BufferedImage outputImage = new MultiStepRescaleOp(700, newHeight, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(originalImage, null);
+
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					ImageIO.write(outputImage, req.getParameter("type"), baos);
+					image700 = baos.toByteArray();
+				}
+
+				goal =75;
+				width = originalImage.getWidth();
+				height = originalImage.getHeight();
+				diff = height - goal;
+				percentDiff = (float)1 - ((float)diff/(float)height);
+				int newWidth = Math.round(width * percentDiff);
+
+				BufferedImage outputImage = new MultiStepRescaleOp(newWidth, goal, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(originalImage, null);
+
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				ImageIO.write(outputImage,req.getParameter("type"),baos);
+				byte[] thumbnail = baos.toByteArray();
+
+				Image image = new Image();
+
+				image.setPosIndex(1);
+				image.setFileType(req.getParameter("type"));
+				image.setTitle(title);
+				image.setLegend(legend);
+				image.setBucket(bucket);
+				image.setImage(bytes);
+				image.setThumbnail(thumbnail);
+				image.setImage700Wide(image700);
+				image.setScgeId(Long.parseLong(id));
+				image.setFileName(filename);
+
+				idao.insertImage(image);
+
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+				System.out.println("Failed to store file " + filename);
+			}
+
+
+		}
+
+	}
+
+
 	@PostMapping("/uploadFile")
 	public String handleFileUpload(HttpServletRequest req, HttpServletResponse res, @RequestParam("filename") MultipartFile file,
 								   RedirectAttributes redirectAttributes) throws Exception {
