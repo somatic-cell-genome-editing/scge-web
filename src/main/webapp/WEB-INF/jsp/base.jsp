@@ -145,7 +145,7 @@
                         </c:if>
                     </small>
 
-                                <c:if test="${fn:contains(action,'Experiment' )}">
+                                <c:if test="${fn:contains(action,'Experiment:' )}">
                                   <div style="margin-left: 40%">
                                       <div class="row">
                                           <div class="col-lg-push-2">
