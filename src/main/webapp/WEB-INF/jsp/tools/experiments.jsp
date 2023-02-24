@@ -170,7 +170,6 @@
                         <td><%=SFN.parse(exp.getDescription())%><br>
 
                         </td>
-                      
                         <!--<td><%=exp.getExperimentId()%></td>-->
 
 
