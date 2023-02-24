@@ -374,10 +374,11 @@ public class IndexServices {
         return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
 
     }
-    public QueryBuilder buildQuery(String searchTerm){
+    public QueryBuilder buildQuery(String term){
         DisMaxQueryBuilder q=new DisMaxQueryBuilder();
 
-        if(searchTerm!=null && !searchTerm.equals("")) {
+        if(term!=null && !term.equals("")) {
+            String searchTerm=term.toLowerCase().trim();
             if(searchTerm.toLowerCase().contains(" and ")){
                 String searchString=String.join(" ", searchTerm.toLowerCase().split(" and "));
                 q.add(QueryBuilders.multiMatchQuery(searchString)
@@ -419,6 +420,7 @@ public class IndexServices {
 
             }else { if (isNumeric(searchTerm)) {
                 q.add(QueryBuilders.termQuery("id", searchTerm));
+                q.add(QueryBuilders.termQuery("studyId", searchTerm));
             } else {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
@@ -437,11 +439,13 @@ public class IndexServices {
             q.add(QueryBuilders.termQuery("name.custom", searchTerm).boost(1000));
             q.add(QueryBuilders.termQuery("pi", searchTerm).boost(1000));
 
-            q.add(QueryBuilders.matchPhrasePrefixQuery("symbol.custom", searchTerm).analyzer("stop").boost(400));
-            q.add(QueryBuilders.matchPhrasePrefixQuery("name.custom", searchTerm).analyzer("stop").boost(400));
+            q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).boost(400));
+            q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).boost(400));
 
-            q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).analyzer("stop").boost(100));
-            q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).analyzer("stop").boost(100));
+            q.add(QueryBuilders.matchPhrasePrefixQuery("symbol.custom", searchTerm).boost(100));
+            q.add(QueryBuilders.matchPhrasePrefixQuery("name.custom", searchTerm).boost(100));
+
+
 
             q.add(QueryBuilders.matchPhrasePrefixQuery("pi", searchTerm).boost(500));
             q.add(QueryBuilders.matchPhraseQuery("pi", searchTerm).boost(200));
