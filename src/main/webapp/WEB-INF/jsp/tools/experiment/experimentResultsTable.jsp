@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.scge.service.StringUtils" %>
 <%@ page import="edu.mcw.scge.service.ProcessUtils" %>
 <%@ page import="edu.mcw.scge.web.SCGEContext" %>
+<%@ page import="edu.mcw.scge.storage.ImageCache" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -234,11 +235,11 @@
         <td><% if(result!=null && !result.equals("")){%><button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values <%=actualRepCount%>" style="background-color: transparent"><span style="display: none">Result:</span><span style="text-decoration:underline"><%=result%></span><span style="display: none"> | Replicates:</span></button><div style="display: none" id="popover-<%=record.getExperimentRecordId()%><%=popover%>"><div class="popover-body"><%=replicates.toString()%></div></div><%}%></td>
         <%popover++;}%>
         <%
-            List<Image> images = idao.getImage(record.getExperimentRecordId(),"main1");
+            List<Image> images = ImageCache.getInstance().getImage(record.getExperimentRecordId(),"main1");
             if (images.size() > 0) {
         %>
         <td align="center">
-            <a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><img class="image-table-cell" onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>"></a></td>
+            <a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><img class="image-table-cell" onmouseover="imageMouseOver(this,'<%=StringUtils.encode(images.get(0).getLegend())%>','<%=images.get(0).getTitle()%>')" onmouseout="imageMouseOut(this)" id="img<%=rowCount%>" src="<%=images.get(0).getPath()%>" loading="lazy"/></a></td>
         <% rowCount++;
         }else { %>
         <td></td>
