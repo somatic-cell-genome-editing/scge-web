@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.mcw.scge.dao.spring.CountQuery" %>
-<%@ page import="edu.mcw.scge.dao.implementation.StatsDao" %><%--
+<%@ page import="edu.mcw.scge.dao.implementation.StatsDao" %>
+<%@ page import="edu.mcw.scge.storage.ImageCache" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 5/8/2020
@@ -8,7 +9,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<% StatsDao sdao = new StatsDao(); %>
+<% StatsDao sdao = new StatsDao();
+
+    //preload the image cache
+   ImageCache ic = ImageCache.getInstance();
+%>
 <style>
     .card-label {
         font-weight: bold;

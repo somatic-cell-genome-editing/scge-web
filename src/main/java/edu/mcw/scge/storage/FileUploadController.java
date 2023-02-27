@@ -153,48 +153,11 @@ public class FileUploadController {
 		Access access= new Access();
 		Person p = userService.getCurrentUser(req.getSession());
 
-		/*
-		if (type.equals(ImageTypes.EDITOR)) {
-			if (!access.hasEditorAccess(Long.parseLong(oid),p.getId())) {
-				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
-			}
-		}else if (type.equals(ImageTypes.MODEL)) {
-			if (!access.hasModelAccess(Long.parseLong(oid),p)) {
-				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
-			}
-		}else if (type.equals(ImageTypes.DELIVERY_SYSTEM)) {
-			if (!access.hasDeliveryAccess(Long.parseLong(oid),p.getId())) {
-				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
-			}
-		}else if (type.equals(ImageTypes.GUIDE)) {
-			if (!access.hasGuideAccess(Long.parseLong(oid),p.getId())) {
-				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
-			}
-		}else if (type.equals(ImageTypes.RECORD)) {
-			if (!access.hasRecordAccess(Long.parseLong(oid),p)) {
-				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
-			}
-		}else if (type.equals(ImageTypes.STUDY)) {
-			if (!access.hasStudyAccess(Integer.parseInt(oid),p.getId())) {
-				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
-			}
-		}else if (type.equals(ImageTypes.VECTOR)) {
-			if (!access.hasVectorAccess(Long.parseLong(oid),p.getId())) {
-				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
-			}
-		}else if (type.equals(ImageTypes.EXPERIMENT)) {
-			if (!access.hasExperimentAccess(Long.parseLong(oid),p.getId())) {
-				req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, res);
-			}
-		}
-
-		 */
-
 		ImageDao idao = new ImageDao();
 
 		HttpHeaders headers = new HttpHeaders();
-		byte[] media = idao.getImageBytes(Long.parseLong(oid),bucket,ImageDao.WIDE_700);
-
+		//byte[] media = idao.getImageBytes(Long.parseLong(oid),bucket,ImageDao.WIDE_700);
+		byte[] media = ImageCache.getInstance().getImageBytes(Long.parseLong(oid),bucket,ImageDao.WIDE_700);
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
 		headers.setContentType(MediaType.IMAGE_PNG);
 
