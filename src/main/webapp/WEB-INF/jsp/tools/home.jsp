@@ -90,7 +90,26 @@
                 </ul>
             </div>
         </div>
-
+        <div class="card">
+            <div class="card-body">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="rounded" ><i class="fa-solid fa-diagram-project fa-3x circle-icon" ></i></div>
+                                    </td>
+                                    <td class="card-label">
+                                        Explore All Projects
+                                    </td>
+                                </tr>
+                            </table>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
 <!--
         <div class="card">
             <div class="card-body">
@@ -114,7 +133,7 @@
         </div>
         -->
 
-        <div class="card">
+        <!--div class="card">
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -133,19 +152,39 @@
                     </li>
                 </ul>
             </div>
+        </div-->
+        <div class="card">
+            <div class="card-body">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=&facetSearch=true&unchecked=&selectedFiltersJson=%7B%7D&selectedView=list&initiative=Collaborative+Opportunity+Fund">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="rounded" ><i class="fa-solid fa-users fa-3x circle-icon" ></i></div>
+                                    </td>
+                                    <td class="card-label">
+                                       Explore Collaborative Opportunity Fund Projects
+                                    </td>
+                                </tr>
+                            </table>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="card">
             <div class="card-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=">
+                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=&facetSearch=true&unchecked=&selectedFiltersJson=%7B%7D&selectedView=list&initiative=AAV+tropism">
                             <table>
                                 <tr>
                                     <td>
-                                        <div class="rounded" ><i class="fa-solid fa-diagram-project fa-3x circle-icon" ></i></div>
+                                        <div class="roundex"><img src="/toolkit/images/virus.png"  class="card-image"  alt="" style="background-color: transparent"/></div>
                                     </td>
                                     <td class="card-label">
-                                      Explore Projects
+                                        Explore AAV Tropism Projects
                                     </td>
                                 </tr>
                             </table>
