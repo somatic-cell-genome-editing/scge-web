@@ -214,12 +214,13 @@
                         </ul>
                     </div>
                 </div>
+        <%}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        %>
             </div> <!--close col -->
-            <%}
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    %>
+
     <div class="col-sm-4">
 
 
