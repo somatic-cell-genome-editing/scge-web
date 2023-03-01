@@ -36,6 +36,27 @@ public class DataAccessService extends AbstractDAO {
     TierUpdateDao tierUpdateDao=new TierUpdateDao();
     UpdateUtils tierUpdateUtils=new UpdateUtils();
     public static List<String> labels;
+    public static boolean existsTier4AAV;
+    public static boolean existsTier4COF;
+      {
+          try {
+           List<Study> tier4COFStudies=   sdao.getTier4StudiesOfInitiative("collaborative opportunity fund");
+            if(tier4COFStudies.size()>0){
+                existsTier4COF=true;
+            }
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+          try {
+              List<Study> tier4AAVStudies=   sdao.getTier4StudiesOfInitiative("aav tropism");
+              if(tier4AAVStudies.size()>0){
+                  existsTier4AAV=true;
+              }
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+      }
+
     public List<TestData> getData(String name, String symbol) throws Exception {
            return tdao.getTestData();
     }
