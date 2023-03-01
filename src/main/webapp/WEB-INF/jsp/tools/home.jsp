@@ -1,7 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.mcw.scge.dao.spring.CountQuery" %>
 <%@ page import="edu.mcw.scge.dao.implementation.StatsDao" %>
-<%@ page import="edu.mcw.scge.storage.ImageCache" %><%--
+<%@ page import="edu.mcw.scge.storage.ImageCache" %>
+<%@ page import="edu.mcw.scge.service.DataAccessService" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 5/8/2020
@@ -13,6 +16,8 @@
 
     //preload the image cache
    ImageCache ic = ImageCache.getInstance();
+    Access access= new Access();
+    Person p = access.getUser(request.getSession());
 %>
 <style>
     .card-label {
@@ -158,48 +163,63 @@
                 </ul>
             </div>
         </div-->
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=&facetSearch=true&unchecked=&selectedFiltersJson=%7B%7D&selectedView=list&initiative=Collaborative+Opportunity+Fund">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <div class="rounded" ><i class="fa-solid fa-users fa-3x circle-icon" ></i></div>
-                                    </td>
-                                    <td class="card-label">
-                                       Explore Collaborative Opportunity Fund Projects
-                                    </td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=&facetSearch=true&unchecked=&selectedFiltersJson=%7B%7D&selectedView=list&initiative=AAV+tropism">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <div class="roundex"><img src="/toolkit/images/virus.png"  class="card-image"  alt="" style="background-color: transparent"/></div>
-                                    </td>
-                                    <td class="card-label">
-                                        Explore AAV Tropism Projects
-                                    </td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div> <!--close col -->
-
+        <%
+            try {
+                if(DataAccessService.existsTier4COF || access.isAdmin(p) ){%>
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=&facetSearch=true&unchecked=&selectedFiltersJson=%7B%7D&selectedView=list&initiative=Collaborative+Opportunity+Fund">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div class="rounded" ><i class="fa-solid fa-users fa-3x circle-icon" ></i></div>
+                                            </td>
+                                            <td class="card-label">
+                                               Explore Collaborative Opportunity Fund Projects
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <%}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        %>
+        <%
+            try {
+                if(DataAccessService.existsTier4AAV || access.isAdmin(p) ){%>
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=&facetSearch=true&unchecked=&selectedFiltersJson=%7B%7D&selectedView=list&initiative=AAV+tropism">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div class="rounded"><img src="/toolkit/images/virus.png"  class="card-image"  alt="" style="background-color: transparent"/></div>
+                                            </td>
+                                            <td class="card-label">
+                                                Explore AAV Tropism Projects
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div> <!--close col -->
+            <%}
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    %>
     <div class="col-sm-4">
 
 
