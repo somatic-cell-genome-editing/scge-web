@@ -59,7 +59,7 @@
                         <%
 
                             for (Guide relatedGuide: relatedGuides) {
-                                if (access.hasGuideAccess(relatedGuide,p)) {
+                                if (access.hasGuideAccess(relatedGuide,p) && relatedGuide.getTargetSequence()!=null) {
                         %>
                                     <a style="padding-top:3px;" href="/toolkit/data/guide/system?id=<%=relatedGuide.getGuide_id()%>"><%=relatedGuide.getTargetSequence().toUpperCase()%></a><br>
                         <%      }
