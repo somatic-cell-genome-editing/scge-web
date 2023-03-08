@@ -31,7 +31,7 @@
     }
 
     .scge-details-label {
-        color: #2a6496;
+        color: black;
         font-weight: bold;
     }
 
@@ -63,8 +63,46 @@
         Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
         if (request.getAttribute("experimentsValidatedMap") != null)
             experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
-
+        boolean isProcessed=false;
         for (Map.Entry entry : studyExperimentMap.entrySet()) {
+            List<Experiment> experiments = (List<Experiment>) entry.getValue();
+            if(experiments.size()>0){
+                isProcessed=true;
+            }
+        }
+        if(isProcessed){
+%>
+
+    <div class="card" style="margin-bottom: 10px">
+        <div class="card-header">
+            <span style="font-weight: bold">Summary of data submissions:</span>
+
+        </div>
+        <div class="card-body">
+    <ul>
+    <%
+        for (Map.Entry entry : studyExperimentMap.entrySet()) {
+            Study study = ((Study) entry.getKey());
+            String validation="";
+            if(study.getIsValidationStudy()==1)
+                validation+="validation";
+            if(study.getIsValidationStudy()!=1 && (study.getGroupId()==1410 || study.getGroupId()==1412))
+                validation+="new model";
+            List<Experiment> experiments = (List<Experiment>) entry.getValue();
+            if(experiments.size()>0){
+            %>
+
+        <li>
+           Data for <%=experiments.size()%>&nbsp;<%=validation%> experiments were submitted on <%=study.getSubmissionDate()%>&nbsp;<span style="font-weight: bold"><a href="#<%=study.getStudyId()%>">SCGE ID:<%=study.getStudyId()%></a></span>
+        </li>
+
+       <% }}%>
+    </ul>
+        </div>
+
+    </div>
+    <%}%>
+    <%    for (Map.Entry entry : studyExperimentMap.entrySet()) {
             Study study = ((Study) entry.getKey());
             List<Experiment> experiments = (List<Experiment>) entry.getValue();
 
@@ -83,7 +121,7 @@
          style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
 
-    <div class="container-fluid bg-light shadow p-3 mb-5 bg-white rounded">
+    <div class="container-fluid bg-light shadow p-3 mb-5 bg-white rounded" id="<%=study.getStudyId()%>">
 
         <div class="container-fluid" style="margin-top: 1%;">
 
