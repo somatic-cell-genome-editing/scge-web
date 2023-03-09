@@ -96,7 +96,9 @@
            Data for <%=experiments.size()%>&nbsp;<%=validation%> experiments were submitted on <%=study.getSubmissionDate()%>&nbsp;<span style="font-weight: bold"><a href="#<%=study.getStudyId()%>">SCGE ID:<%=study.getStudyId()%></a></span>
         </li>
 
-       <% }}%>
+       <% }} if(validationExperimentsMap.size()>0){%>
+        <li><%=validationExperimentsMap.size()%> experiments validated</li>
+        <%}%>
     </ul>
         </div>
 
