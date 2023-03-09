@@ -38,6 +38,7 @@
     table tr, table tr td {
         background-color: transparent;
     }
+
 </style>
 <script>
     $(function () {
@@ -106,6 +107,7 @@
 
     </div>
     <%}%>
+    <div class="card-header" style="margin-bottom: 10px"><span style="font-weight: bold">Submissions Details:</span></div>
     <%    for (Map.Entry entry : studyExperimentMap.entrySet()) {
             Study study = ((Study) entry.getKey());
             List<Experiment> experiments = (List<Experiment>) entry.getValue();
@@ -185,10 +187,10 @@
                     <tr>
                         <!--<th>Tier</th>-->
 
-                        <th>Experiment Name</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                        <th></th>
+                        <th style="width: 300px">Experiment Name</th>
+                        <th style="width: 100px;">Type</th>
+                        <th style="width: 500px">Description</th>
+                        <!--th class="project-page-details-table"></th-->
                         <!--<th>SCGE ID</th>-->
                     </tr>
                     </thead>
@@ -203,15 +205,13 @@
                     <tr>
                         <!--<td width="10"><%=s.getTier()%>-->
 
-                        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>">
+                        <td class="project-page-details-table experiment-name"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>">
                             <%=exp.getName()%></a><br>
                             <%@include file="validations.jsp"%>
                         </td>
-                        <td style="white-space: nowrap"><%=exp.getType()%>
+                        <td class="project-page-details-table experiment-type" style="white-space: nowrap"><%=exp.getType()%>
                         </td>
-                        <td><%=SFN.parse(exp.getDescription())%><br>
-
-                        </td>
+                        <td class="project-page-details-table experiment-description"><%=SFN.parse(exp.getDescription())%></td>
                         <!--<td><%=exp.getExperimentId()%></td>-->
 
 
