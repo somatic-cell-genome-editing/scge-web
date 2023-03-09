@@ -64,10 +64,12 @@
         if (request.getAttribute("experimentsValidatedMap") != null)
             experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
         boolean isProcessed=false;
+        int totalExperiments=0;
         for (Map.Entry entry : studyExperimentMap.entrySet()) {
             List<Experiment> experiments = (List<Experiment>) entry.getValue();
             if(experiments.size()>0){
                 isProcessed=true;
+                totalExperiments+=experiments.size();
             }
         }
         if(isProcessed){
@@ -97,7 +99,7 @@
         </li>
 
        <% }} if(validationExperimentsMap.size()>0){%>
-        <li><%=validationExperimentsMap.size()%> experiments validated</li>
+        <li><%=validationExperimentsMap.size()%> of <%=totalExperiments%> experiments validated</li>
         <%}%>
     </ul>
         </div>
