@@ -100,7 +100,7 @@
         </li>
 
        <% }} if(validationExperimentsMap.size()>0){%>
-        <li><%=validationExperimentsMap.size()%> of <%=totalExperiments%> experiments validated</li>
+        <li><%=validationExperimentsMap.size()%> of <%=totalExperiments%> experiments have been validated</li>
         <%}%>
     </ul>
         </div>

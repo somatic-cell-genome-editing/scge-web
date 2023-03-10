@@ -33,9 +33,9 @@
 </div>
 <main role="main" class="col-md-10 ml-sm-auto px-4"  >
  <%@include file="summary.jsp"%>
-    <hr>
-    <%if(editor.getProteinSequence()!=null && !editor.getProteinSequence().equals("")){%>
 
+    <%if(editor.getProteinSequence()!=null && !editor.getProteinSequence().equals("")){%>
+    <hr>
     <div id="proteinSequence">
         <h4 class="page-header" style="color:grey;">Protein Sequence</h4>
         <div class="container" align="center">
