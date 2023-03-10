@@ -44,8 +44,9 @@
 </script>
 
 
-
+<%if(localProtocols.size()>0 || localProtocolAccess.isAdmin(localProtocolPerson)){%>
 <hr>
+<%}%>
 <table width="95%"><tr>
     <td>
         <%if(localProtocols.size()>0){%>
@@ -80,7 +81,6 @@
     <tbody>
     <% for (Protocol localProtocol: localProtocols) { %>
     <% if (localProtocolAccess.hasProtocolAccess(localProtocol,localProtocolPerson)) { %>
-        <tr>
     <tr>
         <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
             <td><a href="/toolkit/data/protocols/removeAssociation?objectId=<%=objectId%>&protocolId=<%=localProtocol.getId()%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:red; padding:7px;">Remove</a></td>
