@@ -31,7 +31,6 @@
 
 %>
 
-<% if (hasProtocolsAtCorrectTier) { %>
 
 
 <script>
@@ -47,20 +46,25 @@
 
 
 <hr>
-<table width="95%"><tr><td><h4 class="page-header" style="color:grey;">
+<table width="95%"><tr>
+    <td>
+        <%if(localProtocols.size()>0){%>
+        <h4 class="page-header" style="color:grey;">
     <% if ((objectId + "").startsWith("18")) { %>
         Experiment Wide Protocols
     <% } else { %>
     Protocols
     <% } %>
 
-</h4></td>
+     </h4>
+        <%}%>
+    </td>
     <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
         <td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Protocols</a></td>
     <% } %>
 </tr></table>
 
-
+<%if(localProtocols.size()>0){%>
 <table id="myTable-<%=objectId%>" class="tablesorter">
     <thead>
     <tr>
@@ -86,13 +90,13 @@
         <td><a href="/toolkit/files/protocol/<%=localProtocol.getFilename()%>"><%=localProtocol.getFilename()%></a></td>
         <td><%=localProtocol.getId()%></td>
     </tr>
-        </tr>
+
     <% } %>
     <% } %>
     </tbody>
 </table>
-
-<% }
+<%}%>
+<%
     //close scope
 } catch (Exception protocolException) {
         protocolException.printStackTrace();
