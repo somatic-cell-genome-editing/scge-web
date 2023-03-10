@@ -63,7 +63,8 @@
     <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
         <td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Protocols</a></td>
     <% } %>
-</tr></table>
+</tr>
+</table>
 
 <%if(localProtocols.size()>0){%>
 <table id="myTable-<%=objectId%>" class="tablesorter">
