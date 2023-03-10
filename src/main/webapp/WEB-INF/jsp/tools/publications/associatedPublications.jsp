@@ -1,5 +1,7 @@
-
-
+<%@ page import="edu.mcw.scge.datamodel.publications.Publication" %>
+<%
+    List<Publication> associatedPublications= (List<Publication>) request.getAttribute("associatedPublications");
+%>
 
 
 <script>
@@ -19,9 +21,10 @@
     }
 
 </script>
-<c:if test="${fn:length(associatedPublications)>0}">
+<% if(associatedPublications.size()>0 || access.isAdmin(p)){ %>
 <hr>
-</c:if >
+<%}%>
+
 <table width="95%">
     <tr><td>
 <c:if test="${fn:length(associatedPublications)>0}">
