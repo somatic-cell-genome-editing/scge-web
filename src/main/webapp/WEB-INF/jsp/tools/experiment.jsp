@@ -327,10 +327,6 @@ ExperimentResultDetail detail = experimentResults.get(0);
     </tr>
 </table>
 
-<div id="associatedProtocols">
-    <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
-</div>
-
 <%objectId = experimentRecord.getExperimentId();%>
 
 <div id="associatedProtocols">
