@@ -21,13 +21,13 @@
     }
 
 </script>
-<% if(associatedPublications.size()>0 || access.isAdmin(p)){ %>
+<% if(associatedPublications!=null && associatedPublications.size()>0 || access.isAdmin(p)){ %>
 <hr>
 <%}%>
 
 <table width="95%">
     <tr><td>
-<c:if test="${fn:length(associatedPublications)>0}">
+<c:if test="${associatedPublications!=null && fn:length(associatedPublications)>0}">
         <h4 class="page-header" style="color:grey;">Associated Publications</h4>
 </c:if></td>
         <% if (access.isAdmin(p)) { %>
@@ -36,7 +36,7 @@
 </tr>
 </table>
 <c:choose>
-    <c:when test="${fn:length(associatedPublications)>0}">
+    <c:when test="${associatedPublications!=null && fn:length(associatedPublications)>0}">
         <table  id="myTable-pub" class="tablesorter">
             <thead>
             <tr>
@@ -66,7 +66,7 @@
 
     </c:when>
 </c:choose>
-<c:if test="${fn:length(relatedPublications)>0}">
+<c:if test="${relatedPublications!=null && fn:length(relatedPublications)>0}">
 <hr>
 <%@include file="relatedPublications.jsp"%>
 </c:if>
