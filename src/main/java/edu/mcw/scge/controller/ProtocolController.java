@@ -24,9 +24,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -134,10 +132,23 @@ public class ProtocolController extends ObjectController{
             return null;
 
         }
-
+        ProtocolAssociation protocolAssociation=protocolDao.getProtocolAssociations(protocol.getId());
+        List<Study> studies=protocolAssociation.getAssociatedStudies();
+        if(studies!=null && studies.size()>0) {
+            List<ExperimentRecord> experimentRecords=new ArrayList<>();
+            if(protocolAssociation.getAssociatedExperiments()!=null){
+                for(Experiment experiment:protocolAssociation.getAssociatedExperiments()){
+                    List<ExperimentRecord> records=experimentDao.getExperimentRecords(experiment.getExperimentId());
+                    experimentRecords.addAll(records);
+                }
+            }
+            mapProjectNExperiments(experimentRecords, req);
+        }
+        req.setAttribute("summaryBlocks", getSummary(protocol));
         req.setAttribute("crumbTrail",   "hello world");
-
         req.setAttribute("protocol", protocol);
+        req.setAttribute("protocolAssociations", protocolAssociation);
+        req.setAttribute("studies", studies);
         req.setAttribute("action","Protocol: " + protocol.getTitle());
         req.setAttribute("page", "/WEB-INF/jsp/tools/protocol");
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/protocols/search'>Protocols</a>");
@@ -234,5 +245,31 @@ public class ProtocolController extends ObjectController{
         return "redirect:" + "/data/protocols/protocol?id="+protocolId;
         //req.getRequestDispatcher("/data/protocols/protocol?id="+protocolId).forward(req,res);
     }
+    public  Map<String, Map<String, String>> getSummary(Protocol protocol){
+        Map<String, Map<String, String>> summaryBlocks=new LinkedHashMap<>();
 
+        Map<String, String> summary=new LinkedHashMap<>();
+        int i=0;
+        summary.put("SCGE ID", String.valueOf(protocol.getId()));
+        if(protocol.getTitle()!=null && !protocol.getTitle().equals(""))
+            summary.put("Title", protocol.getTitle());
+        if(protocol.getDescription()!=null && !protocol.getDescription().equals(""))
+            summary.put("Description", protocol.getDescription());
+            summary.put("Tier", String.valueOf(protocol.getTier()));
+        if(protocol.getFilename()!=null && !protocol.getFilename().equals("")) {
+            String fileDownload="<a href='/toolkit/files/protocol/"+protocol.getFilename()+"'>"+protocol.getFilename()+"</a>";
+            summary.put("File Download", fileDownload);
+        }
+        if(protocol.getXref()!=null && !protocol.getXref().equals(""))
+            summary.put("Additional Information", protocol.getXref());
+        if(protocol.getKeywords()!=null && !protocol.getKeywords().equals(""))
+            summary.put("Keywords", protocol.getKeywords());
+        if(summary.size()>0) {
+            summaryBlocks.put("block"+i, summary);
+            i++;
+            summary=new LinkedHashMap<>();
+        }
+
+        return summaryBlocks;
+    }
 }
