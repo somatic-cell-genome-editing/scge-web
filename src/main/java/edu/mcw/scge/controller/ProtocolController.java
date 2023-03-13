@@ -148,6 +148,8 @@ public class ProtocolController extends ObjectController{
         req.setAttribute("crumbTrail",   "hello world");
         req.setAttribute("protocol", protocol);
         req.setAttribute("protocolAssociations", protocolAssociation);
+        req.setAttribute("associatedPublications", protocolAssociation.getAssociatedPublications());
+        req.setAttribute("relatedPublications", protocolAssociation.getRelatedPublications());
         req.setAttribute("studies", studies);
         req.setAttribute("action","Protocol: " + protocol.getTitle());
         req.setAttribute("page", "/WEB-INF/jsp/tools/protocol");
