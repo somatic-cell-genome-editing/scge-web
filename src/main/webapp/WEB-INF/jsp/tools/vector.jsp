@@ -38,7 +38,6 @@
 
     <a href="#summary">Summary</a>
 
-    <a href="#associatedProtocols">Protocols</a>
 
     <a href="#associatedStudies">Projects & Experiments</a>
     <!--a href="#publications">Related Publications</a-->
