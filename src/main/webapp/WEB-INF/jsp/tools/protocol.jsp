@@ -28,7 +28,7 @@
 
 
 <%  Protocol protocol = (Protocol) request.getAttribute("protocol");
-    ProtocolAssociation protocolAssociation= (ProtocolAssociation) request.getAttribute("protocolAssociation");
+    ProtocolAssociation protocolAssociation= (ProtocolAssociation) request.getAttribute("protocolAssociations");
     Access access= new Access();
     Person p = access.getUser(request.getSession());
     if (access.isAdmin(p)) {
