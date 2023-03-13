@@ -20,7 +20,6 @@
 
 <div class="col-md-2 sidenav bg-light">
     <a href="#summary">Summary</a>
-    <a href="#associatedProtocols">Protocols</a>
     <a href="#associatedStudies">Projects & Experiments</a>
 </div>
 <main role="main" class="col-md-10 ml-sm-auto px-4"  >
