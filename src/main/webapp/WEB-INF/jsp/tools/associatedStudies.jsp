@@ -119,7 +119,7 @@
             <td>
 
 
-                    <a href="https://reporter.nih.gov/project-details/<%=grant.getCurrentGrantNumber()%>" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
+                    <a href="<%=grant.getNihReporterLink()%>" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
 
             </td>
         </tr>

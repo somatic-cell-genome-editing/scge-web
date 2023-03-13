@@ -129,7 +129,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("action","Project: " + grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantTitle());
         req.setAttribute("projectDescription", grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getDescription());
         req.setAttribute("grantNumber", grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getGrantNumber());
-
+        req.setAttribute("nihReporterLink", grantDao.getGrantByGroupId (studies.get(0).getGroupId()).getNihReporterLink());
         req.setAttribute("page", "/WEB-INF/jsp/tools/experiments");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
