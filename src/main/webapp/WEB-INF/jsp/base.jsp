@@ -140,8 +140,8 @@
                             </c:choose>
                         </c:forEach>
                         </c:if>
-                        <c:if test="${grantNumber!=null}">
-                            <a href="https://reporter.nih.gov/project-details/${grantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
+                        <c:if test="${nihReporterLink!=null}">
+                            <a href="${nihReporterLink}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
                         </c:if>
                     </small>
 
