@@ -7,6 +7,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.RestHighLevelClientBuilder;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,10 +19,12 @@ public class ESClient {
 
     public static RestHighLevelClient init(){
         if(client==null) {
-         try(InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties")){
-                Properties props= new Properties();
-                props.load(input);
+         try{
+
                 if(SCGEContext.isProduction() || SCGEContext.isTest()){
+;                   InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties");
+                    Properties props= new Properties();
+                    props.load(input);
                     String HOST1 = (String) props.get("HOST1");
                     String HOST2 = (String) props.get("HOST2");
                     String HOST3 = (String) props.get("HOST3");
@@ -29,7 +32,7 @@ public class ESClient {
                     String HOST5 = (String) props.get("HOST5");
                     //    String VARIANTS_HOST= (String) props.get("HOST1");
                     int port = Integer.parseInt((String) props.get("PORT"));
-                    client = new RestHighLevelClient(
+                    client = new RestHighLevelClientBuilder(
                             RestClient.builder(
                                     new HttpHost(HOST1, port, "http"),
                     new HttpHost(HOST2, port, "http"),
@@ -48,14 +51,14 @@ public class ESClient {
                                         }
 
                                     }
-                            )
-                    );
+                            ).build()
+                    ).setApiCompatibilityMode(true).build();
                 }else {
-                    String VARIANTS_HOST = (String) props.get("DEV_HOST");
-                    int port = Integer.parseInt((String) props.get("PORT"));
-                    client = new RestHighLevelClient(
+                    String DEV_HOST = "travis.rgd.mcw.edu";
+                    int port = 9200;
+                    client = new RestHighLevelClientBuilder(
                             RestClient.builder(
-                                    new HttpHost(VARIANTS_HOST, port, "http")
+                                    new HttpHost(DEV_HOST, port, "http")
                             ).setRequestConfigCallback(
                                     new RestClientBuilder.RequestConfigCallback() {
                                         @Override
@@ -68,8 +71,8 @@ public class ESClient {
                                         }
 
                                     }
-                            )
-                    );
+                            ).build()
+                    ).setApiCompatibilityMode(true).build();
                 }
             }catch (Exception e){
                 e.printStackTrace();
