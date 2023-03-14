@@ -77,16 +77,16 @@ dependencies {
     compile group: 'jexcelapi', name: 'jxl', version: '2.4.2'
 // https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api
     compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0'
-    compile group: 'org.elasticsearch', name: 'elasticsearch', version: '7.1.0'
+    implementation group: 'org.elasticsearch', name: 'elasticsearch', version: '7.17.4'
 
     //   compile group: 'org.elasticsearch.client', name: 'transport', version: '6.4.0'
     // https://mvnrepository.com/artifact/org.elasticsearch.client/transport
-    compile group: 'org.elasticsearch.client', name: 'transport', version: '7.1.0'
+    implementation group: 'org.elasticsearch.client', name: 'transport', version: '7.17.4'
 // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-client
-    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: '7.1.0'
+    implementation group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: '7.17.4'
 
 // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client
-    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.1.0'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.4'
 
     //     compile group: 'org.apache.lucene', name: 'lucene-core', version: '7.4.0'
     // https://mvnrepository.com/artifact/org.apache.lucene/lucene-core
