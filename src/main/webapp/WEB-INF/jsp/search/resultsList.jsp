@@ -179,7 +179,9 @@
                     </c:if>
                 </c:if>
                     <c:if test="${hit.sourceAsMap.currentGrantNumber!=null}">
-                        <a href="https://reporter.nih.gov/project-details/${hit.sourceAsMap.currentGrantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
+                        <!--a href="https://reporter.nih.gov/project-details/$-{hit.sourceAsMap.currentGrantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a-->
+                        <a href="${hit.sourceAsMap.nihReporterLink}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
+
                     </c:if>
 
                 </small>
