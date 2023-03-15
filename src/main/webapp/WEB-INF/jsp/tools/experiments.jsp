@@ -31,13 +31,14 @@
     }
 
     .scge-details-label {
-        color: #2a6496;
+        color: black;
         font-weight: bold;
     }
 
     table tr, table tr td {
         background-color: transparent;
     }
+
 </style>
 <script>
     $(function () {
@@ -63,8 +64,51 @@
         Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
         if (request.getAttribute("experimentsValidatedMap") != null)
             experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
-
+        boolean isProcessed=false;
+        int totalExperiments=0;
         for (Map.Entry entry : studyExperimentMap.entrySet()) {
+            List<Experiment> experiments = (List<Experiment>) entry.getValue();
+            if(experiments.size()>0){
+                isProcessed=true;
+                totalExperiments+=experiments.size();
+            }
+        }
+        if(isProcessed){
+%>
+
+    <div class="card" style="margin-bottom: 10px">
+        <div class="card-header">
+            <span style="font-weight: bold">Summary of data submissions:</span>
+
+        </div>
+        <div class="card-body">
+    <ul>
+    <%
+        for (Map.Entry entry : studyExperimentMap.entrySet()) {
+            Study study = ((Study) entry.getKey());
+            String validation="";
+            if(study.getIsValidationStudy()==1)
+                validation+="validation";
+            if(study.getIsValidationStudy()!=1 && (study.getGroupId()==1410 || study.getGroupId()==1412))
+                validation+="new model";
+            List<Experiment> experiments = (List<Experiment>) entry.getValue();
+            if(experiments.size()>0){
+            %>
+
+        <li>
+           Data for <%=experiments.size()%>&nbsp;<%=validation%> experiments were submitted on <%=study.getSubmissionDate()%>&nbsp;<span style="font-weight: bold"><a href="#<%=study.getStudyId()%>">SCGE ID:<%=study.getStudyId()%></a></span>
+        </li>
+
+       <% }} if(validationExperimentsMap.size()>0){%>
+        <li><%=validationExperimentsMap.size()%> of <%=totalExperiments%> experiments have been validated</li>
+        <%}%>
+    </ul>
+        </div>
+
+    </div>
+    <%}%>
+    <div class="card-header" style="margin-bottom: 10px"><span style="font-weight: bold">Submissions Details:</span></div>
+    <%    for (Map.Entry entry : studyExperimentMap.entrySet()) {
             Study study = ((Study) entry.getKey());
             List<Experiment> experiments = (List<Experiment>) entry.getValue();
 
@@ -83,7 +127,7 @@
          style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
 
-    <div class="container-fluid bg-light shadow p-3 mb-5 bg-white rounded">
+    <div class="container-fluid bg-light shadow p-3 mb-5 bg-white rounded" id="<%=study.getStudyId()%>">
 
         <div class="container-fluid" style="margin-top: 1%;">
 
@@ -143,10 +187,10 @@
                     <tr>
                         <!--<th>Tier</th>-->
 
-                        <th>Experiment Name</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                        <th></th>
+                        <th style="width: 300px">Experiment Name</th>
+                        <th style="width: 100px;">Type</th>
+                        <th style="width: 500px">Description</th>
+                        <!--th class="project-page-details-table"></th-->
                         <!--<th>SCGE ID</th>-->
                     </tr>
                     </thead>
@@ -161,15 +205,13 @@
                     <tr>
                         <!--<td width="10"><%=s.getTier()%>-->
 
-                        <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>">
+                        <td class="project-page-details-table experiment-name"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>">
                             <%=exp.getName()%></a><br>
                             <%@include file="validations.jsp"%>
                         </td>
-                        <td style="white-space: nowrap"><%=exp.getType()%>
+                        <td class="project-page-details-table experiment-type" style="white-space: nowrap"><%=exp.getType()%>
                         </td>
-                        <td><%=SFN.parse(exp.getDescription())%><br>
-
-                        </td>
+                        <td class="project-page-details-table experiment-description"><%=SFN.parse(exp.getDescription())%></td>
                         <!--<td><%=exp.getExperimentId()%></td>-->
 
 

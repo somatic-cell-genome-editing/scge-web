@@ -39,7 +39,7 @@
     Person localExpPerson = new UserService().getCurrentUser(request.getSession());
     List<Study> studies = (List<Study>)request.getAttribute("studies");
     Map<Integer, List<Experiment>> projectNexperiments= (Map<Integer, List<Experiment>>) request.getAttribute("studyExperimentsMap");
-    if (studies.size() > 0) {
+    if (studies!=null && studies.size() > 0) {
     %>
 <hr>
 <h4 class="page-header" style="color:grey;">Projects & Experiments</h4> This <%=request.getAttribute("action")%> is being used

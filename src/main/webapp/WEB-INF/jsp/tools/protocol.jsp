@@ -1,7 +1,7 @@
-<%@ page import="edu.mcw.scge.datamodel.Model" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
-<%@ page import="edu.mcw.scge.datamodel.Protocol" %>
+<%@ page import="edu.mcw.scge.datamodel.*" %>
+<%@ page import="java.util.Vector" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -27,17 +27,14 @@
 </script>
 
 
-<% Protocol p = (Protocol) request.getAttribute("protocol"); %>
-
-
-<%
+<%  Protocol protocol = (Protocol) request.getAttribute("protocol");
+    ProtocolAssociation protocolAssociation= (ProtocolAssociation) request.getAttribute("protocolAssociations");
     Access access= new Access();
-    Person person = access.getUser(request.getSession());
-
-    if (access.isAdmin(person)) {
+    Person p = access.getUser(request.getSession());
+    if (access.isAdmin(p)) {
 %>
 
-<div align="right"><a href="/toolkit/data/protocols/edit?id=<%=p.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
+<div align="right"><a href="/toolkit/data/protocols/edit?id=<%=protocol.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
 <% } %>
 
 <div class="col-md-2 sidenav bg-light">
@@ -52,37 +49,9 @@
 
 </div>
 <main role="main" class="col-md-10 ml-sm-auto px-4"  >
-    <div id="summary">
-        <h4 class="page-header" style="color:grey;">Summary</h4>
-
-        <div class="d-flex bg-light" >
-
-        <table  style="width:100%">
-            <tr ><td class="header" valign="top">Title</td><td><%=p.getTitle()%></td></tr>
-            <tr><td class="header"  valign="top">Description</td><td><%=p.getDescription()%></td></tr>
-            <tr><td class="header" valign="top">Tier</td><td><%=p.getTier()%></td></tr>
-            <tr><td class="header" valign="top">File Download</td><td><a href="/toolkit/files/protocol/<%=p.getFilename()%>"><%=p.getFilename()%></a></td></tr>
-            <tr><td class="header" valign="top">Additional Information</td><td><%=p.getXref()%></td></tr>
-            <tr><td class="header" valign="top">Keywords</td><td><%=p.getKeywords()%></td></tr>
-        </table>
-
-
-
-            <div class="ml-auto col-3" style="margin-right: 5%">
-
-                <div class="card">
-                    <div class="card-body">
-                        <table >
-                            <tr ><th class="scge-details-label"><%=p.getId()%></th></tr>
-
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <%@include file="summary.jsp"%>
 <%
-    long objectId = p.getId();
+    long objectId = protocol.getId();
     String redirectURL = "/data/protocols/protocol?id=" + objectId;
     String bucket="main1";
 
@@ -97,5 +66,66 @@
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 <% bucket="main5"; %>
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
+    <div>
+        <%if(protocolAssociation!=null){
+            if(protocolAssociation.getAssociatedEditors()!=null && protocolAssociation.getAssociatedEditors().size()>0){%>
+            <h4 class="page-header" style="color:grey;">Associated Editors</h4>
+            <ul>
+            <%for(Editor editor:protocolAssociation.getAssociatedEditors()){%>
+                <li><a href="/toolkit/data/editors/editor?id=<%=editor.getId()%>"><%=editor.getSymbol()%></a></li>
+           <%}%>
+            </ul>
+            <%}}%>
+    </div>
+    <div>
+        <%if(protocolAssociation!=null){
+            if(protocolAssociation.getAssociatedGuides()!=null && protocolAssociation.getAssociatedGuides().size()>0){%>
+        <h4 class="page-header" style="color:grey;">Associated Guides</h4>
+        <ul>
+            <%for(Guide guide:protocolAssociation.getAssociatedGuides()){%>
+            <li><a href="/toolkit/data/guide/system?id=<%=guide.getGuide_id()%>"><%=guide.getGuide()%></a></li>
+            <%}%>
+        </ul>
+        <%}}%>
+    </div>
+    <div>
+        <%if(protocolAssociation!=null){
+            if(protocolAssociation.getAssociatedModels()!=null && protocolAssociation.getAssociatedModels().size()>0){%>
+        <h4 class="page-header" style="color:grey;">Associated Models</h4>
+        <ul>
+            <%for(Model model:protocolAssociation.getAssociatedModels()){%>
+            <li><a href="/toolkit/data/models/model/?id=<%=model.getModelId()%>"><%=model.getDisplayName()%>&nbsp;(<%=model.getName()%>)</a></li>
+            <%}%>
+        </ul>
+        <%}}%>
+    </div>
+    <div>
+        <%if(protocolAssociation!=null){
+            if(protocolAssociation.getAssociatedDeliverySystems()!=null && protocolAssociation.getAssociatedDeliverySystems().size()>0){%>
+        <h4 class="page-header" style="color:grey;">Associated Delivery Systems</h4>
+        <ul>
+            <%for(Delivery delivery:protocolAssociation.getAssociatedDeliverySystems()){%>
+            <li><a href="/toolkit/data/delivery/system?id=<%=delivery.getId()%>"><%=delivery.getName()%></a></li>
+            <%}%>
+        </ul>
+        <%}}%>
+    </div>
+    <div>
+        <%if(protocolAssociation!=null){
+            if(protocolAssociation.getAssociatedVectors()!=null && protocolAssociation.getAssociatedVectors().size()>0){%>
+        <h4 class="page-header" style="color:grey;">Associated Vectors</h4>
+        <ul>
+            <%for(edu.mcw.scge.datamodel.Vector vector:protocolAssociation.getAssociatedVectors()){%>
+            <li><a href="/toolkit/data/vector/format?id=<%=vector.getVectorId()%>"><%=vector.getName()%></a></li>
+            <%}%>
+        </ul>
+        <%}}%>
+    </div>
+    <div id="associatedPublications">
+        <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+    </div>
 
+    <div id="associatedStudies">
+        <jsp:include page="associatedStudies.jsp"/>
+    </div>
 </main>
