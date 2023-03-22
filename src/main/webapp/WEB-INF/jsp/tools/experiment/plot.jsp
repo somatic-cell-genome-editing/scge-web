@@ -18,12 +18,9 @@
         color: red;
     }
 
-
-
     .inline{
         display: flex;
     }
-
     .spinner i{
         margin-top: 10px;
         margin-left: 50px;
