@@ -371,6 +371,17 @@
             document.getElementById("resultChart<%=c%>").style.display = "block";
         }
         <%c++;}%>
+        if (document.readyState !== "complete") {
+            document.querySelector(
+                "body").style.visibility = "hidden";
+            document.querySelector(
+                "#spinner").style.visibility = "visible";
+        } else {
+            document.querySelector(
+                "#spinner").style.display = "none";
+            document.querySelector(
+                "body").style.visibility = "visible";
+        }
     }
     function sortByValues(sortedValues, arrayOfObj) {
         var sortedObjArray=[];

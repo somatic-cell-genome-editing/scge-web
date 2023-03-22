@@ -11,7 +11,29 @@
 <%@ page import="java.util.Map" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<style>
+    #spinner   {
 
+        animation: spin 1s linear infinite;
+        color: red;
+    }
+
+
+
+    .inline{
+        display: flex;
+    }
+
+    .spinner i{
+        margin-top: 10px;
+        margin-left: 50px;
+
+
+    }
+</style>
+<div>
+    <p class="spinner" id="spinner">Loading...<i class="fa fa-spinner fa-spin" style="font-size:24px;color:dodgerblue"></i></p>
+</div>
 <script>
     colorPalette = [
         'rgba(230, 159, 0, 0.5)', 'rgba(86, 180, 233, 0.5)', 'rgba(0, 158, 115, 0.5)', 'rgba(240, 228, 66, 0.5)',
@@ -427,6 +449,8 @@
 <script>
 
     feather.replace()
+
+
 </script>
 
 
