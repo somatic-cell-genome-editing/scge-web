@@ -699,7 +699,8 @@
 
         document.getElementById("charts").style.visibility="visible"
 
-
+        document.querySelector(
+            "#spinner").style.display = "none";
 
     }
     function graphUnit(unit) {
