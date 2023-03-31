@@ -977,6 +977,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("tissuesTarget",tissuesTarget);
         req.setAttribute("tissuesNonTarget",tissuesNonTarget);
         req.setAttribute("conditions",conditions);
+        if(tissues.size()>0){
+            req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>/ <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Project</a> / <a href='/toolkit/data/experiments/experiment/"+experimentId + "'>Experiment Overview</a>");
+
+        }else
         req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>  / <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Project</a>");
 
         req.setAttribute("study", localStudy);
