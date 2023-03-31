@@ -9,6 +9,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
 <%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
+<%@ page import="edu.mcw.scge.web.SCGEContext" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -133,7 +134,7 @@
                 <%}else{%>
         <tr class="header1" style="display:table-row;">
         <%}%>
-        <td><% if (access.canUpdateTier(person,s)){%>
+        <td><% if (access.canUpdateTier(person,s) && !SCGEContext.isTest()){%>
                     <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="/toolkit/edit/access">
                         <div class="col  tiers">
                             <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=tierUpdateMap.get(s.getStudyId())%>"/>
