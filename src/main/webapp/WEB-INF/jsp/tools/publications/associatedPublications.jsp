@@ -30,7 +30,7 @@
 <c:if test="${associatedPublications!=null && fn:length(associatedPublications)>0}">
         <h4 class="page-header" style="color:grey;">Associated Publications</h4>
 </c:if></td>
-        <% if (access.isAdmin(p)) { %>
+        <% if (access.isAdmin(p) && !SCGEContext.isProduction()) { %>
     <td align="right"><a href="/toolkit/data/publications/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Publications</a></td>
 <%}%>
 </tr>
@@ -40,7 +40,7 @@
         <table  id="myTable-pub" class="tablesorter">
             <thead>
             <tr>
-                <% if (access.isAdmin(p)) {  %>
+                <% if (access.isAdmin(p) && !SCGEContext.isProduction()) {  %>
                 <th></th>
                 <% } %>
                 <th>Publication Title</th>
@@ -49,7 +49,7 @@
             <tbody>
             <c:forEach items="${associatedPublications}" var="pub">
                 <tr>
-                    <% if (access.isAdmin(p)) {  %>
+                    <% if (access.isAdmin(p) && !SCGEContext.isProduction()) {  %>
                     <td><a href="/toolkit/data/publications/removeAssociation?objectId=<%=objectId%>&refKey=${pub.reference.key}&redirectURL=<%=redirectURL%>" style="color:white;background-color:red; padding:7px;">Remove</a></td>
                     <% } %>
                     <td><c:set var="pmid" value=""/>

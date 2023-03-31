@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.web.SCGEContext" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -53,7 +54,7 @@
     UserService userService = new UserService();
 %>
 
-<% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
+<% if (access.isAdmin(userService.getCurrentUser(request.getSession())) && !SCGEContext.isProduction()) { %>
 <div align="right"><a href="/toolkit/data/models/edit"><button class="btn btn-primary">Add Model</button></a></div>
 <% } %>
 <table id="myTable" class="table tablesorter table-striped">

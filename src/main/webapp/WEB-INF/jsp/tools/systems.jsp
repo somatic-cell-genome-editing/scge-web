@@ -4,6 +4,7 @@
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
+<%@ page import="edu.mcw.scge.web.SCGEContext" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -52,7 +53,7 @@
         Access access = new Access();
         Person p = access.getUser(request.getSession());
     %>
-        <% if (access.isAdmin(p)) { %>
+        <% if (access.isAdmin(p) && !SCGEContext.isProduction()) { %>
         <div align="right"><a href="/toolkit/data/delivery/edit"><button class="btn btn-primary">Add Delivery System</button></a></div>
         <% } %>
 

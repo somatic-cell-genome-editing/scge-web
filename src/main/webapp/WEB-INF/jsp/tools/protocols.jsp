@@ -6,6 +6,7 @@
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.datamodel.Protocol" %>
+<%@ page import="edu.mcw.scge.web.SCGEContext" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -53,7 +54,7 @@
             Access access = new Access();
             UserService userService = new UserService();
     %>
-        <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
+        <% if (access.isAdmin(userService.getCurrentUser(request.getSession())) && !SCGEContext.isProduction()) { %>
 
         <div align="right"><a href="/toolkit/data/protocols/edit"><button class="btn btn-primary">Add Protocol</button></a></div>
         <% } %>

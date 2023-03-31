@@ -308,7 +308,7 @@
     <tr><td>&nbsp;</td></tr>
     <tr><td><hr></td></tr>
     <tr><td>&nbsp;
-        <%if (access.isAdmin(p)) {%>
+        <%if (access.isAdmin(p) && !SCGEContext.isProduction()) {%>
         <div align="right">
             <form id="updateTargetTissueForm" action="/toolkit/data/experiments/update/experiment/<%=ex.getExperimentId()%>">
                 <input type="hidden" name="experimentRecordIds" id= "experimentRecordIds" value=""/>
@@ -345,7 +345,7 @@
 
         <td width="100">&nbsp;</td><td style="padding-right:5px; border-bottom:1px solid black;border-color:#770C0E; font-size:14px;">
 
-    <% if (access.isAdmin(p)) {
+    <% if (access.isAdmin(p) && !SCGEContext.isProduction()) {
         if (targetTissues2.containsKey(childTerm)) { %>
     <input type="checkbox" name="targetTissue" value="<%=targetTissues2.get(childTerm)%>" checked>
     <% } else { %>

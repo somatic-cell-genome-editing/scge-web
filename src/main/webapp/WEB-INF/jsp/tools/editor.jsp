@@ -15,7 +15,7 @@
     Editor editor = (Editor) request.getAttribute("editor");
     Access access= new Access();
     Person p = access.getUser(request.getSession());
-    if (access.isAdmin(p)) {
+    if (access.isAdmin(p) && !SCGEContext.isProduction()) {
 %>
 <div align="right"><a href="/toolkit/data/editors/edit?id=<%=editor.getId()%>"><button class="btn btn-primary">Edit</button></a></div>
 <% } %>

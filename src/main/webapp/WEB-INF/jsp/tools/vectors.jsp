@@ -5,6 +5,7 @@
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="edu.mcw.scge.web.SCGEContext" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -47,7 +48,7 @@
     UserService userService = new UserService();
 %>
 
-  <% if (access.isAdmin(userService.getCurrentUser(request.getSession()))) { %>
+  <% if (access.isAdmin(userService.getCurrentUser(request.getSession())) && !SCGEContext.isProduction()) { %>
     <div align="right"><a href="/toolkit/data/vector/edit"><button class="btn btn-primary">Add Vector</button></a></div>
 <% } %>
 

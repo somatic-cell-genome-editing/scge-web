@@ -29,7 +29,7 @@
     Access access= new Access();
     Person p = access.getUser(request.getSession());
 
-    if (access.isAdmin(p)) {
+    if (access.isAdmin(p) && !SCGEContext.isProduction()) {
 %>
 
 <div align="right"><a href="/toolkit/data/vector/edit?id=<%=v.getVectorId()%>"><button class="btn btn-primary">Edit</button></a></div>
