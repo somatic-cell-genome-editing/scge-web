@@ -22,7 +22,7 @@
 
     List<Image> images = imageCheckIDao.getImage(objectId,bucket);
 
-      if (imageCheckAccess.isAdmin(imageCheckPerson)) { %>
+      if (imageCheckAccess.isAdmin(imageCheckPerson) && !SCGEContext.isProduction()) { %>
 
         <% if (images.size() == 0) {%>
 
