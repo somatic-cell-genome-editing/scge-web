@@ -2,6 +2,7 @@
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="java.util.Vector" %>
+<%@ page import="edu.mcw.scge.web.SCGEContext" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -31,7 +32,7 @@
     ProtocolAssociation protocolAssociation= (ProtocolAssociation) request.getAttribute("protocolAssociations");
     Access access= new Access();
     Person p = access.getUser(request.getSession());
-    if (access.isAdmin(p)) {
+    if (access.isAdmin(p) && !SCGEContext.isProduction()) {
 %>
 
 <div align="right"><a href="/toolkit/data/protocols/edit?id=<%=protocol.getId()%>"><button class="btn btn-primary">Edit</button></a></div>

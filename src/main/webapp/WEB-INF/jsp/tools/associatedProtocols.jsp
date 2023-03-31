@@ -8,6 +8,7 @@
 <%@ page import="edu.mcw.scge.process.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.Protocol" %>
 <%@ page import="edu.mcw.scge.dao.implementation.ProtocolDao" %>
+<%@ page import="edu.mcw.scge.web.SCGEContext" %>
 
 <%
     try {  //  open scope
@@ -60,7 +61,7 @@
      </h4>
         <%}%>
     </td>
-    <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
+    <% if (localProtocolAccess.isAdmin(localProtocolPerson) && !SCGEContext.isProduction()) {  %>
         <td align="right"><a href="/toolkit/data/protocols/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Protocols</a></td>
     <% } %>
 </tr>
@@ -70,7 +71,7 @@
 <table id="myTable-<%=objectId%>" class="tablesorter">
     <thead>
     <tr>
-        <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
+        <% if (localProtocolAccess.isAdmin(localProtocolPerson) && !SCGEContext.isProduction()) {  %>
             <th></th>
         <% } %>
         <th>Title</th>
@@ -83,7 +84,7 @@
     <% for (Protocol localProtocol: localProtocols) { %>
     <% if (localProtocolAccess.hasProtocolAccess(localProtocol,localProtocolPerson)) { %>
     <tr>
-        <% if (localProtocolAccess.isAdmin(localProtocolPerson)) {  %>
+        <% if (localProtocolAccess.isAdmin(localProtocolPerson) && !SCGEContext.isProduction()) {  %>
             <td><a href="/toolkit/data/protocols/removeAssociation?objectId=<%=objectId%>&protocolId=<%=localProtocol.getId()%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:red; padding:7px;">Remove</a></td>
         <% } %>
         <td><a href="/toolkit/data/protocols/protocol/?id=<%=localProtocol.getId()%>"><%=localProtocol.getTitle()%></a></td>

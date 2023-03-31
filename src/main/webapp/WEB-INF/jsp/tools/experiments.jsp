@@ -10,6 +10,7 @@
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
 <%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
 <%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.scge.web.SCGEContext" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -159,7 +160,7 @@
                         <td>
                             <%
                                 try {
-                                    if(access.isAdmin(p)){%>
+                                    if(access.isAdmin(p) && !SCGEContext.isProduction()){%>
                                     <div><a href="/toolkit/data/experiments/edit?studyId=<%=study.getStudyId()%>"><button style="margin-bottom:15px;" class="btn btn-primary btn-sm">Create&nbsp;Experiment</button></a></div>
                                     <%}
                             } catch (Exception e) {

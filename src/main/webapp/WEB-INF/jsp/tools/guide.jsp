@@ -22,7 +22,7 @@
     List<Guide> synonymousGuides = (List<Guide>) request.getAttribute("synonymousGuides");
     Access access= new Access();
     Person p = access.getUser(request.getSession());
-    if (access.isAdmin(p)) {
+    if (access.isAdmin(p) && !SCGEContext.isProduction()) {
 %>
 
 <div align="right"><a href="/toolkit/data/guide/edit?id=<%=g.getGuide_id()%>"><button class="btn btn-primary">Edit</button></a></div>
