@@ -91,8 +91,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         if(!access.isLoggedIn()) {
             return "redirect:/";
         }
-        List<Publication> publications=getPublication(studies.get(0));
-        req.setAttribute("publications", publications);
+        if(studies.size()>0) {
+            List<Publication> publications = getPublication(studies.get(0));
+            req.setAttribute("publications", publications);
+        }
         LinkedHashMap<Study, List<Experiment>> studyExperimentMap=new LinkedHashMap<>();
         for(Study study:studies) {
             if (access.hasStudyAccess(study, p)) {
