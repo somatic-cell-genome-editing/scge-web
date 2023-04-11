@@ -979,7 +979,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("tissuesTarget",tissuesTarget);
         req.setAttribute("tissuesNonTarget",tissuesNonTarget);
         req.setAttribute("conditions",conditions);
-        if(tissues.size()>0){
+        if(tissues.size()>0 && (tissue!=null || (resultType!=null && resultType.equals("all")))){
             req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a>/ <a href='/toolkit/data/experiments/group/" + localStudy.getGroupId() + "'>Project</a> / <a href='/toolkit/data/experiments/experiment/"+experimentId + "'>Experiment Overview</a>");
 
         }else
@@ -1107,7 +1107,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experiment.getExperimentId()));
 
         req.setAttribute("action", "Experiment Record Detail");
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Project</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "?resultType=all'>Experiment</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Project</a> /<a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment Overview</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "?resultType=all'>Experiment</a>");
 
         req.setAttribute("seoDescription",r.getCondition());
         req.setAttribute("seoTitle",r.getExperimentName());
