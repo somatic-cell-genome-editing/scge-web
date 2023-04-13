@@ -137,7 +137,71 @@
 <div id="mySidenav" class="sidenav">
     <h5 style="margin-left: 20px;">Filter Results .. <i class="fa-solid fa-down"></i></h5>
     <table align="center" border="0" style="margin-left:35px;">
+        <% if (timePointList!=null && timePointList.size() > 0 ) { %>
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td  ><div class="recordFilterTitle">
+                            <% if (timePointList.size() > 1) { %>
+                            <input onchange="applyAllFilters(this, 'checkTimePoint')" id="allTimePoints"  type="checkbox" checked>&nbsp;
+                            <%}%>Time Point</div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="recordFilterBlock">
+                                <table>
+                                    <% for (String timePoint: timePointList) {%>
 
+                                    <tr>
+                                        <td>
+                                            <% if (timePointList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="checkTimePoint" id="<%=timePoint%>" type="checkbox" checked><%}%>&nbsp;<%=timePoint%>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        <% } %>
+        <% if (qualifierList!=null && qualifierList.size() > 0 ) { %>
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td  ><div class="recordFilterTitle">
+                            <% if (qualifierList.size() > 1) { %>
+                            <input onchange="applyAllFilters(this, 'checkqualifier')" id="allQualifiers"  type="checkbox" checked>&nbsp;
+                            <%}%>Qualifier</div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="recordFilterBlock">
+                                <table>
+                                    <% for (String qualifier: qualifierList) {
+                                    %>
+
+                                    <tr>
+                                        <td>
+                                            <% if (qualifierList.size() > 1) { %>
+                                            <input onclick="applyFilters(this)" name="checkqualifier" id="<%=qualifier%>" type="checkbox" checked><%}%>&nbsp;<%=qualifier%>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        <% } %>
         <% if (tissueList!=null && tissueList.size() > 0 ) { %>
         <tr>
             <td valign="top">
@@ -191,6 +255,7 @@
             </td>
         </tr>
         <% } %>
+
 
         <% if (cellTypeList!=null && cellTypeList.size() > 0 ) { %>
         <tr>
