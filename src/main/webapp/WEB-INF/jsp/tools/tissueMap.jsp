@@ -106,22 +106,23 @@
                 targetTissues.add(er.getOrganSystemID());
                 targetTissueRecordIds.add(er.getExperimentRecordId());
 
-                if (er.getCellType() !=null && !er.getCellType().equals("") ) {
+                if (er.getCellType() !=null && !er.getCellType().equals("") || (er.getCellTypeTerm()!=null && !er.getCellTypeTerm().equals("")) ) {
                     targetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
                 }else {
                     targetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
                 }
             }else {
-                if (er.getCellType() !=null && !er.getCellType().equals("") ) {
+                if (er.getCellType() !=null && !er.getCellType().equals("")  || (er.getCellTypeTerm()!=null && !er.getCellTypeTerm().equals(""))) {
                     nonTargetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
                 }else {
                     nonTargetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
                 }
             }
+
             String labelTrimmed = new String();
 
 
-            if (er.getCellTypeTerm() != null && er.getTissueTerm() != null)
+            if (er.getCellTypeTerm() != null  && er.getTissueTerm() != null)
                 labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(), "").trim();
             else if (er.getTissueTerm() != null)
                 labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").trim();
