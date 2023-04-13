@@ -253,7 +253,7 @@
         <td><% if(result!=null && !result.equals("")){%><button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values <%=actualRepCount%>" style="background-color: transparent"><span style="display: none">Result:</span><span style="text-decoration:underline"><%=result%></span><span style="display: none"> | Replicates:</span></button><div style="display: none" id="popover-<%=record.getExperimentRecordId()%><%=popover%>"><div class="popover-body"><%=replicates.toString()%></div></div><%}%></td>
         <%popover++;}%>
         <%
-            List<Image> images = ImageCache.getInstance().getImage(record.getExperimentRecordId(),"main1");
+            List<Image> images =ImageCache.getInstance().getImage(record.getExperimentRecordId(),"main1");
             if (images.size() > 0) {
         %>
         <td align="center">

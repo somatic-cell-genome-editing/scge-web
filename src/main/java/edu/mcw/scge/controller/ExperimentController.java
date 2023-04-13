@@ -570,7 +570,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("timePoint")!=null){
                     timePoint.addAll(columnMap.get("timePoint"));
                 }
-                timePoint.add(record.getTissueTerm());
+                timePoint.add(record.getTimePoint());
                 columnMap.put("timePoint", new ArrayList<>(timePoint));
             }
             if(record.getTissueTerm()!=null && !record.getTissueTerm().equals("")) {
