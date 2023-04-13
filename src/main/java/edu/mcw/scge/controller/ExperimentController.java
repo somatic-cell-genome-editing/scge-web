@@ -557,6 +557,22 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
     public  Map<String, List<String>> getTableColumns(List<ExperimentRecord> records){
         Map<String, List<String>> columnMap=new HashMap<>();
         for(ExperimentRecord record:records){
+            if(record.getQualifier()!=null && !record.getQualifier().equals("")) {
+                Set<String> qualifier= new HashSet<>();
+                if(columnMap.get("qualifier")!=null){
+                    qualifier.addAll(columnMap.get("qualifier"));
+                }
+                qualifier.add(record.getQualifier());
+                columnMap.put("qualifier", new ArrayList<>(qualifier));
+            }
+            if(record.getTimePoint()!=null && !record.getTimePoint().equals("")) {
+                Set<String> timePoint= new HashSet<>();
+                if(columnMap.get("timePoint")!=null){
+                    timePoint.addAll(columnMap.get("timePoint"));
+                }
+                timePoint.add(record.getTissueTerm());
+                columnMap.put("timePoint", new ArrayList<>(timePoint));
+            }
             if(record.getTissueTerm()!=null && !record.getTissueTerm().equals("")) {
                 Set<String> tissueTerm= new HashSet<>();
                 if(columnMap.get("tissueTerm")!=null){
