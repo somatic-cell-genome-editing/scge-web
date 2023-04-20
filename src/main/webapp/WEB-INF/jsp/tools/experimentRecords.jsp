@@ -127,7 +127,10 @@
                 List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
                 List<String> guideTargetLocusList=edao.getExperimentRecordGuideTargetLocusList(ex.getExperimentId());
                 List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
-                List<String> cellTypeList =  tableColumns.get("cellTypeTerm");;
+                List<String> cellTypeList =  tableColumns.get("cellTypeTerm");
+                List<String> qualifierList =  tableColumns.get("qualifier");
+                List<String> timePointList =  tableColumns.get("timePoint");
+
                 List<String> sexList = edao.getExperimentRecordSexList(ex.getExperimentId());
                 List<String> hrdonorList = edao.getExperimentRecordHrdonorList(ex.getExperimentId());
                 List<String> tissues = (List<String>)request.getAttribute("tissues");

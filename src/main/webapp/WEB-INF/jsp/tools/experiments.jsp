@@ -109,7 +109,8 @@
     </div>
     <%}%>
     <div class="card-header" style="margin-bottom: 10px"><span style="font-weight: bold">Submissions Details:</span></div>
-    <%    for (Map.Entry entry : studyExperimentMap.entrySet()) {
+    <%  int count=1;
+        for (Map.Entry entry : studyExperimentMap.entrySet()) {
             Study study = ((Study) entry.getKey());
             List<Experiment> experiments = (List<Experiment>) entry.getValue();
 
@@ -254,20 +255,20 @@
                 <%
                     long objectId = study.getStudyId();
                     String redirectURL = "/data/experiments/study/" + objectId;
-                    String bucket = "main1";
+                    String bucket = "main1_" + count;
                 %>
                 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
-                <% bucket = "main2"; %>
+                <% bucket = "main2_"+count; %>
                 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
-                <% bucket = "main3"; %>
+                <% bucket = "main3_" + count; %>
                 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
-                <% bucket = "main4"; %>
+                <% bucket = "main4_" + count; %>
                 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
-                <% bucket = "main5"; %>
+                <% bucket = "main5_" + count; %>
                 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
-                <% bucket = "main6"; %>
+                <% bucket = "main6_" + count; %>
                 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp" %>
-
+                <% count++; %>
 
             </div>
         </div>

@@ -75,7 +75,12 @@
     <tr>
         <th style="display: none">Record Id</th>
         <th>Condition</th>
-
+        <c:if test="${tableColumns.timePoint!=null}">
+            <th>Time Point</th>
+        </c:if>
+        <c:if test="${tableColumns.qualifier!=null}">
+            <th>Qualifier</th>
+        </c:if>
         <c:if test="${tableColumns.tissueTerm!=null}">
         <th>Tissue</th>
         </c:if>
@@ -143,7 +148,20 @@
 
         <td style="display: none"><%=record.getExperimentRecordId()%></td>
         <td><a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><%=record.getExperimentRecordName()%></a></td>
-
+        <c:if test="${tableColumns.timePoint!=null}">
+            <td style="border:<%=border%>">
+                <% if(record.getTimePoint()!=null){%>
+                <%=record.getTimePoint()%>
+            <%}%>
+            </td>
+        </c:if>
+        <c:if test="${tableColumns.qualifier!=null}">
+            <td style="border:<%=border%>">
+                <% if(record.getQualifier()!=null){%>
+                <%=record.getQualifier()%>
+                <%}%>
+            </td>
+        </c:if>
         <c:if test="${tableColumns.tissueTerm!=null}">
         <td style="border:<%=border%>"><%=record.getTissueTerm()%></td>
         </c:if>
@@ -235,7 +253,7 @@
         <td><% if(result!=null && !result.equals("")){%><button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values <%=actualRepCount%>" style="background-color: transparent"><span style="display: none">Result:</span><span style="text-decoration:underline"><%=result%></span><span style="display: none"> | Replicates:</span></button><div style="display: none" id="popover-<%=record.getExperimentRecordId()%><%=popover%>"><div class="popover-body"><%=replicates.toString()%></div></div><%}%></td>
         <%popover++;}%>
         <%
-            List<Image> images = ImageCache.getInstance().getImage(record.getExperimentRecordId(),"main1");
+            List<Image> images =ImageCache.getInstance().getImage(record.getExperimentRecordId(),"main1");
             if (images.size() > 0) {
         %>
         <td align="center">
