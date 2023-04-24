@@ -179,10 +179,10 @@
             <td><%if(record.getHrdonorId()>0){%><a href="/toolkit/data/hrdonors/hrdonor?id=<%=record.getHrdonorId()%>"><%=record.getHrdonorName()%></a><%}%></td>
         </c:if>
         <c:if test="${tableColumns.modelDisplayName!=null}">
-            <%if(record.getModelId()>0 && record.getModelDisplayName()!=null && !record.getModelDisplayName().equals("")){%>
-            <td><a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelDisplayName()%></a></td>
+            <td><%if(record.getModelId()>0 && record.getModelDisplayName()!=null && !record.getModelDisplayName().equals("")){%>
+            <a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelDisplayName()%></a>
             <%}else{ if(record.getModelName()!=null && !record.getModelName().equals("") && record.getModelId()>0){%>
-                <td><a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelName()%></a><%}}%></td>
+            <a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelName()%></a><%}}%></td>
         </c:if>
         <c:if test="${tableColumns.deliverySystemName!=null}">
             <td><%if(record.getDeliverySystemId()>0){%><a href="/toolkit/data/delivery/system?id=<%=record.getDeliverySystemId()%>"><%=record.getDeliverySystemName()%></a><%}%></td>
