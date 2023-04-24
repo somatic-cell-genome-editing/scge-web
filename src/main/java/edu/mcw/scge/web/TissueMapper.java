@@ -122,15 +122,16 @@ public class TissueMapper {
     public void addEditing(String tissue, String childTerm,String url) {
 
         LinkedHashMap<String,String> children = editing.get(tissue);
-
-        children.put(childTerm,url);
-        editing.put(tissue,children);
+        if( children!=null ) {
+            children.put(childTerm, url);
+            editing.put(tissue, children);
+        }
 
         LinkedHashMap<String,String> childs = childTerms.get(tissue);
-
-        childs.put(childTerm,url);
-        childTerms.put(tissue,childs);
-
+        if( childs!=null ) {
+            childs.put(childTerm, url);
+            childTerms.put(tissue, childs);
+        }
     }
 
     public void addDelivery(String tissue, String childTerm, String url) {
