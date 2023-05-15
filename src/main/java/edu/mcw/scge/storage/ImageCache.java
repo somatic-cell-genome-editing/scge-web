@@ -42,14 +42,18 @@ public class ImageCache {
 
     public List<Image> getImage(Long id, String bucket) throws Exception{
         if (this.imageMap.containsKey(id + "_" + bucket)) {
+            System.out.println("found in cached for " + id);
             return this.imageMap.get(id + "_" + bucket);
         }else {
+            System.out.println("getting from the DB");
             return new ImageDao().getImage(id,bucket);
         }
     }
 
 
     public void load() throws Exception{
+        System.out.println("starting load")
+
         ImageDao idao = new ImageDao();
         ExperimentDao edao = new ExperimentDao();
 
@@ -70,6 +74,7 @@ public class ImageCache {
 
             }
         }
+        System.out.println("load Complete");
     }
 
 }
