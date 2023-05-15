@@ -147,7 +147,7 @@ public class FileUploadController {
 	@RequestMapping(value = "/store/{oid}/{bucket}/{filename}.{ext}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<byte[]>  getImageAsByteArray(HttpServletRequest req, HttpServletResponse res,@PathVariable String oid,@PathVariable String bucket,@PathVariable String filename,@PathVariable String ext) throws Exception {
-		System.out.println("im in get image as bytes");
+//		System.out.println("im in get image as bytes");
 
 		//UserService userService=new UserService();
 		//Access access= new Access();
