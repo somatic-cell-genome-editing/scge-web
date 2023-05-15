@@ -261,7 +261,9 @@
         </td>
         <%popover++;}%>
         <%
+            System.out.println("about to get image from cache");
             List<Image> images =ImageCache.getInstance().getImage(record.getExperimentRecordId(),"main1");
+            System.out.println(images.size());
             if (images.size() > 0) {
         %>
         <td align="center">
