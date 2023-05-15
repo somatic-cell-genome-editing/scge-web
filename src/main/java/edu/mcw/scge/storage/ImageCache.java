@@ -68,6 +68,7 @@ public class ImageCache {
             List<ExperimentRecord> records = edao.getExperimentRecords(myId);
 
             for (ExperimentRecord record : records) {
+                System.out.println("loading " + record.getExperimentRecordId());
                 byte[] media = idao.getImageBytes(record.getExperimentRecordId(), "main1", ImageDao.WIDE_700);
                 this.imageByteMap.put(record.getExperimentRecordId() + "_" + "main1" + "_" + ImageDao.WIDE_700, media);
                 this.imageMap.put(record.getExperimentRecordId() + "_" + "main1", idao.getImage(record.getExperimentRecordId()));
