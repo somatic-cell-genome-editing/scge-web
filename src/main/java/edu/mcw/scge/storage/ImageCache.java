@@ -31,9 +31,11 @@ public class ImageCache {
 
     public byte[] getImageBytes(long experimentRecordId, String bucket, int type) throws Exception{
         if (this.imageByteMap.containsKey(experimentRecordId + "_" + bucket + "_" + type)) {
+            System.out.println("getting from the cache for " + experimentRecordId);
             return this.imageByteMap.get(experimentRecordId + "_" + bucket + "_" + type);
 
         }else {
+            System.out.println("getting from the database for " + experimentRecordId);
             return new ImageDao().getImageBytes(experimentRecordId,bucket,type);
         }
     }
