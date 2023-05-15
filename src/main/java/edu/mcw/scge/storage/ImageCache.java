@@ -52,7 +52,7 @@ public class ImageCache {
 
 
     public void load() throws Exception{
-        System.out.println("starting load")
+        System.out.println("starting load");
 
         ImageDao idao = new ImageDao();
         ExperimentDao edao = new ExperimentDao();
