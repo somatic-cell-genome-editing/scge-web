@@ -202,7 +202,7 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                <div class="rounded"><img src="/toolkit/images/virus.png"  class="card-image"  alt="" style="background-color: transparent"/></div>
+                                                <div class="rounded"><img src="/toolkit/images/experiments.png"  class="card-image"  alt="" style="background-color: transparent"/></div>
                                             </td>
                                             <td class="card-label">
                                                 Explore AAV Tropism Projects
