@@ -83,14 +83,7 @@
         e.printStackTrace();
     }
 %>
-<c:choose>
-    <c:when test="${action!=null && category!=null}">
-        <h4>${fn:length(sr.hits.hits)}&nbsp;results<c:if test="${action!=null && category!=null}">&nbsp;in ${action}</c:if> </h4>
-    </c:when>
-    <c:otherwise>
-        <h4>${action} </h4>
-    </c:otherwise>
-</c:choose>
+<%@include file="resultHeader.jsp"%>
 <table class="table table-striped">
     <c:forEach items="${sr.hits.hits}" var="hit">
     <tr><td style="border-color: transparent">

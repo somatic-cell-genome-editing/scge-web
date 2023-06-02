@@ -24,6 +24,9 @@
         text-decoration: none;
     }
 </style>
+<c:if test="${category!=null && action!=null && action=='Search Results'}">
+<a href="/toolkit/data/search/results?searchTerm=${searchTerm}"><i class="fa-solid fa-arrow-left"></i>&nbsp;Back to all categories</a>
+</c:if>
 <c:if test="${fn:length(aggregations.category.buckets)>1}">
 <div class="p-2" style="border-bottom: 2px solid black">Select Category&nbsp;</div>
 </c:if>
