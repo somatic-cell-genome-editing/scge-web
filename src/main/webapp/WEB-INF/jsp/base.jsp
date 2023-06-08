@@ -45,7 +45,7 @@
 
     <meta name="description" content="<%=seoDescription%>">
     <meta name="author" content="Somatic Cell Genome Editing Consortium">
-    <title><%=seoTitle%>></title>
+    <title><%=seoTitle%></title>
 
     <!--
     <link rel='dns-prefetch' href='//s.w.org' />
