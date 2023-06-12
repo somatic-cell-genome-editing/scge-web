@@ -1,9 +1,9 @@
 <%@ page import="edu.mcw.scge.process.UI" %>
-<%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
-<%@ page import="java.util.Set" %>
+<%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.scge.datamodel.Vector" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -151,6 +151,12 @@ Experiment experiment = (Experiment) request.getAttribute("experiment");
 List<ExperimentResultDetail> experimentResults = (List<ExperimentResultDetail>)request.getAttribute("experimentResults");
 ExperimentResultDetail detail = experimentResults.get(0);
 
+    java.util.Map<Long, List<Experiment>> validationExperimentsMap = new HashMap<>();
+    if (request.getAttribute("validationExperimentsMap") != null)
+        validationExperimentsMap = (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
+    Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
+    if (request.getAttribute("experimentsValidatedMap") != null)
+        experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
 //req.setAttribute("reporterElements", reporterElements);
 //req.setAttribute("experimentResults",experimentResults);
 //req.setAttribute("results", results);
