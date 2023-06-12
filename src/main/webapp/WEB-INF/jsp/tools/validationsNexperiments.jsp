@@ -44,16 +44,19 @@
             }
         }
     }%>
-<span style="font-weight: bold">Original Experiment/s that are being validated:</span>
-   <% for (Experiment experiment : experimentsValidatedMap.get(ex.getExperimentId())) {%>
+<div class="">
+    <div class="">
+    </div>
+    <div class="">
+        <span style="font-weight: bold">Original Experiment/s that are being validated:</span>
+
+        <% for (Experiment experiment : experimentsValidatedMap.get(ex.getExperimentId())) {%>
 <a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a>
-<!--form action="/toolkit/data/experiments/validations/study/<%=experiment.getStudyId()%>" >
-    <input  type="hidden" name="experimentIds" value="<%=experimentIDS%>"/>
-    <button style="margin-top:15px;"class="btn btn-success btn-sm" type="submit">View Original Experiment(s)</button>
-</form-->
+
 <%//break;
  }%>
-
+    </div>
+</div>
 
 <%}%>
 
@@ -80,19 +83,19 @@
             }else
                 experimentIDS+= ","+ id;
         }        }%>
-<span style="font-weight: bold;color:#ffa30f">Validation Experiment:</span>
+<div class="">
+    <div class="">
+    </div>
+    <div class="">
+        <span style="font-weight: bold;">Validation:&nbsp;</span>
 
-   <% for (Experiment experiment : validationExperimentsMap.get(ex.getExperimentId())) { %>
-<a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a>
+        <% for (Experiment experiment : validationExperimentsMap.get(ex.getExperimentId())) { %>
+        <a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a>
 
-<!--form action="/toolkit/data/experiments/validations/study/<%=experiment.getStudyId()%>" >
-    <input type="hidden" name="experimentIds" value="<%=experimentIDS%>"/>
-
-    <button class="btn btn-warning btn-sm" type="submit">View Validation of this Experiment</button>
-</form-->
 <%//break;
     }%>
-
+    </div>
+</div>
 
 <%} %>
 

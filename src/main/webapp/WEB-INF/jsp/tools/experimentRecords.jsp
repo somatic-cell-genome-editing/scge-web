@@ -43,7 +43,6 @@
         Experiment ex = (Experiment) request.getAttribute("experiment");
     %>
 
-    <table><tr><td style="font-size:18px;"><%=ex.getDescription()%></td></tr></table>
     <div id="recordTableContent" style="position:relative; left:0px; top:00px;padding-top:20px;">
 
             <%
@@ -52,63 +51,91 @@
                 HashMap<String,String> biomarkerAssay = (HashMap<String,String>) request.getAttribute("biomarkerAssay");
             %>
 
-            <div style="padding:10px; border:1px solid black; background-color: #F7F7F7;font-size:12px;">
-
+        <div class="jumbotron" style="margin-top:0;padding-top:10px;padding-bottom: 5px;background-color: #f7f8fa;">
+                <div class="">
+                    <div class=""><b>Description:&nbsp;</b><%=ex.getDescription()%></div>
+                </div>
             <% if (deliveryAssay.size() != 0) { %>
-                <table>
-                    <tr>
-                        <td valign="top" width="150"><span style="width:100px; ;font-weight:700;">Delivery Assays:</span></td>
-                        <td><%
-                            int count=1;
-                            for (String assay: deliveryAssay.keySet()) { %>
-                            <span style="adding-left:20px;"><b>-</b>&nbsp;<%=assay%></span><br>
-                            <%
-                                count++;
-                            } %>
-                        </td>
-                    </tr>
-                </table>
+
+                <div class="">
+                    <div class=""></div>
+                      <div class=""><b>Delivery Assays:</b>
+                        <% if(deliveryAssay.size()==1){%>
+                            <%=deliveryAssay.keySet().toArray()[0]%>
+                       <% }else{%>
+                          <ul>
+                            <%for (String assay: deliveryAssay.keySet()) { %>
+                              <li><%=assay%></li>
+                          <%}%>
+                          </ul>
+                        <%} %>
+                      </div>
+                </div>
 
 
             <% } %>
             <% if (editingAssay.size() != 0) { %>
-                    <table>
-                        <tr>
-                            <td valign="top" width="150"><span style=";margin-top:10px;font-weight:700;">Editing Assay:</span></td>
-                            <td> <%
-                                int count=1;
-                                for (String assay: editingAssay.keySet()) { %>
-                                <span style="adding-left:20px;"><b>-</b>&nbsp;<%=assay%></span><br>
-                                <%
-                                    count++;
-                                } %>
-                            </td>
-                        </tr>
-                    </table>
+                <div class="">
+                    <div class=""><b>Editing Assay:</b>
+                            <% if(editingAssay.size()==1){%>
+                                <%=editingAssay.keySet().toArray()[0]%>
+                            <%}else{%>
+                        <ul>
+                            <%for (String assay: editingAssay.keySet()) { %>
+                            <li><%=assay%></li>
+                            <%}%>
+                        </ul>
+                            <%}%>
 
+
+                    </div>
+
+                </div>
 
             <% } %>
                 <% if (biomarkerAssay.size() != 0) { %>
-                <table>
-                    <tr>
-                        <td valign="top" width="150"><span style=";margin-top:10px;font-weight:700;">Biomarker Assay:</span></td>
-                        <td> <%
-                            int count=1;
-                            for (String assay: biomarkerAssay.keySet()) { %>
-                            <span style="adding-left:20px;"><b>-</b>&nbsp;<%=assay%></span><br>
-                            <%
-                                    count++;
-                                } %>
-                        </td>
-                    </tr>
-                </table>
+                <div class="">
+                    <div class=""></div>
+                    <div class=""><b>Biomarker Assay:</b>
+                       <% if(biomarkerAssay.size()==1){%>
+                           <%=biomarkerAssay.keySet().toArray()[0]%>
+                       <%}else{%>
 
+                        <ul>
+                            <%for (String assay: biomarkerAssay.keySet()) { %>
+                            <li><%=assay%></li>
+                            <%}%>
+                        </ul>
+                       <%} %>
 
+                    </div>
+
+                </div>
                 <% } %>
+            <hr>
+            <div class="">
+
+                <div class=""><b>Under the project titled:&nbsp;</b><a href="/toolkit/data/experiments/group/${study.groupId}">${study.study}</a><br>
+                    <ul>
+                        <li>Other experiments in this project:&nbsp;5</li>
+                        <li><a href="/toolkit/download/${study.studyId}">Submitted files</a></li>
+                    </ul>
+
+                </div>
+                <div>
+                    <b>Publication:&nbsp;</b>
+                </div>
             </div>
-            <br>
+            <hr>
+                <%@include file="validationsNexperiments.jsp"%>
+
+
+
+            </div>
+
 
             <%
+
                 HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
                 HashMap<Long,List<Vector>> vectorMap = (HashMap<Long,List<Vector>>)request.getAttribute("vectorMap");
                 ExperimentResultDao erdao = new ExperimentResultDao();
@@ -158,7 +185,6 @@
                     }
                 }
             %>
-
 
             <% if ( tissueList.size() > 0 && selectedTissue == null && (selectedResultType==null || !selectedResultType.equals("all"))) { %>
 

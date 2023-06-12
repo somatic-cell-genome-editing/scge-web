@@ -113,12 +113,19 @@
         <% if (request.getAttribute("crumbtrail") != null) {%>
         <div class="container-fluid" style="padding-bottom: 2px;"><%=request.getAttribute("crumbtrail")%></div>
         <%}%>
-
+        <div class="" style="float: right">
+            <c:if test="${fn:length(tissues)==0 || resultType!=null}">
+                <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button"
+                        onclick="javascript:openModalDialog()">Show Help
+                </button>&nbsp;
+            </c:if>
+        </div>
             <div class="" style="margin-top: 0;padding-top: 0">
                 <div class="container-fluid">
                     <c:choose>
                         <c:when test="${action!=null}">
-                            <h4 style=";padding-top:10px;">${action}  </h4>
+                            <h4 style=";padding-top:10px;">${action}</h4>
+
                             <c:if test="${study!=null && ( study.multiplePis!=null)}">
                                 <small><strong>PI:</strong>  &nbsp;
                                     <c:forEach items="${study.multiplePis}" var="pi">
@@ -145,30 +152,7 @@
                         </c:if>
                     </small>
 
-                                <c:if test="${fn:contains(action,'Experiment:' )}">
-                                  <div style="margin-left: 40%">
-                                      <div class="row">
-                                          <div class="col-lg-push-2">
-                                      <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
-                                              onclick="javascript:location.href='/toolkit/data/experiments/group/${study.groupId}'">Parent Project Page
-                                      </button>&nbsp;
-                                          </div>
-                                          <div class="col-lg-push-3">
-                                              <c:if test="${fn:length(tissues)==0 || resultType!=null}">
-                                              <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button"
-                                                      onclick="javascript:openModalDialog()">Show Help
-                                              </button>&nbsp;
-                                              </c:if>
-                                          </div>
-                                          <div class="col-lg-push-3">
-                                <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
-                                        onclick="javascript:location.href='/toolkit/download/${study.studyId}'"><i
-                                        class='fas fa-download'></i>&nbsp;Download Submitted files
-                                </button>
-                                          </div>
-                                      </div>
-                        </div>
-                                </c:if>
+
                     </c:if>
                         <c:if test="${projectDescription!=null}">
                             <div>
@@ -181,8 +165,9 @@
 
 
                             </div>
+                            <hr>
                         </c:if>
-                        <hr>
+
                             <c:if test="${action=='Dashboard'}">
                                 <div align="right">
                                     <c:forEach items="${personInfoList}" var="i">
