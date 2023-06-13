@@ -38,9 +38,12 @@
      //   HashMap<Long,ExperimentRecord> experimentRecordsMap = (HashMap<Long,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
         ExperimentDao edao = new ExperimentDao();
         Study study = (Study) request.getAttribute("study");
+        List<Experiment> experiments=edao.getExperimentsByStudy(study.getStudyId());
         Access access = new Access();
         Person p = access.getUser(request.getSession());
         Experiment ex = (Experiment) request.getAttribute("experiment");
+        long objectId = ex.getExperimentId();
+        String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
     %>
 
     <div id="recordTableContent" style="position:relative; left:0px; top:00px;padding-top:20px;">
@@ -112,21 +115,35 @@
 
                 </div>
                 <% } %>
-            <hr>
+
             <div class="">
 
                 <div class=""><b>Under the project titled:&nbsp;</b><a href="/toolkit/data/experiments/group/${study.groupId}">${study.study}</a><br>
-                    <ul>
-                        <li>Other experiments in this project:&nbsp;5</li>
-                        <li><a href="/toolkit/download/${study.studyId}">Submitted files</a></li>
-                    </ul>
+                    <ul style="list-style-type: none">
+                        <%if(experiments.size()>1){%>
+                        <li style="text-decoration: none">
+                    <details>
+                        <summary>Other experiments in this project:&nbsp;<%=experiments.size()-1%></summary>
+                        <ul>
+                            <% for(Experiment experiment:experiments){%>
+                            <li><a href=""><%=experiment.getName()%></a></li>
+                            <%}%>
+                        </ul>
 
+                    </details>
+                        </li>
+                        <%}%>
+                    <li><a href="/toolkit/download/${study.studyId}">Submitted files</a></li>
+                    </ul>
                 </div>
                 <div>
                     <b>Publication:&nbsp;</b>
+                    <div id="associatedPublications">
+                        <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+                    </div>
                 </div>
             </div>
-            <hr>
+
                 <%@include file="validationsNexperiments.jsp"%>
 
 

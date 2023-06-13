@@ -782,11 +782,7 @@
 
 </script>
 
-<%
-    long objectId = ex.getExperimentId();
-    String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
-    String bucket="belowExperimentTable1";
-%>
+<% String bucket="belowExperimentTable1"; %>
 
 <div id="associatedProtocols">
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
