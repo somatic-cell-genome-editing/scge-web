@@ -3,9 +3,6 @@
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.time.LocalDateTime" %>
-<%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: hsnalabolu
@@ -92,11 +89,11 @@
 <script>
 
     var tissues = [];
-    tissues= <%= JSONValue.toJSONString(tissues) %>;
-    var resultTypes = <%=JSONValue.toJSONString(resultTypeList)%>;
+    tissues= <%= gson.toJson(tissues) %>;
+    var resultTypes = <%=gson.toJson(resultTypeList)%>;
     var cellTypes = [];
     <%if(cellTypeList!=null){%>
-    cellTypes = <%= JSONValue.toJSONString(cellTypeList) %>;
+    cellTypes = <%= gson.toJson(cellTypeList) %>;
     <%}%>
   //  quantitativeSize= <%--=resultMap.size()--%>;
 
@@ -789,11 +786,7 @@
 
 </script>
 
-<%
-    long objectId = ex.getExperimentId();
-    String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
-    String bucket="belowExperimentTable1";
-%>
+<% String bucket="belowExperimentTable1"; %>
 
 <div id="associatedProtocols">
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
@@ -812,9 +805,9 @@
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
 
-<div id="associatedPublications">
-    <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
-</div>
+<!--div id="associatedPublications"-->
+    <%--@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"--%>
+<!--/div-->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
     feather.replace()

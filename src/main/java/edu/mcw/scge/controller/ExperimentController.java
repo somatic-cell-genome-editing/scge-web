@@ -1011,7 +1011,19 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("deliveryAssay",deliveryMap);
         req.setAttribute("editingAssay",editingMap);
         req.setAttribute("biomarkerAssay",biomarkerMap);
-        req.setAttribute("action", "Experiment: " + e.getName());
+          Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
+          Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
+        if(localStudy.getIsValidationStudy()==1) {
+            experimentsValidatedMap=getExperimentsValidated(studies);
+            req.setAttribute("action", "<span>Validation Experiment:</span> " + e.getName());
+            req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
+        }
+        else {
+            validationExperimentsMap=getValidations(studies);
+            req.setAttribute("action", "Experiment: " + e.getName());
+            req.setAttribute("validationExperimentsMap",validationExperimentsMap);
+        }
+
         req.setAttribute("page", "/WEB-INF/jsp/tools/experimentRecords");
 
         req.setAttribute("seoDescription",e.getDescription());

@@ -124,12 +124,21 @@
         <% if (request.getAttribute("crumbtrail") != null) {%>
         <div class="container-fluid" style="padding-bottom: 2px;"><%=request.getAttribute("crumbtrail")%></div>
         <%}%>
+        <c:if test="${(fn:length(tissues)==0 || resultType!=null ) && action!=null}">
+        <div class="" style="float: right">
 
+                <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button"
+                        onclick="javascript:openModalDialog()">Show Help
+                </button>&nbsp;
+
+        </div>
+        </c:if>
             <div class="" style="margin-top: 0;padding-top: 0">
                 <div class="container-fluid">
                     <c:choose>
                         <c:when test="${action!=null}">
-                            <h4 style=";padding-top:10px;">${action}  </h4>
+                            <h4 style=";padding-top:10px;">${action}</h4>
+
                             <c:if test="${study!=null && ( study.multiplePis!=null)}">
                                 <small><strong>PI:</strong>  &nbsp;
                                     <c:forEach items="${study.multiplePis}" var="pi">
@@ -156,30 +165,7 @@
                         </c:if>
                     </small>
 
-                                <c:if test="${fn:contains(action,'Experiment:' )}">
-                                  <div style="margin-left: 40%">
-                                      <div class="row">
-                                          <div class="col-lg-push-2">
-                                      <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
-                                              onclick="javascript:location.href='/toolkit/data/experiments/group/${study.groupId}'">Parent Project Page
-                                      </button>&nbsp;
-                                          </div>
-                                          <div class="col-lg-push-3">
-                                              <c:if test="${fn:length(tissues)==0 || resultType!=null}">
-                                              <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button"
-                                                      onclick="javascript:openModalDialog()">Show Help
-                                              </button>&nbsp;
-                                              </c:if>
-                                          </div>
-                                          <div class="col-lg-push-3">
-                                <button style="margin-bottom:15px;" class="btn btn-primary btn-sm" type="button"
-                                        onclick="javascript:location.href='/toolkit/download/${study.studyId}'"><i
-                                        class='fas fa-download'></i>&nbsp;Download Submitted files
-                                </button>
-                                          </div>
-                                      </div>
-                        </div>
-                                </c:if>
+
                     </c:if>
                         <c:if test="${projectDescription!=null}">
                             <div>
@@ -192,8 +178,9 @@
 
 
                             </div>
+                            <hr>
                         </c:if>
-                        <hr>
+
                             <c:if test="${action=='Dashboard'}">
                                 <div align="right">
                                     <c:forEach items="${personInfoList}" var="i">
@@ -237,12 +224,14 @@
                         <c:otherwise>
                             <form id="searchFormBasePage" action="/toolkit/data/search/results" >
                         <div class="container-fluid  jumbotron"  id="home-page-search" style="background-color: #FFFFFF;padding-top: 20px;padding-bottom: 20px">
+
+                            <div class="row d-flex justify-content-center" align="center">
+                                <div style="text-align: center"><h2><img src="/toolkit/images/scge-logo-200w.png" width="150" style="padding-top: 0;margin-top: 0" alt="SCGE"/>Welcome to Somatic Cell Genome Editing - Toolkit</h2></div>
+                            </div>
+
                             <div>
                                 <div class="row d-flex justify-content-center" align="center">
-                                    <div class="col-lg-1" style="padding-top:0;">
-                                        <!--td><img src="/toolkit/images/scge-logo-200w.png" border="0"/></td-->
-                                        <img src="/toolkit/images/scge-logo-200w.png" width="150" style="padding-top: 0;margin-top: 0" alt="SCGE"/>
-                                    </div>
+
                                     <div class="col-lg-6" style="padding-top: 22px;padding-left:5%">
                                         <div class="input-group md-form form-sm form-2 pl-0">
                                             <input class="form-control my-0 py-1 amber-border" id="searchTerm" name="searchTerm" type="text" placeholder="Search SCGE Toolkit" aria-label="Search">

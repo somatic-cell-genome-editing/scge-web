@@ -185,7 +185,7 @@
 
     %>
 
-<div style="font-size:20px; color:#1A80B6;">Organ&nbsp;System&nbsp;Overview</div>
+<div><h4>Organ&nbsp;System&nbsp;Overview</h4></div>
 <div style="margin-left:70%"> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></div>
 <br><br>
 
@@ -325,7 +325,7 @@
             <table align="center" tyle="border:1px solid #F7F7F7;margin-left:30px;" border="0" width="700">
     <tr>
         <td colspan="2" style="font-size:16px; font-weight:700;">Analyze Data Sets Available for this Experiment</td><!--td style="font-size:16px; font-weight:700;" align="center">Delivery</td><td style="font-size:16px; font-weight:700;" align="center">Editing</td-->
-        <td> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></td>
+        <!--td> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></td-->
 
     </tr>
     <% for (String organ: tm.getChildTerms().keySet()) {
