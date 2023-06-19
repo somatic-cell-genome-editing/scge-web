@@ -213,12 +213,14 @@
                         <c:otherwise>
                             <form id="searchFormBasePage" action="/toolkit/data/search/results" >
                         <div class="container-fluid  jumbotron"  id="home-page-search" style="background-color: #FFFFFF;padding-top: 20px;padding-bottom: 20px">
+
+                            <div class="row d-flex justify-content-center" align="center">
+                                <div style="text-align: center"><h2><img src="/toolkit/images/scge-logo-200w.png" width="150" style="padding-top: 0;margin-top: 0" alt="SCGE"/>Welcome to Somatic Cell Genome Editing - Toolkit</h2></div>
+                            </div>
+
                             <div>
                                 <div class="row d-flex justify-content-center" align="center">
-                                    <div class="col-lg-1" style="padding-top:0;">
-                                        <!--td><img src="/toolkit/images/scge-logo-200w.png" border="0"/></td-->
-                                        <img src="/toolkit/images/scge-logo-200w.png" width="150" style="padding-top: 0;margin-top: 0" alt="SCGE"/>
-                                    </div>
+
                                     <div class="col-lg-6" style="padding-top: 22px;padding-left:5%">
                                         <div class="input-group md-form form-sm form-2 pl-0">
                                             <input class="form-control my-0 py-1 amber-border" id="searchTerm" name="searchTerm" type="text" placeholder="Search SCGE Toolkit" aria-label="Search">
