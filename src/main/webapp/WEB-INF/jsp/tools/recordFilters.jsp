@@ -1,6 +1,4 @@
 <%@ page import="com.google.gson.Gson" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <style>
     body {

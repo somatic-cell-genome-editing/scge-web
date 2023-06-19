@@ -22,85 +22,34 @@
 %>
 <% if (experimentsValidatedMap != null && experimentsValidatedMap.size() > 0) {%>
 
-<% if (experimentsValidatedMap.get(ex.getExperimentId()) != null) {
-    List<Long> experimentIds=new ArrayList<>();
-    for (Experiment experiment : experimentsValidatedMap.get(ex.getExperimentId())) {
-        if(!experimentIds.contains(experiment.getExperimentId())){
-            experimentIds.add(experiment.getExperimentId());
-        }
-    }
-    String experimentIDS=new String();
-    if(experimentIds.size()==1){
-        experimentIDS= String.valueOf(experimentIds.get(0));
-    }else{
-        if(experimentIds.size()>0) {
-            boolean first = true;
-            for (long id : experimentIds) {
-                if (first) {
-                    experimentIDS += id;
-                    first = false;
-                } else
-                    experimentIDS += "," + id;
-            }
-        }
-    }%>
-<div class="">
-    <div class="">
-    </div>
+<% if (experimentsValidatedMap.get(ex.getExperimentId()) != null) {%>
+
+
     <div class="">
         <span style="font-weight: bold">Original Experiment/s that are being validated:</span>
-
         <% for (Experiment experiment : experimentsValidatedMap.get(ex.getExperimentId())) {%>
-<a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a>
-
-<%//break;
- }%>
+        <a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a>
+        <%}%>
     </div>
-</div>
+<%}} else {
+    if (validationExperimentsMap != null && validationExperimentsMap.size() > 0) {
+         if (validationExperimentsMap.get(ex.getExperimentId()) != null) {
+             List<Long> experimentIds=new ArrayList<>();
+             for (Experiment experiment : validationExperimentsMap.get(ex.getExperimentId())) {
+                 if(!experimentIds.contains(experiment.getExperimentId())){
+                     experimentIds.add(experiment.getExperimentId());
+                 }}%>
 
-<%}%>
 
-
-<% } else {
-    if (validationExperimentsMap != null && validationExperimentsMap.size() > 0) {%>
-<% if (validationExperimentsMap.get(ex.getExperimentId()) != null) {
-    List<Long> experimentIds=new ArrayList<>();
-
-    for (Experiment experiment : validationExperimentsMap.get(ex.getExperimentId())) {
-        if(!experimentIds.contains(experiment.getExperimentId())){
-            experimentIds.add(experiment.getExperimentId());
-        }
-    }
-    String experimentIDS=new String();
-    if(experimentIds.size()==1){
-        experimentIDS= String.valueOf(experimentIds.get(0));
-    }else{
-        boolean first=true;
-        for(long id:experimentIds){
-            if(first){
-                experimentIDS+=id;
-                first=false;
-            }else
-                experimentIDS+= ","+ id;
-        }        }%>
-<div class="">
-    <div class="">
-    </div>
     <div class="">
         <span style="font-weight: bold;">Validation:&nbsp;</span>
 
         <% for (Experiment experiment : validationExperimentsMap.get(ex.getExperimentId())) { %>
         <a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a>
 
-<%//break;
-    }%>
+<%}%>
     </div>
-</div>
+<%}}} %>
 
-<%} %>
-
-
-<% }
-}%>
 
 

@@ -1015,7 +1015,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
           Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
         if(localStudy.getIsValidationStudy()==1) {
             experimentsValidatedMap=getExperimentsValidated(studies);
-            req.setAttribute("action", "<span style='color:#ffa30f'>Validation Experiment:</span> " + e.getName());
+            req.setAttribute("action", "<span>Validation Experiment:</span> " + e.getName());
             req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
         }
         else {

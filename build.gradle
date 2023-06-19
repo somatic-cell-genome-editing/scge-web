@@ -106,6 +106,9 @@ dependencies {
 
 // https://mvnrepository.com/artifact/org.json/json
     compile group: 'org.json', name: 'json', version: '20201115'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.15.2'
+
 
 // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'

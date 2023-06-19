@@ -4,9 +4,9 @@
 <%@ page import="edu.mcw.scge.dao.implementation.ExperimentResultDao" %>
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
-<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -29,12 +29,12 @@
 
 
 <div>
-        <%
-    List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
-    Map<java.lang.String, List<ExperimentRecord>> resultTypeRecords= (Map<java.lang.String, List<ExperimentRecord>>) request.getAttribute("resultTypeRecords");
-        Map<java.lang.String, Integer> resultTypeColumnCount= (Map<java.lang.String,Integer>) request.getAttribute("resultTypeColumnCount");
+    <%
 
-    Map<String, List<String>> tableColumns=(Map<String, List<String>>) request.getAttribute("tableColumns");
+        List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
+        Map<java.lang.String, List<ExperimentRecord>> resultTypeRecords= (Map<java.lang.String, List<ExperimentRecord>>) request.getAttribute("resultTypeRecords");
+        Map<java.lang.String, Integer> resultTypeColumnCount= (Map<java.lang.String,Integer>) request.getAttribute("resultTypeColumnCount");
+        Map<String, List<String>> tableColumns=(Map<String, List<String>>) request.getAttribute("tableColumns");
      //   HashMap<Long,ExperimentRecord> experimentRecordsMap = (HashMap<Long,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
         ExperimentDao edao = new ExperimentDao();
         Study study = (Study) request.getAttribute("study");
@@ -47,113 +47,10 @@
     %>
 
     <div id="recordTableContent" style="position:relative; left:0px; top:00px;padding-top:20px;">
-
-            <%
-                HashMap<String,String> deliveryAssay = (HashMap<String,String>) request.getAttribute("deliveryAssay");
-                HashMap<String,String> editingAssay = (HashMap<String,String>) request.getAttribute("editingAssay");
-                HashMap<String,String> biomarkerAssay = (HashMap<String,String>) request.getAttribute("biomarkerAssay");
-            %>
-
-        <div class="jumbotron" style="margin-top:0;padding-top:10px;padding-bottom: 5px;background-color: #f7f8fa;">
-                <div class="">
-                    <div class=""><b>Description:&nbsp;</b><%=ex.getDescription()%></div>
-                </div>
-            <% if (deliveryAssay.size() != 0) { %>
-
-                <div class="">
-                    <div class=""></div>
-                      <div class=""><b>Delivery Assays:</b>
-                        <% if(deliveryAssay.size()==1){%>
-                            <%=deliveryAssay.keySet().toArray()[0]%>
-                       <% }else{%>
-                          <ul>
-                            <%for (String assay: deliveryAssay.keySet()) { %>
-                              <li><%=assay%></li>
-                          <%}%>
-                          </ul>
-                        <%} %>
-                      </div>
-                </div>
+        <%@include file="experiment/summary.jsp"%>
 
 
-            <% } %>
-            <% if (editingAssay.size() != 0) { %>
-                <div class="">
-                    <div class=""><b>Editing Assay:</b>
-                            <% if(editingAssay.size()==1){%>
-                                <%=editingAssay.keySet().toArray()[0]%>
-                            <%}else{%>
-                        <ul>
-                            <%for (String assay: editingAssay.keySet()) { %>
-                            <li><%=assay%></li>
-                            <%}%>
-                        </ul>
-                            <%}%>
-
-
-                    </div>
-
-                </div>
-
-            <% } %>
-                <% if (biomarkerAssay.size() != 0) { %>
-                <div class="">
-                    <div class=""></div>
-                    <div class=""><b>Biomarker Assay:</b>
-                       <% if(biomarkerAssay.size()==1){%>
-                           <%=biomarkerAssay.keySet().toArray()[0]%>
-                       <%}else{%>
-
-                        <ul>
-                            <%for (String assay: biomarkerAssay.keySet()) { %>
-                            <li><%=assay%></li>
-                            <%}%>
-                        </ul>
-                       <%} %>
-
-                    </div>
-
-                </div>
-                <% } %>
-
-            <div class="">
-
-                <div class=""><b>Under the project titled:&nbsp;</b><a href="/toolkit/data/experiments/group/${study.groupId}">${study.study}</a><br>
-                    <ul style="list-style-type: none">
-                        <%if(experiments.size()>1){%>
-                        <li style="text-decoration: none">
-                    <details>
-                        <summary>Other experiments in this project:&nbsp;<%=experiments.size()-1%></summary>
-                        <ul>
-                            <% for(Experiment experiment:experiments){%>
-                            <li><a href=""><%=experiment.getName()%></a></li>
-                            <%}%>
-                        </ul>
-
-                    </details>
-                        </li>
-                        <%}%>
-                    <li><a href="/toolkit/download/${study.studyId}">Submitted files</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <b>Publication:&nbsp;</b>
-                    <div id="associatedPublications">
-                        <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
-                    </div>
-                </div>
-            </div>
-
-                <%@include file="validationsNexperiments.jsp"%>
-
-
-
-            </div>
-
-
-            <%
-
-                HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
+            <% HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
                 HashMap<Long,List<Vector>> vectorMap = (HashMap<Long,List<Vector>>)request.getAttribute("vectorMap");
                 ExperimentResultDao erdao = new ExperimentResultDao();
                 List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
@@ -210,14 +107,11 @@
 
          <% }else{  %>
 
+        <%@include file="recordsTable.jsp"%>
 
-
-
-            <%@include file="recordsTable.jsp"%>
-
-<%}%>
-
-        </div>
+        <%}%>
+    </div>
+</div>
 
 
 
