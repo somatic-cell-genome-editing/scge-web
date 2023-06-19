@@ -113,13 +113,15 @@
         <% if (request.getAttribute("crumbtrail") != null) {%>
         <div class="container-fluid" style="padding-bottom: 2px;"><%=request.getAttribute("crumbtrail")%></div>
         <%}%>
+        <c:if test="${(fn:length(tissues)==0 || resultType!=null ) && action!=null}">
         <div class="" style="float: right">
-            <c:if test="${fn:length(tissues)==0 || resultType!=null}">
+
                 <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button"
                         onclick="javascript:openModalDialog()">Show Help
                 </button>&nbsp;
-            </c:if>
+
         </div>
+        </c:if>
             <div class="" style="margin-top: 0;padding-top: 0">
                 <div class="container-fluid">
                     <c:choose>
