@@ -38,7 +38,11 @@
      //   HashMap<Long,ExperimentRecord> experimentRecordsMap = (HashMap<Long,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
         ExperimentDao edao = new ExperimentDao();
         Study study = (Study) request.getAttribute("study");
-        List<Experiment> experiments=edao.getExperimentsByStudy(study.getStudyId());
+        List<Experiment> experiments=new ArrayList<>();
+        if(study.getGroupId()!=1410 && study.getGroupId()!=1412) // 1410 and 1412 are SATC projects and each submission is a different group's validation.
+             experiments=   edao.getExperimentsByGroup(study.getGroupId());
+        else
+            experiments=edao.getExperimentsByStudy(study.getStudyId());
         Access access = new Access();
         Person p = access.getUser(request.getSession());
         Experiment ex = (Experiment) request.getAttribute("experiment");
