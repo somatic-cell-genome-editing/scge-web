@@ -48,7 +48,7 @@
 <table align="center" >
     <tr>
         <td colspan="2">
-            <h4>What you need to know about the SCGE Toolkit</h4>
+            <h4>What you need to know about the Somatic Cell Genome Editing (SCGE) Toolkit</h4>
         </td>
         <tr>
             <td valign="top"><img src="/toolkit/images/bullet_30.png" style="padding-left:25px;padding-right:10px;"/></td>
@@ -67,8 +67,11 @@
         <td style="padding-bottom:5px;font-size:16px;font-family: 'Roboto', sans-serif;">We include studies on the <span style="font-weight:700;">intended and unintended biological effects</span> of gene editing</td>
     </tr>
         <tr>
-            <td colspan="2">
+            <!--td colspan="2">
                 <a target="_blank" href="https://scge.mcw.edu" title="Go to SCGE Main Site"><button class="btn btn-primary btn-sm" style="margin-top:20px;margin-bottom:15px;margin-left:25px;">Learn more about the SCGE program</button></a>
+            </td-->
+            <td colspan="2">
+                <a target="_blank" href="/toolkit/data/initiatives" title="Go to SCGE Main Site"><button class="btn btn-primary btn-sm" style="margin-top:20px;margin-bottom:15px;margin-left:25px;">Learn more about the SCGE Toolkit</button></a>
             </td>
         </tr>
 </table>
