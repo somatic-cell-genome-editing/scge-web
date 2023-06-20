@@ -226,7 +226,7 @@
                         <div class="container-fluid  jumbotron"  id="home-page-search" style="background-color: #FFFFFF;padding-top: 20px;padding-bottom: 20px">
 
                             <div class="row d-flex justify-content-center" align="center">
-                                <div style="text-align: center"><h2><img src="/toolkit/images/scge-logo-200w.png" width="150" style="padding-top: 0;margin-top: 0" alt="SCGE"/>Welcome to Somatic Cell Genome Editing - Toolkit</h2></div>
+                                <div style="text-align: center"><h2><img src="/toolkit/images/scge-logo-200w.png" width="150" style="padding-top: 0;margin-top: 0" alt="SCGE"/><span>Welcome to Somatic Cell Genome Editing - Toolkit</span></h2></div>
                             </div>
 
                             <div>
