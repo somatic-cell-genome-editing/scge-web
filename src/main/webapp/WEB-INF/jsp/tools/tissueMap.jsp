@@ -185,7 +185,7 @@
 
     %>
 
-<div><h4>Organ&nbsp;System&nbsp;Overview</h4></div>
+<div style="text-align: center"><h4>Organ&nbsp;System&nbsp;Overview</h4></div>
 <div style="margin-left:70%"> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></div>
 <br><br>
 
@@ -206,18 +206,22 @@
                                 boolean first = true;
                                 for (String tissue: rootTissues.keySet()) {
                                     String tissueTerm=rootTissues.get(tissue);
+                                    String displayTissue= "";
+                                    if(!tm.getChildTerms().get(tissue).isEmpty()){
+                                        displayTissue="<a href='#"+tissue+"'>"+tissue+"</a>";
+                                    }else displayTissue=tissue;
                             %>
                             <% if (first) { if(targetTissues.contains(tissueTerm)){ %>
-                            <div class="tissue-control-header-first" style="color:orchid"><a href="#<%=tissue%>"><%=tissue%></a></div>
+                            <div class="tissue-control-header-first" style="color:orchid"><%=displayTissue%></div>
                            <%}else{%>
-                            <div class="tissue-control-header-first"><a href="#<%=tissue%>"><%=tissue%></a></div>
+                            <div class="tissue-control-header-first"><%=displayTissue%></div>
                             <%}%>
                             <% first = false; %>
                             <% } else { if(targetTissues.contains(tissueTerm)) {%>
-                            <div class="tissue-control-header" style="color:orchid"><a href="#<%=tissue%>"><%=tissue%></a></div>
+                            <div class="tissue-control-header" style="color:orchid"><%=displayTissue%></div>
 
                             <%}else{%>
-                            <div class="tissue-control-header"><a href="#<%=tissue%>"><%=tissue%></a></div>
+                            <div class="tissue-control-header"><%=displayTissue%></div>
                             <% }} %>
                             <%  } %>
                         </td>
