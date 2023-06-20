@@ -48,7 +48,7 @@
             theme: 'blue'
 
         });
-        $('#<%=request.getAttribute("selectedStudy")%>').css('border', '10px solid lightpurple')
+        $('#<%=request.getAttribute("selectedStudy")%>').css('border', '10px solid purple')
 
     });
 </script>
