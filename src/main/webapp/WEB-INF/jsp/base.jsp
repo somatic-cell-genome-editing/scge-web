@@ -15,6 +15,17 @@
         gtag('js', new Date());
         gtag('config', 'UA-150985023-1');
     </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C160F1WXVQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-C160F1WXVQ');
+    </script>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +45,7 @@
 
     <meta name="description" content="<%=seoDescription%>">
     <meta name="author" content="Somatic Cell Genome Editing Consortium">
-    <title><%=seoTitle%>></title>
+    <title><%=seoTitle%></title>
 
     <!--
     <link rel='dns-prefetch' href='//s.w.org' />
