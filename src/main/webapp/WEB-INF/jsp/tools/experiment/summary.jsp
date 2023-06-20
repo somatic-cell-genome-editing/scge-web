@@ -52,7 +52,7 @@
     <%} %>
   </div>
   <% } %>
-  <div class=""><b>Under the project titled:&nbsp;</b><a href="/toolkit/data/experiments/group/${study.groupId}?selectedStudy=<%=study.getStudyId()%>">${study.study}</a><br>
+  <div class=""><b>Parent Project:&nbsp;</b><a href="/toolkit/data/experiments/group/${study.groupId}?selectedStudy=<%=study.getStudyId()%>">${study.study}</a><br>
       <ul style="list-style-type: none">
         <%if(experiments.size()>1){%>
         <li style="text-decoration: none">
