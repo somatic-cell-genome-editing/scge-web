@@ -52,7 +52,7 @@
     <%} %>
   </div>
   <% } %>
-  <div class=""><b>Under the project titled:&nbsp;</b><a href="/toolkit/data/experiments/group/${study.groupId}">${study.study}</a><br>
+  <div class=""><b>Under the project titled:&nbsp;</b><a href="/toolkit/data/experiments/group/${study.groupId}?selectedStudy=<%=study.getStudyId()%>">${study.study}</a><br>
       <ul style="list-style-type: none">
         <%if(experiments.size()>1){%>
         <li style="text-decoration: none">
@@ -61,7 +61,7 @@
             <ul>
               <% for(Experiment experiment:experiments){
                 if(experiment.getExperimentId()!=ex.getExperimentId()){%>
-              <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></li>
+              <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>?selectedStudy=<%=experiment.getStudyId()%>"><%=experiment.getName()%></a></li>
               <%}}%>
             </ul>
 

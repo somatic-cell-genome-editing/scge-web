@@ -87,6 +87,12 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                                            @PathVariable(required = false) int groupId) throws Exception {
         Person p=userService.getCurrentUser(req.getSession());
         List<Study> studies = sdao.getStudiesByGroupId(groupId);
+        String selectedStudy=req.getParameter("selectedStudy");
+        if(selectedStudy!=null){
+            int selectedStudyId=Integer.parseInt(selectedStudy);
+            System.out.println("SELECTED STUDY:"+ selectedStudyId);
+            req.setAttribute("selectedStudy", selectedStudyId);
+        }
 
         if(!access.isLoggedIn()) {
             return "redirect:/";

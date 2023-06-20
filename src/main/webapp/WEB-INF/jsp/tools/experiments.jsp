@@ -40,6 +40,7 @@
         background-color: transparent;
     }
 
+
 </style>
 <script>
     $(function () {
@@ -47,6 +48,7 @@
             theme: 'blue'
 
         });
+        $('#<%=request.getAttribute("selectedStudy")%>').css('border', '10px solid lightpurple')
 
     });
 </script>
@@ -115,16 +117,7 @@
             List<Experiment> experiments = (List<Experiment>) entry.getValue();
 
     %>
-    <%if (study.getStudyId() == 1026) {%>
-    <!--h4 class="page-header" style="color:grey;">Study Overview</h4>
 
-    <div class="card" style="border:1px solid white">
-        Specific aims: 1) to predict which unintended editing sites have biological effects on human T-cells by integrating large-scale genome-wide activity and epigenomic profiles with state-of-the-art deep learning models and 2) to develop a human primary T-cell platform to detect functional effects of genome editing by measuring clonal representation, off-target mutation frequencies, immunogenicity, or gene expression.
-
-    </div>
-
-    <hr-->
-    <%}%>
     <div id="imageViewer"
          style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
