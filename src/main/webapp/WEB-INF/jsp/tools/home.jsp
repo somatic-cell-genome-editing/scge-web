@@ -42,6 +42,8 @@
         padding:15px;
         border-radius: 50%;
     }
+
+
 </style>
 
 <div class="container" align="center">
@@ -366,7 +368,7 @@
     </div>
 </div>
 
-
+<%@include file="hierarchical-chart.jsp"%>
 
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
