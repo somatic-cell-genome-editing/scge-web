@@ -17,8 +17,8 @@ SCGE Consortium.</p>
         <p>Nature. 2021 Apr;592(7853):195-204. doi: 10.1038/s41586-021-03191-1. Epub 2021 Apr 7.<a href="https://www.nature.com/articles/s41586-021-03191-1" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a></p>
         <p>PMID: 33828315&nbsp;<a href="https://pubmed.ncbi.nlm.nih.gov/33828315/" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>&nbsp; PMCID: PMC8026397&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8026397/" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a></p>
 
-<b>Note:</b> Reporting use of Toolkit data should kindly acknowledge the originating laboratory and include the date of access.<br>
-        <span style=";">Example:</span> The Somatic Cell Gene Editing Consortium Toolkit (https://scge.mcw.edu/toolkit) was accessed on ##/##/#### to obtain data deposited by the laboratory of Dr. Jane Smith for our comparisons.
+<b>Note:</b> Reporting use of Toolkit data should kindly acknowledge the originating laboratory and include the date of access.<br><br>
+        <span style="font-weight: bold;">Example:</span> The Somatic Cell Gene Editing Consortium Toolkit (https://scge.mcw.edu/toolkit) was accessed on ##/##/#### to obtain data deposited by the laboratory of Dr. Jane Smith for our comparisons.
 </div>
 </div>
 
