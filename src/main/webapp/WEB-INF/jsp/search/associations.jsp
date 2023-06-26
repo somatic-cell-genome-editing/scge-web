@@ -2,7 +2,7 @@
     <div>
 
     <ul class="myUL">
-    <li><span class="caret">Projects</span>
+    <li><span class="caret">Show Projects</span>
     <div class="card" style="background-color: #f0ffff;border:transparent">
     <ul class="nested">
     <c:forEach items="${hit.sourceAsMap.studyNames}" var="map">
@@ -23,7 +23,7 @@
     <div>
 
         <ul class="myUL">
-            <li><span class="caret">Experiments</span>
+            <li><span class="caret">Show Experiments</span>
                 <div class="card" style="background-color: #f0ffff;border:transparent">
                 <ul class="nested">
                     <c:forEach items="${hit.sourceAsMap.experimentNames}" var="map">
