@@ -20,7 +20,7 @@
 
 </style>
 
-<div><h2>Browse experiments by initiative</h2></div>
+<div align="center"><h2>Browse experiments by initiative</h2></div>
 <hr>
 <div class="row justify-content-center" style="text-align: center" align="center">
 
