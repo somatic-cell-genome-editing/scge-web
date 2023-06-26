@@ -1,4 +1,5 @@
-<%--
+<%@ page import="edu.mcw.scge.datamodel.publications.Publication" %>
+<%@ page import="edu.mcw.scge.datamodel.publications.ArticleId" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 6/16/2023
@@ -71,7 +72,19 @@
       </ul>
   </div>
   <div><b>Download:&nbsp;</b><a href="/toolkit/download/${study.studyId}">Submitted files</a></div>
-  <%@include file="../validationsNexperiments.jsp"%>
-  <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+
+  <%List<Publication> publications= (List<Publication>) request.getAttribute("associatedPublications");
+if(publications.size()>0){%>
+  <div><b>Publications:&nbsp;</b>
+    <%
+      for(Publication publication:publications){
+      String pmid= null;
+       for(ArticleId id:publication.getArticleIds()){
+         if(id.getIdType().equalsIgnoreCase("pubmed")){
+           pmid=id.getId();}}
+    %>
+    <%=publication.getReference().getTitle()%><%if(pmid!=null){%> <a href="https://pubmed.ncbi.nlm.nih.gov/<%=pmid%>" target="_blank" title="PubMed">NCBI</a><%}%>
+   <%}}%>
+    <%@include file="../validationsNexperiments.jsp"%>
 
 </div>

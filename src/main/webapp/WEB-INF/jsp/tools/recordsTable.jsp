@@ -787,7 +787,9 @@
 </script>
 
 <% String bucket="belowExperimentTable1"; %>
-
+<div id="associatedPublications">
+    <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+</div>
 <div id="associatedProtocols">
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
 </div>
