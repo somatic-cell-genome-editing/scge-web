@@ -318,6 +318,7 @@
       [{'v':'AAV Tropism Projects', 'f':'AAV Tropism Projects'},
         'Projects ', 'AAV Tropism Projects'],
       [{'v':'Experiments', 'f':'Experiments'}, 'Projects', 'Experiments'],
+        [{'v':'Validations', 'f':'Validations'}, 'Projects', 'Validations'],
       ['Genome Editors', 'Experiments', 'Genome Editors'],
       ['Guides', 'Experiments', 'Guide RNAs'],
       ['Model Systems', 'Experiments', 'Model Systems'],
