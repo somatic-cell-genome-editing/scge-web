@@ -124,7 +124,7 @@
         <% if (request.getAttribute("crumbtrail") != null) {%>
         <div class="container-fluid" style="padding-bottom: 2px;"><%=request.getAttribute("crumbtrail")%></div>
         <%}%>
-        <c:if test="${(fn:length(tissues)==0 || resultType!=null ) && action!=null}">
+        <c:if test="${(fn:length(tissues)==0 || resultType!=null ) && action!=null && action!='About SCGE Toolkit'}">
         <div class="" style="float: right">
 
                 <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button"
@@ -136,7 +136,7 @@
             <div class="" style="margin-top: 0;padding-top: 0">
                 <div class="container-fluid">
                     <c:choose>
-                        <c:when test="${action!=null}">
+                        <c:when test="${action!=null && action!='About SCGE Toolkit'}">
                             <h4 style=";padding-top:10px;">${action}</h4>
 
                             <c:if test="${study!=null && ( study.multiplePis!=null)}">
@@ -223,31 +223,7 @@
                         </c:when>
                         <c:otherwise>
 
-                        <div class="container-fluid  jumbotron"  id="home-page-search" style="background-color: #f7f8fa;padding-top: 20px;padding-bottom: 20px">
-
-                            <div class="row d-flex justify-content-center" align="center">
-                                <div style="text-align: center"><h2><img src="/toolkit/images/scge-logo-200w.png" width="150" style="padding-top: 0;margin-top: 0" alt="SCGE"/><span>Somatic Cell Genome Editing (SCGE) Toolkit</span></h2></div>
-                            </div>
-
-                            <div>
-                                <p class="lead">
-                                    SCGE toolkit serve as the hub to promote the novel strategies and technologies that are funded by NIH Common Fund's Somatic Cell Genome Editing (SCGE) program.
-                                </p>
-                                <ul>
-                                    <li>Toolkit team work cooperatively with all groups to facilitate their scientific endeavors.</li>
-                                    <li>Build pipelines and processes to collect, integrate, and distribute data through the SCGE Toolkit,</li>
-                                    <!--li>The studies include ..
-                                        <ul>
-                                            <li>Intended and unintended biological effects of gene editing</li>
-                                            <li>Validations using unique preclinical model systems by animal testing centers</li>
-                                        <li>Published and unpublished data for the community to explore and build upon</li>
-                                        </ul-->
-
-                                </ul>
-                                <p>The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.</p><a target="_blank" href="/toolkit/data/initiatives" title="About SCGE Toolkit"><button class="btn btn-primary btn-sm" style="margin-top:20px;margin-bottom:15px;margin-left:25px;">Learn more about the SCGE Toolkit</button></a>
-
-                            </div>
-                        </div>
+                        <%@include file="tools/aboutUs.jsp"%>
 
 
                         </c:otherwise>
