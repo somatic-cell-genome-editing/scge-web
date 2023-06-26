@@ -12,14 +12,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    Map<Long, List<Experiment>> validationExperimentsMap = new HashMap<>();
-    if (request.getAttribute("validationExperimentsMap") != null)
-        validationExperimentsMap = (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
-    Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
-    if (request.getAttribute("experimentsValidatedMap") != null)
-        experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
-%>
+
 <% if (experimentsValidatedMap != null && experimentsValidatedMap.size() > 0) {%>
 
 <% if (experimentsValidatedMap.get(ex.getExperimentId()) != null) {%>

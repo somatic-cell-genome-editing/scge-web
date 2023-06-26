@@ -49,7 +49,14 @@
         long objectId = ex.getExperimentId();
         String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
     %>
-
+    <%
+        Map<Long, List<Experiment>> validationExperimentsMap = new HashMap<>();
+        if (request.getAttribute("validationExperimentsMap") != null)
+            validationExperimentsMap = (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
+        Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
+        if (request.getAttribute("experimentsValidatedMap") != null)
+            experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
+    %>
     <div id="recordTableContent" style="position:relative; left:0px; top:00px;padding-top:20px;">
         <%@include file="experiment/summary.jsp"%>
 

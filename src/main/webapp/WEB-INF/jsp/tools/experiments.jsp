@@ -204,8 +204,8 @@
                     </thead>
 
                     <%
-                        for (Experiment exp : experiments) {
-                            Study s = sdao.getStudyById(exp.getStudyId()).get(0);
+                        for (Experiment ex : experiments) {
+                            Study s = sdao.getStudyById(ex.getStudyId()).get(0);
                     %>
 
                     <% if (access.hasStudyAccess(s, p)) { %>
@@ -213,20 +213,20 @@
                     <tr>
                         <!--<td width="10"><%=s.getTier()%>-->
 
-                        <td class="project-page-details-table experiment-name"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>">
-                            <%=exp.getName()%></a><br>
-                            <%@include file="validations.jsp"%>
+                        <td class="project-page-details-table experiment-name"><a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>">
+                            <%=ex.getName()%></a><br>
+                            <%@include file="validationsNexperiments.jsp"%>
                         </td>
-                        <td class="project-page-details-table experiment-type" style="white-space: nowrap"><%=exp.getType()%>
+                        <td class="project-page-details-table experiment-type" style="white-space: nowrap"><%=ex.getType()%>
                         </td>
-                        <td class="project-page-details-table experiment-description"><%=SFN.parse(exp.getDescription())%></td>
-                        <!--<td><%=exp.getExperimentId()%></td>-->
+                        <td class="project-page-details-table experiment-description"><%=SFN.parse(ex.getDescription())%></td>
+                        <!--<td><%=ex.getExperimentId()%></td>-->
 
 
 
                     </tr>
                     <%
-                        List<Image> images = idao.getImage(exp.getExperimentId());
+                        List<Image> images = idao.getImage(ex.getExperimentId());
                         if (images.size() > 0) {
                     %>
 
@@ -235,7 +235,7 @@
                             <table>
                                 <tr>
                                     <% for (Image image : images) { %>
-                                    <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><img
+                                    <td><a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>"><img
                                             onmouseover="imageMouseOver(this,'<%=StringUtils.encode(image.getLegend())%>', '<%=image.getTitle()%>')"
                                             onmouseout="imageMouseOut(this)" id="img<%=rowCount%>"
                                             src="<%=image.getPath()%>" height="1" width="1"></a></td>
