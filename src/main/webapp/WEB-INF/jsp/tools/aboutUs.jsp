@@ -8,6 +8,8 @@
         <p class="lead">
             SCGE toolkit serve as the hub to promote the novel strategies and technologies that are funded by NIH Common Fund's Somatic Cell Genome Editing (SCGE) program.
         </p>
+
+            <div>
         <ul>
             <li>Toolkit team work cooperatively with all groups to facilitate their scientific endeavors.</li>
             <li>Build pipelines and processes to collect, integrate, and distribute data through the SCGE Toolkit,</li>
@@ -20,8 +22,21 @@
             </li>
 
         </ul>
-        <p>The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.</p>
-        <c:if test="${action!='About SCGE Toolkit'}"><a href="/toolkit/data/initiatives" title="About SCGE Toolkit"><button class="btn btn-primary btn-sm" style="">Learn more about the SCGE Toolkit</button>&nbsp;</a></c:if><a target="_blank" href="https://scge.mcw.edu/" title="About SCGE Program"><button class="btn btn-primary btn-sm" style="">Learn more about the SCGE Program</button></a>
+                <p>The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.</p>
+                <c:if test="${action!='About SCGE Toolkit'}"><a href="/toolkit/data/initiatives" title="About SCGE Toolkit"><button class="btn btn-primary btn-sm" style="">Learn more about the SCGE Toolkit</button>&nbsp;</a></c:if><a target="_blank" href="https://scge.mcw.edu/" title="About SCGE Program"><button class="btn btn-primary btn-sm" style="">Learn more about the SCGE Program</button></a>
+
+            </div>
+
+
 
     </div>
+</div>
+
+<div class="card" style="overflow-x:auto;border:0px solid white" align="center">
+
+
+       <h2>Toolkit Data Overview</h2>
+        <hr>
+    <%@include file="hierarchical-overview.jsp"%>
+
 </div>

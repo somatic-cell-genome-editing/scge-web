@@ -34,8 +34,8 @@
     .card-body {
         padding: 0.25rem;
     }
-    .card {
-        border:0px solid black;
+    .data-items .card{
+        border:0px solid gray;
     }
     .circle-icon {
         background: #34cceb;
@@ -47,7 +47,7 @@
 </style>
 
 
-<div class="row" style="width:1000px;margin:auto;padding-top:15px;">
+<div class="row data-items" style="width:1000px;margin:auto;padding-top:15px;">
     <div class="col-sm-4" style="border-right: 1px solid #E5E5E5;">
 
         <!---   studies by initiative card -->
