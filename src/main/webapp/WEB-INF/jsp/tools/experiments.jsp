@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
@@ -78,7 +79,19 @@
         }
         if(isProcessed){
 %>
+    <c:if test="${projectDescription!=null}">
+        <div>
+            <div class="card" style="border:transparent">
+                <div >
+                    <b>Description:</b>&nbsp;${projectDescription}
 
+                </div>
+            </div>
+
+
+        </div>
+        <hr>
+    </c:if>
     <div class="card" style="margin-bottom: 10px">
         <div class="card-header">
             <span style="font-weight: bold">Summary of data submissions:</span>

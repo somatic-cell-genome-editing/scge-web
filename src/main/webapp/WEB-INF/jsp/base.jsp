@@ -168,16 +168,7 @@
 
                     </c:if>
                         <c:if test="${projectDescription!=null}">
-                            <div>
-                                        <div class="card" style="border:transparent">
-                                            <div >
-                                                <b>Description:</b>&nbsp;${projectDescription}
 
-                                            </div>
-                                        </div>
-
-
-                            </div>
                             <hr>
                         </c:if>
 
