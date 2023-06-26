@@ -222,8 +222,6 @@
                         <td class="project-page-details-table experiment-description"><%=SFN.parse(ex.getDescription())%></td>
                         <!--<td><%=ex.getExperimentId()%></td>-->
 
-
-
                     </tr>
                     <%
                         List<Image> images = idao.getImage(ex.getExperimentId());

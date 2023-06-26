@@ -42,7 +42,7 @@
 <c:if test="${fn:length(plots)>0}">
     <div id="barChart">
         <hr>
-        <b style="font-size:16px;">Make a selection to highlight records on the chart: </b>
+        <b style="font-size:16px;">Select experimental variable to highlight records on the chart: </b>
         <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
             <% for(String filter: options) {%>
             <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
@@ -59,8 +59,8 @@
 <table width="100%">
     <tr>
         <td><h3>Results</h3></td>
-        <td id="downloadChartBelow" width="100" align="right" style="display:none"><input type="button" style=";border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Chart Below" onclick="downloadSelected()"/></td>
-        <td id="downloadEntireExperiment" width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment" onclick="download()"/></td>
+        <td id="downloadChartBelow" width="100" align="right" style="display:none"><input type="button" style=";border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Chart Below (.CSV)" onclick="downloadSelected()"/></td>
+        <td id="downloadEntireExperiment" width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment (.CSV)" onclick="download()"/></td>
     </tr>
 </table>
 <%
