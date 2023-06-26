@@ -45,7 +45,7 @@
 
 
 </style>
-<hr>
+
 
 <div class="row" style="width:1000px;margin:auto;padding-top:15px;">
     <div class="col-sm-4" style="border-right: 1px solid #E5E5E5;">
