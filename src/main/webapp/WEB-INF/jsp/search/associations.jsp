@@ -1,5 +1,5 @@
 <c:if test="${hit.sourceAsMap.studyNames!=null && (category=='Experiment' || hit.sourceAsMap.category=='Experiment')}">
-    <div>
+    <div style="padding-top: 1%">
 
     <ul class="myUL">
     <li><span class="caret">Show Project</span>
@@ -20,7 +20,7 @@
 </c:if>
 <c:if test="${hit.sourceAsMap.experimentNames!=null}">
 
-    <div>
+    <div style="padding-top: 1%">
 
         <ul class="myUL">
             <li><span class="caret">Show Experiments (${fn:length(hit.sourceAsMap.experimentNames)})</span>
