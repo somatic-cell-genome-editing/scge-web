@@ -138,7 +138,7 @@
         String target=new String();
         String tissueTerm=record.getTissueTerm();
         if(tissuesTarget.contains(record.getTissueTerm().trim())){
-            border="3px solid #DA70D6";
+          //  border="3px solid #DA70D6";
             target="Target Tissue";
             tissueTerm+=" <span style='color:#DA70D6'>(TARGET)</span>";
         }else{
