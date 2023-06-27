@@ -59,13 +59,6 @@
 <table width="100%">
     <tr>
         <td><h3>Results</h3></td>
-        <td>
-            <table>
-                <tr>
-                    <td style="font-weight:700; font-size:12px;">Target Tissue&nbsp;&nbsp;&nbsp;</td><td><div style="border:3px solid #DA70D6;background-color: white;width:22px;height:22px "></div></td>
-                </tr>
-            </table>
-        </td>
         <td id="downloadChartBelow" width="100" align="right" style="display:none"><input type="button" style=";border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Chart Below (.CSV)" onclick="downloadSelected()"/></td>
         <td id="downloadEntireExperiment" width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment (.CSV)" onclick="download()"/></td>
     </tr>
