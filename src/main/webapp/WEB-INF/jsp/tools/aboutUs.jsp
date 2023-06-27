@@ -31,7 +31,7 @@
 
     </div>
 </div>
-<c:if test="${action!='About SCGE Toolkit'}">
+<c:if test="${action=='About SCGE Toolkit'}">
 <div class="card" style="overflow-x:auto;border:0px solid white" align="center">
 
 
