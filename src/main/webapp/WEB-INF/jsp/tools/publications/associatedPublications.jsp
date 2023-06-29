@@ -1,10 +1,7 @@
 <%@ page import="edu.mcw.scge.datamodel.publications.Publication" %>
-<%
-    List<Publication> associatedPublications= (List<Publication>) request.getAttribute("associatedPublications");
-%>
-
-
-<script>
+<%List<Publication> associatedPublications= (List<Publication>) request.getAttribute("associatedPublications");%>
+<% if(associatedPublications!=null && associatedPublications.size()>0 || access.isAdmin(p)){ %>
+    <script>
     $(function() {
         $("#myTable-pub").tablesorter({
             theme : 'blue'
@@ -15,26 +12,20 @@
 
         });
     });
-
-    function addProtocol() {
-        alert("adding protocol");
-    }
-
-</script>
-<% if(associatedPublications!=null && associatedPublications.size()>0 || access.isAdmin(p)){ %>
+    </script>
 <hr>
-<%}%>
-
 <table width="95%">
     <tr><td>
-<c:if test="${associatedPublications!=null && fn:length(associatedPublications)>0}">
-        <h4 class="page-header" style="color:grey;">Associated Publications</h4>
-</c:if></td>
-        <% if (access.isAdmin(p) && !SCGEContext.isProduction()) { %>
-    <td align="right"><a href="/toolkit/data/publications/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Publications</a></td>
-<%}%>
-</tr>
-</table>
+        <c:if test="${associatedPublications!=null && fn:length(associatedPublications)>0}">
+            <h4 class="page-header" style="color:grey;">Associated Publications</h4>
+        </c:if>
+        </td>
+            <% if (access.isAdmin(p) && !SCGEContext.isProduction()) { %>
+        <td align="right"><a href="/toolkit/data/publications/associate?objectId=<%=objectId%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:#007BFF; padding:10px;">Associate Publications</a></td>
+    <%}%>
+    </tr>
+    </table>
+
 <c:choose>
     <c:when test="${associatedPublications!=null && fn:length(associatedPublications)>0}">
         <table  id="myTable-pub" class="tablesorter">
@@ -66,11 +57,9 @@
 
     </c:when>
 </c:choose>
+<%}%>
 <c:if test="${relatedPublications!=null && fn:length(relatedPublications)>0}">
-<hr>
-<%@include file="relatedPublications.jsp"%>
+    <hr>
+    <%@include file="relatedPublications.jsp"%>
 </c:if>
-
-
-&nbsp;&nbsp;
 

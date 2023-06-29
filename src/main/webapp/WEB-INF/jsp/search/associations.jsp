@@ -1,8 +1,8 @@
 <c:if test="${hit.sourceAsMap.studyNames!=null && (category=='Experiment' || hit.sourceAsMap.category=='Experiment')}">
-    <div>
+    <div style="padding-top: 1%">
 
     <ul class="myUL">
-    <li><span class="caret">Projects</span>
+    <li><span class="caret">Show Project</span>
     <div class="card" style="background-color: #f0ffff;border:transparent">
     <ul class="nested">
     <c:forEach items="${hit.sourceAsMap.studyNames}" var="map">
@@ -20,10 +20,10 @@
 </c:if>
 <c:if test="${hit.sourceAsMap.experimentNames!=null}">
 
-    <div>
+    <div style="padding-top: 1%">
 
         <ul class="myUL">
-            <li><span class="caret">Experiments</span>
+            <li><span class="caret">Show Experiments (${fn:length(hit.sourceAsMap.experimentNames)})</span>
                 <div class="card" style="background-color: #f0ffff;border:transparent">
                 <ul class="nested">
                     <c:forEach items="${hit.sourceAsMap.experimentNames}" var="map">

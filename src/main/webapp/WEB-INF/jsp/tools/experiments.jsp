@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
@@ -40,6 +41,7 @@
         background-color: transparent;
     }
 
+
 </style>
 <script>
     $(function () {
@@ -47,6 +49,7 @@
             theme: 'blue'
 
         });
+        $('#<%=request.getAttribute("selectedStudy")%>').css('border', '10px solid purple')
 
     });
 </script>
@@ -76,7 +79,19 @@
         }
         if(isProcessed){
 %>
+    <c:if test="${projectDescription!=null}">
+        <div>
+            <div class="card" style="border:transparent">
+                <div >
+                    <b>Description:</b>&nbsp;${projectDescription}
 
+                </div>
+            </div>
+
+
+        </div>
+        <hr>
+    </c:if>
     <div class="card" style="margin-bottom: 10px">
         <div class="card-header">
             <span style="font-weight: bold">Summary of data submissions:</span>
@@ -115,16 +130,7 @@
             List<Experiment> experiments = (List<Experiment>) entry.getValue();
 
     %>
-    <%if (study.getStudyId() == 1026) {%>
-    <!--h4 class="page-header" style="color:grey;">Study Overview</h4>
 
-    <div class="card" style="border:1px solid white">
-        Specific aims: 1) to predict which unintended editing sites have biological effects on human T-cells by integrating large-scale genome-wide activity and epigenomic profiles with state-of-the-art deep learning models and 2) to develop a human primary T-cell platform to detect functional effects of genome editing by measuring clonal representation, off-target mutation frequencies, immunogenicity, or gene expression.
-
-    </div>
-
-    <hr-->
-    <%}%>
     <div id="imageViewer"
          style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
@@ -198,8 +204,8 @@
                     </thead>
 
                     <%
-                        for (Experiment exp : experiments) {
-                            Study s = sdao.getStudyById(exp.getStudyId()).get(0);
+                        for (Experiment ex : experiments) {
+                            Study s = sdao.getStudyById(ex.getStudyId()).get(0);
                     %>
 
                     <% if (access.hasStudyAccess(s, p)) { %>
@@ -207,20 +213,18 @@
                     <tr>
                         <!--<td width="10"><%=s.getTier()%>-->
 
-                        <td class="project-page-details-table experiment-name"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>">
-                            <%=exp.getName()%></a><br>
-                            <%@include file="validations.jsp"%>
+                        <td class="project-page-details-table experiment-name"><a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>">
+                            <%=ex.getName()%></a><br>
+                            <%@include file="validationsNexperiments.jsp"%>
                         </td>
-                        <td class="project-page-details-table experiment-type" style="white-space: nowrap"><%=exp.getType()%>
+                        <td class="project-page-details-table experiment-type" style="white-space: nowrap"><%=ex.getType()%>
                         </td>
-                        <td class="project-page-details-table experiment-description"><%=SFN.parse(exp.getDescription())%></td>
-                        <!--<td><%=exp.getExperimentId()%></td>-->
-
-
+                        <td class="project-page-details-table experiment-description"><%=SFN.parse(ex.getDescription())%></td>
+                        <!--<td><%=ex.getExperimentId()%></td>-->
 
                     </tr>
                     <%
-                        List<Image> images = idao.getImage(exp.getExperimentId());
+                        List<Image> images = idao.getImage(ex.getExperimentId());
                         if (images.size() > 0) {
                     %>
 
@@ -229,7 +233,7 @@
                             <table>
                                 <tr>
                                     <% for (Image image : images) { %>
-                                    <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><img
+                                    <td><a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>"><img
                                             onmouseover="imageMouseOver(this,'<%=StringUtils.encode(image.getLegend())%>', '<%=image.getTitle()%>')"
                                             onmouseout="imageMouseOut(this)" id="img<%=rowCount%>"
                                             src="<%=image.getPath()%>" height="1" width="1"></a></td>

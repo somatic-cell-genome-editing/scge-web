@@ -3,9 +3,6 @@
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.time.LocalDateTime" %>
-<%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: hsnalabolu
@@ -45,7 +42,7 @@
 <c:if test="${fn:length(plots)>0}">
     <div id="barChart">
         <hr>
-        <b style="font-size:16px;">Make a selection to highlight records on the chart: </b>
+        <b style="font-size:16px;">Select experimental variable to highlight records on the chart: </b>
         <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
             <% for(String filter: options) {%>
             <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
@@ -62,15 +59,8 @@
 <table width="100%">
     <tr>
         <td><h3>Results</h3></td>
-        <td>
-            <table>
-                <tr>
-                    <td style="font-weight:700; font-size:12px;">Target Tissue&nbsp;&nbsp;&nbsp;</td><td><div style="border:3px solid #DA70D6;background-color: white;width:22px;height:22px "></div></td>
-                </tr>
-            </table>
-        </td>
-        <td id="downloadChartBelow" width="100" align="right" style="display:none"><input type="button" style=";border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Chart Below" onclick="downloadSelected()"/></td>
-        <td id="downloadEntireExperiment" width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment" onclick="download()"/></td>
+        <td id="downloadChartBelow" width="100" align="right" style="display:none"><input type="button" style=";border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Chart Below (.CSV)" onclick="downloadSelected()"/></td>
+        <td id="downloadEntireExperiment" width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment (.CSV)" onclick="download()"/></td>
     </tr>
 </table>
 <%
@@ -92,11 +82,11 @@
 <script>
 
     var tissues = [];
-    tissues= <%= JSONValue.toJSONString(tissues) %>;
-    var resultTypes = <%=JSONValue.toJSONString(resultTypeList)%>;
+    tissues= <%= gson.toJson(tissues) %>;
+    var resultTypes = <%=gson.toJson(resultTypeList)%>;
     var cellTypes = [];
     <%if(cellTypeList!=null){%>
-    cellTypes = <%= JSONValue.toJSONString(cellTypeList) %>;
+    cellTypes = <%= gson.toJson(cellTypeList) %>;
     <%}%>
   //  quantitativeSize= <%--=resultMap.size()--%>;
 
@@ -789,12 +779,10 @@
 
 </script>
 
-<%
-    long objectId = ex.getExperimentId();
-    String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
-    String bucket="belowExperimentTable1";
-%>
-
+<% String bucket="belowExperimentTable1"; %>
+<div id="associatedPublications">
+    <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+</div>
 <div id="associatedProtocols">
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
 </div>
@@ -812,9 +800,9 @@
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
 
-<div id="associatedPublications">
-    <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
-</div>
+<!--div id="associatedPublications"-->
+    <%--@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"--%>
+<!--/div-->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
     feather.replace()

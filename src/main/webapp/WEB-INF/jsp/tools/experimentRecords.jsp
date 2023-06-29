@@ -4,9 +4,9 @@
 <%@ page import="edu.mcw.scge.dao.implementation.ExperimentResultDao" %>
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
-<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -29,87 +29,39 @@
 
 
 <div>
-        <%
-    List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
-    Map<java.lang.String, List<ExperimentRecord>> resultTypeRecords= (Map<java.lang.String, List<ExperimentRecord>>) request.getAttribute("resultTypeRecords");
-        Map<java.lang.String, Integer> resultTypeColumnCount= (Map<java.lang.String,Integer>) request.getAttribute("resultTypeColumnCount");
+    <%
 
-    Map<String, List<String>> tableColumns=(Map<String, List<String>>) request.getAttribute("tableColumns");
+        List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
+        Map<java.lang.String, List<ExperimentRecord>> resultTypeRecords= (Map<java.lang.String, List<ExperimentRecord>>) request.getAttribute("resultTypeRecords");
+        Map<java.lang.String, Integer> resultTypeColumnCount= (Map<java.lang.String,Integer>) request.getAttribute("resultTypeColumnCount");
+        Map<String, List<String>> tableColumns=(Map<String, List<String>>) request.getAttribute("tableColumns");
      //   HashMap<Long,ExperimentRecord> experimentRecordsMap = (HashMap<Long,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
         ExperimentDao edao = new ExperimentDao();
         Study study = (Study) request.getAttribute("study");
+        List<Experiment> experiments=new ArrayList<>();
+        if(study.getGroupId()!=1410 && study.getGroupId()!=1412) // 1410 and 1412 are SATC projects and each submission is a different group's validation.
+             experiments=   edao.getExperimentsByGroup(study.getGroupId());
+        else
+            experiments=edao.getExperimentsByStudy(study.getStudyId());
         Access access = new Access();
         Person p = access.getUser(request.getSession());
         Experiment ex = (Experiment) request.getAttribute("experiment");
+        long objectId = ex.getExperimentId();
+        String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
     %>
-
-    <table><tr><td style="font-size:18px;"><%=ex.getDescription()%></td></tr></table>
+    <%
+        Map<Long, List<Experiment>> validationExperimentsMap = new HashMap<>();
+        if (request.getAttribute("validationExperimentsMap") != null)
+            validationExperimentsMap = (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
+        Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
+        if (request.getAttribute("experimentsValidatedMap") != null)
+            experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
+    %>
     <div id="recordTableContent" style="position:relative; left:0px; top:00px;padding-top:20px;">
-
-            <%
-                HashMap<String,String> deliveryAssay = (HashMap<String,String>) request.getAttribute("deliveryAssay");
-                HashMap<String,String> editingAssay = (HashMap<String,String>) request.getAttribute("editingAssay");
-                HashMap<String,String> biomarkerAssay = (HashMap<String,String>) request.getAttribute("biomarkerAssay");
-            %>
-
-            <div style="padding:10px; border:1px solid black; background-color: #F7F7F7;font-size:12px;">
-
-            <% if (deliveryAssay.size() != 0) { %>
-                <table>
-                    <tr>
-                        <td valign="top" width="150"><span style="width:100px; ;font-weight:700;">Delivery Assays:</span></td>
-                        <td><%
-                            int count=1;
-                            for (String assay: deliveryAssay.keySet()) { %>
-                            <span style="adding-left:20px;"><b>-</b>&nbsp;<%=assay%></span><br>
-                            <%
-                                count++;
-                            } %>
-                        </td>
-                    </tr>
-                </table>
+        <%@include file="experiment/summary.jsp"%>
 
 
-            <% } %>
-            <% if (editingAssay.size() != 0) { %>
-                    <table>
-                        <tr>
-                            <td valign="top" width="150"><span style=";margin-top:10px;font-weight:700;">Editing Assay:</span></td>
-                            <td> <%
-                                int count=1;
-                                for (String assay: editingAssay.keySet()) { %>
-                                <span style="adding-left:20px;"><b>-</b>&nbsp;<%=assay%></span><br>
-                                <%
-                                    count++;
-                                } %>
-                            </td>
-                        </tr>
-                    </table>
-
-
-            <% } %>
-                <% if (biomarkerAssay.size() != 0) { %>
-                <table>
-                    <tr>
-                        <td valign="top" width="150"><span style=";margin-top:10px;font-weight:700;">Biomarker Assay:</span></td>
-                        <td> <%
-                            int count=1;
-                            for (String assay: biomarkerAssay.keySet()) { %>
-                            <span style="adding-left:20px;"><b>-</b>&nbsp;<%=assay%></span><br>
-                            <%
-                                    count++;
-                                } %>
-                        </td>
-                    </tr>
-                </table>
-
-
-                <% } %>
-            </div>
-            <br>
-
-            <%
-                HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
+            <% HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
                 HashMap<Long,List<Vector>> vectorMap = (HashMap<Long,List<Vector>>)request.getAttribute("vectorMap");
                 ExperimentResultDao erdao = new ExperimentResultDao();
                 List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
@@ -159,7 +111,6 @@
                 }
             %>
 
-
             <% if ( tissueList.size() > 0 && selectedTissue == null && (selectedResultType==null || !selectedResultType.equals("all"))) { %>
 
                 <%@include file="tissueMap.jsp"%>
@@ -167,14 +118,11 @@
 
          <% }else{  %>
 
+        <%@include file="recordsTable.jsp"%>
 
-
-
-            <%@include file="recordsTable.jsp"%>
-
-<%}%>
-
-        </div>
+        <%}%>
+    </div>
+</div>
 
 
 
