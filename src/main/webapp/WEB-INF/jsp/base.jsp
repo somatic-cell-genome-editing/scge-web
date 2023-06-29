@@ -88,7 +88,7 @@
     <div style="font-size:12px; color:white; background-color: black; width:100%;padding-left:15px;padding-top:4px; padding-bottom:2px;">
         <div style="text-align:right; color:white;padding-right:12px;">
             <a href="https://scge.mcw.edu" style="color:white;">SCGE Consortium Home</a>&nbsp;&nbsp;
-            |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/initiatives">About SCGE</a>&nbsp;&nbsp;
+            |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/initiatives">About SCGE Toolkit</a>&nbsp;&nbsp;
             |&nbsp;&nbsp;<a style="color:white;" onclick="openForm()" href="javascript:void(0)">Contact Us</a>&nbsp;&nbsp;
             |&nbsp;&nbsp;<a style="color:white;" href="/toolkit/data/citation">Citing the Toolkit</a>&nbsp;&nbsp;
             |&nbsp;&nbsp;<a style="color:white;" href="https://creativecommons.org/licenses/by/4.0/">License</a>&nbsp;&nbsp;
