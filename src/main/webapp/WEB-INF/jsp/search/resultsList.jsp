@@ -141,8 +141,9 @@
                         </div>
                     </div>
                 </div>
-                <small>  <c:if test="${ hit.sourceAsMap.category=='Experiment' || hit.sourceAsMap.category=='Project'}">
+                <c:if test="${ hit.sourceAsMap.category=='Experiment' || hit.sourceAsMap.category=='Project'}">
                    <c:set var="first" value="true"/>
+                    <small>
                     <c:forEach items="${hit.sourceAsMap.pi}" var="item">
                         <c:choose>
                             <c:when test="${first=='true'}">
@@ -158,16 +159,15 @@
                     <c:if test="${hit.sourceAsMap.lastModifiedDate!=null}">
                         &nbsp;<span class="header">Last Updated Date:</span> ${hit.sourceAsMap.lastModifiedDate}
                     </c:if>
-                </c:if>
                     <c:if test="${hit.sourceAsMap.currentGrantNumber!=null}">
                         <!--a href="https://reporter.nih.gov/project-details/$-{hit.sourceAsMap.currentGrantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a-->
                         <a href="${hit.sourceAsMap.nihReporterLink}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
 
                     </c:if>
-
-                </small>
-
-            </div><br>
+                    </small>
+                    <br>&nbsp;
+                </c:if>
+            </div>
             <c:if test="${hit.sourceAsMap.category=='Antibody' && fn:length(hit.sourceAsMap.externalId)>0}">
                 <span><b>Other Id:</b>
                 <c:forEach items="${hit.sourceAsMap.externalId}" var="item">
