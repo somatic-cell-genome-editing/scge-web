@@ -91,7 +91,6 @@
             <div>
                 <div>
                     <h4>
-
                         <c:if test="${hit.sourceAsMap.name!=null}">
                             <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
                             <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large;color:darkorange"> [Validation]</span>
@@ -119,22 +118,23 @@
                                     </c:if>                </c:otherwise>
                             </c:choose>
                         </c:if>
-                        -<small class="${hit.sourceAsMap.category} text-muted" >${hit.sourceAsMap.category}&nbsp;</small>
-                        <small class="text-muted">
-                            <c:if test="${hit.sourceAsMap.experimentType!=null}">-  ${hit.sourceAsMap.experimentType}</c:if></small>
-                        <small class="text-muted">${hit.sourceAsMap.initiative}</small>
-                        <small class="text-muted">${hit.sourceAsMap.modelOrganism}</small>
-                         <c:forEach items="${hit.sourceAsMap.modelOrganism}" var="organism">
-                              <c:if test="${organism=='Mouse'}">
 
-                                </c:if>
-                                <c:if test="${organism=='Human'}">
-                                    <i class="fas fa-thin fa-person"></i>
-                                </c:if>
-                          </c:forEach>
                         <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
                         <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">+</a><%}%>
                     </h4>
+                    <small class="${hit.sourceAsMap.category} text-muted" >${hit.sourceAsMap.category}&nbsp;</small>
+                    <small class="text-muted">
+                        <c:if test="${hit.sourceAsMap.experimentType!=null}">-&nbsp;${hit.sourceAsMap.experimentType}</c:if></small>
+                    <small class="text-muted">${hit.sourceAsMap.initiative}</small>
+                    <small class="text-muted">${hit.sourceAsMap.modelOrganism}</small>
+                    <c:forEach items="${hit.sourceAsMap.modelOrganism}" var="organism">
+                        <c:if test="${organism=='Mouse'}">
+
+                        </c:if>
+                        <c:if test="${organism=='Human'}">
+                            <i class="fas fa-thin fa-person"></i>
+                        </c:if>
+                    </c:forEach>
                     <div class="collapse" id="highlights-${hit.sourceAsMap.id}" style="padding: 0; margin: 0">
                         <div class="card card-body" style="margin-bottom: 0;padding-bottom: 0">
                     <%@include file="highlights.jsp"%>
