@@ -214,7 +214,7 @@
                         <!--<td width="10"><%=s.getTier()%>-->
 
                         <td class="project-page-details-table experiment-name"><a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>">
-                            <%=ex.getName()%></a><br>
+                            <%=ex.getName()%></a><br><br>
                             <%@include file="validationsNexperiments.jsp"%>
                         </td>
                         <td class="project-page-details-table experiment-type" style="white-space: nowrap"><%=ex.getType()%>
