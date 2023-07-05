@@ -46,8 +46,8 @@
 
 </style>
 
-<div align="center">
-<h2>Toolkit Data organization (Click icons to explore)</h2>
+<div>
+<h2 style="text-align: center">Toolkit Data organization (Click icons to explore)</h2>
 
 <div class="card col-lg-12" style="padding:10px;border:5px solid gainsboro;border-radius: 20px">
     <div class="row ">
@@ -143,7 +143,7 @@
                     <li style="font-style: italic;list-style-type: none">In vitro</li>
                     <li style="font-style: italic;list-style-type: none">Validation studies</li>
                 </ul>
-                <div class="card" style="margin-top:40%" >
+                <div class="card"  >
                     <div class="card-body" >
                         <ul class="nav flex-column">
                             <li class="nav-item">
