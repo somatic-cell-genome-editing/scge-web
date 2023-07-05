@@ -36,7 +36,6 @@
     }
     .data-items .card{
         border:0px solid gray;
-        border-radius: 5px;
     }
     .circle-icon {
         background: #34cceb;
@@ -50,13 +49,13 @@
 <div align="center">
 <h2>Toolkit Data organization (Click icons to explore)</h2>
 
-<div class="card col-9" style="padding:10px;border:5px solid gainsboro">
+<div class="card col-lg-12" style="padding:10px;border:5px solid gainsboro;border-radius: 20px">
     <div class="row ">
         <div class="col-lg-3 data-items">
             <h3>PROJECTS</h3>
             <ul>
-                <li style="font-style: italic">Initiative based</li>
-                <li style="font-style: italic">Collaborative</li>
+                <li style="font-style: italic;list-style-type: none">Initiative based</li>
+                <li style="font-style: italic;list-style-type: none">Collaborative</li>
             </ul>
             <div class="card">
                 <div class="card-body">
@@ -135,14 +134,14 @@
             }
             %>
         </div>
-        <div class="card col-8.5" style="margin:10px;padding:10px;border:5px solid dodgerblue">
+        <div class="card col-8" style="margin:10px;padding:10px;border:5px solid dodgerblue;border-radius: 20px">
         <div class="row">
             <div class="col-lg-3 data-items">
                 <h3>EXPERIMENTS</h3>
                 <ul>
-                    <li style="font-style: italic">In vivo</li>
-                    <li style="font-style: italic">In vitro</li>
-                    <li style="font-style: italic">Validation studies</li>
+                    <li style="font-style: italic;list-style-type: none">In vivo</li>
+                    <li style="font-style: italic;list-style-type: none">In vitro</li>
+                    <li style="font-style: italic;list-style-type: none">Validation studies</li>
                 </ul>
                 <div class="card" style="margin-top:40%" >
                     <div class="card-body" >
@@ -165,7 +164,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card col" style="margin:10px;padding:10px;border:5px solid crimson">
+            <div class="card col-lg-8" style="margin:10px;padding:10px;border:5px solid crimson;border-radius: 20px">
             <h3>OBJECTS</h3>
                 <div class="row">
                     <div class="col-sm-6 data-items">
