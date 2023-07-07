@@ -185,6 +185,6 @@ input[type="email"] {
         background-image: linear-gradient(to right, #1a80b6  , #e6f3fa);*/
     /*  background: rgb(139,194,226);
       background: radial-gradient(circle, rgba(139,194,226,1) 0%, rgba(247,247,247,1) 100%);*/
-    background-color: transparent;
-    border-bottom: 1px solid lightgrey;
+  /*  background-color: transparent;
+    border-bottom: 1px solid lightgrey;*/
 }

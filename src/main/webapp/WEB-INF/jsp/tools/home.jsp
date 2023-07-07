@@ -24,8 +24,8 @@
         font-weight: bold;
         border: 0;
         color: #017dc4;
-        font-size:20px;
-        padding-left:20px;
+        font-size:16px;
+        padding-left:10px;
     }
     .card-image {
         height:80px;
@@ -46,13 +46,13 @@
 
 </style>
 
-<div>
+<div class="container">
 <h2 style="text-align: center">Toolkit Data organization (Click icons to explore)</h2>
 
 <div class="card col-lg-12" style="padding:10px;border:5px solid gainsboro;border-radius: 20px">
     <div class="row ">
         <div class="col-lg-3 data-items">
-            <h3>PROJECTS</h3>
+            <h5>PROJECTS</h5>
             <ul>
                 <li style="font-style: italic;list-style-type: none">Initiative based</li>
                 <li style="font-style: italic;list-style-type: none">Collaborative</li>
@@ -134,10 +134,10 @@
             }
             %>
         </div>
-        <div class="card col-8" style="margin:10px;padding:10px;border:5px solid dodgerblue;border-radius: 20px">
+        <div class="card col" style="margin:10px;padding:10px;border:5px solid dodgerblue;border-radius: 20px">
         <div class="row">
             <div class="col-lg-3 data-items">
-                <h3>EXPERIMENTS</h3>
+                <h5>EXPERIMENTS</h5>
                 <ul>
                     <li style="font-style: italic;list-style-type: none">In vivo</li>
                     <li style="font-style: italic;list-style-type: none">In vitro</li>
@@ -164,8 +164,8 @@
                     </div>
                 </div>
             </div>
-            <div class="card col-lg-8" style="margin:10px;padding:10px;border:5px solid crimson;border-radius: 20px">
-            <h3>OBJECTS</h3>
+            <div class="card col" style="margin:10px;padding:10px;border:5px solid crimson;border-radius: 20px">
+            <h5>OBJECTS</h5>
                 <div class="row">
                     <div class="col-sm-6 data-items">
 
