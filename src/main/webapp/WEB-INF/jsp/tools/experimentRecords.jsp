@@ -16,14 +16,6 @@
 --%>
 
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<link href="/toolkit/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-<link href="/toolkit/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-<link href="/toolkit/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
-
-<script src="/toolkit/common/tableSorter/js/tablesorter.js"> </script>
-<script src="/toolkit/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.1.2/dist/chart.umd.min.js"></script>
 
@@ -58,7 +50,6 @@
             experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
     %>
     <div id="recordTableContent" style="position:relative; left:0px; top:00px;padding-top:20px;">
-        <%@include file="experiment/summary.jsp"%>
 
 
             <% HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
