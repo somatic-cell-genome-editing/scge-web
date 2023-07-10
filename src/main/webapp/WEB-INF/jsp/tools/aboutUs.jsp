@@ -7,7 +7,7 @@
 
     <div>
         <p class="lead">
-            Somatic Cell Genome Editing (SCGE) toolkit serve as the hub to promote the novel strategies and technologies that are funded by NIH Common Fund's Somatic Cell Genome Editing (SCGE) program. The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.
+            The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients. Somatic Cell Genome Editing (SCGE) toolkit serve as the hub to promote the novel strategies and technologies that are funded by NIH Common Fund's Somatic Cell Genome Editing (SCGE) program.
         </p>
         <hr class="my-4">
         <p>The Toolkit team works cooperatively with funded groups to facilitate their scientific endeavors by building pipelines and processes to collect, integrate, visualize, and distribute data, including </p>
