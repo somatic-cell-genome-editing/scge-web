@@ -92,9 +92,10 @@
   <%}%>
     <%@include file="../validationsNexperiments.jsp"%>
 
-    <% ProtocolDao pdao = new ProtocolDao();
-    List<Protocol> localProtocols = pdao.getProtocolsForObject(objectId);
-  if(publications!=null && publications.size()>0 || (localProtocols!=null && localProtocols.size()>0)){%>
-  Jump to:&nbsp;<%if(publications!=null && publications.size()>0){%><a href="#associatedPublications">Publications</a>&nbsp;<%}%><%if(localProtocols!=null && localProtocols.size()>0){%>|&nbsp;<a href="#associatedProtocols">Protocols</a><%}%>
-<%}%>
+
 </div>
+<% ProtocolDao pdao = new ProtocolDao();
+  List<Protocol> localProtocols = pdao.getProtocolsForObject(objectId);
+  if(publications!=null && publications.size()>0 || (localProtocols!=null && localProtocols.size()>0)){%>
+Jump to:&nbsp;<%if(publications!=null && publications.size()>0){%><a href="#associatedPublications">Publications</a>&nbsp;<%}%><%if(localProtocols!=null && localProtocols.size()>0){%>|&nbsp;<a href="#associatedProtocols">Protocols</a><%}%>
+<%}%>
