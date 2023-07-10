@@ -20,7 +20,7 @@
 
 </style>
 
-<div align="center" id="initiatives"><h2>Browse experiments by initiative</h2></div>
+<div align="center" id="initiatives"><h2>Somatic Cell Genome Editing (SCGE) Program Initiatives</h2></div>
 <hr>
 <div class="row justify-content-center" style="text-align: center" align="center">
 
@@ -125,4 +125,10 @@
     </div>
         <!-- end studies by initiative card -->
     </div>
+<hr>
+<div align="center" id="toolkitTeam"><h2>SCGE Toolkit Team</h2></div>
 
+<div class="container">
+    <%@include file="toolkitTeam.jsp"%>
+
+</div>

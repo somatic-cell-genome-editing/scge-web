@@ -30,7 +30,7 @@
             <div class="col-lg-8">
                 <p>The <a href="https://commonfund.nih.gov/editing" target="_blank" title="Somatic Cell Genome Editing | NIH Common Fund">Somatic Cell Gene Editing (SCGE)</a> Consortium is supported by the NIH Common Fund through cooperative agreements by multiple National Institutes of Health (NIH) institutes to advance genome editing technologies to the clinic. In addition to five additional scientific initiatives (<a href="#initiatives">below</a>), the SCGE Dissemination and Coordinating Center (DCC) was funded (U24HG010423) to facilitate consortium interactions and scientific exchange and to <a href="https://grants.nih.gov/grants/guide/rfa-files/RFA-RM-18-018.html" target="_blank">collect and disseminate</a> consortium generated data through the SCGE Toolkit to the broader biomedical research community.  </p>
                 <hr class="my-4">
-                <p>The Toolkit collects data and metadata from funded consortium laboratories, reviews, curates and standardizes data for loading into the Toolkit, works with the submitting laboratory and NIH program staff to certify data loading, and then makes data publicly accessible.  </p>
+                <p>The <a href="#toolkitTeam">Toolkit team</a> collects data and metadata from funded consortium laboratories, reviews, curates and standardizes data for loading into the Toolkit, works with the submitting laboratory and NIH program staff to certify data loading, and then makes data publicly accessible.  </p>
             </div>
             <div class="col">
                 <img src="/toolkit/images/toolkit_overview.png" alt="Toolkit Overview"/>
