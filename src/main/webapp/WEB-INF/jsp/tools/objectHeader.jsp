@@ -49,7 +49,7 @@
 %>
 
 <div class="jumbotron page-header" style="background-color: #f7f8fa;padding-top: 20px;padding-bottom: 20px" >
-  <h1 class="display-4"><%=action%></h1>
+  <h1 class="display-4"><%=action%><%if(request.getParameter("initiative")!=null){%>&nbsp;of&nbsp;<%=request.getParameter("initiative")%><%}%></h1>
   <p class="lead">
     <%if(action!=null && action.contains("Experiment:")){%>
     <c:if test="${study!=null && ( study.multiplePis!=null)}">
