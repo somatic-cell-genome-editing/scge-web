@@ -48,7 +48,7 @@
   }
 %>
 
-<div class="jumbotron" style="background-color: #f7f8fa;padding-top: 20px;padding-bottom: 20px" >
+<div class="jumbotron page-header" style="background-color: #f7f8fa;padding-top: 20px;padding-bottom: 20px" >
   <h1 class="display-4"><%=action%></h1>
   <p class="lead">
     <%if(action!=null && action.contains("Experiment:")){%>
