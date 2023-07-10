@@ -40,7 +40,7 @@
         <% for (Experiment experiment : validationExperimentsMap.get(ex.getExperimentId())) { %>
         <a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a>
 
-<%}%>
+        <%}%>
     </div>
 <%}}} %>
 
