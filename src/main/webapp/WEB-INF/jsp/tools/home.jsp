@@ -65,7 +65,7 @@
                                 <table>
                                     <tr>
                                         <td>
-                                            <div class="rounded" ><i class="fa-solid fa-diagram-project fa-3x circle-icon" ></i></div>
+                                            <div class="rounded" ><img src="/toolkit/images/exploreAllProjects.png" alt="Explore All Projects"></div>
                                         </td>
                                         <td class="card-label">
                                             Explore All Projects
