@@ -17,27 +17,27 @@
   if(request.getAttribute("action")!=null)
           action=request.getAttribute("action").toString();
   if(action!=null && action.equalsIgnoreCase("Genome Editors")) {
-    description = "Genome editing, also called gene editing, is an area of research seeking to modify genes of living organisms to improve our understanding of gene function and develop ways to use it to treat genetic or acquired diseases.";
+    description = "Genome Editors are tools used by researchers for genome editing, also called gene editing, to modify genes of living organisms to improve our understanding of gene function and develop ways to use it to treat genetic or acquired diseases. Below is information about the various genome editors, reporters, and other reagents used and developed by SCGE consortium projects.";
     list=true;
   }
   if(action!=null && action.equalsIgnoreCase("Model Systems")) {
-    description = "Model systems are particular species of animals that substitute for humans or other animals. Model Systems used in SCGE projects include animal models (Mouse, Pig, etc.,), cell lines, organoids";
+    description = "Model Systems are cells and animals of particular species (e.g., mouse, pig, human cultured cells) that substitute for humans in research for developing and understanding safe approaches to genome editing. Below is information about cell and animal models used and developed by SCGE consortium projects.";
     list=true;
   }
   if(action!=null && action.equalsIgnoreCase("Guides")) {
-    description = "Guide RNA  is a piece of RNA that functions as a guide for targeting enzymes in gene editing.";
+    description = "Guide RNA is a piece of RNA that functions as a guide for targeting certain Genome Editor enzymes for gene and genome editing. This page contains information about guide RNAs used and developed by SCGE consortium projects. ";
     list=true;
   }
   if(action!=null && action.equalsIgnoreCase("Delivery Systems")) {
-    description = "Novel gene delivery systems.";
+    description = "Delivery Systems include various technologies to deliver Genome Editors into cells and tissues of cells and animals, and one day humans, to treat genetic or acquired diseases. This page contains information about in vitro and in vivo delivery systems used and developed by SCGE consortium projects. ";
     list=true;
   }
   if(action!=null && action.equalsIgnoreCase("Vectors")) {
-    description = "Vectors include adenovirus, adeno-associated virus, retrovirus, and lentivirus.";
+    description = "Vectors include DNA and engineered viruses harnessed by researchers to introduce Genome Editors into cells and tissues. This page contains information about vectors used and developed by SCGE consortium projects. ";
     list=true;
   }
   if(action!=null && action.equalsIgnoreCase("Protocols")) {
-    description = "The procedures or rules that are being used in somatic cell genome editing techniques.";
+    description = "This page contains protocols deposited by SCGE consortium laboratories. ";
     list=true;
   }
   if(action!=null && action.contains("Experiment:")) {
