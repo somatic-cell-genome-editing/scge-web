@@ -64,8 +64,8 @@
 
             </div>
             <div class="card-footer" style="background-color: transparent">
-                <p style="padding-top: 10px"><a  href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Small+Animal+Testing+Center+%28SATC%29"><button class="btn btn-sm btn-primary">View Experiments in Toolkit</button></a></p>
-                <p><a  href="https://scge.mcw.edu/animal-reporter-and-testing-centers/"><button class="btn btn-sm btn-primary">Learn more</button></a></p>
+                <p style="padding-top: 10px"><a  href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Small+Animal+Testing+Center+%28SATC%29"><button class="btn btn-sm btn-secondary">View Experiments in Toolkit</button></a></p>
+                <p><a  href="https://scge.mcw.edu/animal-reporter-and-testing-centers/"><button class="btn btn-sm btn-secondary">Learn more</button></a></p>
 
             </div>
         </div>
@@ -85,8 +85,8 @@
 
             </div>
             <div class="card-footer" style="background-color: transparent">
-                <p style="padding-top: 10px"><a  href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Genome+Editors"><button class="btn btn-sm btn-primary">View Experiments in Toolkit</button></a></p>
-                <p><a  href="https://scge.mcw.edu/genome-editor-projects/"><button class="btn btn-sm btn-primary">Learn more</button></a></p>
+                <p style="padding-top: 10px"><a  href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Genome+Editors"><button class="btn btn-sm btn-secondary">View Experiments in Toolkit</button></a></p>
+                <p><a  href="https://scge.mcw.edu/genome-editor-projects/"><button class="btn btn-sm btn-secondary">Learn more</button></a></p>
 
             </div>
         </div>
@@ -104,9 +104,9 @@
 
             </div>
             <div class="card-footer" style="background-color: transparent">
-                <p style="padding-top: 10px"><a href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Delivery+Systems+Initiative"><button class="btn btn-sm btn-primary">View Experiments in Toolkit</button>
+                <p style="padding-top: 10px"><a href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Delivery+Systems+Initiative"><button class="btn btn-sm btn-secondary">View Experiments in Toolkit</button>
                 </a></p><p>
-                <a  href="https://scge.mcw.edu/delivery-systems-projects/"><button class="btn btn-sm btn-primary">Learn more</button></a></p>
+                <a  href="https://scge.mcw.edu/delivery-systems-projects/"><button class="btn btn-sm btn-secondary">Learn more</button></a></p>
             </div>
         </div>
 
@@ -125,9 +125,9 @@
 
             </div>
             <div class="card-footer" style="background-color: transparent">
-                <p style="padding-top: 10px"><a href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Biological+Systems"><button class="btn btn-sm btn-primary">View Experiments in Tookit</button>
+                <p style="padding-top: 10px"><a href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Biological+Systems"><button class="btn btn-sm btn-secondary">View Experiments in Tookit</button>
                 </a></p><p>
-                <a  href="https://scge.mcw.edu/biological-effects-projects/"><button class="btn btn-sm btn-primary">Learn more</button></a>
+                <a  href="https://scge.mcw.edu/biological-effects-projects/"><button class="btn btn-sm btn-secondary">Learn more</button></a>
             </p>
             </div>
         </div>
@@ -143,9 +143,9 @@
 
             </div>
             <div class="card-footer" style="background-color: transparent">
-                <p style="padding-top: 10px"><a  href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=In+Vivo+Cell+Tracking"><button class="btn btn-sm btn-primary">View Experiments in Toolkit</button>
+                <p style="padding-top: 10px"><a  href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=In+Vivo+Cell+Tracking"><button class="btn btn-sm btn-secondary">View Experiments in Toolkit</button>
                 </a></p><p>
-                <a  href="https://scge.mcw.edu/biological-effects-projects/"><button class="btn btn-sm btn-primary">Learn more</button></a>
+                <a  href="https://scge.mcw.edu/biological-effects-projects/"><button class="btn btn-sm btn-secondary">Learn more</button></a>
             </p>
             </div>
         </div>
