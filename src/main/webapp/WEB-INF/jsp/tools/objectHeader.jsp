@@ -17,7 +17,7 @@
   if(request.getAttribute("action")!=null)
           action=request.getAttribute("action").toString();
   if(action!=null && action.equalsIgnoreCase("Genome Editors")) {
-    description = "Genome Editors are tools used by researchers for genome editing, also called gene editing, to modify genes of living organisms to improve our understanding of gene function and develop ways to use it to treat genetic or acquired diseases. Below is information about the various genome editors, reporters, and other reagents used and developed by SCGE consortium projects.";
+    description = "Genome Editors are the tools used by researchers for genome editing, also called gene editing, to modify genes of living organisms to improve our understanding of gene function and develop ways to use it to treat genetic or acquired diseases. Below is information about the various genome editors, reporters, and other reagents used and developed by SCGE consortium projects.";
     list=true;
   }
   if(action!=null && action.equalsIgnoreCase("Model Systems")) {
@@ -81,6 +81,7 @@
 
     </c:if>
     <%}else{ if(description!=null){%>
+    <hr class="my-4">
     <%=description%>
     <%}
     if(action!=null && action.equalsIgnoreCase("About SCGE Toolkit")){%>
@@ -89,7 +90,7 @@
     }%>
   </p>
   <%if(list){%>
-  <hr class="my-4">
+  <!--hr class="my-4"-->
   <%}%>
   <%if(action!=null && action.contains("Experiment:")){%>
   <%
@@ -122,7 +123,7 @@
   %>
   <%@include file="experiment/summary.jsp"%>
   <%}else{ if(list){%>
-  <p>This page contains list of <%=action.toLowerCase()%> that are being used in SCGE consortium projects  and <%=action.toLowerCase()%> that are newly developed by SCGE consortium projects. </p>
+  <!--p>This page contains list of <%--=action.toLowerCase()--%> that are being used in SCGE consortium projects  and <%--=action.toLowerCase()--%> that are newly developed by SCGE consortium projects. </p-->
 
   <% }}%>
 
