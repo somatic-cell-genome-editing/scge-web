@@ -216,7 +216,10 @@
                 </c:forEach>
                 </span> <br>
             </c:if>
+            <c:if test="${fn:length(hit.sourceAsMap.studyNames)>0 || fn:length(hit.sourceAsMap.experimentNames)>0}">
+               <%@include file="associations.jsp"%>
 
+            </c:if>
         </div>
     </td>
     </tr>
