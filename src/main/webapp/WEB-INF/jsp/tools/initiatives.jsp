@@ -41,7 +41,7 @@
         margin-bottom:10px;
     }
 .initiative-description{
-
+    text-align: left;
 }
 </style>
 
