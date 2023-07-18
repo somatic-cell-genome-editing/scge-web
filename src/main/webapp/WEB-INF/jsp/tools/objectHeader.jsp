@@ -50,6 +50,9 @@
 
 <div class="jumbotron page-header" style="background-color: #f7f8fa;padding-top: 20px;padding-bottom: 20px" >
   <h1 class="display-4"><%=action%><%if(request.getParameter("initiative")!=null){%>&nbsp;of&nbsp;<%=request.getParameter("initiative")%><%}%></h1>
+  <%if((action==null || !action.contains("Experiment:")) && description!=null){%>
+  <hr class="my-4">
+  <%}%>
   <p class="lead">
     <%if(action!=null && action.contains("Experiment:")){%>
     <c:if test="${study!=null && ( study.multiplePis!=null)}">
@@ -81,7 +84,7 @@
 
     </c:if>
     <%}else{ if(description!=null){%>
-    <hr class="my-4">
+
     <%=description%>
     <%}
     if(action!=null && action.equalsIgnoreCase("About SCGE Toolkit")){%>
