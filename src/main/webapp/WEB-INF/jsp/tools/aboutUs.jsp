@@ -4,7 +4,7 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 50%;
+        width: 90%;
     }
 
 </style>
@@ -43,7 +43,7 @@
                 <p>The <a href="#toolkitTeam">Toolkit team</a> collects data and metadata from funded consortium laboratories, reviews, curates and standardizes data for loading into the Toolkit, works with the submitting laboratory and NIH program staff to certify data loading, and then makes data publicly accessible.  </p>
             </div>
             <div class="col-lg-6 d-flex align-items-center" align="center" >
-                <img class="center" src="/toolkit/images/toolkit_overview.png" alt="Toolkit Overview"/>
+                <img class="center" src="/toolkit/images/Toolkit_Consortium_Infographic_version_2.png" alt="Toolkit Overview"/>
             </div>
         </div>
     </div>
