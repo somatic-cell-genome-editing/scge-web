@@ -39,7 +39,9 @@ public class IndexServices {
         srb.size(10000);
         if(searchTerm.equals("") && categories.size()==1 && (categories.get(0).equalsIgnoreCase("Project")|| categories.get(0).equalsIgnoreCase("Experiment"))){
           //  srb.sort("name.keyword");
-            srb.sort("lastModifiedDate", SortOrder.DESC);
+            try {
+                srb.sort("lastModifiedDate", SortOrder.DESC);
+            }catch (Exception exception){}
 
         }else{
             if(searchTerm.equals("")) {
@@ -69,7 +71,8 @@ public class IndexServices {
             if(categories==null ||  categories.get(0).equalsIgnoreCase("Model System")
                     || categories.get(0).equalsIgnoreCase("Delivery System")
             || categories.get(0).equalsIgnoreCase("Vector")
-                    ||categories.get(0).equalsIgnoreCase("Experiment")){
+                    ||categories.get(0).equalsIgnoreCase("Experiment")
+                    ||categories.get(0).equalsIgnoreCase("Protocol")){
                 srb.aggregation(this.buildSearchAggregations("modelType"));
                 srb.aggregation(this.buildSearchAggregations("modelSubtype"));
                 srb.aggregation(this.buildSearchAggregations("modelOrganism"));
@@ -107,12 +110,14 @@ public class IndexServices {
                 srb.aggregation(this.buildSearchAggregations(  "vectorType"));
                 srb.aggregation(this.buildSearchAggregations(   "vectorSubtype"));
             }
-            if(categories==null || categories.get(0).equalsIgnoreCase("Study") || categories.get(0).equalsIgnoreCase("Experiment")) {
+            if(categories==null || categories.get(0).equalsIgnoreCase("Study") || categories.get(0).equalsIgnoreCase("Experiment")
+                    || categories.get(0).equalsIgnoreCase("Protocol")) {
                 srb.aggregation(this.buildSearchAggregations("experimentType"));
             }
+            if(categories==null || categories.get(0).equalsIgnoreCase("Protocol")) {
+                srb.aggregation(this.buildSearchAggregations("experimentName"));
+            }
             srb.aggregation(this.buildSearchAggregations("pi"));
-            srb.aggregation(this.buildSearchAggregations("access"));
-            srb.aggregation(this.buildSearchAggregations("status"));
             srb.aggregation(this.buildSearchAggregations("initiative"));
             srb.aggregation(this.buildSearchAggregations("studyType"));
 
@@ -155,27 +160,12 @@ public class IndexServices {
         AggregationBuilder aggs= null;
         if(fieldName!=null && !fieldName.equalsIgnoreCase("category") &&
                 !fieldName.equals("")){
-       /*     if(fieldName.contains("models") || fieldName.equalsIgnoreCase("deliveries") || fieldName.equalsIgnoreCase("editors")|| fieldName.equalsIgnoreCase("guides"))
-         //   aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
-                aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword");
-
-            else*/
             aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword") .size(1000).order(BucketOrder.key(true));
-
-         //   aggs= AggregationBuilders.terms(fieldName).field(fieldName+".type.keyword");
 
         }else {
                 fieldName="category";
             aggs = AggregationBuilders.terms(fieldName).field(fieldName + ".keyword") .size(1000).order(BucketOrder.key(true));
         }
-    /*    if(selectedCategory!=null && !selectedCategory.equals("")) {
-            aggs.subAggregation(AggregationBuilders.terms("type").field("type.keyword")
-                    .subAggregation(AggregationBuilders.terms("subtype").field("subType.keyword"))
-            );
-
-            // .order(BucketOrder.key(true));
-
-        }*/
         return aggs;
     }
     public AggregationBuilder buildFilterAggregations(String fieldName, String selectedCategory){
