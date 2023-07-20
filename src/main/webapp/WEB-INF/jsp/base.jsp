@@ -10,6 +10,8 @@
 
     <%@include file="/common/googleAnalytics.jsp"%>
 
+
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -75,6 +77,19 @@
 
 <body>
 <%@include file="feedbackForm.jsp"%>
+
+<link rel="stylesheet" href="/toolkit/js/cookieconsent/src/cookieconsent.css">
+
+<!--
+<h1><a href="https://orestbida.com/demo-projects/cookieconsent/" target="_blank" class="demo-title">CookieConsent 🡥</a></h1>
+<h2>Basic example</h2>
+<br>
+<p>Check your <a href="https://developer.chrome.com/docs/devtools/shortcuts/#open" target="_blank">browser's console 🡥</a> to see what's happening!</p>
+<button type="button" data-cc="c-settings">Cookie settings</button>
+-->
+<script defer src="/toolkit/js/cookieconsent/src/cookieconsent.js"></script>
+<script defer src="/toolkit/js/cookieconsent/demo/demo_basic/cookieconsent-init.js"></script>
+
 
 <%
 
