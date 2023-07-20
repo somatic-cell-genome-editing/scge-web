@@ -40,6 +40,7 @@
 
 <!--div id="graphOptions" style="padding:10px;margin-bottome:15px;display:none;"></div-->
 <c:if test="${fn:length(plots)>0}">
+    <div id="chart-highlighter">
     <div id="barChart">
         <hr>
         <b style="font-size:16px;">Select experimental variable to highlight records on the chart: </b>
@@ -49,7 +50,7 @@
             <%} %>
         </select>
     </div>
-
+    </div>
 </c:if>
 <div>
 <%@include file="experiment/plot.jsp"%>
@@ -109,7 +110,7 @@
                 update(false);
             }
         });
-        if(filtersApplied())
+        if(filtersApplied() && !emptyTableRows())
             $('#downloadChartBelow').show();
         else
             $('#downloadChartBelow').hide();
@@ -563,30 +564,43 @@
         }
         return false;
     }
-    function applyFilters(obj)  {
+    function emptyTableRows() {
+        var table = document.getElementById('myTable');
+        var rowLength = table.rows.length;
+        var hiddenRows=0;
+
+        for (i = 2; i < rowLength; i++) {
+            if (table.rows.item(i).style.display == "none") {
+                hiddenRows+=1;
+            }
+        }
+        console.log("TABLE ROW LENGTH:"+ rowLength +"\thidden rows:"+ hiddenRows)
+        return rowLength == hiddenRows + 2;
+    }
+    function applyFilters(obj) {
         var table = document.getElementById('myTable'); //to remove filtered rows
         var rowLength = table.rows.length;
-        for (i = 2; i < rowLength; i++){
+        for (i = 2; i < rowLength; i++) {
             var cells = table.rows.item(i).cells;
-            for (k=0; k<cells.length;k++ ) {
+            for (k = 0; k < cells.length; k++) {
                 //    console.log("innser = " + cells.item(k).innerText + "!" + obj.id);
-                if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+                if (cells.item(k).innerText.includes(obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                     //   if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                     if (obj.checked) {
-                        cells.item(k).off=false;
+                        cells.item(k).off = false;
                         var somethingOff = false;
-                        for (j=0; j<cells.length;j++ ) {
-                            if (cells.item(j).off==true && j !=k) {
+                        for (j = 0; j < cells.length; j++) {
+                            if (cells.item(j).off == true && j != k) {
                                 somethingOff = true;
                                 break;
                             }
                         }
                         if (somethingOff) {
                             table.rows.item(i).style.display = "none";
-                        }else {
+                        } else {
                             table.rows.item(i).style.display = "";
                         }
-                    }else {
+                    } else {
                         cells.item(k).off = true;
                         table.rows.item(i).style.display = "none";
                     }
@@ -594,10 +608,19 @@
             }
 
         }
-        if(filtersApplied())
+        if (filtersApplied() &&  !emptyTableRows())
             $('#downloadChartBelow').show();
         else
             $('#downloadChartBelow').hide();
+        if (emptyTableRows()) {
+            $('#chart-highlighter').hide();
+            table.style.display="none";
+        }
+        else
+        {
+        $('#chart-highlighter').show();
+        table.style.display="block";
+        }
 
         if(dualAxis) {
             updateAxis();
