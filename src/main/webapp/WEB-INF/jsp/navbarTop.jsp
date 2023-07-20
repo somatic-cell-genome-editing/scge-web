@@ -60,9 +60,9 @@
                     <i class="fas fa-th"></i>&nbsp;Admin
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <%if(!SCGEContext.isProduction()){%>
+                    <%--if(!SCGEContext.isProduction()){--%>
                     <a class="dropdown-item" href="/toolkit/admin/users">Manage Users</a>
-                    <%}%>
+                    <%--}--%>
                     <a class="dropdown-item" href="/toolkit/admin">Sudo User</a>
                     <a class="dropdown-item" href="/toolkit/admin/groupOverview">Groups Overview</a>
                     <a class="dropdown-item" href="/toolkit/data/studies/search">Project Browser</a>
