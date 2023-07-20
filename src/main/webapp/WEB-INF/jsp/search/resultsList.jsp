@@ -89,72 +89,61 @@
     <tr style="margin-top: 5%"><td style="border-color: transparent">
         <div>
             <div>
-                <div style="padding-bottom: 0;margin-bottom: 0">
+                <div>
                     <h4>
-                    <c:if test="${hit.sourceAsMap.name!=null}">
-                        <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
+                        <c:if test="${hit.sourceAsMap.name!=null}">
+                            <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
                             <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large;color:darkorange"> [Validation]</span>
+                            </c:if>
+                            <c:choose>
+                                <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
+                                    <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a>
+                                </c:when>
+                                <c:otherwise>${hit.sourceAsMap.name}&nbsp;<c:if test="${hit.sourceAsMap.externalLink!=null}">
+                                    <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a></c:if>
+                                </c:otherwise>
+                            </c:choose>
                         </c:if>
-                    <c:choose>
-                    <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
-                        <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
-                                ${hit.sourceAsMap.name}</a>
-                    </c:when>
-                    <c:otherwise>
-                        ${hit.sourceAsMap.name}&nbsp;
-                        <c:if test="${hit.sourceAsMap.externalLink!=null}">
-                            <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-                        </c:if>
-                    </c:otherwise>
-                    </c:choose>
-                 </c:if>
 
-            <c:if test="${hit.sourceAsMap.symbol!=null}">
-            <c:choose>
-                <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
-                    <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
-                            ${hit.sourceAsMap.symbol}</a>
-                </c:when>
-                <c:otherwise>
-                    ${hit.sourceAsMap.symbol}&nbsp;
-                    <c:if test="${hit.sourceAsMap.externalLink!=null}">
-                        <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-                    </c:if>                </c:otherwise>
-            </c:choose>
-            </c:if>
-             &nbsp; -  <small class="${hit.sourceAsMap.category}">${hit.sourceAsMap.category}&nbsp</small>
-            <small>
-                <c:if test="${hit.sourceAsMap.experimentType!=null}">
-                    -  ${hit.sourceAsMap.experimentType}
-                </c:if>
-            </small>
-            <small>
-                ${hit.sourceAsMap.initiative}
-            </small>
-                ${hit.sourceAsMap.modelOrganism}
-                 <c:forEach items="${hit.sourceAsMap.modelOrganism}" var="organism">
-                      <c:if test="${organism=='Mouse'}">
+                        <c:if test="${hit.sourceAsMap.symbol!=null}">
+                            <c:choose>
+                                <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
+                                    <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
+                                            ${hit.sourceAsMap.symbol}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    ${hit.sourceAsMap.symbol}&nbsp;
+                                    <c:if test="${hit.sourceAsMap.externalLink!=null}">
+                                        <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                    </c:if>                </c:otherwise>
+                            </c:choose>
+                        </c:if>
+
+                        <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
+                        <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">+</a><%}%>
+                    </h4>
+                    <small class="${hit.sourceAsMap.category} text-muted" >${hit.sourceAsMap.category}&nbsp;</small>
+                    <small class="text-muted">
+                        <c:if test="${hit.sourceAsMap.experimentType!=null}">-&nbsp;${hit.sourceAsMap.experimentType}</c:if></small>
+                    <small class="text-muted">${hit.sourceAsMap.initiative}</small>
+                    <small class="text-muted">${hit.sourceAsMap.modelOrganism}</small>
+                    <c:forEach items="${hit.sourceAsMap.modelOrganism}" var="organism">
+                        <c:if test="${organism=='Mouse'}">
 
                         </c:if>
                         <c:if test="${organism=='Human'}">
                             <i class="fas fa-thin fa-person"></i>
                         </c:if>
-                  </c:forEach>
-
-
-                <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
-                <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">
-                +</a><%}%>
-
-        </h4>
+                    </c:forEach>
                     <div class="collapse" id="highlights-${hit.sourceAsMap.id}" style="padding: 0; margin: 0">
                         <div class="card card-body" style="margin-bottom: 0;padding-bottom: 0">
                     <%@include file="highlights.jsp"%>
                         </div>
                     </div>
                 </div>
-                <small>  <c:if test="${ hit.sourceAsMap.category=='Experiment' || hit.sourceAsMap.category=='Project'}">
+                <c:if test="${ hit.sourceAsMap.category=='Experiment' || hit.sourceAsMap.category=='Project'}">
                    <c:set var="first" value="true"/>
+                    <small>
                     <c:forEach items="${hit.sourceAsMap.pi}" var="item">
                         <c:choose>
                             <c:when test="${first=='true'}">
@@ -170,15 +159,14 @@
                     <c:if test="${hit.sourceAsMap.lastModifiedDate!=null}">
                         &nbsp;<span class="header">Last Updated Date:</span> ${hit.sourceAsMap.lastModifiedDate}
                     </c:if>
-                </c:if>
                     <c:if test="${hit.sourceAsMap.currentGrantNumber!=null}">
                         <!--a href="https://reporter.nih.gov/project-details/$-{hit.sourceAsMap.currentGrantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a-->
                         <a href="${hit.sourceAsMap.nihReporterLink}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
 
                     </c:if>
-
-                </small>
-
+                    </small>
+                    <br>&nbsp;
+                </c:if>
             </div>
             <c:if test="${hit.sourceAsMap.category=='Antibody' && fn:length(hit.sourceAsMap.externalId)>0}">
                 <span><b>Other Id:</b>
@@ -192,17 +180,6 @@
             <c:if test="${hit.sourceAsMap.description!=null}">
                 <span>${hit.sourceAsMap.description}</span><br>
             </c:if>
-
-            <!--c:if test="$-{hit.sourceAsMap.type!=null}"-->
-                <!--span><span class="header">$-{hit.sourceAsMap.category}&nbsp;Type:&nbsp;</span> $-{hit.sourceAsMap.type}</span><br-->
-            <!--/c:if-->
-            <c:if test="${hit.sourceAsMap.subType!=null}">
-                <!--span><span class="header">$-{hit.sourceAsMap.category}&nbsp;SubType:</span>&nbsp;$-{hit.sourceAsMap.subType}</span> <br-->
-            </c:if>
-
-            <!--c:if test="${hit.sourceAsMap.modelOrganism!=null}"-->
-                <!--span><span class="header">Species:</span>&nbsp;-$-{hit.sourceAsMap.modelOrganism}</span> <br-->
-            <!--/c:if-->
             <c:if test="${hit.sourceAsMap.target!=null && hit.sourceAsMap.category=='Experiment'}">
                 <c:set var="first" value="true"/>
                 <span><span class="header">Tissue :</span>
@@ -239,18 +216,10 @@
                 </c:forEach>
                 </span> <br>
             </c:if>
-
             <c:if test="${fn:length(hit.sourceAsMap.studyNames)>0 || fn:length(hit.sourceAsMap.experimentNames)>0}">
-            <!--small class="text-muted">View Associated:&nbsp;</small--><%@include file="associations.jsp"%>
+               <%@include file="associations.jsp"%>
 
             </c:if>
-
-            <!--c:if test="$-{hit.sourceAsMap.experimentCount>0}"-->
-                <!--i class="fas fa-eye"></i-->
-                <!--span><a href="$-{hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">Associated Experiments:&nbsp;${hit.sourceAsMap.experimentCount}</a></span> <br-->
-            <!--/c:if-->
-
-
         </div>
     </td>
     </tr>

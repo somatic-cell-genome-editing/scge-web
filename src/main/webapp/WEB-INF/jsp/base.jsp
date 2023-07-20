@@ -123,55 +123,19 @@
         <% if (request.getAttribute("crumbtrail") != null) {%>
         <div class="container-fluid" style="padding-bottom: 2px;"><%=request.getAttribute("crumbtrail")%></div>
         <%}%>
-        <c:if test="${(fn:length(tissues)==0 || resultType!=null ) && action!=null && action!='About SCGE Toolkit'}">
+        <c:if test="${(resultType!=null ) && action!=null && action!='About SCGE Toolkit'}">
         <div class="" style="float: right">
-
-                <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button"
-                        onclick="javascript:openModalDialog()">Show Help
-                </button>&nbsp;
-
+            <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button" onclick="javascript:openModalDialog()">Show Help</button>&nbsp;
         </div>
         </c:if>
             <div class="" style="margin-top: 0;padding-top: 0">
                 <div class="container-fluid">
                     <c:choose>
-                        <c:when test="${action!=null && action!='About SCGE Toolkit'}">
-                            <h4 style=";padding-top:10px;">${action}</h4>
-
-                            <c:if test="${study!=null && ( study.multiplePis!=null)}">
-                                <small><strong>PI:</strong>  &nbsp;
-                                    <c:forEach items="${study.multiplePis}" var="pi">
-                                      ${pi.name}&nbsp;
-                                    </c:forEach>
-                        <c:if test="${fn:length( publication.articleIds)>0}">
-                        <span style="color:orange; font-weight: bold">Publication IDs:</span>
-                        <c:forEach items="${publication.articleIds}" var="id">
-
-                            <c:choose>
-                                <c:when test="${id.url=='' || id.url==null}">
-                                    ${id.id};&nbsp;
-
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="${id.url}${id.id}">${id.id}</a>;&nbsp;
-
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        </c:if>
-                        <c:if test="${nihReporterLink!=null}">
-                            <a href="${nihReporterLink}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
-                        </c:if>
-                    </small>
-
-
-                    </c:if>
+                        <c:when test="${action!=null}">
                         <c:if test="${projectDescription!=null}">
-
                             <hr>
                         </c:if>
-
-                            <c:if test="${action=='Dashboard'}">
+                        <c:if test="${action!=null && action=='Dashboard'}">
                                 <div align="right">
                                     <c:forEach items="${personInfoList}" var="i">
                                         <p style="padding: 0;" class="text-muted">
@@ -179,8 +143,8 @@
                                             <strong>User Group:</strong> ${i.subGroupName}</p>
                                     </c:forEach>
                                 </div>
-                            </c:if>
-                    <div style="margin-top: 0;padding-top:0">
+                        </c:if>
+                        <div style="margin-top: 0;padding-top:0">
                         <!--nav aria-label="breadcrumb" id="breadcrumb"></nav-->
                         <nav aria-label="breadcrumb" >
 
@@ -206,11 +170,8 @@
                                     </ol>
                                 </c:if>
                                 <!--li class="breadcrumb-item">${action}</li-->
-
-
                         </nav>
-
-                        </c:when>
+                            </c:when>
                         <c:otherwise>
 
                         <%@include file="tools/aboutUs.jsp"%>
@@ -222,6 +183,9 @@
                            <strong>${status}</strong><hr>
                         </c:if>
                         <c:if test="${page!=null}">
+                            <c:if test="${action!=null}">
+                            <c:import url="tools/objectHeader.jsp"/>
+                            </c:if>
                         <c:import url="${page}.jsp" />
                         </c:if>
                     </div>

@@ -24,8 +24,8 @@
         font-weight: bold;
         border: 0;
         color: #017dc4;
-        font-size:20px;
-        padding-left:20px;
+        font-size:16px;
+        padding-left:10px;
     }
     .card-image {
         height:80px;
@@ -46,297 +46,274 @@
 
 </style>
 
+<div class="container">
+<h2 style="text-align: center">Toolkit Data organization (Click icons to explore)</h2>
 
-<div class="row data-items" style="width:1000px;margin:auto;padding-top:15px;">
-    <div class="col-sm-4" style="border-right: 1px solid #E5E5E5;">
-
-        <!---   studies by initiative card -->
-
-        <div class="card" >
-            <div class="card-body" >
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Experiment?searchTerm=">
-                            <table border="0">
-                                <tr>
-                                    <td><img src="/toolkit/images/studies.png" class="card-image" alt=""/></td>
-                                    <td class="card-label">
-                                        Explore Data
-                                    </td>
-                                </tr>
-                            </table>
-
-
-                        </a>
-                    </li>
-                </ul>
+<div class="card col-lg-12" style="padding:10px;border:5px solid gainsboro;border-radius: 20px">
+    <div class="row ">
+        <div class="col-lg-3 data-items">
+            <h5>PROJECTS</h5>
+            <ul>
+                <li style="font-style: italic;list-style-type: none">Initiative based</li>
+                <li style="font-style: italic;list-style-type: none">Collaborative</li>
+            </ul>
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <div class="rounded" ><img src="/toolkit/images/exploreAllProjects.png" class="card-image" alt="Explore All Projects"></div>
+                                        </td>
+                                        <td class="card-label">
+                                            Explore All Projects
+                                        </td>
+                                    </tr>
+                                </table>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
+            <%
+                try {
+                    if(DataAccessService.existsTier4COF || access.isAdmin(p) ){%>
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=&facetSearch=true&unchecked=&selectedFiltersJson=%7B%7D&selectedView=list&initiative=Collaborative+Opportunity+Fund">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <div class="rounded" ><i class="fa-solid fa-users fa-3x circle-icon" ></i></div>
+                                        </td>
+                                        <td class="card-label">
+                                            Explore Collaborative Opportunity Fund Projects
+                                        </td>
+                                    </tr>
+                                </table>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <%}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            %>
+            <%
+                try {
+                    if(DataAccessService.existsTier4AAV || access.isAdmin(p) ){%>
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=&facetSearch=true&unchecked=&selectedFiltersJson=%7B%7D&selectedView=list&initiative=AAV+tropism">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <div class="rounded"><img src="/toolkit/images/experiments.png"  class="card-image"  alt="" style="background-color: transparent"/></div>
+                                        </td>
+                                        <td class="card-label">
+                                            Explore AAV Tropism Projects
+                                        </td>
+                                    </tr>
+                                </table>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <%}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            %>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <div class="rounded" ><i class="fa-solid fa-diagram-project fa-3x circle-icon" ></i></div>
-                                    </td>
-                                    <td class="card-label">
-                                        Explore All Projects
-                                    </td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
+        <div class="card col" style="margin:10px;padding:10px;border:5px solid dodgerblue;border-radius: 20px">
+        <div class="row">
+            <div class="col-lg-3 data-items">
+                <h5>EXPERIMENTS</h5>
+                <ul>
+                    <li style="font-style: italic;list-style-type: none">In vivo</li>
+                    <li style="font-style: italic;list-style-type: none">In vitro</li>
+                    <li style="font-style: italic;list-style-type: none">Validation studies</li>
                 </ul>
-            </div>
-        </div>
-<!--
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/publications/search">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <img src="/toolkit/images/publication.png"  class="card-image"  alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        Publications
-                                    </td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        -->
-
-        <!--div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/initiatives">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <img src="/toolkit/images/initiative.png"  class="card-image"  alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        About&nbsp;SCGE
-                                    </td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div-->
-        <%
-            try {
-                if(DataAccessService.existsTier4COF || access.isAdmin(p) ){%>
-                <div class="card">
-                    <div class="card-body">
+                <div class="card"  >
+                    <div class="card-body" >
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=&facetSearch=true&unchecked=&selectedFiltersJson=%7B%7D&selectedView=list&initiative=Collaborative+Opportunity+Fund">
-                                    <table>
+                                <a class="nav-link text-secondary" href="/toolkit/data/search/results/Experiment?searchTerm=">
+                                    <table border="0">
                                         <tr>
-                                            <td>
-                                                <div class="rounded" ><i class="fa-solid fa-users fa-3x circle-icon" ></i></div>
-                                            </td>
+                                            <td><img src="/toolkit/images/studies.png" class="card-image" alt=""/></td>
                                             <td class="card-label">
-                                               Explore Collaborative Opportunity Fund Projects
+                                                Explore Data
                                             </td>
                                         </tr>
                                     </table>
+
+
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <%}
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        %>
-        <%
-            try {
-                if(DataAccessService.existsTier4AAV || access.isAdmin(p) ){%>
-                <div class="card">
-                    <div class="card-body">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link text-secondary" href="/toolkit/data/search/results/Project?searchTerm=&facetSearch=true&unchecked=&selectedFiltersJson=%7B%7D&selectedView=list&initiative=AAV+tropism">
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <div class="rounded"><img src="/toolkit/images/experiments.png"  class="card-image"  alt="" style="background-color: transparent"/></div>
-                                            </td>
-                                            <td class="card-label">
-                                                Explore AAV Tropism Projects
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </a>
-                            </li>
-                        </ul>
+            </div>
+            <div class="card col" style="margin:10px;padding:10px;border:5px solid crimson;border-radius: 20px">
+            <h5>OBJECTS</h5>
+                <div class="row">
+                    <div class="col-sm-6 data-items">
+
+
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <img src="/toolkit/images/Editor-rev.png"  class="card-image" alt=""/>
+                                                    </td>
+                                                    <td class="card-label">
+                                                        Genome&nbsp;Editors
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Model%20System?searchTerm=">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <img src="/toolkit/images/mouse.png"  class="card-image" alt=""/>
+
+                                                    </td>
+                                                    <td class="card-label">
+                                                        Model&nbsp;Systems
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Delivery%20System?searchTerm=">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <img src="/toolkit/images/Delivery.png"  class="card-image"  alt=""/>
+                                                    </td>
+                                                    <td class="card-label" >
+                                                        Delivery&nbsp;Systems
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div> <!--close col -->
+                    <div class="col-sm-6 data-items" >
+
+
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Guide?searchTerm=">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <img src="/toolkit/images/guide.png"   class="card-image" alt=""/>
+                                                    </td>
+                                                    <td class="card-label">
+                                                        Guides
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Vector?searchTerm=">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <img src="/toolkit/images/vector.png"  class="card-image"  alt=""/>
+                                                    </td>
+                                                    <td class="card-label">
+                                                        Vectors
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-secondary" href="/toolkit/data/protocols/search">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <img src="/toolkit/images/protocols.png"  class="card-image"  alt=""/>
+                                                    </td>
+                                                    <td class="card-label">
+                                                        Protocols
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- end studies by initiative card -->
                     </div>
                 </div>
-        <%}
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        %>
-            </div> <!--close col -->
-
-    <div class="col-sm-4">
-
-
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Genome%20Editor?searchTerm=">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <img src="/toolkit/images/Editor-rev.png"  class="card-image" alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        Genome&nbsp;Editors
-                                    </td>
-                                </tr>
-                                </table>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
-
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Model%20System?searchTerm=">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <img src="/toolkit/images/mouse.png"  class="card-image" alt=""/>
-
-                                    </td>
-                                    <td class="card-label">
-                                        Model&nbsp;Systems
-                                    </td>
-                                </tr>
-                            </table>
-
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Delivery%20System?searchTerm=">
-                            <table>
-                                <tr>
-                                    <td>
-                            <img src="/toolkit/images/Delivery.png"  class="card-image"  alt=""/>
-                                    </td>
-                                    <td class="card-label" >
-                                        Delivery&nbsp;Systems
-                                    </td>
-                                </tr>
-                                </table>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-    </div> <!--close col -->
-    <div class="col-sm-4" >
-
-
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Guide?searchTerm=">
-                            <table>
-                                <tr>
-                                    <td>
-                            <img src="/toolkit/images/guide.png"   class="card-image" alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        Guides
-                                    </td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Vector?searchTerm=">
-                            <table>
-                                <tr>
-                                    <td>
-                            <img src="/toolkit/images/vector.png"  class="card-image"  alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        Vectors
-                                    </td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/protocols/search">
-                            <table>
-                                <tr>
-                                    <td>
-                            <img src="/toolkit/images/protocols.png"  class="card-image"  alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        Protocols
-                                    </td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- end studies by initiative card -->
+    </div>
     </div>
 </div>
-
-
-
+</div>
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
     feather.replace()

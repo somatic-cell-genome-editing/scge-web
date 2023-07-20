@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.scge.datamodel.publications.Publication" %>
-<%@ page import="edu.mcw.scge.datamodel.publications.ArticleId" %><%--
+<%@ page import="edu.mcw.scge.datamodel.publications.ArticleId" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ProtocolDao" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 6/16/2023
@@ -12,8 +13,10 @@
   HashMap<String,String> editingAssay = (HashMap<String,String>) request.getAttribute("editingAssay");
   HashMap<String,String> biomarkerAssay = (HashMap<String,String>) request.getAttribute("biomarkerAssay");
 %>
-<div class="jumbotron" style="margin-top:0;padding-top:10px;padding-bottom: 5px;background-color: #f7f8fa;">
+<div class="jumbotron" id="experiment-summary" style="margin-top:0;padding-top:10px;padding-bottom: 5px;background-color: transparent;">
+  <%if(ex.getDescription()!=null && !ex.getDescription().equals("")){%>
   <div class=""><b>Description:&nbsp;</b><%=ex.getDescription()%></div>
+  <%}%>
   <% if (deliveryAssay.size() != 0) { %>
   <div class=""><b>Delivery Assays:</b>
     <% if(deliveryAssay.size()==1){%>
@@ -74,7 +77,7 @@
   <div><b>Download:&nbsp;</b><a href="/toolkit/download/${study.studyId}">Submitted files</a></div>
 
   <%List<Publication> publications= (List<Publication>) request.getAttribute("associatedPublications");
-if(publications.size()>0){%>
+  if(publications!=null && publications.size()>0){%>
   <div><b>Publications:&nbsp;</b>
     <%
       for(Publication publication:publications){
@@ -84,7 +87,15 @@ if(publications.size()>0){%>
            pmid=id.getId();}}
     %>
     <%=publication.getReference().getTitle()%><%if(pmid!=null){%> <a href="https://pubmed.ncbi.nlm.nih.gov/<%=pmid%>" target="_blank" title="PubMed">NCBI</a><%}%>
-   <%}}%>
+   <%}%>
+  </div>
+  <%}%>
     <%@include file="../validationsNexperiments.jsp"%>
 
+
 </div>
+<% ProtocolDao pdao = new ProtocolDao();
+  List<Protocol> localProtocols = pdao.getProtocolsForObject(objectId);
+  if(publications!=null && publications.size()>0 || (localProtocols!=null && localProtocols.size()>0)){%>
+Jump to:&nbsp;<%if(publications!=null && publications.size()>0){%><a href="#associatedPublications">Publications</a>&nbsp;<%}%><%if(localProtocols!=null && localProtocols.size()>0){%>|&nbsp;<a href="#associatedProtocols">Protocols</a><%}%>
+<%}%>
