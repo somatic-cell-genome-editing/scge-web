@@ -54,9 +54,9 @@ cc.run({
         'en': {
             consent_modal: {
                 title: 'We use cookies! ',
-                description: 'This website uses essential cookies to enhance user experience and tracking cookies for internal analytics. We do NOT use 3rd party cookies and do NOT work with advertisers.',
+                description: 'This website uses essential cookies to enhance user experience and tracking cookies for internal analytics and reporting usage to funding agencies. We do NOT use 3rd party cookies and do NOT work with advertisers.',
                 primary_btn: {
-                    text: 'Accept all',
+                    text: 'Accept',
                     role: 'accept_all'              // 'accept_selected' or 'accept_all'
                 }
                // secondary_btn: {
