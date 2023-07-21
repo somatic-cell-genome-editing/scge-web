@@ -49,12 +49,12 @@
 %>
 
 <div class="jumbotron page-header" style="background-color: #f7f8fa;padding-top: 20px;padding-bottom: 20px" >
-  <h1 class="display-4"><%=action%><%if(request.getParameter("initiative")!=null){%>&nbsp;of&nbsp;<%=request.getParameter("initiative")%><%}%></h1>
+  <h1><%=action%><%if(request.getParameter("initiative")!=null){%>&nbsp;of&nbsp;<%=request.getParameter("initiative")%><%}%></h1>
   <%if((action==null || !action.contains("Experiment:")) && description!=null){%>
   <hr class="my-4">
   <%}%>
   <p class="lead">
-    <%if(action!=null && action.contains("Experiment:")){%>
+    <%if(action!=null && (action.contains("Experiment:") || action.contains("Project:"))){%>
     <c:if test="${study!=null && ( study.multiplePis!=null)}">
       <small><strong>PI:</strong>  &nbsp;
         <c:forEach items="${study.multiplePis}" var="pi">
