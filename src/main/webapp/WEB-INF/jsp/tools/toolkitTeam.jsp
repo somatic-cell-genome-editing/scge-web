@@ -6,64 +6,99 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="jumbotron">
-    <table>
-        <tbody>
-        <tr>
-            <td width="208"><u>Principal Investigator</u></td>
-            <td width="208"><u>Team Members</u></td>
-            <td width="208"><u>Former Members</u></td>
-        </tr>
-        <tr>
-            <td width="208">  Mindy Dwinell, PhD</td>
-            <td width="208">  Jeff De Pons, BSc</td>
-            <td width="208">  Matt Hoffman, BSc</td>
-        </tr>
-        <tr>
-            <td width="208"></td>
-            <td width="208">  Mindy Dwinell, PhD</td>
-            <td width="208">  Harika Nalabolu, MSc</td>
-        </tr>
-        <tr>
-            <td width="208"></td>
-            <td width="208">  Aron Geurts, PhD</td>
-            <td width="208">  Mary Shimoyama, PhD</td>
-        </tr>
-        <tr>
-            <td width="208"></td>
-            <td width="208">  Mike Grzybowski, MSc</td>
-            <td width="208"></td>
-        </tr>
-        <tr>
-            <td width="208"></td>
-            <td width="208">  Anne Kwitek, PhD</td>
-            <td width="208"></td>
-        </tr>
-        <tr>
-            <td width="208"></td>
-            <td width="208">  Angela Lemke, BSc</td>
-            <td width="208"></td>
-        </tr>
-        <tr>
-            <td width="208"></td>
-            <td width="208">  Jennifer Smith, MSc</td>
-            <td width="208"></td>
-        </tr>
-        <tr>
-            <td width="208"></td>
-            <td width="208">  Jyothi Thota, MSc</td>
-            <td width="208"></td>
-        </tr>
-        <tr>
-            <td width="208"></td>
-            <td width="208">  Marek Tutaj, MSc</td>
-            <td width="208"></td>
-        </tr>
-        <tr>
-            <td width="208"></td>
-            <td width="208">  Monika Tutaj, PhD</td>
-            <td width="208"></td>
-        </tr>
-        </tbody>
-    </table>
+<style>
+    .toolkitTeam ul li{
+        list-style-type: none;
+    }
+    .toolkitTeam p{
+        text-decoration: underline;
+    }
+    .toolkitTeam .card{
+        background-color: transparent;
+        border-color:transparent;
+    }
+</style>
+<div class="jumbotron toolkitTeam" style="background-color: #f7f8fa;" >
+
+    <div align="center" id="toolkitTeam"><h2>SCGE Toolkit Team</h2></div>
+    <hr>
+    <div class="row justify-content-center" style="text-align: center" align="center">
+
+        <!---   studies by initiative card -->
+        <div class="col-sm-3">
+            <div class="card h-100 " >
+                <div class="card-body" >
+                    <div><p>Principal Investigator</p></div>
+                    <div class="initiative-description">
+                        <ul>
+                            <li>Mindy Dwinell, PhD</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card h-100 " >
+                <div class="card-body">
+
+                    <div><p>Co-Investigators</p></div>
+                    <div class="initiative-description">
+                        <ul>
+                            <li>Aron Geurts, PhD</li>
+                            <li>Anne Kwitek, PhD</li>
+
+
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-sm-3">
+            <div class="card h-100 ">
+                <div class="card-body" >
+                    <div><p>Team Members</p></div>
+                    <div class="initiative-description">
+                        <ul>
+                            <li>Jeff De Pons, BS</li>
+                            <li>Mike Grzybowski, MS</li>
+                            <li>Angela Lemke, BS</li>
+                            <li>Jennifer Smith, MS</li>
+                            <li>Jyothi Thota, MS</li>
+                            <li>Marek Tutaj, MS</li>
+                            <li>Monika Tutaj, PhD</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-sm-3">
+            <div class="card h-100 " >
+                <div class="card-body">
+
+                    <div><p>Former Members</p></div>
+                    <div class="initiative-description">
+                        <ul>
+                            <li>Mary Shimoyama, PhD</li>
+                            <li>Matt Hoffman, BS</li>
+                            <li>Harika Nalabolu, MS</li>
+
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- end studies by initiative card -->
+    </div>
 </div>
