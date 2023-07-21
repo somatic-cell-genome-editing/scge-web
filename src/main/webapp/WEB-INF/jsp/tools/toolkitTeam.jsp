@@ -16,13 +16,14 @@
     .toolkitTeam .card{
         background-color: transparent;
         border-color:transparent;
+        text-align: left;
     }
 </style>
 <div class="jumbotron toolkitTeam" style="background-color: #f7f8fa;" >
 
     <div align="center" id="toolkitTeam"><h2>SCGE Toolkit Team</h2></div>
     <hr>
-    <div class="row justify-content-center" style="text-align: center" align="center">
+    <div class="row" style="text-align: center">
 
         <!---   studies by initiative card -->
         <div class="col-sm-3">
@@ -30,9 +31,8 @@
                 <div class="card-body" >
                     <div><p>Principal Investigator</p></div>
                     <div class="initiative-description">
-                        <ul>
-                            <li>Mindy Dwinell, PhD</li>
-                        </ul>
+                        <span>Mindy Dwinell, PhD</span>
+
                     </div>
 
                 </div>
@@ -45,12 +45,8 @@
 
                     <div><p>Co-Investigators</p></div>
                     <div class="initiative-description">
-                        <ul>
-                            <li>Aron Geurts, PhD</li>
-                            <li>Anne Kwitek, PhD</li>
-
-
-                        </ul>
+                        <span>Aron Geurts, PhD</span><br>
+                        <span>Anne Kwitek, PhD</span>
                     </div>
 
                 </div>
@@ -63,15 +59,15 @@
                 <div class="card-body" >
                     <div><p>Team Members</p></div>
                     <div class="initiative-description">
-                        <ul>
-                            <li>Jeff De Pons, BS</li>
-                            <li>Mike Grzybowski, MS</li>
-                            <li>Angela Lemke, BS</li>
-                            <li>Jennifer Smith, MS</li>
-                            <li>Jyothi Thota, MS</li>
-                            <li>Marek Tutaj, MS</li>
-                            <li>Monika Tutaj, PhD</li>
-                        </ul>
+
+                            <span>Jeff De Pons, BS</span><br>
+                            <span>Mike Grzybowski, MS</span><br>
+                            <span>Angela Lemke, BS</span><br>
+                            <span>Jennifer Smith, MS</span><br>
+                            <span>Jyothi Thota, MS</span><br>
+                            <span>Marek Tutaj, MS</span><br>
+                            <span>Monika Tutaj, PhD</span>
+
                     </div>
                 </div>
 
@@ -84,12 +80,12 @@
 
                     <div><p>Former Members</p></div>
                     <div class="initiative-description">
-                        <ul>
-                            <li>Mary Shimoyama, PhD</li>
-                            <li>Matt Hoffman, BS</li>
-                            <li>Harika Nalabolu, MS</li>
 
-                        </ul>
+                            <span>Mary Shimoyama, PhD</span><br>
+                            <span>Matt Hoffman, BS</span><br>
+                            <span>Harika Nalabolu, MS</span>
+
+
                     </div>
 
                 </div>
