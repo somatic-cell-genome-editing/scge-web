@@ -153,7 +153,6 @@
         <!-- end studies by initiative card -->
     </div>
 <hr>
-<div align="center" id="toolkitTeam"><h2>SCGE Toolkit Team</h2></div>
 
 <div class="container">
     <%@include file="toolkitTeam.jsp"%>
