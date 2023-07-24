@@ -191,6 +191,7 @@
      <%
          int i=0;
          for(Plot plot: plots){
+             boolean tickDisplay= plot.getTickLabels().size() <= 120;
              if(i<=plots.size()-1){
      %>
 <script>
@@ -222,9 +223,10 @@
 
 
                     ticks: {
-                      //  minRotation: 30 ,// angle in degrees
+                        minRotation: 70 ,// angle in degrees
                         fontSize: 10,
                         autoSkip: false,
+                        display:<%=tickDisplay%>,
                         callback: function(val, index) {
                             // Hide every 2nd tick label
                             var t=this.getLabelForValue(val);
