@@ -206,7 +206,7 @@
         options: {
             responsive: true,
             scaleShowValues: true,
-
+            maintainAspectRatio: false,
 
             scales: {
                 x: {
