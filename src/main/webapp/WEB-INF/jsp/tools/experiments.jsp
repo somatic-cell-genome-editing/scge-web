@@ -62,68 +62,18 @@
         Person p = access.getUser(request.getSession());
 //    List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
         LinkedHashMap<Study, List<Experiment>> studyExperimentMap = (LinkedHashMap<Study, List<Experiment>>) request.getAttribute("studyExperimentMap");
+
         Map<Long, List<Experiment>> validationExperimentsMap = new HashMap<>();
         if (request.getAttribute("validationExperimentsMap") != null)
             validationExperimentsMap = (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
         Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
         if (request.getAttribute("experimentsValidatedMap") != null)
             experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
-        boolean isProcessed=false;
-        int totalExperiments=0;
-        for (Map.Entry entry : studyExperimentMap.entrySet()) {
-            List<Experiment> experiments = (List<Experiment>) entry.getValue();
-            if(experiments.size()>0){
-                isProcessed=true;
-                totalExperiments+=experiments.size();
-            }
-        }
-        if(isProcessed){
+
+
 %>
-    <c:if test="${projectDescription!=null}">
-        <div>
-            <div class="card" style="border:transparent">
-                <div >
-                    <b>Description:</b>&nbsp;${projectDescription}
 
-                </div>
-            </div>
-
-
-        </div>
-        <hr>
-    </c:if>
-    <div class="card" style="margin-bottom: 10px">
-        <div class="card-header">
-            <span style="font-weight: bold">Summary of data submissions:</span>
-
-        </div>
-        <div class="card-body">
-    <ul>
-    <%
-        for (Map.Entry entry : studyExperimentMap.entrySet()) {
-            Study study = ((Study) entry.getKey());
-            String validation="";
-            if(study.getIsValidationStudy()==1)
-                validation+="validation";
-            if(study.getIsValidationStudy()!=1 && (study.getGroupId()==1410 || study.getGroupId()==1412))
-                validation+="new model";
-            List<Experiment> experiments = (List<Experiment>) entry.getValue();
-            if(experiments.size()>0){
-            %>
-
-        <li>
-           Data for <%=experiments.size()%>&nbsp;<%=validation%> experiments were submitted on <%=study.getSubmissionDate()%>&nbsp;<span style="font-weight: bold"><a href="#<%=study.getStudyId()%>">SCGE ID:<%=study.getStudyId()%></a></span>
-        </li>
-
-       <% }} if(validationExperimentsMap.size()>0){%>
-        <li><%=validationExperimentsMap.size()%> of <%=totalExperiments%> experiments have been validated</li>
-        <%}%>
-    </ul>
-        </div>
-
-    </div>
-    <%}%>
-    <div class="card-header" style="margin-bottom: 10px"><span style="font-weight: bold">Submissions Details:</span></div>
+    <div id="initiatives"><h2>Submissions Details</h2></div>
     <%  int count=1;
         for (Map.Entry entry : studyExperimentMap.entrySet()) {
             Study study = ((Study) entry.getKey());
@@ -156,7 +106,7 @@
                                     <strong>VALIDATION&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
                                     <% }
                                         }else{%>
-                                    <%=study.getStudy()%>
+                                    <%--=study.getStudy()--%>
                                   <%}%>
                                 </div>
                                 <span  class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;-&nbsp;Submission
