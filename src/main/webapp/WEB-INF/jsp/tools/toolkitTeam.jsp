@@ -21,7 +21,7 @@
 </style>
 <div class="jumbotron toolkitTeam" style="background-color: #f7f8fa;" >
 
-    <div align="center" id="toolkitTeam"><h2>SCGE Toolkit Team</h2></div>
+    <div align="center" id="toolkitTeam"><h2>Somatic Cell Genome Editing (SCGE) Toolkit Team</h2></div>
     <hr>
     <div class="row" style="text-align: center">
 
