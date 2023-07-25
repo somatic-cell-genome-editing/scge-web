@@ -134,7 +134,9 @@
   <%@include file="experiment/summary.jsp"%>
   <%}else{ if(action!=null && action.contains("Project:")){%>
   <!--p>This page contains list of <%--=action.toLowerCase()--%> that are being used in SCGE consortium projects  and <%--=action.toLowerCase()--%> that are newly developed by SCGE consortium projects. </p-->
+  <%if(description!=null){%>
   <%=description%>
+  <%}%>
   <%@include file="projectSummary.jsp"%>
   <% }}%>
 
