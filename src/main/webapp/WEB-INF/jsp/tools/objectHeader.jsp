@@ -46,11 +46,18 @@
     Study study = (Study) request.getAttribute("study");
     list=true;
   }
+  if(action!=null && action.contains("Project:")) {
+    //Experiment experiment = (Experiment) request.getAttribute("experiment");
+    if(request.getAttribute("projectDescription")!=null)
+    description = (String) request.getAttribute("projectDescription");
+    Study study = (Study) request.getAttribute("study");
+    list=true;
+  }
 %>
 
 <div class="jumbotron page-header" style="background-color: #f7f8fa;padding-top: 20px;padding-bottom: 20px" >
   <h1><%=action%><%if(request.getParameter("initiative")!=null){%>&nbsp;of&nbsp;<%=request.getParameter("initiative")%><%}%></h1>
-  <%if((action==null || !action.contains("Experiment:")) && description!=null){%>
+  <%if((action==null || !action.contains("Project:") && !action.contains("Experiment:")) && description!=null){%>
   <hr class="my-4">
   <%}%>
   <p class="lead">
@@ -125,9 +132,10 @@
       experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
   %>
   <%@include file="experiment/summary.jsp"%>
-  <%}else{ if(list){%>
+  <%}else{ if(action!=null && action.contains("Project:")){%>
   <!--p>This page contains list of <%--=action.toLowerCase()--%> that are being used in SCGE consortium projects  and <%--=action.toLowerCase()--%> that are newly developed by SCGE consortium projects. </p-->
-
+  <%=description%>
+  <%@include file="projectSummary.jsp"%>
   <% }}%>
 
 </div>
