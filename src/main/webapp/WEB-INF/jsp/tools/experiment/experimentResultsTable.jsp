@@ -136,9 +136,11 @@
     <% if (access.hasStudyAccess(record.getStudyId(),p.getId())) {
         String border=new String();
         String target=new String();
-        if(tissuesTarget.contains(record.getTissueTerm())){
-            border="3px solid #DA70D6";
+        String tissueTerm=record.getTissueTerm();
+        if(tissueTerm!=null && tissuesTarget.contains(record.getTissueTerm().trim())){
+          //  border="3px solid #DA70D6";
             target="Target Tissue";
+            tissueTerm+=" <span style='color:#DA70D6'>(TARGET)</span>";
         }else{
             border="";
         }
@@ -163,7 +165,7 @@
             </td>
         </c:if>
         <c:if test="${tableColumns.tissueTerm!=null}">
-        <td style="border:<%=border%>"><%=record.getTissueTerm()%></td>
+        <td style="border:<%=border%>"><%=tissueTerm%></td>
         </c:if>
         <c:if test="${tableColumns.cellTypeTerm!=null}">
         <td><%if(!record.getCellTypeTerm().equalsIgnoreCase("unspecified")){%><%=record.getCellTypeTerm()%><%}%></td>

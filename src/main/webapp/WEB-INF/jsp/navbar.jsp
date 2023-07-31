@@ -47,7 +47,7 @@
                     <a class="nav-link" href="/toolkit/data/search/results/Vector?searchTerm=" >Vectors</a>
                 </li>
                 <li class="nav-item  text-responsive Protocols" id="Protocols">
-                    <a class="nav-link Protocols" href="/toolkit/data/protocols/search" >Protocols</a>
+                    <a class="nav-link Protocols" href="/toolkit/data/search/results/Protocol?searchTerm=" >Protocols</a>
                 </li>
                 <!--
                 <li class="nav-item  text-responsive about" id="about">

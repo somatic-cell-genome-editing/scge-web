@@ -1,3 +1,26 @@
+<script>
+    $(function () {
+        $(".more").hide();
+        $(".moreLink").on("click", function(e) {
+
+            var $this = $(this);
+            var parent = $this.parent();
+            var $content=parent.find(".more");
+            var linkText = $this.text();
+
+            if(linkText === "More..."){
+                linkText = "Hide...";
+                $content.show();
+            } else {
+                linkText = "More...";
+                $content.hide();
+            }
+            $this.text(linkText);
+            return false;
+
+        });
+    })
+</script>
 <style>
     .card-label {
         font-weight: bold;
@@ -17,161 +40,121 @@
     .card {
         margin-bottom:10px;
     }
-
+.initiative-description{
+    text-align: left;
+}
 </style>
 
-<table width="95%">
-    <tr>
-        <td width="300" border="1">
-            <div class="col-md-2 sidenav bg-light">
-
-                <a target="_blank" href="https://scge.mcw.edu/about-the-scge/">SCGE&nbsp;Consortium&nbsp;Overview</a>
-                <a target="_blank" href="https://scge.mcw.edu">SCGE&nbsp;Consortium&nbsp;Parent&nbsp;Site</a>
-                <a onclick="openForm()" href="javascript:void(0)">Contact&nbsp;Us</a>
-            </div>
-
-        </td>
-        <td>
-            The SCGE Consortium is supported by the NIH Common Fund through cooperative agreements administered by the National Center for Advancing Translational Sciences,  NIH Office of the Director, National Heart, Lung, and Blood Institute, National Institute of Arthritis and Musculoskeletal and Skin Diseases, National Institute of Neurological Disorders and Stroke, National Institute of Allergy and Infectious Diseases, National Human Genome Research Institute, and National Institute of Biomedical Imaging and Bioengineering. The consortium is managed by a trans-NIH working group representing multiple NIH Institutes and Centers. For more information about the SCGE NIH Working Group and the Common Fund, please go <a target="_blank" href="https://commonfund.nih.gov/editing">here</a>.
-
-        </td>
-    </tr>
-</table>
-
-<br>
-<table><tr><td><h3 style="color:#2184B8;font-size:22px;">Select an Initiative below to browse studies submitted</h3></td></tr></table>
+<div align="center" id="initiatives"><h2>Somatic Cell Genome Editing (SCGE) Program Initiatives</h2></div>
 <hr>
-<div class="row" style="width:1000px;margin:auto;">
-    <div class="col-sm-6" >
+<div class="row justify-content-center" style="text-align: center" align="center">
 
         <!---   studies by initiative card -->
-
-        <div class="card" >
+    <div class="col-sm-2">
+        <div class="card h-100 " >
             <div class="card-body" >
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Small+Animal+Testing+Center+%28SATC%29">
-                            <table border="0">
-                                <tr>
-                                    <td><img src="/toolkit/images/mouse3.png" class="card-image" alt=""/></td>
-                                    <td class="card-label">
-                                        Animal Reporting and Testing Centers
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="padding-top:10px;">The initiative goal is to create and use new animal (mouse, pig, marmoset and rhesus macaque) reporter models to accelerate the translation of genome editing technologies into treatments for human diseases. The animal model systems are based on normal, non-diseased animals.</td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
+
+
+                          <img src="/toolkit/images/mouse3.png" class="card-image" alt=""/>
+                            <div><h5>Animal Reporting and<br> Testing Centers</h5></div>
+                             <div class="initiative-description">
+                                 The initiative goal is to create and use new animal (mouse, pig, marmoset and rhesus macaque) reporter models <span class="more"> to accelerate the translation of genome editing technologies into treatments for human diseases. The animal model systems are based on normal, non-diseased animals.</span><a href="#" class="moreLink" title="Click to see more" >More...</a>
+                             </div>
+
+
+            </div>
+            <div class="card-footer" style="background-color: transparent">
+                <p style="padding-top: 10px"><a  href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Small+Animal+Testing+Center+%28SATC%29"><button class="btn btn-sm btn-secondary">View Experiments in Toolkit</button></a></p>
+                <p><a  href="https://scge.mcw.edu/animal-reporter-and-testing-centers/"><button class="btn btn-sm btn-secondary">Learn more</button></a></p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="card h-100 ">
+            <div class="card-body" >
+
+
+                            <img src="/toolkit/images/Editor-rev.png"  class="card-image" alt=""/>
+                        <div><h5>Genome Editor <br/>Projects</h5></div>
+                            <div class="initiative-description">
+                                This initiative supports the development of innovative genome editing systems with improved <span class="more"> specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.</span><a href="#" class="moreLink" title="Click to see more" >More...</a>
+                            </div>
+
+
+            </div>
+            <div class="card-footer" style="background-color: transparent">
+                <p style="padding-top: 10px"><a  href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Genome+Editors"><button class="btn btn-sm btn-secondary">View Experiments in Toolkit</button></a></p>
+                <p><a  href="https://scge.mcw.edu/genome-editor-projects/"><button class="btn btn-sm btn-secondary">Learn more</button></a></p>
+
             </div>
         </div>
 
-
-
-        <div class="card">
+    </div>
+    <div class="col-sm-2">
+        <div class="card h-100 " >
             <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Genome+Editors">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <img src="/toolkit/images/Editor-rev.png"  class="card-image" alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        Genome Editor Projects
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="padding-top:10px;">This initiative supports the development of innovative genome editing systems with improved specificity, efficiency or functionality over currently available systems, including the identification of complexes with novel enzymatic activities and substrate specificities.</td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
+
+                            <img src="/toolkit/images/Delivery.png"  class="card-image"  alt=""/>
+                        <div><h5>Delivery Systems <br/>Initiative</h5></div>
+                            <div class="initiative-description">
+                                The initiative goal is to support the development and evaluation of innovative approaches to deliver <span class="more">genome editing machinery into somatic cells, with the ultimate goal of accelerating the development of genome editing therapeutics to treat human disease.  Funded projects are focusing on a wide array of disease-relevant cell types and testing multiple technologies for delivery to these cell types.</span><a href="#" class="moreLink" title="Click to see more" >More...</a>
+                            </div>
+
+            </div>
+            <div class="card-footer" style="background-color: transparent">
+                <p style="padding-top: 10px"><a href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Delivery+Systems+Initiative"><button class="btn btn-sm btn-secondary">View Experiments in Toolkit</button>
+                </a></p><p>
+                <a  href="https://scge.mcw.edu/delivery-systems-projects/"><button class="btn btn-sm btn-secondary">Learn more</button></a></p>
             </div>
         </div>
 
+    </div>
 
-
-        <div class="card">
+    <div class="col-sm-2">
+        <div class="card h-100 ">
             <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Delivery+Systems+Initiative">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <img src="/toolkit/images/Delivery.png"  class="card-image"  alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        Delivery Systems Initiative
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="padding-top:10px;">The initiative goal is to support the development and evaluation of innovative approaches to deliver genome editing machinery into somatic cells, with the ultimate goal of accelerating the development of genome editing therapeutics to treat human disease.  Funded projects are focusing on a wide array of disease-relevant cell types and testing multiple technologies for delivery to these cell types.</td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
+
+                            <img src="/toolkit/images/biological-rev.png"   class="card-image" alt=""/>
+                            <div><h5>Biological Effects <br>(Biological Systems)</h5></div>
+                            <div class="initiative-description">
+                                The initiative goal is to support the development, validation and testing of new and existing human cell- and tissue-based <span class="more"> platforms that can provide information on the safety of genome editing technologies and delivery systems. These models will be used for preclinical testing of editing, delivery and efficacy.</span><a href="#" class="moreLink" title="Click to see more" >More...</a>
+                            </div>
+
+
+            </div>
+            <div class="card-footer" style="background-color: transparent">
+                <p style="padding-top: 10px"><a href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Biological+Systems"><button class="btn btn-sm btn-secondary">View Experiments in Tookit</button>
+                </a></p><p>
+                <a  href="https://scge.mcw.edu/biological-effects-projects/"><button class="btn btn-sm btn-secondary">Learn more</button></a>
+            </p>
             </div>
         </div>
-
-    </div> <!--close col -->
-    <div class="col-sm-6">
-
-
-        <div class="card">
+    </div>
+    <div class="col-sm-2">
+        <div class="card h-100 ">
             <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Biological+Systems">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <img src="/toolkit/images/biological-rev.png"   class="card-image" alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        Biological Effects (Biological Systems)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="padding-top:10px;">The initiative goal is to support the development, validation and testing of new and existing human cell- and tissue-based platforms that can provide information on the safety of genome editing technologies and delivery systems. These models will be used for preclinical testing of editing, delivery and efficacy.</td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
+
+                            <img src="/toolkit/images/biological-rev.png"   class="card-image" alt=""/>&nbsp;
+                            <div><h5>Biological Effects <br>(In Vivo Cell Tracking Projects)</h5></div>
+                        <div class="initiative-description">The objective of the program is to support the development of tools and technologies that will enable longitudinal monitoring and tracking of <span class="more"> genome edited cells in humans to better assess the safety and efficacy of genome editing therapies. This will be accomplished through the development of innovative non-invasive technologies to label and track genome-edited cells in vivo, ideally in a clinically-relevant matter that has the potential to assess long-term safety in genome editing clinical trial participants.</span><a href="#" class="moreLink" title="Click to see more" >More...</a>
+                            </div>
+
+            </div>
+            <div class="card-footer" style="background-color: transparent">
+                <p style="padding-top: 10px"><a  href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=In+Vivo+Cell+Tracking"><button class="btn btn-sm btn-secondary">View Experiments in Toolkit</button>
+                </a></p><p>
+                <a  href="https://scge.mcw.edu/biological-effects-projects/"><button class="btn btn-sm btn-secondary">Learn more</button></a>
+            </p>
             </div>
         </div>
-
-        <div class="card">
-            <div class="card-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=In+Vivo+Cell+Tracking">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <img src="/toolkit/images/biological-rev.png"   class="card-image" alt=""/>
-                                    </td>
-                                    <td class="card-label">
-                                        Biological Effects (In Vivo Cell Tracking Projects)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="padding-top:10px;">The objective of the program is to support the development of tools and technologies that will enable longitudinal monitoring and tracking of genome edited cells in humans to better assess the safety and efficacy of genome editing therapies. This will be accomplished through the development of innovative non-invasive technologies to label and track genome-edited cells in vivo, ideally in a clinically-relevant matter that has the potential to assess long-term safety in genome editing clinical trial participants.</td>
-                                </tr>
-                            </table>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
+    </div>
         <!-- end studies by initiative card -->
     </div>
+<hr>
+
+<div class="container">
+    <%@include file="toolkitTeam.jsp"%>
+
 </div>

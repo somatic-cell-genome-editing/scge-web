@@ -3,9 +3,6 @@
 <%@ page import="edu.mcw.scge.datamodel.*" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.time.LocalDateTime" %>
-<%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: hsnalabolu
@@ -43,16 +40,17 @@
 
 <!--div id="graphOptions" style="padding:10px;margin-bottome:15px;display:none;"></div-->
 <c:if test="${fn:length(plots)>0}">
+    <div id="chart-highlighter">
     <div id="barChart">
         <hr>
-        <b style="font-size:16px;">Make a selection to highlight records on the chart: </b>
+        <b style="font-size:16px;">Select experimental variable to highlight records on the chart: </b>
         <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
             <% for(String filter: options) {%>
             <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
             <%} %>
         </select>
     </div>
-
+    </div>
 </c:if>
 <div>
 <%@include file="experiment/plot.jsp"%>
@@ -62,8 +60,8 @@
 <table width="100%">
     <tr>
         <td><h3>Results</h3></td>
-        <td id="downloadChartBelow" width="100" align="right" style="display:none"><input type="button" style=";border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Chart Below" onclick="downloadSelected()"/></td>
-        <td id="downloadEntireExperiment" width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment" onclick="download()"/></td>
+        <td id="downloadChartBelow" width="100" align="right" style="display:none"><input type="button" style=";border: 1px solid white; background-color:#007BFF;color:white;" value="Download Data Table Below (.CSV)" onclick="downloadSelected()"/></td>
+        <td id="downloadEntireExperiment" width="100"><input type="button" style="border: 1px solid white; background-color:#007BFF;color:white;" value="Download Entire Experiment (.CSV)" onclick="download()"/></td>
     </tr>
 </table>
 <%
@@ -85,11 +83,11 @@
 <script>
 
     var tissues = [];
-    tissues= <%= JSONValue.toJSONString(tissues) %>;
-    var resultTypes = <%=JSONValue.toJSONString(resultTypeList)%>;
+    tissues= <%= gson.toJson(tissues) %>;
+    var resultTypes = <%=gson.toJson(resultTypeList)%>;
     var cellTypes = [];
     <%if(cellTypeList!=null){%>
-    cellTypes = <%= JSONValue.toJSONString(cellTypeList) %>;
+    cellTypes = <%= gson.toJson(cellTypeList) %>;
     <%}%>
   //  quantitativeSize= <%--=resultMap.size()--%>;
 
@@ -112,7 +110,7 @@
                 update(false);
             }
         });
-        if(filtersApplied())
+        if(filtersApplied() && !emptyTableRows())
             $('#downloadChartBelow').show();
         else
             $('#downloadChartBelow').hide();
@@ -566,30 +564,43 @@
         }
         return false;
     }
-    function applyFilters(obj)  {
+    function emptyTableRows() {
+        var table = document.getElementById('myTable');
+        var rowLength = table.rows.length;
+        var hiddenRows=0;
+
+        for (i = 2; i < rowLength; i++) {
+            if (table.rows.item(i).style.display == "none") {
+                hiddenRows+=1;
+            }
+        }
+        console.log("TABLE ROW LENGTH:"+ rowLength +"\thidden rows:"+ hiddenRows)
+        return rowLength == hiddenRows + 2;
+    }
+    function applyFilters(obj) {
         var table = document.getElementById('myTable'); //to remove filtered rows
         var rowLength = table.rows.length;
-        for (i = 2; i < rowLength; i++){
+        for (i = 2; i < rowLength; i++) {
             var cells = table.rows.item(i).cells;
-            for (k=0; k<cells.length;k++ ) {
+            for (k = 0; k < cells.length; k++) {
                 //    console.log("innser = " + cells.item(k).innerText + "!" + obj.id);
-                if (cells.item(k).innerText.includes( obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+                if (cells.item(k).innerText.includes(obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                     //   if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                     if (obj.checked) {
-                        cells.item(k).off=false;
+                        cells.item(k).off = false;
                         var somethingOff = false;
-                        for (j=0; j<cells.length;j++ ) {
-                            if (cells.item(j).off==true && j !=k) {
+                        for (j = 0; j < cells.length; j++) {
+                            if (cells.item(j).off == true && j != k) {
                                 somethingOff = true;
                                 break;
                             }
                         }
                         if (somethingOff) {
                             table.rows.item(i).style.display = "none";
-                        }else {
+                        } else {
                             table.rows.item(i).style.display = "";
                         }
-                    }else {
+                    } else {
                         cells.item(k).off = true;
                         table.rows.item(i).style.display = "none";
                     }
@@ -597,10 +608,19 @@
             }
 
         }
-        if(filtersApplied())
+        if (filtersApplied() &&  !emptyTableRows())
             $('#downloadChartBelow').show();
         else
             $('#downloadChartBelow').hide();
+        if (emptyTableRows()) {
+            $('#chart-highlighter').hide();
+            table.style.display="none";
+        }
+        else
+        {
+        $('#chart-highlighter').show();
+        table.style.display="block";
+        }
 
         if(dualAxis) {
             updateAxis();
@@ -782,12 +802,10 @@
 
 </script>
 
-<%
-    long objectId = ex.getExperimentId();
-    String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
-    String bucket="belowExperimentTable1";
-%>
-
+<% String bucket="belowExperimentTable1"; %>
+<div id="associatedPublications">
+    <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
+</div>
 <div id="associatedProtocols">
     <%@include file="/WEB-INF/jsp/tools/associatedProtocols.jsp"%>
 </div>
@@ -805,9 +823,9 @@
 <%@include file="/WEB-INF/jsp/edit/imageEditControll.jsp"%>
 
 
-<div id="associatedPublications">
-    <%@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"%>
-</div>
+<!--div id="associatedPublications"-->
+    <%--@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"--%>
+<!--/div-->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
     feather.replace()

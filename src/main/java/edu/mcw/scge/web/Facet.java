@@ -40,6 +40,7 @@ public class Facet {
         displayNames.put("initiative", "Inititative");
         displayNames.put("studyType", "Study Type");
         displayNames.put("experimentType", "Experiment Type");
+        displayNames.put("experimentName", "Experiment");
 
         facetParams=
         new ArrayList<>(Arrays.asList("editorType","editorSubType","editorSpecies",
@@ -48,7 +49,7 @@ public class Facet {
                 "tissueTerm","guideTargetLocus","guideSpecies","guideCompatibility",
                 "vectorName","vectorSubtype","vectorType",
                 "access","status","pi","initiative","studyType",
-                "experimentType"
+                "experimentType", "experimentName"
         ));
 
 

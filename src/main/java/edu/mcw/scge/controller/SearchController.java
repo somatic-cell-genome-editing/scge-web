@@ -206,6 +206,11 @@ public class SearchController{
               req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
               req.setAttribute("seoTitle","Vectors");
           }
+          if(category.trim().equalsIgnoreCase("Protocol")) {
+              req.setAttribute("action", "Protocols");
+              req.setAttribute("seoDescription","The protocols deposited by Somatic Cell Genome Editing Consortium laboratories");
+              req.setAttribute("seoTitle","Vectors");
+          }
           if(category.trim().equalsIgnoreCase("Experiment")) {
               req.setAttribute("action", "Experiments");
               req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
