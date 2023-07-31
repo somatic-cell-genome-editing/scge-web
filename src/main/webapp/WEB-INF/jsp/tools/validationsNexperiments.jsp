@@ -20,9 +20,11 @@
 
     <div class="">
         <span style="font-weight: bold">Original Experiment/s that are being validated:</span>
+        <ul>
         <% for (Experiment experiment : experimentsValidatedMap.get(ex.getExperimentId())) {%>
-        <a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a>
+        <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></li>
         <%}%>
+        </ul>
     </div>
 <%}} else {
     if (validationExperimentsMap != null && validationExperimentsMap.size() > 0) {
@@ -36,11 +38,12 @@
 
     <div class="">
         <span style="font-weight: bold;">Validation:&nbsp;</span>
-
+        <ul>
         <% for (Experiment experiment : validationExperimentsMap.get(ex.getExperimentId())) { %>
-        <a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a>
+        <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></li>
 
         <%}%>
+        </ul>
     </div>
 <%}}} %>
 
