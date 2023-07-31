@@ -134,7 +134,7 @@
                 <%}else{%>
         <tr class="header1" style="display:table-row;">
         <%}%>
-        <td><% if (access.canUpdateTier(person,s) && !SCGEContext.isTest()){%>
+        <td><% if ((access.canUpdateTier(person,s) && !SCGEContext.isTest()) || (SCGEContext.isTest() && access.isDeveloper(person) )){%>
                     <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="/toolkit/edit/access">
                         <div class="col  tiers">
                             <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=tierUpdateMap.get(s.getStudyId())%>"/>

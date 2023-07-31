@@ -51,6 +51,16 @@ public class Access {
             return false;
         }
     }
+    public boolean isDeveloper(Person p) throws Exception{
+
+        if (p.getEmail().toLowerCase().equals("jdepons@yahoo.com")
+                || p.getEmail().toLowerCase().equals("jthota@mcw.edu")
+                || p.getEmail().toLowerCase().equals("mtutaj@mcw.edu")) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 
     /**
      * verify if the logged in person is PI or Submitter or POC
