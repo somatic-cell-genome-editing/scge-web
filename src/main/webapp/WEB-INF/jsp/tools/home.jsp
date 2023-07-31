@@ -65,7 +65,7 @@
                                 <table>
                                     <tr>
                                         <td>
-                                            <div class="rounded" ><img src="/toolkit/images/exploreAllProjects.png" alt="Explore All Projects"></div>
+                                            <div class="rounded" ><img src="/toolkit/images/exploreAllProjects.png" class="card-image" alt="Explore All Projects"></div>
                                         </td>
                                         <td class="card-label">
                                             Explore All Projects
