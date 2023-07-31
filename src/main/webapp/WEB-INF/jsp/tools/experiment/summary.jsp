@@ -96,6 +96,6 @@
 </div>
 <% ProtocolDao pdao = new ProtocolDao();
   List<Protocol> localProtocols = pdao.getProtocolsForObject(objectId);
-  if(publications!=null && publications.size()>0 || (localProtocols!=null && localProtocols.size()>0)){%>
+  if((publications!=null && publications.size()>0 || (localProtocols!=null && localProtocols.size()>0)) &&  request.getParameter("resultType")!=null){%>
 Jump to:&nbsp;<%if(publications!=null && publications.size()>0){%><a href="#associatedPublications">Publications</a>&nbsp;<%}%><%if(localProtocols!=null && localProtocols.size()>0){%>|&nbsp;<a href="#associatedProtocols">Protocols</a><%}%>
 <%}%>
