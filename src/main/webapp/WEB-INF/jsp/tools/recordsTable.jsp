@@ -354,6 +354,7 @@
             if(newArrayData.length>0){
                 myChart<%=c%>.data.labels=newArrayLabel;
                 myChart<%=c%>.data.datasets = data;
+                myChart<%=c%>.options.scales.x.ticks.display = newArrayLabel.length<120;
                 myChart<%=c%>.update();
                 document.getElementById("chartDiv<%=c%>").style.display = "block";
                 document.getElementById("resultChart<%=c%>").style.display = "block";
@@ -364,6 +365,7 @@
         }else {
             myChart<%=c%>.data.labels=newArrayLabel;
             myChart<%=c%>.data.datasets = data;
+            myChart<%=c%>.options.scales.x.ticks.display = newArrayLabel.length<120;
             myChart<%=c%>.update();
             document.getElementById("chartDiv<%=c%>").style.display = "block";
             document.getElementById("resultChart<%=c%>").style.display = "block";
