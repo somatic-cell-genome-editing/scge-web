@@ -42,7 +42,7 @@
 <c:if test="${fn:length(plots)>0}">
     <div id="chart-highlighter">
     <div id="barChart">
-        <hr>
+
         <b style="font-size:16px;">Select experimental variable to highlight records on the chart: </b>
         <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
             <% for(String filter: options) {%>
@@ -50,6 +50,7 @@
             <%} %>
         </select>
     </div>
+       <p> Note:&nbsp;<span style="font-style: italic">Hover over the bars to view additional information</span></p>
     </div>
 </c:if>
 <div>
