@@ -66,8 +66,8 @@
                             <span>Jennifer Smith, MS</span><br>
                             <span>Jyothi Thota, MS</span><br>
                             <span>Marek Tutaj, MS</span><br>
-                            <span>Monika Tutaj, PhD</span>
-                            <span>Stacy Zacher, MS</span>
+                            <span>Monika Tutaj, PhD</span><br>
+                            <span>Stacy Zacher, MS</span><br>
                             <span>Kent Brodie, MS</span>
 
                     </div>
