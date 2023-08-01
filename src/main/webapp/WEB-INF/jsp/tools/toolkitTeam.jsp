@@ -67,6 +67,8 @@
                             <span>Jyothi Thota, MS</span><br>
                             <span>Marek Tutaj, MS</span><br>
                             <span>Monika Tutaj, PhD</span>
+                            <span>Stacy Zacher, MS</span>
+                            <span>Kent Brodie, MS</span>
 
                     </div>
                 </div>
