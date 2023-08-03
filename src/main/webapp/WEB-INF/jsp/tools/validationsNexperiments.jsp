@@ -12,92 +12,40 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    Map<Long, List<Experiment>> validationExperimentsMap = new HashMap<>();
-    if (request.getAttribute("validationExperimentsMap") != null)
-        validationExperimentsMap = (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
-    Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
-    if (request.getAttribute("experimentsValidatedMap") != null)
-        experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
-%>
+
 <% if (experimentsValidatedMap != null && experimentsValidatedMap.size() > 0) {%>
 
-<% if (experimentsValidatedMap.get(ex.getExperimentId()) != null) {
-    List<Long> experimentIds=new ArrayList<>();
-    for (Experiment experiment : experimentsValidatedMap.get(ex.getExperimentId())) {
-        if(!experimentIds.contains(experiment.getExperimentId())){
-            experimentIds.add(experiment.getExperimentId());
-        }
-    }
-    String experimentIDS=new String();
-    if(experimentIds.size()==1){
-        experimentIDS= String.valueOf(experimentIds.get(0));
-    }else{
-        if(experimentIds.size()>0) {
-            boolean first = true;
-            for (long id : experimentIds) {
-                if (first) {
-                    experimentIDS += id;
-                    first = false;
-                } else
-                    experimentIDS += "," + id;
-            }
-        }
-    }%>
-<span style="font-weight: bold">Original Experiment/s that are being validated:</span>
-   <% for (Experiment experiment : experimentsValidatedMap.get(ex.getExperimentId())) {%>
-<a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a>
-<!--form action="/toolkit/data/experiments/validations/study/<%=experiment.getStudyId()%>" >
-    <input  type="hidden" name="experimentIds" value="<%=experimentIDS%>"/>
-    <button style="margin-top:15px;"class="btn btn-success btn-sm" type="submit">View Original Experiment(s)</button>
-</form-->
-<%//break;
- }%>
+<% if (experimentsValidatedMap.get(ex.getExperimentId()) != null) {%>
 
 
-<%}%>
+    <div class="">
+        <span style="font-weight: bold">Original Experiment/s that are being validated:</span>
+        <ul>
+        <% for (Experiment experiment : experimentsValidatedMap.get(ex.getExperimentId())) {%>
+        <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></li>
+        <%}%>
+        </ul>
+    </div>
+<%}} else {
+    if (validationExperimentsMap != null && validationExperimentsMap.size() > 0) {
+         if (validationExperimentsMap.get(ex.getExperimentId()) != null) {
+             List<Long> experimentIds=new ArrayList<>();
+             for (Experiment experiment : validationExperimentsMap.get(ex.getExperimentId())) {
+                 if(!experimentIds.contains(experiment.getExperimentId())){
+                     experimentIds.add(experiment.getExperimentId());
+                 }}%>
 
 
-<% } else {
-    if (validationExperimentsMap != null && validationExperimentsMap.size() > 0) {%>
-<% if (validationExperimentsMap.get(ex.getExperimentId()) != null) {
-    List<Long> experimentIds=new ArrayList<>();
+    <div class="">
+        <span style="font-weight: bold;">Validation:&nbsp;</span>
+        <ul>
+        <% for (Experiment experiment : validationExperimentsMap.get(ex.getExperimentId())) { %>
+        <li><a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></li>
 
-    for (Experiment experiment : validationExperimentsMap.get(ex.getExperimentId())) {
-        if(!experimentIds.contains(experiment.getExperimentId())){
-            experimentIds.add(experiment.getExperimentId());
-        }
-    }
-    String experimentIDS=new String();
-    if(experimentIds.size()==1){
-        experimentIDS= String.valueOf(experimentIds.get(0));
-    }else{
-        boolean first=true;
-        for(long id:experimentIds){
-            if(first){
-                experimentIDS+=id;
-                first=false;
-            }else
-                experimentIDS+= ","+ id;
-        }        }%>
-<span style="font-weight: bold;color:#ffa30f">Validation Experiment:</span>
+        <%}%>
+        </ul>
+    </div>
+<%}}} %>
 
-   <% for (Experiment experiment : validationExperimentsMap.get(ex.getExperimentId())) { %>
-<a href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a>
-
-<!--form action="/toolkit/data/experiments/validations/study/<%=experiment.getStudyId()%>" >
-    <input type="hidden" name="experimentIds" value="<%=experimentIDS%>"/>
-
-    <button class="btn btn-warning btn-sm" type="submit">View Validation of this Experiment</button>
-</form-->
-<%//break;
-    }%>
-
-
-<%} %>
-
-
-<% }
-}%>
 
 

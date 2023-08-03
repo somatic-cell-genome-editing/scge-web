@@ -1,6 +1,4 @@
 <%@ page import="com.google.gson.Gson" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <style>
     body {
@@ -221,11 +219,12 @@
                                         String title="";
                                         String color="";
                                         String fontWeight="";
+                                        String displayTissue=tissue;
                                         if(tissuesTarget.contains(tissue)){
                                             title="Target Tissue";
-                                            color="#DA70D6";
-                                            fontWeight="bold";
-
+                                          //  color="#DA70D6";
+                                          //  fontWeight="bold";
+                                            displayTissue+=" <span style='color:#DA70D6'>(TARGET)</span>";
                                         }
                                         if(selectedTissue == null || tissue.equalsIgnoreCase(selectedTissue)) {
 
@@ -235,7 +234,7 @@
                                             <% if (tissueList.size() > 1) { %>
                                             <input onclick="applyFilters(this)" name="tissue"  id="<%=tissue%>" type="checkbox" checked>
                                             <%}%>
-                                            &nbsp;<%=tissue%>
+                                            &nbsp;<%=displayTissue%>
                                         </td>
                                     </tr>
                                     <%} else { %>
@@ -243,7 +242,7 @@
                                         <td  title="<%=title%>" style="color:<%=color%>;font-weight: <%=fontWeight%>">
                                             <% if (tissueList.size() > 1) { %>
                                             <input onclick="applyFilters(this)" name="tissue" id="<%=tissue%>" type="checkbox" unchecked>&nbsp;
-                                            <%}%><%=tissue%>
+                                            <%}%><%=displayTissue%>
                                         </td>
                                     </tr>
                                     <% }} %>

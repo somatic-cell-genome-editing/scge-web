@@ -87,6 +87,12 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                                            @PathVariable(required = false) int groupId) throws Exception {
         Person p=userService.getCurrentUser(req.getSession());
         List<Study> studies = sdao.getStudiesByGroupId(groupId);
+        String selectedStudy=req.getParameter("selectedStudy");
+        if(selectedStudy!=null){
+            int selectedStudyId=Integer.parseInt(selectedStudy);
+            System.out.println("SELECTED STUDY:"+ selectedStudyId);
+            req.setAttribute("selectedStudy", selectedStudyId);
+        }
 
         if(!access.isLoggedIn()) {
             return "redirect:/";
@@ -1015,7 +1021,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
           Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
         if(localStudy.getIsValidationStudy()==1) {
             experimentsValidatedMap=getExperimentsValidated(studies);
-            req.setAttribute("action", "<span style='color:#ffa30f'>Validation Experiment:</span> " + e.getName());
+            req.setAttribute("action", "<span>Validation Experiment:</span> " + e.getName());
             req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
         }
         else {
@@ -1135,8 +1141,12 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experiment.getExperimentId()));
 
         req.setAttribute("action", "Experiment Record Detail");
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Project</a> /<a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment Overview</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "?resultType=all'>Experiment</a>");
 
+        if (experiment.getType().equals("In Vitro")) {
+            req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Project</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "?resultType=all'>Experiment</a>");
+        }else {
+            req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/experiments/group/" + study.getGroupId() + "'>Project</a> /<a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "'>Experiment Overview</a> / <a href='/toolkit/data/experiments/experiment/" + experiment.getExperimentId() + "?resultType=all'>Experiment</a>");
+        }
         req.setAttribute("seoDescription",r.getCondition());
         req.setAttribute("seoTitle",r.getExperimentName());
         req.setAttribute("study", study);

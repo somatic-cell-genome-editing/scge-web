@@ -109,6 +109,9 @@
         <c:if test="${category=='Experiment' || fn:containsIgnoreCase(action, 'results') }">
             <%@include file="experimentFacets.jsp"%>
         </c:if>
+        <c:if test="${category=='Protocol'}">
+            <%@include file="protocolFacets.jsp"%>
+        </c:if>
         <c:if test="${action=='Studies And Experiments'}">
             <%@include file="studyNExperimentFacets.jsp"%>
         </c:if>

@@ -16,6 +16,19 @@ $(function () {
             })
         }
     });
+    $.each($('input[name="experimentName"]'), function(){
+
+        var _this=$(this);
+        var val=_this.val();
+        _this.prop('checked', false);
+        if(selectedExperimentName!== typeof undefined) {
+            $.each(selectedExperimentName.split(","), function (i, selected) {
+                if (selected === val) {
+                    _this.prop('checked', true)
+                }
+            })
+        }
+    });
     $.each($('input[name="editorType"]'), function(){
         var _this=$(this);
         var val=_this.val();

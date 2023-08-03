@@ -141,7 +141,7 @@
 </style>
 <div id="charts" style="visibility: hidden;">
 <%int cellCount=0;
-    if(plots.size()>1 && maxBarCount<50){%>
+    if(plots.size()>1 && maxBarCount<10){%>
    <div>
      <%
          int chartHeight=400;
@@ -174,7 +174,7 @@
        </div>
        <%}%>
    </div>
-    <%}else{ if(maxBarCount>50 && plots.size()>1){
+    <%}else{ if(maxBarCount>10 && plots.size()>1){
             for(int c=0;c<plots.size();c++){%>
                 <div class="chart-container" id="chartDiv<%=cellCount%>"  >
                     <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:60vh;width: 60vw;padding-top: 5%" ></canvas>
@@ -191,6 +191,7 @@
      <%
          int i=0;
          for(Plot plot: plots){
+             boolean tickDisplay= plot.getTickLabels().size() <= 120;
              if(i<=plots.size()-1){
      %>
 <script>
@@ -205,7 +206,7 @@
         options: {
             responsive: true,
             scaleShowValues: true,
-
+            maintainAspectRatio: false,
 
             scales: {
                 x: {
@@ -222,9 +223,10 @@
 
 
                     ticks: {
-                      //  minRotation: 30 ,// angle in degrees
+                        minRotation: 70 ,// angle in degrees
                         fontSize: 10,
                         autoSkip: false,
+                        display:<%=tickDisplay%>,
                         callback: function(val, index) {
                             // Hide every 2nd tick label
                             var t=this.getLabelForValue(val);

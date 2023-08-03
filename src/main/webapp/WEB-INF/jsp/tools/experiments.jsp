@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.datamodel.Study" %>
@@ -40,6 +41,7 @@
         background-color: transparent;
     }
 
+
 </style>
 <script>
     $(function () {
@@ -47,6 +49,7 @@
             theme: 'blue'
 
         });
+        $('#<%=request.getAttribute("selectedStudy")%>').css('border', '10px solid purple')
 
     });
 </script>
@@ -59,72 +62,25 @@
         Person p = access.getUser(request.getSession());
 //    List<Experiment> experiments = (List<Experiment>) request.getAttribute("experiments");
         LinkedHashMap<Study, List<Experiment>> studyExperimentMap = (LinkedHashMap<Study, List<Experiment>>) request.getAttribute("studyExperimentMap");
+
         Map<Long, List<Experiment>> validationExperimentsMap = new HashMap<>();
         if (request.getAttribute("validationExperimentsMap") != null)
             validationExperimentsMap = (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
         Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
         if (request.getAttribute("experimentsValidatedMap") != null)
             experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
-        boolean isProcessed=false;
-        int totalExperiments=0;
-        for (Map.Entry entry : studyExperimentMap.entrySet()) {
-            List<Experiment> experiments = (List<Experiment>) entry.getValue();
-            if(experiments.size()>0){
-                isProcessed=true;
-                totalExperiments+=experiments.size();
-            }
-        }
-        if(isProcessed){
+
+
 %>
 
-    <div class="card" style="margin-bottom: 10px">
-        <div class="card-header">
-            <span style="font-weight: bold">Summary of data submissions:</span>
-
-        </div>
-        <div class="card-body">
-    <ul>
-    <%
-        for (Map.Entry entry : studyExperimentMap.entrySet()) {
-            Study study = ((Study) entry.getKey());
-            String validation="";
-            if(study.getIsValidationStudy()==1)
-                validation+="validation";
-            if(study.getIsValidationStudy()!=1 && (study.getGroupId()==1410 || study.getGroupId()==1412))
-                validation+="new model";
-            List<Experiment> experiments = (List<Experiment>) entry.getValue();
-            if(experiments.size()>0){
-            %>
-
-        <li>
-           Data for <%=experiments.size()%>&nbsp;<%=validation%> experiments were submitted on <%=study.getSubmissionDate()%>&nbsp;<span style="font-weight: bold"><a href="#<%=study.getStudyId()%>">SCGE ID:<%=study.getStudyId()%></a></span>
-        </li>
-
-       <% }} if(validationExperimentsMap.size()>0){%>
-        <li><%=validationExperimentsMap.size()%> of <%=totalExperiments%> experiments have been validated</li>
-        <%}%>
-    </ul>
-        </div>
-
-    </div>
-    <%}%>
-    <div class="card-header" style="margin-bottom: 10px"><span style="font-weight: bold">Submissions Details:</span></div>
+    <div id="initiatives"><h2>Submissions Details</h2></div>
     <%  int count=1;
         for (Map.Entry entry : studyExperimentMap.entrySet()) {
             Study study = ((Study) entry.getKey());
             List<Experiment> experiments = (List<Experiment>) entry.getValue();
 
     %>
-    <%if (study.getStudyId() == 1026) {%>
-    <!--h4 class="page-header" style="color:grey;">Study Overview</h4>
 
-    <div class="card" style="border:1px solid white">
-        Specific aims: 1) to predict which unintended editing sites have biological effects on human T-cells by integrating large-scale genome-wide activity and epigenomic profiles with state-of-the-art deep learning models and 2) to develop a human primary T-cell platform to detect functional effects of genome editing by measuring clonal representation, off-target mutation frequencies, immunogenicity, or gene expression.
-
-    </div>
-
-    <hr-->
-    <%}%>
     <div id="imageViewer"
          style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
 
@@ -150,7 +106,7 @@
                                     <strong>VALIDATION&nbsp;-</strong>&nbsp;<%=study.getStudy()%>
                                     <% }
                                         }else{%>
-                                    <%=study.getStudy()%>
+                                    <%--=study.getStudy()--%>
                                   <%}%>
                                 </div>
                                 <span  class="scge-details-label">SCGE ID:<%=study.getStudyId()%></span>&nbsp;-&nbsp;Submission
@@ -198,8 +154,8 @@
                     </thead>
 
                     <%
-                        for (Experiment exp : experiments) {
-                            Study s = sdao.getStudyById(exp.getStudyId()).get(0);
+                        for (Experiment ex : experiments) {
+                            Study s = sdao.getStudyById(ex.getStudyId()).get(0);
                     %>
 
                     <% if (access.hasStudyAccess(s, p)) { %>
@@ -207,20 +163,18 @@
                     <tr>
                         <!--<td width="10"><%=s.getTier()%>-->
 
-                        <td class="project-page-details-table experiment-name"><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>">
-                            <%=exp.getName()%></a><br>
-                            <%@include file="validations.jsp"%>
+                        <td class="project-page-details-table experiment-name"><a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>">
+                            <%=ex.getName()%></a><br><br>
+                            <%@include file="validationsNexperiments.jsp"%>
                         </td>
-                        <td class="project-page-details-table experiment-type" style="white-space: nowrap"><%=exp.getType()%>
+                        <td class="project-page-details-table experiment-type" style="white-space: nowrap"><%=ex.getType()%>
                         </td>
-                        <td class="project-page-details-table experiment-description"><%=SFN.parse(exp.getDescription())%></td>
-                        <!--<td><%=exp.getExperimentId()%></td>-->
-
-
+                        <td class="project-page-details-table experiment-description"><%=SFN.parse(ex.getDescription())%></td>
+                        <!--<td><%=ex.getExperimentId()%></td>-->
 
                     </tr>
                     <%
-                        List<Image> images = idao.getImage(exp.getExperimentId());
+                        List<Image> images = idao.getImage(ex.getExperimentId());
                         if (images.size() > 0) {
                     %>
 
@@ -229,7 +183,7 @@
                             <table>
                                 <tr>
                                     <% for (Image image : images) { %>
-                                    <td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><img
+                                    <td><a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>"><img
                                             onmouseover="imageMouseOver(this,'<%=StringUtils.encode(image.getLegend())%>', '<%=image.getTitle()%>')"
                                             onmouseout="imageMouseOut(this)" id="img<%=rowCount%>"
                                             src="<%=image.getPath()%>" height="1" width="1"></a></td>

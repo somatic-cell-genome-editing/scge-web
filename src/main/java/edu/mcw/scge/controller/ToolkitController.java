@@ -201,10 +201,10 @@ public class ToolkitController {
 
     @RequestMapping(value="/initiatives")
     public String getInitiativesHome(HttpServletRequest req, HttpServletResponse res) throws Exception {
-        req.setAttribute("action", "About SCGE");
+        req.setAttribute("action", "About SCGE Toolkit");
         req.setAttribute("page", "/WEB-INF/jsp/tools/initiatives");
         req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
-        req.setAttribute("seoTitle","About SCGE");
+        req.setAttribute("seoTitle","About SCGE Toolkit");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         return null;
     }
