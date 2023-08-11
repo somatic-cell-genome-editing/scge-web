@@ -169,6 +169,7 @@
            <div class="chart-container" id="chartDiv<%=cellCount%>"  >
                <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:<%=width+5%>vh;width: <%=width%>vw;padding-top: 5%" ></canvas>
            </div>
+               <a id="image<%=cellCount%>">Download Image</a>
            </div>
             <%cellCount++;}%>
        </div>
@@ -179,12 +180,14 @@
                 <div class="chart-container" id="chartDiv<%=cellCount%>"  >
                     <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:60vh;width: 60vw;padding-top: 5%" ></canvas>
                 </div>
+    <a id="image<%=cellCount%>">Download Image</a>
            <%cellCount++;}}
         if(plots.size()==1){%>
 <div class="justify-content-md-center">
     <div class="chart-container" id="chartDiv<%=cellCount%>" style="display: block; height:60vh; width:60vw;">
         <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:60vh; width:60vw;" ></canvas>
     </div>
+    <a id="image<%=cellCount%>">Download Image</a>
 </div>
    <%}}%>
 </div>
@@ -394,14 +397,19 @@
                             tooltipEl.style.color='white';
                             tooltipEl.style.backgroundColor= 'rgba(0, 0, 0, 0.7)';
                         }
-                    }
+                    },
 
-
-
-            }
+            },
+            animation: {
+                onComplete: function () {
+                   // console.log(myChart<%=i%>.toBase64Image());
+                    var a=document.getElementById("image<%=i%>")
+                    a.href=myChart<%=i%>.toBase64Image();
+                    a.download='<%=plot.getTitle().replaceAll(" ", "_")%>.png'
+                },
+            },
         }
     });
-
 
     function generateData() {
 
