@@ -181,10 +181,10 @@
             <td><%if(record.getHrdonorId()>0){%><a href="/toolkit/data/hrdonors/hrdonor?id=<%=record.getHrdonorId()%>"><%=record.getHrdonorName()%></a><%}%></td>
         </c:if>
         <c:if test="${tableColumns.modelDisplayName!=null}">
-            <%if(record.getModelId()>0 && record.getModelDisplayName()!=null && !record.getModelDisplayName().equals("")){%>
-            <td><a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelDisplayName()%></a></td>
+            <td><%if(record.getModelId()>0 && record.getModelDisplayName()!=null && !record.getModelDisplayName().equals("")){%>
+            <a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelDisplayName()%></a>
             <%}else{ if(record.getModelName()!=null && !record.getModelName().equals("") && record.getModelId()>0){%>
-                <td><a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelName()%></a><%}}%></td>
+            <a href="/toolkit/data/models/model?id=<%=record.getModelId()%>"><%=record.getModelName()%></a><%}}%></td>
         </c:if>
         <c:if test="${tableColumns.deliverySystemName!=null}">
             <td><%if(record.getDeliverySystemId()>0){%><a href="/toolkit/data/delivery/system?id=<%=record.getDeliverySystemId()%>"><%=record.getDeliverySystemName()%></a><%}%></td>
@@ -252,7 +252,15 @@
                         }
                     }%>
 
-        <td><% if(result!=null && !result.equals("")){%><button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values <%=actualRepCount%>" style="background-color: transparent"><span style="display: none">Result:</span><span style="text-decoration:underline"><%=result%></span><span style="display: none"> | Replicates:</span></button><div style="display: none" id="popover-<%=record.getExperimentRecordId()%><%=popover%>"><div class="popover-body"><%=replicates.toString()%></div></div><%}%></td>
+        <td>
+            <% if(result!=null && !result.equals("")){ %>
+                <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="hover click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-<%=record.getExperimentRecordId()%><%=popover%>" title="Replicate Values <%=actualRepCount%>" style="background-color: transparent">
+                    <span style="display: none">Result:</span><span style="text-decoration:underline"><%=result%></span><span style="display: none"> | Replicates:</span>
+                </button>
+                <div style="display: none" id="popover-<%=record.getExperimentRecordId()%><%=popover%>">
+                <div class="popover-body"><%=replicates.toString()%></div></div>
+            <%}%>
+        </td>
         <%popover++;}%>
         <%
             List<Image> images =ImageCache.getInstance().getImage(record.getExperimentRecordId(),"main1");
