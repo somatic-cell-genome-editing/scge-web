@@ -153,7 +153,7 @@ public class PublicationController {
 
             }
         }
-        System.out.println("REDIRECT URL IN insertPubAssociations"+ req.getParameter("redirectURL"));
+    //    System.out.println("REDIRECT URL IN insertPubAssociations"+ req.getParameter("redirectURL"));
 
 
         return "redirect:"+redirectURL;
@@ -313,7 +313,7 @@ public class PublicationController {
             }
 
         }
-        System.out.println("SCGEIDS:"+scgeIds.toString());
+      //  System.out.println("SCGEIDS:"+scgeIds.toString());
 
             for(Long scgeId:scgeIds){
                 List<Publication> associatedPublications= publicationDAO.getAssociatedPublications(scgeId);
@@ -331,7 +331,7 @@ public class PublicationController {
                 }
             }
         }
-            System.out.println("ASSOCIATION TYPES DB:"+ gson.toJson(associated));
+       //     System.out.println("ASSOCIATION TYPES DB:"+ gson.toJson(associated));
 
     }
     @RequestMapping(value="/associate/study/submit")
@@ -359,7 +359,7 @@ public class PublicationController {
             experimentRecordsMap.put(experiment.getExperimentId(),records );
         }
         Map<Long,  String> associationTypes=getAssociationTypes(experimentRecordsMap,req);//Map<SCGE_OBJECT_ID, REF_KEY>
-        System.out.println("Association Types:" +gson.toJson(associationTypes));
+    //    System.out.println("Association Types:" +gson.toJson(associationTypes));
         for(String object:Arrays.asList("experiment", "editor","model", "vector","delivery", "guide", "hrDonor")) {
             if (req.getParameterValues(object) != null) {
                 for (String x : req.getParameterValues(object)) {
@@ -387,7 +387,7 @@ public class PublicationController {
     public Map<Long,  String> getAssociationTypes( Map<Long, List<ExperimentRecord>> experimentRecordsMap, HttpServletRequest req) throws Exception {
         Map<Long,  String> associationTypes=new HashMap<>();
         for(Map.Entry entry:experimentRecordsMap.entrySet()){
-            System.out.println("ASSOCIATION TYPE:"+req.getParameter(String.valueOf( entry.getKey())));
+         //   System.out.println("ASSOCIATION TYPE:"+req.getParameter(String.valueOf( entry.getKey())));
             if(req.getParameter(String.valueOf(entry.getKey()))!=null)
             associationTypes.put((Long) entry.getKey(), req.getParameter(String.valueOf( entry.getKey())));
             List<ExperimentRecord> records= (List<ExperimentRecord>) entry.getValue();

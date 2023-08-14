@@ -52,7 +52,7 @@ public class AutocompleteController {
                     for (Map.Entry e : h.getHighlightFields().entrySet()) {
                         HighlightField field = (HighlightField) e.getValue();
                         for (Text s : field.fragments()) {
-                               System.out.println(s.bytes().utf8ToString());
+                             //  System.out.println(s.bytes().utf8ToString());
                             String str = s.toString().replace("<em>", "<strong>")
                                     .replace("</em>", "</strong>");
                             autocompleteList.put(str,"");

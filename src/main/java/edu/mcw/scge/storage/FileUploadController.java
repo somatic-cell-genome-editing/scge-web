@@ -201,7 +201,7 @@ public class FileUploadController {
 				String id = vals[0];
 				String bucket = req.getParameter("bucket");
 
-				System.out.println("about to load " + req.getParameter("dir") + "/" + vals[1] + "." + req.getParameter("type"));
+			//	System.out.println("about to load " + req.getParameter("dir") + "/" + vals[1] + "." + req.getParameter("type"));
 				File file = new File(req.getParameter("dir") + "/" + vals[1] + "." + req.getParameter("type"));
 				byte[] bytes = Files.readAllBytes(file.toPath());
 

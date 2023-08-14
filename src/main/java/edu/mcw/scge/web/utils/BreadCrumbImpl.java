@@ -14,7 +14,7 @@ public class BreadCrumbImpl implements Crumb {
             Object parent, Object child, String pageContext ) {
         String reqUri=req.getRequestURI();
         String contextPath=req.getContextPath();
-        System.out.println("REQ URI:"+ reqUri+"\nCONTEXT PATH:"+contextPath);
+       // System.out.println("REQ URI:"+ reqUri+"\nCONTEXT PATH:"+contextPath);
 
         if(pageContext!=null && pageContext.equalsIgnoreCase("search")){
             return getSearchCrumbTrail(pageContext, req);
@@ -45,7 +45,7 @@ public class BreadCrumbImpl implements Crumb {
            return crumbTrail;
        }
         if(parent instanceof Model){
-            System.out.println("YES MODEL INSTANCE");
+         //   System.out.println("YES MODEL INSTANCE");
             trailNLink.put("Models", "/toolkit/data/models/search/");
             crumbTrail.put(1, trailNLink);
             return crumbTrail;

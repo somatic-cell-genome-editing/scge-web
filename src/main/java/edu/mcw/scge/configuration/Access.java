@@ -303,7 +303,7 @@ public class Access {
 
         List<ExperimentRecord> records =  erd.getExperimentRecordById(recordId);
 
-        System.out.println("RECORD SIZE + " + records.size());
+       // System.out.println("RECORD SIZE + " + records.size());
 
         if (records.size() > 0 ) {
             return this.hasStudyAccess(records.get(0).getStudyId(),p.getId());
