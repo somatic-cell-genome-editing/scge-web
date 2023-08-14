@@ -80,7 +80,7 @@ public class UploadController {
         String name=req.getParameter("name");
         String symbol=req.getParameter("symbol");
       //  List<TestData> records=service.insert(name,symbol);
-        System.out.println("NAME:"+name+"\t"+ symbol);
+      //  System.out.println("NAME:"+name+"\t"+ symbol);
       //  model.addAttribute("records", records);
         return "submissions/submitSucess";
     }

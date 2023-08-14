@@ -219,7 +219,7 @@ public class DataAccessService extends AbstractDAO {
         sdao.insertStudyTier(studyId, tier,groupId,sequenceKey, action, status, modifiedBypersonId);
     }
     public void insertTierUpdates(List<StudyTierUpdate> updates) throws Exception {
-        System.out.println("UPDATE RECORDS SIZE: "+ updates.size());
+       // System.out.println("UPDATE RECORDS SIZE: "+ updates.size());
         tierUpdateDao.batchUpdate(updates);
     }
     public void deleteTierUpdates(int studyId) throws Exception {
@@ -315,11 +315,11 @@ public class DataAccessService extends AbstractDAO {
             JSONArray selectedArray= jsonObject.getJSONArray("selected");
             for(int i=0;i<selectedArray.length();i++){
                 String groupId=selectedArray.getJSONObject(i).getString("groupId");
-                System.out.println("*******GROUP ID: "+ groupId+"*******");
+             //   System.out.println("*******GROUP ID: "+ groupId+"*******");
                 JSONArray array=selectedArray.getJSONObject(i).getJSONArray("members");
                 for(int j=0; j<array.length();j++){
                     int sequenceKey=getNextKey("study_tier_updates_seq");
-                    System.out.println("MEMBER ID: "+ array.get(j) +"\tSequenceKey:"+ sequenceKey);
+                 //   System.out.println("MEMBER ID: "+ array.get(j) +"\tSequenceKey:"+ sequenceKey);
                     StudyTierUpdate rec= new StudyTierUpdate();
                     rec.setStudyTierUpdateId(sequenceKey);
                     rec.setStudyId(studyId);

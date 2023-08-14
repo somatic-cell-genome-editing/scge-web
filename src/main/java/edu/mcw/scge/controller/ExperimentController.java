@@ -90,7 +90,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         String selectedStudy=req.getParameter("selectedStudy");
         if(selectedStudy!=null){
             int selectedStudyId=Integer.parseInt(selectedStudy);
-            System.out.println("SELECTED STUDY:"+ selectedStudyId);
+         //   System.out.println("SELECTED STUDY:"+ selectedStudyId);
             req.setAttribute("selectedStudy", selectedStudyId);
         }
 

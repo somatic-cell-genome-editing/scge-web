@@ -77,8 +77,8 @@
         List<Guide> guides1 = (List<Guide>)request.getAttribute("guides1");
         List<Guide> guides2 = (List<Guide>)request.getAttribute("guides2");
 
-        System.out.println(guides1);
-        System.out.println(guides2);
+      //  System.out.println(guides1);
+      //  System.out.println(guides2);
 
         String guide1 = "";
         for(Guide g: guides1) {
