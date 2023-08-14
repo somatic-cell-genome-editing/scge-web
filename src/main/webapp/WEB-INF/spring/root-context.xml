@@ -6,6 +6,5 @@
     <!-- Root Context: defines shared resources visible to all other web components -->
     <bean id="elasticsearchclient" class="edu.mcw.scge.service.es.ESClient" init-method="init" destroy-method="destroy"/>
 
-
-
+    
 </beans>
