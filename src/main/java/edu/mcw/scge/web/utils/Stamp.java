@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class Stamp {
 
-    public static SimpleDateFormat sf = new SimpleDateFormat("hh:mm:ss.SSS");
+    public static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd - hh:mm:ss.SSS");
     public static void it(String desc) {
         System.out.println(sf.format(new Date()) + " - " + desc);
     }
