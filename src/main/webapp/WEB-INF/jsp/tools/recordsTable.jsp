@@ -52,11 +52,7 @@
     </div>
 
        <p> Note:&nbsp;<span style="font-style: italic">Hover over the bars to view additional information</span></p>
-        <div class="card">
-            <div class="card-header">Legend</div>
-            <div class="card-body">
-                <div id="legend"></div>
-            </div>
+        <div id="legend-wrapper">
         </div>
     </div>
 </c:if>
@@ -242,16 +238,22 @@
         // console.log("COLOR RECS:"+ colorByRecordsJson)
         console.log("FILTER VALUES:"+ filterValues)
         //Sorting array of objects by sortedValues
-        var legendDiv=document.getElementById("legend")
-        var legendHtml="<div class=row>";
-        for(var e in legendValues){
-            console.log(filterValues[e]+"\t"+ colorPalette[e])
-            legendHtml+="<div class='col-2'><div class='row'><div class='col-1' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:"+colorPalette[e]+"'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap'>"
-            legendHtml+=filterValues[e]
-            legendHtml+="</small></div></div></div>"
+        var legendDiv = document.getElementById("legend-wrapper")
+        if(filterValues.length>0 && filter!='None') {
+
+            var legendHtml = " <div class='card'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>" +
+                "<div class=row>";
+            for (var e in legendValues) {
+                console.log(filterValues[e] + "\t" + colorPalette[e])
+                legendHtml += "<div class='col-2'><div class='row'><div class='col-1' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + colorPalette[e] + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap'>"
+                legendHtml += filterValues[e]
+                legendHtml += "</small></div></div></div>"
+            }
+            legendHtml += "</div></div> </div> </div>"
+            legendDiv.innerHTML = legendHtml;
+        }else{
+            legendDiv.innerHTML = "";
         }
-        legendHtml+="</div>"
-        legendDiv.innerHTML=legendHtml;
         <%
 
         int c=0;
