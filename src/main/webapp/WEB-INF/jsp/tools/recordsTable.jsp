@@ -241,7 +241,7 @@
         var legendDiv = document.getElementById("legend-wrapper")
         if(filterValues.length>0 && filter!='None') {
 
-            var legendHtml = " <div class='card'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>" +
+            var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>" +
                 "<div class=row>";
             for (var e in legendValues) {
                 console.log(filterValues[e] + "\t" + colorPalette[e])
