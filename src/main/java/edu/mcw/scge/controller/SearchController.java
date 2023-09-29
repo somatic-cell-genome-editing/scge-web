@@ -144,7 +144,10 @@ public class SearchController{
         req.setAttribute("sr", sr);
         String selectedView=req.getParameter("selectedView");
         if(selectedView==null || selectedView.equals("")){
-            selectedView="list";
+           // selectedView="list";
+            if(category!=null && (category.equalsIgnoreCase("experiment") || category.equalsIgnoreCase("project"))){
+                selectedView="list";
+            }else selectedView="table";
         }
         req.setAttribute("selectedView",selectedView);
       /*  System.out.println("CATEGORY:" +category+"\nFacets ===============================");
