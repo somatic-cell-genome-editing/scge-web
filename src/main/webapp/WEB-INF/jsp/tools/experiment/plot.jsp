@@ -420,7 +420,7 @@
      console.log("IMAGE:"+image<%=i%>)
      var a = document.getElementById("image<%=i%>");
      a.href =  image<%=i%>;
-     a.download = '<%=plot.getTitle().replaceAll(" ", "_")%>.pdf';
+     a.download = '<%=plot.getTitle().replaceAll(" ", "_")%>.png';
      <%i++;}}%>
 
     function generateData(plot) {
