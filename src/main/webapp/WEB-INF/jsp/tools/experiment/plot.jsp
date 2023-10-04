@@ -139,7 +139,7 @@
 <style>
    
 </style>
-<div id="charts" style="visibility: hidden;">
+<div id="charts" style="visibility: hidden">
 <%int cellCount=0;
     if(plots.size()>1 && maxBarCount<10){%>
    <div>
@@ -194,20 +194,23 @@
 </div>
    <%}}%>
 </div>
+<script>
      <%
          int i=0;
          for(Plot plot: plots){
              boolean tickDisplay= plot.getTickLabels().size() <= 120;
+             String plotJson=gson.toJson(plot);
              if(i<=plots.size()-1){
      %>
-<script>
-    var ctx = document.getElementById("resultChart<%=i%>");
+
+    var plotJson=<%=plotJson%>
+    var ctx<%=i%> = document.getElementById("resultChart<%=i%>");
      //plotRecordIds=<%--=plot.getRecordIds()--%>;
-     myChart<%=i%> = new Chart(ctx, {
+    var myChart<%=i%> = new Chart(ctx<%=i%>, {
         type: 'bar',
         data: {
-            labels: <%=gson.toJson(plot.getTickLabels())%>,
-            datasets: generateData()
+            labels: plotJson.tickLabels,
+            datasets: generateData(plotJson)
         },
         options: {
             responsive: true,
@@ -286,7 +289,7 @@
                     },
                     title: {
                         display: true,
-                        text: [<%=plot.getYaxisLabel()%>]
+                        text: [plotJson.yaxisLabel]
 
 
                     }
@@ -307,8 +310,8 @@
                     display: true,
 
                     //  text: [<%--=plot.getTitle()--%>],
-                    text: '<%=plot.getTitle()%>',
-                    color:'<%=plot.getTitleColor()%>',
+                    text: plotJson.title,
+                    color:plotJson.titleColor,
                     font: {
                         size:16
                     }
@@ -404,46 +407,64 @@
 
             },
             animation: {
-                onComplete: function () {
-                   // console.log(myChart<%=i%>.toBase64Image());
-                    var a=document.getElementById("image<%=i%>")
-                    a.href=myChart<%=i%>.toBase64Image();
-                    a.download='<%=plot.getTitle().replaceAll(" ", "_")%>.png'
-                },
-            },
+                <%--onComplete: function () {--%>
+                <%--   // console.log(myChart<%=i%>.toBase64Image());--%>
+                <%--    var a=document.getElementById("image<%=i%>")--%>
+                <%--    a.href=myChart<%=i%>.toBase64Image();--%>
+                <%--    a.download='<%=plot.getTitle().replaceAll(" ", "_")%>.png'--%>
+                <%--}--%>
+            }
         }
     });
+    var image<%=i%>=myChart<%=i%>.toBase64Image()
+     console.log("IMAGE:"+image<%=i%>)
+     var a = document.getElementById("image<%=i%>");
+     a.href =  image<%=i%>;
+     a.download = '<%=plot.getTitle().replaceAll(" ", "_")%>.pdf';
+     <%i++;}}%>
 
-    function generateData() {
+    function generateData(plot) {
+        var jsonStr=JSON.stringify(plot)
+        var plotJson=(JSON).parse(jsonStr)
+        console.log("PLOTJSONSTR:"+ (plotJson))
+        var plotDataStr= JSON.stringify(plotJson.plotData);
+        var plotData=new Map(Object.entries(JSON.parse(plotDataStr)))
+        console.log("plotData:"+ plotData)
+        var recordIds=[];
+        recordIds= plotJson.recordIds
 
         var data=[];
         color=colorPalette[0];
-        <%for(String key:plot.getPlotData().keySet()){%>
-        data.push({
-            label: '<%=key%>>',
-            data: <%=plot.getPlotData().get(key)%>,
-            recordIds:<%=plot.getRecordIds()%>,
-            backgroundColor: color,
-            borderColor: color,
-            borderWidth: 1
-        });
-        <%} for(Map.Entry entry:plot.getReplicateResult().entrySet()){
-            int replicate=(int) entry.getKey();
-            List<Double> values=(List<Double>) entry.getValue();
-        %>
-        data.push({
-            label: "Replicate - <%=replicate%>",
-            data: <%=values%>,
-            type: "scatter",
-            backgroundColor:"red",
-            showLine: false
+        for(let [key, value] of plotData){
+            data.push({
+                label: '\'' + key + '\'',
+                data: value,
+                recordIds: recordIds,
+                backgroundColor: color,
+                borderColor: color,
+                borderWidth: 1
+            });
 
-        })
-        <%}%>
+        }
+        var replicateResultStr= JSON.stringify(plotJson.replicateResult)
+        var replicateResult=new Map(Object.entries( JSON.parse(replicateResultStr)))
+        for(let[key, value] of replicateResult){
 
+                data.push({
+                    label: "Replicate - " + key,
+                    data: value,
+                    type: "scatter",
+                    backgroundColor: "red",
+                    showLine: false
+
+                })
+
+        }
+        console.log("DATA:"+ data);
         return data;
     }
-     function getRandomColor() {
+
+    function getRandomColor() {
         var trans = '0.5'; // 50% transparency
         var color = 'rgba(';
         for (var i = 0; i < 3; i++) {
@@ -453,8 +474,6 @@
         return color;
     }
 </script>
-         <%i++;}}%>
-
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
 
