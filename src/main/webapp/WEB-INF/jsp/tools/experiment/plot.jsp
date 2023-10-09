@@ -177,7 +177,7 @@
 
 </script>
 
-<div id="charts" >
+<div id="charts" style="visibility: hidden">
 <%int cellCount=0;
     if(plots.size()>1 && maxBarCount<10){%>
    <div>
