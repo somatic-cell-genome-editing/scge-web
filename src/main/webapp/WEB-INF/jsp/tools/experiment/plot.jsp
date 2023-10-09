@@ -236,7 +236,20 @@
 </div>
    <%}}%>
 </div>
-
+<script>
+    /*plugin to change the chart background to white in download image*/
+    Chart.register({
+        id: 'customBackground',
+        beforeDraw: (chart, args, opts) => {
+            const ctx = chart.canvas.getContext('2d');
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, chart.width, chart.height);
+            ctx.restore();
+        }
+    })
+</script>
      <%
          int i=0;
          for(Plot plot: plots){
@@ -245,6 +258,7 @@
              if(i<=plots.size()-1){
      %>
 <script>
+
     var plotJson=<%=plotJson%>
     var ctx<%=i%> = document.getElementById("resultChart<%=i%>");
      //plotRecordIds=<%--=plot.getRecordIds()--%>;
