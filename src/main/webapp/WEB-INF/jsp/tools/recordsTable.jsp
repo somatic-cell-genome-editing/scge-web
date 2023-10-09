@@ -621,8 +621,7 @@
 
         document.getElementById("charts").style.visibility="visible"
 
-        document.querySelector(
-            "#spinner").style.display = "none";
+        document.getElementById("spinner").style.visibility = "hidden";
 
     }
     function graphUnit(unit) {
