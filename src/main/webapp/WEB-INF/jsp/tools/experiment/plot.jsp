@@ -134,12 +134,50 @@
         }
         return detail;
     }
+    function generateData(plot) {
+        var jsonStr=JSON.stringify(plot)
+        var plotJson=(JSON).parse(jsonStr)
+        console.log("PLOTJSONSTR:"+ (plotJson))
+        var plotDataStr= JSON.stringify(plotJson.plotData);
+        var plotData=new Map(Object.entries(JSON.parse(plotDataStr)))
+        console.log("plotData:"+ plotData)
+        var recordIds=[];
+        recordIds= plotJson.recordIds
+
+        var data=[];
+        color=colorPalette[0];
+        for(let [key, value] of plotData){
+            data.push({
+                label: '\'' + key + '\'',
+                data: value,
+                recordIds: recordIds,
+                backgroundColor: color,
+                borderColor: color,
+                borderWidth: 1
+            });
+
+        }
+        var replicateResultStr= JSON.stringify(plotJson.replicateResult)
+        var replicateResult=new Map(Object.entries( JSON.parse(replicateResultStr)))
+        for(let[key, value] of replicateResult){
+
+            data.push({
+                label: "Replicate - " + key,
+                data: value,
+                type: "scatter",
+                backgroundColor: "red",
+                showLine: false
+
+            })
+
+        }
+        console.log("DATA:"+ data);
+        return data;
+    }
 
 </script>
-<style>
-   
-</style>
-<div id="charts" style="visibility: hidden">
+
+<div id="charts" >
 <%int cellCount=0;
     if(plots.size()>1 && maxBarCount<10){%>
    <div>
@@ -178,23 +216,27 @@
    </div>
     <%}else{ if(maxBarCount>10 && plots.size()>1){
             for(int c=0;c<plots.size() && cellCount<plots.size();c++){%>
+    <div >
     <a id="image<%=cellCount%>"><button class="btn btn-light btn-sm"><i class="fa fa-download"></i> Download Graph</button></a>
                 <div class="chart-container" id="chartDiv<%=cellCount%>"  >
                     <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:60vh;width: 60vw;padding-top: 5%" ></canvas>
                 </div>
+    </div>
 
            <%cellCount++;}}
         if(plots.size()==1){%>
 <div class="justify-content-md-center">
+    <div>
     <a id="image<%=cellCount%>"><button class="btn btn-light btn-sm"><i class="fa fa-download"></i> Download Graph</button></a>
 
     <div class="chart-container" id="chartDiv<%=cellCount%>" style="display: block; height:60vh; width:60vw;">
         <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:60vh; width:60vw;" ></canvas>
     </div>
+    </div>
 </div>
    <%}}%>
 </div>
-<script>
+
      <%
          int i=0;
          for(Plot plot: plots){
@@ -202,7 +244,7 @@
              String plotJson=gson.toJson(plot);
              if(i<=plots.size()-1){
      %>
-
+<script>
     var plotJson=<%=plotJson%>
     var ctx<%=i%> = document.getElementById("resultChart<%=i%>");
      //plotRecordIds=<%--=plot.getRecordIds()--%>;
@@ -405,81 +447,23 @@
                         }
                     },
 
-            },
+            }
+            ,
             animation: {
-                <%--onComplete: function () {--%>
-                <%--   // console.log(myChart<%=i%>.toBase64Image());--%>
-                <%--    var a=document.getElementById("image<%=i%>")--%>
-                <%--    a.href=myChart<%=i%>.toBase64Image();--%>
-                <%--    a.download='<%=plot.getTitle().replaceAll(" ", "_")%>.png'--%>
-                <%--}--%>
+                onComplete: function (context) {
+                    var a=document.getElementById("image<%=i%>")
+                    a.href=context.chart.toBase64Image();
+                    a.download='<%=plot.getTitle().replaceAll(" ", "_")%>.png'
+                }
             }
         }
     });
-    var image<%=i%>=myChart<%=i%>.toBase64Image()
-     console.log("IMAGE:"+image<%=i%>)
-     var a = document.getElementById("image<%=i%>");
-     a.href =  image<%=i%>;
-     a.download = '<%=plot.getTitle().replaceAll(" ", "_")%>.png';
+
+
+</script>
      <%i++;}}%>
 
-    function generateData(plot) {
-        var jsonStr=JSON.stringify(plot)
-        var plotJson=(JSON).parse(jsonStr)
-        console.log("PLOTJSONSTR:"+ (plotJson))
-        var plotDataStr= JSON.stringify(plotJson.plotData);
-        var plotData=new Map(Object.entries(JSON.parse(plotDataStr)))
-        console.log("plotData:"+ plotData)
-        var recordIds=[];
-        recordIds= plotJson.recordIds
-
-        var data=[];
-        color=colorPalette[0];
-        for(let [key, value] of plotData){
-            data.push({
-                label: '\'' + key + '\'',
-                data: value,
-                recordIds: recordIds,
-                backgroundColor: color,
-                borderColor: color,
-                borderWidth: 1
-            });
-
-        }
-        var replicateResultStr= JSON.stringify(plotJson.replicateResult)
-        var replicateResult=new Map(Object.entries( JSON.parse(replicateResultStr)))
-        for(let[key, value] of replicateResult){
-
-                data.push({
-                    label: "Replicate - " + key,
-                    data: value,
-                    type: "scatter",
-                    backgroundColor: "red",
-                    showLine: false
-
-                })
-
-        }
-        console.log("DATA:"+ data);
-        return data;
-    }
-
-    function getRandomColor() {
-        var trans = '0.5'; // 50% transparency
-        var color = 'rgba(';
-        for (var i = 0; i < 3; i++) {
-            color += Math.floor(Math.random() * 255) + ',';
-        }
-        color += trans + ')'; // add the transparency
-        return color;
-    }
-</script>
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-<script>
-
-    feather.replace()
-
-
-</script>
+<script>feather.replace()</script>
 
 
