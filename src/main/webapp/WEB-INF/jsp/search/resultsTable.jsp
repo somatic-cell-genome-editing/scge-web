@@ -25,19 +25,23 @@
         <th>Category</th>
         <%}%>
         <th>Type</th>
+        <%if(request.getAttribute("category")!=null && (request.getAttribute("category").toString().equalsIgnoreCase("Model System"))){%>
+        <th>Organism</th>
+        <%}%>
+        <th>Subtype</th>
         <th>Name</th>
         <th>Description</th>
+        <th>Source</th>
         <%if(access.isAdmin(person)){%>
         <th>Tier</th>
         <%}%>
 
         <%if(request.getAttribute("category")!=null && (request.getAttribute("category").toString().equalsIgnoreCase("experiment") || request.getAttribute("category").toString().equalsIgnoreCase("project"))){%>
-
         <th>Last Updated Date</th>
-        <%}else{%>
-        <th>Subtype</th>
-
         <%}%>
+
+
+
         <th class="sorter-false">View Associated..</th>
     </tr>
     </thead>
@@ -69,7 +73,31 @@
                     ${t}
                 </c:forEach>
             </td>
+            <%if(request.getAttribute("category")!=null && (request.getAttribute("category").toString().equalsIgnoreCase("Model System"))){%>
+            <td>
+                <c:forEach items="${hit.sourceAsMap.modelOrganism}" var="t">
+                    ${t}
+                </c:forEach>
+            </td>
+            <%}%>
+            <td>  <c:set var="type" value=""/>
 
+                <c:if test="${hit.sourceAsMap.category=='Genome Editor'}">
+                    <c:set var="type" value="${hit.sourceAsMap.editorSubType}"/>
+                </c:if>
+                <c:if test="${hit.sourceAsMap.category=='Model System'}">
+                    <c:set var="type" value="${hit.sourceAsMap.modelSubtype}"/>
+                </c:if>
+                <c:if test="${hit.sourceAsMap.category=='Delivery System'}">
+                    <c:set var="type" value="${hit.sourceAsMap.deliverySubtype}"/>
+                </c:if>
+                <c:if test="${hit.sourceAsMap.category=='Vector'}">
+                    <c:set var="type" value="${hit.sourceAsMap.vectorSubtype}"/>
+                </c:if>
+                <c:forEach items="${type}" var="t">
+                    ${t}
+                </c:forEach>
+            </td>
             <td>
                 <c:choose>
                     <c:when test="${hit.sourceAsMap.symbol!=null}">
@@ -104,10 +132,30 @@
 
             </td>
             <td>${hit.sourceAsMap.description}</td>
-            <%if(access.isAdmin(person)){%>
             <td>
-                    ${hit.sourceAsMap.tier}
+                <c:set var="source" value=""/>
+
+                <c:if test="${hit.sourceAsMap.category=='Genome Editor'}">
+                    <c:set var="source" value="${hit.sourceAsMap.editorSource}"/>
+                </c:if>
+                <c:if test="${hit.sourceAsMap.category=='Model System'}">
+                    <c:set var="source" value="${hit.sourceAsMap.modelSource}"/>
+                </c:if>
+                <c:if test="${hit.sourceAsMap.category=='Delivery System'}">
+                    <c:set var="source" value="${hit.sourceAsMap.deliverySource}"/>
+                </c:if>
+                <c:if test="${hit.sourceAsMap.category=='Vector'}">
+                    <c:set var="source" value="${hit.sourceAsMap.vectorSource}"/>
+                </c:if>
+                <c:if test="${hit.sourceAsMap.category=='Guide'}">
+                    <c:set var="source" value="${hit.sourceAsMap.guideSource}"/>
+                </c:if>
+                <c:forEach items="${source}" var="t">
+                    ${t}
+                </c:forEach>
             </td>
+            <%if(access.isAdmin(person)){%>
+            <td>${hit.sourceAsMap.tier}</td>
             <%}%>
 
             <%if(request.getAttribute("category")!=null && (request.getAttribute("category").toString().equalsIgnoreCase("experiment") || request.getAttribute("category").toString().equalsIgnoreCase("project"))){%>
@@ -116,26 +164,9 @@
                     ${hit.sourceAsMap.lastModifiedDate}
                 </c:if>
             </td>
-            <%}else{%>
-            <td>  <c:set var="type" value=""/>
-
-                <c:if test="${hit.sourceAsMap.category=='Genome Editor'}">
-                    <c:set var="type" value="${hit.sourceAsMap.editorSubType}"/>
-                </c:if>
-                <c:if test="${hit.sourceAsMap.category=='Model System'}">
-                    <c:set var="type" value="${hit.sourceAsMap.modelSubtype}"/>
-                </c:if>
-                <c:if test="${hit.sourceAsMap.category=='Delivery System'}">
-                    <c:set var="type" value="${hit.sourceAsMap.deliverySubtype}"/>
-                </c:if>
-                <c:if test="${hit.sourceAsMap.category=='Vector'}">
-                    <c:set var="type" value="${hit.sourceAsMap.vectorSubtype}"/>
-                </c:if>
-                <c:forEach items="${type}" var="t">
-                    ${t}
-                </c:forEach>
-            </td>
             <%}%>
+
+
             <td>
                 <%@include file="associations.jsp"%>
             </td>
