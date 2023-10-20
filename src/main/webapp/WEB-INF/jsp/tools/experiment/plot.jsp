@@ -134,12 +134,50 @@
         }
         return detail;
     }
+    function generateData(plot) {
+        var jsonStr=JSON.stringify(plot)
+        var plotJson=(JSON).parse(jsonStr)
+        console.log("PLOTJSONSTR:"+ (plotJson))
+        var plotDataStr= JSON.stringify(plotJson.plotData);
+        var plotData=new Map(Object.entries(JSON.parse(plotDataStr)))
+        console.log("plotData:"+ plotData)
+        var recordIds=[];
+        recordIds= plotJson.recordIds
+
+        var data=[];
+        color=colorPalette[0];
+        for(let [key, value] of plotData){
+            data.push({
+                label: '\'' + key + '\'',
+                data: value,
+                recordIds: recordIds,
+                backgroundColor: color,
+                borderColor: color,
+                borderWidth: 1
+            });
+
+        }
+        var replicateResultStr= JSON.stringify(plotJson.replicateResult)
+        var replicateResult=new Map(Object.entries( JSON.parse(replicateResultStr)))
+        for(let[key, value] of replicateResult){
+
+            data.push({
+                label: "Replicate - " + key,
+                data: value,
+                type: "scatter",
+                backgroundColor: "red",
+                showLine: false
+
+            })
+
+        }
+        console.log("DATA:"+ data);
+        return data;
+    }
 
 </script>
-<style>
-   
-</style>
-<div id="charts" style="visibility: hidden;">
+
+<div id="charts" style="visibility: hidden">
 <%int cellCount=0;
     if(plots.size()>1 && maxBarCount<10){%>
    <div>
@@ -164,9 +202,11 @@
 
          for (int r=0; r<rows;r++ ){%>
        <div class="row justify-content-md-center">
-         <% for(int c=0;c<plots.size() && c<3;c++){%>
+         <% for(int c=0;c<plots.size() && cellCount<plots.size() && c<3;c++){%>
            <div class="<%=colClass%>">
-           <div class="chart-container" id="chartDiv<%=cellCount%>"  >
+               <a id="image<%=cellCount%>"><button class="btn btn-light btn-sm"><i class="fa fa-download"></i> Download Graph</button></a>
+
+               <div class="chart-container" id="chartDiv<%=cellCount%>"  >
                <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:<%=width+5%>vh;width: <%=width%>vw;padding-top: 5%" ></canvas>
            </div>
            </div>
@@ -175,33 +215,58 @@
        <%}%>
    </div>
     <%}else{ if(maxBarCount>10 && plots.size()>1){
-            for(int c=0;c<plots.size();c++){%>
+            for(int c=0;c<plots.size() && cellCount<plots.size();c++){%>
+    <div >
+    <a id="image<%=cellCount%>"><button class="btn btn-light btn-sm"><i class="fa fa-download"></i> Download Graph</button></a>
                 <div class="chart-container" id="chartDiv<%=cellCount%>"  >
                     <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:60vh;width: 60vw;padding-top: 5%" ></canvas>
                 </div>
+    </div>
+
            <%cellCount++;}}
         if(plots.size()==1){%>
 <div class="justify-content-md-center">
+    <div>
+    <a id="image<%=cellCount%>"><button class="btn btn-light btn-sm"><i class="fa fa-download"></i> Download Graph</button></a>
+
     <div class="chart-container" id="chartDiv<%=cellCount%>" style="display: block; height:60vh; width:60vw;">
         <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:60vh; width:60vw;" ></canvas>
+    </div>
     </div>
 </div>
    <%}}%>
 </div>
+<script>
+    /*plugin to change the chart background to white in download image*/
+    Chart.register({
+        id: 'customBackground',
+        beforeDraw: (chart, args, opts) => {
+            const ctx = chart.canvas.getContext('2d');
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, chart.width, chart.height);
+            ctx.restore();
+        }
+    })
+</script>
      <%
          int i=0;
          for(Plot plot: plots){
              boolean tickDisplay= plot.getTickLabels().size() <= 120;
+             String plotJson=gson.toJson(plot);
              if(i<=plots.size()-1){
      %>
 <script>
-    var ctx = document.getElementById("resultChart<%=i%>");
+
+    var plotJson=<%=plotJson%>
+    var ctx<%=i%> = document.getElementById("resultChart<%=i%>");
      //plotRecordIds=<%--=plot.getRecordIds()--%>;
-     myChart<%=i%> = new Chart(ctx, {
+    var myChart<%=i%> = new Chart(ctx<%=i%>, {
         type: 'bar',
         data: {
-            labels: <%=gson.toJson(plot.getTickLabels())%>,
-            datasets: generateData()
+            labels: plotJson.tickLabels,
+            datasets: generateData(plotJson)
         },
         options: {
             responsive: true,
@@ -280,7 +345,7 @@
                     },
                     title: {
                         display: true,
-                        text: [<%=plot.getYaxisLabel()%>]
+                        text: [plotJson.yaxisLabel]
 
 
                     }
@@ -301,8 +366,8 @@
                     display: true,
 
                     //  text: [<%--=plot.getTitle()--%>],
-                    text: '<%=plot.getTitle()%>',
-                    color:'<%=plot.getTitleColor()%>',
+                    text: plotJson.title,
+                    color:plotJson.titleColor,
                     font: {
                         size:16
                     }
@@ -394,62 +459,25 @@
                             tooltipEl.style.color='white';
                             tooltipEl.style.backgroundColor= 'rgba(0, 0, 0, 0.7)';
                         }
-                    }
+                    },
 
-
-
+            }
+            ,
+            animation: {
+                onComplete: function (context) {
+                    var a=document.getElementById("image<%=i%>")
+                    a.href=context.chart.toBase64Image();
+                    a.download='<%=plot.getTitle().replaceAll(" ", "_")%>.png'
+                }
             }
         }
     });
 
 
-    function generateData() {
-
-        var data=[];
-        color=colorPalette[0];
-        <%for(String key:plot.getPlotData().keySet()){%>
-        data.push({
-            label: '<%=key%>>',
-            data: <%=plot.getPlotData().get(key)%>,
-            recordIds:<%=plot.getRecordIds()%>,
-            backgroundColor: color,
-            borderColor: color,
-            borderWidth: 1
-        });
-        <%} for(Map.Entry entry:plot.getReplicateResult().entrySet()){
-            int replicate=(int) entry.getKey();
-            List<Double> values=(List<Double>) entry.getValue();
-        %>
-        data.push({
-            label: "Replicate - <%=replicate%>",
-            data: <%=values%>,
-            type: "scatter",
-            backgroundColor:"red",
-            showLine: false
-
-        })
-        <%}%>
-
-        return data;
-    }
-     function getRandomColor() {
-        var trans = '0.5'; // 50% transparency
-        var color = 'rgba(';
-        for (var i = 0; i < 3; i++) {
-            color += Math.floor(Math.random() * 255) + ',';
-        }
-        color += trans + ')'; // add the transparency
-        return color;
-    }
 </script>
-         <%i++;}}%>
+     <%i++;}}%>
 
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-<script>
-
-    feather.replace()
-
-
-</script>
+<script>feather.replace()</script>
 
 

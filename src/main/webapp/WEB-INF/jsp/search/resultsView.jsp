@@ -88,14 +88,15 @@ function removeFilter(filter, name) {
         </c:if>
 
 <ul class="nav nav-tabs" role="tablist" >
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" id="tableViewTab" href="#tableView" onclick="switchView('table')" role="tab">
+            <span data-feather="grid"></span>&nbsp;Table View</a>
+    </li>
         <li class="nav-item">
             <a class="nav-link active" id="listViewTab" data-toggle="tab" href="#listView" onclick="switchView('list')" role="tab">
                 <span data-feather="list"></span>&nbsp;List View</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" id="tableViewTab" href="#tableView" onclick="switchView('table')" role="tab">
-                <span data-feather="grid"></span>&nbsp;Table View</a>
-        </li>
+
 
     </ul>
 
