@@ -1,7 +1,7 @@
 jQuery.fn.tableToCSV = function() {
     
     var clean_text = function(text){
-        text = text.replace(/"/g, '\\"').replace(/'/g, "\\'");
+        text = text.replace(/"/g, '\\"').replace(/'/g, "\\'").replace(/\s/g, '' );
         return '"'+text+'"';
     };
     
@@ -30,7 +30,7 @@ jQuery.fn.tableToCSV = function() {
 				}});
 			title = title.join(",");
 			rows = rows.join("\n");
-
+			console.log("ROWS:"+ rows)
 			var fileCitation = document.getElementById("fileCitation").innerHTML;
 			var csv = fileCitation + "\n" + title + rows;
 			var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
