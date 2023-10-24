@@ -785,13 +785,25 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     labels.add("[\""+record.getExperimentRecordName()+"\"]");*/
                     StringBuilder experimentRecordName=new StringBuilder();
                     experimentRecordName.append( record.getExperimentRecordName());
+                    if((record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals(""))
+                    || (record.getQualifier()!=null &&  !record.getQualifier().equals("")) ){
+                        experimentRecordName.append(" (");
+                    }
+                    if(record.getQualifier()!=null &&  !record.getQualifier().equals("")) {
+                        experimentRecordName.append( record.getQualifier()).append("_");
+                    }
                     if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")){
-                        experimentRecordName.append(" (").append( record.getTissueTerm());
+                        experimentRecordName.append( record.getTissueTerm());
                     }
                     if(record.getCellTypeTerm()!=null && !record.getCellTypeTerm().equalsIgnoreCase("unspecified") && !record.getCellTypeTerm().equals("")) {
                         experimentRecordName.append("/").append( record.getCellTypeTerm());
                     }
-                    if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")){
+
+                    if(record.getTimePoint()!=null &&  !record.getTimePoint().equals("")) {
+                        experimentRecordName.append("/").append( record.getTimePoint());
+                    }
+                    if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")
+                            || (record.getQualifier()!=null &&  !record.getQualifier().equals(""))){
                         experimentRecordName.append(")");
                     }
                    // record.setExperimentRecordName(experimentRecordName.toString());
