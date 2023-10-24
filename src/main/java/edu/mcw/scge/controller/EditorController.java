@@ -219,7 +219,7 @@ public class EditorController extends ObjectController {
 
         List<Editor> records = editorDao.getAllEditors();
         Set<String> types = records.stream().map(Editor::getType).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
-        Set<String> subTypes = records.stream().map(Editor::getSubType).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
+        Set<String> subTypes = records.stream().map(Editor::getSubtype).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
         Set<String> species = records.stream().map(Editor::getSpecies).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
         Set<String> pam = records.stream().map(Editor::getPamPreference).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
         Set<String> variant = records.stream().map(Editor::getEditorVariant).filter(r -> (r != null && !r.equals(""))).collect(Collectors.toSet());
@@ -261,8 +261,8 @@ public class EditorController extends ObjectController {
         summary.put("Species", editor.getSpecies());
         if(editor.getType()!=null && !editor.getType().equals(""))
         summary.put("Type", editor.getType());
-        if(editor.getSubType()!=null && !editor.getSubType().equals(""))
-        summary.put("Subtype", editor.getSubType());
+        if(editor.getSubtype()!=null && !editor.getSubtype().equals(""))
+        summary.put("Subtype", editor.getSubtype());
         if(editor.getAlias()!=null && !editor.getAlias().equals(""))
         summary.put("Alias", editor.getAlias());
         if(summary.size()>0) {
