@@ -204,11 +204,12 @@
        <div class="row justify-content-md-center">
          <% for(int c=0;c<plots.size() && cellCount<plots.size() && c<3;c++){%>
            <div class="<%=colClass%>">
-               <a id="image<%=cellCount%>"><button class="btn btn-light btn-sm"><i class="fa fa-download"></i> Download Graph</button></a>
 
                <div class="chart-container" id="chartDiv<%=cellCount%>"  >
                <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:<%=width+5%>vh;width: <%=width%>vw;padding-top: 5%" ></canvas>
-           </div>
+                   <a id="image<%=cellCount%>"><button class="btn btn-light btn-sm"><i class="fa fa-download"></i> Download Graph</button></a>
+
+               </div>
            </div>
             <%cellCount++;}%>
        </div>
@@ -217,9 +218,10 @@
     <%}else{ if(maxBarCount>10 && plots.size()>1){
             for(int c=0;c<plots.size() && cellCount<plots.size();c++){%>
     <div >
-    <a id="image<%=cellCount%>"><button class="btn btn-light btn-sm"><i class="fa fa-download"></i> Download Graph</button></a>
                 <div class="chart-container" id="chartDiv<%=cellCount%>"  >
                     <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:60vh;width: 60vw;padding-top: 5%" ></canvas>
+                    <a id="image<%=cellCount%>"><button class="btn btn-light btn-sm"><i class="fa fa-download"></i> Download Graph</button></a>
+
                 </div>
     </div>
 
@@ -227,10 +229,11 @@
         if(plots.size()==1){%>
 <div class="justify-content-md-center">
     <div>
-    <a id="image<%=cellCount%>"><button class="btn btn-light btn-sm"><i class="fa fa-download"></i> Download Graph</button></a>
 
     <div class="chart-container" id="chartDiv<%=cellCount%>" style="display: block; height:60vh; width:60vw;">
         <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:60vh; width:60vw;" ></canvas>
+        <a id="image<%=cellCount%>"><button class="btn btn-light btn-sm"><i class="fa fa-download"></i> Download Graph</button></a>
+
     </div>
     </div>
 </div>
