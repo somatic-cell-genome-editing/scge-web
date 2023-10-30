@@ -24,18 +24,22 @@
         <%if(request.getAttribute("category")==null ||request.getAttribute("category")==""){%>
         <th>Category</th>
         <%}%>
-        <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))){%>
+        <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))
+                && !(request.getAttribute("category").toString().equalsIgnoreCase("Protocol"))){%>
         <th>Type</th>
         <%}%>
         <%if(request.getAttribute("category")!=null &&
                 (request.getAttribute("category").toString().equalsIgnoreCase("Model System") ||request.getAttribute("category").toString().equalsIgnoreCase("Guide") )){%>
         <th>Organism</th>
         <%}%>
-        <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))){%>
+        <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))
+                && !(request.getAttribute("category").toString().equalsIgnoreCase("Protocol"))){%>
 
         <th>Subtype</th>
-        <%}else{%>
-        <th>Compatibility</th><%}%>
+        <%}
+            if(request.getAttribute("category")!=null && (request.getAttribute("category").toString().equalsIgnoreCase("Guide"))){%>
+        <th>Compatibility</th>
+        <%}%>
         <th>Name</th>
         <th>Description</th>
         <th>Source</th>
@@ -59,7 +63,8 @@
             <%if(request.getAttribute("category")==null ||request.getAttribute("category")==""){%>
             <td>${hit.sourceAsMap.category}</td>
             <%}%>
-            <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))){%>
+            <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))
+                    && !(request.getAttribute("category").toString().equalsIgnoreCase("Protocol"))){%>
 
             <td>
                 <c:set var="type" value=""/>
@@ -90,7 +95,8 @@
                 </c:forEach>
             </td>
             <%}%>
-            <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))){%>
+            <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))
+                    && !(request.getAttribute("category").toString().equalsIgnoreCase("Protocol"))){%>
 
             <td>  <c:set var="type" value=""/>
 
@@ -110,7 +116,7 @@
                     ${t}
                 </c:forEach>
             </td>
-            <%}else{%>
+            <%}if(request.getAttribute("category")!=null && (request.getAttribute("category").toString().equalsIgnoreCase("Guide"))){%>
             <td>
 
                         <c:forEach items="${hit.sourceAsMap.guideCompatibility}" var="t">
