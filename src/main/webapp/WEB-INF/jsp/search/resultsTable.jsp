@@ -24,11 +24,18 @@
         <%if(request.getAttribute("category")==null ||request.getAttribute("category")==""){%>
         <th>Category</th>
         <%}%>
+        <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))){%>
         <th>Type</th>
-        <%if(request.getAttribute("category")!=null && (request.getAttribute("category").toString().equalsIgnoreCase("Model System"))){%>
+        <%}%>
+        <%if(request.getAttribute("category")!=null &&
+                (request.getAttribute("category").toString().equalsIgnoreCase("Model System") ||request.getAttribute("category").toString().equalsIgnoreCase("Guide") )){%>
         <th>Organism</th>
         <%}%>
+        <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))){%>
+
         <th>Subtype</th>
+        <%}else{%>
+        <th>Compatibility</th><%}%>
         <th>Name</th>
         <th>Description</th>
         <th>Source</th>
@@ -52,6 +59,8 @@
             <%if(request.getAttribute("category")==null ||request.getAttribute("category")==""){%>
             <td>${hit.sourceAsMap.category}</td>
             <%}%>
+            <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))){%>
+
             <td>
                 <c:set var="type" value=""/>
                 <c:if test="${hit.sourceAsMap.category=='Experiment'}">
@@ -73,13 +82,16 @@
                     ${t}
                 </c:forEach>
             </td>
-            <%if(request.getAttribute("category")!=null && (request.getAttribute("category").toString().equalsIgnoreCase("Model System"))){%>
+            <%}%>
+            <%if(request.getAttribute("category")!=null && (request.getAttribute("category").toString().equalsIgnoreCase("Model System") || request.getAttribute("category").toString().equalsIgnoreCase("Guide"))){%>
             <td>
                 <c:forEach items="${hit.sourceAsMap.modelOrganism}" var="t">
                     ${t}
                 </c:forEach>
             </td>
             <%}%>
+            <%if(request.getAttribute("category")!=null && !(request.getAttribute("category").toString().equalsIgnoreCase("Guide"))){%>
+
             <td>  <c:set var="type" value=""/>
 
                 <c:if test="${hit.sourceAsMap.category=='Genome Editor'}">
@@ -98,6 +110,14 @@
                     ${t}
                 </c:forEach>
             </td>
+            <%}else{%>
+            <td>
+
+                        <c:forEach items="${hit.sourceAsMap.guideCompatibility}" var="t">
+                            ${t}
+                        </c:forEach>
+            </td>
+            <%}%>
             <td>
                 <c:choose>
                     <c:when test="${hit.sourceAsMap.symbol!=null}">

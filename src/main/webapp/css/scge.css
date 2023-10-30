@@ -17,5 +17,14 @@ body{
      overflow-x: hidden;
      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
  }
-
+.tablesorter-blue thead td{
+    margin:0;font-family:Roboto,"Helvetica Neue",
+Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size:1rem;font-weight:bold;line-height:1.5;
+    color:#212529;text-align:left;}
+.tablesorter-blue thead th{
+    margin:0;font-family:Roboto,"Helvetica Neue",
+Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size:1rem;font-weight:bold;line-height:1.5;
+    color:#212529;text-align:left;}
 
