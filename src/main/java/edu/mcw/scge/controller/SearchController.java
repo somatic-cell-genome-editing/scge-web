@@ -144,7 +144,10 @@ public class SearchController{
         req.setAttribute("sr", sr);
         String selectedView=req.getParameter("selectedView");
         if(selectedView==null || selectedView.equals("")){
-            selectedView="list";
+           // selectedView="list";
+            if(category!=null && (category.equalsIgnoreCase("experiment") || category.equalsIgnoreCase("project"))){
+                selectedView="list";
+            }else selectedView="table";
         }
         req.setAttribute("selectedView",selectedView);
       /*  System.out.println("CATEGORY:" +category+"\nFacets ===============================");
@@ -179,7 +182,7 @@ public class SearchController{
           if(category.trim().equalsIgnoreCase("Study")) {
               req.setAttribute("action", "Studies");
               req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
-              req.setAttribute("seoTitle","Studies");
+              req.setAttribute("seoTitle","Projects");
           }
           if(category.trim().equalsIgnoreCase("Genome Editor")) {
               req.setAttribute("action", "Genome Editors");
@@ -279,7 +282,7 @@ public class SearchController{
 */
         req.setAttribute("action", "Studies And Experiments");
         req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
-        req.setAttribute("seoTitle","Studies");
+        req.setAttribute("seoTitle","Projects");
 
         req.setAttribute("facets", Facet.displayNames);
 
