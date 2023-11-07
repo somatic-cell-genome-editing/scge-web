@@ -287,7 +287,7 @@ public class VectorController extends ObjectController{
                 String[] fileParts = file.split("/");
                 if(fileParts[fileParts.length -1].trim().equalsIgnoreCase(object.getAnnotatedMap().trim())){
 
-                    annotatedMapLinked="<a href='"+file+"'>"+object.getAnnotatedMap()+"</a>";
+                    annotatedMapLinked=object.getAnnotatedMap()+"&nbsp;<a href='"+file+"'><i class='fa fa-download' aria-hidden='true'></i></a>";
                     System.out.println("MATCHED..........."+annotatedMapLinked);
                     break;
                 }
