@@ -289,10 +289,14 @@ public class VectorController extends ObjectController{
 
                     annotatedMapLinked="<a href='"+file+"'>"+object.getAnnotatedMap()+"</a>";
                     System.out.println("MATCHED..........."+annotatedMapLinked);
-                }else {
-                    annotatedMapLinked=object.getAnnotatedMap();
-                    System.out.println("FILE Parts:" + fileParts[fileParts.length - 1] + "Annotated Map:" + object.getAnnotatedMap());
+                    break;
                 }
+//                else {
+//                    System.out.println("FILE Parts:" + fileParts[fileParts.length - 1] + "Annotated Map:" + object.getAnnotatedMap());
+//                }
+            }
+            if(annotatedMapLinked==null){
+                annotatedMapLinked=object.getAnnotatedMap();
             }
             summary.put("Annotated Map", annotatedMapLinked );
         }
