@@ -7,9 +7,15 @@ import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.datamodel.Vector;
 import edu.mcw.scge.datamodel.publications.Publication;
 import edu.mcw.scge.service.db.DBService;
+import edu.mcw.scge.storage.FileSystemStorageService;
+import edu.mcw.scge.storage.FileUploadController;
+import edu.mcw.scge.storage.StorageProperties;
+import edu.mcw.scge.storage.StorageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +27,14 @@ import java.util.stream.Collectors;
 public class VectorController extends ObjectController{
     VectorDao dao = new VectorDao();
     PublicationDAO publicationDAO=new PublicationDAO();
+
+    private StorageService storageService;
+
+    @Autowired
+    public void FileUploadController(StorageService storageService) {
+        this.storageService = storageService;
+    }
+
     @RequestMapping(value="/search")
     public String getVectors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
 
@@ -53,10 +67,6 @@ public class VectorController extends ObjectController{
 
         }
 
-        req.setAttribute("summaryBlocks", getSummary(v));
-        req.setAttribute("vector", v);
-        req.setAttribute("action", "Vector/Format: " + v.getName());
-        req.setAttribute("page", "/WEB-INF/jsp/tools/vector");
 
         StudyDao sdao = new StudyDao();
         List<Study> studies = sdao.getStudiesByVector(v.getVectorId());
@@ -101,6 +111,34 @@ public class VectorController extends ObjectController{
             }
 
         }
+        List<String> files=new ArrayList<>();
+        if(studies != null && studies.size()>0) {
+            StorageProperties properties = new StorageProperties();
+            //properties.setLocation("C:/tmp/upload-dir" );
+            properties.setLocation("/data/scge_submissions");
+            FileSystemStorageService service = new FileSystemStorageService(properties);
+            storageService.init();
+
+            String studyId = String.valueOf(studies.get(0).getStudyId());
+            try {
+//                req.setAttribute("files", service.loadAll(studyId).map(
+//                                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+//                                        "serveFile", req, path.getFileName().toString(), studyId).build().toUri().toString())
+//                        .collect(Collectors.toList()));
+                 files.addAll(service.loadAll(studyId).map(
+                                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                                        "serveFile", req, path.getFileName().toString(), studyId).build().toUri().toString())
+                        .collect(Collectors.toList()));
+            } catch (Exception e) {
+                req.setAttribute("files", new ArrayList<String>());
+            }
+        }
+
+        req.setAttribute("summaryBlocks", getSummary(v, files));
+        req.setAttribute("vector", v);
+        req.setAttribute("action", "Vector/Format: " + v.getName());
+        req.setAttribute("page", "/WEB-INF/jsp/tools/vector");
+
         req.setAttribute("associatedPublications", associatedPublications);
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(v.getVectorId()));
         req.setAttribute("seoDescription",v.getDescription());
@@ -197,7 +235,7 @@ public class VectorController extends ObjectController{
         req.getRequestDispatcher("/data/vector/format?id="+vectorId).forward(req,res);
         return null;
     }
-    public  Map<String, Map<String, String>>  getSummary(Vector object){
+    public  Map<String, Map<String, String>>  getSummary(Vector object, List<String> files){
         Map<String, Map<String, String>> summaryBlocks= new LinkedHashMap<>();
 
         Map<String, String> summary=new LinkedHashMap<>();
@@ -242,8 +280,18 @@ public class VectorController extends ObjectController{
             i++;
             summary = new LinkedHashMap<>();
         }
-        if(object.getAnnotatedMap()!=null && !object.getAnnotatedMap().equals(""))
-            summary.put("Annotated Map", object.getAnnotatedMap());
+        if(object.getAnnotatedMap()!=null && !object.getAnnotatedMap().equals("")) {
+            System.out.println("FILES SIZE:"+ files.size());
+            String annotatedMapLinked=new String();
+            for(String file:files){
+                String[] fileParts = file.split("/");
+                if(fileParts[fileParts.length -1].equalsIgnoreCase(object.getAnnotatedMap())){
+                    annotatedMapLinked="<a href='"+file+"'>"+object.getAnnotatedMap()+"</a>";
+                }else
+                System.out.println("FILE Parts:"+ fileParts[fileParts.length -1] +"Annotated Map:"+ object.getAnnotatedMap());
+            }
+            summary.put("Annotated Map", annotatedMapLinked );
+        }
         if(object.getTiterMethod()!=null && !object.getTiterMethod().equals(""))
             summary.put("Titer Method", object.getTiterMethod());
         if(summary.size()>0) {
