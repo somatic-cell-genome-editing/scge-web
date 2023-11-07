@@ -285,7 +285,7 @@ public class VectorController extends ObjectController{
             String annotatedMapLinked=new String();
             for(String file:files){
                 String[] fileParts = file.split("/");
-                if(fileParts[fileParts.length -1].equalsIgnoreCase(object.getAnnotatedMap())){
+                if(fileParts[fileParts.length -1].trim().equalsIgnoreCase(object.getAnnotatedMap().trim())){
                     annotatedMapLinked="<a href='"+file+"'>"+object.getAnnotatedMap()+"</a>";
                 }else {
                     annotatedMapLinked=object.getAnnotatedMap();
