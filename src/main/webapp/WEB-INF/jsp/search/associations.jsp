@@ -26,18 +26,20 @@
             <p>
 
                     <c:forEach items="${hit.sourceAsMap.experimentNames}" var="map">
-                        <c:choose>
-                            <c:when test="${userAccessExperimentIds!=null}">
-                                <c:if test="${fn:contains(userAccessExperimentIds,map.key )}">
-                                    <span style="margin-left: 2%;"><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a></span>
-                                    <br>
-                                </c:if>
-                            </c:when>
-                            <c:otherwise>
-                                <span style="margin-left: 2%;"><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a></span>
-                                    <br>
-                            </c:otherwise>
-                        </c:choose>
+                        <span style="margin-left: 2%;"><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a></span>
+
+                        <%--                        <c:choose>--%>
+<%--                            <c:when test="${userAccessExperimentIds!=null}">--%>
+<%--                                <c:if test="${fn:contains(userAccessExperimentIds,map.key )}">--%>
+<%--                                    <span style="margin-left: 2%;"><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a></span>--%>
+<%--                                    <br>--%>
+<%--                                </c:if>--%>
+<%--                            </c:when>--%>
+<%--                            <c:otherwise>--%>
+<%--                                <span style="margin-left: 2%;"><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a></span>--%>
+<%--                                    <br>--%>
+<%--                            </c:otherwise>--%>
+<%--                        </c:choose>--%>
 
                     </c:forEach>
 
