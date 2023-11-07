@@ -287,8 +287,10 @@ public class VectorController extends ObjectController{
                 String[] fileParts = file.split("/");
                 if(fileParts[fileParts.length -1].equalsIgnoreCase(object.getAnnotatedMap())){
                     annotatedMapLinked="<a href='"+file+"'>"+object.getAnnotatedMap()+"</a>";
-                }else
-                System.out.println("FILE Parts:"+ fileParts[fileParts.length -1] +"Annotated Map:"+ object.getAnnotatedMap());
+                }else {
+                    annotatedMapLinked=object.getAnnotatedMap();
+                    System.out.println("FILE Parts:" + fileParts[fileParts.length - 1] + "Annotated Map:" + object.getAnnotatedMap());
+                }
             }
             summary.put("Annotated Map", annotatedMapLinked );
         }
