@@ -27,7 +27,7 @@
 
                     <c:forEach items="${hit.sourceAsMap.experimentNames}" var="map">
                         <span style="margin-left: 2%;"><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/${map.key}">${map.value}</a></span>
-
+                        <br>
                         <%--                        <c:choose>--%>
 <%--                            <c:when test="${userAccessExperimentIds!=null}">--%>
 <%--                                <c:if test="${fn:contains(userAccessExperimentIds,map.key )}">--%>
