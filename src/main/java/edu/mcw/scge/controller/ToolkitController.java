@@ -57,17 +57,18 @@ public class ToolkitController {
             buffer.append(line);
             buffer.append(System.lineSeparator());
         }
-        JSONObject obj = new JSONObject(buffer.toString());
-        reader.close();
+        if(!buffer.toString().isEmpty()) {
+            JSONObject obj = new JSONObject(buffer.toString());
+            reader.close();
 
 
-        String email = (String) obj.get("email");
-        String feedbackMsg = (String) obj.get("message");
-        String page = (String) obj.get("webPage");
+            String email = (String) obj.get("email");
+            String feedbackMsg = (String) obj.get("message");
+            String page = (String) obj.get("webPage");
 
 
-        FeedbackDao fdao = new FeedbackDao();
-        fdao.insert(email, feedbackMsg,page);
+            FeedbackDao fdao = new FeedbackDao();
+            fdao.insert(email, feedbackMsg, page);
 
 
             String smtpHost = "smtp.mcw.edu";
@@ -86,8 +87,8 @@ public class ToolkitController {
             // -- Set the FROM and TO fields --
             msg.setFrom(new InternetAddress("scge_toolkit@mcw.edu", "SCGE Toolkit"));
 
-           // msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("scge_toolkit@mcw.edu", false));
-         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("scge_toolkit@mcw.edu", false));
+            // msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("scge_toolkit@mcw.edu", false));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("scge_toolkit@mcw.edu", false));
 
             //msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse("jdepons@mcw.edu", false));
 
@@ -104,14 +105,14 @@ public class ToolkitController {
             msg.setText(emailBody, "utf-8");
             msg.setSentDate(new Date());
 
-            SMTPTransport t = (SMTPTransport)session.getTransport("smtp");
+            SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
 
             t.connect();
             t.sendMessage(msg, msg.getAllRecipients());
             t.close();
 
 
-
+        }
 
 
 
