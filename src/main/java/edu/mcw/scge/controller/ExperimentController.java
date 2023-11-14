@@ -128,9 +128,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
         Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
         if(studies.get(0).getIsValidationStudy()==1)
-        experimentsValidatedMap=getExperimentsValidated(studies);
+        experimentsValidatedMap=getExperimentsValidated(studies,p);
         else
-        validationExperimentsMap=getValidations(studies);
+        validationExperimentsMap=getValidations(studies,p);
         req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
         req.setAttribute("validationExperimentsMap",validationExperimentsMap);
         req.setAttribute("studyExperimentMap", studyExperimentMap);
@@ -221,9 +221,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
         Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
         if(studies.get(0).getIsValidationStudy()==1)
-            experimentsValidatedMap=getExperimentsValidated(studies);
+            experimentsValidatedMap=getExperimentsValidated(studies,p);
         else
-            validationExperimentsMap=getValidations(studies);
+            validationExperimentsMap=getValidations(studies,p);
         req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
         req.setAttribute("validationExperimentsMap",validationExperimentsMap);
         req.setAttribute("studyExperimentMap", studyExperimentMap);
@@ -233,43 +233,51 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         return null;
     }
-    public Map<Long, List<Experiment>> getValidations(List<Study> studies) throws Exception {
+    public Map<Long, List<Experiment>> getValidations(List<Study> studies, Person p) throws Exception {
        Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
 
         for(Study study:studies) {
-           List<Experiment> experiments=edao.getExperimentsByStudy(study.getStudyId());
+            if(access.hasStudyAccess(study, p)) {
+                List<Experiment> experiments = edao.getExperimentsByStudy(study.getStudyId());
 
-           for (Experiment e : experiments) {
-                   List<Long> experimentIds = edao.getValidationExperiments(e.getExperimentId());
-                   List<Experiment> validatedExperiments = new ArrayList<>();
-                   for (long experimentId : experimentIds) {
-                       Experiment experiment = edao.getExperiment(experimentId);
-                       validatedExperiments.add(experiment);
-                   }
-                   if(validatedExperiments.size()>0)
-                   validationExperimentsMap.put(e.getExperimentId(), validatedExperiments);
-               }
-
+                for (Experiment e : experiments) {
+                    List<Long> experimentIds = edao.getValidationExperiments(e.getExperimentId());
+                    List<Experiment> validatedExperiments = new ArrayList<>();
+                    for (long experimentId : experimentIds) {
+                        Experiment experiment = edao.getExperiment(experimentId);
+                        Study validationStudy=sdao.getStudyByStudyId(experiment.getStudyId());
+                      //  System.out.println("validationStudy:" + validationStudy.getStudyId()+"\tTier:"+ validationStudy.getTier() +"\tAccess:"+ access.hasStudyAccess(validationStudy, p));
+                        if(access.hasStudyAccess(validationStudy, p))
+                        validatedExperiments.add(experiment);
+                    }
+                    if (validatedExperiments.size() > 0)
+                        validationExperimentsMap.put(e.getExperimentId(), validatedExperiments);
+                }
+            }
        }
       //  System.out.println("Validations:"+ validationExperimentsMap.size());
         return validationExperimentsMap;
     }
-    public Map<Long, List<Experiment>> getExperimentsValidated(List<Study> studies) throws Exception {
+    public Map<Long, List<Experiment>> getExperimentsValidated(List<Study> studies, Person p) throws Exception {
         Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
         for(Study study:studies) {
-
+            if(access.hasStudyAccess(study, p)) {
                 List<Experiment> experiments = edao.getExperimentsByStudy(study.getStudyId());
                 for (Experiment e : experiments) {
                     List<Long> experimentIds = edao.getExperimentsValidated(e.getExperimentId());
                     List<Experiment> validatedExperiments = new ArrayList<>();
                     for (long experimentId : experimentIds) {
                         Experiment experiment = edao.getExperiment(experimentId);
+                        Study originalStudy=sdao.getStudyByStudyId(experiment.getStudyId());
+                      //  System.out.println("originalStudy:" + originalStudy.getStudyId()+"\tTier:"+ originalStudy.getTier() +"\tAccess:"+ access.hasStudyAccess(originalStudy, p));
+
+                        if(access.hasStudyAccess(originalStudy, p))
                         validatedExperiments.add(experiment);
                     }
-                    if(validatedExperiments.size()>0)
-                    experimentsValidatedMap.put(e.getExperimentId(), validatedExperiments);
+                    if (validatedExperiments.size() > 0)
+                        experimentsValidatedMap.put(e.getExperimentId(), validatedExperiments);
                 }
-
+            }
 
         }
      //   System.out.println("Experiments validated:"+ experimentsValidatedMap.size());
@@ -1032,12 +1040,12 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
           Map<Long, List<Experiment>> experimentsValidatedMap=new HashMap<>();
           Map<Long, List<Experiment>> validationExperimentsMap=new HashMap<>();
         if(localStudy.getIsValidationStudy()==1) {
-            experimentsValidatedMap=getExperimentsValidated(studies);
+            experimentsValidatedMap=getExperimentsValidated(studies, p);
             req.setAttribute("action", "<span>Validation Experiment:</span> " + e.getName());
             req.setAttribute("experimentsValidatedMap" , experimentsValidatedMap);
         }
         else {
-            validationExperimentsMap=getValidations(studies);
+            validationExperimentsMap=getValidations(studies, p);
             req.setAttribute("action", "Experiment: " + e.getName());
             req.setAttribute("validationExperimentsMap",validationExperimentsMap);
         }
