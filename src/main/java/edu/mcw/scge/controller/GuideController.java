@@ -46,102 +46,107 @@ public class GuideController extends ObjectController{
         UserService userService = new UserService();
         Person p=userService.getCurrentUser(req.getSession());
         edu.mcw.scge.configuration.Access access = new Access();
-
-        Guide guide= guideDao.getGuideById(Long.parseLong(req.getParameter("id"))).get(0);
-
-        if (!access.hasGuideAccess(guide,p)) {
-            req.setAttribute("page", "/WEB-INF/jsp/error");
-            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        String id=req.getParameter("id");
+        if(id==null || id.equals("")){
             return null;
-
         }
+        List<Guide> guides=guideDao.getGuideById(Long.parseLong(id));
+        if(guides.size()>0) {
+            Guide guide = guides.get(0);
 
+            if (!access.hasGuideAccess(guide, p)) {
+                req.setAttribute("page", "/WEB-INF/jsp/error");
+                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+                return null;
 
-        List<Guide> tmpSynonoymousGuides=guideDao.getGuidesByTargetSequence(guide.getTargetSequence());
-
-        List<Guide> synononymousGuides = new ArrayList<Guide>();
-
-        for (Guide tmpGuide: tmpSynonoymousGuides) {
-            if (tmpGuide.getGuide_id() != guide.getGuide_id()) {
-                if (access.hasGuideAccess(tmpGuide,p)) {
-                    synononymousGuides.add(tmpGuide);
-                }
             }
-        }
-
-        req.setAttribute("synonymousGuides",synononymousGuides);
 
 
-        req.setAttribute("summaryBlocks", getSummary(guide));
+            List<Guide> tmpSynonoymousGuides = guideDao.getGuidesByTargetSequence(guide.getTargetSequence());
 
-        req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,guide,null,null));
+            List<Guide> synononymousGuides = new ArrayList<Guide>();
 
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Guide?searchTerm='>Guides</a>");
-        req.setAttribute("guide", guide);
-        req.setAttribute("action", "Guide: " + guide.getGuide());
-        req.setAttribute("page", "/WEB-INF/jsp/tools/guide");
-
-        StudyDao sdao = new StudyDao();
-        List<Study> studies = sdao.getStudiesByGuide(guide.getGuide_id());
-        req.setAttribute("studies", studies);
-
-        ProtocolDao pdao = new ProtocolDao();
-        List<Protocol> protocols = pdao.getProtocolsForObject(guide.getGuide_id());
-        req.setAttribute("protocols", protocols);
-
-        ExperimentDao experimentDao= new ExperimentDao();
-        List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByGuide(guide.getGuide_id());
-        req.setAttribute("experimentRecords",experimentRecords);
-
-        EditorDao editorDao = new EditorDao();
-        List<Editor> editors = editorDao.getEditorByGuide(guide.getGuide_id());
-        req.setAttribute("editors", editors);
-
-        OffTargetDao offTargetDao = new OffTargetDao();
-        List<OffTarget> offTargets = offTargetDao.getOffTargetByGuide(guide.getGuide_id());
-        req.setAttribute("offTargets",offTargets);
-
-        OffTargetSiteDao offTargetSiteDao = new OffTargetSiteDao();
-        List<OffTargetSite> offTargetSites = offTargetSiteDao.getOffTargetSitesByGuide(guide.getGuide_id());
-        req.setAttribute("offTargetSites",offTargetSites);
-
-        HashMap<Long,List<Guide>> guideMap = new HashMap<>();
-        for(ExperimentRecord record:experimentRecords) {
-            guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
-        }
-        req.setAttribute("guideMap", guideMap);
-
-        HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
-        Set<Long> experimentIds=new HashSet<>();
-        for(ExperimentRecord record:experimentRecords) {
-            vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
-            experimentIds.add(record.getExperimentId());
-        }
-        req.setAttribute("vectorMap", vectorMap);
-        if(studies!=null && studies.size()>0) {
-            mapProjectNExperiments(experimentRecords, req);
-           }
-        List<Publication> associatedPublications=new ArrayList<>();
-        associatedPublications.addAll(publicationDAO.getAssociatedPublications(guide.getGuide_id()));
-        for(long experimentId:experimentIds) {
-            for(Publication pub:publicationDAO.getAssociatedPublications(experimentId)) {
-                boolean flag=false;
-                for(Publication publication:associatedPublications){
-                    if(pub.getReference().getKey()==publication.getReference().getKey()){
-                        flag=true;
+            for (Guide tmpGuide : tmpSynonoymousGuides) {
+                if (tmpGuide.getGuide_id() != guide.getGuide_id()) {
+                    if (access.hasGuideAccess(tmpGuide, p)) {
+                        synononymousGuides.add(tmpGuide);
                     }
                 }
-                if(!flag)
-                    associatedPublications.add(pub);
             }
 
-        }
-        req.setAttribute("associatedPublications", associatedPublications);
-        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(guide.getGuide_id()));
-        req.setAttribute("seoDescription",guide.getGuideDescription());
-        req.setAttribute("seoTitle",guide.getGrnaLabId());
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            req.setAttribute("synonymousGuides", synononymousGuides);
 
+
+            req.setAttribute("summaryBlocks", getSummary(guide));
+
+            req.setAttribute("crumbTrail", breadCrumb.getCrumbTrailMap(req, guide, null, null));
+
+            req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Guide?searchTerm='>Guides</a>");
+            req.setAttribute("guide", guide);
+            req.setAttribute("action", "Guide: " + guide.getGuide());
+            req.setAttribute("page", "/WEB-INF/jsp/tools/guide");
+
+            StudyDao sdao = new StudyDao();
+            List<Study> studies = sdao.getStudiesByGuide(guide.getGuide_id());
+            req.setAttribute("studies", studies);
+
+            ProtocolDao pdao = new ProtocolDao();
+            List<Protocol> protocols = pdao.getProtocolsForObject(guide.getGuide_id());
+            req.setAttribute("protocols", protocols);
+
+            ExperimentDao experimentDao = new ExperimentDao();
+            List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByGuide(guide.getGuide_id());
+            req.setAttribute("experimentRecords", experimentRecords);
+
+            EditorDao editorDao = new EditorDao();
+            List<Editor> editors = editorDao.getEditorByGuide(guide.getGuide_id());
+            req.setAttribute("editors", editors);
+
+            OffTargetDao offTargetDao = new OffTargetDao();
+            List<OffTarget> offTargets = offTargetDao.getOffTargetByGuide(guide.getGuide_id());
+            req.setAttribute("offTargets", offTargets);
+
+            OffTargetSiteDao offTargetSiteDao = new OffTargetSiteDao();
+            List<OffTargetSite> offTargetSites = offTargetSiteDao.getOffTargetSitesByGuide(guide.getGuide_id());
+            req.setAttribute("offTargetSites", offTargetSites);
+
+            HashMap<Long, List<Guide>> guideMap = new HashMap<>();
+            for (ExperimentRecord record : experimentRecords) {
+                guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
+            }
+            req.setAttribute("guideMap", guideMap);
+
+            HashMap<Long, List<Vector>> vectorMap = new HashMap<>();
+            Set<Long> experimentIds = new HashSet<>();
+            for (ExperimentRecord record : experimentRecords) {
+                vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+                experimentIds.add(record.getExperimentId());
+            }
+            req.setAttribute("vectorMap", vectorMap);
+            if (studies != null && studies.size() > 0) {
+                mapProjectNExperiments(experimentRecords, req);
+            }
+            List<Publication> associatedPublications = new ArrayList<>();
+            associatedPublications.addAll(publicationDAO.getAssociatedPublications(guide.getGuide_id()));
+            for (long experimentId : experimentIds) {
+                for (Publication pub : publicationDAO.getAssociatedPublications(experimentId)) {
+                    boolean flag = false;
+                    for (Publication publication : associatedPublications) {
+                        if (pub.getReference().getKey() == publication.getReference().getKey()) {
+                            flag = true;
+                        }
+                    }
+                    if (!flag)
+                        associatedPublications.add(pub);
+                }
+
+            }
+            req.setAttribute("associatedPublications", associatedPublications);
+            req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(guide.getGuide_id()));
+            req.setAttribute("seoDescription", guide.getGuideDescription());
+            req.setAttribute("seoTitle", guide.getGrnaLabId());
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        }
         return null;
     }
 
