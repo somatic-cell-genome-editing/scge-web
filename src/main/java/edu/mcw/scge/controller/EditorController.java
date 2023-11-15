@@ -51,104 +51,109 @@ public class EditorController extends ObjectController {
     @RequestMapping(value="/editor")
     public String getEditor(HttpServletRequest req, HttpServletResponse res) throws Exception {
         EditorDao dao = new EditorDao();
-        Editor editor= dao.getEditorById(Long.parseLong(req.getParameter("id"))).get(0);
-        DBService dbService = new DBService();
-        UserService userService = new UserService();
-        Person p=userService.getCurrentUser(req.getSession());
-        Access access = new Access();
-
-        if(!access.isLoggedIn()) {
-            return "redirect:/";
-        }
-
-        if (!access.hasEditorAccess(editor,p)) {
-            req.setAttribute("page", "/WEB-INF/jsp/error");
-            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        String id=req.getParameter("id");
+        if(id==null || id.equals(""))
             return null;
+        List<Editor> editors=dao.getEditorById(Long.parseLong(id));
+        if(editors.size()>0) {
+            Editor editor = editors.get(0);
+            DBService dbService = new DBService();
+            UserService userService = new UserService();
+            Person p = userService.getCurrentUser(req.getSession());
+            Access access = new Access();
 
-        }
-
-        req.setAttribute("summaryBlocks", getSummary(editor));
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Genome%20Editor?searchTerm='>Editors</a>");
-        req.setAttribute("editor", editor);
-        req.setAttribute("objectId", editor.getId());
-
-        req.setAttribute("action", "Genome Editor: " + UI.replacePhiSymbol(editor.getSymbol()));
-        req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
-
-        StudyDao sdao = new StudyDao();
-        List<Study> studies = sdao.getStudiesByEditor(editor.getId());
-        req.setAttribute("studies", studies);
-
-        ProtocolDao pdao = new ProtocolDao();
-        List<Protocol> protocols = pdao.getProtocolsForObject(editor.getId());
-        req.setAttribute("protocols", protocols);
-
-
-        ExperimentDao experimentDao= new ExperimentDao();
-        List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByEditor(editor.getId());
-        req.setAttribute("experimentRecords",experimentRecords);
-
-        HashMap<Long,List<Guide>> guideMap = new HashMap<>();
-        for(ExperimentRecord record:experimentRecords) {
-            guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
-        }
-
-        GuideDao guideDao = new GuideDao();
-        List<Guide> guides = guideDao.getGuidesByEditor(editor.getId());
-        req.setAttribute("guides", guides);
-        req.setAttribute("guideMap", guideMap);
-
-        HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
-        Set<Long> experimentIds=new HashSet<>();
-        for(ExperimentRecord record:experimentRecords) {
-            vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
-            experimentIds.add(record.getExperimentId());
-        }
-        req.setAttribute("vectorMap", vectorMap);
-        /*************************************************************/
-
-        if(studies!=null && studies.size()>0) {
-            mapProjectNExperiments(experimentRecords, req);
-            List<Object> comparableEditors=new ArrayList<>();
-            List<Experiment> experiments=new ArrayList<>();
-
-            for (Study study : studies) {
-                 experiments.addAll(experimentDao.getExperimentsByStudy(study.getStudyId()));
-                for (Experiment experiment : experiments) {
-                    List<Editor> otherEditorsOfThis=editorDao
-                            .getEditorByExperimentId(experiment.getExperimentId());
-                     comparableEditors=otherEditorsOfThis.stream().filter(o->o.getId()!=editor.getId()).collect(Collectors.toList());
-
-
-                }
+            if (!access.isLoggedIn()) {
+                return "redirect:/";
             }
 
-            req.setAttribute("comparableEditors", comparableEditors);
-        }
-        /*************************************************************/
-        List<Publication> associatedPublications=new ArrayList<>();
-        associatedPublications.addAll(publicationDAO.getAssociatedPublications(editor.getId()));
-        for(long experimentId:experimentIds) {
-            for(Publication pub:publicationDAO.getAssociatedPublications(experimentId)) {
-                boolean flag=false;
-                for(Publication publication:associatedPublications){
-                    if(pub.getReference().getKey()==publication.getReference().getKey()){
-                        flag=true;
+            if (!access.hasEditorAccess(editor, p)) {
+                req.setAttribute("page", "/WEB-INF/jsp/error");
+                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+                return null;
+
+            }
+
+            req.setAttribute("summaryBlocks", getSummary(editor));
+            req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Genome%20Editor?searchTerm='>Editors</a>");
+            req.setAttribute("editor", editor);
+            req.setAttribute("objectId", editor.getId());
+
+            req.setAttribute("action", "Genome Editor: " + UI.replacePhiSymbol(editor.getSymbol()));
+            req.setAttribute("page", "/WEB-INF/jsp/tools/editor");
+
+            StudyDao sdao = new StudyDao();
+            List<Study> studies = sdao.getStudiesByEditor(editor.getId());
+            req.setAttribute("studies", studies);
+
+            ProtocolDao pdao = new ProtocolDao();
+            List<Protocol> protocols = pdao.getProtocolsForObject(editor.getId());
+            req.setAttribute("protocols", protocols);
+
+
+            ExperimentDao experimentDao = new ExperimentDao();
+            List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByEditor(editor.getId());
+            req.setAttribute("experimentRecords", experimentRecords);
+
+            HashMap<Long, List<Guide>> guideMap = new HashMap<>();
+            for (ExperimentRecord record : experimentRecords) {
+                guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
+            }
+
+            GuideDao guideDao = new GuideDao();
+            List<Guide> guides = guideDao.getGuidesByEditor(editor.getId());
+            req.setAttribute("guides", guides);
+            req.setAttribute("guideMap", guideMap);
+
+            HashMap<Long, List<Vector>> vectorMap = new HashMap<>();
+            Set<Long> experimentIds = new HashSet<>();
+            for (ExperimentRecord record : experimentRecords) {
+                vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+                experimentIds.add(record.getExperimentId());
+            }
+            req.setAttribute("vectorMap", vectorMap);
+            /*************************************************************/
+
+            if (studies != null && studies.size() > 0) {
+                mapProjectNExperiments(experimentRecords, req);
+                List<Object> comparableEditors = new ArrayList<>();
+                List<Experiment> experiments = new ArrayList<>();
+
+                for (Study study : studies) {
+                    experiments.addAll(experimentDao.getExperimentsByStudy(study.getStudyId()));
+                    for (Experiment experiment : experiments) {
+                        List<Editor> otherEditorsOfThis = editorDao
+                                .getEditorByExperimentId(experiment.getExperimentId());
+                        comparableEditors = otherEditorsOfThis.stream().filter(o -> o.getId() != editor.getId()).collect(Collectors.toList());
+
+
                     }
                 }
-                if(!flag)
-                    associatedPublications.add(pub);
+
+                req.setAttribute("comparableEditors", comparableEditors);
             }
+            /*************************************************************/
+            List<Publication> associatedPublications = new ArrayList<>();
+            associatedPublications.addAll(publicationDAO.getAssociatedPublications(editor.getId()));
+            for (long experimentId : experimentIds) {
+                for (Publication pub : publicationDAO.getAssociatedPublications(experimentId)) {
+                    boolean flag = false;
+                    for (Publication publication : associatedPublications) {
+                        if (pub.getReference().getKey() == publication.getReference().getKey()) {
+                            flag = true;
+                        }
+                    }
+                    if (!flag)
+                        associatedPublications.add(pub);
+                }
 
+            }
+            req.setAttribute("associatedPublications", associatedPublications);
+            req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(editor.getId()));
+            req.setAttribute("seoDescription", editor.getEditorDescription());
+            req.setAttribute("seoTitle", editor.getSymbol());
+
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
         }
-        req.setAttribute("associatedPublications", associatedPublications);
-        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(editor.getId()));
-        req.setAttribute("seoDescription",editor.getEditorDescription());
-        req.setAttribute("seoTitle",editor.getSymbol());
-
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-
         return null;
     }
     @RequestMapping("/create")
