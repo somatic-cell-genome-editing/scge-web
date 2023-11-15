@@ -50,7 +50,10 @@ public class VectorController extends ObjectController{
 
     @RequestMapping(value="/format")
     public String getVector(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
-        Vector v= dao.getVectorById(Long.parseLong(req.getParameter("id"))).get(0);
+        List<Vector> vectors=dao.getVectorById(Long.parseLong(req.getParameter("id")));
+        if(vectors==null || vectors.size()==0)
+            return null;
+        Vector v= vectors.get(0);
         DBService dbService = new DBService();
         UserService userService = new UserService();
         Person p=userService.getCurrentUser(req.getSession());

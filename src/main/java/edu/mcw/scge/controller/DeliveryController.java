@@ -39,82 +39,83 @@ public class DeliveryController extends ObjectController{
 
     @RequestMapping(value="/system")
     public String getDeliverySystem(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
+        List<Delivery> deliverySystems=dao.getDeliverySystemsById(Long.parseLong(req.getParameter("id")));
+        if(deliverySystems.size()>0) {
+            Delivery system = deliverySystems.get(0);
+            DBService dbService = new DBService();
 
-        Delivery system= dao.getDeliverySystemsById(Long.parseLong(req.getParameter("id"))).get(0);
-        DBService dbService = new DBService();
+            UserService userService = new UserService();
+            Person p = userService.getCurrentUser(req.getSession());
+            edu.mcw.scge.configuration.Access access = new Access();
 
-        UserService userService = new UserService();
-        Person p=userService.getCurrentUser(req.getSession());
-        edu.mcw.scge.configuration.Access access = new Access();
-
-        if(!access.isLoggedIn()) {
-            return "redirect:/";
-        }
-
-        if (!access.hasDeliveryAccess(system,p)) {
-            req.setAttribute("page", "/WEB-INF/jsp/error");
-            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
-            return null;
-
-        }
-
-        req.setAttribute("summaryBlocks", getSummary(system));
-        req.setAttribute("crumbTrail",   breadCrumb.getCrumbTrailMap(req,system,null,null));
-
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Delivery%20System?searchTerm='>Delivery Systems</a>");
-        req.setAttribute("system", system);
-        req.setAttribute("action", "Delivery System: " + system.getName());
-        req.setAttribute("page", "/WEB-INF/jsp/tools/deliverySystem");
-
-        StudyDao sdao = new StudyDao();
-        List<Study> studies = sdao.getStudiesByDeliverySystem(system.getId());
-        req.setAttribute("studies", studies);
-
-        ProtocolDao pdao = new ProtocolDao();
-        List<Protocol> protocols = pdao.getProtocolsForObject(system.getId());
-        req.setAttribute("protocols", protocols);
-
-        ExperimentDao experimentDao= new ExperimentDao();
-        List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByDeliverySystem(system.getId());
-        req.setAttribute("experimentRecords",experimentRecords);
-
-        HashMap<Long,List<Guide>> guideMap = new HashMap<>();
-        for(ExperimentRecord record:experimentRecords) {
-            guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
-        }
-        req.setAttribute("guideMap", guideMap);
-
-        HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
-        Set<Long> experimentIds=new HashSet<>();
-        for(ExperimentRecord record:experimentRecords) {
-            vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
-            experimentIds.add(record.getExperimentId());
-        }
-        req.setAttribute("vectorMap", vectorMap);
-        if(studies!=null && studies.size()>0) {
-            mapProjectNExperiments(experimentRecords, req);
-           }
-        List<Publication> associatedPublications=new ArrayList<>();
-        associatedPublications.addAll(publicationDAO.getAssociatedPublications(system.getId()));
-        for(long experimentId:experimentIds) {
-            for(Publication pub:publicationDAO.getAssociatedPublications(experimentId)) {
-                boolean flag=false;
-                for(Publication publication:associatedPublications){
-                    if(pub.getReference().getKey()==publication.getReference().getKey()){
-                        flag=true;
-                    }
-                }
-                if(!flag)
-                    associatedPublications.add(pub);
+            if (!access.isLoggedIn()) {
+                return "redirect:/";
             }
 
-        }
-        req.setAttribute("associatedPublications", associatedPublications);
-        req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(system.getId()));
-        req.setAttribute("seoDescription",system.getDescription());
-        req.setAttribute("seoTitle",system.getName());
-        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            if (!access.hasDeliveryAccess(system, p)) {
+                req.setAttribute("page", "/WEB-INF/jsp/error");
+                req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+                return null;
 
+            }
+
+            req.setAttribute("summaryBlocks", getSummary(system));
+            req.setAttribute("crumbTrail", breadCrumb.getCrumbTrailMap(req, system, null, null));
+
+            req.setAttribute("crumbtrail", "<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Delivery%20System?searchTerm='>Delivery Systems</a>");
+            req.setAttribute("system", system);
+            req.setAttribute("action", "Delivery System: " + system.getName());
+            req.setAttribute("page", "/WEB-INF/jsp/tools/deliverySystem");
+
+            StudyDao sdao = new StudyDao();
+            List<Study> studies = sdao.getStudiesByDeliverySystem(system.getId());
+            req.setAttribute("studies", studies);
+
+            ProtocolDao pdao = new ProtocolDao();
+            List<Protocol> protocols = pdao.getProtocolsForObject(system.getId());
+            req.setAttribute("protocols", protocols);
+
+            ExperimentDao experimentDao = new ExperimentDao();
+            List<ExperimentRecord> experimentRecords = experimentDao.getExperimentsByDeliverySystem(system.getId());
+            req.setAttribute("experimentRecords", experimentRecords);
+
+            HashMap<Long, List<Guide>> guideMap = new HashMap<>();
+            for (ExperimentRecord record : experimentRecords) {
+                guideMap.put(record.getExperimentRecordId(), dbService.getGuidesByExpRecId(record.getExperimentRecordId()));
+            }
+            req.setAttribute("guideMap", guideMap);
+
+            HashMap<Long, List<Vector>> vectorMap = new HashMap<>();
+            Set<Long> experimentIds = new HashSet<>();
+            for (ExperimentRecord record : experimentRecords) {
+                vectorMap.put(record.getExperimentRecordId(), dbService.getVectorsByExpRecId(record.getExperimentRecordId()));
+                experimentIds.add(record.getExperimentId());
+            }
+            req.setAttribute("vectorMap", vectorMap);
+            if (studies != null && studies.size() > 0) {
+                mapProjectNExperiments(experimentRecords, req);
+            }
+            List<Publication> associatedPublications = new ArrayList<>();
+            associatedPublications.addAll(publicationDAO.getAssociatedPublications(system.getId()));
+            for (long experimentId : experimentIds) {
+                for (Publication pub : publicationDAO.getAssociatedPublications(experimentId)) {
+                    boolean flag = false;
+                    for (Publication publication : associatedPublications) {
+                        if (pub.getReference().getKey() == publication.getReference().getKey()) {
+                            flag = true;
+                        }
+                    }
+                    if (!flag)
+                        associatedPublications.add(pub);
+                }
+
+            }
+            req.setAttribute("associatedPublications", associatedPublications);
+            req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(system.getId()));
+            req.setAttribute("seoDescription", system.getDescription());
+            req.setAttribute("seoTitle", system.getName());
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+        }
         return null;
     }
     @RequestMapping(value = "/edit")

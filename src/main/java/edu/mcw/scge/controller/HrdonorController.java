@@ -38,7 +38,10 @@ public class HrdonorController extends ObjectController {
     @RequestMapping(value="/hrdonor")
     public String getDeliverySystem(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
 
-        HRDonor hrDonor= dao.getHRDonorById(Long.parseLong(req.getParameter("id"))).get(0);
+        List<HRDonor>donors=dao.getHRDonorById(Long.parseLong(req.getParameter("id")));
+        if(donors==null || donors.size()==0)
+            return null;
+        HRDonor hrDonor= donors.get(0);
         DBService dbService = new DBService();
 
         UserService userService = new UserService();
