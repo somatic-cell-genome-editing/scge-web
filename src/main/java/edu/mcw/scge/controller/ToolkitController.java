@@ -51,69 +51,68 @@ public class ToolkitController {
     public String getFeedback(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
 
         StringBuilder buffer = new StringBuilder();
-        BufferedReader reader = req.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            buffer.append(line);
-            buffer.append(System.lineSeparator());
-        }
-        if(!buffer.toString().isEmpty()) {
-            JSONObject obj = new JSONObject(buffer.toString());
-            reader.close();
+       try( BufferedReader reader = req.getReader();) {
+           String line;
+           while ((line = reader.readLine()) != null) {
+               buffer.append(line);
+               buffer.append(System.lineSeparator());
+           }
+           if (!buffer.toString().isEmpty()) {
+               JSONObject obj = new JSONObject(buffer.toString());
 
 
-            String email = (String) obj.get("email");
-            String feedbackMsg = (String) obj.get("message");
-            String page = (String) obj.get("webPage");
+               String email = (String) obj.get("email");
+               String feedbackMsg = (String) obj.get("message");
+               String page = (String) obj.get("webPage");
 
 
-            FeedbackDao fdao = new FeedbackDao();
-            fdao.insert(email, feedbackMsg, page);
+               FeedbackDao fdao = new FeedbackDao();
+               fdao.insert(email, feedbackMsg, page);
 
 
-            String smtpHost = "smtp.mcw.edu";
+               String smtpHost = "smtp.mcw.edu";
 
-            // Get a Properties object
-            Properties props = System.getProperties();
+               // Get a Properties object
+               Properties props = System.getProperties();
 
-            props.setProperty("mail.smtp.host", "smtp.mcw.edu");
-            props.setProperty("mail.smtp.port", "25");
+               props.setProperty("mail.smtp.host", "smtp.mcw.edu");
+               props.setProperty("mail.smtp.port", "25");
 
-            Session session = Session.getInstance(props, null);
+               Session session = Session.getInstance(props, null);
 
-            // -- Create a new message --
-            final MimeMessage msg = new MimeMessage(session);
+               // -- Create a new message --
+               final MimeMessage msg = new MimeMessage(session);
 
-            // -- Set the FROM and TO fields --
-            msg.setFrom(new InternetAddress("scge_toolkit@mcw.edu", "SCGE Toolkit"));
+               // -- Set the FROM and TO fields --
+               msg.setFrom(new InternetAddress("scge_toolkit@mcw.edu", "SCGE Toolkit"));
 
-            // msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("scge_toolkit@mcw.edu", false));
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("scge_toolkit@mcw.edu", false));
+               // msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("scge_toolkit@mcw.edu", false));
+               msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("scge_toolkit@mcw.edu", false));
 
-            //msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse("jdepons@mcw.edu", false));
+               //msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse("jdepons@mcw.edu", false));
 
-            msg.setSubject("SCGE Toolkit Feedback Request");
-
-
-            String emailBody = "";
-
-            emailBody += "\n\nFeedback message received from :\t" + email + "\n\n";
-            emailBody += feedbackMsg + "\n\n";
-            emailBody += "This message was sent from :\t" + page + "\n\n";
+               msg.setSubject("SCGE Toolkit Feedback Request");
 
 
-            msg.setText(emailBody, "utf-8");
-            msg.setSentDate(new Date());
+               String emailBody = "";
 
-            SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
-
-            t.connect();
-            t.sendMessage(msg, msg.getAllRecipients());
-            t.close();
+               emailBody += "\n\nFeedback message received from :\t" + email + "\n\n";
+               emailBody += feedbackMsg + "\n\n";
+               emailBody += "This message was sent from :\t" + page + "\n\n";
 
 
-        }
+               msg.setText(emailBody, "utf-8");
+               msg.setSentDate(new Date());
 
+               SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
+
+               t.connect();
+               t.sendMessage(msg, msg.getAllRecipients());
+               t.close();
+
+
+           }
+       }
 
         return "requestAccount";
     }
