@@ -123,7 +123,7 @@
         <% if (request.getAttribute("crumbtrail") != null) {%>
         <div class="container-fluid" style="padding-bottom: 2px;"><%=request.getAttribute("crumbtrail")%></div>
         <%}%>
-        <c:if test="${(resultType!=null ) && action!=null && action!='About SCGE Toolkit'}">
+        <c:if test="${((resultType!=null ) && (action!=null && action!='About SCGE Toolkit')) || tissue!=null || (resultType==null && fn:length(tissues)==0 && fn:length(plots)>0)}">
         <div class="" style="float: right">
             <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button" onclick="javascript:openModalDialog()">Show Help</button>&nbsp;
         </div>
