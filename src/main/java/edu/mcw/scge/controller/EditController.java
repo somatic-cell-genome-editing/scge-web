@@ -63,12 +63,12 @@ public class EditController {
    /*     if(SCGEContext.isDev())
         sendEmailNotification("ageurts@mcw.edu",title ,emailMsg);
        else*/ if(SCGEContext.isProduction()){
-           if(access.isAdmin(loggedInUser)){
-               System.out.println("TIER UPDATE BY ADMIN"+ loggedInUser.getEmail());
-               sendEmailNotification(loggedInUser.getEmail(),title,emailMsg);
-               sendEmailNotification("scge_toolkit@mcw.edu", title, emailMsg);
-
-           }else {
+//           if(access.isAdmin(loggedInUser)){
+//               System.out.println("TIER UPDATE BY ADMIN"+ loggedInUser.getEmail());
+//               sendEmailNotification(loggedInUser.getEmail(),title,emailMsg);
+//               sendEmailNotification("scge_toolkit@mcw.edu", title, emailMsg);
+//
+//           }else {
                sendEmailNotification(pi.get(0).getEmail(), title, emailMsg);
                if (pi.get(0).getId() != submitter.get(0).getId())
                    sendEmailNotification(submitter.get(0).getEmail(), title, emailMsg);
@@ -84,7 +84,7 @@ public class EditController {
                        }
                    }
                }
-           }
+         //  }
         }else{
            sendEmailNotification(loggedInUser.getEmail(),"DEV "+title,emailMsg);
         }
