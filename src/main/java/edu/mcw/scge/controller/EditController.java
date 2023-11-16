@@ -63,21 +63,28 @@ public class EditController {
    /*     if(SCGEContext.isDev())
         sendEmailNotification("ageurts@mcw.edu",title ,emailMsg);
        else*/ if(SCGEContext.isProduction()){
-            sendEmailNotification(pi.get(0).getEmail(), title,emailMsg);
-            if(pi.get(0).getId()!=submitter.get(0).getId())
-            sendEmailNotification(submitter.get(0).getEmail(), title,emailMsg);
-            sendEmailNotification("scge_toolkit@mcw.edu", title,emailMsg);
-            if(pocs.size()>0) {
-                for (Person poc : pocs) {
-                    if(poc.getId()!=pi.get(0).getId() && poc.getId()!=submitter.get(0).getId()) {
-                        try {
-                            sendEmailNotification(poc.getEmail(), title, emailMsg);
-                        } catch (Exception e) {
+           if(access.isDeveloper(loggedInUser)){ //Developers can update TIER without sending email to PI and POCs
+               System.out.println("TIER UPDATE BY DEVELOPER: "+ loggedInUser.getEmail());
+               sendEmailNotification(loggedInUser.getEmail(),title,emailMsg);
+               sendEmailNotification("scge_toolkit@mcw.edu", title, emailMsg);
 
-                        }
-                    }
-                }
-            }
+           }else {
+               sendEmailNotification(pi.get(0).getEmail(), title, emailMsg);
+               if (pi.get(0).getId() != submitter.get(0).getId())
+                   sendEmailNotification(submitter.get(0).getEmail(), title, emailMsg);
+               sendEmailNotification("scge_toolkit@mcw.edu", title, emailMsg);
+               if (pocs.size() > 0) {
+                   for (Person poc : pocs) {
+                       if (poc.getId() != pi.get(0).getId() && poc.getId() != submitter.get(0).getId()) {
+                           try {
+                               sendEmailNotification(poc.getEmail(), title, emailMsg);
+                           } catch (Exception e) {
+
+                           }
+                       }
+                   }
+               }
+           }
         }else{
            sendEmailNotification(loggedInUser.getEmail(),"DEV "+title,emailMsg);
         }
