@@ -666,18 +666,20 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("guide")!=null){
                     guide.addAll(columnMap.get("guide"));
                 }
-                guide.addAll(record.getGuides().stream().map(g->g.getGuide()).collect(Collectors.toSet()));
+                guide.addAll(record.getGuides().stream().map(Guide::getGuide).filter(Objects::nonNull).collect(Collectors.toSet()));
                 columnMap.put("guide", new ArrayList<>( guide));
             }
             if(record.getGuides()!=null && record.getGuides().size()>0){
-               List<String> targetLocus= record.getGuides().stream().map(Guide::getTargetLocus).collect(Collectors.toList());
+               List<String> targetLocus= record.getGuides().stream().map(Guide::getTargetLocus).filter(Objects::nonNull).collect(Collectors.toList());
                if(targetLocus.size()>0){
 
                   Set<String> targetLocusSet= new TreeSet<>();
                    if(columnMap.get("targetLocus")!=null){
                        targetLocusSet.addAll(columnMap.get("targetLocus"));
                    }
-                   targetLocusSet.addAll(record.getGuides().stream().map(Guide::getTargetLocus).collect(Collectors.toSet()));
+                  Set<String> targetLoci= record.getGuides().stream().filter(Objects::nonNull).map(Guide::getTargetLocus).filter(Objects::nonNull).collect(Collectors.toSet());
+                  if( targetLoci.size()>0)
+                   targetLocusSet.addAll(targetLoci);
                    columnMap.put("targetLocus", new ArrayList<>( targetLocusSet));
                }
             }
@@ -688,7 +690,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("vector")!=null){
                     vector.addAll(columnMap.get("vector"));
                 }
-                vector.addAll(record.getVectors().stream().map(v->v.getName()).collect(Collectors.toSet()));
+                vector.addAll(record.getVectors().stream().map(Vector::getName).filter(Objects::nonNull).collect(Collectors.toSet()));
                 columnMap.put("vector", new ArrayList<>( vector));
             }
             if(record.getHrDonors()!=null && record.getHrDonors().size()>0)
@@ -724,7 +726,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("units")!=null){
                     units.addAll(columnMap.get("units"));
                 }
-                units.addAll(record.getResultDetails().stream().map(r->r.getUnits()).collect(Collectors.toSet()));
+                units.addAll(record.getResultDetails().stream().map(ExperimentResultDetail::getUnits).collect(Collectors.toSet()));
                 columnMap.put("units", new ArrayList<>( units));
             }
 
