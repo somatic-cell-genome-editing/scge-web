@@ -58,24 +58,23 @@
                 List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
 
                 List<String> tissueList = (List<String>) request.getAttribute("tissues");
-                List<String> editorList = edao.getExperimentRecordEditorList(ex.getExperimentId());
+                List<String> editorList = tableColumns.get("editorSymbol");
                 List<String> modelList = tableColumns.get("modelDisplayName");
-              //  List<String> deliverySystemList = edao.getExperimentRecordDeliverySystemList(ex.getExperimentId());
                 List<String> deliverySystemList=tableColumns.get("delivery");
                 List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
                 Set<String> resultTypeSet = (Set<String>) request.getAttribute("resultTypesSet");
                 Map<String, List<String>> resultTypeNunits = (Map<String, List<String>>) request.getAttribute("resultTypeNUnits");
 
-                List<String> unitList = erdao.getUnitsByExpId(ex.getExperimentId());
-                List<String> guideList = edao.getExperimentRecordGuideList(ex.getExperimentId());
-                List<String> guideTargetLocusList=edao.getExperimentRecordGuideTargetLocusList(ex.getExperimentId());
-                List<String> vectorList = edao.getExperimentRecordVectorList(ex.getExperimentId());
+                List<String> unitList = tableColumns.get("units");
+                List<String> guideList = tableColumns.get("guide");
+                List<String> guideTargetLocusList=tableColumns.get("targetLocus");
+                List<String> vectorList = tableColumns.get("vector");
                 List<String> cellTypeList =  tableColumns.get("cellTypeTerm");
                 List<String> qualifierList =  tableColumns.get("qualifier");
                 List<String> timePointList =  tableColumns.get("timePoint");
 
-                List<String> sexList = edao.getExperimentRecordSexList(ex.getExperimentId());
-                List<String> hrdonorList = edao.getExperimentRecordHrdonorList(ex.getExperimentId());
+                List<String> sexList = tableColumns.get("sex");
+                List<String> hrdonorList = tableColumns.get("hrDonor");
                 List<String> tissues = (List<String>)request.getAttribute("tissues");
 
                 List<String> tissuesTarget = (List<String>)request.getAttribute("tissuesTarget");
