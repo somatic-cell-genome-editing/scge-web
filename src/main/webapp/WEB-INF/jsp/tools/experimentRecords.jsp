@@ -101,7 +101,7 @@
                 }
             %>
 
-            <% if ( tissueList.size() > 0 && selectedTissue == null && (selectedResultType==null || !selectedResultType.equals("all"))) { %>
+            <% if (tissueList != null && tissueList.size() > 0 && selectedTissue == null && (selectedResultType == null || !selectedResultType.equals("all"))) { %>
 
                 <%@include file="tissueMap.jsp"%>
 

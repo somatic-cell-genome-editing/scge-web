@@ -135,15 +135,19 @@ public class TissueMapper {
     }
 
     public void addDelivery(String tissue, String childTerm, String url) {
-
-        LinkedHashMap<String,String> children = delivery.get(tissue);
-        children.put(childTerm,url);
-        delivery.put(tissue,children);
-
-        LinkedHashMap<String,String> childs = childTerms.get(tissue);
-        childs.put(childTerm,url);
-        childTerms.put(tissue,childs);
-
+        System.out.println("TISSUE:"+tissue +"\tCHILDTERM:"+ childTerm+"\tURL:"+ url);
+        if(tissue!=null) {
+            LinkedHashMap<String, String> children = delivery.get(tissue);
+            if (children != null) {
+                children.put(childTerm, url);
+                delivery.put(tissue, children);
+            }
+            LinkedHashMap<String, String> childs = childTerms.get(tissue);
+            if (childs != null) {
+                childs.put(childTerm, url);
+                childTerms.put(tissue, childs);
+            }
+        }
 
 //        childTerms.put(tissue,children);
 

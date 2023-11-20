@@ -98,91 +98,133 @@
         //This is a total hack and needs to be refactored
         HashMap<String,Long> targetTissues2=new HashMap<String,Long>();
         HashMap<String,Long> nonTargetTissues2=new HashMap<String,Long>();
-
-        for (ExperimentRecord er: records) {
-            List<ExperimentResultDetail> erdList = er.getResultDetails();
-
-            if(er.getIsTargetTissue()==1){
-                targetTissues.add(er.getOrganSystemID());
+//try {
+    for (ExperimentRecord er : records) {
+        List<ExperimentResultDetail> erdList = er.getResultDetails();
+        try {
+            if (er.getIsTargetTissue() == 1) {
+                if (er.getOrganSystemID() != null)
+                    targetTissues.add(er.getOrganSystemID());
                 targetTissueRecordIds.add(er.getExperimentRecordId());
 
-                if (er.getCellType() !=null && !er.getCellType().equals("") || (er.getCellTypeTerm()!=null && !er.getCellTypeTerm().equals("")) ) {
-                    targetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
-                }else {
-                    targetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
+                if ((er.getCellTypeTerm() != null && !er.getCellTypeTerm().equals(""))) {
+                    if (er.getTissueTerm() != null)
+                        targetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
+                } else {
+                    if (er.getTissueTerm() != null)
+                        targetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
                 }
-            }else {
-                if (er.getCellType() !=null && !er.getCellType().equals("")  || (er.getCellTypeTerm()!=null && !er.getCellTypeTerm().equals(""))) {
-                    nonTargetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
-                }else {
-                    nonTargetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
+            } else {
+                if ((er.getCellTypeTerm() != null && !er.getCellTypeTerm().equals(""))) {
+                    if (er.getTissueTerm() != null)
+                        nonTargetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
+                } else {
+                    if (er.getTissueTerm() != null)
+                        nonTargetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
                 }
             }
+        } catch (Exception e) {
+            System.out.println("BLOCK:6");
+            e.printStackTrace();
+        }
+        String labelTrimmed = new String();
 
-            String labelTrimmed = new String();
-
-
-            if (er.getCellTypeTerm() != null  && er.getTissueTerm() != null)
+        try {
+            if (er.getCellTypeTerm() != null && er.getTissueTerm() != null)
                 labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(), "").trim();
             else if (er.getTissueTerm() != null)
                 labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").trim();
             else labelTrimmed = er.getCondition().trim();
+        } catch (Exception e) {
+            System.out.println("BLOCK:5");
+            e.printStackTrace();
+        }
 
+        String tissue = "unknown";
+        String organSystemID = er.getOrganSystemID();
+        String organSystem = "unknown";
+        try {
+        for (String rootTissue : rootTissues.keySet()) {
 
-            String tissue = "unknown";
-            String organSystemID = er.getOrganSystemID();
-            String organSystem = "unknown";
-            for (String rootTissue : rootTissues.keySet()) {
-                if (organSystemID.equals(rootTissues.get(rootTissue))) {
+                if (organSystemID != null && rootTissues.get(rootTissue) != null && organSystemID.equals(rootTissues.get(rootTissue))) {
                     tissue = rootTissues.get(rootTissue);
                     organSystem = rootTissue;
                     break;
                 }
             }
+        }catch (Exception e) {
+            System.out.println("BLOCK:" + 4);
+            e.printStackTrace();
+        }
 
-            String tissueTerm = er.getTissueTerm();
-            String cellType = er.getCellTypeTerm();
-            boolean hasEditing = false;
-            boolean hasDelivery=false;
-            for (ExperimentResultDetail erd : erdList) {
-                if (erd.getResultType().equals("Delivery Efficiency")) {
+        String tissueTerm = er.getTissueTerm();
+        String cellType = er.getCellTypeTerm();
+        boolean hasEditing = false;
+        boolean hasDelivery = false;
+        try {
+            if(erdList!=null)
+        for (ExperimentResultDetail erd : erdList) {
+                if(erd!=null){
+                if (erd.getResultType() != null && erd.getResultType().equals("Delivery Efficiency")) {
                     hasDelivery = true;
                 }
-                if (erd.getResultType().equals("Editing Efficiency")) {
-                    hasEditing=true;
+                if (erd.getResultType() != null && erd.getResultType().equals("Editing Efficiency")) {
+                    hasEditing = true;
                 }
             }
+                }
+        }catch (Exception e) {
+            System.out.println("BLOCK:" + 3);
+            e.printStackTrace();
+        }
+        try {
+        if (tissueTerm != null) {
 
-
-            if (cellType != null) {
-                if (hasDelivery) {
-                    String url = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Delivery&tissue=" + tissueTerm + "&cellType=" + cellType;
-                    tm.addDelivery(organSystem, tissueTerm + " (" + cellType + ")", url);
-                }
-                if (hasEditing) {
-                    String url = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm + "&cellType=" + cellType;
-                    tm.addEditing(organSystem, tissueTerm + " (" + cellType + ")", url);
-                }
-            }else {
-                if (hasDelivery) {
-                    String url = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Delivery&tissue=" + tissueTerm + "&cellType=";
-                    tm.addDelivery(organSystem, tissueTerm, url);
-                }
-                if (hasEditing) {
-                    String url = "/toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm + "&cellType=";
-                    tm.addEditing(organSystem, tissueTerm, url);
+                if (cellType != null) {
+                    if (hasDelivery) {
+                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Delivery&tissue=" + tissueTerm + "&cellType=" + cellType;
+                        tm.addDelivery(organSystem, tissueTerm + " (" + cellType + ")", url);
+                    }
+                    if (hasEditing) {
+                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Editing&tissue=" + tissueTerm + "&cellType=" + cellType;
+                        tm.addEditing(organSystem, tissueTerm + " (" + cellType + ")", url);
+                    }
+                } else {
+                    if (hasDelivery) {
+                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Delivery&tissue=" + tissueTerm + "&cellType=";
+                        tm.addDelivery(organSystem, tissueTerm, url);
+                    }
+                    if (hasEditing) {
+                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Editing&tissue=" + tissueTerm + "&cellType=";
+                        tm.addEditing(organSystem, tissueTerm, url);
+                    }
                 }
             }
-            for (ExperimentResultDetail erd : erdList) {
-                if (erd.getResultType().equals("Delivery Efficiency")) {
+        }catch (Exception e) {
+            System.out.println("BLOCK:" + 2);
+            e.printStackTrace();
+        }
+        try {
+            if(erdList!=null)
+        for (ExperimentResultDetail erd : erdList) {
+            if (erd != null) {
+                if (erd.getResultType() != null && erd.getResultType().equals("Delivery Efficiency") && tissue != null) {
                     tissueDeliveryMap.put(tissue + "-" + labelTrimmed, true);
                 }
-                if (erd.getResultType().equals("Editing Efficiency")) {
+                if (erd.getResultType() != null && erd.getResultType().equals("Editing Efficiency") && tissue != null) {
                     tissueEditingMap.put(tissue + "-" + labelTrimmed, true);
                 }
             }
         }
-
+        }catch (Exception e) {
+            System.out.println("BLOCK:" + 1);
+            e.printStackTrace();
+        }
+    }
+//}catch (Exception e){
+//    System.out.println("OVERALLLLLLLLLLLLLLLLLLLLLL");
+//    e.printStackTrace();
+//}
     %>
 
 <div style="text-align: center"><h4>Organ&nbsp;System&nbsp;Overview</h4></div>
@@ -194,86 +236,86 @@
         <td>
 
 
-        <table align="center">
-        <tr>
-            <td>
-                <table >
-                    <tr>
-                        <td width="40">&nbsp;</td>
-                        <td>
+            <table align="center">
+                <tr>
+                    <td>
+                        <table >
+                            <tr>
+                                <td width="40">&nbsp;</td>
+                                <td>
 
-                            <%
-                                boolean first = true;
-                                for (String tissue: rootTissues.keySet()) {
-                                    String tissueTerm=rootTissues.get(tissue);
-                                    String displayTissue= "";
-                                    if(!tm.getChildTerms().get(tissue).isEmpty()){
-                                        displayTissue="<a href='#"+tissue+"'>"+tissue+"</a>";
-                                    }else displayTissue=tissue;
-                            %>
-                            <% if (first) { if(targetTissues.contains(tissueTerm)){ %>
-                            <div class="tissue-control-header-first" style="color:orchid"><%=displayTissue%></div>
-                           <%}else{%>
-                            <div class="tissue-control-header-first"><%=displayTissue%></div>
-                            <%}%>
-                            <% first = false; %>
-                            <% } else { if(targetTissues.contains(tissueTerm)) {%>
-                            <div class="tissue-control-header" style="color:orchid"><%=displayTissue%></div>
+                                    <%
+                                        boolean first = true;
+                                        for (String tissue: rootTissues.keySet()) {
+                                            String tissueTerm=rootTissues.get(tissue);
+                                            String displayTissue= "";
+                                            if(!tm.getChildTerms().get(tissue).isEmpty()){
+                                                displayTissue="<a href='#"+tissue+"'>"+tissue+"</a>";
+                                            }else displayTissue=tissue;
+                                    %>
+                                    <% if (first) { if(targetTissues.contains(tissueTerm)){ %>
+                                    <div class="tissue-control-header-first" style="color:orchid"><%=displayTissue%></div>
+                                    <%}else{%>
+                                    <div class="tissue-control-header-first"><%=displayTissue%></div>
+                                    <%}%>
+                                    <% first = false; %>
+                                    <% } else { if(targetTissues.contains(tissueTerm)) {%>
+                                    <div class="tissue-control-header" style="color:orchid"><%=displayTissue%></div>
 
-                            <%}else{%>
-                            <div class="tissue-control-header"><%=displayTissue%></div>
-                            <% }} %>
-                            <%  } %>
-                        </td>
-                    </tr>
-                </table>
+                                    <%}else{%>
+                                    <div class="tissue-control-header"><%=displayTissue%></div>
+                                    <% }} %>
+                                    <%  } %>
+                                </td>
+                            </tr>
+                        </table>
 
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <table style="margin-top:50px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table style="margin-top:50px;">
 
-                    <% for (String condition: conditions) { %>
-                    <tr>
-                        <td  width="65"></td>
+                            <% for (String condition: conditions) { %>
+                            <tr>
+                                <td  width="65"></td>
 
-                        <% for (String tissueKey: rootTissues.keySet()) {
-                            String tissue=rootTissues.get(tissueKey);
-                            if(targetTissues.contains(tissue)){%>
-                        <td width="40" style="border:5px solid orchid">
-                            <div class="tissue-control-cell">
-                                <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
-                                <div class="triangle-topleft" ></div>
-                                <% } %>
-                                <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
-                                <div class="triangle-bottomright"></div>
-                                <% } %>
-                            </div>
-                        </td>
-                          <%}else{%>
-                        <td width="40">
-                            <div class="tissue-control-cell">
-                                <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
-                                <div class="triangle-topleft" ></div>
-                                <% } %>
-                                <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
-                                <div class="triangle-bottomright"></div>
-                                <% } %>
-                            </div>
-                        </td>
-                        <% } }%>
-                        <td style="font-size: small">
+                                <% for (String tissueKey: rootTissues.keySet()) {
+                                    String tissue=rootTissues.get(tissueKey);
+                                    if(targetTissues.contains(tissue)){%>
+                                <td width="40" style="border:5px solid orchid">
+                                    <div class="tissue-control-cell">
+                                        <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-topleft" ></div>
+                                        <% } %>
+                                        <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-bottomright"></div>
+                                        <% } %>
+                                    </div>
+                                </td>
+                                <%}else{%>
+                                <td width="40">
+                                    <div class="tissue-control-cell">
+                                        <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-topleft" ></div>
+                                        <% } %>
+                                        <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-bottomright"></div>
+                                        <% } %>
+                                    </div>
+                                </td>
+                                <% } }%>
+                                <td style="font-size: small">
 
-                            <%=condition%>
-                        </td>
-                    </tr>
-                    <% } // end conditions %>
-                </table>
+                                    <%=condition%>
+                                </td>
+                            </tr>
+                            <% } // end conditions %>
+                        </table>
 
-            </td>
-        </tr>
-    </table>
+                    </td>
+                </tr>
+            </table>
 
 
         </td>
@@ -327,52 +369,50 @@
     <tr>
         <td>
             <table align="center" tyle="border:1px solid #F7F7F7;margin-left:30px;" border="0" width="700">
-    <tr>
-        <td colspan="2" style="font-size:16px; font-weight:700;">Analyze Data Sets Available for this Experiment</td><!--td style="font-size:16px; font-weight:700;" align="center">Delivery</td><td style="font-size:16px; font-weight:700;" align="center">Editing</td-->
-        <!--td> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></td-->
+                <tr>
+                    <td colspan="2" style="font-size:16px; font-weight:700;">Analyze Data Sets Available for this Experiment</td><!--td style="font-size:16px; font-weight:700;" align="center">Delivery</td><td style="font-size:16px; font-weight:700;" align="center">Editing</td-->
+                    <!--td> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></td-->
 
-    </tr>
-    <% for (String organ: tm.getChildTerms().keySet()) {
-        if (!tm.getChildTerms().get(organ).isEmpty()) {
-    %>
+                </tr>
+                <% for (String organ: tm.getChildTerms().keySet()) {
+                    if (!tm.getChildTerms().get(organ).isEmpty()) {
+                %>
 
-    <tr>
-        <td colspan="2" style="font-size:20px;padding-top:10px;" id="<%=organ%>"><%=organ%></td>
-        <td></td><td></td>
-    </tr>
-    <tr>
-            <% for (String childTerm: tm.getChildTerms().get(organ).keySet()) {
+                <tr>
+                    <td colspan="2" style="font-size:20px;padding-top:10px;" id="<%=organ%>"><%=organ%></td>
+                    <td></td><td></td>
+                </tr>
+                <tr>
+                        <% for (String childTerm: tm.getChildTerms().get(organ).keySet()) {
                     String upCaseChildTerm = childTerm.substring(0,1).toUpperCase() + childTerm.substring(1,childTerm.length());
             %>
 
-    <tr>
+                <tr>
 
 
-        <td width="100">&nbsp;</td><td style="padding-right:5px; border-bottom:1px solid black;border-color:#770C0E; font-size:14px;">
+                    <td width="100">&nbsp;</td><td style="padding-right:5px; border-bottom:1px solid black;border-color:#770C0E; font-size:14px;">
 
-    <% if (access.isAdmin(p) && !SCGEContext.isProduction()) {
-        if (targetTissues2.containsKey(childTerm)) { %>
-    <input type="checkbox" name="targetTissue" value="<%=targetTissues2.get(childTerm)%>" checked>
-    <% } else { %>
-    <input type="checkbox" name="targetTissue" value="<%=nonTargetTissues2.get(childTerm)%>">
-    <% }
-    }
-    ///toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm
-    %>
-    <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?tissue=<%=upCaseChildTerm.substring(0,upCaseChildTerm.indexOf("(")).trim().toLowerCase()%>"><%=upCaseChildTerm%></a>
-    <% if (targetTissues2.containsKey(childTerm)) { %>
-    &nbsp;<span style="color:#DA70D6">(TARGET)</span>
-    <%} %>
-    </td><% } %>
-    <%}} %>
-    </tr>
+                    <% if (access.isAdmin(p) && !SCGEContext.isProduction()) {
+                        if (targetTissues2.containsKey(childTerm)) { %>
+                    <input type="checkbox" name="targetTissue" value="<%=targetTissues2.get(childTerm)%>" checked>
+                    <% } else { %>
+                    <input type="checkbox" name="targetTissue" value="<%=nonTargetTissues2.get(childTerm)%>">
+                    <% }
+                    }
+                        ///toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm
+                    %>
+                    <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?tissue=<%=upCaseChildTerm.substring(0,upCaseChildTerm.indexOf("(")).trim().toLowerCase()%>"><%=upCaseChildTerm%></a>
+                    <% if (targetTissues2.containsKey(childTerm)) { %>
+                    &nbsp;<span style="color:#DA70D6">(TARGET)</span>
+                    <%} %>
+                </td><% } %>
+                    <%}} %>
+                </tr>
 
-</table>
+            </table>
         </td>
     </tr>
 </table>
-
-
 
 
 
