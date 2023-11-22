@@ -218,6 +218,7 @@
                 </span> <br>
 
             <%}%>
+            <%@include file="associations.jsp"%>
 
         </div>
 
