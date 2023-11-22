@@ -99,7 +99,9 @@ function removeFilter(filter, name) {
 
 
     </ul>
-
+<% SearchResponse sr= (SearchResponse) request.getAttribute("sr");
+    SearchHit[] hitsArray=sr.getHits().getHits();
+    List<SearchHit> hits=(Arrays.asList(hitsArray));%>
     <!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane active" id="listViewContent" role="tabpanel">

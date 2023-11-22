@@ -1,3 +1,5 @@
+<%@ page import="org.elasticsearch.search.fetch.subphase.highlight.HighlightField" %>
+<%@ page import="org.elasticsearch.common.text.Text" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -8,23 +10,41 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div  class="more hideContent" style="overflow-y: auto">
-    <span class="header"><strong>Matched on:</strong></span>
-    <c:set value="true" var="first"/>
-    <c:set value="true" var="name"/>
-    <c:set value="true" var="symbol"/>
-    <c:set value="true" var="editorType"/>
-    <c:set value="true" var="esitorSubType"/>
-    <c:set value="true" var="grnaLabId"/>
-    <c:set value="true" var="guideTargetLocus"/>
-    <c:forEach items="${hit.highlightFields}" var="hf">
-        <c:if test="${!fn:contains(hf.key, 'accessLevel')}">
-        <b>${fn:substringBefore(hf.key, "." )}&nbsp;--></b>
-            <c:forEach items="${hf.value.fragments}" var="f">
-                        &nbsp;${f}
+    <span class="header"><strong>Matched Fields:</strong></span>
+   <% if(searchHit.getHighlightFields()!=null){
+       Set<String> keys=new HashSet<>();
+       Map<String, HighlightField> hf=searchHit.getHighlightFields();
+        for(String key:hf.keySet()){
+            if(!key.contains("accessLevel")){
+                if(key.contains(".")){
+                    String duplicateKey=key.substring(0, key.indexOf("."));
+                    if(!keys.contains(duplicateKey)){
+                        keys.add(duplicateKey);
+                        %>
+                        <b><%=duplicateKey%>&nbsp;:</b>
+                        <% for(Text fragment: hf.get(key).getFragments()){%>
+                            <%=fragment%>
 
-            </c:forEach>
-        </c:if>
+                        <%}%>
+                    <%}else{
 
+                    }%>
 
-    </c:forEach>
+               <% }else{
+                    if(!keys.contains(key)) {
+                        keys.add(key);%>
+                            <b><%=key%>&nbsp;:</b>
+                        <% for(Text fragment: hf.get(key).getFragments()){%>
+                                <%=fragment%>
+
+                        <%}%>
+                   <% }
+                }
+
+            }
+
+   %>
+
+    <%}}%>
+
 </div>

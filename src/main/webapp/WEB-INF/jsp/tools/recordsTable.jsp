@@ -534,32 +534,7 @@
             update(true)
         }
     }
-    /*   function generateData() {
-           var noOfDatasets=$-{replicateResult.keySet().size()};
-           var dataSet = $-{replicateResult.values()};;
-           var data=[];
-           data.push({
-               label: "Mean",
-               data: $-{plotData.get("Mean")},
-               yAxisID: 'delivery',
-               backgroundColor: 'rgba(255, 206, 99, 0.6)',
-               borderColor:    'rgba(255, 206, 99, 0.8)',
-               borderWidth: 1
-           });
-           for(var i=0;i< noOfDatasets;i++){
-               data.push({
-                   data: dataSet[i],
-                   label: "Replicate: "+(i+1),
-                   yAxisID: 'delivery',
-                   backgroundColor: 'rgba(220,220,220,0.5)',
-                   borderColor: 'rgba(255,99,132,1)',
-                   type: "scatter",
-                   showLine: false
-               });
-           }
-           return data;
-       }
-   */
+
     var dualAxis = false;
     function load() {
         console.log("in load");

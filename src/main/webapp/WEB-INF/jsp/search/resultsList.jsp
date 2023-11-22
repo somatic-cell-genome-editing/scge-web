@@ -1,7 +1,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
-<%@ page import="edu.mcw.scge.configuration.Access" %><%--
+<%@ page import="edu.mcw.scge.configuration.Access" %>
+<%@ page import="org.elasticsearch.action.search.SearchResponse" %>
+<%@ page import="org.elasticsearch.search.SearchHit" %>
+<%@ page import="edu.mcw.scge.datamodel.Guide" %>
+<%@ page import="java.util.*" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 1/22/2021
@@ -85,146 +89,143 @@
 %>
 <%@include file="resultHeader.jsp"%>
 <table class="table table-striped">
-    <c:forEach items="${sr.hits.hits}" var="hit">
-    <tr style="margin-top: 5%"><td style="border-color: transparent">
+    <%
+        for(SearchHit searchHit:hits){
+            Map<String, Object> hit=  searchHit.getSourceAsMap();
+    %>
+    <tr style="margin-top: 5%">
+        <td style="border-color: transparent">
         <div>
             <div>
                 <div>
                     <h4>
-                        <c:if test="${hit.sourceAsMap.name!=null}">
-                            <c:if test="${hit.sourceAsMap.studyType=='Validation'}">
-                            <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large;color:darkorange"> [Validation]</span>
-                            </c:if>
-                            <c:choose>
-                                <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
-                                    <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">${hit.sourceAsMap.name}</a>
-                                </c:when>
-                                <c:otherwise>${hit.sourceAsMap.name}&nbsp;<c:if test="${hit.sourceAsMap.externalLink!=null}">
-                                    <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a></c:if>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:if>
+                        <% if(hit.get("name")!=null){%>
+                            <%if(hit.get("studyType")!=null && hit.get("studyType").toString().equalsIgnoreCase("Validation")){%>
+                        <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large;color:darkorange"> [Validation]</span>
+                        <%}if(hit.get("reportPageLink")!=null){%>
 
-                        <c:if test="${hit.sourceAsMap.symbol!=null}">
-                            <c:choose>
-                                <c:when test="${hit.sourceAsMap.reportPageLink!=null}">
-                                    <a class="search-results-anchor" href="${hit.sourceAsMap.reportPageLink}${hit.sourceAsMap.id}">
-                                            ${hit.sourceAsMap.symbol}</a>
-                                </c:when>
-                                <c:otherwise>
-                                    ${hit.sourceAsMap.symbol}&nbsp;
-                                    <c:if test="${hit.sourceAsMap.externalLink!=null}">
-                                        <a href="${hit.sourceAsMap.externalLink}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-                                    </c:if>                </c:otherwise>
-                            </c:choose>
-                        </c:if>
+                                    <a class="search-results-anchor" href="<%=hit.get("reportPageLink")%><%=hit.get("id")%>"><%=hit.get("name")%></a>
+                           <%}else{%>
+                               <%=hit.get("name")%>&nbsp;<%if(hit.get("externalLink")!=null){%>
+                                    <a href="<%=hit.get("externalLink")%>"><i class="fa fa-external-link" aria-hidden="true"></i></a>
 
+                        <%}}}
+                            if(hit.get("symbol")!=null){%>
+
+                        <%if(hit.get("studyType")!=null && hit.get("studyType").toString().equalsIgnoreCase("Validation")){%>
+                        <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large;color:darkorange"> [Validation]</span>
+                        <%}if(hit.get("reportPageLink")!=null){%>
+
+                        <a class="search-results-anchor" href="<%=hit.get("reportPageLink")%><%=hit.get("id")%>"><%=hit.get("symbol")%></a>
+                        <%}else{%>
+                        <%=hit.get("symbol")%>&nbsp;<%if(hit.get("externalLink")!=null){%>
+                        <a href="<%=hit.get("externalLink")%>"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+
+                        <%}}}%>
                         <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
-                        <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-${hit.sourceAsMap.id}" aria-expanded="false" aria-controls="highlights-${hit.sourceAsMap.id}" title="View highlights">+</a><%}%>
+                        <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-<%=hit.get("id")%>" aria-expanded="false" aria-controls="highlights-<%=hit.get("id")%>" title="View highlights">+</a><%}%>
                     </h4>
-                    <small class="${hit.sourceAsMap.category} text-muted" >${hit.sourceAsMap.category}&nbsp;</small>
+                    <small class="<%=hit.get("category")%> text-muted" <%=hit.get("category")%>>&nbsp;</small>
                     <small class="text-muted">
-                        <c:if test="${hit.sourceAsMap.experimentType!=null}">-&nbsp;${hit.sourceAsMap.experimentType}</c:if></small>
-                    <small class="text-muted">${hit.sourceAsMap.initiative}</small>
-                    <small class="text-muted">${hit.sourceAsMap.modelOrganism}</small>
-                    <c:forEach items="${hit.sourceAsMap.modelOrganism}" var="organism">
-                        <c:if test="${organism=='Mouse'}">
+                        <%if(hit.get("experimentType")!=null){%>-&nbsp;<%=hit.get("experimentType")%><%}%>
+                    </small>
+                    <small class="text-muted"><%=hit.get("initiative")%></small>
+                        <%if(hit.get("modelOrganism")!=null){%>
+                    <small class="text-muted"><%=hit.get("modelOrganism")%></small>
 
-                        </c:if>
-                        <c:if test="${organism=='Human'}">
-                            <i class="fas fa-thin fa-person"></i>
-                        </c:if>
-                    </c:forEach>
-                    <div class="collapse" id="highlights-${hit.sourceAsMap.id}" style="padding: 0; margin: 0">
+                        <%for(String organism: (List<String>)hit.get("modelOrganism")){
+                        if(organism.equalsIgnoreCase("Human")){%>
+                    <i class="fas fa-thin fa-person"></i>
+                    <%}}}%>
+                    <div class="collapse" id="highlights-<%=hit.get("id")%>" style="padding: 0; margin: 0">
                         <div class="card card-body" style="margin-bottom: 0;padding-bottom: 0">
-                    <%@include file="highlights.jsp"%>
+                            <%@include file="highlights.jsp"%>
                         </div>
                     </div>
                 </div>
-                <c:if test="${ hit.sourceAsMap.category=='Experiment' || hit.sourceAsMap.category=='Project'}">
-                   <c:set var="first" value="true"/>
-                    <small>
-                    <c:forEach items="${hit.sourceAsMap.pi}" var="item">
-                        <c:choose>
-                            <c:when test="${first=='true'}">
-                                ${item}
-                                <c:set var="first" value="false"/>
-                            </c:when>
-                            <c:otherwise>
-                                ,&nbsp;${item}
-                            </c:otherwise>
-                        </c:choose>
-                   </c:forEach>
+                <%if(hit.get("category")!=null && hit.get("category").toString().equalsIgnoreCase("Experiment") || hit.get("category").toString().equalsIgnoreCase("Project")){
+                    boolean first=true;%>
+                <small>
+                    <%for(String pi: (List<String>)hit.get("pi")){
+                        if(first){%>
+                    <span><%=pi%></span>
+                    <%first=false;}else{%>
+                    <span>,&nbsp;<%=pi%></span>
 
-                    <c:if test="${hit.sourceAsMap.lastModifiedDate!=null}">
-                        &nbsp;<span class="header">Last Updated Date:</span> ${hit.sourceAsMap.lastModifiedDate}
-                    </c:if>
-                    <c:if test="${hit.sourceAsMap.currentGrantNumber!=null}">
-                        <!--a href="https://reporter.nih.gov/project-details/$-{hit.sourceAsMap.currentGrantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a-->
-                        <a href="${hit.sourceAsMap.nihReporterLink}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
+                    <%}} if(hit.get("lastModifiedDate")!=null){%>
 
-                    </c:if>
-                    </small>
-                    <br>&nbsp;
-                </c:if>
+                    &nbsp;<span class="header">Last Updated Date:</span> <%=hit.get("lastModifiedDate")%>
+
+                    <%} if(hit.get("currentGrantNumber")!=null){%>
+
+                    <!--a href="https://reporter.nih.gov/project-details/$-{hit.sourceAsMap.currentGrantNumber}" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a-->
+                    <a href="<%=hit.get("nihReporterLink")%>" target="_blank"><img src="/toolkit/images/nihReport.png" alt="NIH Report" > </a>
+
+
+                    <%}%>
+                </small>
+                <br>&nbsp;
+                <%}%>
             </div>
-            <c:if test="${hit.sourceAsMap.category=='Antibody' && fn:length(hit.sourceAsMap.externalId)>0}">
-                <span><b>Other Id:</b>
-                <c:forEach items="${hit.sourceAsMap.externalId}" var="item">
-                    <c:if test="${item!=hit.sourceAsMap.name}">
-                    ${item}&nbsp;
-                    </c:if>
-                </c:forEach>
-                </span><br>
-            </c:if>
-            <c:if test="${hit.sourceAsMap.description!=null}">
-                <span>${hit.sourceAsMap.description}</span><br>
-            </c:if>
-            <c:if test="${hit.sourceAsMap.target!=null && hit.sourceAsMap.category=='Experiment'}">
-                <c:set var="first" value="true"/>
-                <span><span class="header">Tissue :</span>
-                <c:forEach items="${hit.sourceAsMap.tissueTerm}" var="item">
-                    <c:choose>
-                        <c:when test="${first=='true'}">
-                            ${item}
-                            <c:set var="first" value="false"/>
+            <%if(hit.get("category")!=null && hit.get("category").toString().equalsIgnoreCase("Antibody") && hit.get("externalId")!=null){
+                List<String> externalIds= (List<String>) hit.get("externalId");
+                if(externalIds.size()>0){%>
+            <span><b>Other Id:</b>
+              <%for(String id:externalIds){%>
+                    <%if(hit.get("name")!=null && id!=hit.get("name")){%>
+                        <span><%=id%></span>
+               <%}}%>
+                    </span><br>
+            <% }%>
 
-                        </c:when>
-                        <c:otherwise>
-                            , ${item}
 
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
+            <%}%>
+            <%if(hit.get("description")!=null){%>
+
+            <span><%=hit.get("description")%></span><br>
+
+            <%}%>
+               <% if(hit.get("target")!=null && hit.get("category").toString().equalsIgnoreCase("Experiment")){
+                    boolean first=true;%>
+
+
+            <span><span class="header">Tissue :</span>
+                    <%for(String tissue: (List<String>)hit.get("tissueTerm")){
+                        if(first){first=false;%>
+                    <%=tissue%>
+                    <%}else {%>
+                    <%}%>
+                    ,<%=tissue%>
+                    <%}%>
                 </span> <br>
-            </c:if>
-            <c:if test="${hit.sourceAsMap.guides!=null && hit.sourceAsMap.category=='Experiment'}">
-                <c:set var="first" value="true"/>
-                <span><span class="header">Target Locus :</span>
-                <c:forEach items="${hit.sourceAsMap.guides}" var="guide">
-                    <c:choose>
-                        <c:when test="${first=='true'}">
-                            ${guide.guideTargetLocus}
-                            <c:set var="first" value="false"/>
 
-                        </c:when>
-                        <c:otherwise>
-                            , ${guide.guideTargetLocus}
+            <%}%>
+               <% if(hit.get("guides")!=null && hit.get("category").toString().equalsIgnoreCase("Experiment")){
+                    boolean first=true;%>
 
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
+
+            <span><span class="header">Target Locus :</span>
+                    <%for(Guide guide:(List<Guide>) hit.get("guides")){
+                        if(first){
+                            first=false;
+                    %>
+                    <%=guide.getTargetLocus()%>
+              <%}else{%>
+                    ,&nbsp;<%=guide.getTargetLocus()%>
+                    <%}%>
+
+                    <%}%>
                 </span> <br>
-            </c:if>
-            <c:if test="${fn:length(hit.sourceAsMap.studyNames)>0 || fn:length(hit.sourceAsMap.experimentNames)>0}">
-               <%@include file="associations.jsp"%>
 
-            </c:if>
+            <%}%>
+            <%@include file="associations.jsp"%>
+
         </div>
+
     </td>
     </tr>
 
-    </c:forEach>
+    <%}%>
 </table>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
