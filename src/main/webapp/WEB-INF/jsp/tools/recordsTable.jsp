@@ -218,6 +218,9 @@
                 var value = cells.item(selected).innerText.trim();
                 if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
                     filterValues.push(value);
+                    if(value.length>15){
+                        legendValues.push(value.substring(0,5)+".."+value.substring(value.length-10));
+                    }else
                     legendValues.push(value);
                 }
                 colorByRecords[value] = colorByRecords[value] || [];
@@ -236,7 +239,7 @@
         }
           var colorByRecordsJson=JSON.stringify(colorByRecords)
         // console.log("COLOR RECS:"+ colorByRecordsJson)
-        console.log("FILTER VALUES:"+ filterValues)
+        // console.log("FILTER VALUES:"+ filterValues)
         //Sorting array of objects by sortedValues
         var legendDiv = document.getElementById("legend-wrapper")
         if(filterValues.length>0 && filter!='None') {
@@ -244,9 +247,9 @@
             var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>" +
                 "<div class=row>";
             for (var e in legendValues) {
-                console.log(filterValues[e] + "\t" + colorPalette[e])
-                legendHtml += "<div class='col-2'><div class='row'><div class='col-1' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + colorPalette[e] + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap'>"
-                legendHtml += filterValues[e]
+                console.log(legendValues[e] + "\t" + colorPalette[e])
+                legendHtml += "<div class='col-2'><div class='row'><div class='col-1' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + colorPalette[e] + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+filterValues[e]+"'>"
+                legendHtml += legendValues[e]
                 legendHtml += "</small></div></div></div>"
             }
             legendHtml += "</div></div> </div> </div>"
