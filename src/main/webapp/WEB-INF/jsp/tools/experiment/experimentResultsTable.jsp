@@ -124,7 +124,7 @@
             for(String key:resultTypeRecords.keySet()){
 
             String resultType=key.substring(0,key.indexOf("("));
-            String units=key.substring(key.indexOf( "(" )+1,key.lastIndexOf(")")-1);
+            String units=key.substring(key.indexOf( "(" )+1,key.lastIndexOf(")"));
         %>
         <th><span style="display: none"><%=resultType%></span> <%=units%></th>
 
