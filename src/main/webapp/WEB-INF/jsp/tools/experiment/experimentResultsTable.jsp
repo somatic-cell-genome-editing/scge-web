@@ -119,10 +119,22 @@
         <th>Injection Frequency</th>
         </c:if>
 
+        <%
+        if(resultTypeRecords!=null && resultTypeRecords.size()>0){
+            for(String key:resultTypeRecords.keySet()){
 
-        <c:forEach items="${resultTypeRecords}" var="resultType">
-            <th><span style="display: none">${fn:substring(resultType.key, 0, fn:indexOf(resultType.key, "(" ))}</span> ${fn:replace(fn:substring(resultType.key, fn:indexOf(resultType.key, "(" )+1,fn:indexOf(resultType.key,")")), "(","")}</th>
-        </c:forEach>
+            String resultType=key.substring(0,key.indexOf("("));
+            String units=key.substring(key.indexOf( "(" )+1,key.lastIndexOf(")")-1);
+        %>
+        <th><span style="display: none"><%=resultType%></span> <%=units%></th>
+
+        <%}
+        }
+
+        %>
+<%--        <c:forEach items="${resultTypeRecords}" var="resultType">--%>
+<%--            <th><span style="display: none">${fn:substring(resultType.key, 0, fn:indexOf(resultType.key, "(" ))}</span> ${fn:replace(fn:substring(resultType.key, fn:indexOf(resultType.key, "(" )+1,fn:indexOf(resultType.key,")")), "(","")}</th>--%>
+<%--        </c:forEach>--%>
         <th data-sorter="false">Image</th>
 
 
@@ -263,9 +275,9 @@
         </td>
         <%popover++;}%>
         <%
-            System.out.println("about to get image from cache");
+         //   System.out.println("about to get image from cache");
             List<Image> images =ImageCache.getInstance().getImage(record.getExperimentRecordId(),"main1");
-            System.out.println(images.size());
+         //   System.out.println(images.size());
             if (images.size() > 0) {
         %>
         <td align="center">

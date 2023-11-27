@@ -18,6 +18,10 @@
     .tablesorter.target tr td{
         border:3px solid #DA70D6;
     }
+    .table-wrapper{
+        overflow: auto;
+        height:400px;
+    }
 </style>
 <%  Gson gson=new Gson();
     ImageDao idao = new ImageDao();
@@ -83,8 +87,9 @@
 
 </div>
 
-
+<div class="table-wrapper">
 <%@include file="experiment/experimentResultsTable.jsp"%>
+</div>
 </div>
 <script>
 
