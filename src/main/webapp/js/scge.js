@@ -1,5 +1,6 @@
 $(function() {
     $("#myTable").tablesorter({
+        widthFixed : true,
         theme : 'blue',
         widgets: ['zebra','resizable', 'stickyHeaders'],
         widgetOptions: {
