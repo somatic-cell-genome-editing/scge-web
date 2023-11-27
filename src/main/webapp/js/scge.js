@@ -1,7 +1,12 @@
 $(function() {
     $("#myTable").tablesorter({
-        theme : 'blue'
+        theme : 'blue',
+        widgets: ['zebra','resizable', 'stickyHeaders'],
+        widgetOptions: {
+            // jQuery selector or object to attach sticky header to
+            stickyHeaders_attachTo: $('.table-wrapper'),
 
+        }
     });
     var toggler = document.getElementsByClassName("caret");
     var i;
