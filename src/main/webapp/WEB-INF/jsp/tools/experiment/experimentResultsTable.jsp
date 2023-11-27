@@ -18,6 +18,30 @@
         height: auto;
         width: 119px;
     }
+    .table-wrapper {
+        position: relative;
+        padding: 0 5px;
+        height: 500px;
+        overflow: auto;
+    }
+    #popup {
+        position: relative;
+        background: #FFF;
+        padding: 20px;
+        width: auto;
+        max-width: 500px;
+        margin: 20px auto;
+    }
+    /* Since the popup has a 20px margin, we need to adjust the wrapper position
+    Note:
+     this is only required because we aren't actually attaching the sticky header
+     to the #popup, instead we're attaching it to the .mfp-wrap because that
+     element scrolls instead of the window
+    */
+    #popup .tablesorter-sticky-wrapper {
+        margin-left: 20px;
+        margin-top: -20px;
+    }
 </style>
 <script>
     $(function () {
@@ -45,8 +69,8 @@
     })
 </script>
 <% ProcessUtils processUtils=new ProcessUtils();%>
-
-<table id="myTable">
+<div class="table-wrapper">
+<table id="myTable" >
     <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
     <thead>
     <tr class="tablesorter-ignoreRow hasSpan" role="row">
@@ -290,3 +314,4 @@
 <%}}%>
     </tbody>
 </table>
+</div>
