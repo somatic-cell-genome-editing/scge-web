@@ -53,7 +53,7 @@
     //     'rgba(189, 183, 107, 0.5)', 'rgba(0, 100, 0, 0.5)', 'rgba(0, 191, 255, 0.5)', 'rgba(255, 0, 255, 0.5)',
     //     'rgba(218, 165, 32, 0.5)', 'rgba(75, 0, 130, 0.5)'
     // ];
-    colorPalette=<%=gson.toJson(rgbColors)%>
+    var colorPalette=<%=gson.toJson(rgbColors)%>
     function  generateDataSets(mean, replicates, recordIds, replicateResultSize, index) {
 
         var data=[];
