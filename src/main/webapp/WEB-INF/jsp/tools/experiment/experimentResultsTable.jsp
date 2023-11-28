@@ -70,7 +70,7 @@
 </script>
 <% ProcessUtils processUtils=new ProcessUtils();%>
 <div class="table-wrapper">
-<table id="myTable" >
+<table id="myTable" style="width: 100%">
     <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
     <thead>
     <tr class="tablesorter-ignoreRow hasSpan" role="row">

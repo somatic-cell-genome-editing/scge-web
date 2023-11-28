@@ -211,6 +211,7 @@
         var colorByRecords={}
         var filterValues=[];
         var legendValues=[];
+        var legendValuesTruncated=[];
         if (filter!='None') {
             for(var i=2;i<rowLength;i++) {
                 recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
@@ -218,10 +219,12 @@
                 var value = cells.item(selected).innerText.trim();
                 if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
                     filterValues.push(value);
-                    if(value.length>15){
-                        legendValues.push(value.substring(0,5)+".."+value.substring(value.length-10));
-                    }else
                     legendValues.push(value);
+                    if(value.length>15){
+                        legendValuesTruncated.push(value.substring(0,5)+".."+value.substring(value.length-10));
+                    }else {
+                        legendValuesTruncated.push(value);
+                    }
                 }
                 colorByRecords[value] = colorByRecords[value] || [];
                 colorByRecords[value].push(recordId);
@@ -247,9 +250,19 @@
             var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>" +
                 "<div class=row>";
             for (var e in legendValues) {
-                console.log(legendValues[e] + "\t" + colorPalette[e])
-                legendHtml += "<div class='col-2'><div class='row'><div class='col-1' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + colorPalette[e] + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+filterValues[e]+"'>"
-                legendHtml += legendValues[e]
+               // console.log(legendValues[e] + "\t" + colorPalette[e])
+                var backgroundColor;
+                var borderColor;
+                if(e>30){
+                    backgroundColor=colorPalette2[e];
+                    borderColor=colorPalette2[e];
+                }else{
+                    backgroundColor=colorPalette[e];
+                    borderColor=colorPalette[e];
+                }
+
+                legendHtml += "<div class='col-2'><div class='row'><div class='col-1' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + backgroundColor + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+legendValues[e]+"'>"
+                legendHtml += legendValuesTruncated[e]
                 legendHtml += "</small></div></div></div>"
             }
             legendHtml += "</div></div> </div> </div>"
@@ -307,7 +320,10 @@
                         for(var id in colorRecIds) {
                             if (colorRecIds[id]==(recordIds[i])) {
                                 var index = filterValues.indexOf(c);
-                                color=colorPalette[index]
+                                if(index>30)
+                                color=colorPalette2[index]
+                                else
+                                    color=colorPalette[index]
 
                             }
                         }
@@ -483,7 +499,7 @@
                 hiddenRows+=1;
             }
         }
-        console.log("TABLE ROW LENGTH:"+ rowLength +"\thidden rows:"+ hiddenRows)
+    //    console.log("TABLE ROW LENGTH:"+ rowLength +"\thidden rows:"+ hiddenRows)
         return rowLength == hiddenRows + 2;
     }
     function applyFilters(obj, initialLoad) {
@@ -538,7 +554,7 @@
 
     var dualAxis = false;
     function load() {
-        console.log("in load");
+     //   console.log("in load");
         var elms = document.getElementsByName("tissue");
         elms.forEach(function(ele) {
             applyFilters(ele, true);

@@ -10,7 +10,7 @@ public class Colors {
     static{
 
         colors = new HashMap<>();
-        for (int i = 0; i < 300; i++) {
+        for (int i = 1; i < 100; i++) {
             Random rand = new Random();
             float r = rand.nextFloat();
             float g = rand.nextFloat();
