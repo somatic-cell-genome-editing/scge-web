@@ -24,24 +24,9 @@
         height: 500px;
         overflow: auto;
     }
-    #popup {
-        position: relative;
-        background: #FFF;
-        padding: 20px;
-        width: auto;
-        max-width: 500px;
-        margin: 20px auto;
-    }
-    /* Since the popup has a 20px margin, we need to adjust the wrapper position
-    Note:
-     this is only required because we aren't actually attaching the sticky header
-     to the #popup, instead we're attaching it to the .mfp-wrap because that
-     element scrolls instead of the window
-    */
-    #popup .tablesorter-sticky-wrapper {
-        margin-left: 20px;
-        margin-top: -20px;
-    }
+.experiment-details thead tr th{
+    width:10%
+}
 </style>
 <script>
     $(function () {
@@ -70,10 +55,10 @@
 </script>
 <% ProcessUtils processUtils=new ProcessUtils();%>
 <div class="table-wrapper">
-<table id="myTable" style="width: 100%">
+<table id="myTable" class="table tablesorter experiment-details">
     <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
     <thead>
-    <tr class="tablesorter-ignoreRow hasSpan" role="row">
+    <tr class="tablesorter-ignoreRow" role="row">
         <th data-sorter="false" colspan="<%=tableColumns.size()%>" data-column="0" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=tableColumns.size()%>" style="background-color: white"></th>
         <%if(resultTypeColumnCount.get("editing efficiency")!=null && resultTypeColumnCount.get("editing efficiency")>0){%>
         <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("editing efficiency")%>" data-column="<%=tableColumns.size()%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("editing efficiency")%>" style="background-color: orange;text-align: center">Editing Efficiency</th>
