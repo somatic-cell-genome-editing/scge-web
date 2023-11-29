@@ -735,16 +735,30 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
     }
     public  List<Plot> getPlotData(Map<String, List<ExperimentRecord>> resultTypeRecords){
         List<Plot> plots=new ArrayList<>();
-        for(Map.Entry entry:resultTypeRecords.entrySet()){
-            String resultType= (String) entry.getKey();
+        for(Map.Entry entry:resultTypeRecords.entrySet()) {
+            String resultType = (String) entry.getKey();
             List<ExperimentRecord> records = (List<ExperimentRecord>) entry.getValue();
-            Set<String> tissues=records.stream().map(ExperimentRecord::getTissueTerm).filter(Objects::nonNull).collect(Collectors.toSet());
-            String tissue= null;
-            if(tissues.size() > 0)
-                 tissue=   String.join(", ", tissues);
-            if(!resultType.toLowerCase().contains("signal") || resultType.toLowerCase().contains("signal detection")) {
-                Plot plot = new Plot();
-                plot.setXaxisLabel(resultType);
+            boolean signalType = false;
+            for (ExperimentRecord record : records) {
+                for (ExperimentResultDetail detail : record.getResultDetails()) {
+                    if (detail.getReplicate() == 0) {
+                        try {
+                            Double d = Double.parseDouble(detail.getResult());
+                        } catch (Exception e) {
+                            signalType = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            Set<String> tissues = records.stream().map(ExperimentRecord::getTissueTerm).filter(Objects::nonNull).collect(Collectors.toSet());
+            String tissue = null;
+            if (tissues.size() > 0)
+                tissue = String.join(", ", tissues);
+            if (!signalType){
+                if (!resultType.toLowerCase().contains("signal") || resultType.toLowerCase().contains("signal detection")) {
+                    Plot plot = new Plot();
+                    plot.setXaxisLabel(resultType);
                 /*if(tissue!=null)
                 plot.setTitle(tissue);
                 else
@@ -754,18 +768,18 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                /* if(resultType.toLowerCase().contains("efficiency")){
                     plot.setTitle(resultType.substring(0, resultType.indexOf("(")).trim());
                 }else plot.setTitle("");*/
-                plot.setTitle(resultType);
-                if(resultType.toLowerCase().contains("delivery")){
-                    plot.setTitleColor("blue");
-                }else if(resultType.toLowerCase().contains("editing")){
-                    plot.setTitleColor("orange");
-                }else plot.setTitleColor("darkgray");
-                plot.setReplicateResult((HashMap<Integer, List<Double>>) getReplicateData(records, resultType));
-                for (ExperimentRecord record : records) {
-                   // plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
-                    for(ExperimentResultDetail rd:record.getResultDetails()){
-                        String yaxisLabel=new String();
-                        if(resultType.equalsIgnoreCase(processUtils.getResultKey(rd)) && rd.getReplicate()==0){
+                    plot.setTitle(resultType);
+                    if (resultType.toLowerCase().contains("delivery")) {
+                        plot.setTitleColor("blue");
+                    } else if (resultType.toLowerCase().contains("editing")) {
+                        plot.setTitleColor("orange");
+                    } else plot.setTitleColor("darkgray");
+                    plot.setReplicateResult((HashMap<Integer, List<Double>>) getReplicateData(records, resultType));
+                    for (ExperimentRecord record : records) {
+                        // plot.setYaxisLabel(records.get(0).getResultDetails().get(0).getUnits());
+                        for (ExperimentResultDetail rd : record.getResultDetails()) {
+                            String yaxisLabel = new String();
+                            if (resultType.equalsIgnoreCase(processUtils.getResultKey(rd)) && rd.getReplicate() == 0) {
                            /* if(!rd.getResultType().toLowerCase().contains("biomarker")) {
                                  yaxisLabel = /*"'" + resultType.substring(0, resultType.indexOf("(") - 1) +
                                         "'," +*/
@@ -775,64 +789,65 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                             else {
                                 yaxisLabel = "'" + rd.getUnits() + "'";
                             }*/
-                            String[] tokens=rd.getUnits().split(",");
+                                String[] tokens = rd.getUnits().split(",");
 
-                            yaxisLabel = Arrays.stream(tokens).map(t->"'"+t+"'").collect(Collectors.joining(","));
-                            plot.setYaxisLabel(yaxisLabel);
+                                yaxisLabel = Arrays.stream(tokens).map(t -> "'" + t + "'").collect(Collectors.joining(","));
+                                plot.setYaxisLabel(yaxisLabel);
+                            }
                         }
                     }
-                }
-                List<String> labels = new ArrayList<>();
-                List<Long> recordIds = new ArrayList<>();
-                Map<String, List<Double>> plotData=new HashMap<>();
-                List<Double> values=new ArrayList<>();
-                for (ExperimentRecord record : records) {
+                    List<String> labels = new ArrayList<>();
+                    List<Long> recordIds = new ArrayList<>();
+                    Map<String, List<Double>> plotData = new HashMap<>();
+                    List<Double> values = new ArrayList<>();
+                    for (ExperimentRecord record : records) {
 
                    /* if(record.getExperimentRecordName().contains(",")){
                         String[] tokens=record.getExperimentRecordName().split(",");
                         labels.add("["+Arrays.stream(tokens).map(t->"\""+t+"\"").collect(Collectors.joining(", "))+"]");
                     }else
                     labels.add("[\""+record.getExperimentRecordName()+"\"]");*/
-                    StringBuilder experimentRecordName=new StringBuilder();
-                    experimentRecordName.append( record.getExperimentRecordName());
-                    if((record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals(""))
-                    || (record.getQualifier()!=null &&  !record.getQualifier().equals("")) ){
-                        experimentRecordName.append(" (");
-                    }
-                    if(record.getQualifier()!=null &&  !record.getQualifier().equals("")) {
-                        experimentRecordName.append( record.getQualifier()).append("_");
-                    }
-                    if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")){
-                        experimentRecordName.append( record.getTissueTerm());
-                    }
-                    if(record.getCellTypeTerm()!=null && !record.getCellTypeTerm().equalsIgnoreCase("unspecified") && !record.getCellTypeTerm().equals("")) {
-                        experimentRecordName.append("/").append( record.getCellTypeTerm());
-                    }
+                        StringBuilder experimentRecordName = new StringBuilder();
+                        experimentRecordName.append(record.getExperimentRecordName());
+                        if ((record.getTissueTerm() != null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals(""))
+                                || (record.getQualifier() != null && !record.getQualifier().equals(""))) {
+                            experimentRecordName.append(" (");
+                        }
+                        if (record.getQualifier() != null && !record.getQualifier().equals("")) {
+                            experimentRecordName.append(record.getQualifier()).append("_");
+                        }
+                        if (record.getTissueTerm() != null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")) {
+                            experimentRecordName.append(record.getTissueTerm());
+                        }
+                        if (record.getCellTypeTerm() != null && !record.getCellTypeTerm().equalsIgnoreCase("unspecified") && !record.getCellTypeTerm().equals("")) {
+                            experimentRecordName.append("/").append(record.getCellTypeTerm());
+                        }
 
-                    if(record.getTimePoint()!=null &&  !record.getTimePoint().equals("")) {
-                        experimentRecordName.append("/").append( record.getTimePoint());
-                    }
-                    if(record.getTissueTerm()!=null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")
-                            || (record.getQualifier()!=null &&  !record.getQualifier().equals(""))){
-                        experimentRecordName.append(")");
-                    }
-                   // record.setExperimentRecordName(experimentRecordName.toString());
-                   labels.add(experimentRecordName.toString());
-                    recordIds.add(record.getExperimentRecordId());
-                  //  values.add(Double.parseDouble(record.getResultDetails().stream().filter(r->r.getReplicate()==0 && resultType.contains(r.getUnits())).collect(Collectors.toList()).get(0).getResult()));
+                        if (record.getTimePoint() != null && !record.getTimePoint().equals("")) {
+                            experimentRecordName.append("/").append(record.getTimePoint());
+                        }
+                        if (record.getTissueTerm() != null && !record.getTissueTerm().equalsIgnoreCase("unspecified") && !record.getTissueTerm().equals("")
+                                || (record.getQualifier() != null && !record.getQualifier().equals(""))) {
+                            experimentRecordName.append(")");
+                        }
+                        // record.setExperimentRecordName(experimentRecordName.toString());
+                        labels.add(experimentRecordName.toString());
+                        recordIds.add(record.getExperimentRecordId());
+                        //  values.add(Double.parseDouble(record.getResultDetails().stream().filter(r->r.getReplicate()==0 && resultType.contains(r.getUnits())).collect(Collectors.toList()).get(0).getResult()));
 
-                    for(ExperimentResultDetail rd:record.getResultDetails()){
-                        if(resultType.equalsIgnoreCase(processUtils.getResultKey(rd)) && rd.getReplicate()==0){
-                           values.add(Double.valueOf(rd.getResult()));
+                        for (ExperimentResultDetail rd : record.getResultDetails()) {
+                            if (resultType.equalsIgnoreCase(processUtils.getResultKey(rd)) && rd.getReplicate() == 0) {
+                                values.add(Double.valueOf(rd.getResult()));
+                            }
                         }
                     }
+                    plotData.put(resultType, values);
+                    plot.setTickLabels(labels);
+                    plot.setRecordIds(recordIds);
+                    plot.setPlotData(plotData);
+                    plots.add(plot);
                 }
-                plotData.put(resultType, values);
-                plot.setTickLabels(labels);
-                plot.setRecordIds(recordIds);
-                plot.setPlotData(plotData);
-                plots.add(plot);
-            }
+        }
         }
       //  System.out.println("PLOTS SIZE:" +plots.size());
       //  System.out.println("PLOTS JSON:" +gson.toJson(plots));
