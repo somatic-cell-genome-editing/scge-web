@@ -748,14 +748,12 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                         try {
                             Double d = Double.parseDouble(detail.getResult().trim());
                         } catch (Exception e) {
-                          //  System.out.println("result:"+ detail.getResult() +"\tRecord ID:"+ record.getExperimentRecordId()+"\tResultID:"+detail.getResultId()+"\tDETAIL RESULT TYPE"+ detail.getResultType() + detail.getResultType());
                             signalType = true;
                             break;
                         }
                     }
                 }
             }
-          //  System.out.println("ENTRY:"+ entry.getKey()+ "\tSignal TYPE:"+ signalType );
             Set<String> tissues = records.stream().map(ExperimentRecord::getTissueTerm).filter(Objects::nonNull).collect(Collectors.toSet());
             String tissue = null;
             if (tissues.size() > 0)
