@@ -135,7 +135,6 @@ public class TissueMapper {
     }
 
     public void addDelivery(String tissue, String childTerm, String url) {
-        System.out.println("TISSUE:"+tissue +"\tCHILDTERM:"+ childTerm+"\tURL:"+ url);
         if(tissue!=null) {
             LinkedHashMap<String, String> children = delivery.get(tissue);
             if (children != null) {
