@@ -164,7 +164,7 @@
                     for(k = 1;k < avgIndex;k++){
                         var label = table.rows.item(1).cells.item(k).innerText;
                         var value = table.rows.item(i).cells.item(k).innerText;
-                        detail.push(label + ':' + value) ;
+                        detail.push("<span style='color:yellow'>"+label+"</span>" + ': ' + value) ;
                     }
                 }
 
