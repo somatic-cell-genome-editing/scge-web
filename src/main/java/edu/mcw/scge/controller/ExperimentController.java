@@ -835,8 +835,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
 
     public Map<String, List<ExperimentRecord>> getSegregatedRecords(List<ExperimentRecord> records,Map<String, Integer> resultTypeColumnCount){
-        Map<String, List<ExperimentRecord>> resultTypes=new HashMap<>();
-        Map<String, List<ExperimentRecord>> resultTypesSorted=new LinkedHashMap<>();
+        LinkedHashMap<String, List<ExperimentRecord>> resultTypes=new LinkedHashMap<>();
+        LinkedHashMap<String, List<ExperimentRecord>> resultTypesSorted=new LinkedHashMap<>();
         for(ExperimentRecord er:records){
             if(er.getResultDetails()!=null && er.getResultDetails().get(0)!=null) {
                 for (ExperimentResultDetail erd : er.getResultDetails()) {
