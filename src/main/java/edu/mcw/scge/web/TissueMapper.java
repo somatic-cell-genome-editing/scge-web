@@ -10,6 +10,7 @@ public class TissueMapper {
     LinkedHashMap<String,LinkedHashMap<String,String>> childTerms = new LinkedHashMap<String,LinkedHashMap<String,String>>();
     LinkedHashMap<String,LinkedHashMap<String,String>> editing = new LinkedHashMap<String,LinkedHashMap<String,String>>();
     LinkedHashMap<String,LinkedHashMap<String,String>> delivery = new LinkedHashMap<String,LinkedHashMap<String,String>>();
+    LinkedHashMap<String,LinkedHashMap<String,String>> biomarker = new LinkedHashMap<String,LinkedHashMap<String,String>>();
     LinkedHashMap<String,Long> targets = new LinkedHashMap<String,Long>();
 
 
@@ -150,6 +151,20 @@ public class TissueMapper {
 
 //        childTerms.put(tissue,children);
 
+    }
+    public void addBiomarker(String tissue, String childTerm,String url) {
+
+        LinkedHashMap<String,String> children = biomarker.get(tissue);
+        if( children!=null ) {
+            children.put(childTerm, url);
+            biomarker.put(tissue, children);
+        }
+
+        LinkedHashMap<String,String> childs = childTerms.get(tissue);
+        if( childs!=null ) {
+            childs.put(childTerm, url);
+            biomarker.put(tissue, childs);
+        }
     }
 
 }

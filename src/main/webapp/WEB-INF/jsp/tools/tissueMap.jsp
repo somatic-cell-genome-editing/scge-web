@@ -37,24 +37,219 @@
         height:40px;
         position:relative;
     }
-    .triangle-topleft {
+    /*.triangle-topleft {*/
+    /*    !*position:absolute;*!*/
+    /*    !*top:0px;*!*/
+    /*    !*left:0px;*!*/
+    /*    !*width: 0;*!*/
+    /*    !*height: 0;*!*/
+    /*    !*border-top: 40px solid blue;*!*/
+    /*    !*border-right: 40px solid transparent;*!*/
+    /*    !*cursor:pointer;*!*/
+    /*    position:absolute;*/
+    /*    top:0px;*/
+    /*    left:0px;*/
+    /*    width: 40px;*/
+    /*    height: 40px ;*/
+    /*    background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right,blue 0%, blue 50%, #FFF 50%, #FFF 100%);*/
+    /*    background-size: 100% 50%;*/
+    /*    background-position: center top, center bottom;*/
+    /*    background-repeat: no-repeat;*/
+
+    /*}*/
+    /*.triangle-bottomright {*/
+    /*    !*position:absolute;*!*/
+    /*    !*top:0px;*!*/
+    /*    !*left:0px;*!*/
+    /*    !*width: 0;*!*/
+    /*    !*height: 0;*!*/
+    /*    !*border-bottom: 40px solid orange;*!*/
+    /*    !*border-left: 40px solid transparent;*!*/
+    /*    position:absolute;*/
+    /*    top:0px;*/
+    /*    left:0px;*/
+    /*    width: 40px;*/
+    /*    height: 40px ;*/
+    /*    !*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*!*/
+    /*    background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+
+    /*    background-size: 100% 50%;*/
+    /*    background-position: center top, center bottom;*/
+    /*    background-repeat: no-repeat;*/
+    /*}*/
+    /*.triangle-biomarker {*/
+    /*    position:absolute;*/
+    /*    top:0px;*/
+    /*    left:0px;*/
+    /*    width: 40px;*/
+    /*    height: 40px ;*/
+    /*    background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+    /*    background-size: 100% 50%;*/
+    /*    background-position: center top, center bottom;*/
+    /*    background-repeat: no-repeat;*/
+    /*}*/
+    .triangle-d { /*d for delivery*/
+        /*position:absolute;*/
+        /*top:0px;*/
+        /*left:0px;*/
+        /*width: 0;*/
+        /*height: 0;*/
+        /*border-top: 40px solid blue;*/
+        /*border-right: 40px solid transparent;*/
+        /*cursor:pointer;*/
         position:absolute;
         top:0px;
         left:0px;
-        width: 0;
-        height: 0;
-        border-top: 40px solid blue;
-        border-right: 40px solid transparent;
-        cursor:pointer;
+        width: 40px;
+        height: 40px ;
+        background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right,blue 0%, blue 50%, #FFF 50%, #FFF 100%);
+        background-size: 100% 50%;
+        background-position: center top, center bottom;
+        background-repeat: no-repeat;
+
     }
-    .triangle-bottomright {
+    .triangle-e { /* e for editing*/
+        /*position:absolute;*/
+        /*top:0px;*/
+        /*left:0px;*/
+        /*width: 0;*/
+        /*height: 0;*/
+        /*border-bottom: 40px solid orange;*/
+        /*border-left: 40px solid transparent;*/
         position:absolute;
         top:0px;
         left:0px;
-        width: 0;
-        height: 0;
-        border-bottom: 40px solid orange;
-        border-left: 40px solid transparent;
+        width: 40px;
+        height: 40px ;
+        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+        background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right, #FFF 0%, #FFF 50%, darkorange 50%, darkorange 100%);
+
+        background-size: 100% 50%;
+        background-position: center top, center bottom;
+        background-repeat: no-repeat;
+    }
+    .triangle-b { /*b for biomarker*/
+        /*position:absolute;*/
+        /*top:0px;*/
+        /*left:0px;*/
+        /*width: 0;*/
+        /*height: 0;*/
+        /*border-bottom: 40px solid orange;*/
+        /*border-left: 40px solid transparent;*/
+        position:absolute;
+        top:0px;
+        left:0px;
+        width: 40px;
+        height: 40px ;
+        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+        background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%);
+
+        background-size: 100% 50%;
+        background-position: center top, center bottom;
+        background-repeat: no-repeat;
+    }
+    .triangle-ed { /* ed for editing and delivery*/
+        /*position:absolute;*/
+        /*top:0px;*/
+        /*left:0px;*/
+        /*width: 0;*/
+        /*height: 0;*/
+        /*border-bottom: 40px solid orange;*/
+        /*border-left: 40px solid transparent;*/
+        position:absolute;
+        top:0px;
+        left:0px;
+        width: 40px;
+        height: 40px ;
+        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+        background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);
+
+        background-size: 100% 50%;
+        background-position: center top, center bottom;
+        background-repeat: no-repeat;
+    }
+    .triangle-eb { /* ed for editing and delivery*/
+        /*position:absolute;*/
+        /*top:0px;*/
+        /*left:0px;*/
+        /*width: 0;*/
+        /*height: 0;*/
+        /*border-bottom: 40px solid orange;*/
+        /*border-left: 40px solid transparent;*/
+        position:absolute;
+        top:0px;
+        left:0px;
+        width: 40px;
+        height: 40px ;
+        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+        background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, #FFF 0%, #FFF 50%, darkorange 50%, darkorange 100%);
+
+        background-size: 100% 50%;
+        background-position: center top, center bottom;
+        background-repeat: no-repeat;
+    }
+    .triangle-db { /* ed for editing and delivery*/
+        /*position:absolute;*/
+        /*top:0px;*/
+        /*left:0px;*/
+        /*width: 0;*/
+        /*height: 0;*/
+        /*border-bottom: 40px solid orange;*/
+        /*border-left: 40px solid transparent;*/
+        position:absolute;
+        top:0px;
+        left:0px;
+        width: 40px;
+        height: 40px ;
+        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+        background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, blue 0%, blue 50%, #FFF 50%, #FFF 100%);
+
+        background-size: 100% 50%;
+        background-position: center top, center bottom;
+        background-repeat: no-repeat;
+    }
+    .triangle-edb {
+        position:absolute;
+        top:0px;
+        left:0px;
+        width: 40px;
+        height: 40px ;
+        background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);
+        background-size: 100% 50%;
+        background-position: center top, center bottom;
+        background-repeat: no-repeat;
+    }
+    .legend-delivery { /*d for delivery*/
+
+        width: 20px;
+        height: 20px ;
+        background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right,blue 0%, blue 50%, #FFF 50%, #FFF 100%);
+        background-size: 100% 50%;
+        background-position: center top, center bottom;
+        background-repeat: no-repeat;
+
+    }
+    .legend-editing { /* e for editing*/
+
+        width: 20px;
+        height: 20px ;
+        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+        background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right, #FFF 0%, #FFF 50%, darkorange 50%, darkorange 100%);
+
+        background-size: 100% 50%;
+        background-position: center top, center bottom;
+        background-repeat: no-repeat;
+    }
+    .legend-biomarker { /*b for biomarker*/
+
+        width: 20px;
+        height: 20px ;
+        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+        background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%);
+
+        background-size: 100% 50%;
+        background-position: center top, center bottom;
+        background-repeat: no-repeat;
     }
 </style>
 <script>
@@ -91,6 +286,7 @@
     <% Gson gson=new Gson();
         LinkedHashMap<String, Boolean> tissueEditingMap = new LinkedHashMap<String, Boolean>();
         LinkedHashMap<String, Boolean> tissueDeliveryMap = new LinkedHashMap<String, Boolean>();
+        LinkedHashMap<String, Boolean> tissueBiomarkerMap = new LinkedHashMap<String, Boolean>();
 
         Set<String> targetTissues=new HashSet<>();
         Set<Long> targetTissueRecordIds=new HashSet<>();
@@ -161,6 +357,7 @@
         String cellType = er.getCellTypeTerm();
         boolean hasEditing = false;
         boolean hasDelivery = false;
+        boolean hasBiomarker = false;
         try {
             if(erdList!=null)
         for (ExperimentResultDetail erd : erdList) {
@@ -171,6 +368,9 @@
                 if (erd.getResultType() != null && erd.getResultType().equals("Editing Efficiency")) {
                     hasEditing = true;
                 }
+                    if (erd.getResultType() != null && erd.getResultType().equals("Biomarker Detection")) {
+                        hasBiomarker = true;
+                    }
             }
                 }
         }catch (Exception e) {
@@ -189,6 +389,10 @@
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Editing&tissue=" + tissueTerm + "&cellType=" + cellType;
                         tm.addEditing(organSystem, tissueTerm + " (" + cellType + ")", url);
                     }
+                    if (hasBiomarker) {
+                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=" + cellType;
+                        tm.addBiomarker(organSystem, tissueTerm + " (" + cellType + ")", url);
+                    }
                 } else {
                     if (hasDelivery) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Delivery&tissue=" + tissueTerm + "&cellType=";
@@ -197,6 +401,11 @@
                     if (hasEditing) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Editing&tissue=" + tissueTerm + "&cellType=";
                         tm.addEditing(organSystem, tissueTerm, url);
+                    }
+
+                    if (hasBiomarker) {
+                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=";
+                        tm.addBiomarker(organSystem, tissueTerm, url);
                     }
                 }
             }
@@ -213,6 +422,9 @@
                 }
                 if (erd.getResultType() != null && erd.getResultType().equals("Editing Efficiency") && tissue != null) {
                     tissueEditingMap.put(tissue + "-" + labelTrimmed, true);
+                }
+                if (erd.getResultType() != null && erd.getResultType().equals("Biomarker Detection") && tissue != null) {
+                    tissueBiomarkerMap.put(tissue + "-" + labelTrimmed, true);
                 }
             }
         }
@@ -285,22 +497,82 @@
                                     if(targetTissues.contains(tissue)){%>
                                 <td width="40" style="border:5px solid orchid">
                                     <div class="tissue-control-cell">
-                                        <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
-                                        <div class="triangle-topleft" ></div>
+                                        <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)
+                                        && !tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && !tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-d" ></div>
                                         <% } %>
-                                        <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
-                                        <div class="triangle-bottomright"></div>
+                                        <% if (tissueEditingMap.containsKey(tissue + "-" + condition)
+                                        && !tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && !tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-e"></div>
+                                        <% } %>
+                                        <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && !tissueDeliveryMap.containsKey(tissue + "-" + condition)
+                                                && !tissueEditingMap.containsKey(tissue + "-" + condition)
+                                        ) { %>
+                                        <div class="triangle-b"></div>
+                                        <% } %>
+                                        <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && tissueDeliveryMap.containsKey(tissue + "-" + condition)
+                                                && !tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-db"></div>
+                                        <% } %>
+                                        <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && tissueEditingMap.containsKey(tissue + "-" + condition)
+                                                && !tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-eb"></div>
+                                        <% } %>
+                                        <% if (!tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && tissueDeliveryMap.containsKey(tissue + "-" + condition)
+                                                && tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-ed"></div>
+                                        <% } %>
+                                        <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && tissueDeliveryMap.containsKey(tissue + "-" + condition)
+                                                && tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-edb"></div>
                                         <% } %>
                                     </div>
                                 </td>
                                 <%}else{%>
-                                <td width="40">
+                                <td width="40" style="border:1px solid gainsboro">
                                     <div class="tissue-control-cell">
-                                        <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
-                                        <div class="triangle-topleft" ></div>
+                                        <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)
+                                                && !tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && !tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-d" ></div>
                                         <% } %>
-                                        <% if (tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
-                                        <div class="triangle-bottomright"></div>
+                                        <% if (tissueEditingMap.containsKey(tissue + "-" + condition)
+                                                && !tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && !tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-e"></div>
+                                        <% } %>
+                                        <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && !tissueDeliveryMap.containsKey(tissue + "-" + condition)
+                                                && !tissueEditingMap.containsKey(tissue + "-" + condition)
+                                        ) { %>
+                                        <div class="triangle-b"></div>
+                                        <% } %>
+                                        <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && tissueDeliveryMap.containsKey(tissue + "-" + condition)
+                                                && !tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-db"></div>
+                                        <% } %>
+                                        <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && tissueEditingMap.containsKey(tissue + "-" + condition)
+                                                && !tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-eb"></div>
+                                        <% } %>
+                                        <% if (!tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && tissueDeliveryMap.containsKey(tissue + "-" + condition)
+                                                && tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-ed"></div>
+                                        <% } %>
+                                        <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
+                                                && tissueDeliveryMap.containsKey(tissue + "-" + condition)
+                                                && tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
+                                        <div class="triangle-edb"></div>
                                         <% } %>
                                     </div>
                                 </td>
@@ -330,10 +602,13 @@
                                 <td align="center">
                                     <table>
                                         <tr>
-                                            <td><div style="border:1px solid black;"> <div  style="border-right: 20px solid transparent; border-top: 20px solid blue;width:20px;height:20px;"></div></div></td><td>Delivery Efficiency</td>
+                                            <td><div style="border:1px solid black;"> <div class="legend-delivery"></div></div></td><td>Delivery Efficiency</td>
                                         </tr>
                                         <tr>
-                                            <td><div style="border:1px solid black;"><div style="border-bottom: 20px solid orange;border-left: 20px solid transparent;width:20px;height:20px "></div></div></td><td>Editing Efficiency</td>
+                                            <td><div style="border:1px solid black;"><div class="legend-editing"></div></div></td><td>Editing Efficiency</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div style="border:1px solid black;"><div class="legend-biomarker"></div></div></td><td>Biomarker Detection</td>
                                         </tr>
                                         <tr>
                                             <td><div style="border:3px solid #DA70D6;background-color: white;width:22px;height:22px "></div></td><td>Target Tissue</td>
@@ -392,15 +667,15 @@
 
                     <td width="100">&nbsp;</td><td style="padding-right:5px; border-bottom:1px solid black;border-color:#770C0E; font-size:14px;">
 
-                    <% if (access.isAdmin(p) && !SCGEContext.isProduction()) {
-                        if (targetTissues2.containsKey(childTerm)) { %>
-                    <input type="checkbox" name="targetTissue" value="<%=targetTissues2.get(childTerm)%>" checked>
-                    <% } else { %>
-                    <input type="checkbox" name="targetTissue" value="<%=nonTargetTissues2.get(childTerm)%>">
-                    <% }
-                    }
-                        ///toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm
-                    %>
+                <% if (access.isAdmin(p) && !SCGEContext.isProduction()) {
+                    if (targetTissues2.containsKey(childTerm)) { %>
+                <input type="checkbox" name="targetTissue" value="<%=targetTissues2.get(childTerm)%>" checked>
+                <% } else { %>
+                <input type="checkbox" name="targetTissue" value="<%=nonTargetTissues2.get(childTerm)%>">
+                <% }
+                }
+                    ///toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm
+                %>
                     <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?tissue=<%=upCaseChildTerm.substring(0,upCaseChildTerm.indexOf("(")).trim().toLowerCase()%>"><%=upCaseChildTerm%></a>
                     <% if (targetTissues2.containsKey(childTerm)) { %>
                     &nbsp;<span style="color:#DA70D6">(TARGET)</span>
