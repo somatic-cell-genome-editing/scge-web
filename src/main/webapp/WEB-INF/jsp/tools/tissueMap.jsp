@@ -640,6 +640,14 @@
         <% } %>
 
     </td>
+        <td>
+            <div align="right">
+                <form id="viewSelectedTissues" action="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>">
+                    <input type="hidden" name="selectedTissues" id= "selectedTissues" value=""/>
+                    <button class="btn btn-primary btn-sm" onclick="viewSelectedTissues()">View Selected Tissues</button>
+                </form>
+            </div>
+        </td>
     </tr>
     <tr>
         <td>
@@ -654,7 +662,7 @@
                 %>
 
                 <tr>
-                    <td colspan="2" style="font-size:20px;padding-top:10px;" id="<%=organ%>"><%=organ%></td>
+                    <td colspan="2" style="font-size:20px;padding-top:10px;" id="<%=organ%>"><input id="<%=organ%>" type="checkbox" onchange="checkTissues('<%=organ%>', this)">&nbsp;<%=organ%></td>
                     <td></td><td></td>
                 </tr>
                 <tr>
@@ -667,20 +675,25 @@
 
                     <td width="100">&nbsp;</td><td style="padding-right:5px; border-bottom:1px solid black;border-color:#770C0E; font-size:14px;">
 
-                <% if (access.isAdmin(p) && !SCGEContext.isProduction()) {
-                    if (targetTissues2.containsKey(childTerm)) { %>
-                <input type="checkbox" name="targetTissue" value="<%=targetTissues2.get(childTerm)%>" checked>
-                <% } else { %>
-                <input type="checkbox" name="targetTissue" value="<%=nonTargetTissues2.get(childTerm)%>">
-                <% }
-                }
-                    ///toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm
-                %>
+                    <input type="checkbox" name="<%=organ%>" class="selectedTissue" value="<%=upCaseChildTerm.substring(0,upCaseChildTerm.indexOf("(")).trim().toLowerCase()%>">
                     <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?tissue=<%=upCaseChildTerm.substring(0,upCaseChildTerm.indexOf("(")).trim().toLowerCase()%>"><%=upCaseChildTerm%></a>
                     <% if (targetTissues2.containsKey(childTerm)) { %>
                     &nbsp;<span style="color:#DA70D6">(TARGET)</span>
                     <%} %>
-                </td><% } %>
+
+                </td>
+                <td>
+                    <% if (access.isAdmin(p) && !SCGEContext.isProduction()) {
+                        if (targetTissues2.containsKey(childTerm)) { %>
+                    <input type="checkbox" name="targetTissue" value="<%=targetTissues2.get(childTerm)%>" checked>Target Check
+                    <% } else { %>
+                    <input type="checkbox" name="targetTissue" value="<%=nonTargetTissues2.get(childTerm)%>">Target Check
+                    <% }
+                    }
+                        ///toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm
+                    %>
+                </td>
+                <% } %>
                     <%}} %>
                 </tr>
 
@@ -693,6 +706,24 @@
 
 
 <script>
+    function checkTissues(organClass, _this){
+        var elms = document.getElementsByName(organClass);
+
+        if(_this.checked){
+            elms.forEach(function(ele) {
+                ele.checked=true;
+
+            });
+         }else {
+            elms.forEach(function(ele) {
+                ele.checked=false;
+
+            });
+
+
+         }
+
+    }
     function resizeImages() {
         var count=1;
         while(true) {
@@ -799,6 +830,20 @@
             $('#experimentRecordIds').val(experimentRecordIds)
         }
        // alert("experimentREcordIds: "+ experimentRecordIds)
+   }
+   function viewSelectedTissues() {
+       var selectedTissues=[];
+       $.each($('input[class="selectedTissue"]'), function() {
+           var _this = $(this);
+           var val = _this.val();
+           if(_this.is(":checked"))
+               selectedTissues.push(val);
+
+       });
+       if(selectedTissues.length>0){
+           $('#selectedTissues').val(selectedTissues)
+       }
+       // alert("selectedTissues: "+ selectedTissues)
    }
 
 </script>

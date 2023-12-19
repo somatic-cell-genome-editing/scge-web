@@ -82,6 +82,12 @@
 
                 LinkedHashSet<String> conditions = (LinkedHashSet<String>) request.getAttribute("conditions");
                 String selectedTissue = (String)request.getAttribute("tissue");
+                String selectedTissues =(String) request.getAttribute("selectedTissues");
+                List<String> selectedTissuesList=new ArrayList<>();
+                if(selectedTissues!=null) {
+                    String[] selectedTissueArray = selectedTissues.split(",");
+                    selectedTissuesList.addAll(Arrays.asList(selectedTissueArray));
+                }
                 String selectedCellType = (String)request.getAttribute("cellType");
                 String selectedResultType = (String)request.getAttribute("resultType");
 
@@ -100,8 +106,8 @@
                     }
                 }
             %>
-
-            <% if (tissueList != null && tissueList.size() > 0 && selectedTissue == null && (selectedResultType == null || !selectedResultType.equals("all"))) { %>
+            <% if (tissueList != null && tissueList.size() > 0 && selectedTissue == null && (selectedResultType == null || !selectedResultType.equals("all"))
+           && selectedTissuesList.size()==0) { %>
 
                 <%@include file="tissueMap.jsp"%>
 

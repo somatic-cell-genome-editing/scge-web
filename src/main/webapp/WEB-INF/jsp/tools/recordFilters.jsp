@@ -162,7 +162,7 @@
                                           //  fontWeight="bold";
                                             displayTissue+=" <span style='color:#DA70D6'>(TARGET)</span>";
                                         }
-                                        if(selectedTissue == null || tissue.equalsIgnoreCase(selectedTissue)) {
+                                        if((selectedTissue == null && selectedTissuesList.size()==0) || tissue.equalsIgnoreCase(selectedTissue) || selectedTissuesList.contains(tissue)) {
 
                                     %>
                                     <tr>

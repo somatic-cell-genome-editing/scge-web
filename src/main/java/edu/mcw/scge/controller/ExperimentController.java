@@ -1029,6 +1029,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("vectorMap",vectorMap);
         req.setAttribute("resultType",resultType);
         req.setAttribute("tissue",tissue);
+        if(req.getParameter("selectedTissues")!=null)
+          req.setAttribute("selectedTissues",req.getParameter("selectedTissues"));
         req.setAttribute("cellType",cellType);
         req.setAttribute("deliveryAssay",deliveryMap);
         req.setAttribute("editingAssay",editingMap);
