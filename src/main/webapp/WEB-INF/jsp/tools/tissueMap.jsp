@@ -636,7 +636,7 @@
             <%if (access.isAdmin(p) && !SCGEContext.isProduction()) {%>
             <form id="updateTargetTissueForm" action="/toolkit/data/experiments/update/experiment/<%=ex.getExperimentId()%>">
                 <input type="hidden" name="experimentRecordIds" id= "experimentRecordIds" value=""/>
-                <button class="btn btn-primary btn-sm" onclick="updateTargetTissue()">Update Target Tissue</button>
+                <button class="btn btn-warning btn-sm" onclick="updateTargetTissue()">Update Target Tissue</button>
             </form>
             <% } %>
         </div>
