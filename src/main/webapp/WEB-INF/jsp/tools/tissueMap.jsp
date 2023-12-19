@@ -627,27 +627,30 @@
             </table>
         </td>
     </tr>
-    <tr><td>&nbsp;</td></tr>
     <tr><td><hr></td></tr>
     <tr><td>&nbsp;
-        <%if (access.isAdmin(p) && !SCGEContext.isProduction()) {%>
-        <div align="right">
+        <div class="float-right">
+        <div class="row" >
+
+        <div class="col-lg-3">
+            <%if (access.isAdmin(p) && !SCGEContext.isProduction()) {%>
             <form id="updateTargetTissueForm" action="/toolkit/data/experiments/update/experiment/<%=ex.getExperimentId()%>">
                 <input type="hidden" name="experimentRecordIds" id= "experimentRecordIds" value=""/>
                 <button class="btn btn-primary btn-sm" onclick="updateTargetTissue()">Update Target Tissue</button>
             </form>
+            <% } %>
         </div>
-        <% } %>
 
+        <div class="col-lg-3" >
+            <form id="viewSelectedTissues" action="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>">
+                <input type="hidden" name="selectedTissues" id= "selectedTissues" value=""/>
+                <button class="btn btn-primary btn-sm" onclick="viewSelectedTissues()">View Selected Tissues</button>
+            </form>
+        </div>
+        </div>
+        </div>
     </td>
-        <td>
-            <div align="right">
-                <form id="viewSelectedTissues" action="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>">
-                    <input type="hidden" name="selectedTissues" id= "selectedTissues" value=""/>
-                    <button class="btn btn-primary btn-sm" onclick="viewSelectedTissues()">View Selected Tissues</button>
-                </form>
-            </div>
-        </td>
+
     </tr>
     <tr>
         <td>
