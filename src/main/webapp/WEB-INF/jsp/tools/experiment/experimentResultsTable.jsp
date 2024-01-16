@@ -61,7 +61,7 @@
     <tr class="tablesorter-ignoreRow" role="row">
         <th data-sorter="false" colspan="<%=tableColumns.size()%>" data-column="0" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=tableColumns.size()%>" style="background-color: white"></th>
         <%if(resultTypeColumnCount.get("editing efficiency")!=null && resultTypeColumnCount.get("editing efficiency")>0){%>
-        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("editing efficiency")%>" data-column="<%=tableColumns.size()%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("editing efficiency")%>" style="background-color: rgb(214, 094, 000);text-align: center">Editing Efficiency</th>
+        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("editing efficiency")%>" data-column="<%=tableColumns.size()%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("editing efficiency")%>" style="background-color: rgb(213, 094, 000);text-align: center">Editing Efficiency</th>
        <%}%>
         <%if(resultTypeColumnCount.get("delivery efficiency")!=null && resultTypeColumnCount.get("delivery efficiency")>0){
             int dataColumn=tableColumns.size();
