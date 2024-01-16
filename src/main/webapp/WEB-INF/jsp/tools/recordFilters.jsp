@@ -148,42 +148,42 @@
                             Tissues</div></td>
                     </tr>
                     <tr>
-                        <td>
-                            <div class="recordFilterBlock">
-                                <table>
-                                    <% for (String tissue: tissues) {
-                                        String title="";
-                                        String color="";
-                                        String fontWeight="";
-                                        String displayTissue=tissue;
-                                        if(tissuesTarget.contains(tissue)){
-                                            title="Target Tissue";
-                                          //  color="#DA70D6";
-                                          //  fontWeight="bold";
-                                            displayTissue+=" <span style='color:#DA70D6'>(TARGET)</span>";
-                                        }
-                                        if((selectedTissue == null && selectedTissuesList.size()==0) || tissue.equalsIgnoreCase(selectedTissue) || selectedTissuesList.contains(tissue)) {
+                        <td><%@include file="tissueFilters.jsp"%>
+<%--                            <div class="recordFilterBlock">--%>
+<%--                                <table>--%>
+<%--                                    <% for (String tissue: tissues) {--%>
+<%--                                        String title="";--%>
+<%--                                        String color="";--%>
+<%--                                        String fontWeight="";--%>
+<%--                                        String displayTissue=tissue;--%>
+<%--                                        if(tissuesTarget.contains(tissue)){--%>
+<%--                                            title="Target Tissue";--%>
+<%--                                          //  color="#DA70D6";--%>
+<%--                                          //  fontWeight="bold";--%>
+<%--                                            displayTissue+=" <span style='color:#DA70D6'>(TARGET)</span>";--%>
+<%--                                        }--%>
+<%--                                        if((selectedTissue == null && selectedTissuesList.size()==0) || tissue.equalsIgnoreCase(selectedTissue) || selectedTissuesList.contains(tissue)) {--%>
 
-                                    %>
-                                    <tr>
-                                        <td  title="<%=title%>" style="color:<%=color%>;font-weight: <%=fontWeight%>">
-                                            <% if (tissueList.size() > 1) { %>
-                                            <input onclick="applyFilters(this)" name="tissue"  id="<%=tissue%>" type="checkbox" checked>
-                                            <%}%>
-                                            &nbsp;<%=displayTissue%>
-                                        </td>
-                                    </tr>
-                                    <%} else { %>
-                                    <tr>
-                                        <td  title="<%=title%>" style="color:<%=color%>;font-weight: <%=fontWeight%>">
-                                            <% if (tissueList.size() > 1) { %>
-                                            <input onclick="applyFilters(this)" name="tissue" id="<%=tissue%>" type="checkbox" unchecked>&nbsp;
-                                            <%}%><%=displayTissue%>
-                                        </td>
-                                    </tr>
-                                    <% }} %>
-                                </table>
-                            </div>
+<%--                                    %>--%>
+<%--                                    <tr>--%>
+<%--                                        <td  title="<%=title%>" style="color:<%=color%>;font-weight: <%=fontWeight%>">--%>
+<%--                                            <% if (tissueList.size() > 1) { %>--%>
+<%--                                            <input onclick="applyFilters(this)" name="tissue"  id="<%=tissue%>" type="checkbox" checked>--%>
+<%--                                            <%}%>--%>
+<%--                                            &nbsp;<%=displayTissue%>--%>
+<%--                                        </td>--%>
+<%--                                    </tr>--%>
+<%--                                    <%} else { %>--%>
+<%--                                    <tr>--%>
+<%--                                        <td  title="<%=title%>" style="color:<%=color%>;font-weight: <%=fontWeight%>">--%>
+<%--                                            <% if (tissueList.size() > 1) { %>--%>
+<%--                                            <input onclick="applyFilters(this)" name="tissue" id="<%=tissue%>" type="checkbox" unchecked>&nbsp;--%>
+<%--                                            <%}%><%=displayTissue%>--%>
+<%--                                        </td>--%>
+<%--                                    </tr>--%>
+<%--                                    <% }} %>--%>
+<%--                                </table>--%>
+<%--                            </div>--%>
                         </td>
                     </tr>
                 </table>
