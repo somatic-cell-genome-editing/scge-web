@@ -106,7 +106,7 @@
     width: 40px;
     height: 40px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-    background:  linear-gradient(to right, #F7F7F7 , rgb(214, 094, 000) );
+    background:  linear-gradient(to right,rgb(214, 094, 000) , rgb(214, 094, 000) );
 
 
     background-position: center top, center bottom;
@@ -126,7 +126,7 @@
     width: 40px;
     height: 40px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-    background: linear-gradient(to right, #F7F7F7 , rgb(240, 228,066));
+    background: linear-gradient(to right,rgb(240, 228,066) , rgb(240, 228,066));
 
 
     background-position: center top, center bottom;
@@ -218,7 +218,7 @@
     width: 20px;
     height: 20px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-    background:  linear-gradient(to right, #F7F7F7 , rgb(214, 094, 000) );
+    background:  linear-gradient(to right, rgb(214, 094, 000) , rgb(214, 094, 000) );
     background-position: center top, center bottom;
     background-repeat: no-repeat;
 }
@@ -227,7 +227,7 @@
     width: 20px;
     height: 20px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-    background: linear-gradient(to right, #F7F7F7 , rgb(240, 228,066));
+    background: linear-gradient(to right, rgb(240, 228,066) , rgb(240, 228,066));
 
     background-position: center top, center bottom;
     background-repeat: no-repeat;

@@ -61,14 +61,14 @@
     <tr class="tablesorter-ignoreRow" role="row">
         <th data-sorter="false" colspan="<%=tableColumns.size()%>" data-column="0" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=tableColumns.size()%>" style="background-color: white"></th>
         <%if(resultTypeColumnCount.get("editing efficiency")!=null && resultTypeColumnCount.get("editing efficiency")>0){%>
-        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("editing efficiency")%>" data-column="<%=tableColumns.size()%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("editing efficiency")%>" style="background-color: orange;text-align: center">Editing Efficiency</th>
+        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("editing efficiency")%>" data-column="<%=tableColumns.size()%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("editing efficiency")%>" style="background-color: rgb(214, 094, 000);text-align: center">Editing Efficiency</th>
        <%}%>
         <%if(resultTypeColumnCount.get("delivery efficiency")!=null && resultTypeColumnCount.get("delivery efficiency")>0){
             int dataColumn=tableColumns.size();
             if(resultTypeColumnCount.get("editing efficiency")!=null)
                 dataColumn=dataColumn+resultTypeColumnCount.get("editing efficiency");
         %>
-        <th  data-sorter="false" colspan="<%=resultTypeColumnCount.get("delivery efficiency")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("delivery efficiency")%>" style="background-color: blue;color:white;text-align: center" >Delivery Efficiency</th>
+        <th  data-sorter="false" colspan="<%=resultTypeColumnCount.get("delivery efficiency")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("delivery efficiency")%>" style="background-color: rgb(000,114,178);color:white;text-align: center" >Delivery Efficiency</th>
         <%}%>
         <%if(resultTypeColumnCount.get("other")!=null && resultTypeColumnCount.get("other")>0){
             int dataColumn=tableColumns.size();
