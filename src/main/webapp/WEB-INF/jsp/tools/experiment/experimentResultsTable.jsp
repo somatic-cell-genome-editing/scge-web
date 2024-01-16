@@ -77,7 +77,7 @@
             if(resultTypeColumnCount.get("delivery efficieny")!=null)
             dataColumn=dataColumn+resultTypeColumnCount.get("delivery efficiency");
         %>
-        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("other")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("other")%>" style="background-color: lightgrey;text-align: center">Other Measurement</th>
+        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("other")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("other")%>" style="background-color: rgb(240, 228,066);text-align: center">Other Measurement</th>
         <%}%>
 
     </tr>

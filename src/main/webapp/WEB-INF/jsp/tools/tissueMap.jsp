@@ -5,261 +5,8 @@
 <%@ page import="io.netty.util.internal.StringUtil" %>
 <%@ page import="edu.mcw.scge.web.TissueMapper" %>
 <%@ page import="sun.awt.image.ImageWatched" %>
-<style>
-    .tissue-control {
-        position: relative;
-    }
-    .tissue-control-header-first {
-        transform: rotate(-45deg);
-        float: left;
-        width:200px;
-        margin-left:7px;
-        margin-bottom:15px;
-        order:1px solid black;
-        text-align: left;
-        font-size:18px;
-    }
-    .tissue-control-header {
-        transform: rotate(-45deg);
-        float: left;
-        width:198px;
-        margin-left:-155px;
-        margin-bottom:15px;
-        order:1px solid black;
-        text-align: left;
-        font-size:18px;
-    }
-    .tissue-control-cell {
-        border: 1px solid black;
-        loat:left;
-        background-color:#F7F7F7;
-        width:40px;
-        height:40px;
-        position:relative;
-    }
-    /*.triangle-topleft {*/
-    /*    !*position:absolute;*!*/
-    /*    !*top:0px;*!*/
-    /*    !*left:0px;*!*/
-    /*    !*width: 0;*!*/
-    /*    !*height: 0;*!*/
-    /*    !*border-top: 40px solid blue;*!*/
-    /*    !*border-right: 40px solid transparent;*!*/
-    /*    !*cursor:pointer;*!*/
-    /*    position:absolute;*/
-    /*    top:0px;*/
-    /*    left:0px;*/
-    /*    width: 40px;*/
-    /*    height: 40px ;*/
-    /*    background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right,blue 0%, blue 50%, #FFF 50%, #FFF 100%);*/
-    /*    background-size: 100% 50%;*/
-    /*    background-position: center top, center bottom;*/
-    /*    background-repeat: no-repeat;*/
+<link rel="stylesheet" href="/toolkit/css/tissuemap.css">
 
-    /*}*/
-    /*.triangle-bottomright {*/
-    /*    !*position:absolute;*!*/
-    /*    !*top:0px;*!*/
-    /*    !*left:0px;*!*/
-    /*    !*width: 0;*!*/
-    /*    !*height: 0;*!*/
-    /*    !*border-bottom: 40px solid orange;*!*/
-    /*    !*border-left: 40px solid transparent;*!*/
-    /*    position:absolute;*/
-    /*    top:0px;*/
-    /*    left:0px;*/
-    /*    width: 40px;*/
-    /*    height: 40px ;*/
-    /*    !*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*!*/
-    /*    background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-
-    /*    background-size: 100% 50%;*/
-    /*    background-position: center top, center bottom;*/
-    /*    background-repeat: no-repeat;*/
-    /*}*/
-    /*.triangle-biomarker {*/
-    /*    position:absolute;*/
-    /*    top:0px;*/
-    /*    left:0px;*/
-    /*    width: 40px;*/
-    /*    height: 40px ;*/
-    /*    background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-    /*    background-size: 100% 50%;*/
-    /*    background-position: center top, center bottom;*/
-    /*    background-repeat: no-repeat;*/
-    /*}*/
-    .triangle-d { /*d for delivery*/
-        /*position:absolute;*/
-        /*top:0px;*/
-        /*left:0px;*/
-        /*width: 0;*/
-        /*height: 0;*/
-        /*border-top: 40px solid blue;*/
-        /*border-right: 40px solid transparent;*/
-        /*cursor:pointer;*/
-        position:absolute;
-        top:0px;
-        left:0px;
-        width: 40px;
-        height: 40px ;
-        background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right,blue 0%, blue 50%, #FFF 50%, #FFF 100%);
-        background-size: 100% 50%;
-        background-position: center top, center bottom;
-        background-repeat: no-repeat;
-
-    }
-    .triangle-e { /* e for editing*/
-        /*position:absolute;*/
-        /*top:0px;*/
-        /*left:0px;*/
-        /*width: 0;*/
-        /*height: 0;*/
-        /*border-bottom: 40px solid orange;*/
-        /*border-left: 40px solid transparent;*/
-        position:absolute;
-        top:0px;
-        left:0px;
-        width: 40px;
-        height: 40px ;
-        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-        background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right, #FFF 0%, #FFF 50%, darkorange 50%, darkorange 100%);
-
-        background-size: 100% 50%;
-        background-position: center top, center bottom;
-        background-repeat: no-repeat;
-    }
-    .triangle-b { /*b for biomarker*/
-        /*position:absolute;*/
-        /*top:0px;*/
-        /*left:0px;*/
-        /*width: 0;*/
-        /*height: 0;*/
-        /*border-bottom: 40px solid orange;*/
-        /*border-left: 40px solid transparent;*/
-        position:absolute;
-        top:0px;
-        left:0px;
-        width: 40px;
-        height: 40px ;
-        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-        background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%);
-
-        background-size: 100% 50%;
-        background-position: center top, center bottom;
-        background-repeat: no-repeat;
-    }
-    .triangle-ed { /* ed for editing and delivery*/
-        /*position:absolute;*/
-        /*top:0px;*/
-        /*left:0px;*/
-        /*width: 0;*/
-        /*height: 0;*/
-        /*border-bottom: 40px solid orange;*/
-        /*border-left: 40px solid transparent;*/
-        position:absolute;
-        top:0px;
-        left:0px;
-        width: 40px;
-        height: 40px ;
-        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-        background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);
-
-        background-size: 100% 50%;
-        background-position: center top, center bottom;
-        background-repeat: no-repeat;
-    }
-    .triangle-eb { /* ed for editing and delivery*/
-        /*position:absolute;*/
-        /*top:0px;*/
-        /*left:0px;*/
-        /*width: 0;*/
-        /*height: 0;*/
-        /*border-bottom: 40px solid orange;*/
-        /*border-left: 40px solid transparent;*/
-        position:absolute;
-        top:0px;
-        left:0px;
-        width: 40px;
-        height: 40px ;
-        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-        background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, #FFF 0%, #FFF 50%, darkorange 50%, darkorange 100%);
-
-        background-size: 100% 50%;
-        background-position: center top, center bottom;
-        background-repeat: no-repeat;
-    }
-    .triangle-db { /* ed for editing and delivery*/
-        /*position:absolute;*/
-        /*top:0px;*/
-        /*left:0px;*/
-        /*width: 0;*/
-        /*height: 0;*/
-        /*border-bottom: 40px solid orange;*/
-        /*border-left: 40px solid transparent;*/
-        position:absolute;
-        top:0px;
-        left:0px;
-        width: 40px;
-        height: 40px ;
-        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-        background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, blue 0%, blue 50%, #FFF 50%, #FFF 100%);
-
-        background-size: 100% 50%;
-        background-position: center top, center bottom;
-        background-repeat: no-repeat;
-    }
-    .triangle-edb {
-        position:absolute;
-        top:0px;
-        left:0px;
-        width: 40px;
-        height: 40px ;
-        background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);
-        background-size: 100% 50%;
-        background-position: center top, center bottom;
-        background-repeat: no-repeat;
-    }
-    .legend-delivery { /*d for delivery*/
-
-        width: 20px;
-        height: 20px ;
-        background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right,blue 0%, blue 50%, #FFF 50%, #FFF 100%);
-        background-size: 100% 50%;
-        background-position: center top, center bottom;
-        background-repeat: no-repeat;
-
-    }
-    .legend-editing { /* e for editing*/
-
-        width: 20px;
-        height: 20px ;
-        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-        background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right, #FFF 0%, #FFF 50%, darkorange 50%, darkorange 100%);
-
-        background-size: 100% 50%;
-        background-position: center top, center bottom;
-        background-repeat: no-repeat;
-    }
-    .legend-biomarker { /*b for biomarker*/
-
-        width: 20px;
-        height: 20px ;
-        /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-        background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%);
-
-        background-size: 100% 50%;
-        background-position: center top, center bottom;
-        background-repeat: no-repeat;
-    }
-</style>
-<script>
-    $(function() {
-        $("#grid").tablesorter({
-            theme: 'blue',
-            widgets: ['zebra', 'resizable', 'stickyHeaders'],
-        });
-    });
-</script>
 <%
     TissueMapper tm = new TissueMapper();
 
@@ -326,7 +73,7 @@
         String labelTrimmed = new String();
 
         try {
-            if (er.getCellTypeTerm() != null && er.getTissueTerm() != null)
+            if (er.getCellTypeTerm() != null && !er.getCellTypeTerm().equals("") && er.getTissueTerm() != null)
                 labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").replace(er.getCellTypeTerm(), "").trim();
             else if (er.getTissueTerm() != null)
                 labelTrimmed = er.getCondition().replace(er.getTissueTerm(), "").trim();
@@ -380,7 +127,7 @@
         try {
         if (tissueTerm != null) {
 
-                if (cellType != null) {
+                if (cellType != null && !cellType.equals("")) {
                     if (hasDelivery) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Delivery&tissue=" + tissueTerm + "&cellType=" + cellType;
                         tm.addDelivery(organSystem, tissueTerm + " (" + cellType + ")", url);
@@ -629,10 +376,10 @@
     </tr>
     <tr><td><hr></td></tr>
     <tr><td>&nbsp;
-        <div class="float-right">
-        <div class="row" >
+        <div >
+        <div class="row" style="margin-left:50%">
 
-        <div class="col-lg-3">
+        <div class="col">
             <%if (access.isAdmin(p) && !SCGEContext.isProduction()) {%>
             <form id="updateTargetTissueForm" action="/toolkit/data/experiments/update/experiment/<%=ex.getExperimentId()%>">
                 <input type="hidden" name="experimentRecordIds" id= "experimentRecordIds" value=""/>
@@ -641,7 +388,7 @@
             <% } %>
         </div>
 
-        <div class="col-lg-3" >
+        <div class="col" >
             <form id="viewSelectedTissues" action="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>">
                 <input type="hidden" name="selectedTissues" id= "selectedTissues" value=""/>
                 <button class="btn btn-primary btn-sm" onclick="viewSelectedTissues()">View Selected Tissues</button>
@@ -677,9 +424,17 @@
 
 
                     <td width="100">&nbsp;</td><td style="padding-right:5px; border-bottom:1px solid black;border-color:#770C0E; font-size:14px;">
+                    <%
+                        String tissueTermExtracted=null;
+                        if(upCaseChildTerm.indexOf("(")>0){
+                            tissueTermExtracted=upCaseChildTerm.substring(0,upCaseChildTerm.indexOf("(")).trim().toLowerCase();
+                        }else{
+                            tissueTermExtracted=upCaseChildTerm.trim().toLowerCase();
+                        }
+                    %>
 
-                    <input type="checkbox" name="<%=organ%>" class="selectedTissue" value="<%=upCaseChildTerm.substring(0,upCaseChildTerm.indexOf("(")).trim().toLowerCase()%>">
-                    <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?tissue=<%=upCaseChildTerm.substring(0,upCaseChildTerm.indexOf("(")).trim().toLowerCase()%>"><%=upCaseChildTerm%></a>
+                    <input type="checkbox" name="<%=organ%>" class="selectedTissue" value="<%=tissueTermExtracted%>">
+                    <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?tissue=<%=tissueTermExtracted%>"><%=upCaseChildTerm%></a>
                     <% if (targetTissues2.containsKey(childTerm)) { %>
                     &nbsp;<span style="color:#DA70D6">(TARGET)</span>
                     <%} %>
@@ -691,10 +446,7 @@
                     <input type="checkbox" name="targetTissue" value="<%=targetTissues2.get(childTerm)%>" checked>Target Check
                     <% } else { %>
                     <input type="checkbox" name="targetTissue" value="<%=nonTargetTissues2.get(childTerm)%>">Target Check
-                    <% }
-                    }
-                        ///toolkit/data/experiments/experiment/"+ex.getExperimentId()+"?resultType=Editing&tissue=" + tissueTerm
-                    %>
+                    <% }}%>
                 </td>
                 <% } %>
                     <%}} %>
@@ -704,8 +456,6 @@
         </td>
     </tr>
 </table>
-
-
 
 
 <script>
