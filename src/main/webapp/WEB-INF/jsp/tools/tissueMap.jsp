@@ -185,9 +185,9 @@
 //    e.printStackTrace();
 //}
     %>
-
+<div class="row">
+    <div class="col-lg-8">
 <div style="text-align: center"><h4>Organ&nbsp;System&nbsp;Overview</h4></div>
-<div style="margin-left:70%"> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></div>
 
 
 <table align="center">
@@ -363,52 +363,51 @@
                 </tr>
             </table>
         </td>
-    <td>&nbsp;
-        <div >
-        <div class="row" style="margin-left:50%">
+    </tr>
+</table>
+    </div>
+    <div class="col-lg-4" style="background-color: #f1f1f1;padding-top: 10px">
 
-        <div class="col">
+        <div>
+        <div class="row">
+            <div class="col-5">
             <%if (access.isAdmin(p) && !SCGEContext.isProduction()) {%>
             <form id="updateTargetTissueForm" action="/toolkit/data/experiments/update/experiment/<%=ex.getExperimentId()%>">
                 <input type="hidden" name="experimentRecordIds" id= "experimentRecordIds" value=""/>
                 <button class="btn btn-warning btn-sm" onclick="updateTargetTissue()">Update Target Tissue</button>
             </form>
             <% } %>
-        </div>
-
-        <div class="col" >
+            </div>
+            <div class="col-7" style="border:1px solid grey;padding-top: 5px;padding-bottom: 5px">
+                <div class="row">View Tissues:
+            <div class="col-2">
+                <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">All</button></a>
+            </div>
+            <div class="col" >
             <form id="viewSelectedTissues" action="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>">
                 <input type="hidden" name="selectedTissues" id= "selectedTissues" value=""/>
-                <button class="btn btn-primary btn-sm" onclick="viewSelectedTissues()">View Selected Tissues</button>
+                <button class="btn btn-primary btn-sm" onclick="viewSelectedTissues()">Selected</button>
             </form>
+            </div>
+                </div>
+            </div>
         </div>
         </div>
-        </div>
+    <div>
 
-            <table align="center" >
-                <tr>
-                    <td colspan="2" style="font-size:16px; font-weight:700;">Analyze Data Sets Available for this Experiment</td><!--td style="font-size:16px; font-weight:700;" align="center">Delivery</td><td style="font-size:16px; font-weight:700;" align="center">Editing</td-->
-                    <!--td> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></td-->
-
-                </tr>
+        <h4>Analyze Data Sets Available for this Experiment</h4>
                 <% for (String organ: tm.getChildTerms().keySet()) {
                     if (!tm.getChildTerms().get(organ).isEmpty()) {
                 %>
 
-                <tr>
-                    <td  style=";padding-top:10px;" id="<%=organ%>"><input id="<%=organ%>" type="checkbox" onchange="checkTissues('<%=organ%>', this)">&nbsp;<%=organ%></td>
-                    <td></td><td></td>
-                </tr>
-                <tr>
+
+                    <span  style=";padding-top:10px;" id="<%=organ%>"><input id="<%=organ%>" type="checkbox" onchange="checkTissues('<%=organ%>', this)">&nbsp;<%=organ%></span>
+
                         <% for (String childTerm: tm.getChildTerms().get(organ).keySet()) {
                     String upCaseChildTerm = childTerm.substring(0,1).toUpperCase() + childTerm.substring(1,childTerm.length());
             %>
 
-                <tr>
-
-
-                    <td width="100">&nbsp;</td><td style="padding-right:5px; border-bottom:1px solid black;border-color:#770C0E; font-size:14px;">
-                    <%
+                 <%
                         String tissueTermExtracted=null;
                         if(upCaseChildTerm.indexOf("(")>0){
                             tissueTermExtracted=upCaseChildTerm.substring(0,upCaseChildTerm.indexOf("(")).trim().toLowerCase();
@@ -416,32 +415,37 @@
                             tissueTermExtracted=upCaseChildTerm.trim().toLowerCase();
                         }
                     %>
-
-                    <input type="checkbox" name="<%=organ%>" class="selectedTissue" value="<%=tissueTermExtracted%>">
+                <li style="list-style-type: none;margin-left:5%">
+                    <table style="width: 100%">
+                        <tr>
+                    <td style="width: 70%;"><input type="checkbox" name="<%=organ%>" class="selectedTissue" value="<%=tissueTermExtracted%>">
                     <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?tissue=<%=tissueTermExtracted%>"><%=upCaseChildTerm%></a>
                     <% if (targetTissues2.containsKey(childTerm)) { %>
                     &nbsp;<span style="color:#DA70D6">(TARGET)</span>
                     <%} %>
+                    </td>
 
-                </td>
-                <td>
+                            <td>
                     <% if (access.isAdmin(p) && !SCGEContext.isProduction()) {
                         if (targetTissues2.containsKey(childTerm)) { %>
                     <input type="checkbox" name="targetTissue" value="<%=targetTissues2.get(childTerm)%>" checked>Target Check
                     <% } else { %>
                     <input type="checkbox" name="targetTissue" value="<%=nonTargetTissues2.get(childTerm)%>">Target Check
                     <% }}%>
-                </td>
+
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+
                 <% } %>
                     <%}} %>
-                </tr>
-
-            </table>
-        </td>
-    </tr>
-</table>
 
 
+
+    </div>
+</div>
+</div>
 <script>
     function checkTissues(organClass, _this){
         var elms = document.getElementsByName(organClass);
