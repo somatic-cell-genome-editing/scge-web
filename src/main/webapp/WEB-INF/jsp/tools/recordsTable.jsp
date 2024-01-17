@@ -219,18 +219,21 @@
                 var value = cells.item(selected).innerText.trim();
                 if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
                     filterValues.push(value);
-                    legendValues.push(value);
-                    if(value.length>15){
-                        legendValuesTruncated.push(value.substring(0,5)+".."+value.substring(value.length-10));
-                    }else {
-                        legendValuesTruncated.push(value);
-                    }
                 }
                 colorByRecords[value] = colorByRecords[value] || [];
                 colorByRecords[value].push(recordId);
             }
         }
         filterValues.sort();
+        for(var label in filterValues){
+            var val=filterValues[label]
+            legendValues.push(val)
+            if(val.length>15){
+                legendValuesTruncated.push(val.substring(0,5)+".."+val.substring(val.length-10));
+            }else {
+                legendValuesTruncated.push(val);
+            }
+        }
         //record ids ordered after sorting the column
         for(var i=2;i<rowLength;i++){
             if (table.rows.item(i).style.display != 'none') {

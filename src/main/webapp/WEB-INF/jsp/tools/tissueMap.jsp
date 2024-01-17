@@ -27,7 +27,7 @@
     rootTissues.put("Integumentary","UBERON:0002416");
     rootTissues.put("Nervous","UBERON:0001016");
     rootTissues.put("Sensory","UBERON:0001032");
-    rootTissues.put("Hematopoietic","UBERON:0002390");
+   // rootTissues.put("Hematopoietic","UBERON:0002390");
 %>
 
     <% Gson gson=new Gson();
