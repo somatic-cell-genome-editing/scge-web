@@ -188,7 +188,7 @@
 <div class="row">
     <div class="col-lg-8">
 <div style="text-align: center"><h4>Organ&nbsp;System&nbsp;Overview</h4></div>
-
+<div style="margin-top: 10%">
 
 <table align="center">
     <tr>
@@ -333,7 +333,7 @@
                     </td>
                 </tr>
             </table>
-            <table style="border:1px solid black;margin-top: 2%"  align="center">
+            <table style="border:1px solid black;margin-top: 10%"  align="center">
                 <tr>
                     <td style="padding:10px;">
                         <table>
@@ -365,6 +365,7 @@
         </td>
     </tr>
 </table>
+</div>
     </div>
     <div class="col-lg-4" style="background-color: #f7f8fa;padding-top: 10px">
 
