@@ -242,7 +242,7 @@
                                 <% for (String tissueKey: rootTissues.keySet()) {
                                     String tissue=rootTissues.get(tissueKey);
                                     if(targetTissues.contains(tissue)){%>
-                                <td width="40" style="border:5px solid orchid">
+                                <td width="40" style="border:1px solid black;">
                                     <div class="tissue-control-cell">
                                         <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)
                                         && !tissueBiomarkerMap.containsKey(tissue + "-" + condition)
@@ -283,8 +283,8 @@
                                     </div>
                                 </td>
                                 <%}else{%>
-                                <td width="40" style="border:1px solid gainsboro">
-                                    <div class="tissue-control-cell">
+                                <td width="40" style="border:1px solid black;">
+                                    <div class="tissue-control-cell" style="padding: 2px">
                                         <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)
                                                 && !tissueBiomarkerMap.containsKey(tissue + "-" + condition)
                                                 && !tissueEditingMap.containsKey(tissue + "-" + condition)) { %>

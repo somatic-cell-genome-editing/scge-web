@@ -86,8 +86,12 @@
     left:0px;
     width: 40px;
     height: 40px ;
-    background:  linear-gradient(to right,rgb(000,114,178)  , rgb(000,114,178) );
+   /* background:  linear-gradient(to right,rgb(000,114,178)  , rgb(000,114,178) );
     /*background-size: 100% 50%;*/
+    border-top: 20px solid rgb(000,114,178);;
+    border-bottom: 20px solid rgb(213, 094, 000);
+    border-left: 20px solid #F7F7F7;
+    border-right: 20px solid rgb(240, 228,066);
     background-position: center top, center bottom;
     background-repeat: no-repeat;
 
@@ -106,8 +110,12 @@
     width: 40px;
     height: 40px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-    background:  linear-gradient(to right,rgb(213, 094, 000) , rgb(213, 094, 000) );
-
+   /* background:  linear-gradient(to right,rgb(213, 094, 000) , rgb(213, 094, 000) );
+*/
+    border-top: 20px solid rgb(000,114,178);;
+    border-bottom: 20px solid rgb(213, 094, 000);
+    border-left: 20px solid #F7F7F7;
+    border-right: 20px solid rgb(240, 228,066);
 
     background-position: center top, center bottom;
     background-repeat: no-repeat;
@@ -126,8 +134,12 @@
     width: 40px;
     height: 40px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-    background: linear-gradient(to right,rgb(240, 228,066) , rgb(240, 228,066));
-
+    /*background: linear-gradient(to right,rgb(240, 228,066) , rgb(240, 228,066));
+*/
+    border-top: 20px solid #F7F7F7;
+    border-bottom: 20px solid #F7F7F7;
+    border-left: 20px solid #F7F7F7;
+    border-right: 20px solid rgb(240, 228,066);
 
     background-position: center top, center bottom;
     background-repeat: no-repeat;
@@ -146,8 +158,12 @@
     width: 40px;
     height: 40px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-    background: linear-gradient(to right, rgb(000,114,178) , rgb(213, 094, 000) );
-
+   /* background: linear-gradient(to right, rgb(000,114,178) , rgb(213, 094, 000) );
+*/
+    border-top: 20px solid rgb(000,114,178);;
+    border-bottom: 20px solid rgb(213, 094, 000);
+    border-left: 20px solid #F7F7F7;
+    border-right: 20px solid #F7F7F7;
 
     background-position: center top, center bottom;
     background-repeat: no-repeat;
@@ -166,8 +182,12 @@
     width: 40px;
     height: 40px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-    background: linear-gradient(to right,  rgb(240, 228,066) , rgb(213, 094, 000) );
-
+  /*  background: linear-gradient(to right,  rgb(240, 228,066) , rgb(213, 094, 000) );
+*/
+    border-top: 20px solid #F7F7F7;
+    border-bottom: 20px solid rgb(213, 094, 000);
+    border-left: 20px solid #F7F7F7;
+    border-right: 20px solid rgb(240, 228,066);
 
     background-position: center top, center bottom;
     background-repeat: no-repeat;
@@ -186,8 +206,12 @@
     width: 40px;
     height: 40px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-    background: linear-gradient(to right, rgb(240, 228,066), rgb(000,114,178));
-
+  /*  background: linear-gradient(to right, rgb(240, 228,066), rgb(000,114,178));
+*/
+    border-top: 20px solid rgb(000,114,178);;
+    border-bottom: 20px solid #F7F7F7;
+    border-left: 20px solid #F7F7F7;
+    border-right: 20px solid rgb(240, 228,066);
 
     background-position: center top, center bottom;
     background-repeat: no-repeat;
@@ -196,10 +220,14 @@
     position:absolute;
     top:0px;
     left:0px;
-    width: 40px;
-    height: 40px ;
-    background:  linear-gradient(to right, rgb(000,114,178) , rgb(213, 094, 000),rgb(240, 228,066));
-
+   /* background:  linear-gradient(to right, rgb(000,114,178) , rgb(213, 094, 000),rgb(240, 228,066));
+*/
+    width: 0px;
+    height: 0px;
+    border-top: 20px solid rgb(000,114,178);;
+    border-bottom: 20px solid rgb(213, 094, 000);
+    border-left: 20px solid #F7F7F7;
+    border-right: 20px solid rgb(240, 228,066);
     background-position: center top, center bottom;
     background-repeat: no-repeat;
 }
