@@ -240,7 +240,7 @@
                                 <% for (String tissueKey: rootTissues.keySet()) {
                                     String tissue=rootTissues.get(tissueKey);
                                     if(targetTissues.contains(tissue)){%>
-                                <td width="40" style="border:5px solid deepskyblue">
+                                <td width="40" style="border:5px solid orchid">
                                     <div class="tissue-control-cell">
                                         <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)
                                         && !tissueBiomarkerMap.containsKey(tissue + "-" + condition)
