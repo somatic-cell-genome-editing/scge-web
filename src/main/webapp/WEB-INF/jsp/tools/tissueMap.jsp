@@ -188,13 +188,11 @@
 
 <div style="text-align: center"><h4>Organ&nbsp;System&nbsp;Overview</h4></div>
 <div style="margin-left:70%"> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></div>
-<br><br>
+
 
 <table align="center">
     <tr>
         <td>
-
-
             <table align="center">
                 <tr>
                     <td>
@@ -242,7 +240,7 @@
                                 <% for (String tissueKey: rootTissues.keySet()) {
                                     String tissue=rootTissues.get(tissueKey);
                                     if(targetTissues.contains(tissue)){%>
-                                <td width="40" style="border:5px solid darkorchid">
+                                <td width="40" style="border:5px solid deepskyblue">
                                     <div class="tissue-control-cell">
                                         <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)
                                         && !tissueBiomarkerMap.containsKey(tissue + "-" + condition)
@@ -335,11 +333,7 @@
                     </td>
                 </tr>
             </table>
-
-
-        </td>
-        <td>
-            <table style="border:1px solid black;" border="1" align="center">
+            <table style="border:1px solid black;margin-top: 2%" border="1" align="center">
                 <tr>
                     <td style="padding:10px;">
                         <table>
@@ -350,17 +344,13 @@
                                     <table>
                                         <tr>
                                             <td><div style="border:1px solid black;"> <div class="legend-delivery"></div></div></td><td>Delivery Efficiency</td>
-                                        </tr>
-                                        <tr>
+
                                             <td><div style="border:1px solid black;"><div class="legend-editing"></div></div></td><td>Editing Efficiency</td>
-                                        </tr>
-                                        <tr>
+
                                             <td><div style="border:1px solid black;"><div class="legend-biomarker"></div></div></td><td>Biomarker Detection</td>
-                                        </tr>
-                                        <tr>
+
                                             <td><div style="border:3px solid #DA70D6;background-color: white;width:22px;height:22px "></div></td><td>Target Tissue</td>
-                                        </tr>
-                                        <tr>
+
                                             <td><div style="border:1px solid black;background-color: #F7F7F7;width:22px;height:22px "></div></td><td>Not Available</td>
                                         </tr>
 
@@ -373,9 +363,7 @@
                 </tr>
             </table>
         </td>
-    </tr>
-    <tr><td><hr></td></tr>
-    <tr><td>&nbsp;
+    <td>&nbsp;
         <div >
         <div class="row" style="margin-left:50%">
 
@@ -396,12 +384,8 @@
         </div>
         </div>
         </div>
-    </td>
 
-    </tr>
-    <tr>
-        <td>
-            <table align="center" tyle="border:1px solid #F7F7F7;margin-left:30px;" border="0" width="700">
+            <table align="center" >
                 <tr>
                     <td colspan="2" style="font-size:16px; font-weight:700;">Analyze Data Sets Available for this Experiment</td><!--td style="font-size:16px; font-weight:700;" align="center">Delivery</td><td style="font-size:16px; font-weight:700;" align="center">Editing</td-->
                     <!--td> <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?resultType=all"><button class="btn btn-primary btn-sm">View Experimental Details</button></a></td-->
@@ -412,7 +396,7 @@
                 %>
 
                 <tr>
-                    <td colspan="2" style="font-size:20px;padding-top:10px;" id="<%=organ%>"><input id="<%=organ%>" type="checkbox" onchange="checkTissues('<%=organ%>', this)">&nbsp;<%=organ%></td>
+                    <td  style=";padding-top:10px;" id="<%=organ%>"><input id="<%=organ%>" type="checkbox" onchange="checkTissues('<%=organ%>', this)">&nbsp;<%=organ%></td>
                     <td></td><td></td>
                 </tr>
                 <tr>
