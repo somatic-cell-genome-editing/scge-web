@@ -185,7 +185,7 @@
 //    e.printStackTrace();
 //}
     %>
-<div class="row">
+<div class="row container-fluid">
 
     <div class="col-lg-4" style="background-color: #f7f8fa;padding-top: 10px">
 
