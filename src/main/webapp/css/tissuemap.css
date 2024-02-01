@@ -22,77 +22,33 @@
     font-size:18px;
 }
 .tissue-control-cell {
-    border: 1px solid black;
-    loat:left;
+
     background-color:#F7F7F7;
     width:40px;
-    height:40px;
+    height:32px;
     position:relative;
 }
-/*.triangle-topleft {*/
-/*    !*position:absolute;*!*/
-/*    !*top:0px;*!*/
-/*    !*left:0px;*!*/
-/*    !*width: 0;*!*/
-/*    !*height: 0;*!*/
-/*    !*border-top: 40px solid blue;*!*/
-/*    !*border-right: 40px solid transparent;*!*/
-/*    !*cursor:pointer;*!*/
-/*    position:absolute;*/
-/*    top:0px;*/
-/*    left:0px;*/
-/*    width: 40px;*/
-/*    height: 40px ;*/
-/*    background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right,blue 0%, blue 50%, #FFF 50%, #FFF 100%);*/
-/*    background-size: 100% 50%;*/
-/*    background-position: center top, center bottom;*/
-/*    background-repeat: no-repeat;*/
+.tissue-control-cell-2 {
+    border: 1px solid black;
+    background-color:#F7F7F7;
+    width:32px;
+    height:32px;
+    position:relative;
+}
 
-/*}*/
-/*.triangle-bottomright {*/
-/*    !*position:absolute;*!*/
-/*    !*top:0px;*!*/
-/*    !*left:0px;*!*/
-/*    !*width: 0;*!*/
-/*    !*height: 0;*!*/
-/*    !*border-bottom: 40px solid orange;*!*/
-/*    !*border-left: 40px solid transparent;*!*/
-/*    position:absolute;*/
-/*    top:0px;*/
-/*    left:0px;*/
-/*    width: 40px;*/
-/*    height: 40px ;*/
-/*    !*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*!*/
-/*    background: linear-gradient(to right, #FFF 0%, #FFF 100%, #FFF 100%, #FFF 100%), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-
-/*    background-size: 100% 50%;*/
-/*    background-position: center top, center bottom;*/
-/*    background-repeat: no-repeat;*/
-/*}*/
-/*.triangle-biomarker {*/
-/*    position:absolute;*/
-/*    top:0px;*/
-/*    left:0px;*/
-/*    width: 40px;*/
-/*    height: 40px ;*/
-/*    background: linear-gradient(to right, #FFF 0%, #FFF 50%, #33F3FF 50%, #33F3FF 100%), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
-/*    background-size: 100% 50%;*/
-/*    background-position: center top, center bottom;*/
-/*    background-repeat: no-repeat;*/
-/*}*/
 .triangle-d { /*d for delivery*/
     position:absolute;
     top:0px;
     left:0px;
-    width: 40px;
-    height: 40px ;
+    width: 30px;
+    height: 30px ;
    /* background:  linear-gradient(to right,rgb(000,114,178)  , rgb(000,114,178) );
     /*background-size: 100% 50%;*/
-    border-top: 20px solid rgb(000,114,178);;
-    border-bottom: 20px solid rgb(213, 094, 000);
-    border-left: 20px solid #F7F7F7;
-    border-right: 20px solid rgb(240, 228,066);
-    background-position: center top, center bottom;
+    border-top: 15px solid rgb(000,114,178);;
+    border-bottom: 15px solid  #F7F7F7;
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid  #F7F7F7;
+    /*background-position: center top, center bottom;*/
     background-repeat: no-repeat;
 
 }
@@ -107,17 +63,17 @@
     position:absolute;
     top:0px;
     left:0px;
-    width: 40px;
-    height: 40px ;
+    width: 30px;
+    height: 30px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
    /* background:  linear-gradient(to right,rgb(213, 094, 000) , rgb(213, 094, 000) );
 */
-    border-top: 20px solid rgb(000,114,178);;
-    border-bottom: 20px solid rgb(213, 094, 000);
-    border-left: 20px solid #F7F7F7;
-    border-right: 20px solid rgb(240, 228,066);
+    border-top: 15px solid  #F7F7F7;
+    border-bottom: 15px solid rgb(213, 094, 000);
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid  #F7F7F7;
 
-    background-position: center top, center bottom;
+    /*background-position: center top, center bottom;*/
     background-repeat: no-repeat;
 }
 .triangle-b { /*b for biomarker*/
@@ -131,17 +87,17 @@
     position:absolute;
     top:0px;
     left:0px;
-    width: 40px;
-    height: 40px ;
+    width: 30px;
+    height: 30px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
     /*background: linear-gradient(to right,rgb(240, 228,066) , rgb(240, 228,066));
 */
-    border-top: 20px solid #F7F7F7;
-    border-bottom: 20px solid #F7F7F7;
-    border-left: 20px solid #F7F7F7;
-    border-right: 20px solid rgb(240, 228,066);
+    border-top: 15px solid #F7F7F7;
+    border-bottom: 15px solid #F7F7F7;
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid rgb(240, 228,066);
 
-    background-position: center top, center bottom;
+    /*background-position: center top, center bottom;*/
     background-repeat: no-repeat;
 }
 .triangle-ed { /* ed for editing and delivery*/
@@ -155,17 +111,17 @@
     position:absolute;
     top:0px;
     left:0px;
-    width: 40px;
-    height: 40px ;
+    width: 30px;
+    height: 30px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
    /* background: linear-gradient(to right, rgb(000,114,178) , rgb(213, 094, 000) );
 */
-    border-top: 20px solid rgb(000,114,178);;
-    border-bottom: 20px solid rgb(213, 094, 000);
-    border-left: 20px solid #F7F7F7;
-    border-right: 20px solid #F7F7F7;
+    border-top: 15px solid rgb(000,114,178);;
+    border-bottom: 15px solid rgb(213, 094, 000);
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid #F7F7F7;
 
-    background-position: center top, center bottom;
+    /*background-position: center top, center bottom;*/
     background-repeat: no-repeat;
 }
 .triangle-eb { /* ed for editing and delivery*/
@@ -179,17 +135,17 @@
     position:absolute;
     top:0px;
     left:0px;
-    width: 40px;
-    height: 40px ;
+    width: 30px;
+    height: 30px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
   /*  background: linear-gradient(to right,  rgb(240, 228,066) , rgb(213, 094, 000) );
 */
-    border-top: 20px solid #F7F7F7;
-    border-bottom: 20px solid rgb(213, 094, 000);
-    border-left: 20px solid #F7F7F7;
-    border-right: 20px solid rgb(240, 228,066);
+    border-top: 15px solid #F7F7F7;
+    border-bottom: 15px solid rgb(213, 094, 000);
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid rgb(240, 228,066);
 
-    background-position: center top, center bottom;
+    /*background-position: center top, center bottom;*/
     background-repeat: no-repeat;
 }
 .triangle-db { /* ed for editing and delivery*/
@@ -203,17 +159,17 @@
     position:absolute;
     top:0px;
     left:0px;
-    width: 40px;
-    height: 40px ;
+    width: 30px;
+    height: 30px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
   /*  background: linear-gradient(to right, rgb(240, 228,066), rgb(000,114,178));
 */
-    border-top: 20px solid rgb(000,114,178);;
-    border-bottom: 20px solid #F7F7F7;
-    border-left: 20px solid #F7F7F7;
-    border-right: 20px solid rgb(240, 228,066);
+    border-top: 15px solid rgb(000,114,178);;
+    border-bottom: 15px solid #F7F7F7;
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid rgb(240, 228,066);
 
-    background-position: center top, center bottom;
+    /*background-position: center top, center bottom;*/
     background-repeat: no-repeat;
 }
 .triangle-edb {
@@ -222,19 +178,19 @@
     left:0px;
    /* background:  linear-gradient(to right, rgb(000,114,178) , rgb(213, 094, 000),rgb(240, 228,066));
 */
-    width: 0px;
-    height: 0px;
-    border-top: 20px solid rgb(000,114,178);;
-    border-bottom: 20px solid rgb(213, 094, 000);
-    border-left: 20px solid #F7F7F7;
-    border-right: 20px solid rgb(240, 228,066);
-    background-position: center top, center bottom;
+    width: 30px;
+    height: 30px;
+    border-top: 15px solid rgb(000,114,178);;
+    border-bottom: 15px solid rgb(213, 094, 000);
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid rgb(240, 228,066);
+    /*background-position: center top, center bottom;*/
     background-repeat: no-repeat;
 }
 .legend-delivery { /*d for delivery*/
 
-    width: 20px;
-    height: 20px ;
+    width: 15px;
+    height: 15px ;
     background:  linear-gradient(to right,rgb(000,114,178)  , rgb(000,114,178) );
     /*background-size: 100% 50%;*/
     background-position: center top, center bottom;
@@ -243,8 +199,8 @@
 }
 .legend-editing { /* e for editing*/
 
-    width: 20px;
-    height: 20px ;
+    width: 15px;
+    height: 15px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
     background:  linear-gradient(to right, rgb(213, 094, 000) , rgb(213, 094, 000) );
     background-position: center top, center bottom;
@@ -252,8 +208,8 @@
 }
 .legend-biomarker { /*b for biomarker*/
 
-    width: 20px;
-    height: 20px ;
+    width: 15px;
+    height: 15px ;
     /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
     background: linear-gradient(to right, rgb(240, 228,066) , rgb(240, 228,066));
 

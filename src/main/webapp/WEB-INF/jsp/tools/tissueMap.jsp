@@ -211,13 +211,13 @@
                                             }else displayTissue=tissue;
                                     %>
                                     <% if (first) { if(targetTissues.contains(tissueTerm)){ %>
-                                    <div class="tissue-control-header-first" style="color:orchid"><%=displayTissue%></div>
+                                    <div class="tissue-control-header-first" style="color:orangered"><%=displayTissue%></div>
                                     <%}else{%>
                                     <div class="tissue-control-header-first"><%=displayTissue%></div>
                                     <%}%>
                                     <% first = false; %>
                                     <% } else { if(targetTissues.contains(tissueTerm)) {%>
-                                    <div class="tissue-control-header" style="color:orchid"><%=displayTissue%></div>
+                                    <div class="tissue-control-header" style="color:orangered"><%=displayTissue%></div>
 
                                     <%}else{%>
                                     <div class="tissue-control-header"><%=displayTissue%></div>
@@ -240,8 +240,9 @@
                                 <% for (String tissueKey: rootTissues.keySet()) {
                                     String tissue=rootTissues.get(tissueKey);
                                     if(targetTissues.contains(tissue)){%>
-                                <td width="40" style="border:5px solid orchid">
+                                <td width="40" style="border:5px dashed red">
                                     <div class="tissue-control-cell">
+                                        <div class="tissue-control-cell-2">
                                         <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)
                                         && !tissueBiomarkerMap.containsKey(tissue + "-" + condition)
                                                 && !tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
@@ -279,46 +280,49 @@
                                         <div class="triangle-edb"></div>
                                         <% } %>
                                     </div>
+                                    </div>
                                 </td>
                                 <%}else{%>
-                                <td width="40" style="border:1px solid black;">
-                                    <div class="tissue-control-cell" style="padding: 2px">
+                                <td width="40">
+                                    <div class="tissue-control-cell">
+                                        <div class="tissue-control-cell-2">
                                         <% if (tissueDeliveryMap.containsKey(tissue + "-" + condition)
                                                 && !tissueBiomarkerMap.containsKey(tissue + "-" + condition)
                                                 && !tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
-                                        <div class="triangle-d" ></div>
+                                        <div class="cell-wrapper"><div class="triangle-d" ></div></div>
                                         <% } %>
                                         <% if (tissueEditingMap.containsKey(tissue + "-" + condition)
                                                 && !tissueBiomarkerMap.containsKey(tissue + "-" + condition)
                                                 && !tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
-                                        <div class="triangle-e"></div>
+                                            <div class="cell-wrapper"><div class="triangle-e"></div></div>
                                         <% } %>
                                         <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
                                                 && !tissueDeliveryMap.containsKey(tissue + "-" + condition)
                                                 && !tissueEditingMap.containsKey(tissue + "-" + condition)
                                         ) { %>
-                                        <div class="triangle-b"></div>
+                                            <div class="cell-wrapper"><div class="triangle-b"></div></div>
                                         <% } %>
                                         <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
                                                 && tissueDeliveryMap.containsKey(tissue + "-" + condition)
                                                 && !tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
-                                        <div class="triangle-db"></div>
+                                            <div class="cell-wrapper"><div class="triangle-db"></div></div>
                                         <% } %>
                                         <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
                                                 && tissueEditingMap.containsKey(tissue + "-" + condition)
                                                 && !tissueDeliveryMap.containsKey(tissue + "-" + condition)) { %>
-                                        <div class="triangle-eb"></div>
+                                            <div class="cell-wrapper"><div class="triangle-eb"></div></div>
                                         <% } %>
                                         <% if (!tissueBiomarkerMap.containsKey(tissue + "-" + condition)
                                                 && tissueDeliveryMap.containsKey(tissue + "-" + condition)
                                                 && tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
-                                        <div class="triangle-ed"></div>
+                                            <div class="cell-wrapper"><div class="triangle-ed"></div></div>
                                         <% } %>
                                         <% if (tissueBiomarkerMap.containsKey(tissue + "-" + condition)
                                                 && tissueDeliveryMap.containsKey(tissue + "-" + condition)
                                                 && tissueEditingMap.containsKey(tissue + "-" + condition)) { %>
-                                        <div class="triangle-edb"></div>
+                                        <div class="cell-wrapper"><div class="triangle-edb"></div></div>
                                         <% } %>
+                                    </div>
                                     </div>
                                 </td>
                                 <% } }%>
@@ -349,9 +353,9 @@
 
                                             <td><div style="border:1px solid black;"><div class="legend-biomarker"></div></div></td><td>Biomarker Detection</td>
 
-                                            <td><div style="border:3px solid #DA70D6;background-color: white;width:22px;height:22px "></div></td><td>Target Tissue</td>
+                                            <td><div style="border:3px dashed red;background-color: white;width:15px;height:15px "></div></td><td>Target Tissue</td>
 
-                                            <td><div style="border:1px solid black;background-color: #F7F7F7;width:22px;height:22px "></div></td><td>Not Available</td>
+                                            <td><div style="border:1px solid black;background-color: #F7F7F7;width:15px;height:15px "></div></td><td>Not Available</td>
                                         </tr>
 
                                     </table>
@@ -423,7 +427,7 @@
                     <td style="width: 70%;"><input type="checkbox" name="<%=organ%>" class="selectedTissue" value="<%=tissueTermExtracted%>">
                     <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?tissue=<%=tissueTermExtracted%>"><%=upCaseChildTerm%></a>
                     <% if (targetTissues2.containsKey(childTerm)) { %>
-                    &nbsp;<span style="color:#DA70D6">(TARGET)</span>
+                    &nbsp;<span style="color:red;font-weight: bold">(TARGET)</span>
                     <%} %>
                     </td>
 
