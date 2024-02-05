@@ -177,7 +177,7 @@
                                     <tr>
                                         <td>
                                             <% if (qualifierList.size() > 1) { %>
-                                            <input onclick="applyFilters(this)" name="checkqualifier" id="<%=qualifier%>" type="checkbox" checked><%}%>&nbsp;<%=qualifier%>
+                                            <input onclick="applyFilters(this,false)" name="checkqualifier" id="<%=qualifier.trim()%>" type="checkbox" checked><%}%>&nbsp;<%=qualifier%>
                                         </td>
                                     </tr>
                                     <% }} %>
