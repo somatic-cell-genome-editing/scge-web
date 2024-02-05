@@ -483,14 +483,15 @@
         if (_this.checked) {
             elms.forEach(function(ele) {
                 ele.checked=true;
-                applyFilters(ele);
+                applyFilters(ele, true);
             });
         }else {
             elms.forEach(function(ele) {
                 ele.checked=false;
-                applyFilters(ele);
+                applyFilters(ele, true);
             });
         }
+        update(true)
     }
     function filtersApplied() {
         var table = document.getElementById('myTable');
