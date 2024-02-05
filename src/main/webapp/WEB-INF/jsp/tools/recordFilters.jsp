@@ -171,6 +171,7 @@
                             <div class="recordFilterBlock">
                                 <table>
                                     <% for (String qualifier: qualifierList) {
+                                        if(qualifier.length()>1){
                                     %>
 
                                     <tr>
@@ -179,7 +180,7 @@
                                             <input onclick="applyFilters(this)" name="checkqualifier" id="<%=qualifier%>" type="checkbox" checked><%}%>&nbsp;<%=qualifier%>
                                         </td>
                                     </tr>
-                                    <% } %>
+                                    <% }} %>
                                 </table>
                             </div>
                         </td>
