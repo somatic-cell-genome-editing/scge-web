@@ -183,7 +183,17 @@
         return txt.value;
     }
     setTimeout("resizeImages()",500);
-
+    function getColumnIndex(table, columnName){
+        var cellLength=  table.rows[1].cells.length;
+        var index=0
+        for(var j=0;j<cellLength;j++){
+            var cellText= table.rows[1].cells[j].innerHTML;
+            if(cellText.includes(columnName)){
+                index=j;
+            }
+        }
+        return index;
+    }
 
     function update(updateColor){
         var table = document.getElementById('myTable'); //to remove filtered rows
@@ -478,17 +488,17 @@
         }
         return labelString;
     }
-    function applyAllFilters(_this, name) {
+    function applyAllFilters(_this, name, columnName) {
         var elms = document.getElementsByName(name);
         if (_this.checked) {
             elms.forEach(function(ele) {
                 ele.checked=true;
-                applyFilters(ele, true);
+                applyFilters(ele, true,columnName);
             });
         }else {
             elms.forEach(function(ele) {
                 ele.checked=false;
-                applyFilters(ele, true);
+                applyFilters(ele, true,columnName);
             });
         }
         update(true)
@@ -516,20 +526,21 @@
     //    console.log("TABLE ROW LENGTH:"+ rowLength +"\thidden rows:"+ hiddenRows)
         return rowLength == hiddenRows + 2;
     }
-    function applyFilters(obj, initialLoad) {
+    function applyFilters(obj, initialLoad, columnName) {
         var table = document.getElementById('myTable'); //to remove filtered rows
+        var columnIndex=getColumnIndex(table, columnName)
         var rowLength = table.rows.length;
         for (i = 2; i < rowLength; i++) {
             var cells = table.rows.item(i).cells;
-            for (k = 0; k < cells.length; k++) {
+      //      for (k = 0; k < cells.length; k++) {
                 //    console.log("innser = " + cells.item(k).innerText + "!" + obj.id);
-                if (cells.item(k).innerText.toLowerCase().includes(obj.id.toString().toLowerCase()) || (cells.item(k).innerHTML.toLowerCase().search(">" + obj.id.toString().toLowerCase() + "<") > -1)) {
+                if (cells.item(columnIndex).innerText.toLowerCase().includes(obj.id.toString().toLowerCase()) || (cells.item(columnIndex).innerHTML.toLowerCase().search(">" + obj.id.toString().toLowerCase() + "<") > -1)) {
                     //   if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                     if (obj.checked) {
-                        cells.item(k).off = false;
+                        cells.item(columnIndex).off = false;
                         var somethingOff = false;
                         for (j = 0; j < cells.length; j++) {
-                            if (cells.item(j).off == true && j != k) {
+                            if (cells.item(j).off == true && j != columnIndex) {
                                 somethingOff = true;
                                 break;
                             }
@@ -540,11 +551,11 @@
                             table.rows.item(i).style.display = "";
                         }
                     } else {
-                        cells.item(k).off = true;
+                        cells.item(columnIndex).off = true;
                         table.rows.item(i).style.display = "none";
                     }
                 }
-            }
+           // }
 
         }
         if (filtersApplied() &&  !emptyTableRows())
@@ -571,51 +582,51 @@
      //   console.log("in load");
         var elms = document.getElementsByName("tissue");
         elms.forEach(function(ele) {
-            applyFilters(ele, true);
+            applyFilters(ele, true, 'Tissue');
         });
         var elms = document.getElementsByName("checkcelltype");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Cell Type');
         });
         var elms = document.getElementsByName("checkeditor");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Editor');
         });
         var elms = document.getElementsByName("checktargetlocus");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Target Locus');
         });
         var elms = document.getElementsByName("checkguide");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Guide');
         });
         var elms = document.getElementsByName("checkdelivery");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Delivery');
         });
         var elms = document.getElementsByName("checkmodel");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Model');
         });
         var elms = document.getElementsByName("checksex");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Sex');
         });
-        var elms = document.getElementsByName("checkresulttype");
-        elms.forEach(function(ele) {
-            applyFilters(ele,true);
-        });
-        var elms = document.getElementsByName("checkunits");
-        elms.forEach(function(ele) {
-            applyFilters(ele);
-        });
+        // var elms = document.getElementsByName("checkresulttype");
+        // elms.forEach(function(ele) {
+        //     applyFilters(ele,true);
+        // });
+        // var elms = document.getElementsByName("checkunits");
+        // elms.forEach(function(ele) {
+        //     applyFilters(ele);
+        // });
         var elms = document.getElementsByName("checkvector");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Vector');
         });
         var elms = document.getElementsByName("checkhrdonor");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'HR Donor');
         });
         if(elms.length==0){
             if (document.getElementById("graphFilter") != null) {
