@@ -89,7 +89,7 @@
         try {
         for (String rootTissue : rootTissues.keySet()) {
 
-                if (organSystemID != null && rootTissues.get(rootTissue) != null && organSystemID.equals(rootTissues.get(rootTissue))) {
+                if (organSystemID != null && rootTissues.get(rootTissue) != null && organSystemID.trim().equals(rootTissues.get(rootTissue))) {
                     tissue = rootTissues.get(rootTissue);
                     organSystem = rootTissue;
                     break;
@@ -100,8 +100,8 @@
             e.printStackTrace();
         }
 
-        String tissueTerm = er.getTissueTerm();
-        String cellType = er.getCellTypeTerm();
+        String tissueTerm = er.getTissueTerm()!=null ?er.getTissueTerm().trim():null;
+        String cellType = er.getCellTypeTerm()!=null?er.getCellTypeTerm().trim():null;
         boolean hasEditing = false;
         boolean hasDelivery = false;
         boolean hasBiomarker = false;

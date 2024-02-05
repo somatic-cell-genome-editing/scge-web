@@ -22,7 +22,7 @@
     rootTissues.put("Integumentary","UBERON:0002416");
     rootTissues.put("Nervous","UBERON:0001016");
     rootTissues.put("Sensory","UBERON:0001032");
-    rootTissues.put("Hematopoietic","UBERON:0002390");
+//    rootTissues.put("Hematopoietic","UBERON:0002390");
 %>
 
 <%
@@ -86,10 +86,11 @@
         boolean hasEditing = false;
         boolean hasDelivery = false;
         boolean hasBiomarker = false;
+        boolean hasNoResult = false;
         try {
-            if(erdList!=null)
+            if(erdList!=null) {
                 for (ExperimentResultDetail erd : erdList) {
-                    if(erd!=null){
+                    if (erd != null) {
                         if (erd.getResultType() != null && erd.getResultType().equals("Delivery Efficiency")) {
                             hasDelivery = true;
                         }
@@ -101,6 +102,9 @@
                         }
                     }
                 }
+            }else{
+                hasNoResult=true;
+            }
         }catch (Exception e) {
             System.out.println("BLOCK:" + 3);
             e.printStackTrace();
@@ -121,6 +125,10 @@
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=" + cellType;
                         tm.addBiomarker(organSystem, tissueTerm + " (" + cellType + ")", url);
                     }
+                    if (hasNoResult) {
+                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=" + cellType;
+                        tm.addNoResult(organSystem, tissueTerm + " (" + cellType + ")", url);
+                    }
                 } else {
                     if (hasDelivery) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Delivery&tissue=" + tissueTerm + "&cellType=";
@@ -135,6 +143,10 @@
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=";
                         tm.addBiomarker(organSystem, tissueTerm, url);
                     }
+                    if (hasNoResult) {
+                        String url = "" ;
+                        tm.addNoResult(organSystem, tissueTerm , url);
+                    }
                 }
             }
         }catch (Exception e) {
@@ -142,7 +154,6 @@
             e.printStackTrace();
         }
     }
-
 %>
 <div class="recordFilterBlock">
 <table>

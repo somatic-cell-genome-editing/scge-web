@@ -522,7 +522,7 @@
             var cells = table.rows.item(i).cells;
             for (k = 0; k < cells.length; k++) {
                 //    console.log("innser = " + cells.item(k).innerText + "!" + obj.id);
-                if (cells.item(k).innerText.includes(obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+                if (cells.item(k).innerText.toLowerCase().includes(obj.id) || (cells.item(k).innerHTML.toLowerCase().search(">" + obj.id + "<") > -1)) {
                     //   if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                     if (obj.checked) {
                         cells.item(k).off = false;
