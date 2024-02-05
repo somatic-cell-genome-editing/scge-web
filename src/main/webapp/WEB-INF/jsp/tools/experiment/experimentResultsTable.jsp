@@ -131,7 +131,6 @@
         <%
         if(resultTypeRecords!=null && resultTypeRecords.size()>0){
             for(String key:resultTypeRecords.keySet()){
-
             String resultType=key.substring(0,key.indexOf("("));
             String units=key.substring(key.indexOf( "(" )+1,key.lastIndexOf(")"));
         %>
@@ -161,7 +160,7 @@
         if(tissueTerm!=null && tissuesTarget.contains(record.getTissueTerm().trim())){
           //  border="3px solid #DA70D6";
             target="Target Tissue";
-            tissueTerm+=" <span style='color:#DA70D6'>(TARGET)</span>";
+            tissueTerm+=" <span style='color:red;font-weight:bold'>(TARGET)</span>";
         }else{
             border="";
         }
@@ -172,17 +171,10 @@
         <td style="display: none"><%=record.getExperimentRecordId()%></td>
         <td><a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><%=record.getExperimentRecordName()%></a></td>
         <c:if test="${tableColumns.timePoint!=null}">
-            <td style="border:<%=border%>">
-                <% if(record.getTimePoint()!=null){%>
-                <%=record.getTimePoint()%>
-            <%}%>
-            </td>
+            <td style="border:<%=border%>"><% if(record.getTimePoint()!=null){%><%=record.getTimePoint().trim()%><%}%></td>
         </c:if>
         <c:if test="${tableColumns.qualifier!=null}">
-            <td style="border:<%=border%>">
-                <% if(record.getQualifier()!=null){%>
-                <%=record.getQualifier()%>
-                <%}%>
+            <td style="border:<%=border%>"><% if(record.getQualifier()!=null){%><%=record.getQualifier().trim()%><%}%>
             </td>
         </c:if>
         <c:if test="${tableColumns.tissueTerm!=null}">
