@@ -18,6 +18,7 @@
     .tablesorter.target tr td{
         border:3px solid #DA70D6;
     }
+
 </style>
 <%  Gson gson=new Gson();
     ImageDao idao = new ImageDao();
@@ -85,6 +86,7 @@
 
 
 <%@include file="experiment/experimentResultsTable.jsp"%>
+
 </div>
 <script>
 
@@ -98,10 +100,6 @@
   //  quantitativeSize= <%--=resultMap.size()--%>;
 
     $(function () {
-        $("#myTable").tablesorter({
-            theme : 'blue',
-            widgets: ['zebra','resizable', 'stickyHeaders'],
-        });
         $("#myTable").tablesorter( {sortList: [[9, 0]]}).bind("sortEnd", function (e, t) {
             var table = e.target,
                 currentSort = table.config.sortList,
@@ -185,7 +183,17 @@
         return txt.value;
     }
     setTimeout("resizeImages()",500);
-
+    function getColumnIndex(table, columnName){
+        var cellLength=  table.rows[1].cells.length;
+        var index=0
+        for(var j=0;j<cellLength;j++){
+            var cellText= table.rows[1].cells[j].innerHTML;
+            if(cellText.includes(columnName)){
+                index=j;
+            }
+        }
+        return index;
+    }
 
     function update(updateColor){
         var table = document.getElementById('myTable'); //to remove filtered rows
@@ -213,6 +221,7 @@
         var colorByRecords={}
         var filterValues=[];
         var legendValues=[];
+        var legendValuesTruncated=[];
         if (filter!='None') {
             for(var i=2;i<rowLength;i++) {
                 recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
@@ -220,13 +229,21 @@
                 var value = cells.item(selected).innerText.trim();
                 if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
                     filterValues.push(value);
-                    legendValues.push(value);
                 }
                 colorByRecords[value] = colorByRecords[value] || [];
                 colorByRecords[value].push(recordId);
             }
         }
         filterValues.sort();
+        for(var label in filterValues){
+            var val=filterValues[label]
+            legendValues.push(val)
+            if(val.length>15){
+                legendValuesTruncated.push(val.substring(0,5)+".."+val.substring(val.length-10));
+            }else {
+                legendValuesTruncated.push(val);
+            }
+        }
         //record ids ordered after sorting the column
         for(var i=2;i<rowLength;i++){
             if (table.rows.item(i).style.display != 'none') {
@@ -238,7 +255,7 @@
         }
           var colorByRecordsJson=JSON.stringify(colorByRecords)
         // console.log("COLOR RECS:"+ colorByRecordsJson)
-        console.log("FILTER VALUES:"+ filterValues)
+        // console.log("FILTER VALUES:"+ filterValues)
         //Sorting array of objects by sortedValues
         var legendDiv = document.getElementById("legend-wrapper")
         if(filterValues.length>0 && filter!='None') {
@@ -246,9 +263,19 @@
             var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>" +
                 "<div class=row>";
             for (var e in legendValues) {
-                console.log(filterValues[e] + "\t" + colorPalette[e])
-                legendHtml += "<div class='col-2'><div class='row'><div class='col-1' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + colorPalette[e] + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap'>"
-                legendHtml += filterValues[e]
+               // console.log(legendValues[e] + "\t" + colorPalette[e])
+                var backgroundColor;
+                var borderColor;
+                if(e>30){
+                    backgroundColor=colorPalette2[e];
+                    borderColor=colorPalette2[e];
+                }else{
+                    backgroundColor=colorPalette[e];
+                    borderColor=colorPalette[e];
+                }
+
+                legendHtml += "<div class='col-2'><div class='row'><div class='col-1' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + backgroundColor + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+legendValues[e]+"'>"
+                legendHtml += legendValuesTruncated[e]
                 legendHtml += "</small></div></div></div>"
             }
             legendHtml += "</div></div> </div> </div>"
@@ -306,7 +333,10 @@
                         for(var id in colorRecIds) {
                             if (colorRecIds[id]==(recordIds[i])) {
                                 var index = filterValues.indexOf(c);
-                                color=colorPalette[index]
+                                if(index>30)
+                                color=colorPalette2[index]
+                                else
+                                    color=colorPalette[index]
 
                             }
                         }
@@ -386,17 +416,27 @@
                 myChart<%=c%>.update();
                 document.getElementById("chartDiv<%=c%>").style.display = "block";
                 document.getElementById("resultChart<%=c%>").style.display = "block";
+                document.getElementById("image<%=c%>").style.display = "block";
             }else{
                 document.getElementById("chartDiv<%=c%>").style.display="none";
                 document.getElementById("resultChart<%=c%>").style.display = "none";
+                document.getElementById("image<%=c%>").style.display = "none";
             }
         }else {
-            myChart<%=c%>.data.labels=newArrayLabel;
-            myChart<%=c%>.data.datasets = data;
-            myChart<%=c%>.options.scales.x.ticks.display = newArrayLabel.length<120;
-            myChart<%=c%>.update();
-            document.getElementById("chartDiv<%=c%>").style.display = "block";
-            document.getElementById("resultChart<%=c%>").style.display = "block";
+            if(newArrayData.length>0) {
+                myChart<%=c%>.data.labels = newArrayLabel;
+                myChart<%=c%>.data.datasets = data;
+                myChart<%=c%>.options.scales.x.ticks.display = newArrayLabel.length < 120;
+                myChart<%=c%>.update();
+                document.getElementById("chartDiv<%=c%>").style.display = "block";
+                document.getElementById("resultChart<%=c%>").style.display = "block";
+                document.getElementById("image<%=c%>").style.display = "block";
+
+            }else{
+                document.getElementById("chartDiv<%=c%>").style.display="none";
+                document.getElementById("resultChart<%=c%>").style.display = "none";
+                document.getElementById("image<%=c%>").style.display = "none";
+            }
         }
         <%c++;}%>
 
@@ -448,19 +488,20 @@
         }
         return labelString;
     }
-    function applyAllFilters(_this, name) {
+    function applyAllFilters(_this, name, columnName) {
         var elms = document.getElementsByName(name);
         if (_this.checked) {
             elms.forEach(function(ele) {
                 ele.checked=true;
-                applyFilters(ele);
+                applyFilters(ele, true,columnName);
             });
         }else {
             elms.forEach(function(ele) {
                 ele.checked=false;
-                applyFilters(ele);
+                applyFilters(ele, true,columnName);
             });
         }
+        update(true)
     }
     function filtersApplied() {
         var table = document.getElementById('myTable');
@@ -482,23 +523,24 @@
                 hiddenRows+=1;
             }
         }
-        console.log("TABLE ROW LENGTH:"+ rowLength +"\thidden rows:"+ hiddenRows)
+    //    console.log("TABLE ROW LENGTH:"+ rowLength +"\thidden rows:"+ hiddenRows)
         return rowLength == hiddenRows + 2;
     }
-    function applyFilters(obj, initialLoad) {
+    function applyFilters(obj, initialLoad, columnName) {
         var table = document.getElementById('myTable'); //to remove filtered rows
+        var columnIndex=getColumnIndex(table, columnName)
         var rowLength = table.rows.length;
         for (i = 2; i < rowLength; i++) {
             var cells = table.rows.item(i).cells;
-            for (k = 0; k < cells.length; k++) {
+      //      for (k = 0; k < cells.length; k++) {
                 //    console.log("innser = " + cells.item(k).innerText + "!" + obj.id);
-                if (cells.item(k).innerText.includes(obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
+                if (cells.item(columnIndex).innerText.toLowerCase().includes(obj.id.toString().toLowerCase()) || (cells.item(columnIndex).innerHTML.toLowerCase().search(">" + obj.id.toString().toLowerCase() + "<") > -1)) {
                     //   if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
                     if (obj.checked) {
-                        cells.item(k).off = false;
+                        cells.item(columnIndex).off = false;
                         var somethingOff = false;
                         for (j = 0; j < cells.length; j++) {
-                            if (cells.item(j).off == true && j != k) {
+                            if (cells.item(j).off == true && j != columnIndex) {
                                 somethingOff = true;
                                 break;
                             }
@@ -509,11 +551,11 @@
                             table.rows.item(i).style.display = "";
                         }
                     } else {
-                        cells.item(k).off = true;
+                        cells.item(columnIndex).off = true;
                         table.rows.item(i).style.display = "none";
                     }
                 }
-            }
+           // }
 
         }
         if (filtersApplied() &&  !emptyTableRows())
@@ -537,54 +579,54 @@
 
     var dualAxis = false;
     function load() {
-        console.log("in load");
+     //   console.log("in load");
         var elms = document.getElementsByName("tissue");
         elms.forEach(function(ele) {
-            applyFilters(ele, true);
+            applyFilters(ele, true, 'Tissue');
         });
         var elms = document.getElementsByName("checkcelltype");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Cell Type');
         });
         var elms = document.getElementsByName("checkeditor");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Editor');
         });
         var elms = document.getElementsByName("checktargetlocus");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Target Locus');
         });
         var elms = document.getElementsByName("checkguide");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Guide');
         });
         var elms = document.getElementsByName("checkdelivery");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Delivery');
         });
         var elms = document.getElementsByName("checkmodel");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Model');
         });
         var elms = document.getElementsByName("checksex");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Sex');
         });
-        var elms = document.getElementsByName("checkresulttype");
-        elms.forEach(function(ele) {
-            applyFilters(ele,true);
-        });
-        var elms = document.getElementsByName("checkunits");
-        elms.forEach(function(ele) {
-            applyFilters(ele);
-        });
+        // var elms = document.getElementsByName("checkresulttype");
+        // elms.forEach(function(ele) {
+        //     applyFilters(ele,true);
+        // });
+        // var elms = document.getElementsByName("checkunits");
+        // elms.forEach(function(ele) {
+        //     applyFilters(ele);
+        // });
         var elms = document.getElementsByName("checkvector");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'Vector');
         });
         var elms = document.getElementsByName("checkhrdonor");
         elms.forEach(function(ele) {
-            applyFilters(ele,true);
+            applyFilters(ele,true, 'HR Donor');
         });
         if(elms.length==0){
             if (document.getElementById("graphFilter") != null) {

@@ -18,6 +18,15 @@
         height: auto;
         width: 119px;
     }
+    .table-wrapper {
+        position: relative;
+        padding: 0 5px;
+        height: 500px;
+        overflow: auto;
+    }
+.experiment-details thead tr th{
+    width:10%
+}
 </style>
 <script>
     $(function () {
@@ -45,21 +54,21 @@
     })
 </script>
 <% ProcessUtils processUtils=new ProcessUtils();%>
-
-<table id="myTable">
+<div class="table-wrapper">
+<table id="myTable" class="table tablesorter experiment-details">
     <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
     <thead>
-    <tr class="tablesorter-ignoreRow hasSpan" role="row">
+    <tr class="tablesorter-ignoreRow" role="row">
         <th data-sorter="false" colspan="<%=tableColumns.size()%>" data-column="0" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=tableColumns.size()%>" style="background-color: white"></th>
         <%if(resultTypeColumnCount.get("editing efficiency")!=null && resultTypeColumnCount.get("editing efficiency")>0){%>
-        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("editing efficiency")%>" data-column="<%=tableColumns.size()%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("editing efficiency")%>" style="background-color: orange;text-align: center">Editing Efficiency</th>
+        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("editing efficiency")%>" data-column="<%=tableColumns.size()%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("editing efficiency")%>" style="background-color: rgb(213, 094, 000);text-align: center">Editing Efficiency</th>
        <%}%>
         <%if(resultTypeColumnCount.get("delivery efficiency")!=null && resultTypeColumnCount.get("delivery efficiency")>0){
             int dataColumn=tableColumns.size();
             if(resultTypeColumnCount.get("editing efficiency")!=null)
                 dataColumn=dataColumn+resultTypeColumnCount.get("editing efficiency");
         %>
-        <th  data-sorter="false" colspan="<%=resultTypeColumnCount.get("delivery efficiency")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("delivery efficiency")%>" style="background-color: blue;color:white;text-align: center" >Delivery Efficiency</th>
+        <th  data-sorter="false" colspan="<%=resultTypeColumnCount.get("delivery efficiency")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("delivery efficiency")%>" style="background-color: rgb(000,114,178);color:white;text-align: center" >Delivery Efficiency</th>
         <%}%>
         <%if(resultTypeColumnCount.get("other")!=null && resultTypeColumnCount.get("other")>0){
             int dataColumn=tableColumns.size();
@@ -68,7 +77,7 @@
             if(resultTypeColumnCount.get("delivery efficieny")!=null)
             dataColumn=dataColumn+resultTypeColumnCount.get("delivery efficiency");
         %>
-        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("other")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("other")%>" style="background-color: lightgrey;text-align: center">Other Measurement</th>
+        <th data-sorter="false" colspan="<%=resultTypeColumnCount.get("other")%>" data-column="<%=dataColumn%>" scope="col" role="columnheader" class="tablesorter81a8a255b0035columnselectorhasSpan" data-col-span="<%=resultTypeColumnCount.get("other")%>" style="background-color: rgb(240, 228,066);text-align: center">Other Measurement</th>
         <%}%>
 
     </tr>
@@ -119,10 +128,21 @@
         <th>Injection Frequency</th>
         </c:if>
 
+        <%
+        if(resultTypeRecords!=null && resultTypeRecords.size()>0){
+            for(String key:resultTypeRecords.keySet()){
+            String resultType=key.substring(0,key.indexOf("("));
+            String units=key.substring(key.indexOf( "(" )+1,key.lastIndexOf(")"));
+        %>
+        <th><span style="display: none"><%=resultType%></span> <%=units%></th>
 
-        <c:forEach items="${resultTypeRecords}" var="resultType">
-            <th><span style="display: none">${fn:substring(resultType.key, 0, fn:indexOf(resultType.key, "(" ))}</span> ${fn:replace(fn:substring(resultType.key, fn:indexOf(resultType.key, "(" )+1,fn:indexOf(resultType.key,")")), "(","")}</th>
-        </c:forEach>
+        <%}
+        }
+
+        %>
+<%--        <c:forEach items="${resultTypeRecords}" var="resultType">--%>
+<%--            <th><span style="display: none">${fn:substring(resultType.key, 0, fn:indexOf(resultType.key, "(" ))}</span> ${fn:replace(fn:substring(resultType.key, fn:indexOf(resultType.key, "(" )+1,fn:indexOf(resultType.key,")")), "(","")}</th>--%>
+<%--        </c:forEach>--%>
         <th data-sorter="false">Image</th>
 
 
@@ -140,7 +160,7 @@
         if(tissueTerm!=null && tissuesTarget.contains(record.getTissueTerm().trim())){
           //  border="3px solid #DA70D6";
             target="Target Tissue";
-            tissueTerm+=" <span style='color:#DA70D6'>(TARGET)</span>";
+            tissueTerm+=" <span style='color:red;font-weight:bold'>(TARGET)</span>";
         }else{
             border="";
         }
@@ -151,17 +171,10 @@
         <td style="display: none"><%=record.getExperimentRecordId()%></td>
         <td><a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><%=record.getExperimentRecordName()%></a></td>
         <c:if test="${tableColumns.timePoint!=null}">
-            <td style="border:<%=border%>">
-                <% if(record.getTimePoint()!=null){%>
-                <%=record.getTimePoint()%>
-            <%}%>
-            </td>
+            <td style="border:<%=border%>"><% if(record.getTimePoint()!=null){%><%=record.getTimePoint().trim()%><%}%></td>
         </c:if>
         <c:if test="${tableColumns.qualifier!=null}">
-            <td style="border:<%=border%>">
-                <% if(record.getQualifier()!=null){%>
-                <%=record.getQualifier()%>
-                <%}%>
+            <td style="border:<%=border%>"><% if(record.getQualifier()!=null){%><%=record.getQualifier().trim()%><%}%>
             </td>
         </c:if>
         <c:if test="${tableColumns.tissueTerm!=null}">
@@ -263,9 +276,9 @@
         </td>
         <%popover++;}%>
         <%
-            System.out.println("about to get image from cache");
+         //   System.out.println("about to get image from cache");
             List<Image> images =ImageCache.getInstance().getImage(record.getExperimentRecordId(),"main1");
-            System.out.println(images.size());
+         //   System.out.println(images.size());
             if (images.size() > 0) {
         %>
         <td align="center">
@@ -278,3 +291,4 @@
 <%}}%>
     </tbody>
 </table>
+</div>

@@ -9,6 +9,7 @@
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="edu.mcw.scge.datamodel.Plot" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="edu.mcw.scge.web.Colors" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <style>
@@ -31,7 +32,16 @@
 <div>
     <p class="spinner" id="spinner">Loading...<i class="fa fa-spinner fa-spin" style="font-size:24px;color:dodgerblue"></i></p>
 </div>
+<%
+    List<String> rgbColors=new ArrayList<>();
+    Map<Integer, String> colors=Colors.colors;
+    for(int i: Colors.colors.keySet()){
+        rgbColors.add(colors.get(i));
+    }
+%>
+
 <script>
+
     colorPalette = [
         'rgba(230, 159, 0, 0.5)', 'rgba(86, 180, 233, 0.5)', 'rgba(0, 158, 115, 0.5)', 'rgba(240, 228, 66, 0.5)',
         'rgba(0, 114, 178, 0.5)', 'rgba(213, 94, 0, 0.5)', 'rgba(204, 121, 167, 0.5)', 'rgba(0, 0, 0, 0.5)',
@@ -43,7 +53,34 @@
         'rgba(189, 183, 107, 0.5)', 'rgba(0, 100, 0, 0.5)', 'rgba(0, 191, 255, 0.5)', 'rgba(255, 0, 255, 0.5)',
         'rgba(218, 165, 32, 0.5)', 'rgba(75, 0, 130, 0.5)'
     ];
+    <%--var colorPalette2=<%=gson.toJson(rgbColors)%>--%>
+    var randomColors=[]
+    randomColors= <%=gson.toJson(rgbColors)%>
+    var colorPalette2=[];
+        for(var clr in randomColors){
+            var flag=false;
+            for(var i=0;i<colorPalette.length;i++){
+                if(colorPalette[i]==randomColors[clr]){
+                    flag=true;
+                    break;
+
+                }
+            }
+            if(!flag){
+                colorPalette2.push(randomColors[clr])
+            }
+        }
+     //  console.log("COLOR PALETTE 2:"+ colorPalette2)
     function  generateDataSets(mean, replicates, recordIds, replicateResultSize, index) {
+        var backgroundColor;
+        var borderColor;
+        if(index>30){
+            backgroundColor=colorPalette2[index];
+            borderColor=colorPalette2[index];
+        }else{
+            backgroundColor=colorPalette[index];
+            borderColor=colorPalette[index];
+        }
 
         var data=[];
         $.each(mean, function(i, val) {
@@ -51,8 +88,8 @@
             data.push({
                 label:"Mean",
                 data: val,
-                backgroundColor: colorPalette[index],
-                borderColor: colorPalette[index],
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
                 borderWidth: 1,
                 recordIds:recordIds,
                 replicateResultSize:replicateResultSize
@@ -75,6 +112,7 @@
 
         return data;
     }
+
     function getRandomColor() {
         var trans = '0.5'; // 50% transparency
         var color = 'rgba(';
@@ -126,7 +164,7 @@
                     for(k = 1;k < avgIndex;k++){
                         var label = table.rows.item(1).cells.item(k).innerText;
                         var value = table.rows.item(i).cells.item(k).innerText;
-                        detail.push(label + ':' + value) ;
+                        detail.push("<span style='color:yellow'>"+label+"</span>" + ': ' + value) ;
                     }
                 }
 
@@ -137,10 +175,10 @@
     function generateData(plot) {
         var jsonStr=JSON.stringify(plot)
         var plotJson=(JSON).parse(jsonStr)
-        console.log("PLOTJSONSTR:"+ (plotJson))
+      //  console.log("PLOTJSONSTR:"+ (plotJson))
         var plotDataStr= JSON.stringify(plotJson.plotData);
         var plotData=new Map(Object.entries(JSON.parse(plotDataStr)))
-        console.log("plotData:"+ plotData)
+      //  console.log("plotData:"+ plotData)
         var recordIds=[];
         recordIds= plotJson.recordIds
 
@@ -171,7 +209,7 @@
             })
 
         }
-        console.log("DATA:"+ data);
+       // console.log("DATA:"+ data);
         return data;
     }
 

@@ -22,7 +22,7 @@ jQuery.fn.tableToCSV = function() {
 					});
 				$(this).find('td').each(function(){
                     var text = clean_text($(this).text());
-                    console.log("TEXT:" +text);
+                  //  console.log("TEXT:" +text);
 					data.push(text);
 					});
 				data = data.join(",");
@@ -30,7 +30,7 @@ jQuery.fn.tableToCSV = function() {
 				}});
 			title = title.join(",");
 			rows = rows.join("\n");
-			console.log("ROWS:"+ rows)
+			//console.log("ROWS:"+ rows)
 			var fileCitation = document.getElementById("fileCitation").innerHTML;
 			var csv = fileCitation + "\n" + title + rows;
 			var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);

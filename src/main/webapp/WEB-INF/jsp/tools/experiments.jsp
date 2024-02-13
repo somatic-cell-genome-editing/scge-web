@@ -49,7 +49,7 @@
             theme: 'blue'
 
         });
-        $('#<%=request.getAttribute("selectedStudy")%>').css('border', '10px solid purple')
+        $('#<%=request.getAttribute("selectedStudy")%>').css('border', '10px solid red')
 
     });
 </script>

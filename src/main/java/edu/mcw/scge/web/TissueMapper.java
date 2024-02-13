@@ -10,6 +10,9 @@ public class TissueMapper {
     LinkedHashMap<String,LinkedHashMap<String,String>> childTerms = new LinkedHashMap<String,LinkedHashMap<String,String>>();
     LinkedHashMap<String,LinkedHashMap<String,String>> editing = new LinkedHashMap<String,LinkedHashMap<String,String>>();
     LinkedHashMap<String,LinkedHashMap<String,String>> delivery = new LinkedHashMap<String,LinkedHashMap<String,String>>();
+    LinkedHashMap<String,LinkedHashMap<String,String>> biomarker = new LinkedHashMap<String,LinkedHashMap<String,String>>();
+    LinkedHashMap<String,LinkedHashMap<String,String>> noResult = new LinkedHashMap<String,LinkedHashMap<String,String>>();
+
     LinkedHashMap<String,Long> targets = new LinkedHashMap<String,Long>();
 
 
@@ -29,7 +32,7 @@ public class TissueMapper {
         rootTissues.put("Integumentary", "UBERON:0002416");
         rootTissues.put("Nervous", "UBERON:0001016");
         rootTissues.put("Sensory", "UBERON:0001032");
-        rootTissues.put("Hematopoietic", "UBERON:0002390");
+//        rootTissues.put("Hematopoietic", "UBERON:0002390");
 
         for (String tissue: rootTissues.keySet()) {
             childTerms.put(tissue, new LinkedHashMap<String,String>());
@@ -44,6 +47,10 @@ public class TissueMapper {
 
         for (String tissue: rootTissues.keySet()) {
             delivery.put(tissue, new LinkedHashMap<String,String>());
+
+        }
+        for (String tissue: rootTissues.keySet()) {
+            noResult.put(tissue, new LinkedHashMap<String,String>());
 
         }
         //delivery.put("unknown", new LinkedHashMap<String,String>());
@@ -135,7 +142,6 @@ public class TissueMapper {
     }
 
     public void addDelivery(String tissue, String childTerm, String url) {
-        System.out.println("TISSUE:"+tissue +"\tCHILDTERM:"+ childTerm+"\tURL:"+ url);
         if(tissue!=null) {
             LinkedHashMap<String, String> children = delivery.get(tissue);
             if (children != null) {
@@ -152,5 +158,32 @@ public class TissueMapper {
 //        childTerms.put(tissue,children);
 
     }
+    public void addBiomarker(String tissue, String childTerm,String url) {
 
+        LinkedHashMap<String,String> children = biomarker.get(tissue);
+        if( children!=null ) {
+            children.put(childTerm, url);
+            biomarker.put(tissue, children);
+        }
+
+        LinkedHashMap<String,String> childs = childTerms.get(tissue);
+        if( childs!=null ) {
+            childs.put(childTerm, url);
+            biomarker.put(tissue, childs);
+        }
+    }
+    public void addNoResult(String tissue, String childTerm,String url) {
+
+        LinkedHashMap<String,String> children = noResult.get(tissue);
+        if( children!=null ) {
+            children.put(childTerm, url);
+            noResult.put(tissue, children);
+        }
+
+        LinkedHashMap<String,String> childs = childTerms.get(tissue);
+        if( childs!=null ) {
+            childs.put(childTerm, url);
+            noResult.put(tissue, childs);
+        }
+    }
 }

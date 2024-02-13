@@ -1,0 +1,218 @@
+.tissue-control {
+    position: relative;
+}
+.tissue-control-header-first {
+    transform: rotate(-45deg);
+    float: left;
+    width:200px;
+    margin-left:7px;
+    margin-bottom:15px;
+    order:1px solid black;
+    text-align: left;
+    font-size:18px;
+}
+.tissue-control-header {
+    transform: rotate(-45deg);
+    float: left;
+    width:198px;
+    margin-left:-155px;
+    margin-bottom:15px;
+    order:1px solid black;
+    text-align: left;
+    font-size:18px;
+}
+.tissue-control-cell {
+
+    background-color:#F7F7F7;
+    width:40px;
+    height:32px;
+    position:relative;
+}
+.tissue-control-cell-2 {
+    border: 1px solid black;
+    background-color:#F7F7F7;
+    width:32px;
+    height:32px;
+    position:relative;
+}
+
+.triangle-d { /*d for delivery*/
+    position:absolute;
+    top:0px;
+    left:0px;
+    width: 30px;
+    height: 30px ;
+   /* background:  linear-gradient(to right,rgb(000,114,178)  , rgb(000,114,178) );
+    /*background-size: 100% 50%;*/
+    border-top: 15px solid rgb(000,114,178);;
+    border-bottom: 15px solid  #F7F7F7;
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid  #F7F7F7;
+    /*background-position: center top, center bottom;*/
+    background-repeat: no-repeat;
+
+}
+.triangle-e { /* e for editing*/
+    /*position:absolute;*/
+    /*top:0px;*/
+    /*left:0px;*/
+    /*width: 0;*/
+    /*height: 0;*/
+    /*border-bottom: 40px solid orange;*/
+    /*border-left: 40px solid transparent;*/
+    position:absolute;
+    top:0px;
+    left:0px;
+    width: 30px;
+    height: 30px ;
+    /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+   /* background:  linear-gradient(to right,rgb(213, 094, 000) , rgb(213, 094, 000) );
+*/
+    border-top: 15px solid  #F7F7F7;
+    border-bottom: 15px solid rgb(213, 094, 000);
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid  #F7F7F7;
+
+    /*background-position: center top, center bottom;*/
+    background-repeat: no-repeat;
+}
+.triangle-b { /*b for biomarker*/
+    /*position:absolute;*/
+    /*top:0px;*/
+    /*left:0px;*/
+    /*width: 0;*/
+    /*height: 0;*/
+    /*border-bottom: 40px solid orange;*/
+    /*border-left: 40px solid transparent;*/
+    position:absolute;
+    top:0px;
+    left:0px;
+    width: 30px;
+    height: 30px ;
+    /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+    /*background: linear-gradient(to right,rgb(240, 228,066) , rgb(240, 228,066));
+*/
+    border-top: 15px solid #F7F7F7;
+    border-bottom: 15px solid #F7F7F7;
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid rgb(240, 228,066);
+
+    /*background-position: center top, center bottom;*/
+    background-repeat: no-repeat;
+}
+.triangle-ed { /* ed for editing and delivery*/
+    /*position:absolute;*/
+    /*top:0px;*/
+    /*left:0px;*/
+    /*width: 0;*/
+    /*height: 0;*/
+    /*border-bottom: 40px solid orange;*/
+    /*border-left: 40px solid transparent;*/
+    position:absolute;
+    top:0px;
+    left:0px;
+    width: 30px;
+    height: 30px ;
+    /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+   /* background: linear-gradient(to right, rgb(000,114,178) , rgb(213, 094, 000) );
+*/
+    border-top: 15px solid rgb(000,114,178);;
+    border-bottom: 15px solid rgb(213, 094, 000);
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid #F7F7F7;
+
+    /*background-position: center top, center bottom;*/
+    background-repeat: no-repeat;
+}
+.triangle-eb { /* ed for editing and delivery*/
+    /*position:absolute;*/
+    /*top:0px;*/
+    /*left:0px;*/
+    /*width: 0;*/
+    /*height: 0;*/
+    /*border-bottom: 40px solid orange;*/
+    /*border-left: 40px solid transparent;*/
+    position:absolute;
+    top:0px;
+    left:0px;
+    width: 30px;
+    height: 30px ;
+    /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+  /*  background: linear-gradient(to right,  rgb(240, 228,066) , rgb(213, 094, 000) );
+*/
+    border-top: 15px solid #F7F7F7;
+    border-bottom: 15px solid rgb(213, 094, 000);
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid rgb(240, 228,066);
+
+    /*background-position: center top, center bottom;*/
+    background-repeat: no-repeat;
+}
+.triangle-db { /* ed for editing and delivery*/
+    /*position:absolute;*/
+    /*top:0px;*/
+    /*left:0px;*/
+    /*width: 0;*/
+    /*height: 0;*/
+    /*border-bottom: 40px solid orange;*/
+    /*border-left: 40px solid transparent;*/
+    position:absolute;
+    top:0px;
+    left:0px;
+    width: 30px;
+    height: 30px ;
+    /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+  /*  background: linear-gradient(to right, rgb(240, 228,066), rgb(000,114,178));
+*/
+    border-top: 15px solid rgb(000,114,178);;
+    border-bottom: 15px solid #F7F7F7;
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid rgb(240, 228,066);
+
+    /*background-position: center top, center bottom;*/
+    background-repeat: no-repeat;
+}
+.triangle-edb {
+    position:absolute;
+    top:0px;
+    left:0px;
+   /* background:  linear-gradient(to right, rgb(000,114,178) , rgb(213, 094, 000),rgb(240, 228,066));
+*/
+    width: 30px;
+    height: 30px;
+    border-top: 15px solid rgb(000,114,178);;
+    border-bottom: 15px solid rgb(213, 094, 000);
+    border-left: 15px solid #F7F7F7;
+    border-right: 15px solid rgb(240, 228,066);
+    /*background-position: center top, center bottom;*/
+    background-repeat: no-repeat;
+}
+.legend-delivery { /*d for delivery*/
+
+    width: 15px;
+    height: 15px ;
+    background:  linear-gradient(to right,rgb(000,114,178)  , rgb(000,114,178) );
+    /*background-size: 100% 50%;*/
+    background-position: center top, center bottom;
+    background-repeat: no-repeat;
+
+}
+.legend-editing { /* e for editing*/
+
+    width: 15px;
+    height: 15px ;
+    /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+    background:  linear-gradient(to right, rgb(213, 094, 000) , rgb(213, 094, 000) );
+    background-position: center top, center bottom;
+    background-repeat: no-repeat;
+}
+.legend-biomarker { /*b for biomarker*/
+
+    width: 15px;
+    height: 15px ;
+    /*background: url("/toolkit/images/camera-icon.png"), linear-gradient(to right, blue 0%, blue 50%, darkorange 50%, darkorange 100%);*/
+    background: linear-gradient(to right, rgb(240, 228,066) , rgb(240, 228,066));
+
+    background-position: center top, center bottom;
+    background-repeat: no-repeat;
+}
