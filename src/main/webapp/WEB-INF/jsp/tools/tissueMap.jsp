@@ -423,20 +423,20 @@
                                 <td style="padding:10px;">
                                     <table>
                                         <tr>
-                                            <td>Legend:</td>
+                                            <td><strong>Legend:</strong></td>
                                             <td>&nbsp;</td>
                                             <td align="center">
                                                 <table>
                                                     <tr>
-                                                        <td><div style="border:1px solid black;"> <div class="legend-delivery"></div></div></td><td>Delivery Efficiency</td>
-
-                                                        <td><div style="border:1px solid black;"><div class="legend-editing"></div></div></td><td>Editing Efficiency</td>
-
-                                                        <td><div style="border:1px solid black;"><div class="legend-biomarker"></div></div></td><td>Biomarker Detection</td>
-
-                                                        <td><div style="border:3px dashed red;background-color: white;width:15px;height:15px "></div></td><td>Target Tissue</td>
-
-                                                        <td><div style="border:1px solid black;background-color: #F7F7F7;width:15px;height:15px "></div></td><td>Not Available</td>
+                                                        <td><div style="border:1px solid black;"> <div class="legend-delivery"></div></div></td><td>&nbsp;<small>Delivery Efficiency</small></td>
+                                                    </tr><tr>
+                                                        <td><div style="border:1px solid black;"><div class="legend-editing"></div></div></td><td>&nbsp;<small>Editing Efficiency</small></td>
+                                                </tr><tr>
+                                                        <td><div style="border:1px solid black;"><div class="legend-biomarker"></div></div></td><td>&nbsp;<small>Biomarker Detection</small></td>
+                                                </tr><tr>
+                                                        <td><div style="border:3px dashed red;background-color: white;width:15px;height:15px "></div></td><td>&nbsp;<small>Target Tissue</small></td>
+                                                </tr><tr>
+                                                        <td><div style="border:1px solid black;background-color: #F7F7F7;width:15px;height:15px "></div></td><td>&nbsp;<small>Not Available</small></td>
                                                     </tr>
 
                                                 </table>
