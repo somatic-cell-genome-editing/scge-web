@@ -53,10 +53,11 @@
                 <li class="nav-item  text-responsive about" id="about">
                     <a class="nav-link about" href="/toolkit/data/initiatives" >About SCGE</a>
                 </li>
+                  -->
                 <li class="nav-item text-nowrap text-responsive Publications" id="Publications">
                     <a class="nav-link Publications" href="/toolkit/data/publications/search" >Publications</a>
                 </li>
-                -->
+
 
 <!--c:if test="$-{action==null}"-->
     <!--li class="nav-item dropdown">
