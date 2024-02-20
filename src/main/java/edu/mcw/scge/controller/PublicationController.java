@@ -82,6 +82,8 @@ public class PublicationController {
                 int refKey = publicationDAO.runPubmedProcesssor(Integer.parseInt(identifier.trim()));
                 if (refKey > 0) {
                     msg = "Successfully added publication to the database. Added publication can be viewed in <a href='/toolkit/data/publications/search'>publications list</a>";
+                }else {
+                    msg="<span style='color:red'>Error inserting the publication "+identifierType+":"+identifier+"</span>";
                 }
 
             }
