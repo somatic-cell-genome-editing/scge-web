@@ -60,7 +60,7 @@
                 List<String> tissueList = (List<String>) request.getAttribute("tissues");
                 List<String> editorList = tableColumns.get("editorSymbol");
                 List<String> modelList = tableColumns.get("modelDisplayName");
-                List<String> deliverySystemList=tableColumns.get("delivery");
+                List<String> deliverySystemList=tableColumns.get("deliverySystemName");
                 List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
                 Set<String> resultTypeSet = (Set<String>) request.getAttribute("resultTypesSet");
                 Map<String, List<String>> resultTypeNunits = (Map<String, List<String>>) request.getAttribute("resultTypeNUnits");
