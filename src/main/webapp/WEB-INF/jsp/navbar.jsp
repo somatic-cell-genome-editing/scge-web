@@ -54,10 +54,11 @@
                     <a class="nav-link about" href="/toolkit/data/initiatives" >About SCGE</a>
                 </li>
                   -->
+                <%if(!SCGEContext.isProduction()){%>
                 <li class="nav-item text-nowrap text-responsive Publications" id="Publications">
                     <a class="nav-link Publications" href="/toolkit/data/publications/search" >Publications</a>
                 </li>
-
+                <%}%>
 
 <!--c:if test="$-{action==null}"-->
     <!--li class="nav-item dropdown">
