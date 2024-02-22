@@ -129,19 +129,26 @@
 
     <%}%>
         <% for (Study s: studies1) {
+            boolean hasRecords=false;
+        if (erdao.getExperimentRecordsByStudyId(s.getStudyId()).size() > 0) {
+            hasRecords=true;
+        }
             if(studies1.size()>1 || studies1.get(0).getGroupId()==1410) {%>
         <tr class="tablesorter-childRow" >
                 <%}else{%>
         <tr class="header1" style="display:table-row;">
         <%}%>
         <td><% if ((access.canUpdateTier(person,s) && !SCGEContext.isTest()) || (SCGEContext.isTest() && access.isDeveloper(person) )){%>
+
                     <form class="form-row" id="editStudy<%=s.getStudyId()%>" action="/toolkit/edit/access">
                         <div class="col  tiers">
                             <input type="hidden" name="tier" id="tier-study-<%=s.getStudyId()%>" value="<%=tierUpdateMap.get(s.getStudyId())%>"/>
                             <input type="hidden" name="studyId" id="study-<%=s.getStudyId()%>" value="<%=s.getStudyId()%>"/>
                             <input type="hidden" name="groupMembersjson" id="study-<%=s.getStudyId()%>-json"/>
                             <input type="hidden" name="groupIdsJson" id="study-<%=s.getStudyId()%>-groupIdsJson"/>
+                            <%if(hasRecords){%>
                             <input type="button" id="updateTier-study<%=s.getStudyId()%>" class="form-control" onclick="changeAccess($(this),<%=s.getStudyId()%> , <%=tierUpdateMap.get(s.getStudyId())%>)" value="Update Tier">
+                            <%}%>
                         </div>
                     </form>
                 <div>
@@ -162,11 +169,7 @@
                     <%=s.getTier()%>
                 </td>
 
-            <%  boolean hasRecords=false;
-                if (erdao.getExperimentRecordsByStudyId(s.getStudyId()).size() > 0) {
-                      hasRecords=true;
-               }
-            %>
+
             <td>
 
                 <%if(access.hasStudyAccess(s,person)) {
