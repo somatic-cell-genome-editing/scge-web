@@ -45,6 +45,8 @@
     </c:forEach>
     <br><br>
     <span style="font-weight: bold;">ABSTRACT:</span>
-    <span>${pub.reference.refAbstract}</span><br><br>
-        <span><b>Mesh Terms:</b> ${pub.reference.meshTerms}</span>
+    <span>${pub.reference.refAbstract}</span>
+        <c:if test="${pub.reference.meshTerms!=null && fn:length(pub.reference.meshTerms)>0}">
+            <br><br><span><b>Mesh Terms:</b> ${pub.reference.meshTerms}</span>
+        </c:if>
 </div>
