@@ -18,7 +18,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping(value="/data/publications")
-public class PublicationController {
+public class PublicationController extends ObjectController {
     PublicationDAO publicationDAO=new PublicationDAO();
     ExperimentDao experimentDao=new ExperimentDao();
     GuideDao guideDao=new GuideDao();
@@ -85,6 +85,9 @@ public class PublicationController {
                 }else {
                     msg="<span style='color:red'>Error inserting the publication "+identifierType+":"+identifier+"</span>";
                 }
+
+            }else {
+                msg="<span style='color:red'>pubmed id ..</span>" +identifier +" exists";
 
             }
 
@@ -445,5 +448,66 @@ return associationTypes;
 
         return "redirect:" + redirectURL;
     }
+    @RequestMapping(value="/publication")
+    public String getReference(HttpServletRequest req, HttpServletResponse res) throws Exception {
+        PublicationDAO dao = new PublicationDAO();
 
+        AssociationDao associationDao=new AssociationDao();
+        Reference reference= dao.getReferenceByKey(Integer.parseInt(req.getParameter("key")));
+        Publication publication=new Publication();
+        publication.setReference(reference);
+        publication.setAuthorList(publicationDAO.getAuthorsByRefKey(reference.getKey()));
+        publication.setArticleIds(publicationDAO.getArticleIdsByRefKey(reference.getKey()));
+        for(ArticleId id:publication.getArticleIds()){
+            if(id.getIdType()!=null && !id.getIdType().equals("")) {
+             id.setUrl( dao.getXDBUrl(id.getIdType().toLowerCase()));
+            }
+        }
+        Association association=associationDao.getPublicationAssociations(reference.getKey());
+        List<Study> studies=association.getAssociatedStudies();
+        if(studies!=null && studies.size()>0) {
+            List<ExperimentRecord> experimentRecords=new ArrayList<>();
+            if(association.getAssociatedExperiments()!=null){
+                for(Experiment experiment:association.getAssociatedExperiments()){
+                    List<ExperimentRecord> records=experimentDao.getExperimentRecords(experiment.getExperimentId());
+                    experimentRecords.addAll(records);
+                }
+            }
+            mapProjectNExperiments(experimentRecords, req);
+        }
+      req.setAttribute("summaryBlocks", getSummary(publication));
+        req.setAttribute("crumbTrail",   "publication");
+        req.setAttribute("publication", reference);
+        req.setAttribute("pub", publication);
+        req.setAttribute("publicationAssoications", association);
+        req.setAttribute("associatedPublications", association.getAssociatedPublications());
+        req.setAttribute("relatedPublications", association.getRelatedPublications());
+        req.setAttribute("studies", studies);
+        req.setAttribute("action","Publication: " + reference.getTitle());
+        req.setAttribute("page", "/WEB-INF/jsp/tools/publications/publication");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/publications/search'>Publications</a>");
+        req.setAttribute("seoDescription",reference.getRefAbstract());
+        req.setAttribute("seoTitle",reference.getTitle());
+        req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+
+        return null;
+    }
+    public  Map<String, Map<String, String>> getSummary(Publication publication){
+        Map<String, Map<String, String>> summaryBlocks=new LinkedHashMap<>();
+
+        Map<String, String> summary=new LinkedHashMap<>();
+        int i=0;
+//        summary.put("SCGE ID", String.valueOf(protocol.getKey()));
+        if(publication.getReference().getTitle()!=null && !publication.getReference().getTitle().equals(""))
+            summary.put("Title", publication.getReference().getTitle());
+        if(publication.getReference().getRefAbstract()!=null && !publication.getReference().getRefAbstract().equals(""))
+            summary.put("Abstract", publication.getReference().getRefAbstract());
+
+
+
+        summaryBlocks.put("block"+i, summary);
+
+
+        return summaryBlocks;
+    }
 }

@@ -26,7 +26,7 @@
 
 
 <%  Protocol protocol = (Protocol) request.getAttribute("protocol");
-    ProtocolAssociation protocolAssociation= (ProtocolAssociation) request.getAttribute("protocolAssociations");
+    Association protocolAssociation= (Association) request.getAttribute("protocolAssociations");
     Access access= new Access();
     Person p = access.getUser(request.getSession());
     if (access.isAdmin(p) && !SCGEContext.isProduction()) {

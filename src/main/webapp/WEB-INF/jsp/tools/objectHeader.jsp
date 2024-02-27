@@ -40,6 +40,10 @@
     description = "This page contains protocols deposited by SCGE consortium laboratories. ";
     list=true;
   }
+  if(action!=null && action.equalsIgnoreCase("Publications")) {
+    description = "List of publications associated or related to SCGE program funded projects. ";
+    list=true;
+  }
   if(action!=null && action.contains("Experiment:")) {
     Experiment experiment = (Experiment) request.getAttribute("experiment");
     description = experiment.getDescription();
@@ -54,7 +58,7 @@
     list=true;
   }
 %>
-
+<%if(action!=null && !action.contains("Publication")){%>
 <div class="jumbotron page-header" style="background-color: #f7f8fa;padding-top: 20px;padding-bottom: 20px" >
   <h2><%=action%><%if(request.getParameter("initiative")!=null){%>&nbsp;of&nbsp;<%=request.getParameter("initiative")%><%}%></h2>
   <%if((action==null || !action.contains("Project:") && !action.contains("Experiment:")) && description!=null){%>
@@ -142,3 +146,4 @@
 
 </div>
 
+<%}%>

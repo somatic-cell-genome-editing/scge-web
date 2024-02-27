@@ -268,8 +268,6 @@ public class ProtocolController extends ObjectController{
             summary.put("Keywords", protocol.getKeywords());
         if(summary.size()>0) {
             summaryBlocks.put("block"+i, summary);
-            i++;
-            summary=new LinkedHashMap<>();
         }
 
         return summaryBlocks;

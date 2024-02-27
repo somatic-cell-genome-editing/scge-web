@@ -69,6 +69,13 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Project Tier Updates</a>
                     <a class="dropdown-item" href="/toolkit/admin/bulkUpload">Bulk Image Upload</a>
+                                <%if(!SCGEContext.isProduction()){%>
+
+                <a class="dropdown-item" href="/toolkit/data/publications/search" >Add Publications</a>
+
+
+                    <%}%>
+
                 </div>
             </li>
             <%}%>

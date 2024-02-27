@@ -85,9 +85,9 @@
         <input type="hidden" id="unchecked" name="unchecked" value=''/>
         <input type="hidden" name="selectedFiltersJson" value='${selectedFiltersJson}'/>
         <input type="hidden" name="selectedView" value='${selectedView}' id="selectedView"/>
-        <c:if test="${category=='Study'}">
-            <%@include file="studyFacets.jsp"%>
-        </c:if>
+<%--        <c:if test="${category=='Study'}">--%>
+<%--            <%@include file="studyFacets.jsp"%>--%>
+<%--        </c:if>--%>
         <c:if test="${category=='Project'}">
             <%@include file="studyFacets.jsp"%>
         </c:if>
@@ -106,11 +106,16 @@
         <c:if test="${category=='Vector'}">
             <%@include file="vectorFacets.jsp"%>
         </c:if>
-        <c:if test="${category=='Experiment' || fn:containsIgnoreCase(action, 'results') }">
+        <c:if test="${category=='Experiment' || fn:containsIgnoreCase(action, 'results')}">
             <%@include file="experimentFacets.jsp"%>
         </c:if>
         <c:if test="${category=='Protocol'}">
             <%@include file="protocolFacets.jsp"%>
+        </c:if>
+        <c:if test="${category=='Publication'}">
+        <%@include file="publicationFacets.jsp"%>
+
+
         </c:if>
         <c:if test="${action=='Studies And Experiments'}">
             <%@include file="studyNExperimentFacets.jsp"%>
