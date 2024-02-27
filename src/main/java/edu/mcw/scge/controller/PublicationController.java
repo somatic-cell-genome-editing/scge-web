@@ -485,7 +485,7 @@ return associationTypes;
         req.setAttribute("studies", studies);
         req.setAttribute("action","Publication: " + reference.getTitle());
         req.setAttribute("page", "/WEB-INF/jsp/tools/publications/publication");
-        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/publications/search'>Publications</a>");
+        req.setAttribute("crumbtrail","<a href='/toolkit/loginSuccess?destination=base'>Home</a> / <a href='/toolkit/data/search/results/Publication?searchTerm='>Publications</a>");
         req.setAttribute("seoDescription",reference.getRefAbstract());
         req.setAttribute("seoTitle",reference.getTitle());
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
