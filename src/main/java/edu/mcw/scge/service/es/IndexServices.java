@@ -468,6 +468,13 @@ public class IndexServices {
             q.add(QueryBuilders.matchPhraseQuery("pi", searchTerm).boost(200));
             q.add(QueryBuilders.termQuery("currentGrantNumber.keyword", searchTerm));
             q.add(QueryBuilders.termQuery("formerGrantNumbers.keyword", searchTerm));
+            q.add(QueryBuilders.termQuery("description", searchTerm));
+            q.add(QueryBuilders.termQuery("articleIds.id.keyword", searchTerm).caseInsensitive(true));
+            q.add(QueryBuilders.termQuery("authorList.lastName.keyword", searchTerm).caseInsensitive(true));
+            q.add(QueryBuilders.termQuery("authorList.firstName.keyword", searchTerm).caseInsensitive(true));
+
+
+
 
 
         }else{

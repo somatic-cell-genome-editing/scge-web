@@ -4,12 +4,10 @@
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.process.UI" %>
-<%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
-<%@ page import="edu.mcw.scge.dao.implementation.ExperimentRecordDao" %>
 <%@ page import="java.util.HashMap" %>
-<%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
-<%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
 <%@ page import="edu.mcw.scge.web.SCGEContext" %>
+<%@ page import="edu.mcw.scge.dao.implementation.*" %>
+<%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
@@ -79,6 +77,7 @@
         <thead>
         <tr><th class="tablesorter-header filter-false"></th>
             <th class="tablesorter-header filter-false" width="20">Tier</th>
+            <th class="tablesorter-header">SCGE ID</th>
             <th class="tablesorter-header">Grant Title</th>
             <th class="tablesorter-header filter-false">No. of Submissions</th>
             <th class="tablesorter-header">Initiative</th>
@@ -91,6 +90,7 @@
         </thead>
 <%  int id=1;
     StudyDao studyDao=new StudyDao();
+    ExperimentDao experimentDao=new ExperimentDao();
     PersonDao personDao=new PersonDao();
     for(Map.Entry entry:sortedStudies.entrySet()){
     String grantInitiative= (String) entry.getKey();
@@ -113,6 +113,7 @@
             <tr class="header1" style="display:table-row;">
                 <td class="toggle" style="cursor:pointer;text-align:center;" width="20"><i class="fa fa-plus-circle expand" aria-hidden="true" style="font-size:medium;color:green" title="Click to expand"></i></td>
                 <td></td>
+                <td></td>
                 <td ><a href="/toolkit/data/experiments/group/<%=studies1.get(0).getGroupId()%>"><%=grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantTitle()%></a></td>
                 <td><%=studies1.size()%></td>
                 <td><%=UI.correctInitiative(grantDao.getGrantByGroupId(studies1.get(0).getGroupId()).getGrantInitiative())%></td>
@@ -132,6 +133,12 @@
             boolean hasRecords=false;
         if (erdao.getExperimentRecordsByStudyId(s.getStudyId()).size() > 0) {
             hasRecords=true;
+        }else{
+
+            List<Experiment> experiments=experimentDao.getExperimentsByStudy(s.getStudyId());
+            if(experiments!=null && experiments.size()>0){
+                hasRecords=true;
+            }
         }
             if(studies1.size()>1 || studies1.get(0).getGroupId()==1410) {%>
         <tr class="tablesorter-childRow" >
@@ -168,19 +175,19 @@
                 <td width="20">
                     <%=s.getTier()%>
                 </td>
-
+                <td><%=s.getStudyId()%></td>
 
             <td>
 
                 <%if(access.hasStudyAccess(s,person)) {
                         if(studies1.get(0).getGroupId()==1410 || studies1.get(0).getGroupId()==1412){// 1410-Baylor;1412-Jackson
                             if(s.getIsValidationStudy()!=1){%>
-                                        <%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                <%if(hasRecords){%><a href="/toolkit/data/experiments/group/<%=studies1.get(0).getGroupId()%>#<%=s.getStudyId()%>"><%}%><%=s.getStudy()%> - SCGE-<%=s.getStudyId()%><%if(hasRecords){%></a><%}%>
                            <% }else{%>
-                                <strong>VALIDATION -</strong>&nbsp;<%=s.getStudy()%> - SCGE-<%=s.getStudyId()%>
+                <strong>VALIDATION -</strong>&nbsp; <%if(hasRecords){%><a href="/toolkit/data/experiments/group/<%=studies1.get(0).getGroupId()%>#<%=s.getStudyId()%>"><%}%><%=s.getStudy()%> - SCGE-<%=s.getStudyId()%> <%if(hasRecords){%></a><%}%>
                           <%  }%>
                         <%}else{%>
-                            <a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=s.getStudy()%></a>
+                            <%if(hasRecords){%><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>#<%=s.getStudyId()%>"><%}%><%=s.getStudy()%><%if(hasRecords){%></a><%}%>
                         <%}%>
                 <%} else {
                     if(s.getIsValidationStudy()!=1){%>
