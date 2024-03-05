@@ -70,9 +70,11 @@
             if(association.getAssociatedEditors()!=null && association.getAssociatedEditors().size()>0){%>
         <h4 class="page-header" style="color:grey;">Associated Editors</h4>
         <ul>
-            <%for(Editor editor:association.getAssociatedEditors()){%>
+            <%for(Editor editor:association.getAssociatedEditors()){
+                if(editor.getTier()==4 || access.hasEditorAccess(editor,p)){
+            %>
             <li><a href="/toolkit/data/editors/editor?id=<%=editor.getId()%>"><%=editor.getSymbol()%></a></li>
-            <%}%>
+            <%}}%>
         </ul>
         <%}}%>
     </div>
@@ -81,9 +83,11 @@
             if(association.getAssociatedGuides()!=null && association.getAssociatedGuides().size()>0){%>
         <h4 class="page-header" style="color:grey;">Associated Guides</h4>
         <ul>
-            <%for(Guide guide:association.getAssociatedGuides()){%>
+            <%for(Guide guide:association.getAssociatedGuides()){
+                if(guide.getTier()==4 || access.hasGuideAccess(guide, p)){
+            %>
             <li><a href="/toolkit/data/guide/system?id=<%=guide.getGuide_id()%>"><%=guide.getGuide()%></a></li>
-            <%}%>
+            <%}}%>
         </ul>
         <%}}%>
     </div>
@@ -92,9 +96,11 @@
             if(association.getAssociatedModels()!=null && association.getAssociatedModels().size()>0){%>
         <h4 class="page-header" style="color:grey;">Associated Models</h4>
         <ul>
-            <%for(Model model:association.getAssociatedModels()){%>
+            <%for(Model model:association.getAssociatedModels()){
+            if(model.getTier()==4 || access.hasModelAccess(model, p)){
+            %>
             <li><a href="/toolkit/data/models/model/?id=<%=model.getModelId()%>"><%=model.getDisplayName()%>&nbsp;(<%=model.getName()%>)</a></li>
-            <%}%>
+            <%}}%>
         </ul>
         <%}}%>
     </div>
@@ -103,9 +109,11 @@
             if(association.getAssociatedDeliverySystems()!=null && association.getAssociatedDeliverySystems().size()>0){%>
         <h4 class="page-header" style="color:grey;">Associated Delivery Systems</h4>
         <ul>
-            <%for(Delivery delivery:association.getAssociatedDeliverySystems()){%>
+            <%for(Delivery delivery:association.getAssociatedDeliverySystems()){
+            if(delivery.getTier()==4 || access.hasDeliveryAccess(delivery, p)){
+            %>
             <li><a href="/toolkit/data/delivery/system?id=<%=delivery.getId()%>"><%=delivery.getName()%></a></li>
-            <%}%>
+            <%}}%>
         </ul>
         <%}}%>
     </div>
@@ -114,9 +122,10 @@
             if(association.getAssociatedVectors()!=null && association.getAssociatedVectors().size()>0){%>
         <h4 class="page-header" style="color:grey;">Associated Vectors</h4>
         <ul>
-            <%for(edu.mcw.scge.datamodel.Vector vector:association.getAssociatedVectors()){%>
+            <%for(edu.mcw.scge.datamodel.Vector vector:association.getAssociatedVectors()){
+            if(vector.getTier()==4 || access.hasVectorAccess(vector, p)){%>
             <li><a href="/toolkit/data/vector/format?id=<%=vector.getVectorId()%>"><%=vector.getName()%></a></li>
-            <%}%>
+            <%}}%>
         </ul>
         <%}}%>
     </div>
