@@ -58,7 +58,7 @@
     list=true;
   }
 %>
-<%if(action!=null && !action.contains("Publication")){%>
+<%if(action!=null ){%>
 <div class="jumbotron page-header" style="background-color: #f7f8fa;padding-top: 20px;padding-bottom: 20px" >
   <h2><%=action%><%if(request.getParameter("initiative")!=null){%>&nbsp;of&nbsp;<%=request.getParameter("initiative")%><%}%></h2>
   <%if((action==null || !action.contains("Project:") && !action.contains("Experiment:")) && description!=null){%>

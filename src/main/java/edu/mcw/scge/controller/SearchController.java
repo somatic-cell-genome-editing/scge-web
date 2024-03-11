@@ -133,6 +133,9 @@ public class SearchController{
             Set<Long> experimentIds=experiments.stream().map(experiment -> experiment.getExperimentId()).collect(Collectors.toSet());
             req.setAttribute("userAccessExperimentIds", experimentIds);
         }
+        if(searchTerm==null || searchTerm.equals("")){
+            searchTerm="";
+        }
         List<String> categories=Arrays.asList(category);
         SearchResponse sr=services.getSearchResults(categories,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
         req.setAttribute("facets", Facet.displayNames);
