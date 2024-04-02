@@ -79,6 +79,7 @@
     <c:if test="${action=='Studies And Experiments'}">
         <c:set var="actionLink" value="/toolkit/data/search/results/Study/Experiment"/>
     </c:if>
+ 
     <form action="${actionLink}" method="get" id="sidebarForm" >
         <input type="hidden" name="searchTerm" value="${searchTerm}"/>
         <input type="hidden" name="facetSearch" value="true"/>
@@ -106,7 +107,7 @@
         <c:if test="${category=='Vector'}">
             <%@include file="vectorFacets.jsp"%>
         </c:if>
-        <c:if test="${category=='Experiment' || fn:containsIgnoreCase(action, 'results')}">
+        <c:if test="${category=='Experiment' || category==null }">
             <%@include file="experimentFacets.jsp"%>
         </c:if>
         <c:if test="${category=='Protocol'}">
