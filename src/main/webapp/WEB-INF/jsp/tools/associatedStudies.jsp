@@ -42,7 +42,7 @@
     if (studies!=null && studies.size() > 0) {
     %>
 <hr>
-<h4 class="page-header" style="color:grey;">Projects & Experiments</h4> This <%=request.getAttribute("action")%> is being used
+<h4 class="page-header" style="color:grey;">Projects & Experiments</h4> This <%=request.getAttribute("action")%> is being used ...
 
 <%
    Access localStudyAccess = new Access();

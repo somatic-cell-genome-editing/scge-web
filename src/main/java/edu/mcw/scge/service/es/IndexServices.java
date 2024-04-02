@@ -37,7 +37,7 @@ public class IndexServices {
          buildAggregations(srb, categories);
         srb.highlighter(this.buildHighlights());
         srb.size(10000);
-        if(searchTerm.equals("") && categories.size()==1 && (categories.get(0).equalsIgnoreCase("Project")|| categories.get(0).equalsIgnoreCase("Experiment"))){
+        if(searchTerm.equals("") && categories!=null && categories.size()==1 && (categories.get(0).equalsIgnoreCase("Project")|| categories.get(0).equalsIgnoreCase("Experiment"))){
           //  srb.sort("name.keyword");
             try {
                 srb.sort("lastModifiedDate", SortOrder.DESC);
@@ -59,78 +59,105 @@ public class IndexServices {
 
     }
     public void buildAggregations(SearchSourceBuilder srb, List<String> categories){
-        if(categories!=null && categories.size()==1 || (categories==null || (categories.size()==0))){
-            if(categories==null || categories.get(0).equalsIgnoreCase("Genome Editor")
-                    || categories.get(0).equalsIgnoreCase("Delivery System")
-            ||categories.get(0).equalsIgnoreCase("Vector")
-                    ||categories.get(0).equalsIgnoreCase("Experiment")){
-                srb.aggregation(this.buildSearchAggregations("editorType"));
-                srb.aggregation(this.buildSearchAggregations("editorSubType"));
-                srb.aggregation(this.buildSearchAggregations("editorSpecies"));
-            }
-            if(categories==null ||  categories.get(0).equalsIgnoreCase("Model System")
-                    || categories.get(0).equalsIgnoreCase("Delivery System")
-            || categories.get(0).equalsIgnoreCase("Vector")
-                    ||categories.get(0).equalsIgnoreCase("Experiment")
-                    ||categories.get(0).equalsIgnoreCase("Protocol")){
-                srb.aggregation(this.buildSearchAggregations("modelType"));
-                srb.aggregation(this.buildSearchAggregations("modelSubtype"));
-                srb.aggregation(this.buildSearchAggregations("modelOrganism"));
-                if(categories==null || categories.get(0).equalsIgnoreCase("Model System"))
-                srb.aggregation(this.buildSearchAggregations("transgeneReporter"));
-            }
-            if(categories==null || categories.get(0).equalsIgnoreCase("Delivery System")
-                    ||categories.get(0).equalsIgnoreCase("Experiment")){
-                srb.aggregation(this.buildSearchAggregations("deliveryType"));
-                srb.aggregation(this.buildSearchAggregations("deliverySubtype"));
-                srb.aggregation(this.buildSearchAggregations("deliverySpecies"));
+//        if(categories!=null && categories.size()==1 || (categories==null || (categories.size()==0))){
+//            if(categories==null || categories.get(0).equalsIgnoreCase("Genome Editor")
+//                    || categories.get(0).equalsIgnoreCase("Delivery System")
+//            ||categories.get(0).equalsIgnoreCase("Vector")
+//                    ||categories.get(0).equalsIgnoreCase("Experiment")){
+////                srb.aggregation(this.buildSearchAggregations("editorType"));
+////                srb.aggregation(this.buildSearchAggregations("editorSubType"));
+////                srb.aggregation(this.buildSearchAggregations("editorSpecies"));
+//            }
+//            if(categories==null ||  categories.get(0).equalsIgnoreCase("Model System")
+//                    || categories.get(0).equalsIgnoreCase("Delivery System")
+//            || categories.get(0).equalsIgnoreCase("Vector")
+//                    ||categories.get(0).equalsIgnoreCase("Experiment")
+//                    ||categories.get(0).equalsIgnoreCase("Protocol")){
+//                srb.aggregation(this.buildSearchAggregations("modelType"));
+//                srb.aggregation(this.buildSearchAggregations("modelSubtype"));
+//                srb.aggregation(this.buildSearchAggregations("modelOrganism"));
+//                if(categories==null || categories.get(0).equalsIgnoreCase("Model System"))
+//                srb.aggregation(this.buildSearchAggregations("transgeneReporter"));
+//            }
+//            if(categories==null || categories.get(0).equalsIgnoreCase("Delivery System")
+//                    ||categories.get(0).equalsIgnoreCase("Experiment")){
+//                srb.aggregation(this.buildSearchAggregations("deliveryType"));
+//                srb.aggregation(this.buildSearchAggregations("deliverySubtype"));
+//                srb.aggregation(this.buildSearchAggregations("deliverySpecies"));
+//
+//            }
+//            if(categories==null || categories.get(0).equalsIgnoreCase("Delivery System") ||
+//                    categories.get(0).equalsIgnoreCase("Guide") ||
+//                    categories.get(0).equalsIgnoreCase("Vector")
+//                    ||categories.get(0).equalsIgnoreCase("Experiment")) {
+//                srb.aggregation(this.buildSearchAggregations("tissueTerm"));
+//            }
+//            if(categories==null || categories.get(0).equalsIgnoreCase("Guide")) {
+//                srb.aggregation(this.buildSearchAggregations("guideSpecies"));
+//                srb.aggregation(this.buildSearchAggregations("guideCompatibility"));
+//
+//             //   srb.aggregation(this.buildSearchAggregations("target"));
+//
+//            }
+//            if(categories==null || categories.get(0).equalsIgnoreCase("Guide") ||
+//                    categories.get(0).equalsIgnoreCase("Vector")
+//                    ||categories.get(0).equalsIgnoreCase("Experiment")) {
+//                srb.aggregation(this.buildSearchAggregations("guideTargetLocus"));
+//
+//            }
+//            if(categories==null || categories.get(0).equalsIgnoreCase("Vector")) {
+//                //      srb.aggregation(this.buildSearchAggregations(  "vectorName"));
+//                srb.aggregation(this.buildSearchAggregations(  "vectorType"));
+//                srb.aggregation(this.buildSearchAggregations(   "vectorSubtype"));
+//            }
+//            if(categories==null || categories.get(0).equalsIgnoreCase("Study") || categories.get(0).equalsIgnoreCase("Experiment")
+//                    || categories.get(0).equalsIgnoreCase("Protocol")) {
+//                srb.aggregation(this.buildSearchAggregations("experimentType"));
+//            }
+//            if(categories==null || categories.get(0).equalsIgnoreCase("Protocol")) {
+//                srb.aggregation(this.buildSearchAggregations("experimentName"));
+//            }
+//            srb.aggregation(this.buildSearchAggregations("pi"));
+//            srb.aggregation(this.buildSearchAggregations("initiative"));
+//            srb.aggregation(this.buildSearchAggregations("studyType"));
+//
+//        }
+//        if(categories!=null && categories.size()==2){
+//            srb.aggregation(this.buildSearchAggregations("experimentType"));
+//            srb.aggregation(this.buildSearchAggregations("pi"));
+//            srb.aggregation(this.buildSearchAggregations("access"));
+//            srb.aggregation(this.buildSearchAggregations("status"));
+//            srb.aggregation(this.buildSearchAggregations("initiative"));
+//            srb.aggregation(this.buildSearchAggregations("studyType"));
+//        }
 
-            }
-            if(categories==null || categories.get(0).equalsIgnoreCase("Delivery System") ||
-                    categories.get(0).equalsIgnoreCase("Guide") ||
-                    categories.get(0).equalsIgnoreCase("Vector")
-                    ||categories.get(0).equalsIgnoreCase("Experiment")) {
-                srb.aggregation(this.buildSearchAggregations("tissueTerm"));
-            }
-            if(categories==null || categories.get(0).equalsIgnoreCase("Guide")) {
-                srb.aggregation(this.buildSearchAggregations("guideSpecies"));
-                srb.aggregation(this.buildSearchAggregations("guideCompatibility"));
+        srb.aggregation(this.buildSearchAggregations("editorType"));
+        srb.aggregation(this.buildSearchAggregations("editorSubType"));
+        srb.aggregation(this.buildSearchAggregations("editorSpecies"));
 
-             //   srb.aggregation(this.buildSearchAggregations("target"));
+        srb.aggregation(this.buildSearchAggregations("modelType"));
+        srb.aggregation(this.buildSearchAggregations("modelSubtype"));
+        srb.aggregation(this.buildSearchAggregations("modelOrganism"));
 
-            }
-            if(categories==null || categories.get(0).equalsIgnoreCase("Guide") ||
-                    categories.get(0).equalsIgnoreCase("Vector")
-                    ||categories.get(0).equalsIgnoreCase("Experiment")) {
-                srb.aggregation(this.buildSearchAggregations("guideTargetLocus"));
+        srb.aggregation(this.buildSearchAggregations("transgeneReporter"));
 
-            }
-            if(categories==null || categories.get(0).equalsIgnoreCase("Vector")) {
-                //      srb.aggregation(this.buildSearchAggregations(  "vectorName"));
-                srb.aggregation(this.buildSearchAggregations(  "vectorType"));
-                srb.aggregation(this.buildSearchAggregations(   "vectorSubtype"));
-            }
-            if(categories==null || categories.get(0).equalsIgnoreCase("Study") || categories.get(0).equalsIgnoreCase("Experiment")
-                    || categories.get(0).equalsIgnoreCase("Protocol")) {
-                srb.aggregation(this.buildSearchAggregations("experimentType"));
-            }
-            if(categories==null || categories.get(0).equalsIgnoreCase("Protocol")) {
-                srb.aggregation(this.buildSearchAggregations("experimentName"));
-            }
-            srb.aggregation(this.buildSearchAggregations("pi"));
-            srb.aggregation(this.buildSearchAggregations("initiative"));
-            srb.aggregation(this.buildSearchAggregations("studyType"));
+        srb.aggregation(this.buildSearchAggregations("deliveryType"));
+        srb.aggregation(this.buildSearchAggregations("deliverySubtype"));
+        srb.aggregation(this.buildSearchAggregations("deliverySpecies"));
+        srb.aggregation(this.buildSearchAggregations("tissueTerm"));
+        srb.aggregation(this.buildSearchAggregations("guideSpecies"));
+        srb.aggregation(this.buildSearchAggregations("guideCompatibility"));
+        srb.aggregation(this.buildSearchAggregations("guideTargetLocus"));
 
-        }
-        if(categories!=null && categories.size()==2){
-            srb.aggregation(this.buildSearchAggregations("experimentType"));
-            srb.aggregation(this.buildSearchAggregations("pi"));
-            srb.aggregation(this.buildSearchAggregations("access"));
-            srb.aggregation(this.buildSearchAggregations("status"));
-            srb.aggregation(this.buildSearchAggregations("initiative"));
-            srb.aggregation(this.buildSearchAggregations("studyType"));
-        }
+        srb.aggregation(this.buildSearchAggregations(  "vectorType"));
+        srb.aggregation(this.buildSearchAggregations(   "vectorSubtype"));
+        srb.aggregation(this.buildSearchAggregations("experimentType"));
 
+        srb.aggregation(this.buildSearchAggregations("experimentName"));
+
+        srb.aggregation(this.buildSearchAggregations("pi"));
+        srb.aggregation(this.buildSearchAggregations("initiative"));
+        srb.aggregation(this.buildSearchAggregations("studyType"));
     }
     public HighlightBuilder buildHighlights(){
        // List<String> fields= Stream.concat(searchFields().stream(), mustFields().stream()).collect(Collectors.toList());
@@ -441,6 +468,13 @@ public class IndexServices {
             q.add(QueryBuilders.matchPhraseQuery("pi", searchTerm).boost(200));
             q.add(QueryBuilders.termQuery("currentGrantNumber.keyword", searchTerm));
             q.add(QueryBuilders.termQuery("formerGrantNumbers.keyword", searchTerm));
+            q.add(QueryBuilders.termQuery("description", searchTerm));
+            q.add(QueryBuilders.termQuery("articleIds.id.keyword", searchTerm).caseInsensitive(true));
+            q.add(QueryBuilders.termQuery("authorList.lastName.keyword", searchTerm).caseInsensitive(true));
+            q.add(QueryBuilders.termQuery("authorList.firstName.keyword", searchTerm).caseInsensitive(true));
+
+
+
 
 
         }else{

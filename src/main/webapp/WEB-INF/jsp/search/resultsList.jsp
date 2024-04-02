@@ -125,11 +125,17 @@
                         <%if(access.isAdmin(person) && request.getAttribute("searchTerm")!=""){%>
                         <a class="search-results-anchor" style="text-decoration: none;cursor: pointer"  data-toggle="collapse" data-target="#highlights-<%=hit.get("id")%>" aria-expanded="false" aria-controls="highlights-<%=hit.get("id")%>" title="View highlights">+</a><%}%>
                     </h4>
-                    <small class="<%=hit.get("category")%> text-muted" <%=hit.get("category")%>>&nbsp;</small>
+                    <%if(hit.get("category")!=null){%>
+                    <small class="<%=hit.get("category")%> text-muted"><%=hit.get("category")%>&nbsp;</small>
+                    <%}%>
+                    <%if(hit.get("experimentType")!=null){%>
                     <small class="text-muted">
-                        <%if(hit.get("experimentType")!=null){%>-&nbsp;<%=hit.get("experimentType")%><%}%>
+                        -&nbsp;<%=hit.get("experimentType")%>
                     </small>
+                    <%}%>
+                    <%if(hit.get("initiative")!=null){%>
                     <small class="text-muted"><%=hit.get("initiative")%></small>
+                    <%}%>
                         <%if(hit.get("modelOrganism")!=null){%>
                     <small class="text-muted"><%=hit.get("modelOrganism")%></small>
 
@@ -180,9 +186,18 @@
 
 
             <%}%>
-            <%if(hit.get("description")!=null){%>
-
+            <%if(hit.get("category").toString().equalsIgnoreCase("publication")){%>
+                <%@include file="publicationDetails.jsp"%>
+            <%}%>
+            <%if(hit.get("description")!=null){
+                if(hit.get("category").toString().equalsIgnoreCase("publication")){%>
+                <span><strong>ABSTRACT:</strong> <%=hit.get("description").toString().substring(0,500)%></span><span id="points">&nbsp;...</span><br>
+                <%}else{%>
             <span><%=hit.get("description")%></span><br>
+                <%}
+            %>
+
+
 
             <%}%>
                <% if(hit.get("target")!=null && hit.get("category").toString().equalsIgnoreCase("Experiment")){
