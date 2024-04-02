@@ -58,10 +58,11 @@
 <%--                <li class="nav-item text-nowrap text-responsive Publications" id="Publications">--%>
 <%--                    <a class="nav-link Publications" href="/toolkit/data/publications/search" >Publications</a>--%>
 <%--                </li>--%>
+                <%if(!SCGEContext.isProduction()){%>
                 <li class="nav-item text-nowrap text-responsive Publications" id="Publications">
                     <a class="nav-link Publications" href="/toolkit/data/search/results/Publication?searchTerm=" >Publications</a>
                 </li>
-<%--                <%}%>--%>
+                <%}%>
 
 <!--c:if test="$-{action==null}"-->
     <!--li class="nav-item dropdown">
