@@ -133,6 +133,9 @@ public class SearchController{
             Set<Long> experimentIds=experiments.stream().map(experiment -> experiment.getExperimentId()).collect(Collectors.toSet());
             req.setAttribute("userAccessExperimentIds", experimentIds);
         }
+        if(searchTerm==null || searchTerm.equals("")){
+            searchTerm="";
+        }
         List<String> categories=Arrays.asList(category);
         SearchResponse sr=services.getSearchResults(categories,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
         req.setAttribute("facets", Facet.displayNames);
@@ -145,7 +148,7 @@ public class SearchController{
         String selectedView=req.getParameter("selectedView");
         if(selectedView==null || selectedView.equals("")){
            // selectedView="list";
-            if(category!=null && (category.equalsIgnoreCase("experiment") || category.equalsIgnoreCase("project"))){
+            if(category!=null && (category.equalsIgnoreCase("experiment") || category.equalsIgnoreCase("project") || category.equalsIgnoreCase("publication"))){
                 selectedView="list";
             }else selectedView="table";
         }
@@ -223,6 +226,11 @@ public class SearchController{
               req.setAttribute("action", "Projects");
               req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
               req.setAttribute("seoTitle","Projects");
+          }
+          if(category.trim().equalsIgnoreCase("Publication")) {
+              req.setAttribute("action", "Publications");
+              req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
+              req.setAttribute("seoTitle","Publications");
           }
       }else {
           req.setAttribute("action", "Search Results");

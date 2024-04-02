@@ -9,6 +9,23 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <c:forEach items="${aggregations}" var="agg">
+<%--    <c:if test="${fn:length(agg.value.buckets)>0 && agg.key=='initiative'}">--%>
+<%--        <div class="accordion-group">--%>
+<%--            <div class="pl-3  accordion-heading card-header">--%>
+<%--                <c:forEach items="${agg.value.buckets}" var="bkt">--%>
+<%--                    <h1>${bkt.key}</h1>--%>
+<%--                    <c:if test="${bkt.key=='Small Animal Testing Center (SATC)' || bkt.key=='Large Animal Reporter (LAR)'}">--%>
+<%--                        <div class="form-check">--%>
+<%--                            <input class="form-check-input" type="checkbox" name="${agg.key}" value="${bkt.key}" id="${bkt.key}">--%>
+<%--                            <label class="form-check-label" for="${bkt.key}">--%>
+<%--                                <strong>SCGE Program Funded ${bkt.key}</strong>&nbsp;(${bkt.docCount})--%>
+<%--                            </label>--%>
+<%--                        </div>--%>
+<%--                    </c:if>--%>
+<%--                </c:forEach>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </c:if>--%>
     <c:if test="${fn:length(agg.value.buckets)>0 && agg.key=='modelType'}">
         <div class="accordion-group">
             <div class="pl-3  accordion-heading card-header">

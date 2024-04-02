@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value="/data/protocols")
 public class ProtocolController extends ObjectController{
     ProtocolDao protocolDao = new ProtocolDao();
-
+    AssociationDao associationDao=new AssociationDao();
     @RequestMapping(value="/search")
     public String getEditors(HttpServletRequest req, HttpServletResponse res, Model model) throws Exception {
         Access access = new Access();
@@ -132,7 +132,7 @@ public class ProtocolController extends ObjectController{
             return null;
 
         }
-        ProtocolAssociation protocolAssociation=protocolDao.getProtocolAssociations(protocol.getId());
+        Association protocolAssociation=associationDao.getProtocolAssociations(protocol.getId());
         List<Study> studies=protocolAssociation.getAssociatedStudies();
         if(studies!=null && studies.size()>0) {
             List<ExperimentRecord> experimentRecords=new ArrayList<>();
@@ -268,8 +268,6 @@ public class ProtocolController extends ObjectController{
             summary.put("Keywords", protocol.getKeywords());
         if(summary.size()>0) {
             summaryBlocks.put("block"+i, summary);
-            i++;
-            summary=new LinkedHashMap<>();
         }
 
         return summaryBlocks;

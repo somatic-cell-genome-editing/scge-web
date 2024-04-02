@@ -60,15 +60,22 @@
                     <i class="fas fa-th"></i>&nbsp;Admin
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <%--if(!SCGEContext.isProduction()){--%>
+                    <%if(!SCGEContext.isTest()){%>
                     <a class="dropdown-item" href="/toolkit/admin/users">Manage Users</a>
-                    <%--}--%>
+                    <%}%>
                     <a class="dropdown-item" href="/toolkit/admin">Sudo User</a>
                     <a class="dropdown-item" href="/toolkit/admin/groupOverview">Groups Overview</a>
                     <a class="dropdown-item" href="/toolkit/data/studies/search">Project Browser</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/toolkit/admin/studyTierUpdates">Project Tier Updates</a>
                     <a class="dropdown-item" href="/toolkit/admin/bulkUpload">Bulk Image Upload</a>
+                                <%if(!SCGEContext.isProduction()){%>
+                        <a class="dropdown-item" href="/toolkit/data/protocols/search" >Add Protocols</a>
+                <a class="dropdown-item" href="/toolkit/data/publications/search" >Add Publications</a>
+
+
+                    <%}%>
+
                 </div>
             </li>
             <%}%>
