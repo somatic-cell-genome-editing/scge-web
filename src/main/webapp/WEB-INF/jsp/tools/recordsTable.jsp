@@ -43,19 +43,39 @@
 <c:if test="${fn:length(plots)>0}">
     <%@include file="experiment/colorByOptions.jsp"%>
     <div id="chart-highlighter">
-    <div id="barChart">
+    <div class="row">
+    <div id="barChart" class="col">
 
-        <b style="font-size:16px;">Select experimental variable to highlight records on the chart: </b>
-        <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
-            <% for(String filter: options) {%>
-            <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
-            <%} %>
-        </select>
+<%--        <b style="font-size:16px;">Select experimental variable to highlight records on the chart: </b>--%>
+<%--        <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">--%>
+<%--            <% for(String filter: options) {%>--%>
+<%--            <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>--%>
+<%--            <%} %>--%>
+<%--        </select>--%>
+    </div>
+        <div class="col-md-4 ml-auto btn btn-primary float-right" style="position: fixed;z-index: 1;" >
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="y-scale-type" id="inlineRadio1"  value="linear" onchange="updateChartValues(this.value)" checked>
+                <label class="form-check-label" for="inlineRadio1">Linear Scale</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="y-scale-type" id="inlineRadio2" value="logarithmic" onchange="updateChartValues(this.value)">
+                <label class="form-check-label" for="inlineRadio2">Logarithmic Scale</label>
+            </div>
+            <div class="form-check form-check-inline">
+               Highlight:&nbsp;<select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
+                    <% for(String filter: options) {%>
+                    <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
+                    <%} %>
+                </select>
+            </div>
+            <br><small class="text-mute"> Note:&nbsp;<span style="font-style: italic">Hover over the bars to view additional information</span></small>
+
+<%--            Scale:&nbsp;<input type="radio" name="chartValuesType" value="logarithmic" onchange="updateChartValues(this.value)">&nbsp;Logarithmic--%>
+<%--            &nbsp;<input type="radio" name="chartValuesType" value="linear" onchange="updateChartValues(this.value)" checked>&nbsp;Linear--%>
+        </div>
     </div>
 
-       <p> Note:&nbsp;<span style="font-style: italic">Hover over the bars to view additional information</span></p>
-        <div id="legend-wrapper">
-        </div>
     </div>
     <div>
         <%@include file="experiment/plot.jsp"%>
@@ -120,6 +140,9 @@
             $('#downloadChartBelow').hide();
 
     })
+    function updateChartValues(value){
+        update(true, value.toLowerCase())
+    }
     function download(){
         $("#myTable").tableToCSV();
     }
@@ -195,7 +218,7 @@
         return index;
     }
 
-    function update(updateColor){
+    function update(updateColor, scaleType){
         var table = document.getElementById('myTable'); //to remove filtered rows
         var rowLength=table.rows.length;
         var sortedValues=[];
@@ -204,6 +227,9 @@
         var selected=0;
         var filter;
         plotRecordIds=[];
+        if(typeof scaleType == 'undefined'){
+           scaleType=document.querySelector('input[name="y-scale-type"]:checked').value;
+        }
         if (document.getElementById("graphFilter") != null)
             filter = document.getElementById("graphFilter").value;
         //Find record id column index && selected colorBy option column index in the table
@@ -413,6 +439,8 @@
                 myChart<%=c%>.data.labels=newArrayLabel;
                 myChart<%=c%>.data.datasets = data;
                 myChart<%=c%>.options.scales.x.ticks.display = newArrayLabel.length<120;
+                myChart<%=c%>.options.scales.y.type = scaleType;
+
                 myChart<%=c%>.update();
                 document.getElementById("chartDiv<%=c%>").style.display = "block";
                 document.getElementById("resultChart<%=c%>").style.display = "block";
@@ -427,6 +455,8 @@
                 myChart<%=c%>.data.labels = newArrayLabel;
                 myChart<%=c%>.data.datasets = data;
                 myChart<%=c%>.options.scales.x.ticks.display = newArrayLabel.length < 120;
+                myChart<%=c%>.options.scales.y.type = scaleType;
+
                 myChart<%=c%>.update();
                 document.getElementById("chartDiv<%=c%>").style.display = "block";
                 document.getElementById("resultChart<%=c%>").style.display = "block";
