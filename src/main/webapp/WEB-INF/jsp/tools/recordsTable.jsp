@@ -41,44 +41,67 @@
 
 <!--div id="graphOptions" style="padding:10px;margin-bottome:15px;display:none;"></div-->
 <c:if test="${fn:length(plots)>0}">
-    <%@include file="experiment/colorByOptions.jsp"%>
-    <div id="chart-highlighter">
     <div class="row">
-    <div id="barChart" class="col">
+ <div class="col-lg-9">
+     <br><small class="text-mute"> Note:&nbsp;<span style="font-style: italic">Hover over the bars to view additional information</span></small>
 
-<%--        <b style="font-size:16px;">Select experimental variable to highlight records on the chart: </b>--%>
-<%--        <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">--%>
-<%--            <% for(String filter: options) {%>--%>
-<%--            <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>--%>
-<%--            <%} %>--%>
-<%--        </select>--%>
+     <div>
+        <%@include file="experiment/plot.jsp"%>
     </div>
-        <div class="col-md-4 ml-auto btn btn-primary float-right" style="position: fixed;z-index: 1;" >
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="y-scale-type" id="inlineRadio1"  value="linear" onchange="updateChartValues(this.value)" checked>
-                <label class="form-check-label" for="inlineRadio1">Linear Scale</label>
+ </div>
+    <div class="col-sm-3 sticky-top">
+        <div class="sticky-top">
+    <div id="chart-highlighter" style="position: relative;bottom: 0">
+        <%@include file="experiment/colorByOptions.jsp"%>
+
+        <div>
+            <div id="barChart" class="col">
+
+                    <%--        <b style="font-size:16px;">Select experimental variable to highlight records on the chart: </b>--%>
+                    <%--        <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">--%>
+                    <%--            <% for(String filter: options) {%>--%>
+                    <%--            <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>--%>
+                    <%--            <%} %>--%>
+                    <%--        </select>--%>
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="y-scale-type" id="inlineRadio2" value="logarithmic" onchange="updateChartValues(this.value)">
-                <label class="form-check-label" for="inlineRadio2">Logarithmic Scale</label>
+            <div class="card">
+                <div class="card-header">
+                    Scale
+                </div>
+                <div class="card-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="y-scale-type" id="inlineRadio1"  value="linear" onchange="updateChartValues(this.value)" checked>
+                        <label class="form-check-label" for="inlineRadio1">Linear Scale</label>
+                    </div>
+                    <div class="form-check ">
+                        <input class="form-check-input" type="radio" name="y-scale-type" id="inlineRadio2" value="logarithmic" onchange="updateChartValues(this.value)">
+                        <label class="form-check-label" for="inlineRadio2">Logarithmic Scale</label>
+                    </div>
+                </div>
             </div>
-            <div class="form-check form-check-inline">
-               Highlight:&nbsp;<select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
+
+                <div class="card">
+                    <div class="card-header">
+                        Highlight
+                    </div>
+                    <div class="card-body">
+                   <select class="form-control" name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
                     <% for(String filter: options) {%>
                     <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
                     <%} %>
                 </select>
-            </div>
-            <br><small class="text-mute"> Note:&nbsp;<span style="font-style: italic">Hover over the bars to view additional information</span></small>
+                    </div>
+                </div>
 
-<%--            Scale:&nbsp;<input type="radio" name="chartValuesType" value="logarithmic" onchange="updateChartValues(this.value)">&nbsp;Logarithmic--%>
-<%--            &nbsp;<input type="radio" name="chartValuesType" value="linear" onchange="updateChartValues(this.value)" checked>&nbsp;Linear--%>
+                    <%--            Scale:&nbsp;<input type="radio" name="chartValuesType" value="logarithmic" onchange="updateChartValues(this.value)">&nbsp;Logarithmic--%>
+                    <%--            &nbsp;<input type="radio" name="chartValuesType" value="linear" onchange="updateChartValues(this.value)" checked>&nbsp;Linear--%>
+
+        </div>
+        <div id="legend-wrapper">
         </div>
     </div>
-
     </div>
-    <div>
-        <%@include file="experiment/plot.jsp"%>
+    </div>
     </div>
 </c:if>
 
@@ -286,8 +309,8 @@
         var legendDiv = document.getElementById("legend-wrapper")
         if(filterValues.length>0 && filter!='None') {
 
-            var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>" +
-                "<div class=row>";
+            var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>"
+               ;
             for (var e in legendValues) {
                // console.log(legendValues[e] + "\t" + colorPalette[e])
                 var backgroundColor;
@@ -300,11 +323,11 @@
                     borderColor=colorPalette[e];
                 }
 
-                legendHtml += "<div class='col-2'><div class='row'><div class='col-1' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + backgroundColor + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+legendValues[e]+"'>"
+                legendHtml += "<div class='row'><div class='col-2' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + backgroundColor + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+legendValues[e]+"'>"
                 legendHtml += legendValuesTruncated[e]
-                legendHtml += "</small></div></div></div>"
+                legendHtml += "</small></div></div>"
             }
-            legendHtml += "</div></div> </div> </div>"
+            legendHtml += "</div></div> </div> "
             legendDiv.innerHTML = legendHtml;
         }else{
             legendDiv.innerHTML = "";
