@@ -256,7 +256,7 @@
    </div>
     <%}else{ if(maxBarCount>10 && plots.size()>1){
             for(int c=0;c<plots.size() && cellCount<plots.size();c++){%>
-    <div >
+    <div  class="justify-content-md-center">
                 <div class="chart-container" id="chartDiv<%=cellCount%>"  >
                     <canvas  id="resultChart<%=cellCount%>" style="display:block; position: relative; height:60vh;width: 60vw;padding-top: 5%" ></canvas>
 
@@ -270,7 +270,7 @@
 <div class="justify-content-md-center">
     <div>
 
-    <div class="chart-container" id="chartDiv<%=cellCount%>" style="display: block; height:60vh; width:60vw;">
+    <div class="chart-container" id="chartDiv<%=cellCount%>">
         <canvas  id="resultChart<%=cellCount%>" style="position: relative; height:60vh; width:60vw;" ></canvas>
 
     </div>

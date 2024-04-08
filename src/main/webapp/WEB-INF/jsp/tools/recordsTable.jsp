@@ -71,15 +71,15 @@
                 <div class="card-body">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="y-scale-type" id="inlineRadio1"  value="linear" onchange="updateChartValues(this.value)" checked>
-                        <label class="form-check-label" for="inlineRadio1">Linear Scale</label>
+                        <label class="form-check-label" for="inlineRadio1">Linear</label>
                     </div>
                     <div class="form-check ">
                         <input class="form-check-input" type="radio" name="y-scale-type" id="inlineRadio2" value="logarithmic" onchange="updateChartValues(this.value)">
-                        <label class="form-check-label" for="inlineRadio2">Logarithmic Scale</label>
+                        <label class="form-check-label" for="inlineRadio2">Logarithmic</label>
                     </div>
                 </div>
             </div>
-
+            <%if(options.size()>0)%>
                 <div class="card">
                     <div class="card-header">
                         Highlight
