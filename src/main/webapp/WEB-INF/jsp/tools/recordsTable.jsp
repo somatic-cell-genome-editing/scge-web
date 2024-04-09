@@ -271,9 +271,16 @@
         var filterValues=[];
         var legendValues=[];
         var legendValuesTruncated=[];
-        if (filter!='None') {
+
             for(var i=2;i<rowLength;i++) {
                 recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
+                if (table.rows.item(i).style.display != 'none') {
+                    var valueObj = {};
+                    valueObj.id = recordId;
+                    sortedValues.push(valueObj);
+                }
+
+                if (filter!='None') {
                 var cells = table.rows.item(i).cells;
                 var value = cells.item(selected).innerText.trim();
                 if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
@@ -287,11 +294,11 @@
                 colorByRecords[value] = colorByRecords[value] || [];
                 colorByRecords[value].push(recordId);
             }
-            filterValues.sort();
+        }
     
             var legendDiv = document.getElementById("legend-wrapper")
             if(filterValues.length>0 && filter!='None') {
-
+                filterValues.sort();
                 var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>"
                 ;
                 for (var v in legendValues) {
@@ -306,9 +313,15 @@
                         backgroundColor=colorPalette[e];
                         borderColor=colorPalette[e];
                     }
+                    var displayVal;
+                    if(legendValues[v].toString().length>15){
+                        displayVal=legendValues[v].toString().substring(0,5)+".."+legendValues[v].toString().substring(legendValues[v].toString().length-10)
+                    }else {
+                        displayVal=legendValues[v];
+                    }
 
                     legendHtml += "<div class='row'><div class='col-2' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + backgroundColor + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+legendValues[v]+"'>"
-                    legendHtml += legendValues[v]
+                    legendHtml += displayVal
                     legendHtml += "</small></div></div>"
                 }
                 legendHtml += "</div></div> </div> "
@@ -316,21 +329,6 @@
             }else{
                 legendDiv.innerHTML = "";
             }
-        }
-
-        //record ids ordered after sorting the column
-        for(var i=2;i<rowLength;i++){
-            if (table.rows.item(i).style.display != 'none') {
-                recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
-                var valueObj = {};
-                valueObj.id = recordId;
-                sortedValues.push(valueObj);
-            }
-        }
-          // var colorByRecordsJson=JSON.stringify(colorByRecords)
-        // console.log("COLOR RECS:"+ colorByRecordsJson)
-        // console.log("FILTER VALUES:"+ filterValues)
-        //Sorting array of objects by sortedValues
 
         var plotsSize=<%=plots.size()%>;
         <%
