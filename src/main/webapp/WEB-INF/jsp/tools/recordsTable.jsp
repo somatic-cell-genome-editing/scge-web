@@ -278,27 +278,25 @@
                 var value = cells.item(selected).innerText.trim();
                 if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
                     filterValues.push(value);
+
+                }
+                if (table.rows.item(i).style.display != 'none') {
+                    if(legendValues.indexOf(value)==-1)
+                    legendValues.push(value)
                 }
                 colorByRecords[value] = colorByRecords[value] || [];
                 colorByRecords[value].push(recordId);
             }
             filterValues.sort();
-            for(var label in filterValues){
-                var val=filterValues[label]
-                legendValues.push(val)
-                if(val.length>15){
-                    legendValuesTruncated.push(val.substring(0,5)+".."+val.substring(val.length-10));
-                }else {
-                    legendValuesTruncated.push(val);
-                }
-            }
+    
             var legendDiv = document.getElementById("legend-wrapper")
             if(filterValues.length>0 && filter!='None') {
 
                 var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>"
                 ;
-                for (var e in legendValues) {
+                for (var v in legendValues) {
                     // console.log(legendValues[e] + "\t" + colorPalette[e])
+                   var e= filterValues.indexOf(legendValues[v]);
                     var backgroundColor;
                     var borderColor;
                     if(e>30){
@@ -309,8 +307,8 @@
                         borderColor=colorPalette[e];
                     }
 
-                    legendHtml += "<div class='row'><div class='col-2' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + backgroundColor + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+legendValues[e]+"'>"
-                    legendHtml += legendValuesTruncated[e]
+                    legendHtml += "<div class='row'><div class='col-2' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + backgroundColor + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+legendValues[v]+"'>"
+                    legendHtml += legendValues[v]
                     legendHtml += "</small></div></div>"
                 }
                 legendHtml += "</div></div> </div> "
