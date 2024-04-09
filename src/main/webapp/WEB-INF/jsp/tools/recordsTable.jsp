@@ -282,17 +282,44 @@
                 colorByRecords[value] = colorByRecords[value] || [];
                 colorByRecords[value].push(recordId);
             }
-        }
-        filterValues.sort();
-        for(var label in filterValues){
-            var val=filterValues[label]
-            legendValues.push(val)
-            if(val.length>15){
-                legendValuesTruncated.push(val.substring(0,5)+".."+val.substring(val.length-10));
-            }else {
-                legendValuesTruncated.push(val);
+            filterValues.sort();
+            for(var label in filterValues){
+                var val=filterValues[label]
+                legendValues.push(val)
+                if(val.length>15){
+                    legendValuesTruncated.push(val.substring(0,5)+".."+val.substring(val.length-10));
+                }else {
+                    legendValuesTruncated.push(val);
+                }
+            }
+            var legendDiv = document.getElementById("legend-wrapper")
+            if(filterValues.length>0 && filter!='None') {
+
+                var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>"
+                ;
+                for (var e in legendValues) {
+                    // console.log(legendValues[e] + "\t" + colorPalette[e])
+                    var backgroundColor;
+                    var borderColor;
+                    if(e>30){
+                        backgroundColor=colorPalette2[e];
+                        borderColor=colorPalette2[e];
+                    }else{
+                        backgroundColor=colorPalette[e];
+                        borderColor=colorPalette[e];
+                    }
+
+                    legendHtml += "<div class='row'><div class='col-2' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + backgroundColor + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+legendValues[e]+"'>"
+                    legendHtml += legendValuesTruncated[e]
+                    legendHtml += "</small></div></div>"
+                }
+                legendHtml += "</div></div> </div> "
+                legendDiv.innerHTML = legendHtml;
+            }else{
+                legendDiv.innerHTML = "";
             }
         }
+
         //record ids ordered after sorting the column
         for(var i=2;i<rowLength;i++){
             if (table.rows.item(i).style.display != 'none') {
@@ -302,36 +329,11 @@
                 sortedValues.push(valueObj);
             }
         }
-          var colorByRecordsJson=JSON.stringify(colorByRecords)
+          // var colorByRecordsJson=JSON.stringify(colorByRecords)
         // console.log("COLOR RECS:"+ colorByRecordsJson)
         // console.log("FILTER VALUES:"+ filterValues)
         //Sorting array of objects by sortedValues
-        var legendDiv = document.getElementById("legend-wrapper")
-        if(filterValues.length>0 && filter!='None') {
 
-            var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>"
-               ;
-            for (var e in legendValues) {
-               // console.log(legendValues[e] + "\t" + colorPalette[e])
-                var backgroundColor;
-                var borderColor;
-                if(e>30){
-                    backgroundColor=colorPalette2[e];
-                    borderColor=colorPalette2[e];
-                }else{
-                    backgroundColor=colorPalette[e];
-                    borderColor=colorPalette[e];
-                }
-
-                legendHtml += "<div class='row'><div class='col-2' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + backgroundColor + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+legendValues[e]+"'>"
-                legendHtml += legendValuesTruncated[e]
-                legendHtml += "</small></div></div>"
-            }
-            legendHtml += "</div></div> </div> "
-            legendDiv.innerHTML = legendHtml;
-        }else{
-            legendDiv.innerHTML = "";
-        }
         var plotsSize=<%=plots.size()%>;
         <%
 
@@ -408,7 +410,7 @@
         var  newArrayData = [];
         var newArrayIndividuals=[];
         var bgColorArray=[];
-        var j=0;
+        var k=0;
         var data=[];
 
         var  plotRecordIds=[];
@@ -418,8 +420,8 @@
             newArrayData.push(d.data);
             bgColorArray.push(d.bgColor);
             plotRecordIds.push(d.recordId);
-            newArrayIndividuals[j]=(d.replicates);
-            j++;
+            newArrayIndividuals[k]=(d.replicates);
+            k++;
 
         });
 
