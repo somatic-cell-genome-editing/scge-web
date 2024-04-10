@@ -23,8 +23,11 @@
 
 
 
-<script src="https://unpkg.com/vue@2"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<%--<script src="https://unpkg.com/vue@2"></script>--%>
+<%--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>--%>
+<script src="/toolkit/common/js/vue2.7.6.js"></script>
+<script src="/toolkit/common/js/axios.min.js"></script>
+
 <script>
     function openForm() {
         document.getElementById("messageVue").style.display = "block";

@@ -41,25 +41,49 @@
 
 <!--div id="graphOptions" style="padding:10px;margin-bottome:15px;display:none;"></div-->
 <c:if test="${fn:length(plots)>0}">
-    <%@include file="experiment/colorByOptions.jsp"%>
-    <div id="chart-highlighter">
-    <div id="barChart">
 
-        <b style="font-size:16px;">Select experimental variable to highlight records on the chart: </b>
-        <select name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
-            <% for(String filter: options) {%>
-            <option style="padding: 5px; font-size:12px;" value=<%=filter%>><%=filter%></option>
-            <%} %>
-        </select>
-    </div>
+        <div id="chart-highlighter">
+        <%@include file="experiment/colorByOptions.jsp"%>
 
-       <p> Note:&nbsp;<span style="font-style: italic">Hover over the bars to view additional information</span></p>
+        <div class="row" style="margin-bottom: 1%">
+            <div id="barChart" class="col form-inline ">
+                <div class="form-inline mb-2">
+                <b style="font-size:16px;">Select experimental variable to highlight records on the chart: </b>
+                </div>
+                <select class="form-inline mb-2" name="graphFilter" id="graphFilter" onchange= "update(true)" style="padding: 5px; font-size:12px;">
+                    <% for(String filter: options) {%>
+                    <option  value=<%=filter%>><%=filter%></option>
+                    <%} %>
+                </select>
+            </div>
+            <div class="col">
+                <div class="card-header form-check form-check-inline">
+                    <div class="form-inline mb-2">
+                        <label class="form-check-label">Scale</label>
+                    </div>
+                    <div class="form-check form-inline mb-2">
+                        <input class="form-check-input" type="radio" name="y-scale-type" id="inlineRadio1"  value="linear" onchange="updateChartValues(this.value)" checked>
+                        <label class="form-check-label" for="inlineRadio1">Linear</label>
+                    </div>
+                    <div class="form-check form-inline mb-2">
+                        <input class="form-check-input" type="radio" name="y-scale-type" id="inlineRadio2" value="logarithmic" onchange="updateChartValues(this.value)">
+                        <label class="form-check-label" for="inlineRadio2">Logarithmic</label>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
         <div id="legend-wrapper">
         </div>
-    </div>
-    <div>
-        <%@include file="experiment/plot.jsp"%>
-    </div>
+            <br><small class="text-mute" style="text-decoration: underline"> Note:&nbsp;<span style="font-style: italic">Hover over the bars to view additional information</span></small>
+
+        </div>
+
+        <div>
+            <%@include file="experiment/plot.jsp"%>
+        </div>
+
 </c:if>
 
 <div id="imageViewer" style="visibility:hidden; border: 1px double black; width:704px;position:fixed;top:15px; left:15px;z-index:1000;background-color:white;"></div>
@@ -120,6 +144,9 @@
             $('#downloadChartBelow').hide();
 
     })
+    function updateChartValues(value){
+        update(true, value.toLowerCase())
+    }
     function download(){
         $("#myTable").tableToCSV();
     }
@@ -195,7 +222,7 @@
         return index;
     }
 
-    function update(updateColor){
+    function update(updateColor, scaleType){
         var table = document.getElementById('myTable'); //to remove filtered rows
         var rowLength=table.rows.length;
         var sortedValues=[];
@@ -204,6 +231,9 @@
         var selected=0;
         var filter;
         plotRecordIds=[];
+        if(typeof scaleType == 'undefined'){
+           scaleType=document.querySelector('input[name="y-scale-type"]:checked').value;
+        }
         if (document.getElementById("graphFilter") != null)
             filter = document.getElementById("graphFilter").value;
         //Find record id column index && selected colorBy option column index in the table
@@ -222,67 +252,65 @@
         var filterValues=[];
         var legendValues=[];
         var legendValuesTruncated=[];
-        if (filter!='None') {
+
             for(var i=2;i<rowLength;i++) {
                 recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
+                if (table.rows.item(i).style.display != 'none') {
+                    var valueObj = {};
+                    valueObj.id = recordId;
+                    sortedValues.push(valueObj);
+                }
+
+                if (filter!='None') {
                 var cells = table.rows.item(i).cells;
                 var value = cells.item(selected).innerText.trim();
                 if (filterValues.length == 0 || filterValues.indexOf(value) == -1) {
                     filterValues.push(value);
+
+                }
+                if (table.rows.item(i).style.display != 'none') {
+                    if(legendValues.indexOf(value)==-1)
+                    legendValues.push(value)
                 }
                 colorByRecords[value] = colorByRecords[value] || [];
                 colorByRecords[value].push(recordId);
             }
         }
-        filterValues.sort();
-        for(var label in filterValues){
-            var val=filterValues[label]
-            legendValues.push(val)
-            if(val.length>15){
-                legendValuesTruncated.push(val.substring(0,5)+".."+val.substring(val.length-10));
-            }else {
-                legendValuesTruncated.push(val);
-            }
-        }
-        //record ids ordered after sorting the column
-        for(var i=2;i<rowLength;i++){
-            if (table.rows.item(i).style.display != 'none') {
-                recordId = table.rows[i].cells.item(recordIdIndex).innerHTML;
-                var valueObj = {};
-                valueObj.id = recordId;
-                sortedValues.push(valueObj);
-            }
-        }
-          var colorByRecordsJson=JSON.stringify(colorByRecords)
-        // console.log("COLOR RECS:"+ colorByRecordsJson)
-        // console.log("FILTER VALUES:"+ filterValues)
-        //Sorting array of objects by sortedValues
-        var legendDiv = document.getElementById("legend-wrapper")
-        if(filterValues.length>0 && filter!='None') {
+    
+            var legendDiv = document.getElementById("legend-wrapper")
+            if(filterValues.length>0 && filter!='None') {
+                filterValues.sort();
+                var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>"
+                +   "<div class=row>";
+                for (var v in legendValues) {
+                    // console.log(legendValues[e] + "\t" + colorPalette[e])
+                   var e= filterValues.indexOf(legendValues[v]);
+                    var backgroundColor;
+                    var borderColor;
+                    if(e>30){
+                        backgroundColor=colorPalette2[e];
+                        borderColor=colorPalette2[e];
+                    }else{
+                        backgroundColor=colorPalette[e];
+                        borderColor=colorPalette[e];
+                    }
+                    var displayVal;
+                    if(legendValues[v].toString().length>15){
+                        displayVal=legendValues[v].toString().substring(0,5)+".."+legendValues[v].toString().substring(legendValues[v].toString().length-10)
+                    }else {
+                        displayVal=legendValues[v];
+                    }
 
-            var legendHtml = " <div class='card' style='margin-bottom: 5px'><div class='card-header'>Legend</div><div class='card-body'> <div id='legend'>" +
-                "<div class=row>";
-            for (var e in legendValues) {
-               // console.log(legendValues[e] + "\t" + colorPalette[e])
-                var backgroundColor;
-                var borderColor;
-                if(e>30){
-                    backgroundColor=colorPalette2[e];
-                    borderColor=colorPalette2[e];
-                }else{
-                    backgroundColor=colorPalette[e];
-                    borderColor=colorPalette[e];
+                    legendHtml += "<div class='col-2'><div class='row'><div class='col-1' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + backgroundColor + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+legendValues[v]+"'>"
+                    legendHtml += displayVal
+                    legendHtml += "</small></div></div></div>"
                 }
-
-                legendHtml += "<div class='col-2'><div class='row'><div class='col-1' style='padding-top: 5px'><div  style='height:10px;width:20px;border:1px solid gray;background-color:" + backgroundColor + "'></div></div>&nbsp;<div class='col'><small class='text-muted text-nowrap' title='"+legendValues[e]+"'>"
-                legendHtml += legendValuesTruncated[e]
-                legendHtml += "</small></div></div></div>"
+                legendHtml += "</div></div> </div> </div>"
+                legendDiv.innerHTML = legendHtml;
+            }else{
+                legendDiv.innerHTML = "";
             }
-            legendHtml += "</div></div> </div> </div>"
-            legendDiv.innerHTML = legendHtml;
-        }else{
-            legendDiv.innerHTML = "";
-        }
+
         var plotsSize=<%=plots.size()%>;
         <%
 
@@ -359,7 +387,7 @@
         var  newArrayData = [];
         var newArrayIndividuals=[];
         var bgColorArray=[];
-        var j=0;
+        var k=0;
         var data=[];
 
         var  plotRecordIds=[];
@@ -369,8 +397,8 @@
             newArrayData.push(d.data);
             bgColorArray.push(d.bgColor);
             plotRecordIds.push(d.recordId);
-            newArrayIndividuals[j]=(d.replicates);
-            j++;
+            newArrayIndividuals[k]=(d.replicates);
+            k++;
 
         });
 
@@ -413,6 +441,8 @@
                 myChart<%=c%>.data.labels=newArrayLabel;
                 myChart<%=c%>.data.datasets = data;
                 myChart<%=c%>.options.scales.x.ticks.display = newArrayLabel.length<120;
+                myChart<%=c%>.options.scales.y.type = scaleType;
+
                 myChart<%=c%>.update();
                 document.getElementById("chartDiv<%=c%>").style.display = "block";
                 document.getElementById("resultChart<%=c%>").style.display = "block";
@@ -427,6 +457,8 @@
                 myChart<%=c%>.data.labels = newArrayLabel;
                 myChart<%=c%>.data.datasets = data;
                 myChart<%=c%>.options.scales.x.ticks.display = newArrayLabel.length < 120;
+                myChart<%=c%>.options.scales.y.type = scaleType;
+
                 myChart<%=c%>.update();
                 document.getElementById("chartDiv<%=c%>").style.display = "block";
                 document.getElementById("resultChart<%=c%>").style.display = "block";
@@ -744,10 +776,10 @@
 <!--div id="associatedPublications"-->
     <%--@include file="/WEB-INF/jsp/tools/publications/associatedPublications.jsp"--%>
 <!--/div-->
-<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-<script>
-    feather.replace()
-</script>
+<%--<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>--%>
+<%--<script>--%>
+<%--    feather.replace()--%>
+<%--</script>--%>
 
 
 <% String modalFilePath="/toolkit/images/experimentHelpModal.png"; %>
