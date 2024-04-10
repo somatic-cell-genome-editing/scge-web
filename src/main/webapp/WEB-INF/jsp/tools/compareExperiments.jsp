@@ -229,8 +229,8 @@
             myChart.update();
         }
         </script>
-        <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-        <script>
-            feather.replace()
-        </script>
+<%--        <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>--%>
+<%--        <script>--%>
+<%--            feather.replace()--%>
+<%--        </script>--%>
 <!--div style="float:right; width:8%;padding-bottom: 10px"><button class="btn btn-primary" >Compare</button></div-->
