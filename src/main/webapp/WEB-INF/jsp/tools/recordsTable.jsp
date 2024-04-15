@@ -525,15 +525,15 @@
         if (_this.checked) {
             elms.forEach(function(ele) {
                 ele.checked=true;
-                applyFilters(ele, true,columnName);
+                // applyFilters(ele, true,columnName);
             });
         }else {
             elms.forEach(function(ele) {
                 ele.checked=false;
-                applyFilters(ele, true,columnName);
+                // applyFilters(ele, true,columnName);
             });
         }
-        update(true)
+        // update(true)
     }
     function filtersApplied() {
         var table = document.getElementById('myTable');

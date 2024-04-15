@@ -133,7 +133,14 @@
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
 </div>
 <div id="mySidenav" class="sidenav">
-    <h5 style="margin-left: 20px;">Filter Results .. <i class="fa-solid fa-down"></i></h5>
+    <div class="row">
+        <div class="col">
+    <h5 style="margin-left: 20px;">Filters .. <i class="fa-solid fa-down"></i></h5>
+        </div>
+        <div class="col">
+            <button class="btn btn-secondary btn-sm" onclick="load()">Apply</button>
+        </div>
+    </div>
     <table align="center" border="0" style="margin-left:35px;">
 
         <% if (tissueList!=null && tissueList.size() > 0 ) { %>
@@ -177,7 +184,7 @@
                                     <tr>
                                         <td>
                                             <% if (qualifierList.size() > 1) { %>
-                                            <input onclick="applyFilters(this,false, 'Qualifier')" name="checkqualifier" id="<%=qualifier.trim()%>" type="checkbox" checked><%}%>&nbsp;<%=qualifier%>
+                                            <input  name="checkqualifier" id="<%=qualifier.trim()%>" type="checkbox" checked><%}%>&nbsp;<%=qualifier%>
                                         </td>
                                     </tr>
                                     <% }} %>
@@ -209,7 +216,7 @@
                                     <tr>
                                         <td>
                                             <% if (timePointList.size() > 1) { %>
-                                            <input onclick="applyFilters(this, false, 'Time Point')" name="checkTimePoint" id="<%=timePoint%>" type="checkbox" checked><%}%>&nbsp;<%=timePoint%>
+                                            <input  name="checkTimePoint" id="<%=timePoint%>" type="checkbox" checked><%}%>&nbsp;<%=timePoint%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -244,14 +251,14 @@
                                     <tr>
                                         <td>
                                             <% if (cellTypeList.size() > 1) { %>
-                                            <input onclick="applyFilters(this)"  name="checkcelltype" id="<%=cellType%>" type="checkbox" checked><%}%>&nbsp;<%=cellType%>
+                                            <input   name="checkcelltype" id="<%=cellType%>" type="checkbox" checked><%}%>&nbsp;<%=cellType%>
                                         </td>
                                     </tr>
                                     <%} else { %>
                                     <tr>
                                         <td>
                                             <% if (cellTypeList.size() > 1) { %>
-                                            <input onclick="applyFilters(this, false,'Cell Type')" name="checkcelltype" id="<%=cellType%>" type="checkbox" checked><%}%>&nbsp;<%=cellType%>
+                                            <input  name="checkcelltype" id="<%=cellType%>" type="checkbox" checked><%}%>&nbsp;<%=cellType%>
                                         </td>
                                     </tr>
                                     <% }} %>
@@ -284,7 +291,7 @@
                                     <tr>
                                         <td>
                                             <% if (editorList.size() > 1) { %>
-                                            <input onclick="applyFilters(this, false, 'Editor')" name="checkeditor" id="<%=editor%>" type="checkbox" checked><%}%>&nbsp;<%=editor%>
+                                            <input  name="checkeditor" id="<%=editor%>" type="checkbox" checked><%}%>&nbsp;<%=editor%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -316,7 +323,7 @@
                                     <tr>
                                         <td>
                                             <% if (guideTargetLocusList.size() > 1) { %>
-                                            <input onclick="applyFilters(this, false, 'Target Locus')" name="checktargetlocus" id="<%=locus%>" type="checkbox" checked><%}%>&nbsp;<%=locus%>
+                                            <input  name="checktargetlocus" id="<%=locus%>" type="checkbox" checked><%}%>&nbsp;<%=locus%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -348,7 +355,7 @@
                                     <tr>
                                         <td>
                                             <% if (guideList.size() > 1) { %>
-                                            <input onchange="applyFilters(this, false,'Guide')" name="checkguide" id="<%=guide%>" type="checkbox" checked><%}%>&nbsp;<%=guide%>
+                                            <input  name="checkguide" id="<%=guide%>" type="checkbox" checked><%}%>&nbsp;<%=guide%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -379,7 +386,7 @@
                                     <tr>
                                         <td>
                                             <% if (deliverySystemList.size() > 1) { %>
-                                            <input onclick="applyFilters(this, false, 'Delivery')" name="checkdelivery" id="<%=system%>" type="checkbox" checked><%}%>&nbsp;<%=system%>
+                                            <input  name="checkdelivery" id="<%=system%>" type="checkbox" checked><%}%>&nbsp;<%=system%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -410,7 +417,7 @@
                                     <tr>
                                         <td>
                                             <% if (modelList.size() > 1) { %>
-                                            <input onclick="applyFilters(this, false,'Model')" name="checkmodel"  id="<%=model%>" type="checkbox" checked><%}%>&nbsp;<%=model%>
+                                            <input  name="checkmodel"  id="<%=model%>" type="checkbox" checked><%}%>&nbsp;<%=model%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -443,7 +450,7 @@
                                     <tr>
                                         <td>
                                             <% if (hrdonorList.size() > 1) { %>
-                                            <input onclick="applyFilters(this, false, 'HR Donor')" name="checkhrdonor"  id="<%=hrdonor%>" type="checkbox" checked><%}%>&nbsp;<%=hrdonor%>
+                                            <input  name="checkhrdonor"  id="<%=hrdonor%>" type="checkbox" checked><%}%>&nbsp;<%=hrdonor%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -476,7 +483,7 @@
                                     <tr>
                                         <td>
                                             <% if (sexList.size() > 1) { %>
-                                            <input onclick="applyFilters(this, false,'Sex')" name="checksex"  id="<%=sex%>" type="checkbox" checked><%}%>&nbsp;<%=sex%>
+                                            <input  name="checksex"  id="<%=sex%>" type="checkbox" checked><%}%>&nbsp;<%=sex%>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -512,7 +519,7 @@
                                     <tr>
                                         <td>
                                             <% if (vectorList.size() > 1) { %>
-                                            <input onclick="applyFilters(this, false, 'Vector')" name="checkvector" id="<%=vector%>" type="checkbox" checked><%}%>&nbsp;<%=vector%>
+                                            <input  name="checkvector" id="<%=vector%>" type="checkbox" checked><%}%>&nbsp;<%=vector%>
                                         </td>
                                     </tr>
                                     <% } %>
