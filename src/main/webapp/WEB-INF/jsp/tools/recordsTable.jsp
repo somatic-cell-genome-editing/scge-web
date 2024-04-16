@@ -25,11 +25,15 @@
 
     List<Integer> barCounts=new ArrayList<>();
     for(Plot plot:plots){
-        for(String key:plot.getPlotData().keySet()){
-            List<Double> values=plot.getPlotData().get(key);
-            if(values!=null)
-            barCounts.add(values.size());
-        }
+      Collection<List<Double>> values=  plot.getPlotData().values();
+      for(List<Double> collection:values){
+          barCounts.add(collection.size());
+      }
+//        for(String key:plot.getPlotData().keySet()){
+//            List<Double> values=plot.getPlotData().get(key);
+//            if(values!=null)
+//            barCounts.add(values.size());
+//        }
 
     }
     int maxBarCount=0;

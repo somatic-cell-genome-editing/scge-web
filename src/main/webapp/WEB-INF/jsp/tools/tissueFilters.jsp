@@ -27,21 +27,16 @@
 
 <%
 
-
-    Set<String> targetTissues=new HashSet<>();
-    Set<Long> targetTissueRecordIds=new HashSet<>();
-
     //This is a total hack and needs to be refactored
     HashMap<String,Long> targetTissues2=new HashMap<String,Long>();
-    HashMap<String,Long> nonTargetTissues2=new HashMap<String,Long>();
 
     for (ExperimentRecord er : records) {
         List<ExperimentResultDetail> erdList = er.getResultDetails();
         try {
             if (er.getIsTargetTissue() == 1) {
-                if (er.getOrganSystemID() != null)
-                    targetTissues.add(er.getOrganSystemID());
-                targetTissueRecordIds.add(er.getExperimentRecordId());
+//                if (er.getOrganSystemID() != null)
+//                    targetTissues.add(er.getOrganSystemID());
+//                targetTissueRecordIds.add(er.getExperimentRecordId());
 
                 if ((er.getCellTypeTerm() != null && !er.getCellTypeTerm().equals(""))) {
                     if (er.getTissueTerm() != null)
@@ -50,15 +45,16 @@
                     if (er.getTissueTerm() != null)
                         targetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
                 }
-            } else {
-                if ((er.getCellTypeTerm() != null && !er.getCellTypeTerm().equals(""))) {
-                    if (er.getTissueTerm() != null)
-                        nonTargetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
-                } else {
-                    if (er.getTissueTerm() != null)
-                        nonTargetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
-                }
             }
+//            else {
+//                if ((er.getCellTypeTerm() != null && !er.getCellTypeTerm().equals(""))) {
+//                    if (er.getTissueTerm() != null)
+//                        nonTargetTissues2.put(er.getTissueTerm() + " (" + er.getCellTypeTerm().trim() + ")", er.getExperimentRecordId());
+//                } else {
+//                    if (er.getTissueTerm() != null)
+//                        nonTargetTissues2.put(er.getTissueTerm(), er.getExperimentRecordId());
+//                }
+//            }
         } catch (Exception e) {
             System.out.println("BLOCK:6");
             e.printStackTrace();
@@ -111,43 +107,28 @@
         }
         try {
             if (tissueTerm != null) {
-
+                String cellTerm="";
                 if (cellType != null && !cellType.equals("")) {
+                     cellTerm+=" (" + cellType + ")";
+                }
+
                     if (hasDelivery) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Delivery&tissue=" + tissueTerm + "&cellType=" + cellType;
-                        tm.addDelivery(organSystem, tissueTerm + " (" + cellType + ")", url);
+                        tm.addDelivery(organSystem, tissueTerm + cellTerm, url);
                     }
                     if (hasEditing) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Editing&tissue=" + tissueTerm + "&cellType=" + cellType;
-                        tm.addEditing(organSystem, tissueTerm + " (" + cellType + ")", url);
+                        tm.addEditing(organSystem, tissueTerm +cellTerm, url);
                     }
                     if (hasBiomarker) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=" + cellType;
-                        tm.addBiomarker(organSystem, tissueTerm + " (" + cellType + ")", url);
+                        tm.addBiomarker(organSystem, tissueTerm + cellTerm, url);
                     }
                     if (hasNoResult) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=" + cellType;
-                        tm.addNoResult(organSystem, tissueTerm + " (" + cellType + ")", url);
-                    }
-                } else {
-                    if (hasDelivery) {
-                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Delivery&tissue=" + tissueTerm + "&cellType=";
-                        tm.addDelivery(organSystem, tissueTerm, url);
-                    }
-                    if (hasEditing) {
-                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Editing&tissue=" + tissueTerm + "&cellType=";
-                        tm.addEditing(organSystem, tissueTerm, url);
+                        tm.addNoResult(organSystem, tissueTerm + cellTerm, url);
                     }
 
-                    if (hasBiomarker) {
-                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=";
-                        tm.addBiomarker(organSystem, tissueTerm, url);
-                    }
-                    if (hasNoResult) {
-                        String url = "" ;
-                        tm.addNoResult(organSystem, tissueTerm , url);
-                    }
-                }
             }
         }catch (Exception e) {
             System.out.println("BLOCK:" + 2);
