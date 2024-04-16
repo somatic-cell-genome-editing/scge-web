@@ -177,13 +177,13 @@
         %>
                <% if((selectedTissue == null && selectedTissuesList.size()==0) || tissueTermExtracted.equalsIgnoreCase(selectedTissue) || selectedTissuesList.contains(tissueTermExtracted)) {%>
 
-       <li style="list-style-type: none"> <input type="checkbox" onclick="applyFilters(this, false, 'Tissue')" name="tissue"  id="<%=tissueTermExtracted%>" value="<%=tissueTermExtracted%>" checked>
+       <li style="list-style-type: none"> <input type="checkbox"  name="tissue"  id="<%=tissueTermExtracted%>" value="<%=tissueTermExtracted%>" checked>
         <%=upCaseChildTerm%>
         <% if (targetTissues2.containsKey(childTerm)) { %>
         &nbsp;<span style="color:red;font-weight: bold">(TARGET)</span>
         <%} %>
        </li><%}else{%>
-                <li style="list-style-type: none"> <input type="checkbox" onclick="applyFilters(this, false, 'Tissue')" name="tissue"  id="<%=tissueTermExtracted%>" value="<%=tissueTermExtracted%>">
+                <li style="list-style-type: none"> <input type="checkbox"  name="tissue"  id="<%=tissueTermExtracted%>" value="<%=tissueTermExtracted%>">
                     <%=upCaseChildTerm%>
                     <% if (targetTissues2.containsKey(childTerm)) { %>
                     &nbsp;<span style="color:red;font-weight: bold">(TARGET)</span>

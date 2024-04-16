@@ -138,7 +138,7 @@
     <h5 style="margin-left: 20px;">Filters .. <i class="fa-solid fa-down"></i></h5>
         </div>
         <div class="col">
-            <button class="btn btn-secondary btn-sm" onclick="load()">Apply</button>
+            <button class="btn btn-secondary btn-sm" onclick="load(false)">Apply</button>
         </div>
     </div>
     <table align="center" border="0" style="margin-left:35px;">

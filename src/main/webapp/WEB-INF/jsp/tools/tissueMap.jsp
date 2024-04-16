@@ -5,6 +5,9 @@
 <%@ page import="io.netty.util.internal.StringUtil" %>
 <%@ page import="edu.mcw.scge.web.TissueMapper" %>
 <%@ page import="sun.awt.image.ImageWatched" %>
+<%@ page import="edu.mcw.scge.web.SCGEContext" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ImageDao" %>
+<%@ page import="com.google.gson.Gson" %>
 <link rel="stylesheet" href="/toolkit/css/tissuemap.css">
 
 <%
@@ -30,7 +33,7 @@
    // rootTissues.put("Hematopoietic","UBERON:0002390");
 %>
 
-    <% Gson gson=new Gson();
+    <%
         LinkedHashMap<String, Boolean> tissueEditingMap = new LinkedHashMap<String, Boolean>();
         LinkedHashMap<String, Boolean> tissueDeliveryMap = new LinkedHashMap<String, Boolean>();
         LinkedHashMap<String, Boolean> tissueBiomarkerMap = new LinkedHashMap<String, Boolean>();

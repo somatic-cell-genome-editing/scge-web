@@ -22,7 +22,7 @@
 
 <div>
     <%
-
+        List<Plot> plots= (List<Plot>) request.getAttribute("plots");
         List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
         Map<java.lang.String, List<ExperimentRecord>> resultTypeRecords= (Map<java.lang.String, List<ExperimentRecord>>) request.getAttribute("resultTypeRecords");
         Map<java.lang.String, Integer> resultTypeColumnCount= (Map<java.lang.String,Integer>) request.getAttribute("resultTypeColumnCount");
@@ -40,15 +40,23 @@
         Experiment ex = (Experiment) request.getAttribute("experiment");
         long objectId = ex.getExperimentId();
         String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
-    %>
-    <%
         Map<Long, List<Experiment>> validationExperimentsMap = new HashMap<>();
         if (request.getAttribute("validationExperimentsMap") != null)
             validationExperimentsMap = (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
         Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
         if (request.getAttribute("experimentsValidatedMap") != null)
             experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
+        String selectedTissues =(String) request.getAttribute("selectedTissues");
+        List<String> selectedTissuesList=new ArrayList<>();
+        if(selectedTissues!=null) {
+            String[] selectedTissueArray = selectedTissues.split(",");
+            selectedTissuesList.addAll(Arrays.asList(selectedTissueArray));
+        }
     %>
+    <script>
+        var plotsSize=<%=plots.size()%>;
+        var selectedTissueListSize=<%=selectedTissuesList.size()%>
+    </script>
     <div id="recordTableContent" style="position:relative; left:0px; top:00px;padding-top:20px;">
 
 
@@ -82,12 +90,7 @@
 
                 LinkedHashSet<String> conditions = (LinkedHashSet<String>) request.getAttribute("conditions");
                 String selectedTissue = (String)request.getAttribute("tissue");
-                String selectedTissues =(String) request.getAttribute("selectedTissues");
-                List<String> selectedTissuesList=new ArrayList<>();
-                if(selectedTissues!=null) {
-                    String[] selectedTissueArray = selectedTissues.split(",");
-                    selectedTissuesList.addAll(Arrays.asList(selectedTissueArray));
-                }
+
                 String selectedCellType = (String)request.getAttribute("cellType");
                 String selectedResultType = (String)request.getAttribute("resultType");
 
@@ -118,6 +121,7 @@
 
         <%}%>
     </div>
+
 </div>
 
 
