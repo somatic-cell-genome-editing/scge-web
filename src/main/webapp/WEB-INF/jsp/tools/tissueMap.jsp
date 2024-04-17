@@ -129,35 +129,23 @@
         }
         try {
         if (tissueTerm != null) {
-
+                String cellTypeTerm="";
                 if (cellType != null && !cellType.equals("")) {
+                    cellTypeTerm+=" (" + cellType + ")";
+                }
                     if (hasDelivery) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Delivery&tissue=" + tissueTerm + "&cellType=" + cellType;
-                        tm.addDelivery(organSystem, tissueTerm + " (" + cellType + ")", url);
+                        tm.addDelivery(organSystem, tissueTerm +cellTypeTerm , url);
                     }
                     if (hasEditing) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Editing&tissue=" + tissueTerm + "&cellType=" + cellType;
-                        tm.addEditing(organSystem, tissueTerm + " (" + cellType + ")", url);
+                        tm.addEditing(organSystem, tissueTerm + cellTypeTerm, url);
                     }
                     if (hasBiomarker) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=" + cellType;
-                        tm.addBiomarker(organSystem, tissueTerm + " (" + cellType + ")", url);
-                    }
-                } else {
-                    if (hasDelivery) {
-                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Delivery&tissue=" + tissueTerm + "&cellType=";
-                        tm.addDelivery(organSystem, tissueTerm, url);
-                    }
-                    if (hasEditing) {
-                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Editing&tissue=" + tissueTerm + "&cellType=";
-                        tm.addEditing(organSystem, tissueTerm, url);
+                        tm.addBiomarker(organSystem, tissueTerm + cellTypeTerm, url);
                     }
 
-                    if (hasBiomarker) {
-                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=";
-                        tm.addBiomarker(organSystem, tissueTerm, url);
-                    }
-                }
             }
         }catch (Exception e) {
             System.out.println("BLOCK:" + 2);
@@ -244,7 +232,7 @@
                     <table style="width: 100%">
                         <tr>
                     <td style="width: 70%;"><input type="checkbox" name="<%=organ%>" class="selectedTissue" value="<%=tissueTermExtracted%>">
-                    <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?tissue=<%=tissueTermExtracted%>"><%=upCaseChildTerm%></a>
+                    <%=upCaseChildTerm%>
                     <% if (targetTissues2.containsKey(childTerm)) { %>
                     &nbsp;<span style="color:red;font-weight: bold">(TARGET)</span>
                     <%} %>
