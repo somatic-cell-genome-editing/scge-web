@@ -198,6 +198,13 @@ function applyAllFilters(_this, name, columnName) {
     }
     // update(true)
 }
+function resetFilters() {
+    $("input[type='checkbox']").each(function (){
+        this.checked=true
+    })
+    load(false) //not the initial load, update plots
+
+}
 function filtersApplied() {
     var table = document.getElementById('myTable');
     var rowLength = table.rows.length;
@@ -221,9 +228,10 @@ function emptyTableRows() {
     //    console.log("TABLE ROW LENGTH:"+ rowLength +"\thidden rows:"+ hiddenRows)
     return rowLength == hiddenRows + 2;
 }
-function applyFilters(objects, initialLoad, columnName) {
+function applyFilters(objects,  columnName) {
     var table = document.getElementById('myTable'); //to remove filtered rows
     var columnIndex=getColumnIndex(table, columnName)
+    if(columnIndex>0){
     var rowLength = table.rows.length;
     for (i = 2; i < rowLength; i++) {
         var cells = table.rows.item(i).cells;
@@ -232,8 +240,8 @@ function applyFilters(objects, initialLoad, columnName) {
        objects.forEach(function (obj){
 
 
-        if ((cells.item(columnIndex).innerText.toLowerCase().includes(obj.id.toString().toLowerCase()) && columnName!='Sex') || (cells.item(columnIndex).innerHTML.toLowerCase().search(">" + obj.id.toString().toLowerCase() + "<") > -1 && columnName!='Sex') ||
-            cells.item(columnIndex).innerText.toLowerCase()==obj.id.toString().toLowerCase() ) {
+        if ((cells.item(columnIndex).innerText.toLowerCase().includes(obj.id.toString().toLowerCase()) && columnName!='Sex' && columnName!='Qualifier') || (cells.item(columnIndex).innerHTML.toLowerCase().search(">" + obj.id.toString().toLowerCase() + "<") > -1 && columnName!='Sex' && columnName!='Qualifier') ||
+            cells.item(columnIndex).innerText.toLowerCase().trim()==obj.id.toString().toLowerCase() .trim()) {
             //   if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
             if (obj.checked) {
                 cells.item(columnIndex).off = false;
@@ -255,7 +263,7 @@ function applyFilters(objects, initialLoad, columnName) {
             }
         }
        })
-        // }
+       }
 
     }
     if (filtersApplied() &&  !emptyTableRows())
@@ -272,9 +280,6 @@ function applyFilters(objects, initialLoad, columnName) {
         table.style.display="block";
     }
 
-    // if(!initialLoad){
-    //     update(true)
-    // }
 }
 
 var dualAxis = false;
@@ -286,43 +291,57 @@ function load(initialLoad) {
             elms.forEach(function (ele) {
                objects.push(ele)
             });
-        applyFilters(objects, true, 'Tissue');
+        applyFilters(objects, 'Tissue');
+
+        var objects=[]
+        var elms = document.getElementsByName( 'checkTimePoint');
+        elms.forEach(function (ele) {
+            objects.push(ele)
+        });
+        applyFilters(objects, 'Time Point');
+
+        var objects=[]
+        var elms = document.getElementsByName("checkqualifier");
+        elms.forEach(function (ele) {
+            objects.push(ele)
+        });
+        applyFilters(objects, 'Qualifier');
         var objects=[]
         var elms = document.getElementsByName("checkcelltype");
         elms.forEach(function (ele) {
             objects.push(ele)
         });
-        applyFilters(objects, true, 'Cell Type');
+        applyFilters(objects,  'Cell Type');
         var objects=[]
         var elms = document.getElementsByName("checkeditor");
         elms.forEach(function (ele) {
             objects.push(ele)
         });
-        applyFilters(objects, true, 'Editor');
+        applyFilters(objects,  'Editor');
         var objects=[]
         var elms = document.getElementsByName("checktargetlocus");
         elms.forEach(function (ele) {
-
+            objects.push(ele)
         });
-        applyFilters(objects, true, 'Target Locus');
+        applyFilters(objects, 'Target Locus');
         var objects=[]
         var elms = document.getElementsByName("checkguide");
         elms.forEach(function (ele) {
             objects.push(ele)
         });
-        applyFilters(objects, true, 'Guide');
+        applyFilters(objects,  'Guide');
         var objects=[]
         var elms = document.getElementsByName("checkdelivery");
         elms.forEach(function (ele) {
             objects.push(ele)
         });
-        applyFilters(objects, true, 'Delivery');
+        applyFilters(objects, 'Delivery');
         var objects=[]
         var elms = document.getElementsByName("checkmodel");
         elms.forEach(function (ele) {
             objects.push(ele)
         });
-        applyFilters(objects, true, 'Model');
+        applyFilters(objects,  'Model');
 
         var elms = document.getElementsByName("checksex");
         var objects=[]
@@ -330,27 +349,21 @@ function load(initialLoad) {
             console.log("SEX:"+ ele.id)
             objects.push(ele)
         });
-        applyFilters(objects, true, 'Sex');
+        applyFilters(objects,  'Sex');
 
-        // var elms = document.getElementsByName("checkresulttype");
-        // elms.forEach(function(ele) {
-        //     applyFilters(ele,true);
-        // });
-        // var elms = document.getElementsByName("checkunits");
-        // elms.forEach(function(ele) {
-        //     applyFilters(ele);
-        // });
         var objects=[]
         var elms = document.getElementsByName("checkvector");
         elms.forEach(function (ele) {
+            objects.push(ele)
         });
-        applyFilters(objects, true, 'Vector');
+        applyFilters(objects,  'Vector');
+
         var objects=[]
         var elms = document.getElementsByName("checkhrdonor");
         elms.forEach(function (ele) {
             objects.push(ele)
         });
-        applyFilters(objects, true, 'HR Donor');
+        applyFilters(objects,  'HR Donor');
 
         // if(elms.length==0){
         //     if (document.getElementById("graphFilter") != null) {

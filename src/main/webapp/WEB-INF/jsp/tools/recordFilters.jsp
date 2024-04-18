@@ -140,6 +140,9 @@
         <div class="col">
             <button class="btn btn-secondary btn-sm" onclick="load(false)">Apply</button>
         </div>
+        <div class="col">
+            <button class="btn btn-secondary btn-sm" onclick="resetFilters()">Reset</button>
+        </div>
     </div>
     <table align="center" border="0" style="margin-left:35px;">
 
@@ -178,7 +181,7 @@
                             <div class="recordFilterBlock">
                                 <table>
                                     <% for (String qualifier: qualifierList) {
-                                        if(qualifier.length()>1){
+                                        //if(qualifier.length()>1){
                                     %>
 
                                     <tr>
@@ -187,7 +190,8 @@
                                             <input  name="checkqualifier" id="<%=qualifier.trim()%>" type="checkbox" checked><%}%>&nbsp;<%=qualifier%>
                                         </td>
                                     </tr>
-                                    <% }} %>
+                                    <%// }
+                                    } %>
                                 </table>
                             </div>
                         </td>
