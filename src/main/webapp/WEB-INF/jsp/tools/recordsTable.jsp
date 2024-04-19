@@ -39,7 +39,9 @@
     int maxBarCount=0;
     if(barCounts.size()>0)
           maxBarCount=  Collections.max(barCounts);
+    List<String> options = new ArrayList<>();
 %>
+<%@include file="experiment/colorByOptions.jsp"%>
 
 <%@include file="recordFilters.jsp"%>
 
@@ -47,7 +49,6 @@
 <c:if test="${fn:length(plots)>0}">
 
         <div id="chart-highlighter">
-        <%@include file="experiment/colorByOptions.jsp"%>
 
         <div class="row" style="margin-bottom: 1%">
             <div id="barChart" class="col form-inline ">
@@ -72,9 +73,7 @@
                     <div class="form-check form-inline mb-2">
                         <input class="form-check-input" type="radio" name="y-scale-type" id="inlineRadio2" value="logarithmic" onchange="updateChartValues(this.value)">
                         <label class="form-check-label" for="inlineRadio2">Logarithmic</label>
-                        &nbsp;<span class="d-inline-block"  id="scaleHelp" tabindex="0" data-toggle="tooltip" title="A logarithmic scale (or log scale) is a method used to display numerical data that spans a broad range of values, especially when there are significant differences between the magnitudes of the numbers involved. A logarithmic scale is nonlinear, and as such numbers with equal distance between them such as 1, 2, 3, 4, 5 are not equally spaced. Equally spaced values on a logarithmic scale have exponents that increment uniformly. Examples of equally spaced values are 10, 100, 1000, 10000, and 100000 (i.e., 10^1, 10^2, 10^3, 10^4, 10^5) and 2, 4, 8, 16, and 32 (i.e., 2^1, 2^2, 2^3, 2^4, 2^5).
-">
-<i class="fa fa-question-circle" aria-hidden="true"></i></span>
+                        <span class="d-inline-block"  id="scaleHelp" tabindex="0" data-toggle="tooltip" title="A logarithmic scale (or log scale) is a method used to display numerical data that spans a broad range of values, especially when there are significant differences between the magnitudes of the numbers involved. A logarithmic scale is nonlinear, and as such numbers with equal distance between them such as 1, 2, 3, 4, 5 are not equally spaced. Equally spaced values on a logarithmic scale have exponents that increment uniformly. Examples of equally spaced values are 10, 100, 1000, 10000, and 100000 (i.e., 10^1, 10^2, 10^3, 10^4, 10^5) and 2, 4, 8, 16, and 32 (i.e., 2^1, 2^2, 2^3, 2^4, 2^5)."><i class="fa fa-question-circle" aria-hidden="true"></i></span>
                     </div>
                 </div>
 
