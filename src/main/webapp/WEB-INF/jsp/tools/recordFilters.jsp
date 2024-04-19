@@ -133,16 +133,21 @@
     <a href="javascript:void(0)" style="color:white;" lass="closebtn" onclick="openNav()">&#9776; Open Options</a>
 </div>
 <div id="mySidenav" class="sidenav">
-    <div class="row">
-        <div class="col">
-    <h5 style="margin-left: 20px;">Filters .. <i class="fa-solid fa-down"></i></h5>
+    <div class="row sticky-top " style="background-color: white; box-shadow: 5px 5px gainsboro;border:1px solid gainsboro; padding-bottom: 10px; padding-top: 10px">
+        <div class="col-lg-5 pt-10" >
+        <h5 style="margin-left: 20px;">Filters .. <i class="fa-solid fa-down"></i></h5>
         </div>
-        <div class="col">
+        <div class="col pt-10">
+            <div class="row">
+                <div class="col-5">
             <button class="btn btn-secondary btn-sm" onclick="load(false)">Apply</button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-secondary btn-sm" onclick="resetFilters()">Reset</button>
+                </div>
+            </div>
         </div>
-        <div class="col">
-            <button class="btn btn-secondary btn-sm" onclick="resetFilters()">Reset</button>
-        </div>
+
     </div>
     <table align="center" border="0" style="margin-left:35px;">
 
