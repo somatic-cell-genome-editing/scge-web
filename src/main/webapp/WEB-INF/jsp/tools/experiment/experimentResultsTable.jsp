@@ -1,4 +1,5 @@
 <%@ page import="edu.mcw.scge.datamodel.Vector" %>
+<%@ page import="edu.mcw.scge.datamodel.ExperimentRecord" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="edu.mcw.scge.service.StringUtils" %>
 <%@ page import="edu.mcw.scge.service.ProcessUtils" %>

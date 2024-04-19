@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
-    List<String> options = new ArrayList<>();
+
     if(plots.size()>1)
         options.add("Condition");
     options.add("None");
@@ -54,4 +54,5 @@
     if (tableColumns.get("units") !=null && ( (List<String>)tableColumns.get("units")).size()>1
             && ( (List<String>)tableColumns.get("units")).size()!=records.size()) {
         //    options.add("Units");
-    }%>
+    }
+%>
