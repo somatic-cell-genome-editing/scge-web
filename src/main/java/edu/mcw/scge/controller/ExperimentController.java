@@ -930,7 +930,6 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
             req.setAttribute("experiment",e);
             req.setAttribute("experimentRecordsMap",new HashMap<Long, ExperimentRecord>());
 
-            ProtocolDao pdao = new ProtocolDao();
             List<Protocol> protocols = pdao.getProtocolsForObject(experimentId);
             req.setAttribute("protocols", protocols);
 
@@ -966,7 +965,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         List<Protocol> protocols = pdao.getProtocolsForObject(experimentId);
         req.setAttribute("protocols", protocols);
-        Grant grant=grantDao.getGrantByGroupId(localStudy.getGroupId());
+//        Grant grant=grantDao.getGrantByGroupId(localStudy.getGroupId());
 
 
         List<String> resultTypesList = dbService.getResultTypes(experimentId);
@@ -975,8 +974,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         req.setAttribute("resultTypesSet", resultTypesSet);
         req.setAttribute("resultTypeNUnits", resultTypeNUnits);
 
-        HashMap<Long,List<Guide>> guideMap = new HashMap<>();
-        HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
+//        HashMap<Long,List<Guide>> guideMap = new HashMap<>();
+//        HashMap<Long,List<Vector>> vectorMap = new HashMap<>();
 
         LinkedHashMap<Long,List<ExperimentResultDetail>> experimentResultsMap = new LinkedHashMap<>();
         HashMap<String, String> deliveryMap = new HashMap<String,String>();
@@ -994,12 +993,12 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
         }
 
 
-        for (ExperimentRecord record:records) {
-            long expRecId = record.getExperimentRecordId();
-            guideMap.put(expRecId, dbService.getGuidesByExpRecId(expRecId));
-            vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
-
-        }
+//        for (ExperimentRecord record:records) {
+//            long expRecId = record.getExperimentRecordId();
+//            guideMap.put(expRecId, dbService.getGuidesByExpRecId(expRecId));
+//            vectorMap.put(expRecId, dbService.getVectorsByExpRecId(expRecId));
+//
+//        }
 
         req.setAttribute("associatedPublications", publicationDAO.getAssociatedPublications(experimentId));
         req.setAttribute("relatedPublications", publicationDAO.getRelatedPublications(experimentId));
@@ -1025,8 +1024,8 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
 
         req.setAttribute("study", localStudy);
         req.setAttribute("experiment",e);
-        req.setAttribute("guideMap",guideMap);
-        req.setAttribute("vectorMap",vectorMap);
+//        req.setAttribute("guideMap",guideMap);
+//        req.setAttribute("vectorMap",vectorMap);
         req.setAttribute("resultType",resultType);
         req.setAttribute("tissue",tissue);
         if(req.getParameter("selectedTissues")!=null)
