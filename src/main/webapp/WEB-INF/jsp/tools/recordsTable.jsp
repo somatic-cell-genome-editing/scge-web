@@ -324,6 +324,9 @@
                 document.getElementById("resultChart<%=c%>").style.display = "block";
                 document.getElementById("image<%=c%>").style.display = "block";
             }else{
+                if(initialLoad){
+                    myChart<%=c%> = drawResultChart([], [], <%=c%>, <%=tickDisplay%>, '<%=plotTitle%>', <%=yAxisLabel%>, '<%=titleColor%>')
+                }
                 document.getElementById("chartDiv<%=c%>").style.display="none";
                 document.getElementById("resultChart<%=c%>").style.display = "none";
                 document.getElementById("image<%=c%>").style.display = "none";
