@@ -73,11 +73,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="/toolkit/css/caret.css" rel="stylesheet" type="text/css"/>
     <script src="/toolkit/js/scge.js"></script>
-    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<%--    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>--%>
+
+<%--    <!-- Theme included stylesheets -->--%>
+<%--    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">--%>
+<%--    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">--%>
+
+    <script src="/toolkit/common/js/quill.min.js"></script>
 
     <!-- Theme included stylesheets -->
-    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+    <link href="/toolkit/common/js/quill.snow.css" rel="stylesheet">
+    <link href="/toolkit/common/js/quill.bubble.css" rel="stylesheet">
 </head>
 
 <body>
