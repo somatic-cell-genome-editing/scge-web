@@ -202,7 +202,17 @@ function resetFilters() {
     $("input[type='checkbox']").each(function (){
         this.checked=true
     })
-    load(false) //not the initial load, update plots
+    removeAllFiltersApplied();
+    update(false) //not the initial load, update plots
+
+}
+function removeAllFiltersApplied() {
+    var table = document.getElementById('myTable');
+    var rowLength = table.rows.length;
+    for (i = 2; i < rowLength; i++) {
+        table.rows.item(i).style.display = ""
+
+    }
 
 }
 function filtersApplied() {
