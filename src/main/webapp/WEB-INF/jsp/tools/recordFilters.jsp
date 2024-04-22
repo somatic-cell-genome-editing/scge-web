@@ -149,7 +149,7 @@
                     <button class="btn btn-secondary btn-sm" onclick="load(false)">Apply</button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-secondary btn-sm" onclick="resetFilters()">Reset</button>
+                    <button class="btn btn-secondary btn-sm" onclick="resetFilters()">Select All</button>
                 </div>
             </div>
         </div>
