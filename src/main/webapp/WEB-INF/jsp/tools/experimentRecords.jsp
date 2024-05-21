@@ -106,17 +106,17 @@
                     }
                 }
             %>
-            <% if (tissueList != null && tissueList.size() > 0 && selectedTissue == null && (selectedResultType == null || !selectedResultType.equals("all"))
-           && selectedTissuesList.size()==0) { %>
+<%--            <% if (tissueList != null && tissueList.size() > 0 && selectedTissue == null && (selectedResultType == null || !selectedResultType.equals("all"))--%>
+<%--           && selectedTissuesList.size()==0) { %>--%>
 
-                <%@include file="tissueMap.jsp"%>
+<%--                <%@include file="tissueMap.jsp"%>--%>
 
 
-         <% }else{  %>
+<%--         <% }else{  %>--%>
 
         <%@include file="recordsTable.jsp"%>
 
-        <%}%>
+<%--        <%}%>--%>
     </div>
 
 </div>
