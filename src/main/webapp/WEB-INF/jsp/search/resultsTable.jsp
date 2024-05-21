@@ -45,7 +45,7 @@
         <th>Compatibility</th>
         <%}%>
         <th>Name</th>
-        <th>Description</th>
+        <th style="width:30%">Description</th>
         <th>Source</th>
         <%if(access.isAdmin(person)){%>
         <th>Tier</th>
@@ -196,7 +196,7 @@
 <%--                </c:choose>--%>
 
             </td>
-            <td><%if(hit.get("description")!=null){%>
+            <td style="width: 30%;"><%if(hit.get("description")!=null){%>
                 <%=hit.get("description")%></td>
             <%}%>
             <td style="width:5%">
@@ -259,7 +259,7 @@
             <%}%>
 
 
-            <td style="width: 50%">
+            <td style="width: 40%">
                 <%@include file="associations.jsp"%>
             </td>
 
