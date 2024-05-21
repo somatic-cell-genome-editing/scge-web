@@ -25,10 +25,11 @@
     }
 </style>
 <c:if test="${category!=null && action!=null && action=='Search Results'}">
-<a href="/toolkit/data/search/results?searchTerm=${searchTerm}"><i class="fa-solid fa-arrow-left"></i>&nbsp;Back to all categories</a>
+    <a href="/toolkit/data/search/results?searchTerm=${searchTerm}"><button class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i>&nbsp;Back to all categories</button></a>
 </c:if>
+
 <c:if test="${fn:length(aggregations.category.buckets)>1}">
-<div class="p-2" style="border-bottom: 2px solid black">Select Category&nbsp;</div>
+    <div class="p-2" style="border-bottom: 1px solid black;background-color:lightskyblue;"><h4>Select Category&nbsp;</h4></div>
 </c:if>
 <div class="accordion">
     <div class="accordion-group">
@@ -69,11 +70,12 @@
             </c:forEach>
             </c:if>
     </div>
+    <br>
 <c:if test="${fn:length(aggregations.category.buckets)==1}">
-    <div class="p-2" style="border-bottom: 2px solid black">Filter By ...&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
+    <div class="p-2" style="border-bottom: 1px solid black;background-color:lightskyblue;"><h4>Filter By ...&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></h4></div>
 </c:if>
     <c:if test="${fn:length(aggregations.category.buckets)>1}">
-        <div class="p-2" style="border-bottom: 2px solid black">OR Filter By ...&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>
+        <div class="p-2" style="border-bottom: 1px solid black;background-color:lightskyblue;"><h4>OR Filter By ...&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></h4></div>
     </c:if>
     <c:set var="actionLink" value="/toolkit/data/search/results/${category}"/>
     <c:if test="${action=='Studies And Experiments'}">
