@@ -90,6 +90,7 @@
 <%@include file="resultHeader.jsp"%>
 <table class="table table-striped">
     <%
+        int i=1;
         for(SearchHit searchHit:hits){
             Map<String, Object> hit=  searchHit.getSourceAsMap();
     %>
@@ -98,7 +99,9 @@
         <div>
             <div>
                 <div>
-                    <h4>
+                    <h4>  <%if(hit.get("category").toString().equalsIgnoreCase("publication")){%>
+                        <%=i%>.
+                        <%}%>
                         <% if(hit.get("name")!=null){%>
                             <%if(hit.get("studyType")!=null && hit.get("studyType").toString().equalsIgnoreCase("Validation")){%>
                         <span title="Validation Study" style="color:darkorange;font-weight: bold;font-size: large;color:darkorange"> [Validation]</span>
@@ -240,7 +243,7 @@
     </td>
     </tr>
 
-    <%}%>
+    <% i++;}%>
 </table>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 

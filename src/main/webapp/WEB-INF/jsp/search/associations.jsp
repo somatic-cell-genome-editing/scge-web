@@ -19,13 +19,13 @@
 
     <details>
         <summary>Show Project</summary>
-        <p>
+        <ul>
             <%for(Map.Entry entry:studyNames.entrySet()){%>
-            <span style="margin-left: 2%;"><a class="search-results-anchor" href="/toolkit/data/experiments/study/<%=entry.getKey()%>"><%=entry.getValue()%></a></span>
-            <br>
+            <li><a class="search-results-anchor" href="/toolkit/data/experiments/study/<%=entry.getKey()%>"><%=entry.getValue()%></a>
+            </li>
 
             <%}%>
-        </p>
+        </ul>
 
     </details>
 
@@ -37,16 +37,16 @@
 
     <details>
         <summary>Show Experiments (<%=experimentNames.size()%>)</summary>
-        <p>
+        <ul>
 
             <%for(Map.Entry entry:experimentNames.entrySet()){%>
 
-            <span style="margin-left: 2%;"><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/<%=entry.getKey()%>"><%=entry.getValue()%></a></span>
-            <br>
+            <li><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/<%=entry.getKey()%>"><%=entry.getValue()%></a>
+            </li>
 
             <%}%>
 
-        </p>
+        </ul>
 
     </details>
 
