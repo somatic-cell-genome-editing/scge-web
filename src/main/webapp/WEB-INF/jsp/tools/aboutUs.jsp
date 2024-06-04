@@ -20,16 +20,21 @@
             The goal of the Somatic Cell Genome Editing (SCGE)  program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients. The SCGE Toolkit serves as the hub to promote the novel strategies and technologies funded by the NIH Common Fund SCGE program.
         </p>
         <hr class="my-4">
-        <p>The SCGE Toolkit team works cooperatively with funded groups to facilitate their scientific endeavors by building pipelines and processes to collect, integrate, visualize, and distribute submitted data, including: </p>
-            <div>
-                <ul>
-                    <li>Intended and unintended biological effects of gene editing in vivo and in vitro using a variety of genome editors, guides, novel delivery systems, and model systems</li>
-                    <li>Independent validation studies by animal testing centers of novel delivery systems using unique preclinical animal models.  </li>
-                    <li>Published and unpublished data submitted by SCGE-funded investigators for the community to explore and build upon.</li>
-                </ul>
-                <c:if test="${(action!=null && action!='About SCGE Toolkit') || action==null}"><a href="/toolkit/data/initiatives" title="About SCGE Toolkit"><button class="btn btn-primary btn-sm" style="">Learn more about the SCGE Toolkit</button>&nbsp;</a></c:if><a target="_blank" href="https://scge.mcw.edu/" title="About SCGE Program"><button class="btn btn-primary btn-sm" style="">Learn more about the SCGE Program</button></a>
+        <ul>
+            <li>The SCGE Toolkit team works cooperatively with funded groups to facilitate their scientific endeavors by building pipelines and processes to collect, integrate, visualize, and distribute submitted data.</li>
+        <li>The Toolkit contains data submitted by SCGE-funded investigators for the community to explore and build upon.</li>
+            <li>Data may be published or unpublished/preliminary data
+                <div>
+                    <ul>
+                        <li>Intended and unintended biological effects of gene editing in vivo and in vitro using a variety of genome editors, guides, novel delivery systems, and model systems.</li>
+                        <li>Independent validation studies by animal testing centers of novel delivery systems using unique preclinical animal models.</li>
+                    </ul>
 
-            </div>
+                </div>
+            </li>
+        </ul>
+        <c:if test="${(action!=null && action!='About SCGE Toolkit') || action==null}"><a href="/toolkit/data/initiatives" title="About SCGE Toolkit"><button class="btn btn-primary btn-sm" style="">Learn more about the SCGE Toolkit</button>&nbsp;</a></c:if><a target="_blank" href="https://scge.mcw.edu/" title="About SCGE Program"><button class="btn btn-primary btn-sm" style="">Learn more about the SCGE Program</button></a>
+
     </div>
 
 </div>
