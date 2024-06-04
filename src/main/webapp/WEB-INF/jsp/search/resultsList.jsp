@@ -193,8 +193,15 @@
                 <%@include file="publicationDetails.jsp"%>
             <%}%>
             <%if(hit.get("description")!=null){
-                if(hit.get("category").toString().equalsIgnoreCase("publication")){%>
-                <span><strong>ABSTRACT:</strong> <%=hit.get("description").toString().substring(0,500)%></span><span id="points">&nbsp;...</span><br>
+                if(hit.get("category").toString().equalsIgnoreCase("publication")){
+
+                    if(hit.get("description").toString().length()>500){%>
+            <span><strong>ABSTRACT:</strong> <%=hit.get("description").toString().substring(0,500)%></span><span id="points">&nbsp;...</span><br>
+
+            <%}else{%>
+            <span><strong>ABSTRACT:</strong> <%=hit.get("description").toString()%></span><span id="points">&nbsp;...</span><br>
+
+            <%}%>
                 <%}else{%>
             <span><%=hit.get("description")%></span><br>
                 <%}
