@@ -54,7 +54,7 @@
     }
     String id="";
     if(!url.equals("")) {
-       id += "<a href='" + url + articleId.getId() + "'>" + articleId.getId() + "</a>";
+       id += "<a target='_blank' href='" + url + articleId.getId() + "'>" + articleId.getId() + "</a>";
     }else{
       id+=articleId.getId();
     }
