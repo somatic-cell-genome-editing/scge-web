@@ -14,7 +14,7 @@
         }
     }
     if(studyNames.size()>0 || experimentNames.size()>0){%>
-<%if( hit.get("category").toString().equalsIgnoreCase("Experiment")){%>
+<%if( hit.get("category").toString().equalsIgnoreCase("Experiment") && !hit.get("category").toString().equalsIgnoreCase("Publication")){%>
 <div style="padding-top: 1%">
 
     <details>
@@ -32,7 +32,7 @@
 </div>
 
 <%}}%>
-<%  if(experimentNames.size()>0){%>
+<%  if(experimentNames.size()>0 && !hit.get("category").toString().equalsIgnoreCase("Publication")){%>
 <div style="padding-top: 1%">
 
     <details>

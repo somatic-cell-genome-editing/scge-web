@@ -244,6 +244,7 @@
 
             <%}%>
             <%@include file="associations.jsp"%>
+            <%@include file="publicationTags.jsp"%>
 
         </div>
 
