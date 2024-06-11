@@ -56,7 +56,7 @@
         <h2>Toolkit Data Processing Pipeline</h2>
         <hr>
     <div class="container" style="text-align: center">
-        <img src="/toolkit/images/toolkit_processing.jpg" alt="Toolkit Data Processing Pipeline"/>
+        <img src="/toolkit/images/toolkit_processing.jpg" alt="Toolkit Data Processing Pipeline" width="100%"/>
     <%--@include file="hierarchical-overview.jsp"--%>
     </div>
 </div>
