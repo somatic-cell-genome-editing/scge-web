@@ -18,14 +18,14 @@
     <%
         List<String> modelOrganisms= (List<String>) hit.get("modelOrganism");
       for(String model:modelOrganisms){%>
-          <%=model%>
+          <%=model%>;
       <%}}
     if(hit.get("modelName")!=null) {%>
 <br><strong>Models:</strong>
 <%
         List<String> modelNameMap=  (List<String>) hit.get("modelName");
         for(String model:modelNameMap){%>
-            <%=model%>
+            <%=model%>;
        <% }}
 
     if(hit.get("editorSymbol")!=null) {
@@ -35,11 +35,16 @@
         List<String> editorSymbol=  (List<String>) hit.get("editorSymbol");
         for(String editor:editorSymbol){
             %>
-            <%=editor%>
-       <% }}
-
-%>
-
+            <%=editor%>;
+       <% }}%>
+<%
+    if(hit.get("deliverySystemName")!=null){%>
+    <br>  <strong>Delivery System</strong>
+    <%
+        List<String> ds=  (List<String>) hit.get("deliverySystemName");
+    for(String delivery:ds){%>
+        <%=delivery%>;
+    <%}}%>
     <%
         if(studyNames.size()>0 || experimentNames.size()>0){%>
     <%if(hit.get("category").toString().equalsIgnoreCase("Publication")){%>

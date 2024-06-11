@@ -244,8 +244,11 @@
 
             <%}%>
             <%@include file="associations.jsp"%>
+            <%
+                if(hit.get("category").toString().equalsIgnoreCase("Publication")){
+            %>
             <%@include file="publicationTags.jsp"%>
-
+            <%}%>
         </div>
 
     </td>
