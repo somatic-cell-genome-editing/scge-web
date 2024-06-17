@@ -38,7 +38,7 @@
 
             </c:when>
             <c:otherwise>
-                ${fn:toUpperCase(id.idType)}:<a href="${id.url}${id.id}">&nbsp;${id.id}</a>;&nbsp;
+                ${fn:toUpperCase(id.idType)}:<a href="${id.url}${id.id}" target="_blank">&nbsp;${id.id}</a>;&nbsp;
 
             </c:otherwise>
         </c:choose>

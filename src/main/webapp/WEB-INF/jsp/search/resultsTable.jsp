@@ -17,7 +17,11 @@
     });
 </script>
 <%@include file="resultHeader.jsp"%>
-
+<style>
+    #myTable .tablesorter-filter-row td>[data-column="6"] {
+        width: 50%;
+    }
+</style>
 <table id="myTable" class="tablesorter">
     <thead>
     <tr>
@@ -41,7 +45,7 @@
         <th>Compatibility</th>
         <%}%>
         <th>Name</th>
-        <th>Description</th>
+        <th style="width:30%">Description</th>
         <th>Source</th>
         <%if(access.isAdmin(person)){%>
         <th>Tier</th>
@@ -53,7 +57,7 @@
 
 
 
-        <th class="sorter-false">View Associated..</th>
+        <th class="sorter-false">View Associated...</th>
     </tr>
     </thead>
     <tbody>
@@ -192,10 +196,10 @@
 <%--                </c:choose>--%>
 
             </td>
-            <td><%if(hit.get("description")!=null){%>
+            <td style="width: 30%;"><%if(hit.get("description")!=null){%>
                 <%=hit.get("description")%></td>
             <%}%>
-            <td>
+            <td style="width:5%">
                 <%List<String> source=new ArrayList<>();
                     if(hit.get("category")!=null && hit.get("category").toString().equalsIgnoreCase("Guide") && hit.get("guideSource")!=null)
                         source= (List<String>) hit.get("guideSource");
@@ -255,7 +259,7 @@
             <%}%>
 
 
-            <td>
+            <td style="width: 40%">
                 <%@include file="associations.jsp"%>
             </td>
 

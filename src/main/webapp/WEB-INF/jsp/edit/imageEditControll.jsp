@@ -7,11 +7,11 @@
 <%@ page import="java.util.List" %>
 
 
-<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<%--<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>--%>
 
-<!-- Theme included stylesheets -->
-<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+<%--<!-- Theme included stylesheets -->--%>
+<%--<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">--%>
+<%--<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">--%>
 
 <%
     {

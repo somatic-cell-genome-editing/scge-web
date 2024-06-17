@@ -22,46 +22,51 @@
 
 <div>
     <%
-
+        List<Plot> plots= (List<Plot>) request.getAttribute("plots");
         List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
         Map<java.lang.String, List<ExperimentRecord>> resultTypeRecords= (Map<java.lang.String, List<ExperimentRecord>>) request.getAttribute("resultTypeRecords");
         Map<java.lang.String, Integer> resultTypeColumnCount= (Map<java.lang.String,Integer>) request.getAttribute("resultTypeColumnCount");
         Map<String, List<String>> tableColumns=(Map<String, List<String>>) request.getAttribute("tableColumns");
      //   HashMap<Long,ExperimentRecord> experimentRecordsMap = (HashMap<Long,ExperimentRecord>) request.getAttribute("experimentRecordsMap");
-        ExperimentDao edao = new ExperimentDao();
-        Study study = (Study) request.getAttribute("study");
-        List<Experiment> experiments=new ArrayList<>();
-        if(study.getGroupId()!=1410 && study.getGroupId()!=1412) // 1410 and 1412 are SATC projects and each submission is a different group's validation.
-             experiments=   edao.getExperimentsByGroup(study.getGroupId());
-        else
-            experiments=edao.getExperimentsByStudy(study.getStudyId());
+//        ExperimentDao edao = new ExperimentDao();
+//        Study study = (Study) request.getAttribute("study");
+
         Access access = new Access();
         Person p = access.getUser(request.getSession());
         Experiment ex = (Experiment) request.getAttribute("experiment");
         long objectId = ex.getExperimentId();
         String redirectURL = "/data/experiments/experiment/" + ex.getExperimentId();
-    %>
-    <%
         Map<Long, List<Experiment>> validationExperimentsMap = new HashMap<>();
         if (request.getAttribute("validationExperimentsMap") != null)
             validationExperimentsMap = (Map<Long, List<Experiment>>) request.getAttribute("validationExperimentsMap");
         Map<Long, List<Experiment>> experimentsValidatedMap = new HashMap<>();
         if (request.getAttribute("experimentsValidatedMap") != null)
             experimentsValidatedMap = (Map<Long, List<Experiment>>) request.getAttribute("experimentsValidatedMap");
+        String selectedTissues =(String) request.getAttribute("selectedTissues");
+        List<String> selectedTissuesList=new ArrayList<>();
+        if(selectedTissues!=null) {
+            String[] selectedTissueArray = selectedTissues.split(",");
+            selectedTissuesList.addAll(Arrays.asList(selectedTissueArray));
+        }
     %>
+    <script>
+        var plotsSize=<%=plots.size()%>;
+        var selectedTissueListSize=<%=selectedTissuesList.size()%>
+    </script>
     <div id="recordTableContent" style="position:relative; left:0px; top:00px;padding-top:20px;">
 
 
-            <% HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
-                HashMap<Long,List<Vector>> vectorMap = (HashMap<Long,List<Vector>>)request.getAttribute("vectorMap");
-                ExperimentResultDao erdao = new ExperimentResultDao();
-                List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
+            <%
+//                HashMap<Long,List<Guide>> guideMap = (HashMap<Long,List<Guide>>)request.getAttribute("guideMap");
+//                HashMap<Long,List<Vector>> vectorMap = (HashMap<Long,List<Vector>>)request.getAttribute("vectorMap");
+//                ExperimentResultDao erdao = new ExperimentResultDao();
+//                List<String> conditionList = edao.getExperimentRecordConditionList(ex.getExperimentId());
 
                 List<String> tissueList = (List<String>) request.getAttribute("tissues");
                 List<String> editorList = tableColumns.get("editorSymbol");
                 List<String> modelList = tableColumns.get("modelDisplayName");
                 List<String> deliverySystemList=tableColumns.get("deliverySystemName");
-                List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
+//                List<String> resultTypeList = erdao.getResTypeByExpId(ex.getExperimentId());
                 Set<String> resultTypeSet = (Set<String>) request.getAttribute("resultTypesSet");
                 Map<String, List<String>> resultTypeNunits = (Map<String, List<String>>) request.getAttribute("resultTypeNUnits");
 
@@ -82,12 +87,7 @@
 
                 LinkedHashSet<String> conditions = (LinkedHashSet<String>) request.getAttribute("conditions");
                 String selectedTissue = (String)request.getAttribute("tissue");
-                String selectedTissues =(String) request.getAttribute("selectedTissues");
-                List<String> selectedTissuesList=new ArrayList<>();
-                if(selectedTissues!=null) {
-                    String[] selectedTissueArray = selectedTissues.split(",");
-                    selectedTissuesList.addAll(Arrays.asList(selectedTissueArray));
-                }
+
                 String selectedCellType = (String)request.getAttribute("cellType");
                 String selectedResultType = (String)request.getAttribute("resultType");
 
@@ -106,18 +106,19 @@
                     }
                 }
             %>
-            <% if (tissueList != null && tissueList.size() > 0 && selectedTissue == null && (selectedResultType == null || !selectedResultType.equals("all"))
-           && selectedTissuesList.size()==0) { %>
+<%--            <% if (tissueList != null && tissueList.size() > 0 && selectedTissue == null && (selectedResultType == null || !selectedResultType.equals("all"))--%>
+<%--           && selectedTissuesList.size()==0) { %>--%>
 
-                <%@include file="tissueMap.jsp"%>
+<%--                <%@include file="tissueMap.jsp"%>--%>
 
 
-         <% }else{  %>
+<%--         <% }else{  %>--%>
 
         <%@include file="recordsTable.jsp"%>
 
-        <%}%>
+<%--        <%}%>--%>
     </div>
+
 </div>
 
 

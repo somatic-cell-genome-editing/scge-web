@@ -5,6 +5,9 @@
 <%@ page import="io.netty.util.internal.StringUtil" %>
 <%@ page import="edu.mcw.scge.web.TissueMapper" %>
 <%@ page import="sun.awt.image.ImageWatched" %>
+<%@ page import="edu.mcw.scge.web.SCGEContext" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ImageDao" %>
+<%@ page import="com.google.gson.Gson" %>
 <link rel="stylesheet" href="/toolkit/css/tissuemap.css">
 
 <%
@@ -30,7 +33,7 @@
    // rootTissues.put("Hematopoietic","UBERON:0002390");
 %>
 
-    <% Gson gson=new Gson();
+    <%
         LinkedHashMap<String, Boolean> tissueEditingMap = new LinkedHashMap<String, Boolean>();
         LinkedHashMap<String, Boolean> tissueDeliveryMap = new LinkedHashMap<String, Boolean>();
         LinkedHashMap<String, Boolean> tissueBiomarkerMap = new LinkedHashMap<String, Boolean>();
@@ -126,35 +129,23 @@
         }
         try {
         if (tissueTerm != null) {
-
+                String cellTypeTerm="";
                 if (cellType != null && !cellType.equals("")) {
+                    cellTypeTerm+=" (" + cellType + ")";
+                }
                     if (hasDelivery) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Delivery&tissue=" + tissueTerm + "&cellType=" + cellType;
-                        tm.addDelivery(organSystem, tissueTerm + " (" + cellType + ")", url);
+                        tm.addDelivery(organSystem, tissueTerm +cellTypeTerm , url);
                     }
                     if (hasEditing) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Editing&tissue=" + tissueTerm + "&cellType=" + cellType;
-                        tm.addEditing(organSystem, tissueTerm + " (" + cellType + ")", url);
+                        tm.addEditing(organSystem, tissueTerm + cellTypeTerm, url);
                     }
                     if (hasBiomarker) {
                         String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=" + cellType;
-                        tm.addBiomarker(organSystem, tissueTerm + " (" + cellType + ")", url);
-                    }
-                } else {
-                    if (hasDelivery) {
-                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Delivery&tissue=" + tissueTerm + "&cellType=";
-                        tm.addDelivery(organSystem, tissueTerm, url);
-                    }
-                    if (hasEditing) {
-                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Editing&tissue=" + tissueTerm + "&cellType=";
-                        tm.addEditing(organSystem, tissueTerm, url);
+                        tm.addBiomarker(organSystem, tissueTerm + cellTypeTerm, url);
                     }
 
-                    if (hasBiomarker) {
-                        String url = "/toolkit/data/experiments/experiment/" + ex.getExperimentId() + "?resultType=Biomarker&tissue=" + tissueTerm + "&cellType=";
-                        tm.addBiomarker(organSystem, tissueTerm, url);
-                    }
-                }
             }
         }catch (Exception e) {
             System.out.println("BLOCK:" + 2);
@@ -241,7 +232,7 @@
                     <table style="width: 100%">
                         <tr>
                     <td style="width: 70%;"><input type="checkbox" name="<%=organ%>" class="selectedTissue" value="<%=tissueTermExtracted%>">
-                    <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>?tissue=<%=tissueTermExtracted%>"><%=upCaseChildTerm%></a>
+                    <%=upCaseChildTerm%>
                     <% if (targetTissues2.containsKey(childTerm)) { %>
                     &nbsp;<span style="color:red;font-weight: bold">(TARGET)</span>
                     <%} %>

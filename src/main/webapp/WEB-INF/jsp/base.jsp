@@ -73,6 +73,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="/toolkit/css/caret.css" rel="stylesheet" type="text/css"/>
     <script src="/toolkit/js/scge.js"></script>
+<%--    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>--%>
+
+<%--    <!-- Theme included stylesheets -->--%>
+<%--    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">--%>
+<%--    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">--%>
+
+    <script src="/toolkit/common/js/quill.min.js"></script>
+
+    <!-- Theme included stylesheets -->
+    <link href="/toolkit/common/js/quill.snow.css" rel="stylesheet">
+    <link href="/toolkit/common/js/quill.bubble.css" rel="stylesheet">
 </head>
 
 <body>
@@ -123,7 +134,7 @@
         <% if (request.getAttribute("crumbtrail") != null) {%>
         <div class="container-fluid" style="padding-bottom: 2px;"><%=request.getAttribute("crumbtrail")%></div>
         <%}%>
-        <c:if test="${((resultType!=null ) && (action!=null && action!='About SCGE Toolkit')) || tissue!=null || (resultType==null && fn:length(tissues)==0 && fn:length(plots)>0)}">
+        <c:if test="${fn:length(plots)>0}">
         <div class="" style="float: right">
             <button style="margin-bottom:15px;"  class="btn btn-primary btn-sm" type="button" onclick="javascript:openModalDialog()">Show Help</button>&nbsp;
         </div>
