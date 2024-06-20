@@ -117,9 +117,12 @@
             <div class="card-body">
 
                             <img src="/toolkit/images/biological-rev.png"   class="card-image" alt=""/>
-                            <div><h5>Biological Effects <br>(Biological Systems)</h5></div>
+                            <div><h5>Biological Effects</h5></div>
                             <div class="initiative-description">
-                                The initiative goal is to support the development, validation and testing of new and existing human cell- and tissue-based <span class="more"> platforms that can provide information on the safety of genome editing technologies and delivery systems. These models will be used for preclinical testing of editing, delivery and efficacy.</span><a href="#" class="moreLink" title="Click to see more" >More...</a>
+                                <strong>Biological Systems:</strong> The initiative goal is to support the development, validation and testing of new and existing human cell- and tissue-based <span class="more"> platforms that can provide information on the safety of genome editing technologies and delivery systems. These models will be used for preclinical testing of editing, delivery and efficacy.</span><a href="#" class="moreLink" title="Click to see more" >More...</a>
+                            </div><div class="initiative-description">
+                                <br> <strong>In Vivo Cell Tracking Projects</strong>The objective of the program is to support the development of tools and technologies that will enable longitudinal monitoring and tracking of <span class="more"> genome edited cells in humans to better assess the safety and efficacy of genome editing therapies. This will be accomplished through the development of innovative non-invasive technologies to label and track genome-edited cells in vivo, ideally in a clinically-relevant matter that has the potential to assess long-term safety in genome editing clinical trial participants.</span><a href="#" class="moreLink" title="Click to see more" >More...</a>
+
                             </div>
 
 
@@ -132,24 +135,24 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-2">
-        <div class="card h-100 ">
-            <div class="card-body">
+<%--    <div class="col-sm-2">--%>
+<%--        <div class="card h-100 ">--%>
+<%--            <div class="card-body">--%>
 
-                            <img src="/toolkit/images/biological-rev.png"   class="card-image" alt=""/>&nbsp;
-                            <div><h5>Biological Effects <br>(In Vivo Cell Tracking Projects)</h5></div>
-                        <div class="initiative-description">The objective of the program is to support the development of tools and technologies that will enable longitudinal monitoring and tracking of <span class="more"> genome edited cells in humans to better assess the safety and efficacy of genome editing therapies. This will be accomplished through the development of innovative non-invasive technologies to label and track genome-edited cells in vivo, ideally in a clinically-relevant matter that has the potential to assess long-term safety in genome editing clinical trial participants.</span><a href="#" class="moreLink" title="Click to see more" >More...</a>
-                            </div>
+<%--                            <img src="/toolkit/images/biological-rev.png"   class="card-image" alt=""/>&nbsp;--%>
+<%--                            <div><h5>Biological Effects <br>(In Vivo Cell Tracking Projects)</h5></div>--%>
+<%--                        <div class="initiative-description">The objective of the program is to support the development of tools and technologies that will enable longitudinal monitoring and tracking of <span class="more"> genome edited cells in humans to better assess the safety and efficacy of genome editing therapies. This will be accomplished through the development of innovative non-invasive technologies to label and track genome-edited cells in vivo, ideally in a clinically-relevant matter that has the potential to assess long-term safety in genome editing clinical trial participants.</span><a href="#" class="moreLink" title="Click to see more" >More...</a>--%>
+<%--                            </div>--%>
 
-            </div>
-            <div class="card-footer" style="background-color: transparent">
-                <p style="padding-top: 10px"><a  href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Biological+Effects"><button class="btn btn-sm btn-secondary">View Experiments in Toolkit</button>
-                </a></p><p>
-                <a  href="https://scge.mcw.edu/biological-effects-projects/"><button class="btn btn-sm btn-secondary">Learn more</button></a>
-            </p>
-            </div>
-        </div>
-    </div>
+<%--            </div>--%>
+<%--            <div class="card-footer" style="background-color: transparent">--%>
+<%--                <p style="padding-top: 10px"><a  href="/toolkit/data/search/results/Experiment?searchTerm=&facetSearch=true&initiative=Biological+Effects"><button class="btn btn-sm btn-secondary">View Experiments in Toolkit</button>--%>
+<%--                </a></p><p>--%>
+<%--                <a  href="https://scge.mcw.edu/biological-effects-projects/"><button class="btn btn-sm btn-secondary">Learn more</button></a>--%>
+<%--            </p>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
         <!-- end studies by initiative card -->
     </div>
 <hr>
