@@ -41,7 +41,7 @@
     list=true;
   }
   if(action!=null && action.equalsIgnoreCase("Publications")) {
-    description = "List of publications associated or related to SCGE program funded projects. ";
+    description = "List of publications associated or related to SCGE program funded projects. <a href='https://scge.mcw.edu/publications/' target='_blank' title='All publications'><i class=\"fa fa-external-link\" aria-hidden=\"true\"></i></a><br>Below is the list of publications tagged with SCGE toolkit data ..";
     list=true;
   }
   if(action!=null && action.contains("Experiment:")) {

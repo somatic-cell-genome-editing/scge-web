@@ -1,7 +1,6 @@
 <%@ page import="edu.mcw.scge.datamodel.publications.Author" %>
 <%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
-<%@ page import="org.json.JSONObject" %>
-<%@ page import="org.json.JSONArray" %>
+
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.fasterxml.jackson.core.type.TypeReference" %>
 <%@ page import="edu.mcw.scge.datamodel.publications.ArticleId" %><%--

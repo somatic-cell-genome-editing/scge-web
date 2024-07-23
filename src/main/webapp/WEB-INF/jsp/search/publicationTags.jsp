@@ -7,7 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    if(experimentNames.size()>0){
+    if(experimentNames.size()>0 || hit.get("modelOrganism")!=null
+    || hit.get("modelName")!=null || hit.get("editorSymbol")!=null || hit.get("deliverySystemName")!=null
+    ){
 %>
 <br><strong>SCGE data tags...</strong>
 <%}%>
