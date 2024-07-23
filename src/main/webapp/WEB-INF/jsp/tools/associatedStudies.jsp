@@ -39,7 +39,7 @@
     Person localExpPerson = new UserService().getCurrentUser(request.getSession());
     List<Study> studies = (List<Study>)request.getAttribute("studies");
     Map<Integer, List<Experiment>> projectNexperiments= (Map<Integer, List<Experiment>>) request.getAttribute("studyExperimentsMap");
-    if (studies!=null && studies.size() > 0) {
+    if (studies!=null && studies.size() > 0 &&   projectNexperiments.size()>0) {
     %>
 <hr>
 <h4 class="page-header" style="color:grey;">Projects & Experiments</h4> This <%=request.getAttribute("action")%> is being used ...
@@ -62,6 +62,7 @@
     <tbody>
     <%
         Set<Integer> groupIds=new HashSet<>();
+
         for (Study s: studies) {
             if(!groupIds.contains(s.getGroupId())){
                 groupIds.add(s.getGroupId());
@@ -72,7 +73,7 @@
                 Grant grant=grantDao.getGrantByGroupId(s.getGroupId());
 
     %>
-    <% if (localStudyAccess.hasStudyAccess(s,localStudyPerson)) { %>
+    <% if (localStudyAccess.hasStudyAccess(s,localStudyPerson) && experiments.size()>0) { %>
         <tr>
             <td>
 
