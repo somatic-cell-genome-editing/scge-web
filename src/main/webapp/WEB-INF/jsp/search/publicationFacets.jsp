@@ -122,7 +122,7 @@
             ${facets.get(agg.key)}<span class="float-right"><i class="fas fa-angle-up"></i></span>
         </a>
       </div>
-      <div id="collapse${agg.key}" class="accordion-body collapse">
+      <div id="collapse${agg.key}" class="accordion-body collapse show">
         <div class="pl-3  accordion-inner">
           <c:forEach items="${agg.value.buckets}" var="bkt">
             <c:if test="${bkt.key!=''}">
