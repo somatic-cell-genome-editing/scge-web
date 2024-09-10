@@ -7,6 +7,27 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="container">
+
+    <div class="btn-group" role="group" aria-label="Basic example" style="margin-left:80%">
+        <button id="expandAll" type="button" class="btn btn-secondary" onclick=expandAll()>Expand All</button>
+        <button id="collapseAll" type="button" class="btn btn-secondary" onclick=collapseAll() >Collapse</button>
+
+    </div><br>
+    <script>
+        $(function () {
+            $('#collapseAll').hide()
+        })
+        function expandAll(){
+            $('#accordion .collapse').addClass("show");
+            $('#expandAll').hide()
+            $('#collapseAll').show()
+        }
+        function collapseAll(){
+            $('#accordion .collapse').removeClass("show");
+            $('#expandAll').show()
+            $('#collapseAll').hide()
+        }
+    </script>
 <div id="accordion">
     <div class="card">
         <div class="card-header" id="headingOne">

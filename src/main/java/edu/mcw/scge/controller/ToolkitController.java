@@ -219,7 +219,7 @@ public class ToolkitController {
     @RequestMapping(value="/faq")
     public String getFaq(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-        req.setAttribute("action", "FAQ");
+        req.setAttribute("action", "Frequently Asked Questions");
         req.setAttribute("page", "/WEB-INF/jsp/tools/faqs");
         req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
 
