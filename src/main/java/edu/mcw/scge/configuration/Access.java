@@ -181,25 +181,27 @@ public class Access {
 
     public boolean hasStudyAccess(Study s, Person p) throws Exception{
         Access a = new Access();
+        if(s!=null) {
+            if (s.getTier() == 4) {
+                return true;
+            }
 
-        if (s.getTier()==4) {
-            return true;
+            if (!this.isConsortiumMember(p.getId())) {
+                return false;
+            }
+
+
+            if (s.getTier() == 3) {
+                return true;
+            }
+
+            if (isInDCCorNIHGroup(p)) {
+                return true;
+            }
+
+            return sdao.verifyStudyAccessByPesonId(s.getStudyId(), p.getId());
         }
-
-        if (!this.isConsortiumMember(p.getId())) {
-            return false;
-        }
-
-
-        if (s.getTier()==3) {
-            return true;
-        }
-
-        if (isInDCCorNIHGroup(p)) {
-            return true;
-        }
-
-        return sdao.verifyStudyAccessByPesonId(s.getStudyId(),p.getId());
+        return false;
     }
 
     public boolean hasExperimentAccess(long experimentId, int personId) throws Exception{
