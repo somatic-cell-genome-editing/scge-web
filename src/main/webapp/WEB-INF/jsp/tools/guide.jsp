@@ -185,9 +185,9 @@
     </div>
 
     <%}%>
-    <%HashMap<String,Integer> changeSeq = new HashMap<>();
+    <%LinkedHashMap<String,Integer> changeSeq = new LinkedHashMap<>();
         List<String> labels = new ArrayList<>();
-        HashMap<String,Integer> guideSeq = new HashMap<>();
+        LinkedHashMap<String,Integer> guideSeq = new LinkedHashMap<>();
         boolean guideData = false;
         if(offTargets!=null && offTargets.size()>0){
             for(OffTargetSite o:offTargetSites){
