@@ -62,6 +62,9 @@
                 <li class="nav-item text-nowrap text-responsive Publications" id="Publications">
                     <a class="nav-link Publications" href="/toolkit/data/search/results/Publication?searchTerm=" >Publications</a>
                 </li>
+                <li class="nav-item text-nowrap text-responsive" id="faq">
+                    <a class="nav-link" href="/toolkit/data/faq" >FAQ</a>
+                </li>
 <%--                <%}%>--%>
 
 <!--c:if test="$-{action==null}"-->
