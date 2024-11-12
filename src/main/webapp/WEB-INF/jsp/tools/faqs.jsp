@@ -88,16 +88,13 @@
         </div>
         <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordion">
             <div class="card-body">
-                The top level is "Projects".Each Project has a one-to-one relationship with a NIH grant . The grant specifies what experiments the lab will conduct.
+                The top level is "Projects". Each Project has a one-to-one relationship with a NIH grant . The grant specifies what experiments the lab will conduct.
 
 
-                Each project contains one or more experiments. You can view a list of all the <a href="/toolkit/data/search/results/Project">"Projects"</a>
+                Each project contains one or more experiments. You can view a list of all the <a href="/toolkit/data/search/results/Project">"Projects"</a>. As labs complete experiments they submit the data and information about the associated tools (model systems, genome editors, delivery systems, vectors, guides, protocols) to the SCGE ToolKit team.
 
 
-                As labs complete experiments they submit the data and information about the associated tools (model systems, genome editors, delivery systems, vectors, guides, protocols) to the SCGE ToolKit team.
-
-
-                The page for each "experiment" shows the data in several forms (as graphs if appropriate for the data and in a table). Experimental data can be downloaded as a .CSV file. Other files submitted along with the data can also be downloaded. You can view a list of all the <a href="/toolkit/data/search/results/Experiment">"experiments" (link)</a>&nbsp;or from the main menu
+                The page for each "experiment" shows the data in several forms (as graphs if appropriate for the data and in a table). Experimental data can be downloaded as a .CSV file. Other files submitted along with the data can also be downloaded. You can view a list of all the "experiments" (<a href="/toolkit/data/search/results/Experiment">link</a>)&nbsp;or from the main menu.
 
 
                 Each tool has its own descriptive page along with links to other experiments that used the same tool.           </div>
