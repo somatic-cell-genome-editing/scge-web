@@ -128,7 +128,7 @@
             <td>
                         <%if(hit.get("guideCompatibility")!=null)
                             for(String compatibility: (List<String>)hit.get("guideCompatibility")){%>
-                        <%=compatibility%>>
+                        <%=compatibility%>
                 <%}%>
             </td>
             <%}%>
