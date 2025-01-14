@@ -27,11 +27,13 @@ public class ObjectController  {
         for(Experiment experiment:assocatedExperiments){
             Study study=studyDao.getStudyByStudyId( experiment.getStudyId());
             List<Experiment> experiments=new ArrayList<>();
-            if(studyExperimentsMap.get(study.getGroupId())!=null){
-                experiments.addAll(studyExperimentsMap.get(study.getGroupId()));
+            if(study!=null) {
+                if (studyExperimentsMap.get(study.getGroupId()) != null) {
+                    experiments.addAll(studyExperimentsMap.get(study.getGroupId()));
+                }
+                experiments.add(experiment);
+                studyExperimentsMap.put(study.getGroupId(), experiments);
             }
-            experiments.add(experiment);
-            studyExperimentsMap.put(study.getGroupId(), experiments);
         }
         req.setAttribute("associatedExperiments", assocatedExperiments);
         req.setAttribute("studyExperimentsMap", studyExperimentsMap);
