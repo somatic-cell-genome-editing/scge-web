@@ -688,6 +688,19 @@ function drawResultChart(tickLabels,dataSets,i,tickDisplay,plotTitle, yAxisLabel
                     }
                 },
 
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'x',
+                        modifierKey: 'ctrl',
+                    },
+                    zoom: {
+                        drag: {
+                            enabled: true
+                        },
+                        mode: 'x',
+                    },
+                }
             }
             ,
             animation: {

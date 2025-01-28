@@ -260,8 +260,10 @@
 
     <div class="chart-container" >
         <h4 class="page-header" style="color:grey;">Off Target Sites</h4>
+        <span style="font-weight: bold">Pan and Zoom Graph</span>
         <canvas id="offTargetChart" style="position: relative; height:60vh; width:65vw;"></canvas>
     </div>
+    <button class="btn btn-sm btn-info" onclick="resetZoom()">Reset</button>
     <%}%>
     <br>
 
@@ -277,8 +279,9 @@
 
 </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.1.2/dist/chart.umd.min.js"></script>
+<script src="/toolkit/common/js/chartjs-plugin-zoom.js"></script>
+<script src="/toolkit/common/js/hammer.min.js"></script>
 <script>
     var ctx = document.getElementById("offTargetChart");
     var myChart = new Chart(ctx, {
@@ -352,7 +355,25 @@
                         },
                     }
                 ]
+            },
+            plugins:{
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'x',
+                        modifierKey: 'ctrl',
+                    },
+                    zoom: {
+                        drag: {
+                            enabled: true
+                        },
+                        mode: 'x',
+                    },
+                }
             }
         }
     });
+    function resetZoom() {
+        window.myChart.resetZoom();
+    }
 </script>
