@@ -1,13 +1,12 @@
-<%@ page import="java.util.TreeSet" %>
-<%@ page import="java.util.Set" %>
-<%@ page import="java.util.LinkedHashMap" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="io.netty.util.internal.StringUtil" %>
 <%@ page import="edu.mcw.scge.web.TissueMapper" %>
-<%@ page import="sun.awt.image.ImageWatched" %>
 <%@ page import="edu.mcw.scge.web.SCGEContext" %>
 <%@ page import="edu.mcw.scge.dao.implementation.ImageDao" %>
-<%@ page import="com.google.gson.Gson" %>
+<%@ page import="edu.mcw.scge.datamodel.ExperimentRecord" %>
+<%@ page import="edu.mcw.scge.datamodel.ExperimentResultDetail" %>
+<%@ page import="java.util.*" %>
+<%@ page import="edu.mcw.scge.datamodel.Experiment" %>
+<%@ page import="edu.mcw.scge.datamodel.Person" %>
+<%@ page import="edu.mcw.scge.configuration.Access" %>
 <link rel="stylesheet" href="/toolkit/css/tissuemap.css">
 
 <%
@@ -31,6 +30,10 @@
     rootTissues.put("Nervous","UBERON:0001016");
     rootTissues.put("Sensory","UBERON:0001032");
    // rootTissues.put("Hematopoietic","UBERON:0002390");
+    List<ExperimentRecord> records= (List<ExperimentRecord>) request.getAttribute("records");
+    Access access = new Access();
+    Person p = access.getUser(request.getSession());
+    Experiment ex = (Experiment) request.getAttribute("experiment");
 %>
 
     <%
@@ -305,7 +308,8 @@
                                 <td>
                                     <table style="margin-top:50px;">
 
-                                        <% for (String condition: conditions) { %>
+                                        <%  LinkedHashSet<String> conditions = (LinkedHashSet<String>) request.getAttribute("conditions");
+                                            for (String condition: conditions) { %>
                                         <tr>
                                             <td  width="65"></td>
 
