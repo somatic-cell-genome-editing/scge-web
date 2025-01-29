@@ -278,7 +278,20 @@
     </div>
 
 </main>
-
+<%
+    int maxChangeSeq = Integer.MIN_VALUE;
+    for (Map.Entry<String, Integer> entry : changeSeq.entrySet()) {
+        if (entry!=null && entry.getValue()!=null && entry.getValue() > maxChangeSeq) {
+            maxChangeSeq = entry.getValue();
+        }
+    }
+    int maxGuideSeq = Integer.MIN_VALUE;
+    for (Map.Entry<String, Integer> entry : guideSeq.entrySet()) {
+        if (entry!=null && entry.getValue()!=null && entry.getValue() > maxGuideSeq) {
+            maxGuideSeq = entry.getValue();
+        }
+    }
+%>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.1.2/dist/chart.umd.min.js"></script>
 <script src="/toolkit/common/js/chartjs-plugin-zoom.js"></script>
 <script src="/toolkit/common/js/hammer.min.js"></script>
@@ -292,7 +305,7 @@
                 {
                     label: 'ChangeSeq',
                     data: <%=changeSeq.values()%>,
-                    yAxisID: 'changeSeq',
+                    yAxisID: 'y',
                     backgroundColor: 'rgba(6,69,121,1)',
                     borderColor: 'rgba(6,69,121,1)',
                     borderWidth: 1
@@ -300,7 +313,7 @@
                 {
                     label: 'GuideSeq',
                     data: <%=guideSeq.values()%>,
-                    yAxisID: 'guideSeq',
+                    yAxisID: 'y2',
                     backgroundColor: 'rgba(255,99,132,1)',
                     borderColor: 'rgba(255,99,132,1)',
                     borderWidth: 1
@@ -323,7 +336,8 @@
                     },
                 },
                 ],
-                yAxes: [{
+
+                  y:  {
                     id: 'changeSeq',
                     type: 'linear',
                     position: 'left',
@@ -337,8 +351,10 @@
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
                     },
+                    <%--min:0,--%>
+                    <%--  max:<%=maxChangeSeq%>--%>
                 },
-                    {
+                y2:    {
                         id: 'guideSeq',
                         type: 'linear',
                         position: 'right',
@@ -353,8 +369,10 @@
                             fontStyle: 'bold',
                             fontFamily: 'Calibri'
                         },
+                    <%--min:0,--%>
+                    <%--max:<%=maxGuideSeq%>--%>
                     }
-                ]
+
             },
             plugins:{
                 zoom: {
@@ -369,6 +387,10 @@
                         },
                         mode: 'x',
                     },
+                    limits: {
+                        y: {min: 0, max: <%=maxChangeSeq%>},
+                        y2: {min: 0, max: <%=maxGuideSeq%>}
+                    }
                 }
             }
         }
