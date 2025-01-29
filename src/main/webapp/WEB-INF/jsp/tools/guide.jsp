@@ -323,11 +323,12 @@
         options: {
             responsive: true,
             scales: {
-                xAxes: [{
+                xAxes: [
+                    {
                     gridLines: {
                         offsetGridLines: true
                     },
-                    scaleLabel: {
+                    title: {
                         display: true,
                         labelString: 'Off target sites',
                         fontSize: 14,
@@ -344,15 +345,15 @@
                     ticks: {
                         beginAtZero: true
                     },
-                    scaleLabel: {
+                    title: {
                         display: true,
-                        labelString: 'No of ChangeSeq Reads',
+                        text: 'No of ChangeSeq Reads',
                         fontSize: 14,
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
                     },
-                    <%--min:0,--%>
-                    <%--  max:<%=maxChangeSeq%>--%>
+                    min:0,
+                      max:<%=maxChangeSeq%>
                 },
                 y2:    {
                         id: 'guideSeq',
@@ -362,15 +363,15 @@
                         ticks: {
                             beginAtZero: true
                         },
-                        scaleLabel: {
+                        title: {
                             display: true,
-                            labelString: 'No of GuideSeq Reads',
+                            text: 'No of GuideSeq Reads',
                             fontSize: 14,
                             fontStyle: 'bold',
                             fontFamily: 'Calibri'
                         },
-                    <%--min:0,--%>
-                    <%--max:<%=maxGuideSeq%>--%>
+                    min:0,
+                    max:<%=maxGuideSeq%>
                     }
 
             },
