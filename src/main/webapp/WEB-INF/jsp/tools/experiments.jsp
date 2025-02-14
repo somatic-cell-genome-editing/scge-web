@@ -1,17 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ page import="edu.mcw.scge.web.SFN" %>
-<%@ page import="edu.mcw.scge.datamodel.Study" %>
-<%@ page import="edu.mcw.scge.process.UI" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
-<%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
-<%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="edu.mcw.scge.service.StringUtils" %>
-<%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
-<%@ page import="edu.mcw.scge.dao.implementation.PersonDao" %>
+
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.scge.web.SCGEContext" %>
+<%@ page import="edu.mcw.scge.datamodel.*" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ExperimentDao" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -55,6 +51,7 @@
 </script>
 <div class="container-fluid">
     <%
+        ExperimentDao experimentDao=new ExperimentDao();
         ImageDao idao = new ImageDao();
         int rowCount = 1;
         Access access = new Access();
@@ -156,6 +153,7 @@
                     <%
                         for (Experiment ex : experiments) {
                             Study s = sdao.getStudyById(ex.getStudyId()).get(0);
+                            List<edu.mcw.scge.datamodel.ExperimentRecord> records=experimentDao.getExperimentRecords(ex.getExperimentId());
                     %>
 
                     <% if (access.hasStudyAccess(s, p)) { %>
@@ -163,8 +161,13 @@
                     <tr>
                         <!--<td width="10"><%=s.getTier()%>-->
 
-                        <td class="project-page-details-table experiment-name"><a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>">
-                            <%=ex.getName()%></a><br><br>
+                        <td class="project-page-details-table experiment-name">
+                            <%if(records.size()>0){%>
+                            <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>"><%=ex.getName()%></a>
+                            <%}else{%>
+                            <%=ex.getName()%>
+                            <%}%>
+                            <br><br>
                             <%@include file="validationsNexperiments.jsp"%>
                         </td>
                         <td class="project-page-details-table experiment-type" style="white-space: nowrap"><%=ex.getType()%>
