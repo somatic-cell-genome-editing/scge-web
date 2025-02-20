@@ -162,11 +162,11 @@
                         <!--<td width="10"><%=s.getTier()%>-->
 
                         <td class="project-page-details-table experiment-name">
-<%--                            <%if(records.size()>0){%>--%>
+                            <% if(records.size()>0){%>
                             <a href="/toolkit/data/experiments/experiment/<%=ex.getExperimentId()%>"><%=ex.getName()%></a>
-<%--                            <%}else{%>--%>
-<%--                            <%=ex.getName()%>--%>
-<%--                            <%}%>--%>
+                            <%}else{%>
+                            <%=ex.getName()%>
+                            <%}%>
                             <br><br>
                             <%@include file="validationsNexperiments.jsp"%>
     <%if(records.size()==0){ %>
