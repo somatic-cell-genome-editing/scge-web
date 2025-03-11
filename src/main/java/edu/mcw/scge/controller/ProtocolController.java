@@ -135,14 +135,10 @@ public class ProtocolController extends ObjectController{
         Association protocolAssociation=associationDao.getProtocolAssociations(protocol.getId());
         List<Study> studies=protocolAssociation.getAssociatedStudies();
         if(studies!=null && studies.size()>0) {
-            List<ExperimentRecord> experimentRecords=new ArrayList<>();
             if(protocolAssociation.getAssociatedExperiments()!=null){
-                for(Experiment experiment:protocolAssociation.getAssociatedExperiments()){
-                    List<ExperimentRecord> records=experimentDao.getExperimentRecords(experiment.getExperimentId());
-                    experimentRecords.addAll(records);
-                }
+                mapExperiments(protocolAssociation.getAssociatedExperiments(), req);
             }
-            mapProjectNExperiments(experimentRecords, req);
+
         }
         req.setAttribute("summaryBlocks", getSummary(protocol));
         req.setAttribute("crumbTrail",   "hello world");
