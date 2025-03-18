@@ -6,13 +6,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page import="java.util.List" %>
-<%@ page import="edu.mcw.scge.web.SFN" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
-<%@ page import="edu.mcw.scge.process.UI" %>
-<%@ page import="edu.mcw.scge.dao.implementation.StudyDao" %>
+
 <%@ page import="edu.mcw.scge.datamodel.*" %>
-<%@ page import="java.util.HashMap" %>
+<%@ page import="edu.mcw.scge.dao.implementation.ExperimentDao" %>
+
 <script>
     $(function() {
         $("#myTable-2").tablesorter({
@@ -44,13 +43,22 @@ List<Experiment> experiments = (List<Experiment>) request.getAttribute("associat
     </thead>
     <tbody>
     <%
+        ExperimentDao experimentDao=new ExperimentDao();
         for (Experiment exp: experiments) {
             if (localExpAccess.hasExperimentAccess(exp.getExperimentId(),localExpPerson.getId())) {
+                List<ExperimentRecord> records=experimentDao.getExperimentRecords(exp.getExperimentId());
+                System.out.println("ReCORDS SIZE:"+ records.size());
     %>
 
-                <tr><td><a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a></td></tr>
-    <%      }
-        }%>
+                <tr><td>
+                    <%
+                        if(records!=null && records.size()>0){
+                    %>
+                    <a href="/toolkit/data/experiments/experiment/<%=exp.getExperimentId()%>"><%=exp.getName()%></a>
+                    <%}else{%>
+                    <%=exp.getName()%><%}%>
+                </td></tr>
+    <% }}%>
     </tbody>
 </table>
 
