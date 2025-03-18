@@ -5,7 +5,9 @@ import {TRACK_TYPE} from "../tracks/TrackTypeEnum";*/
 // const BASE_URL = 'http://54.91.83.120:8080/apollo';
 // const BASE_URL = 'https://agr-apollo.berkeleybop.io/apollo';
 //const BASE_URL = 'https://build.alliancegenome.org/apollo';
-const BASE_URL = 'https://www.alliancegenome.org/apollo';
+//const BASE_URL = 'https://www.alliancegenome.org/apollo';
+//const BASE_URL = 'https://dev.rgd.mcw.edu/rgdws/scge';
+const BASE_URL = 'https://rest.rgd.mcw.edu/rgdws/scge';
 
 // Global View Example
 
