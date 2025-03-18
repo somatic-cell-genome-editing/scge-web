@@ -38,4 +38,21 @@ public class ObjectController  {
         req.setAttribute("associatedExperiments", assocatedExperiments);
         req.setAttribute("studyExperimentsMap", studyExperimentsMap);
     }
+    public  void mapExperiments(List<Experiment> assocatedExperiments, HttpServletRequest req) throws Exception {
+        Map<Integer, List<Experiment>> studyExperimentsMap=new HashMap<>();
+
+        for(Experiment experiment:assocatedExperiments){
+            Study study=studyDao.getStudyByStudyId( experiment.getStudyId());
+            List<Experiment> experiments=new ArrayList<>();
+            if(study!=null) {
+                if (studyExperimentsMap.get(study.getGroupId()) != null) {
+                    experiments.addAll(studyExperimentsMap.get(study.getGroupId()));
+                }
+                experiments.add(experiment);
+                studyExperimentsMap.put(study.getGroupId(), experiments);
+            }
+        }
+        req.setAttribute("associatedExperiments", assocatedExperiments);
+        req.setAttribute("studyExperimentsMap", studyExperimentsMap);
+    }
 }
