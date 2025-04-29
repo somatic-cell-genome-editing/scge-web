@@ -686,8 +686,7 @@ function drawResultChart(tickLabels,dataSets,i,tickDisplay,plotTitle, yAxisLabel
                         tooltipEl.style.color = 'white';
                         tooltipEl.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
                     }
-                },
-
+                }
             }
             ,
             animation: {

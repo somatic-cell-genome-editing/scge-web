@@ -438,6 +438,7 @@ public class IndexServices {
             }else { if (isNumeric(searchTerm)) {
                 q.add(QueryBuilders.termQuery("id", searchTerm));
                 q.add(QueryBuilders.termQuery("studyId", searchTerm));
+                q.add(QueryBuilders.termQuery("studyIds", searchTerm));
             } else {
                 q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
                         .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
@@ -525,6 +526,7 @@ public class IndexServices {
                 "tissueIds", "tissueTerm", "termSynonyms",
                 "site", "sequence", "pam", "detectionMethod","target",
                "experimentName","experimentType"
+
               //  , "currentGrantNumber.keyword", "formerGrantNumbers.keyword"
 
               /* "studyNames",

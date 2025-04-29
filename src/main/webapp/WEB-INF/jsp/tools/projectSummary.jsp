@@ -34,18 +34,18 @@
     <ul>
       <%
         for (Map.Entry entry : studyExperimentMap.entrySet()) {
-          Study study = ((Study) entry.getKey());
+          Study s = ((Study) entry.getKey());
           String validation="";
-          if(study.getIsValidationStudy()==1)
+          if(s.getIsValidationStudy()==1)
             validation+="validation";
-          if(study.getIsValidationStudy()!=1 && (study.getGroupId()==1410 || study.getGroupId()==1412))
+          if(s.getIsValidationStudy()!=1 && (s.getGroupId()==1410 || s.getGroupId()==1412))
             validation+="new model";
           List<Experiment> experiments = (List<Experiment>) entry.getValue();
           if(experiments.size()>0){
       %>
 
       <li>
-        Data for <%=experiments.size()%>&nbsp;<%=validation%> experiments were submitted on <%=study.getSubmissionDate()%>&nbsp;<span style="font-weight: bold"><a href="#<%=study.getStudyId()%>">SCGE ID:<%=study.getStudyId()%></a></span>
+        Data for <%=experiments.size()%>&nbsp;<%=validation%> experiments were submitted on <%=s.getSubmissionDate()%>&nbsp;<span style="font-weight: bold"><a href="#<%=s.getStudyId()%>">SCGE ID:<%=s.getStudyId()%></a></span>
       </li>
 
       <% }} if(validationExperimentsMap.size()>0){%>

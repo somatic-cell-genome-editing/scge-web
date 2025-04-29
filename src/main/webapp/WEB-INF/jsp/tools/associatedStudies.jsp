@@ -1,14 +1,11 @@
-<%@ page import="edu.mcw.scge.datamodel.Study" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
-<%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.dao.implementation.GrantDao" %>
 <%@ page import="edu.mcw.scge.dao.implementation.ExperimentDao" %>
 <%@ page import="edu.mcw.scge.process.UI" %>
-<%@ page import="edu.mcw.scge.datamodel.Experiment" %>
 <%@ page import="java.util.*" %>
-<%@ page import="edu.mcw.scge.datamodel.Grant" %>
+<%@ page import="edu.mcw.scge.datamodel.*" %>
 
 <script>
     $(function() {
@@ -48,6 +45,7 @@
    Access localStudyAccess = new Access();
    Person localStudyPerson = new UserService().getCurrentUser(request.getSession());
     GrantDao grantDao = new GrantDao();
+    ExperimentDao experimentDao=new ExperimentDao();
 %>
 <table id="myTable-1" class="tablesorter">
     <thead>
@@ -70,6 +68,13 @@
                 if(projectNexperiments.get(s.getGroupId())!=null){
                     experiments.addAll(projectNexperiments.get(s.getGroupId()));
                 }
+                List<ExperimentRecord> allExperimentRecords=new ArrayList<>();
+                for(Experiment experiment:experiments){
+                    List<ExperimentRecord> records=experimentDao.getExperimentRecords(experiment.getExperimentId());
+                    if(records.size()>0){
+                        allExperimentRecords.addAll(records);
+                    }
+                }
                 Grant grant=grantDao.getGrantByGroupId(s.getGroupId());
 
     %>
@@ -81,7 +86,7 @@
 
                     <ul class="myUL">
                         <li><span class="caret"><a href="/toolkit/data/experiments/group/<%=s.getGroupId()%>"><%=grant.getGrantTitle()%></a></span>
-
+                                <%if (allExperimentRecords.size()>0){%>
                                 <ul class="nested active" id="">
                                     <li style="text-decoration: none"><span class="caret">Experiments</span>
                                         <div class="card" style="background-color: #f0ffff;border:transparent">
@@ -89,12 +94,14 @@
                                     <%
                                         for(Experiment experiment:experiments){
                                             if (localExpAccess.hasExperimentAccess(experiment.getExperimentId(),localExpPerson.getId())) {
-                                    %>
-
+                                                List<ExperimentRecord> records=experimentDao.getExperimentRecords(experiment.getExperimentId());
+                                                if(records.size()>0){%>
                                     <li><span><a class="search-results-anchor" href="/toolkit/data/experiments/experiment/<%=experiment.getExperimentId()%>"><%=experiment.getName()%></a></span></li>
-                                    <%}}%>
+                                    <%}}}%>
 
-                                </ul> </div>
+                                </ul>
+                                            <%}%>
+                                        </div>
 
                                     </li>
                                 </ul>

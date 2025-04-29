@@ -113,7 +113,16 @@
 
 
 <%--         <% }else{  %>--%>
+        <% if (tissueList != null && tissueList.size() > 0 && selectedTissue == null && (selectedResultType == null || !selectedResultType.equals("all"))
+                && selectedTissuesList.size()==0) { %>
 
+        <%--                    <%@include file="tissueMap.jsp"%>--%>
+        <%if (access.isAdmin(p) && !SCGEContext.isProduction()) { %>
+        <form action="/toolkit/data/edit/target/experiment/<%=ex.getExperimentId()%>">
+        <button class="btn btn-sm btn-danger">Edit Target</button>
+        </form>
+
+        <% } }%>
         <%@include file="recordsTable.jsp"%>
 
 <%--        <%}%>--%>
