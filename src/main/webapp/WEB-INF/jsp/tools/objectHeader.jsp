@@ -183,9 +183,10 @@
   <%}%>
   <%@include file="projectSummary.jsp"%>
   <% }}%>
-
+    <%}} catch (Exception e) {
+        throw new RuntimeException(e);
+    } %>
 </div>
-<%}} catch (Exception e) {
-throw new RuntimeException(e);
-} %>
+
+
 <%}%>
