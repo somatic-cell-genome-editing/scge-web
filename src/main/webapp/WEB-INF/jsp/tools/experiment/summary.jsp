@@ -81,13 +81,13 @@
   <div><b>Publications:&nbsp;</b>
     <ul>
     <%
-      for(Publication publication:publications){
+      for(Publication pub:publications){
       String pmid= null;
-       for(ArticleId id:publication.getArticleIds()){
+       for(ArticleId id:pub.getArticleIds()){
          if(id.getIdType().equalsIgnoreCase("pubmed")){
            pmid=id.getId();}}
     %>
-      <li><%=publication.getReference().getTitle()%><%if(pmid!=null){%> <a href="https://pubmed.ncbi.nlm.nih.gov/<%=pmid%>" target="_blank" title="PubMed">NCBI</a></li><%}%>
+      <li><%=pub.getReference().getTitle()%><%if(pmid!=null){%> <a href="https://pubmed.ncbi.nlm.nih.gov/<%=pmid%>" target="_blank" title="PubMed">NCBI</a></li><%}%>
    <%}%>
     </ul>
   </div>
