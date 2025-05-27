@@ -39,6 +39,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 
 import java.util.List;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -60,46 +61,27 @@ public class SecurityConfiguration  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         if (SecurityConfiguration.REQUIRE_AUTHENTICATION) {
-            http
-                    .authorizeHttpRequests(authorize -> authorize
+            http.authorizeHttpRequests(authorize -> authorize
                             .requestMatchers("/", "/home", "/logout", "/oauth_login", "/common/**", "/data/requestAccount", "/loginFailure", "/images/**").permitAll()
-                            .anyRequest().authenticated()
-                    ).oauth2Login(auth2->auth2
-                            .loginPage("/loginSuccessPage")
-                            .failureUrl("/loginFailure")
-                            .defaultSuccessUrl("/loginSuccessPage", true)
-                            .clientRegistrationRepository(clientRegistrationRepository())
-                            .authorizedClientService(authorizedClientService(clientRegistrationRepository()))
-                            .authorizationEndpoint(authorization->authorization.baseUri("/login"))
-                            .tokenEndpoint(tokenEndpointConfig -> tokenEndpointConfig.accessTokenResponseClient(accessTokenResponseClient()))
-                    )
-                    .logout(logout -> logout
-                            .logoutRequestMatcher(PathPatternRequestMatcher.withDefaults().matcher("/logout"))
-                                    .logoutSuccessUrl("/") // Redirect after logout
-                                    .invalidateHttpSession(true) // Invalidate the session
-                                    .deleteCookies("JSESSIONID") // Delete cookies
-                    ).csrf(csrf->csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
-
+                            .anyRequest().authenticated());
         }else{
-            http
-                    .authorizeHttpRequests(authorize -> authorize
-                            .anyRequest().permitAll()
-                    ).oauth2Login(auth2-> auth2
-                            .loginPage("/loginSuccessPage")
-                            .failureUrl("/loginFailure")
-                            .defaultSuccessUrl("/loginSuccessPage", true)
-                            .clientRegistrationRepository(clientRegistrationRepository())
-                            .authorizedClientService(authorizedClientService(clientRegistrationRepository()))
-                            .authorizationEndpoint(authorization->authorization.baseUri("/login"))
-                            .tokenEndpoint(tokenEndpointConfig -> tokenEndpointConfig.accessTokenResponseClient(accessTokenResponseClient()))
-                    )
-                    .logout(logout -> logout
-                                    .logoutRequestMatcher(PathPatternRequestMatcher.withDefaults().matcher("/logout"))
-                                    .logoutSuccessUrl("/") // Redirect after logout
-                                    .invalidateHttpSession(true) // Invalidate the session
-                                    .deleteCookies("JSESSIONID") // Delete cookies
-                    ).csrf(csrf->csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
+            http.authorizeHttpRequests(authorize -> authorize
+                            .anyRequest().permitAll());
         }
+       http .oauth2Login(auth2->auth2
+                .loginPage("/loginSuccessPage")
+                .failureUrl("/loginFailure")
+                .defaultSuccessUrl("/loginSuccessPage", true)
+                .clientRegistrationRepository(clientRegistrationRepository())
+                .authorizedClientService(authorizedClientService(clientRegistrationRepository()))
+                .authorizationEndpoint(authorization->authorization.baseUri("/login"))
+                .tokenEndpoint(tokenEndpointConfig -> tokenEndpointConfig.accessTokenResponseClient(accessTokenResponseClient())))
+                .logout(logout -> logout
+                        .logoutRequestMatcher(PathPatternRequestMatcher.withDefaults().matcher("/logout"))
+                        .logoutSuccessUrl("/") // Redirect after logout
+                        .invalidateHttpSession(true) // Invalidate the session
+                        .deleteCookies("JSESSIONID") // Delete cookies
+                ).csrf(csrf->csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
         http.headers(headers->headers.cacheControl(HeadersConfigurer.CacheControlConfig::disable));
         return http.build();
     }
@@ -108,7 +90,7 @@ public class SecurityConfiguration  {
     public ClientRegistrationRepository clientRegistrationRepository() {
         List<ClientRegistration> registrations = clients.stream()
                 .map(this::getRegistration)
-                .filter(registration -> registration != null)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
         return new InMemoryClientRegistrationRepository(registrations);
@@ -117,10 +99,6 @@ public class SecurityConfiguration  {
     private ClientRegistration getRegistration(String client) {
         String clientId = env.getProperty(
                 CLIENT_PROPERTY_KEY + client + ".client-id");
-
-        if (clientId == null) {
-            return null;
-        }
 
         String clientSecret = env.getProperty(
                 CLIENT_PROPERTY_KEY + client + ".client-secret");
