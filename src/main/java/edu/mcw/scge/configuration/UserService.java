@@ -23,22 +23,6 @@ public class UserService {
             UserService.guestAccount=new PersonDao().getPersonById(SecurityConfiguration.GUEST_ACCOUNT_ID).get(0);
         }
 
-
-       // if (session.getAttribute("person") == null) {
-       //     PersonDao pdao = new PersonDao();
-       //     Person p = pdao.getPersonById(1884).get(0);
-       //     this.setCurrentUser(p,session);
-
-
-           // Map attributes = (Map) session.getAttribute("userAttributes");
-           // attributes.put("email", p.getEmail());
-           // attributes.put("name", p.getName());
-           // attributes.put("personId",p.getId());
-
-        //    session.setAttribute("userAttributes",attributes);
-       // }
-
-
         if (session.getAttribute("person") != null) {
             return (Person) session.getAttribute("person");
         }else {
@@ -50,10 +34,10 @@ public class UserService {
                     if (attributes != null) {
                         String userEmail = (String) attributes.get("email");
                         List<Person> pList = pdao.getPersonByEmail(userEmail);
-                        if (pList != null && pList.size() > 0)
-                            session.setAttribute("person",pList.get(0));
+                        if (pList != null && pList.size() > 0) {
+                            session.setAttribute("person", pList.get(0));
                             return pList.get(0);
-
+                        }
                     }
                 }
             }
