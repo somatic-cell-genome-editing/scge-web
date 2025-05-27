@@ -170,7 +170,7 @@
     <tr title="<%=target%>">
 
         <td style="display: none"><%=record.getExperimentRecordId()%></td>
-        <td><a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>/"><%=record.getExperimentRecordName()%></a></td>
+        <td><a href="/toolkit/data/experiments/experiment/<%=record.getExperimentId()%>/record/<%=record.getExperimentRecordId()%>"><%=record.getExperimentRecordName()%></a></td>
         <c:if test="${tableColumns.timePoint!=null}">
             <td style="border:<%=border%>"><% if(record.getTimePoint()!=null){%><%=record.getTimePoint().trim()%><%}%></td>
         </c:if>
