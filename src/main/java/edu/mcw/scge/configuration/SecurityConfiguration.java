@@ -6,19 +6,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 
 
-import org.springframework.security.config.web.PathPatternRequestMatcherBuilderFactoryBean;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 
 
-
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
+import org.springframework.security.oauth2.client.endpoint.RestClientAuthorizationCodeTokenResponseClient;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -32,7 +32,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
 
@@ -70,9 +70,11 @@ public class SecurityConfiguration  {
                             .defaultSuccessUrl("/loginSuccessPage", true)
                             .clientRegistrationRepository(clientRegistrationRepository())
                             .authorizedClientService(authorizedClientService(clientRegistrationRepository()))
-                            .authorizationEndpoint(authorization->authorization.baseUri("/login")))
+                            .authorizationEndpoint(authorization->authorization.baseUri("/login"))
+                            .tokenEndpoint(tokenEndpointConfig -> tokenEndpointConfig.accessTokenResponseClient(accessTokenResponseClient()))
+                    )
                     .logout(logout -> logout
-                            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                            .logoutRequestMatcher(PathPatternRequestMatcher.withDefaults().matcher("/logout"))
                                     .logoutSuccessUrl("/") // Redirect after logout
                                     .invalidateHttpSession(true) // Invalidate the session
                                     .deleteCookies("JSESSIONID") // Delete cookies
@@ -89,87 +91,18 @@ public class SecurityConfiguration  {
                             .clientRegistrationRepository(clientRegistrationRepository())
                             .authorizedClientService(authorizedClientService(clientRegistrationRepository()))
                             .authorizationEndpoint(authorization->authorization.baseUri("/login"))
+                            .tokenEndpoint(tokenEndpointConfig -> tokenEndpointConfig.accessTokenResponseClient(accessTokenResponseClient()))
                     )
                     .logout(logout -> logout
-                                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                    .logoutRequestMatcher(PathPatternRequestMatcher.withDefaults().matcher("/logout"))
                                     .logoutSuccessUrl("/") // Redirect after logout
                                     .invalidateHttpSession(true) // Invalidate the session
                                     .deleteCookies("JSESSIONID") // Delete cookies
-                            // Add a LogoutSuccessHandler if needed for custom logic
                     ).csrf(csrf->csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
         }
         http.headers(headers->headers.cacheControl(HeadersConfigurer.CacheControlConfig::disable));
         return http.build();
     }
-
-//    protected void configure(HttpSecurity http) throws Exception {
-//        if (SecurityConfiguration.REQUIRE_AUTHENTICATION) {
-//            http.authorizeRequests()
-//                    .antMatchers("/","/home", "/logout", "/oauth_login", "/common/**", "/data/requestAccount", "/loginFailure", "/images/**").permitAll()
-//                    .anyRequest().authenticated()
-//                    .and()
-//                    .logout()
-//                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                    .logoutSuccessUrl("/")
-//                    .deleteCookies("JSESSIONID")
-//                    .invalidateHttpSession(true)
-//                    .permitAll()
-//                    .and()
-//                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-//                    .and()
-//                    .oauth2Login()
-//                    .loginPage("/loginSuccessPage")
-//                    .permitAll()
-//                    .defaultSuccessUrl("/loginSuccessPage", true)
-//                    .failureUrl("/loginFailure")
-//                    .clientRegistrationRepository(clientRegistrationRepository())
-//                    .authorizedClientService(authorizedClientService())
-//                    .authorizationEndpoint()
-//                    .baseUri("/login")
-//                    .and()
-//                    .tokenEndpoint()
-//                    .accessTokenResponseClient(accessTokenResponseClient())
-//
-//            ;
-//
-//        }else {
-//            http.authorizeRequests()
-//                    .antMatchers("**").permitAll()
-//                    .anyRequest().authenticated()
-//                    .and()
-//                    .logout()
-//                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                    .logoutSuccessUrl("/")
-//                    .deleteCookies("JSESSIONID")
-//                    .invalidateHttpSession(true)
-//                    .permitAll()
-//                    .and()
-//                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-//                    .and()
-//                    .oauth2Login()
-//                    .loginPage("/loginSuccessPage")
-//                    .permitAll()
-//                    //    .successHandler(successHandler())
-//                    .defaultSuccessUrl("/loginSuccessPage", true)
-//                    .failureUrl("/loginFailure")
-//                    .clientRegistrationRepository(clientRegistrationRepository())
-//                    .authorizedClientService(authorizedClientService())
-//                    .authorizationEndpoint()
-//                    .baseUri("/login")
-//                    .and()
-//                    .tokenEndpoint()
-//                    .accessTokenResponseClient(accessTokenResponseClient())
-//
-//            ;
-
-//        }
-//
-//
-//
-//
-//        http.headers().defaultsDisabled().cacheControl();
-
-//    }
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
@@ -210,10 +143,10 @@ public class SecurityConfiguration  {
             OAuth2AuthorizedClientService authorizedClientService) {
         return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
     }
-//    @Bean
-//    public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient() {
-//        return new DefaultAuthorizationCodeTokenResponseClient();
-//    }
+    @Bean
+    public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient() {
+        return new RestClientAuthorizationCodeTokenResponseClient();
+    }
 
     @Bean(name = "filterMultipartResolver")
     public StandardServletMultipartResolver multipartResolver() {
