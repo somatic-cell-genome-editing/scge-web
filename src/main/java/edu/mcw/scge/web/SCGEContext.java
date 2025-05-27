@@ -2,7 +2,7 @@ package edu.mcw.scge.web;
 
 import org.apache.commons.logging.LogFactory;
 
-import javax.servlet.ServletRequest;
+import jakarta.servlet.ServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 

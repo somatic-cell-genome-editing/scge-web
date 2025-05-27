@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import edu.mcw.scge.dao.implementation.ImageDao;
 import edu.mcw.scge.datamodel.Image;
+import jakarta.servlet.annotation.MultipartConfig;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -36,14 +37,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.core.io.UrlResource;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import com.mortennobel.imagescaling.*;
 import java.awt.*;
 
 
 @Controller
+@MultipartConfig(fileSizeThreshold=1024*1024, maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
+
 public class FileUploadController {
 
 	private final StorageService storageService;

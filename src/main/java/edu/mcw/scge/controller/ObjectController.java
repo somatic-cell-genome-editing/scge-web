@@ -6,7 +6,7 @@ import edu.mcw.scge.datamodel.Experiment;
 import edu.mcw.scge.datamodel.ExperimentRecord;
 import edu.mcw.scge.datamodel.Study;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

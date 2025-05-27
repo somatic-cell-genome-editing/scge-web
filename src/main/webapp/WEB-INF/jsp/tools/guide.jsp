@@ -3,7 +3,6 @@
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
-<%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -15,7 +14,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<% Guide g = (Guide) request.getAttribute("guide"); %>
+<%
+    Gson gson=new Gson();
+    Guide g = (Guide) request.getAttribute("guide"); %>
 <% List<Editor> relatedEditors = (List<Editor>) request.getAttribute("editors");
     List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
     List<OffTargetSite> offTargetSites = (List<OffTargetSite>) request.getAttribute("offTargetSites");
@@ -260,10 +261,8 @@
 
     <div class="chart-container" >
         <h4 class="page-header" style="color:grey;">Off Target Sites</h4>
-        <span style="font-weight: bold">Pan and Zoom Graph</span>
         <canvas id="offTargetChart" style="position: relative; height:60vh; width:65vw;"></canvas>
     </div>
-    <button class="btn btn-sm btn-info" onclick="resetZoom()">Reset</button>
     <%}%>
     <br>
 
@@ -278,34 +277,20 @@
     </div>
 
 </main>
-<%
-    int maxChangeSeq = Integer.MIN_VALUE;
-    for (Map.Entry<String, Integer> entry : changeSeq.entrySet()) {
-        if (entry!=null && entry.getValue()!=null && entry.getValue() > maxChangeSeq) {
-            maxChangeSeq = entry.getValue();
-        }
-    }
-    int maxGuideSeq = Integer.MIN_VALUE;
-    for (Map.Entry<String, Integer> entry : guideSeq.entrySet()) {
-        if (entry!=null && entry.getValue()!=null && entry.getValue() > maxGuideSeq) {
-            maxGuideSeq = entry.getValue();
-        }
-    }
-%>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.1.2/dist/chart.umd.min.js"></script>
-<script src="/toolkit/common/js/chartjs-plugin-zoom.js"></script>
-<script src="/toolkit/common/js/hammer.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
 <script>
     var ctx = document.getElementById("offTargetChart");
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: <%= JSONValue.toJSONString(labels) %>,
+            labels: <%= gson.toJson(labels) %>,
             datasets: [
                 {
                     label: 'ChangeSeq',
                     data: <%=changeSeq.values()%>,
-                    yAxisID: 'y',
+                    yAxisID: 'changeSeq',
                     backgroundColor: 'rgba(6,69,121,1)',
                     borderColor: 'rgba(6,69,121,1)',
                     borderWidth: 1
@@ -313,7 +298,7 @@
                 {
                     label: 'GuideSeq',
                     data: <%=guideSeq.values()%>,
-                    yAxisID: 'y2',
+                    yAxisID: 'guideSeq',
                     backgroundColor: 'rgba(255,99,132,1)',
                     borderColor: 'rgba(255,99,132,1)',
                     borderWidth: 1
@@ -323,12 +308,11 @@
         options: {
             responsive: true,
             scales: {
-                xAxes: [
-                    {
+                xAxes: [{
                     gridLines: {
                         offsetGridLines: true
                     },
-                    title: {
+                    scaleLabel: {
                         display: true,
                         labelString: 'Off target sites',
                         fontSize: 14,
@@ -337,25 +321,22 @@
                     },
                 },
                 ],
-
-                  y:  {
+                yAxes: [{
                     id: 'changeSeq',
                     type: 'linear',
                     position: 'left',
                     ticks: {
                         beginAtZero: true
                     },
-                    title: {
+                    scaleLabel: {
                         display: true,
-                        text: 'No of ChangeSeq Reads',
+                        labelString: 'No of ChangeSeq Reads',
                         fontSize: 14,
                         fontStyle: 'bold',
                         fontFamily: 'Calibri'
                     },
-                    min:0,
-                      max:<%=maxChangeSeq%>
                 },
-                y2:    {
+                    {
                         id: 'guideSeq',
                         type: 'linear',
                         position: 'right',
@@ -363,40 +344,16 @@
                         ticks: {
                             beginAtZero: true
                         },
-                        title: {
+                        scaleLabel: {
                             display: true,
-                            text: 'No of GuideSeq Reads',
+                            labelString: 'No of GuideSeq Reads',
                             fontSize: 14,
                             fontStyle: 'bold',
                             fontFamily: 'Calibri'
                         },
-                    min:0,
-                    max:<%=maxGuideSeq%>
                     }
-
-            },
-            plugins:{
-                zoom: {
-                    pan: {
-                        enabled: true,
-                        mode: 'x',
-                        modifierKey: 'ctrl',
-                    },
-                    zoom: {
-                        drag: {
-                            enabled: true
-                        },
-                        mode: 'x',
-                    },
-                    limits: {
-                        y: {min: 0, max: <%=maxChangeSeq%>},
-                        y2: {min: 0, max: <%=maxGuideSeq%>}
-                    }
-                }
+                ]
             }
         }
     });
-    function resetZoom() {
-        window.myChart.resetZoom();
-    }
 </script>

@@ -14,11 +14,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
