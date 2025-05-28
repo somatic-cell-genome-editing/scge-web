@@ -33,12 +33,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
 
 
 import java.util.List;
-
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -125,11 +125,9 @@ public class SecurityConfiguration  {
     public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient() {
         return new RestClientAuthorizationCodeTokenResponseClient();
     }
-
-    @Bean(name = "filterMultipartResolver")
-    public StandardServletMultipartResolver multipartResolver() {
-        StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
-        //  multipartResolver.setMaxUploadSize(100000000);
-        return multipartResolver;
+    @Bean
+    public MultipartResolver multipartResolver() {
+        return new StandardServletMultipartResolver();
     }
+
 }

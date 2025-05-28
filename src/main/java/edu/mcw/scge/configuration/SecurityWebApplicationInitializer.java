@@ -1,5 +1,7 @@
 package edu.mcw.scge.configuration;
 
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.ServletRegistration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.web.multipart.support.MultipartFilter;
@@ -18,6 +20,11 @@ public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplic
     protected void beforeSpringSecurityFilterChain(ServletContext servletContext) {
         insertFilters(servletContext, new MultipartFilter());
     }
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        MultipartConfigElement multipartConfigElement =
+                new MultipartConfigElement("/tmp", 10_000_000, 15_000_000, 1_000_000);
 
+        registration.setMultipartConfig(multipartConfigElement);
+    }
 }
 
