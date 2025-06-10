@@ -8,8 +8,7 @@ import edu.mcw.scge.service.DataAccessService;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

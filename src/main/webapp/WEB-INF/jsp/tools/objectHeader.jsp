@@ -95,7 +95,7 @@
           <%
             for(Person pi:study.getMultiplePis()){
           %>
-         <%=pi.getName()%>>
+         <%=pi.getName()%>
           <%}%>
 <%--        </c:forEach>--%>
 <%--        <c:if test="${fn:length( publication.articleIds)>0}">--%>

@@ -3,7 +3,6 @@
 <%@ page import="edu.mcw.scge.storage.ImageTypes" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="edu.mcw.scge.datamodel.*" %>
-<%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -15,7 +14,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<% Guide g = (Guide) request.getAttribute("guide"); %>
+<%
+    Gson gson=new Gson();
+    Guide g = (Guide) request.getAttribute("guide"); %>
 <% List<Editor> relatedEditors = (List<Editor>) request.getAttribute("editors");
     List<OffTarget> offTargets = (List<OffTarget>) request.getAttribute("offTargets");
     List<OffTargetSite> offTargetSites = (List<OffTargetSite>) request.getAttribute("offTargetSites");
@@ -284,7 +285,7 @@
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: <%= JSONValue.toJSONString(labels) %>,
+            labels: <%= gson.toJson(labels) %>,
             datasets: [
                 {
                     label: 'ChangeSeq',

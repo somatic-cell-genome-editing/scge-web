@@ -65,7 +65,7 @@
 
     <tr>
         <td><input type="checkbox" name="protocolIds" value="<%=protocol.getId()%>"/></td>
-        <td><a href="/toolkit/data/protocols/protocol/?id=<%=protocol.getId()%>"><%=protocol.getTitle()%></a></td>
+        <td><a href="/toolkit/data/protocols/protocol?id=<%=protocol.getId()%>"><%=protocol.getTitle()%></a></td>
         <td><%=protocol.getDescription()%></td>
         <td><a href="/toolkit/files/protocol/<%=protocol.getFilename()%>"><%=protocol.getFilename()%></a></td>
         <td><%=protocol.getId()%></td>

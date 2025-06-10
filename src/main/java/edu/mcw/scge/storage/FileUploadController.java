@@ -2,48 +2,44 @@ package edu.mcw.scge.storage;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.lang.reflect.Array;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+
 import java.util.ArrayList;
-import java.util.Properties;
 import java.util.stream.Collectors;
+
+import jakarta.servlet.annotation.MultipartConfig;
 
 import edu.mcw.scge.dao.implementation.ImageDao;
 import edu.mcw.scge.datamodel.Image;
-import org.apache.commons.io.IOUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.CacheControl;
-import org.springframework.util.StringUtils;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.StudyDao;
 import edu.mcw.scge.datamodel.Model;
 import edu.mcw.scge.datamodel.Person;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.CacheControl;
+import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.core.io.UrlResource;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import com.mortennobel.imagescaling.*;
 import java.awt.*;
 
 
 @Controller
+@MultipartConfig(fileSizeThreshold = 20971520) // 20MB
 public class FileUploadController {
 
 	private final StorageService storageService;

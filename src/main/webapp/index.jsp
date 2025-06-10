@@ -5,6 +5,7 @@
     <jsp:include page="login.jsp" />
 <%
     }else {
+//        response.sendRedirect("loginSuccess");
 %>
 <jsp:include page="loginSuccess" />
 

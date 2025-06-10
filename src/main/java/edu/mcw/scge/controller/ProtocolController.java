@@ -8,24 +8,16 @@ import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.storage.FileSystemStorageService;
 import edu.mcw.scge.storage.StorageProperties;
 
-import org.springframework.core.io.Resource;
-import org.springframework.http.MediaType;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value="/data/protocols")

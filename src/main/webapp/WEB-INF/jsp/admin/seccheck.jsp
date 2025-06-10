@@ -21,7 +21,7 @@
 <iframe src="/toolkit/data/experiments/experiment/18000000022"></iframe>
 
 <div>Tier 1 condition Deverman</div>
-<iframe src="/toolkit/data/experiments/experiment/18000000022/record/15000000563/"></iframe>
+<iframe src="/toolkit/data/experiments/experiment/18000000022/record/15000000563"></iframe>
 
 
 <div>Tier 1 Editor  ABE6.3</div>

@@ -87,7 +87,7 @@
         <% if (localProtocolAccess.isAdmin(localProtocolPerson) && !SCGEContext.isProduction()) {  %>
             <td><a href="/toolkit/data/protocols/removeAssociation?objectId=<%=objectId%>&protocolId=<%=localProtocol.getId()%>&redirectURL=<%=redirectURL%>" style="color:white;background-color:red; padding:7px;">Remove</a></td>
         <% } %>
-        <td><a href="/toolkit/data/protocols/protocol/?id=<%=localProtocol.getId()%>"><%=localProtocol.getTitle()%></a></td>
+        <td><a href="/toolkit/data/protocols/protocol?id=<%=localProtocol.getId()%>"><%=localProtocol.getTitle()%></a></td>
         <td><%=localProtocol.getDescription()%></td>
         <td><a href="/toolkit/files/protocol/<%=localProtocol.getFilename()%>"><%=localProtocol.getFilename()%></a></td>
         <td><%=localProtocol.getId()%></td>

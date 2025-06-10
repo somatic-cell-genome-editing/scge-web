@@ -7,7 +7,6 @@
 <%@ page import="edu.mcw.scge.dao.implementation.StatsDao" %>
 <%@ page import="edu.mcw.scge.process.UI" %>
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
-<%@ page import="javax.xml.stream.FactoryConfigurationError" %>
 <%@ page import="edu.mcw.scge.web.SCGEContext" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
