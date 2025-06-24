@@ -634,7 +634,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     age.addAll(columnMap.get("age"));
                 }
                 age.add(record.getAge());
-                columnMap.put("age", (List<String>) age);
+                columnMap.put("age", new ArrayList<>( age));
             }
             if(record.getSex()!=null && !record.getSex().equals(""))
             {
@@ -673,7 +673,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 columnMap.put("guide", new ArrayList<>( guide));
             }
             if(record.getGuides()!=null && record.getGuides().size()>0){
-               List<String> targetLocus= record.getGuides().stream().map(Guide::getTargetLocus).filter(Objects::nonNull).collect(Collectors.toList());
+               List<String> targetLocus= record.getGuides().stream().map(Guide::getTargetLocus).filter(Objects::nonNull).toList();
                if(targetLocus.size()>0){
 
                   Set<String> targetLocusSet= new TreeSet<>();
