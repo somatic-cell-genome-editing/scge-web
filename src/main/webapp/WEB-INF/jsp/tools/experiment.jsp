@@ -236,6 +236,8 @@ ExperimentResultDetail detail = experimentResults.get(0);
         <tr><td class="header"><strong>Model Name</strong></td><td><a href="/toolkit/data/models/model?id=${model.modelId}"><%=SFN.parse(model.getName())%></a></td></tr>
             <tr><td colspan="2"><hr></td></tr>
             <%
+                if(experimentRecord.getAge()!=null && !experimentRecord.getAge().equals("") ||
+                        experimentRecord.getSex()!=null && !experimentRecord.getSex().equals("")){
                 if(experimentRecord.getAge()!=null && !experimentRecord.getAge().equals("")){
             %>
             <tr><td class="header"><strong>Sample Age</strong></td><td><%=experimentRecord.getAge()%></td></tr>
@@ -246,7 +248,7 @@ ExperimentResultDetail detail = experimentResults.get(0);
             <tr><td class="header"><strong>Sample Sex</strong></td><td><%=experimentRecord.getSex()%></td></tr>
             <%}%>
             <tr><td colspan="2"><hr></td></tr>
-
+<%}%>
 
                 <tr><td class="header"><strong>Application&nbsp;Method</strong></td><td><%=a.getApplicationType()%></td></tr>
                 <tr><td class="header"><strong>Application&nbsp;Site</strong></td><td><%=SFN.parse(a.getSiteOfApplication())%></td></tr>
