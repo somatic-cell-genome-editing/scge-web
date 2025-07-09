@@ -606,6 +606,14 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 }
                 cellTypeTerm.add(record.getCellTypeTerm());
                 columnMap.put("cellTypeTerm",new ArrayList<>( cellTypeTerm));
+            }else {
+
+                Set<String> cellTypeTerm= new TreeSet<>();
+                if(columnMap.get("cellTypeTerm")!=null){
+                    cellTypeTerm.addAll(columnMap.get("cellTypeTerm"));
+                }
+                cellTypeTerm.add("Unspecified");
+                columnMap.put("cellTypeTerm",new ArrayList<>( cellTypeTerm));
             }
         //    System.out.println("MODEL DISPLAY NAME:"+ record.getModelDisplayName()+"\nMODEL NAME:"+ record.getModelName()+"\nMODEL ID:"+record.getModelId());
             if(record.getModelDisplayName()!=null && !record.getModelDisplayName().equals(""))
