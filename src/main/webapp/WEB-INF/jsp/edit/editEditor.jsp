@@ -1,4 +1,4 @@
-<%@ page import="com.nimbusds.jose.shaded.json.JSONValue" %>
+<%@ page import="net.minidev.json.JSONValue" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
