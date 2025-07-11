@@ -634,7 +634,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     age.addAll(columnMap.get("age"));
                 }
                 age.add(record.getAge());
-                columnMap.put("age",  age.stream().toList());
+                columnMap.put("age", new ArrayList<>(age));
             }
             if(record.getSex()!=null && !record.getSex().equals(""))
             {
