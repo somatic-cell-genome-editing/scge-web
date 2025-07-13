@@ -235,19 +235,16 @@ function emptyTableRows() {
             hiddenRows+=1;
         }
     }
-    console.log("TABLE ROW LENGTH:"+ rowLength +"\thidden rows:"+ hiddenRows)
     return rowLength == hiddenRows + 2;
 }
 
 function applyFilters(map) {
     const table = document.getElementById('myTable'); //to remove filtered rows
     const rowLength = table.rows.length;
-    const allRowsOff=emptyTableRows();
-   // if(allRowsOff){
         for (let i = 2; i < rowLength; i++) {
         table.rows.item(i).style.display = ""
         }
-   // }
+
     for (let [key, value] of map) {
         let columnName=key;
         let objects=value;
@@ -258,23 +255,7 @@ function applyFilters(map) {
                 objects.forEach(function (obj){
            if ((cells.item(columnIndex).innerText.toLowerCase().includes(obj.id.toString().toLowerCase()) && columnName!='Sex' && columnName!='Qualifier') || (cells.item(columnIndex).innerHTML.toLowerCase().search(">" + obj.id.toString().toLowerCase() + "<") > -1 && columnName!='Sex' && columnName!='Qualifier') ||
             cells.item(columnIndex).innerText.toLowerCase().trim()==obj.id.toString().toLowerCase() .trim()) {
-            //   if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
             if (obj.checked) {
-                // cells.item(columnIndex).off = false;
-                // // var somethingOff = false;
-                // // for (j = 0; j < cells.length; j++) {
-                // //     if (cells.item(j).off == true && j != columnIndex) {
-                // //         somethingOff = true;
-                // //         break;
-                // //     }
-                // // }
-                // let rowOff=table.rows.item(i).style.display =="none";
-                // if (!rowOff) {
-                //     table.rows.item(i).style.display = "";
-                // }
-                // // else {
-                // //     table.rows.item(i).style.display = "";
-                // // }
             } else {
                 cells.item(columnIndex).off = true;
                 table.rows.item(i).style.display = "none";
