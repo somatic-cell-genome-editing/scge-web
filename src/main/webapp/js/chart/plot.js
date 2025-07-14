@@ -352,7 +352,7 @@ function applyFilters(map) {
 //     }
 //
 // }
-var dualAxis = false;
+// var dualAxis = false;
 function load(initialLoad) {
     console.log("in load");
     if(!initialLoad || filtersApplied() || selectedTissueListSize>0) {
