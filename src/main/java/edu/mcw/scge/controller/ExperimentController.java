@@ -579,7 +579,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("qualifier")!=null){
                     qualifier.addAll(columnMap.get("qualifier"));
                 }
+                if(record.getQualifier()!=null && !record.getQualifier().equals(""))
                 qualifier.add(record.getQualifier());
+                if(qualifier.size()>0)
                 columnMap.put("qualifier", new ArrayList<>(qualifier));
             }
             if(record.getTimePoint()!=null && !record.getTimePoint().equals("")) {
@@ -587,7 +589,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("timePoint")!=null){
                     timePoint.addAll(columnMap.get("timePoint"));
                 }
+                if(record.getTimePoint()!=null &&! record.getTimePoint().equals(""))
                 timePoint.add(record.getTimePoint());
+                if(timePoint.size()>0)
                 columnMap.put("timePoint", new ArrayList<>(timePoint));
             }
             if(record.getTissueTerm()!=null && !record.getTissueTerm().equals("")) {
@@ -595,7 +599,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("tissueTerm")!=null){
                 tissueTerm.addAll(columnMap.get("tissueTerm"));
                 }
+                if(record.getTissueTerm()!=null && !record.getTissueTerm().equals(""))
                 tissueTerm.add(record.getTissueTerm());
+                if(tissueTerm.size()>0)
                 columnMap.put("tissueTerm", new ArrayList<>(tissueTerm));
             }
             if(record.getCellTypeTerm()!=null && !record.getCellTypeTerm().equals("") && !record.getCellTypeTerm().equals("unspecified"))
@@ -604,7 +610,18 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("cellTypeTerm")!=null){
                     cellTypeTerm.addAll(columnMap.get("cellTypeTerm"));
                 }
+                if(record.getCellTypeTerm()!=null && !record.getCellTypeTerm().equals(""))
                 cellTypeTerm.add(record.getCellTypeTerm());
+                if(cellTypeTerm.size()>0)
+                columnMap.put("cellTypeTerm",new ArrayList<>( cellTypeTerm));
+            }else {
+
+                Set<String> cellTypeTerm= new TreeSet<>();
+                if(columnMap.get("cellTypeTerm")!=null){
+                    cellTypeTerm.addAll(columnMap.get("cellTypeTerm"));
+                }
+
+               cellTypeTerm.add("Unspecified");
                 columnMap.put("cellTypeTerm",new ArrayList<>( cellTypeTerm));
             }
         //    System.out.println("MODEL DISPLAY NAME:"+ record.getModelDisplayName()+"\nMODEL NAME:"+ record.getModelName()+"\nMODEL ID:"+record.getModelId());
@@ -614,7 +631,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("modelDisplayName")!=null){
                     modelDisplayName.addAll(columnMap.get("modelDisplayName"));
                 }
+                if(record.getModelDisplayName()!=null && !record.getModelDisplayName().equals(""))
                 modelDisplayName.add(record.getModelDisplayName());
+                if(modelDisplayName.size()>0)
                 columnMap.put("modelDisplayName", new ArrayList<>( modelDisplayName));
             }else{
                 if(record.getModelName()!=null && !record.getModelName().equals("")){
@@ -622,7 +641,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     if(columnMap.get("modelDisplayName")!=null){
                         modelDisplayName.addAll(columnMap.get("modelDisplayName"));
                     }
+                    if(record.getModelName()!=null && !record.getModelName().equals(""))
                     modelDisplayName.add(record.getModelName());
+                    if(modelDisplayName.size()>0)
                     columnMap.put("modelDisplayName", new ArrayList<>( modelDisplayName));
                 }
             }
@@ -633,8 +654,10 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("age")!=null){
                     age.addAll(columnMap.get("age"));
                 }
+                if(record.getAge()!=null && !record.getAge().equals(""))
                 age.add(record.getAge());
-                columnMap.put("age", new ArrayList<>(age));
+                if(age.size()>0)
+                columnMap.put("age", new ArrayList<>( age));
             }
             if(record.getSex()!=null && !record.getSex().equals(""))
             {
@@ -642,7 +665,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("sex")!=null){
                     sex.addAll(columnMap.get("sex"));
                 }
+                if(record.getSex()!=null && !record.getSex().equals(""))
                 sex.add(record.getSex());
+                if(sex.size()>0)
                 columnMap.put("sex", new ArrayList<>( sex));
             }
 
@@ -651,7 +676,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("editorSymbol")!=null){
                     editorSymbol.addAll(columnMap.get("editorSymbol"));
                 }
+                if(record.getEditorSymbol()!=null && !record.getEditorSymbol().equals(""))
                 editorSymbol.add(record.getEditorSymbol());
+                if(editorSymbol.size()>0)
                 columnMap.put("editorSymbol", new ArrayList<>(editorSymbol));
             }
             if(record.getDeliverySystemName()!=null && !record.getDeliverySystemName().equals(""))
@@ -660,7 +687,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("deliverySystemName")!=null){
                     deliverySystemName.addAll(columnMap.get("deliverySystemName"));
                 }
+                if(record.getDeliverySystemName()!=null && !record.getDeliverySystemName().equals(""))
                 deliverySystemName.add(record.getDeliverySystemName());
+                if(deliverySystemName.size()>0)
                 columnMap.put("deliverySystemName", new ArrayList<>(deliverySystemName));
             }
             if(record.getGuides()!=null && record.getGuides().size()>0)
@@ -670,6 +699,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     guide.addAll(columnMap.get("guide"));
                 }
                 guide.addAll(record.getGuides().stream().map(Guide::getGuide).filter(Objects::nonNull).collect(Collectors.toSet()));
+                if(guide.size()>0)
                 columnMap.put("guide", new ArrayList<>( guide));
             }
             if(record.getGuides()!=null && record.getGuides().size()>0){
@@ -683,6 +713,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                   Set<String> targetLoci= record.getGuides().stream().filter(Objects::nonNull).map(Guide::getTargetLocus).filter(Objects::nonNull).collect(Collectors.toSet());
                   if( targetLoci.size()>0)
                    targetLocusSet.addAll(targetLoci);
+                  if(targetLocusSet.size()>0)
                    columnMap.put("targetLocus", new ArrayList<>( targetLocusSet));
                }
             }
@@ -694,6 +725,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     vector.addAll(columnMap.get("vector"));
                 }
                 vector.addAll(record.getVectors().stream().map(Vector::getName).filter(Objects::nonNull).collect(Collectors.toSet()));
+                if(vector.size()>0)
                 columnMap.put("vector", new ArrayList<>( vector));
             }
             if(record.getHrDonors()!=null && record.getHrDonors().size()>0)
@@ -703,6 +735,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     hrDonor.addAll(columnMap.get("hrDonor"));
                 }
                 hrDonor.addAll(record.getHrDonors().stream().map(h->String.valueOf(h.getId())).collect(Collectors.toSet()));
+               if(hrDonor.size()>0)
                 columnMap.put("hrDonor", new ArrayList<>(hrDonor));
             }
             if(record.getDosage()!=null && !record.getDosage().equals(""))
@@ -711,7 +744,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("dosage")!=null){
                     dosage.addAll(columnMap.get("dosage"));
                 }
+                if(record.getDosage()!=null && !record.getDosage().equals(""))
                 dosage.add(record.getDosage());
+                if(dosage.size()>0)
                 columnMap.put("dosage", new ArrayList<>(dosage));
             }
             if(record.getInjectionFrequency()!=null && !record.getInjectionFrequency().equals("")) {
@@ -719,7 +754,9 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                 if(columnMap.get("injectionFrequency")!=null){
                     injectionFrequency.addAll(columnMap.get("injectionFrequency"));
                 }
+                if(record.getInjectionFrequency()!=null && !record.getInjectionFrequency().equals(""))
                 injectionFrequency.add(record.getInjectionFrequency());
+                if(injectionFrequency.size()>0)
                 columnMap.put("injectionFrequency", (new ArrayList<>(injectionFrequency)));
 
             }
@@ -730,6 +767,7 @@ public String getExperimentsByStudyId( HttpServletRequest req, HttpServletRespon
                     units.addAll(columnMap.get("units"));
                 }
                 units.addAll(record.getResultDetails().stream().map(ExperimentResultDetail::getUnits).collect(Collectors.toSet()));
+                if(units.size()>0)
                 columnMap.put("units", new ArrayList<>( units));
             }
 
