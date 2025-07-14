@@ -55,7 +55,6 @@
     })
 </script>
 <% ProcessUtils processUtils=new ProcessUtils();%>
-<%=gson.toJson(tableColumns) +"SIZE:"+tableColumns.size()%>
 <div class="table-wrapper">
     <table id="myTable" class="table tablesorter experiment-details">
         <caption style="display:none;"><%=ex.getName().replaceAll(" ","_")%></caption>
