@@ -267,7 +267,7 @@
                                     <tr>
                                         <td>
                                             <% if (cellTypeList.size() > 1) { %>
-                                            <input   name="checkcelltype" id="<%=cellType%>" type="checkbox" checked><%}%>&nbsp;<%=cellType%>
+                                            <input   name="checkcelltype" id="<%=cellType%>" type="checkbox" checked><%}%>&nbsp;<%=StringUtils.capitalizeFirst(cellType)%>
                                         </td>
                                     </tr>
                                     <%} else { %>
