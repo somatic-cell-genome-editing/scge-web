@@ -1,14 +1,5 @@
-$(function() {
-    $("#myTable").tablesorter({
-        widthFixed : true,
-        theme : 'blue',
-        widgets: ['zebra','resizable', 'stickyHeaders'],
-        widgetOptions: {
-            // jQuery selector or object to attach sticky header to
-            stickyHeaders_attachTo: $('.table-wrapper'),
 
-        }
-    });
+$(function() {
     var toggler = document.getElementsByClassName("caret");
     var i;
 
@@ -24,7 +15,7 @@ function signOut() {
     auth2.signOut().then(function () {
         console.log('User signed out.');
     });
-    
+
 
     var redirectURL='/scge/home';
     var form = $('<form action="' + redirectURL + '">');

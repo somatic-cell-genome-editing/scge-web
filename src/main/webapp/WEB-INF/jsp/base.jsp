@@ -46,17 +46,22 @@
     <meta property="og:description" content="<%=seoDescription%>"/>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Custom styles for this template -->
-    <!--link href="css/dashboard.css" rel="stylesheet"-->
-    <link href="/toolkit/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-    <link href="/toolkit/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-    <link href="/toolkit/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+    <!-- 2 – tablesorter core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.1/js/jquery.tablesorter.min.js"></script>
 
-    <script src="/toolkit/common/tableSorter/js/tablesorter.js"> </script>
-    <script src="/toolkit/common/tableSorter/js/jquery.tablesorter.widgets.js"></script>
+    <!-- 3 – optional: widgets or combined (pager, filters, etc.) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.1/js/jquery.tablesorter.combined.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.1/css/theme.blue.min.css">
+    <!--link href="css/dashboard.css" rel="stylesheet"-->
+<%--    <link href="/toolkit/common/tableSorter/css/filter.formatter.css" rel="stylesheet" type="text/css"/>--%>
+<%--    <link href="/toolkit/common/tableSorter/css/theme.jui.css" rel="stylesheet" type="text/css"/>--%>
+<%--    <link href="/toolkit/common/tableSorter/css/theme.blue.css" rel="stylesheet" type="text/css"/>--%>
+
     <!--link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/-->
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet" type="text/css"/>
@@ -65,9 +70,9 @@
     <link href="/toolkit/css/base.css" rel="stylesheet" type="text/css"/>
 
 
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
