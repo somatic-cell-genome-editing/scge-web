@@ -316,65 +316,7 @@ function applyFilters(map) {
     }
 
 }
-// function applyFilters(objects,  columnName) {
-//     const table = document.getElementById('myTable'); //to remove filtered rows
-//     const rowLength = table.rows.length;
-//     const allRowsOff=emptyTableRows();
-//     if(allRowsOff){
-//         for (let i = 2; i < rowLength; i++) {
-//             table.rows.item(i).style.display = ""
-//         }
-//     }
-//     var columnIndex=getColumnIndex(table, columnName)
-//     if(columnIndex>0){
-//
-//         for (i = 2; i < rowLength; i++) {
-//             var cells = table.rows.item(i).cells;
-//             objects.forEach(function (obj){
-//                 if ((cells.item(columnIndex).innerText.toLowerCase().includes(obj.id.toString().toLowerCase()) && columnName!='Sex' && columnName!='Qualifier') || (cells.item(columnIndex).innerHTML.toLowerCase().search(">" + obj.id.toString().toLowerCase() + "<") > -1 && columnName!='Sex' && columnName!='Qualifier') ||
-//                     cells.item(columnIndex).innerText.toLowerCase().trim()==obj.id.toString().toLowerCase() .trim()) {
-//                     //   if ((cells.item(k).innerText.trim() == obj.id) || (cells.item(k).innerHTML.search(">" + obj.id + "<") > -1)) {
-//                     if (obj.checked) {
-//                         cells.item(columnIndex).off = false;
-//                         // var somethingOff = false;
-//                         // for (j = 0; j < cells.length; j++) {
-//                         //     if (cells.item(j).off == true && j != columnIndex) {
-//                         //         somethingOff = true;
-//                         //         break;
-//                         //     }
-//                         // }
-//                         let rowOff=table.rows.item(i).style.display =="none";
-//                         if (!rowOff || allRowsOff) {
-//                             table.rows.item(i).style.display = "";
-//                         }
-//                         // else {
-//                         //     table.rows.item(i).style.display = "";
-//                         // }
-//                     } else {
-//                         cells.item(columnIndex).off = true;
-//                         table.rows.item(i).style.display = "none";
-//                     }
-//                 }
-//             })
-//         }
-//
-//     }
-//     if (filtersApplied() &&  !emptyTableRows())
-//         $('#downloadChartBelow').show();
-//     else
-//         $('#downloadChartBelow').hide();
-//     if (emptyTableRows()) {
-//         $('#chart-highlighter').hide();
-//         table.style.display="none";
-//     }
-//     else
-//     {
-//         $('#chart-highlighter').show();
-//         table.style.display="block";
-//     }
-//
-// }
-// var dualAxis = false;
+
 function load(initialLoad) {
     console.log("in load");
     if(!initialLoad || filtersApplied() || selectedTissueListSize>0) {
@@ -467,15 +409,7 @@ function load(initialLoad) {
             donors.push(ele)
         });
         map.set('HR Donor', donors)
-        // applyFilters(objects,  'HR Donor');
 
-        // if(elms.length==0){
-        //     if (document.getElementById("graphFilter") != null) {
-        //         filter = document.getElementById("graphFilter").value;
-        //         if (filter != 'None' || filtersApplied())
-        //             update(true)
-        //     }
-        // }
         applyFilters(map)
     }
     if(plotsSize>0) {
@@ -615,39 +549,10 @@ function drawResultChart(tickLabels,dataSets,i,tickDisplay,plotTitle, yAxisLabel
                         autoSkip: false,
                         display:tickDisplay,
                         callback: function (val, index) {
-                            // Hide every 2nd tick label
                             var t = this.getLabelForValue(val);
-                            var maxLabelLength = 30;
+                            var maxLabelLength = 15;
                             if (t.length > maxLabelLength) {
-                                var tokenLength = t.length / 3;
-                                var token1 = t.substr(0, t.indexOf(" "));
-                                var token2 = '';
-                                if (t.indexOf(",") > 0)
-                                    token2 = t.substr(t.indexOf(",") + 1, t.substr(t.indexOf(",") + 1).trim().indexOf("(") + 1).trim();
-                                var token3 = '';
-                                if (t.indexOf("(") > 0) {
-                                    var tmp = t.substr(t.indexOf("(") + 1, t.substr(t.indexOf("(") + 1).indexOf(")"));
-                                    var tmp1 = tmp;
-                                    if (tmp.indexOf('/') > 0) {
-                                        tmp1 = tmp.substr(0, tmp.indexOf('/'))
-                                    }
-                                    if (tmp1.indexOf(" ") > 0)
-                                        tmp1 = tmp1.substr(0, tmp1.indexOf(" "));
-                                    token3 = tmp1;
-                                }
-                                var token4 = '';
-                                if (t.indexOf("/") > 0) {
-                                    token4 = t.substr(t.indexOf("/") + 1, t.substr(t.indexOf("/") + 1).indexOf(")"));
-                                }
-
-                                var newLabel = token1;
-                                if (typeof token2 != 'undefined' && token2 != '')
-                                    newLabel += "..." + token2;
-                                if (typeof token3 != 'undefined' && token3 != '')
-                                    newLabel += "..." + token3;
-                                if (typeof token4 != 'undefined' && token4 != '')
-                                    newLabel += "..." + token4;
-                                return newLabel
+                                return t.substring(0,15)+"..."
                             }
                             return t;
                         }
