@@ -69,12 +69,13 @@
 
   resultTypeRecordsSize=<%=resultTypeRecords.size()%>;
 </script>
+
 <div>
     <p class="spinner" id="spinner">Loading...<i class="fa fa-spinner fa-spin" style="font-size:24px;color:dodgerblue"></i></p>
 </div>
 <div id="charts" style="visibility: hidden">
 <%int cellCount=0;
-    if(plots.size()>1 && maxBarCount<10){%>
+    if(plots.size()>1 && maxBarCount<=10){%>
    <div>
      <%
          int chartHeight=400;
@@ -122,7 +123,8 @@
 
     </div>
 
-           <%cellCount++;}}
+           <%cellCount++;}
+    }
         if(plots.size()==1){%>
 <div class="justify-content-md-center">
     <div>
