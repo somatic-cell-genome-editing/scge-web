@@ -84,21 +84,42 @@ function getRandomColor() {
     color += trans + ')'; // add the transparency
     return color;
 }
-$(function () {
-    $("#myTable").tablesorter( {sortList: [[9, 0]]}).bind("sortEnd", function (e, t) {
-        var table = e.target,
-            currentSort = table.config.sortList,
-            // target the first sorted column
-            columnNum = currentSort[0][0],
-            columnName = $(table.config.headerList[columnNum]).text();
-        //  console.log(columnName +"\tINDEX:"+ columnNum);
 
-        // if(dualAxis) {
-        //     updateAxis();
-        // } else {
-        console.log("bindSort ....")
-        update(false);
-        // }
+$(function () {
+    const headers={}
+    const textExtraction = {};
+    let sortList=[];
+    // console.log("sortableTableColumns:"+ JSON.stringify(sortableColumns))
+    sortableColumns.forEach(i=>headers[i]={sorter:'fancyNumber'});
+    sortableColumns.forEach(i=>sortList.push([i, 0]));
+    sortableColumns.forEach(i => {
+        textExtraction[i] = function(node) {
+            const text = $(node).text().trim();
+            // Extract first number from cell (e.g. "Result: 99.81" → 99.81)
+            const match = text.match(/[-+]?[0-9]*\.?[0-9]+/);
+            return match ? parseFloat(match[0]) : 0;
+        };
+    });
+    // console.log("HEADERS:"+JSON.stringify(headers))
+    // console.log("textextraction:"+JSON.stringify(textExtraction))
+    // console.log("sortList:"+JSON.stringify(sortList))
+    $("#myTable").tablesorter({
+        widthFixed : true,
+            theme : 'blue',
+            widgets: ['zebra','resizable', 'stickyHeaders'],
+            widgetOptions: {
+                // jQuery selector or object to attach sticky header to
+                stickyHeaders_attachTo: $('.table-wrapper'),
+
+            },
+        headers: headers,
+        textExtraction: textExtraction,
+        sortList:sortList
+
+    }).bind("sortEnd", function (e, t) {
+        if(plotsSize>0) {
+            update(false);
+        }
     });
     if(filtersApplied() && !emptyTableRows())
         $('#downloadChartBelow').show();
@@ -106,6 +127,7 @@ $(function () {
         $('#downloadChartBelow').hide();
 
 })
+
 function updateChartValues(value){
     update(false, value.toLowerCase())
 }
@@ -618,12 +640,6 @@ function drawResultChart(tickLabels,dataSets,i,tickDisplay,plotTitle, yAxisLabel
                                     token4 = t.substr(t.indexOf("/") + 1, t.substr(t.indexOf("/") + 1).indexOf(")"));
                                 }
 
-                                /*  console.log("TICK:"+t +"\tLENGTH:"+tokenLength);
-                                  console.log("TOKEN1:"+token1);
-                                  console.log("TOKEN2:"+token2);
-
-                                  console.log("TOKEN3:"+token3);
-                                  console.log("TOKEN4:"+token4);*/
                                 var newLabel = token1;
                                 if (typeof token2 != 'undefined' && token2 != '')
                                     newLabel += "..." + token2;
@@ -631,8 +647,6 @@ function drawResultChart(tickLabels,dataSets,i,tickDisplay,plotTitle, yAxisLabel
                                     newLabel += "..." + token3;
                                 if (typeof token4 != 'undefined' && token4 != '')
                                     newLabel += "..." + token4;
-                                //  console.log("NEW LABEL:"+ newLabel);
-                                //  return t.substr(0, maxLabelLength) + '...';
                                 return newLabel
                             }
                             return t;
@@ -764,7 +778,7 @@ function drawResultChart(tickLabels,dataSets,i,tickDisplay,plotTitle, yAxisLabel
             ,
             animation: {
                 onComplete: function (context) {
-                    var a = document.getElementById("image"+i)
+                    let a = document.getElementById("image"+i)
                     a.href = context.chart.toBase64Image();
                     a.download = '\''+plotTitle.replaceAll(" ", "_")+'.png'
                 }

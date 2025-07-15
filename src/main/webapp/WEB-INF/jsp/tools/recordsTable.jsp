@@ -110,37 +110,38 @@
     <% }%>
 
 </div>
-
+    <%
+        Set<Integer> sortableTableColumns=new HashSet<>();
+               if(resultTypeRecords.keySet().size()>0){
+                   int column= tableColumns.size()+1;
+                   for(String key: resultTypeRecords.keySet()) {
+                       if(!key.equals("") && !key.toString().toLowerCase().contains("signal"))
+                       sortableTableColumns.add(column++);
+                   }
+               }
+    %>
+<script>
+    sortableColumns=<%=sortableTableColumns%>
+</script>
+    <script src="/toolkit/js/chart/plot.js"></script>
 
 <%@include file="experiment/experimentResultsTable.jsp"%>
 
 </div>
-<script src="/toolkit/js/chart/plot.js"></script>
 
 <script>
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
     })
 
-    <%--var tissues = [];--%>
-    <%--tissues= <%= gson.toJson(tissues) %>;--%>
-    <%--var resultTypes = <%=gson.toJson(resultTypeList)%>;--%>
-    <%--var cellTypes = [];--%>
-    <%--<%if(cellTypeList!=null){%>--%>
-    <%--cellTypes = <%= gson.toJson(cellTypeList) %>;--%>
-    <%--<%}%>--%>
-  //  quantitativeSize= <%--=resultMap.size()--%>;
-
-
     function update(initialLoad, scaleType){
-        console.log("update call ...")
-        var table = document.getElementById('myTable'); //to remove filtered rows
-        var rowLength=table.rows.length;
-        var sortedValues=[];
-        var cellLength=  table.rows[1].cells.length;
-        var recordIdIndex=0;
-        var selected=0;
-        var filter;
+        let table = document.getElementById('myTable'); //to remove filtered rows
+        let rowLength=table.rows.length;
+        let sortedValues=[];
+        let cellLength=  table.rows[1].cells.length;
+        let recordIdIndex=0;
+        let selected=0;
+        let filter;
         plotRecordIds=[];
         if(typeof scaleType == 'undefined'){
            scaleType=document.querySelector('input[name="y-scale-type"]:checked').value;
