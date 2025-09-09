@@ -30,10 +30,14 @@
 <!--        </multipart-config>-->
 
         <multipart-config>
-            <!-- Maximum size allowed for uploaded files (in bytes) -->
-            <max-file-size>52428800</max-file-size> <!-- 50 MB -->
-            <!-- Maximum size allowed for multipart/form-data requests (in bytes) -->
-            <max-request-size>57671680</max-request-size> <!-- 55 MB -->
+
+<!--            &lt;!&ndash; Maximum size allowed for uploaded files (in bytes) &ndash;&gt;-->
+<!--            <max-file-size>52428800</max-file-size> &lt;!&ndash; 50 MB &ndash;&gt;-->
+<!--            &lt;!&ndash; Maximum size allowed for multipart/form-data requests (in bytes) &ndash;&gt;-->
+<!--            <max-request-size>57671680</max-request-size> &lt;!&ndash; 55 MB &ndash;&gt;-->
+            <max-file-size>1073741824</max-file-size>         <!-- 1 GB -->
+            <max-request-size>2147483648</max-request-size>   <!-- 2 GB -->
+
             <!-- Size threshold after which files will be written to disk (in bytes) -->
             <file-size-threshold>0</file-size-threshold>
         </multipart-config>
