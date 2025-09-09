@@ -77,7 +77,10 @@
     <c:if test="${fn:length(aggregations.category.buckets)>1}">
         <div class="p-2" style="border-bottom: 1px solid black;background-color:lightskyblue;"><h4>OR Filter By ...&nbsp;<span style="color:#2a6496"><i class="fa fa-arrow-down" aria-hidden="true"></i></span></h4></div>
     </c:if>
-    <c:set var="actionLink" value="/toolkit/data/search/results/${category}"/>
+    <c:set var="actionLink" value="/toolkit/data/search/results"/>
+    <c:if test="${category!=null && category!=''}">
+        <c:set var="actionLink" value="/toolkit/data/search/results/${category}"/>
+    </c:if>
     <c:if test="${action=='Studies And Experiments'}">
         <c:set var="actionLink" value="/toolkit/data/search/results/Study/Experiment"/>
     </c:if>
@@ -92,7 +95,7 @@
 <%--            <%@include file="studyFacets.jsp"%>--%>
 <%--        </c:if>--%>
         <c:if test="${category=='Project'}">
-            <%@include file="studyFacets.jsp"%>
+            <%@include file="studyFacets.jsp"%>git s
         </c:if>
         <c:if test="${category=='Genome Editor'}">
             <%@include file="editorFacets.jsp"%>
