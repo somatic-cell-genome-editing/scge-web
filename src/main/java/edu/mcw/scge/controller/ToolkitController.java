@@ -2,6 +2,8 @@ package edu.mcw.scge.controller;
 
 import com.sun.mail.smtp.SMTPTransport;
 import com.google.gson.Gson;
+import edu.mcw.scge.configuration.Access;
+import edu.mcw.scge.configuration.UserService;
 import edu.mcw.scge.dao.implementation.*;
 import edu.mcw.scge.datamodel.*;
 import edu.mcw.scge.service.DataAccessService;
@@ -12,6 +14,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.mail.Message;
@@ -223,5 +226,27 @@ public class ToolkitController {
 
         return null;
     }
+    @RequestMapping(value="/study/{studyId}")
+    public String getExperimentsByStudyId( HttpServletRequest req, HttpServletResponse res,
+                                           @PathVariable(required = false) int studyId) throws Exception {
+        StudyDao sdao = new StudyDao();
+        edu.mcw.scge.configuration.Access access=new Access();
+        UserService userService=new UserService();
+        Person p=userService.getCurrentUser(req.getSession());
+        Study study = sdao.getStudyById(studyId).get(0);
 
+        if(!access.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        if (!access.hasStudyAccess(study,p)) {
+            req.setAttribute("page", "/WEB-INF/jsp/error");
+            req.getRequestDispatcher("/WEB-INF/jsp/base.jsp").forward(req, res);
+            return null;
+
+        }
+
+
+        return "redirect:/data/experiments/group/"+study.getGroupId();
+    }
 }
