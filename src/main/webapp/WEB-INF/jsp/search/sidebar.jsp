@@ -95,7 +95,7 @@
 <%--            <%@include file="studyFacets.jsp"%>--%>
 <%--        </c:if>--%>
         <c:if test="${category=='Project'}">
-            <%@include file="studyFacets.jsp"%>git s
+            <%@include file="studyFacets.jsp"%>
         </c:if>
         <c:if test="${category=='Genome Editor'}">
             <%@include file="editorFacets.jsp"%>
