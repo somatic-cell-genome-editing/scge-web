@@ -63,8 +63,8 @@ public class EditController {
    /*     if(SCGEContext.isDev())
         sendEmailNotification("ageurts@mcw.edu",title ,emailMsg);
        else*/ if(SCGEContext.isProduction()){
-           if(access.isDeveloper(loggedInUser)){ //Developers can update TIER without sending email to PI and POCs
-               System.out.println("TIER UPDATE BY DEVELOPER: "+ loggedInUser.getEmail());
+           if(access.isDeveloper(loggedInUser) || access.isAdmin(loggedInUser)){ //Developers can update TIER without sending email to PI and POCs
+               System.out.println("TIER UPDATE BY DEVELOPER or ADMIN: "+ loggedInUser.getEmail());
                sendEmailNotification(loggedInUser.getEmail(),title,emailMsg);
                sendEmailNotification("scge_toolkit@mcw.edu", title, emailMsg);
 
