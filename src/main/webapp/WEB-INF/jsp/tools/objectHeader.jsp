@@ -156,7 +156,20 @@
                 List<Study> studies = studyDao.getStudiesByGroupId(study.getGroupId());
                 for (Study s : studies) {
                     if (access.hasStudyAccess(s, p)) {
-                        experiments.addAll(edao.getExperimentsByStudy(study.getStudyId()));
+                        List<Experiment> studyExperiments=edao.getExperimentsByStudy(study.getStudyId());
+                        for(Experiment se:studyExperiments){
+                            boolean exists=false;
+                            for(Experiment e:experiments){
+                                if(e.getExperimentId()==se.getExperimentId()){
+                                    exists=true;
+                                    break;
+                                }
+                            }
+                            if(!exists){
+                                experiments.add(se);
+                            }
+                        }
+
                     }
                 }
             } else
