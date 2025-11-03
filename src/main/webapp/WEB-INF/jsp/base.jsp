@@ -135,8 +135,11 @@
     <%@include file="navbarTop.jsp"%>
     <%@include file="navbar.jsp"%>
     <!-- Site Outage Message Banner -->
-
+    <%
+        if(SCGEContext.isProduction()){
+    %>
     <%@include file="disclaimer.jsp"%>
+    <%}%>
     <div id="main">
         <% if (request.getAttribute("crumbtrail") != null) {%>
         <div class="container-fluid" style="padding-bottom: 2px;"><%=request.getAttribute("crumbtrail")%></div>
