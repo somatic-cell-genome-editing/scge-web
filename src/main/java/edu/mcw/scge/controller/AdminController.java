@@ -191,6 +191,13 @@ public class AdminController extends LoginController{
             p.setInstitution(institution);
             p.setEmail(gEmail);
             p.setStatus("ACTIVE");
+            Map<String, String> userName=  pdao.getFirstAndLastName(name);
+            if(userName!=null && userName.get("firstName")!=null){
+                p.setFirstName(userName.get("firstName"));
+            }else p.setFirstName(name);
+            if(userName!=null && userName.get("lastName")!=null){
+                p.setLastName(userName.get("lastName"));
+            }
             if (oEmail != null && !oEmail.equals("")) {
                 p.setOtherId(oEmail);
             }
