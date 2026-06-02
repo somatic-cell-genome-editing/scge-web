@@ -1,5 +1,4 @@
 <%@ page import="edu.mcw.scge.configuration.UserService" %>
-<%@ page import="org.elasticsearch.cluster.coordination.Publication" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--

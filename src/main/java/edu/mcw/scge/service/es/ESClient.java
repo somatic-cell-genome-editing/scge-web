@@ -1,13 +1,14 @@
 package edu.mcw.scge.service.es;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.json.jackson.JacksonJsonpMapper;
+import co.elastic.clients.transport.ElasticsearchTransport;
+import co.elastic.clients.transport.rest_client.RestClientTransport;
 import edu.mcw.scge.web.SCGEContext;
-import io.netty.util.internal.InternalThreadLocalMap;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.RestHighLevelClientBuilder;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,14 +16,15 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class ESClient {
-    private static RestHighLevelClient client=null;
+    private static ElasticsearchClient client=null;
+    private static ElasticsearchTransport transport=null;
 
-    public static RestHighLevelClient init(){
+    public static ElasticsearchClient init(){
         if(client==null) {
          try{
-
+                RestClient restClient;
                 if(SCGEContext.isProduction() || SCGEContext.isTest()){
-;                   InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties");
+                    InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties");
                     Properties props= new Properties();
                     props.load(input);
                     String HOST1 = (String) props.get("HOST1");
@@ -32,12 +34,11 @@ public class ESClient {
                     String HOST5 = (String) props.get("HOST5");
                     //    String VARIANTS_HOST= (String) props.get("HOST1");
                     int port = Integer.parseInt((String) props.get("PORT"));
-                    client = new RestHighLevelClientBuilder(
-                            RestClient.builder(
+                    restClient = RestClient.builder(
                                     new HttpHost(HOST1, port, "http"),
-                    new HttpHost(HOST2, port, "http"),
-                    new HttpHost(HOST3, port, "http"),
-                    new HttpHost(HOST4, port, "http") ,
+                                    new HttpHost(HOST2, port, "http"),
+                                    new HttpHost(HOST3, port, "http"),
+                                    new HttpHost(HOST4, port, "http"),
                                     new HttpHost(HOST5, port, "http")
                             ).setRequestConfigCallback(
                                     new RestClientBuilder.RequestConfigCallback() {
@@ -51,13 +52,11 @@ public class ESClient {
                                         }
 
                                     }
-                            ).build()
-                    ).setApiCompatibilityMode(true).build();
+                            ).build();
                 }else {
-                    String DEV_HOST = "travis.rgd.mcw.edu";
+                    String DEV_HOST = "localhost";
                     int port = 9200;
-                    client = new RestHighLevelClientBuilder(
-                            RestClient.builder(
+                    restClient = RestClient.builder(
                                     new HttpHost(DEV_HOST, port, "http")
                             ).setRequestConfigCallback(
                                     new RestClientBuilder.RequestConfigCallback() {
@@ -71,9 +70,10 @@ public class ESClient {
                                         }
 
                                     }
-                            ).build()
-                    ).setApiCompatibilityMode(true).build();
+                            ).build();
                 }
+                transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
+                client = new ElasticsearchClient(transport);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -83,17 +83,14 @@ public class ESClient {
     }
     public synchronized void destroy() throws IOException {
         System.out.println("destroying Variants Elasticsearch Client...");
-        if(client!=null) {
-            client.close();
-            //   client.threadPool().shutdownNow();
-            InternalThreadLocalMap.remove();
+        if(transport!=null) {
+            transport.close();
+            transport=null;
             client=null;
-
-
         }
     }
 
-    public static RestHighLevelClient getClient() {
+    public static ElasticsearchClient getClient() {
         if(client==null) {
          init();
         }

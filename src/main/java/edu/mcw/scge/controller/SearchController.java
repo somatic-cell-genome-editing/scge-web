@@ -10,12 +10,7 @@ import edu.mcw.scge.datamodel.Person;
 import edu.mcw.scge.service.es.IndexServices;
 import edu.mcw.scge.web.Facet;
 import edu.mcw.scge.web.utils.BreadCrumbImpl;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.security.user.User;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.aggregations.Aggregation;
-import org.elasticsearch.search.aggregations.Aggregations;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
@@ -56,16 +51,15 @@ public class SearchController{
             Set<Long> experimentIds=experiments.stream().map(experiment -> experiment.getExperimentId()).collect(Collectors.toSet());
             req.setAttribute("userAccessExperimentIds", experimentIds);
         }
-        SearchResponse sr=services.getSearchResults(null, searchTerm, getFilterMap(req),DCCNIHMember,consortiumMember);
+        SearchResponse<Map> sr=services.getSearchResults(null, searchTerm, getFilterMap(req),DCCNIHMember,consortiumMember);
 
         boolean facetSearch=false;
         if(req.getParameter("facetSearch")!=null)
             facetSearch= req.getParameter("facetSearch").equals("true");
-        req.setAttribute("sr", sr);
+        req.setAttribute("hits", services.getHits(sr));
+        req.setAttribute("resultCount", sr.hits().total()!=null ? sr.hits().total().value() : 0L);
         req.setAttribute("searchTerm", searchTerm);
-     //   Map<String, List<Terms.Bucket>>aggregations=services.getSearchAggregations(sr);
-        Aggregations aggs=sr.getAggregations();
-        Map<String, Aggregation> aggregationMap = new HashMap<>(aggs.asMap());
+        Map<String, Object> aggregationMap = services.getAggregationView(sr);
         req.setAttribute("aggregations",aggregationMap);
         String selectedView=req.getParameter("selectedView");
         if(selectedView==null || selectedView.equals("")){
@@ -79,24 +73,16 @@ public class SearchController{
       //      if(getFilterMap(req).size()==1){
        //         SearchResponse searchResponse= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
                 if(getFilterMap(req).size()==1 ){
-                    SearchResponse oneCategoryFilterAggs= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
+                    SearchResponse<Map> oneCategoryFilterAggs= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
                     if(oneCategoryFilterAggs!=null) {
-                        Map<String, Aggregation> oneCategoryAggs=  oneCategoryFilterAggs.getAggregations().asMap();
-                        for(Map.Entry e:oneCategoryAggs.entrySet()){
-                            aggregationMap.put((String)e.getKey(), (Aggregation) e.getValue());
-
-                        }
+                        aggregationMap.putAll(services.getAggregationView(oneCategoryFilterAggs));
                         req.setAttribute("aggregations", aggregationMap);
                     }
 
                 }else{
-                    SearchResponse categoryAggs= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
+                    SearchResponse<Map> categoryAggs= services.getFilteredAggregations(null,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
                     if(categoryAggs!=null) {
-                        Map<String, Aggregation> oneCategoryAggs=  categoryAggs.getAggregations().asMap();
-                        for(Map.Entry e:oneCategoryAggs.entrySet()){
-                            aggregationMap.put((String)e.getKey(), (Aggregation) e.getValue());
-
-                        }
+                        aggregationMap.putAll(services.getAggregationView(categoryAggs));
                         req.setAttribute("aggregations", aggregationMap);
                     }
                 }
@@ -107,7 +93,7 @@ public class SearchController{
     //    else {
         req.setAttribute("facets", Facet.displayNames);
 
-        req.setAttribute("action", sr.getHits().getTotalHits().value + " results for " + searchTerm);
+        req.setAttribute("action", (sr.hits().total()!=null ? sr.hits().total().value() : 0L) + " results for " + searchTerm);
             req.setAttribute("page", "/WEB-INF/jsp/search/results");
         req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
         req.setAttribute("seoTitle","Search Result for " + searchTerm);
@@ -137,14 +123,15 @@ public class SearchController{
             searchTerm="";
         }
         List<String> categories=Arrays.asList(category);
-        SearchResponse sr=services.getSearchResults(categories,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
+        SearchResponse<Map> sr=services.getSearchResults(categories,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
         req.setAttribute("facets", Facet.displayNames);
         boolean facetSearch=false;
         if(req.getParameter("facetSearch")!=null)
         facetSearch= req.getParameter("facetSearch").equals("true");
         req.setAttribute("searchTerm", searchTerm);
         req.setAttribute("category",category);
-        req.setAttribute("sr", sr);
+        req.setAttribute("hits", services.getHits(sr));
+        req.setAttribute("resultCount", sr.hits().total()!=null ? sr.hits().total().value() : 0L);
         String selectedView=req.getParameter("selectedView");
         if(selectedView==null || selectedView.equals("")){
            // selectedView="list";
@@ -159,22 +146,16 @@ public class SearchController{
           Terms aggs= (Terms) iterator.next();
             System.out.println(aggs.getName()+"\t:"+ aggs.getBuckets().size());
         }*/
-     //   Map<String, List<Terms.Bucket>>aggregations=services.getSearchAggregations(sr);
-        Aggregations aggs=sr.getAggregations();
-        Map<String, Aggregation> aggregationMap = new HashMap<>(aggs.asMap());
+        Map<String, Object> aggregationMap = services.getAggregationView(sr);
         req.setAttribute("aggregations",aggregationMap);
 
         req.setAttribute("crumbTrailMap",   breadCrumb.getCrumbTrailMap(req,null,null, "search"));
         if(facetSearch) {
 
             if(getFilterMap(req).size()==1){
-               SearchResponse oneCategoryFilterAggs= services.getFilteredAggregations(categories,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
+               SearchResponse<Map> oneCategoryFilterAggs= services.getFilteredAggregations(categories,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
                if(oneCategoryFilterAggs!=null) {
-                 Map<String, Aggregation> oneCategoryAggs=  oneCategoryFilterAggs.getAggregations().asMap();
-                 for(Map.Entry e:oneCategoryAggs.entrySet()){
-                      aggregationMap.put((String)e.getKey(), (Aggregation) e.getValue());
-
-                  }
+                   aggregationMap.putAll(services.getAggregationView(oneCategoryFilterAggs));
                    req.setAttribute("aggregations", aggregationMap);
                }
 
@@ -263,10 +244,11 @@ public class SearchController{
             req.setAttribute("userAccessExperimentIds", experimentIds);
         }
         List<String> categories=Arrays.asList(category1, category2);
-        SearchResponse sr=services.getSearchResults(categories,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
+        SearchResponse<Map> sr=services.getSearchResults(categories,searchTerm,getFilterMap(req), DCCNIHMember,consortiumMember);
         req.setAttribute("searchTerm", searchTerm);
-        req.setAttribute("sr", sr);
-        Map<String, Aggregation> aggregationMap = new HashMap<>(sr.getAggregations().asMap());
+        req.setAttribute("hits", services.getHits(sr));
+        req.setAttribute("resultCount", sr.hits().total()!=null ? sr.hits().total().value() : 0L);
+        Map<String, Object> aggregationMap = services.getAggregationView(sr);
         req.setAttribute("aggregations",aggregationMap);
         String selectedView=req.getParameter("selectedView");
         if(selectedView==null || selectedView.equals("")){
@@ -274,20 +256,6 @@ public class SearchController{
         }
         req.setAttribute("selectedView",selectedView);
         req.setAttribute("crumbTrailMap",   breadCrumb.getCrumbTrailMap(req,null,null, "search"));
-      /*  if(facetSearch) {
-            System.out.println("FACET SEARCH: "+ facetSearch);
-            if(getFilterMap(req).size()==1){
-                SearchResponse searchResponse= services.getFilteredAggregations(categories,searchTerm,getFilterMap(req), DCCNIHMember, consortiumMember);
-                if(searchResponse!=null) {
-                    Map<String, List<Terms.Bucket>> filtered = services.getSearchAggregations(searchResponse);
-                    aggregations.putAll(filtered);
-                    req.setAttribute("aggregations", aggregations);
-                }
-
-            }
-
-        }
-*/
         req.setAttribute("action", "Studies And Experiments");
         req.setAttribute("seoDescription","The goal of the SCGE program is to accelerate the development of safer and more effective methods to edit the genomes of disease-relevant somatic cells and tissues in patients.  For ethical, legal and safety reasons, the SCGE program does not support any research activities on genome editing in reproductive (germ) cells.");
         req.setAttribute("seoTitle","Projects");
