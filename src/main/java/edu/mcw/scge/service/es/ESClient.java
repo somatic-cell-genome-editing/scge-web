@@ -1,99 +1,129 @@
 package edu.mcw.scge.service.es;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.json.jackson.JacksonJsonpMapper;
+import co.elastic.clients.transport.ElasticsearchTransport;
+import co.elastic.clients.transport.rest_client.RestClientTransport;
+import edu.mcw.scge.service.JacksonConfiguration;
 import edu.mcw.scge.web.SCGEContext;
-import io.netty.util.internal.InternalThreadLocalMap;
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.RestHighLevelClientBuilder;
+
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ESClient {
-    private static RestHighLevelClient client=null;
+    private static volatile ElasticsearchClient client = null;
+    private static volatile ElasticsearchTransport transport = null;
+    private static volatile RestClient restClient = null;
+    private static final Logger log = LogManager.getLogger(ESClient.class);
 
-    public static RestHighLevelClient init(){
-        if(client==null) {
-         try{
-
-                if(SCGEContext.isProduction() || SCGEContext.isTest()){
-;                   InputStream input= new FileInputStream("/data/properties/elasticsearchProps.properties");
-                    Properties props= new Properties();
-                    props.load(input);
-                    String HOST1 = (String) props.get("HOST1");
-                    String HOST2 = (String) props.get("HOST2");
-                    String HOST3 = (String) props.get("HOST3");
-                    String HOST4 = (String) props.get("HOST4");
-                    String HOST5 = (String) props.get("HOST5");
-                    //    String VARIANTS_HOST= (String) props.get("HOST1");
-                    int port = Integer.parseInt((String) props.get("PORT"));
-                    client = new RestHighLevelClientBuilder(
-                            RestClient.builder(
-                                    new HttpHost(HOST1, port, "http"),
-                    new HttpHost(HOST2, port, "http"),
-                    new HttpHost(HOST3, port, "http"),
-                    new HttpHost(HOST4, port, "http") ,
-                                    new HttpHost(HOST5, port, "http")
-                            ).setRequestConfigCallback(
-                                    new RestClientBuilder.RequestConfigCallback() {
-                                        @Override
-                                        public RequestConfig.Builder customizeRequestConfig(
-                                                RequestConfig.Builder requestConfigBuilder) {
-                                            return requestConfigBuilder
-                                                    .setConnectTimeout(5000)
-                                                    .setSocketTimeout(120000)
-                                                    .setConnectionRequestTimeout(0);
-                                        }
-
-                                    }
-                            ).build()
-                    ).setApiCompatibilityMode(true).build();
-                }else {
+    private static final int ES_PORT = 9200;
+    private static final String ES_SCHEME = "http";
+    private static final String PROPERTIES_PATH = "/data/properties/elasticsearchProps.properties";
+    // Override the props location for non-Linux dev boxes via -DelasticsearchProps=... or env ELASTICSEARCH_PROPS.
+    private static final String PROPERTIES_PATH_PROPERTY = "elasticsearchProps";
+    private static final String PROPERTIES_PATH_ENV = "ELASTICSEARCH_PROPS";
+    private static final String USERNAME_KEY = "USERNAME";
+    private static final String PASSWORD_KEY = "PASSWORD";
+    private static final int CONNECT_TIMEOUT_MS = 5_000;
+    private static final int SOCKET_TIMEOUT_MS = 120_000;
+    public static void init() {
+        if (client == null) {
+            Properties props = getProperties();
+            try {
+                RestClientBuilder restClientBuilder;
+                if (SCGEContext.isProduction() || SCGEContext.isTest()) {
+                    restClientBuilder = RestClient.builder(
+                            new HttpHost((String) props.get("HOST1"), ES_PORT, ES_SCHEME),
+                            new HttpHost((String) props.get("HOST2"), ES_PORT, ES_SCHEME),
+                            new HttpHost((String) props.get("HOST3"), ES_PORT, ES_SCHEME),
+                            new HttpHost((String) props.get("HOST4"), ES_PORT, ES_SCHEME),
+                            new HttpHost((String) props.get("HOST5"), ES_PORT, ES_SCHEME)
+                    );
+                } else {
                     String DEV_HOST = "travis.rgd.mcw.edu";
-                    int port = 9200;
-                    client = new RestHighLevelClientBuilder(
-                            RestClient.builder(
-                                    new HttpHost(DEV_HOST, port, "http")
-                            ).setRequestConfigCallback(
-                                    new RestClientBuilder.RequestConfigCallback() {
-                                        @Override
-                                        public RequestConfig.Builder customizeRequestConfig(
-                                                RequestConfig.Builder requestConfigBuilder) {
-                                            return requestConfigBuilder
-                                                    .setConnectTimeout(5000)
-                                                    .setSocketTimeout(120000)
-                                                    .setConnectionRequestTimeout(0);
-                                        }
-
-                                    }
-                            ).build()
-                    ).setApiCompatibilityMode(true).build();
+                    restClientBuilder = RestClient.builder(
+                            new HttpHost(DEV_HOST, ES_PORT, ES_SCHEME)
+                    );
                 }
-            }catch (Exception e){
+                restClientBuilder.setRequestConfigCallback(requestConfigBuilder ->
+                        requestConfigBuilder
+                                .setConnectTimeout(CONNECT_TIMEOUT_MS)
+                                .setSocketTimeout(SOCKET_TIMEOUT_MS)
+                );
+                // Elasticsearch 9 has security enabled by default, so the cluster rejects
+                // unauthenticated requests with "security_exception: missing authentication
+                // credentials". Attach HTTP basic auth read from the properties file.
+                CredentialsProvider credentialsProvider = buildCredentialsProvider(props);
+                if (credentialsProvider != null) {
+                    restClientBuilder.setHttpClientConfigCallback(httpClientBuilder ->
+                            httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
+                } else {
+                    log.warn("No Elasticsearch credentials ({}/{}) found in {}; requests will be unauthenticated "
+                            + "and will fail against a security-enabled cluster.", USERNAME_KEY, PASSWORD_KEY, PROPERTIES_PATH);
+                }
+
+                restClient = restClientBuilder.build();
+                transport = new RestClientTransport(restClient, new JacksonJsonpMapper(JacksonConfiguration.MAPPER));
+                client = new ElasticsearchClient(transport);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
-        return client;
     }
-    public synchronized void destroy() throws IOException {
+        private static CredentialsProvider buildCredentialsProvider(Properties props) {
+            String username = props.getProperty(USERNAME_KEY);
+            String password = props.getProperty(PASSWORD_KEY);
+            if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+                return null;
+            }
+            CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+            credentialsProvider.setCredentials(AuthScope.ANY,
+                    new UsernamePasswordCredentials(username, password));
+            return credentialsProvider;
+        }
+        static Properties getProperties() {
+            Properties props = new Properties();
+            String path = getPropertiesPath();
+            try (FileInputStream fis = new FileInputStream(path)) {
+                props.load(fis);
+            } catch (Exception e) {
+                log.error("Failed to load Elasticsearch properties from " + path, e);
+            }
+            return props;
+        }
+
+        private static String getPropertiesPath() {
+            String override = System.getProperty(PROPERTIES_PATH_PROPERTY);
+            if (override == null || override.isEmpty()) {
+                override = System.getenv(PROPERTIES_PATH_ENV);
+            }
+            return (override != null && !override.isEmpty()) ? override : PROPERTIES_PATH;
+        }
+
+        public synchronized void destroy() throws IOException {
         System.out.println("destroying Variants Elasticsearch Client...");
-        if(client!=null) {
-            client.close();
-            //   client.threadPool().shutdownNow();
-            InternalThreadLocalMap.remove();
+        if(transport!=null) {
+            transport.close();
+            transport=null;
             client=null;
-
-
         }
     }
 
-    public static RestHighLevelClient getClient() {
+    public static ElasticsearchClient getClient() {
         if(client==null) {
          init();
         }

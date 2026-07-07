@@ -10,7 +10,6 @@ import edu.mcw.scge.service.DataAccessService;
 import edu.mcw.scge.service.db.DBService;
 import edu.mcw.scge.service.es.IndexServices;
 import org.json.JSONObject;
-import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

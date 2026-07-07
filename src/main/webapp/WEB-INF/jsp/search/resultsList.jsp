@@ -2,8 +2,6 @@
 
 <%@ page import="edu.mcw.scge.datamodel.Person" %>
 <%@ page import="edu.mcw.scge.configuration.Access" %>
-<%@ page import="org.elasticsearch.action.search.SearchResponse" %>
-<%@ page import="org.elasticsearch.search.SearchHit" %>
 <%@ page import="edu.mcw.scge.datamodel.Guide" %>
 <%@ page import="java.util.*" %><%--
   Created by IntelliJ IDEA.
@@ -91,8 +89,7 @@
 <table class="table table-striped">
     <%
         int i=1;
-        for(SearchHit searchHit:hits){
-            Map<String, Object> hit=  searchHit.getSourceAsMap();
+        for(Map<String, Object> hit:hits){
     %>
     <tr style="margin-top: 5%">
         <td style="border-color: transparent">

@@ -198,7 +198,11 @@ public class Access {
                 return true;
             }
 
-            return sdao.verifyStudyAccessByPesonId(s.getStudyId(), p.getId());
+            if(sdao.verifyStudyAccessByPesonId(s.getStudyId(), p.getId())){
+                return true;
+            }
+            return sdao.verifySharedStudyAccessByPesonId(s.getStudyId(), p.getId());
+
         }
         return false;
     }

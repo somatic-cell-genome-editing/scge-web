@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="java.util.*" %>
 <script>
 
        var view='${selectedView}'
@@ -50,7 +51,7 @@ function removeFilter(filter, name) {
     }
 </script>
 <c:choose>
-    <c:when test="${fn:length(sr.hits.hits)>0}">
+    <c:when test="${fn:length(hits)>0}">
         <c:if test="${fn:length(selectedFilters)>0}">
         <span><strong style="color:black">Remove Filters:</strong>
             <button class="btn btn-light btn-sm" value="all">
@@ -65,7 +66,7 @@ function removeFilter(filter, name) {
                     </c:otherwise>
                 </c:choose>
             </button>
-            <c:if test="${fn:length(sr.hits.hits)>0}">
+            <c:if test="${fn:length(hits)>0}">
                 <c:forEach items="${selectedFilters}" var="termList">
                     <c:forEach items="${termList.value}" var="filter">
                         <c:set var="flag" value="false"/>
@@ -99,9 +100,7 @@ function removeFilter(filter, name) {
 
 
     </ul>
-<% SearchResponse sr= (SearchResponse) request.getAttribute("sr");
-    SearchHit[] hitsArray=sr.getHits().getHits();
-    List<SearchHit> hits=(Arrays.asList(hitsArray));%>
+<% List<Map<String, Object>> hits= (List<Map<String, Object>>) request.getAttribute("hits");%>
     <!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane active" id="listViewContent" role="tabpanel">

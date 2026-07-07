@@ -62,8 +62,7 @@
     </thead>
     <tbody>
     <%
-        for(SearchHit searchHit:hits){
-            Map<String, Object> hit=  searchHit.getSourceAsMap();
+        for(Map<String, Object> hit:hits){
     %>
 
 

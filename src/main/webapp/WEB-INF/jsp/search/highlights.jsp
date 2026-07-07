@@ -1,5 +1,4 @@
-<%@ page import="org.elasticsearch.search.fetch.subphase.highlight.HighlightField" %>
-<%@ page import="org.elasticsearch.common.text.Text" %>
+<%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -11,9 +10,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div  class="more hideContent" style="overflow-y: auto">
     <span class="header"><strong>Matched Fields:</strong></span>
-   <% if(searchHit.getHighlightFields()!=null){
+   <% Map<String, List<String>> hf=(Map<String, List<String>>) hit.get("_highlights");
+      if(hf!=null){
        Set<String> keys=new HashSet<>();
-       Map<String, HighlightField> hf=searchHit.getHighlightFields();
         for(String key:hf.keySet()){
             if(!key.contains("accessLevel")){
                 if(key.contains(".")){
@@ -22,7 +21,7 @@
                         keys.add(duplicateKey);
                         %>
                         <b><%=duplicateKey%>&nbsp;:</b>
-                        <% for(Text fragment: hf.get(key).getFragments()){%>
+                        <% for(String fragment: hf.get(key)){%>
                             <%=fragment%>
 
                         <%}%>
@@ -34,7 +33,7 @@
                     if(!keys.contains(key)) {
                         keys.add(key);%>
                             <b><%=key%>&nbsp;:</b>
-                        <% for(Text fragment: hf.get(key).getFragments()){%>
+                        <% for(String fragment: hf.get(key)){%>
                                 <%=fragment%>
 
                         <%}%>

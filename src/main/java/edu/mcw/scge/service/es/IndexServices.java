@@ -1,489 +1,290 @@
 package edu.mcw.scge.service.es;
 
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.SortOrder;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.LongTermsBucket;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
+import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch._types.query_dsl.TextQueryType;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Highlight;
+import co.elastic.clients.elasticsearch.core.search.HighlightField;
+import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.util.NamedValue;
 import com.google.gson.Gson;
 import edu.mcw.scge.configuration.Access;
 import edu.mcw.scge.web.SCGEContext;
-import org.apache.commons.codec.language.bm.Rule;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.index.query.*;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.aggregations.Aggregation;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.BucketOrder;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
-import org.elasticsearch.search.sort.SortOrder;
 
-import javax.management.Query;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class IndexServices {
     private static String searchIndex;
     Gson gson=new Gson();
     Access access=new Access();
-    public SearchResponse getSearchResults(List<String>  categories, String searchTerm, Map<String, String> filterMap,boolean DCCNIHMember, boolean consortiumMember) throws IOException {
+
+    public SearchResponse<Map> getSearchResults(List<String> categories, String searchTerm, Map<String, String> filterMap, boolean DCCNIHMember, boolean consortiumMember) throws IOException {
         searchIndex= SCGEContext.getESIndexName();
-        SearchSourceBuilder srb=new SearchSourceBuilder();
-        srb.query(this.buildBoolQuery(categories, searchTerm, filterMap, DCCNIHMember,consortiumMember));
-       srb.aggregation(this.buildSearchAggregations("category"));
-         buildAggregations(srb, categories);
-        srb.highlighter(this.buildHighlights());
+        SearchRequest.Builder srb=new SearchRequest.Builder();
+        srb.index(searchIndex);
+        srb.query(this.buildBoolQuery(categories, searchTerm, filterMap, DCCNIHMember, consortiumMember));
+        srb.aggregations("category", this.buildSearchAggregations("category"));
+        this.addAggregations(srb, categories);
+        srb.highlight(this.buildHighlights());
         srb.size(10000);
         if(searchTerm.equals("") && categories!=null && categories.size()==1 && (categories.get(0).equalsIgnoreCase("Project")|| categories.get(0).equalsIgnoreCase("Experiment"))){
-          //  srb.sort("name.keyword");
             try {
-                srb.sort("lastModifiedDate", SortOrder.DESC);
+                srb.sort(s -> s.field(f -> f.field("lastModifiedDate").order(SortOrder.Desc)));
             }catch (Exception exception){}
-
         }else{
             if(searchTerm.equals("")) {
-                srb.sort("name.keyword");
+                srb.sort(s -> s.field(f -> f.field("name.keyword")));
             }
         }
-       SearchRequest searchRequest=new SearchRequest(searchIndex);
-       searchRequest.source(srb);
-
-       SearchResponse sr= ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
-      /*  for(SearchHit hit:sr.getHits().getHits()){
-            System.out.println(hit.getHighlightFields().keySet().toString());
-        }*/
-       return sr;
-
+        return ESClient.getClient().search(srb.build(), Map.class);
     }
-    public void buildAggregations(SearchSourceBuilder srb, List<String> categories){
-//        if(categories!=null && categories.size()==1 || (categories==null || (categories.size()==0))){
-//            if(categories==null || categories.get(0).equalsIgnoreCase("Genome Editor")
-//                    || categories.get(0).equalsIgnoreCase("Delivery System")
-//            ||categories.get(0).equalsIgnoreCase("Vector")
-//                    ||categories.get(0).equalsIgnoreCase("Experiment")){
-////                srb.aggregation(this.buildSearchAggregations("editorType"));
-////                srb.aggregation(this.buildSearchAggregations("editorSubType"));
-////                srb.aggregation(this.buildSearchAggregations("editorSpecies"));
-//            }
-//            if(categories==null ||  categories.get(0).equalsIgnoreCase("Model System")
-//                    || categories.get(0).equalsIgnoreCase("Delivery System")
-//            || categories.get(0).equalsIgnoreCase("Vector")
-//                    ||categories.get(0).equalsIgnoreCase("Experiment")
-//                    ||categories.get(0).equalsIgnoreCase("Protocol")){
-//                srb.aggregation(this.buildSearchAggregations("modelType"));
-//                srb.aggregation(this.buildSearchAggregations("modelSubtype"));
-//                srb.aggregation(this.buildSearchAggregations("modelOrganism"));
-//                if(categories==null || categories.get(0).equalsIgnoreCase("Model System"))
-//                srb.aggregation(this.buildSearchAggregations("transgeneReporter"));
-//            }
-//            if(categories==null || categories.get(0).equalsIgnoreCase("Delivery System")
-//                    ||categories.get(0).equalsIgnoreCase("Experiment")){
-//                srb.aggregation(this.buildSearchAggregations("deliveryType"));
-//                srb.aggregation(this.buildSearchAggregations("deliverySubtype"));
-//                srb.aggregation(this.buildSearchAggregations("deliverySpecies"));
-//
-//            }
-//            if(categories==null || categories.get(0).equalsIgnoreCase("Delivery System") ||
-//                    categories.get(0).equalsIgnoreCase("Guide") ||
-//                    categories.get(0).equalsIgnoreCase("Vector")
-//                    ||categories.get(0).equalsIgnoreCase("Experiment")) {
-//                srb.aggregation(this.buildSearchAggregations("tissueTerm"));
-//            }
-//            if(categories==null || categories.get(0).equalsIgnoreCase("Guide")) {
-//                srb.aggregation(this.buildSearchAggregations("guideSpecies"));
-//                srb.aggregation(this.buildSearchAggregations("guideCompatibility"));
-//
-//             //   srb.aggregation(this.buildSearchAggregations("target"));
-//
-//            }
-//            if(categories==null || categories.get(0).equalsIgnoreCase("Guide") ||
-//                    categories.get(0).equalsIgnoreCase("Vector")
-//                    ||categories.get(0).equalsIgnoreCase("Experiment")) {
-//                srb.aggregation(this.buildSearchAggregations("guideTargetLocus"));
-//
-//            }
-//            if(categories==null || categories.get(0).equalsIgnoreCase("Vector")) {
-//                //      srb.aggregation(this.buildSearchAggregations(  "vectorName"));
-//                srb.aggregation(this.buildSearchAggregations(  "vectorType"));
-//                srb.aggregation(this.buildSearchAggregations(   "vectorSubtype"));
-//            }
-//            if(categories==null || categories.get(0).equalsIgnoreCase("Study") || categories.get(0).equalsIgnoreCase("Experiment")
-//                    || categories.get(0).equalsIgnoreCase("Protocol")) {
-//                srb.aggregation(this.buildSearchAggregations("experimentType"));
-//            }
-//            if(categories==null || categories.get(0).equalsIgnoreCase("Protocol")) {
-//                srb.aggregation(this.buildSearchAggregations("experimentName"));
-//            }
-//            srb.aggregation(this.buildSearchAggregations("pi"));
-//            srb.aggregation(this.buildSearchAggregations("initiative"));
-//            srb.aggregation(this.buildSearchAggregations("studyType"));
-//
-//        }
-//        if(categories!=null && categories.size()==2){
-//            srb.aggregation(this.buildSearchAggregations("experimentType"));
-//            srb.aggregation(this.buildSearchAggregations("pi"));
-//            srb.aggregation(this.buildSearchAggregations("access"));
-//            srb.aggregation(this.buildSearchAggregations("status"));
-//            srb.aggregation(this.buildSearchAggregations("initiative"));
-//            srb.aggregation(this.buildSearchAggregations("studyType"));
-//        }
 
-        srb.aggregation(this.buildSearchAggregations("editorType"));
-        srb.aggregation(this.buildSearchAggregations("editorSubType"));
-        srb.aggregation(this.buildSearchAggregations("editorSpecies"));
+    public void addAggregations(SearchRequest.Builder srb, List<String> categories){
+        srb.aggregations("editorType", this.buildSearchAggregations("editorType"));
+        srb.aggregations("editorSubType", this.buildSearchAggregations("editorSubType"));
+        srb.aggregations("editorSpecies", this.buildSearchAggregations("editorSpecies"));
 
-        srb.aggregation(this.buildSearchAggregations("modelType"));
-        srb.aggregation(this.buildSearchAggregations("modelSubtype"));
-        srb.aggregation(this.buildSearchAggregations("modelOrganism"));
+        srb.aggregations("modelType", this.buildSearchAggregations("modelType"));
+        srb.aggregations("modelSubtype", this.buildSearchAggregations("modelSubtype"));
+        srb.aggregations("modelOrganism", this.buildSearchAggregations("modelOrganism"));
 
-        srb.aggregation(this.buildSearchAggregations("transgeneReporter"));
+        srb.aggregations("transgeneReporter", this.buildSearchAggregations("transgeneReporter"));
 
-        srb.aggregation(this.buildSearchAggregations("deliveryType"));
-        srb.aggregation(this.buildSearchAggregations("deliverySubtype"));
-        srb.aggregation(this.buildSearchAggregations("deliverySpecies"));
-        srb.aggregation(this.buildSearchAggregations("tissueTerm"));
-        srb.aggregation(this.buildSearchAggregations("guideSpecies"));
-        srb.aggregation(this.buildSearchAggregations("guideCompatibility"));
-        srb.aggregation(this.buildSearchAggregations("guideTargetLocus"));
+        srb.aggregations("deliveryType", this.buildSearchAggregations("deliveryType"));
+        srb.aggregations("deliverySubtype", this.buildSearchAggregations("deliverySubtype"));
+        srb.aggregations("deliverySpecies", this.buildSearchAggregations("deliverySpecies"));
+        srb.aggregations("tissueTerm", this.buildSearchAggregations("tissueTerm"));
+        srb.aggregations("guideSpecies", this.buildSearchAggregations("guideSpecies"));
+        srb.aggregations("guideCompatibility", this.buildSearchAggregations("guideCompatibility"));
+        srb.aggregations("guideTargetLocus", this.buildSearchAggregations("guideTargetLocus"));
 
-        srb.aggregation(this.buildSearchAggregations(  "vectorType"));
-        srb.aggregation(this.buildSearchAggregations(   "vectorSubtype"));
-        srb.aggregation(this.buildSearchAggregations("experimentType"));
+        srb.aggregations("vectorType", this.buildSearchAggregations("vectorType"));
+        srb.aggregations("vectorSubtype", this.buildSearchAggregations("vectorSubtype"));
+        srb.aggregations("experimentType", this.buildSearchAggregations("experimentType"));
 
-        srb.aggregation(this.buildSearchAggregations("experimentName"));
+        srb.aggregations("experimentName", this.buildSearchAggregations("experimentName"));
 
-        srb.aggregation(this.buildSearchAggregations("pi"));
-        srb.aggregation(this.buildSearchAggregations("initiative"));
-        srb.aggregation(this.buildSearchAggregations("studyType"));
+        srb.aggregations("pi", this.buildSearchAggregations("pi"));
+        srb.aggregations("initiative", this.buildSearchAggregations("initiative"));
+        srb.aggregations("studyType", this.buildSearchAggregations("studyType"));
     }
-    public HighlightBuilder buildHighlights(){
-       // List<String> fields= Stream.concat(searchFields().stream(), mustFields().stream()).collect(Collectors.toList());
+
+    public Highlight buildHighlights(){
         List<String> fields = new ArrayList<>(searchFields());
-        HighlightBuilder hb=new HighlightBuilder();
-       for(String field:fields){
-
-            hb.field(field);
+        Highlight.Builder hb=new Highlight.Builder();
+        for(String field:fields){
+            hb.fields(NamedValue.of(field, HighlightField.of(f -> f)));
         }
-      hb.field("*");
-      // hb.numOfFragments(1);
-     //  hb.field("*");
-      //  System.out.println(gson.toJson(hb));
-        return hb;
+        hb.fields(NamedValue.of("*", HighlightField.of(f -> f)));
+        return hb.build();
     }
 
-    public AggregationBuilder buildAggregations(String fieldName){
-        AggregationBuilder aggs= null;
-        aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
-                .order(BucketOrder.key(true));
+    public Aggregation buildAggregations(String fieldName){
         if(fieldName.equalsIgnoreCase("organism")){
-            aggs.subAggregation(AggregationBuilders.terms("animalModels").field("animalModels"+".keyword"));
+            return Aggregation.of(a -> a
+                    .aggregations("animalModels", sub -> sub.terms(t -> t.field("animalModels.keyword")))
+                    .terms(t -> t.field(fieldName+".keyword").order(NamedValue.of("_key", SortOrder.Asc)))
+            );
         }
-        return aggs;
+        return Aggregation.of(a -> a.terms(t -> t.field(fieldName+".keyword").order(NamedValue.of("_key", SortOrder.Asc))));
     }
-    public AggregationBuilder buildSearchAggregations(String fieldName){
-        AggregationBuilder aggs= null;
-        if(fieldName!=null && !fieldName.equalsIgnoreCase("category") &&
-                !fieldName.equals("")){
-            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword") .size(1000).order(BucketOrder.key(true));
 
+    public Aggregation buildSearchAggregations(String fieldName){
+        String field;
+        if(fieldName!=null && !fieldName.equalsIgnoreCase("category") && !fieldName.equals("")){
+            field=fieldName;
         }else {
-                fieldName="category";
-            aggs = AggregationBuilders.terms(fieldName).field(fieldName + ".keyword") .size(1000).order(BucketOrder.key(true));
+            field="category";
         }
-        return aggs;
+        return Aggregation.of(a -> a.terms(t -> t.field(field+".keyword").size(1000).order(NamedValue.of("_key", SortOrder.Asc))));
     }
-    public AggregationBuilder buildFilterAggregations(String fieldName, String selectedCategory){
-        AggregationBuilder aggs= null;
 
-            aggs= AggregationBuilders.terms(fieldName.replace(".type","").trim()).field(fieldName+".keyword").size(1000).order(BucketOrder.key(true));
-
-
-
-        return aggs;
+    public Aggregation buildFilterAggregations(String fieldName, String selectedCategory){
+        return Aggregation.of(a -> a.terms(t -> t.field(fieldName+".keyword").size(1000).order(NamedValue.of("_key", SortOrder.Asc))));
     }
-    public  Map<String, List<Terms.Bucket>> getSearchAggregations(SearchResponse sr){
-        Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
-        /********************Category aggs*****************************/
-        Terms categoryAggs=sr.getAggregations().get("category");
-        if(categoryAggs!=null)
-        aggregations.put("catBkts", (List<Terms.Bucket>) categoryAggs.getBuckets());
-        /********************Category specific aggs *****************************/
-        addAllCategorySpecificAggs(sr, aggregations);
-        /********************experiment aggs *****************************/
-        addAllModelAggs(sr, aggregations);
-        addAllEditorAggs(sr,aggregations);
-        addAllDeliveryAggs(sr,aggregations);
-        addAllGuideAggs(sr, aggregations);
-        addAllVectorAggs(sr,aggregations);
-        addAllStudyAggs(sr, aggregations);
-        return aggregations;
+
+    /**
+     * Builds the view model the JSPs consume for hit rendering. Each entry is the hit's source map
+     * (same shape as the old getSourceAsMap()) augmented with a "_highlights" entry holding the
+     * highlight fragments (field -> list of highlighted fragment strings).
+     */
+    public List<Map<String, Object>> getHits(SearchResponse<Map> sr){
+        List<Map<String, Object>> results=new ArrayList<>();
+        for(Hit<Map> hit: sr.hits().hits()){
+            Map<String, Object> source=hit.source();
+            Map<String, Object> row= (source!=null) ? new LinkedHashMap<>(source) : new LinkedHashMap<>();
+            row.put("_highlights", hit.highlight());
+            results.add(row);
+        }
+        return results;
     }
-    public void addAllStudyAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms piAggs=sr.getAggregations().get("pi");
-        if(piAggs!=null)
-            aggregations.put("piBkts", (List<Terms.Bucket>) piAggs.getBuckets());
-        Terms accessAggs=sr.getAggregations().get("access");
 
-        if(accessAggs!=null)
-            aggregations.put("accessBkts", (List<Terms.Bucket>) accessAggs.getBuckets());
-        Terms statusAggs=sr.getAggregations().get("status");
-
-        if(statusAggs!=null)
-            aggregations.put("statusBkts", (List<Terms.Bucket>) statusAggs.getBuckets());
-
-    }
-    public void addAllModelAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms modelAggs=sr.getAggregations().get("modelType");
-        if(modelAggs!=null)
-            aggregations.put("modelBkts", (List<Terms.Bucket>) modelAggs.getBuckets());
-        Terms modelSpeciesAggs=sr.getAggregations().get("modelOrganism");
-        if(modelSpeciesAggs!=null)
-            aggregations.put("modelSpeciesBkts", (List<Terms.Bucket>) modelSpeciesAggs.getBuckets());
-        Terms reporterAggs=sr.getAggregations().get("transgeneReporter");
-        if(reporterAggs!=null)
-            aggregations.put("reporterBkts", (List<Terms.Bucket>) reporterAggs.getBuckets());
-    }
-    public void addAllEditorAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms editorAggs=sr.getAggregations().get("editorType");
-        if(editorAggs!=null)
-            aggregations.put("editorBkts", (List<Terms.Bucket>) editorAggs.getBuckets());
-        Terms editorSubTypeAggs=sr.getAggregations().get("editorSubType");
-        if(editorSubTypeAggs!=null)
-            aggregations.put("editorSubTypeBkts", (List<Terms.Bucket>) editorSubTypeAggs.getBuckets());
-        Terms editorSpeciesAggs=sr.getAggregations().get("editorSpecies");
-        if(editorSpeciesAggs!=null)
-            aggregations.put("editorSpeciesBkts", (List<Terms.Bucket>) editorSpeciesAggs.getBuckets());
-    }
-    public void addAllDeliveryAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms deliveyAggs=sr.getAggregations().get("deliveryType");
-        if(deliveyAggs!=null)
-            aggregations.put("deliveryBkts", (List<Terms.Bucket>) deliveyAggs.getBuckets());
-    }
-    public void addAllGuideAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms guidesTargetLocusAggs=sr.getAggregations().get("guideTargetLocus");
-        if(guidesTargetLocusAggs!=null)
-            aggregations.put("guidesBkts", (List<Terms.Bucket>) guidesTargetLocusAggs.getBuckets());
-    }
-    public void addAllVectorAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms vectorTypeAggs=sr.getAggregations().get("vectorType");
-        if(vectorTypeAggs!=null)
-            aggregations.put("vectorTypeBkts", (List<Terms.Bucket>) vectorTypeAggs.getBuckets());
-        Terms vectorSubTypeAggs=sr.getAggregations().get("vectorSubtype");
-        if(vectorSubTypeAggs!=null)
-            aggregations.put("vectorSubTypeBkts", (List<Terms.Bucket>) vectorSubTypeAggs.getBuckets());
-        Terms vectorAggs=sr.getAggregations().get("vectorName");
-        if(vectorAggs!=null)
-            aggregations.put("vectorBkts", (List<Terms.Bucket>) vectorAggs.getBuckets());
-    }
-    public void addAllCategorySpecificAggs(SearchResponse sr,  Map<String, List<Terms.Bucket>> aggregations){
-        Terms typeAggs=sr.getAggregations().get("type");
-        if(typeAggs!=null)
-            aggregations.put("typeBkts", (List<Terms.Bucket>) typeAggs.getBuckets());
-
-        Terms subtypeAggs=sr.getAggregations().get("subType");
-        if(subtypeAggs!=null)
-            aggregations.put("subtypeBkts", (List<Terms.Bucket>) subtypeAggs.getBuckets());
-        Terms speciesAggs=sr.getAggregations().get("species");
-        if(speciesAggs!=null)
-            aggregations.put("speciesBkts", (List<Terms.Bucket>) speciesAggs.getBuckets());
-
-        Terms targetAggs=sr.getAggregations().get("tissueTerm");
-        if(targetAggs!=null)
-            aggregations.put("targetBkts", (List<Terms.Bucket>) targetAggs.getBuckets());
-
-        Terms grnaLabIdAggs=sr.getAggregations().get("externalId");
-        if(grnaLabIdAggs!=null)
-            aggregations.put("grnaLabIdBkts", (List<Terms.Bucket>) grnaLabIdAggs.getBuckets());
-
-        Terms withExperimentsAggs=sr.getAggregations().get("withExperiments");
-        if(withExperimentsAggs!=null)
-            aggregations.put("withExperimentsBkts", (List<Terms.Bucket>) withExperimentsAggs.getBuckets());
-
-
-    }
-    public  Map<String, List<Terms.Bucket>> getSearchAggregationsBKUP(SearchResponse sr){
-        Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
-        Terms categoryAggs=sr.getAggregations().get("category");
-        aggregations.put("categoryAggs", (List<Terms.Bucket>) categoryAggs.getBuckets());
-        for(Terms.Bucket b:categoryAggs.getBuckets()){
-            if(  b.getAggregations()!=null) {
-                Terms typeAggs = b.getAggregations().get("type");
-              //  System.out.println(b.getKey() + "\t" + b.getDocCount());
-                if (typeAggs != null) {
-                    aggregations.put(b.getKey() + "TypeAggs", (List<Terms.Bucket>) typeAggs.getBuckets());
-                    for (Terms.Bucket bkt : typeAggs.getBuckets()) {
-                        Terms subtypeAggs = bkt.getAggregations().get("subtype");
-                        aggregations.put(bkt.getKey() + "SubtypeAggs", (List<Terms.Bucket>) subtypeAggs.getBuckets());
-                       // System.out.println(bkt.getKey() + "_type" + "\t" + bkt.getDocCount() + "\tsubtypeAggsSize: " + subtypeAggs.getBuckets().size());
-
-                    }
+    /**
+     * Builds the aggregation view model the facet JSPs consume via EL. Shape:
+     * aggName -> { "buckets": [ { "key": String, "docCount": long }, ... ] }
+     * This nested-map structure preserves the existing EL (agg.value.buckets, bkt.key, bkt.docCount).
+     */
+    public Map<String, Object> getAggregationView(SearchResponse<Map> sr){
+        Map<String, Object> view=new LinkedHashMap<>();
+        if(sr.aggregations()==null) return view;
+        for(Map.Entry<String, Aggregate> e: sr.aggregations().entrySet()){
+            List<Map<String, Object>> buckets=new ArrayList<>();
+            Aggregate agg=e.getValue();
+            if(agg.isSterms()){
+                for(StringTermsBucket b: agg.sterms().buckets().array()){
+                    Map<String, Object> bkt=new LinkedHashMap<>();
+                    bkt.put("key", b.key().stringValue());
+                    bkt.put("docCount", b.docCount());
+                    buckets.add(bkt);
+                }
+            }else if(agg.isLterms()){
+                for(LongTermsBucket b: agg.lterms().buckets().array()){
+                    Map<String, Object> bkt=new LinkedHashMap<>();
+                    bkt.put("key", b.key());
+                    bkt.put("docCount", b.docCount());
+                    buckets.add(bkt);
                 }
             }
+            Map<String, Object> aggMap=new LinkedHashMap<>();
+            aggMap.put("buckets", buckets);
+            view.put(e.getKey(), aggMap);
         }
-
-        return aggregations;
-    }
-    public  Map<String, List<Terms.Bucket>> getAggregations(SearchResponse sr){
-        Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
-        Terms editorAggs=sr.getAggregations().get("editor");
-        aggregations.put("editorAggs", (List<Terms.Bucket>) editorAggs.getBuckets());
-        Terms deliveryAggs=sr.getAggregations().get("deliveryVehicles");
-        aggregations.put("deliveryAggs", (List<Terms.Bucket>) deliveryAggs.getBuckets());
-        Terms tissueAggs=sr.getAggregations().get("targetTissue");
-        aggregations.put("tissueAggs", (List<Terms.Bucket>) tissueAggs.getBuckets());
-        Terms organismAggs=sr.getAggregations().get("organism");
-        aggregations.put("organismAggs", (List<Terms.Bucket>) organismAggs.getBuckets());
-      /*  for(Terms.Bucket bkt:organismAggs.getBuckets()){
-            aggregations.put((String) bkt.getKey().toString().toLowerCase() , bkt.getAggregations().get("animalModels"));
-        }*/
-        return aggregations;
+        return view;
     }
 
-    public BoolQueryBuilder buildBoolQuery(List<String> categories, String searchTerm , Map<String, String> filterMap, boolean DCCNIHMember,boolean consortiumMember){
-        BoolQueryBuilder q=new BoolQueryBuilder();
+    public Query buildBoolQuery(List<String> categories, String searchTerm , Map<String, String> filterMap, boolean DCCNIHMember, boolean consortiumMember){
+        co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery.Builder q=new co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery.Builder();
         q.must(buildQuery(searchTerm));
 
-     if(!DCCNIHMember && consortiumMember ) {
-            q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
-            q.filter(QueryBuilders.boolQuery().must(QueryBuilders.boolQuery().
-                    should(QueryBuilders.termQuery("tier", 4)).should(QueryBuilders.termQuery("tier", 3))));
+        if(!DCCNIHMember && consortiumMember ) {
+            q.filter(Query.of(f -> f.term(t -> t.field("accessLevel.keyword").value("consortium"))));
+            q.filter(Query.of(f -> f.bool(bb -> bb
+                    .must(m -> m.bool(inner -> inner
+                            .should(s -> s.term(t -> t.field("tier").value(4)))
+                            .should(s -> s.term(t -> t.field("tier").value(3))))))));
         }
         if(!consortiumMember){
-           q.filter(QueryBuilders.termQuery("accessLevel.keyword", "public"));
-           q.filter((QueryBuilders.termQuery("tier", 4)));
-
+            q.filter(Query.of(f -> f.term(t -> t.field("accessLevel.keyword").value("public"))));
+            q.filter(Query.of(f -> f.term(t -> t.field("tier").value(4))));
         }
 
         if(DCCNIHMember ){
-            q.filter(QueryBuilders.termQuery("accessLevel.keyword", "consortium"));
+            q.filter(Query.of(f -> f.term(t -> t.field("accessLevel.keyword").value("consortium"))));
         }
-        if( categories!=null &&categories.size()>0) {
-            q.filter(QueryBuilders.termsQuery("category.keyword", categories.toArray()));
-
-
+        if( categories!=null && categories.size()>0) {
+            List<FieldValue> values=categories.stream().map(c -> FieldValue.of(c)).collect(Collectors.toList());
+            q.filter(Query.of(f -> f.terms(t -> t.field("category.keyword").terms(tf -> tf.value(values)))));
         }
         if(filterMap!=null && filterMap.size()>0)
             for(String key:filterMap.keySet()){
-                q.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
-
+                List<FieldValue> values=Arrays.stream(filterMap.get(key).split(",")).map(v -> FieldValue.of(v)).collect(Collectors.toList());
+                q.filter(Query.of(f -> f.terms(t -> t.field(key+".keyword").terms(tf -> tf.value(values)))));
             }
 
-        return q;
+        return Query.of(query -> query.bool(q.build()));
     }
-    public SearchResponse getFilteredAggregations(List<String> categories, String searchTerm,
-                                                  Map<String, String> filterMap,boolean DCCNIHMember, boolean consortiumMember) throws IOException {
 
-        SearchSourceBuilder srb=new SearchSourceBuilder();
-        srb.query(this.buildBoolQuery(categories, searchTerm, null, DCCNIHMember,consortiumMember));
+    public SearchResponse<Map> getFilteredAggregations(List<String> categories, String searchTerm,
+                                                       Map<String, String> filterMap, boolean DCCNIHMember, boolean consortiumMember) throws IOException {
+        searchIndex= SCGEContext.getESIndexName();
+        SearchRequest.Builder srb=new SearchRequest.Builder();
+        srb.index(searchIndex);
+        srb.query(this.buildBoolQuery(categories, searchTerm, null, DCCNIHMember, consortiumMember));
 
         if(filterMap.size()==1) {
-            srb.aggregation(this.buildFilterAggregations(filterMap.entrySet().iterator().next().getKey(), ""));
+            String key=filterMap.entrySet().iterator().next().getKey();
+            srb.aggregations(key.replace(".type", "").trim(), this.buildFilterAggregations(key, ""));
         }
-        srb.aggregation(this.buildAggregations("category"));
+        srb.aggregations("category", this.buildAggregations("category"));
 
         srb.size(0);
-        SearchRequest searchRequest=new SearchRequest(searchIndex);
-        searchRequest.source(srb);
-
-        return ESClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
-
+        return ESClient.getClient().search(srb.build(), Map.class);
     }
-    public QueryBuilder buildQuery(String term){
-        DisMaxQueryBuilder q=new DisMaxQueryBuilder();
+
+    public Query buildQuery(String term){
+        List<Query> queries=new ArrayList<>();
 
         if(term!=null && !term.equals("")) {
             String searchTerm=term.toLowerCase().trim();
-            if(searchTerm.toLowerCase().contains(" and ")){
-                String searchString=String.join(" ", searchTerm.toLowerCase().split(" and "));
-                q.add(QueryBuilders.multiMatchQuery(searchString)
-                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                        .operator(Operator.AND)
+            if(searchTerm.contains(" and ")){
+                String searchString=String.join(" ", searchTerm.split(" and "));
+                queries.add(Query.of(q -> q.multiMatch(mm -> mm.query(searchString)
+                        .type(TextQueryType.CrossFields)
+                        .operator(Operator.And)
+                        .analyzer("stop"))));
+                queries.add(Query.of(q -> q.multiMatch(mm -> mm.query(searchString)
+                        .type(TextQueryType.Phrase)
                         .analyzer("stop")
-
-                );
-
-                q.add(QueryBuilders.multiMatchQuery(searchString)
-                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                        .type(MultiMatchQueryBuilder.Type.PHRASE)
+                        .boost(1000f))));
+            }else if(searchTerm.contains(" or ")){
+                String searchString=String.join(" ", searchTerm.split(" or "));
+                queries.add(Query.of(q -> q.multiMatch(mm -> mm.query(searchString)
+                        .type(TextQueryType.CrossFields)
+                        .operator(Operator.Or)
+                        .analyzer("stop"))));
+            }else if(!searchTerm.contains(" and ") && searchTerm.contains(" ") ) {
+                queries.add(Query.of(q -> q.multiMatch(mm -> mm.query(searchTerm)
+                        .type(TextQueryType.CrossFields)
+                        .operator(Operator.And))));
+                queries.add(Query.of(q -> q.multiMatch(mm -> mm.query(searchTerm)
+                        .type(TextQueryType.Phrase)
+                        .operator(Operator.And)
                         .analyzer("stop")
-                        .boost(1000)
-                );
-
-            }else if(searchTerm.toLowerCase().contains(" or ")){
-                String searchString=String.join(" ", searchTerm.toLowerCase().split(" or "));
-                q.add(QueryBuilders.multiMatchQuery(searchString)
-                                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                                .operator(Operator.OR)
-                        .analyzer("stop")
-
-                );
-
-            }else if(!searchTerm.toLowerCase().contains(" and ") && searchTerm.toLowerCase().contains(" ") ) {
-            q.add(QueryBuilders.multiMatchQuery(searchTerm)
-                    .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                    .operator(Operator.AND)
-
-            );
-                q.add(QueryBuilders.multiMatchQuery(searchTerm)
-                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                        .operator(Operator.AND)
-                        .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .analyzer("stop")
-                        .boost(1000)
-                );
-
-            }else { if (isNumeric(searchTerm)) {
-                q.add(QueryBuilders.termQuery("id", searchTerm));
-                q.add(QueryBuilders.termQuery("studyId", searchTerm));
-                q.add(QueryBuilders.termQuery("studyIds", searchTerm));
-            } else {
-                q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                        .type(MultiMatchQueryBuilder.Type.PHRASE)
-                        .analyzer("stop")
-                );
-                q.add(QueryBuilders.multiMatchQuery(searchTerm, IndexServices.searchFields().toArray(new String[0]))
-                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                        .operator(Operator.AND)
-                        .analyzer("stop")
-                );
+                        .boost(1000f))));
+            }else {
+                if (isNumeric(searchTerm)) {
+                    queries.add(Query.of(q -> q.term(t -> t.field("id").value(searchTerm))));
+                    queries.add(Query.of(q -> q.term(t -> t.field("studyId").value(searchTerm))));
+                    queries.add(Query.of(q -> q.term(t -> t.field("studyIds").value(searchTerm))));
+                } else {
+                    List<String> sf=searchFields();
+                    queries.add(Query.of(q -> q.multiMatch(mm -> mm.query(searchTerm).fields(sf)
+                            .type(TextQueryType.Phrase)
+                            .analyzer("stop"))));
+                    queries.add(Query.of(q -> q.multiMatch(mm -> mm.query(searchTerm).fields(sf)
+                            .type(TextQueryType.CrossFields)
+                            .operator(Operator.And)
+                            .analyzer("stop"))));
+                }
             }
-        }
 
-            q.add(QueryBuilders.termQuery("symbol.custom", searchTerm).boost(1000));
-            q.add(QueryBuilders.termQuery("name.custom", searchTerm).boost(1000));
-            q.add(QueryBuilders.termQuery("pi", searchTerm).boost(1000));
+            queries.add(Query.of(q -> q.term(t -> t.field("symbol.custom").value(searchTerm).boost(1000f))));
+            queries.add(Query.of(q -> q.term(t -> t.field("name.custom").value(searchTerm).boost(1000f))));
+            queries.add(Query.of(q -> q.term(t -> t.field("pi").value(searchTerm).boost(1000f))));
 
-            q.add(QueryBuilders.matchPhraseQuery("symbol", searchTerm).boost(400));
-            q.add(QueryBuilders.matchPhraseQuery("name", searchTerm).boost(400));
+            queries.add(Query.of(q -> q.matchPhrase(mp -> mp.field("symbol").query(searchTerm).boost(400f))));
+            queries.add(Query.of(q -> q.matchPhrase(mp -> mp.field("name").query(searchTerm).boost(400f))));
 
-            q.add(QueryBuilders.matchPhrasePrefixQuery("symbol.custom", searchTerm).boost(100));
-            q.add(QueryBuilders.matchPhrasePrefixQuery("name.custom", searchTerm).boost(100));
+            queries.add(Query.of(q -> q.matchPhrasePrefix(mp -> mp.field("symbol.custom").query(searchTerm).boost(100f))));
+            queries.add(Query.of(q -> q.matchPhrasePrefix(mp -> mp.field("name.custom").query(searchTerm).boost(100f))));
 
-
-
-            q.add(QueryBuilders.matchPhrasePrefixQuery("pi", searchTerm).boost(500));
-            q.add(QueryBuilders.matchPhraseQuery("pi", searchTerm).boost(200));
-            q.add(QueryBuilders.termQuery("currentGrantNumber.keyword", searchTerm));
-            q.add(QueryBuilders.termQuery("formerGrantNumbers.keyword", searchTerm));
-            q.add(QueryBuilders.termQuery("description", searchTerm));
-            q.add(QueryBuilders.termQuery("articleIds.id.keyword", searchTerm).caseInsensitive(true));
-            q.add(QueryBuilders.termQuery("authorList.lastName.keyword", searchTerm).caseInsensitive(true));
-            q.add(QueryBuilders.termQuery("authorList.firstName.keyword", searchTerm).caseInsensitive(true));
-
-
-
-
+            queries.add(Query.of(q -> q.matchPhrasePrefix(mp -> mp.field("pi").query(searchTerm).boost(500f))));
+            queries.add(Query.of(q -> q.matchPhrase(mp -> mp.field("pi").query(searchTerm).boost(200f))));
+            queries.add(Query.of(q -> q.term(t -> t.field("currentGrantNumber.keyword").value(searchTerm))));
+            queries.add(Query.of(q -> q.term(t -> t.field("formerGrantNumbers.keyword").value(searchTerm))));
+            queries.add(Query.of(q -> q.term(t -> t.field("description").value(searchTerm))));
+            queries.add(Query.of(q -> q.term(t -> t.field("articleIds.id.keyword").value(searchTerm).caseInsensitive(true))));
+            queries.add(Query.of(q -> q.term(t -> t.field("authorList.lastName.keyword").value(searchTerm).caseInsensitive(true))));
+            queries.add(Query.of(q -> q.term(t -> t.field("authorList.firstName.keyword").value(searchTerm).caseInsensitive(true))));
 
         }else{
-            q.add(QueryBuilders.matchAllQuery());
+            queries.add(Query.of(q -> q.matchAll(m -> m)));
         }
 
-        return q;
+        return Query.of(q -> q.disMax(d -> d.queries(queries)));
     }
+
     public boolean isNumeric(String searchTerm){
         try{
             if(Long.parseLong(searchTerm)>0)
